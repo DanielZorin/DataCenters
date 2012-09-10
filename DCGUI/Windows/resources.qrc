@@ -1,0 +1,29 @@
+<RCC>
+  <qresource prefix="pics">
+    <file>pics/graph.png</file>
+    <file>pics/settings.png</file>
+    <file>pics/meenoos.png</file>
+    <file>pics/maximize.png</file>
+    <file>pics/minimize.png</file>
+    <file>pics/processor.png</file>
+    <file>pics/add.png</file>
+    <file>pics/delete.png</file>
+    <file>pics/edge.png</file>
+    <file>pics/select.png</file>
+    <file>pics/vertex.png</file>
+    <file>pics/control_play_blue.png</file>
+    <file>pics/play.png</file>
+    <file>pics/computer.png</file>
+    <file>pics/page_edit.png</file>
+    <file>pics/fast_forward.png</file>
+    <file>pics/rewind.png</file>
+    <file>pics/skip_backward.png</file>
+    <file>pics/skip_forward.png</file>
+    <file>pics/star.png</file>
+    <file>pics/calculator.png</file>
+    <file>pics/cd.png</file>
+    <file>pics/chart.png</file>
+    <file>pics/folder.png</file>
+    <file>pics/page.png</file>
+  </qresource>
+</RCC>

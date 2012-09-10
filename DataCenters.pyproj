@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{a265c8e3-1b84-4fef-9c2e-f10cae54b066}</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>DCGUI.py</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <Name>DCGUI</Name>
+    <RootNamespace>DCGUI</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Core\" />
+    <Folder Include="DCGUI\" />
+    <Folder Include="DCGUI\Windows\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\Demands.py" />
+    <Compile Include="Core\Resources.py" />
+    <Compile Include="Core\__init__.py" />
+    <Compile Include="DCGUI.py" />
+    <Compile Include="DCGUI\MainWindow.py" />
+    <Compile Include="DCGUI\__init__.py" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
+</Project>
