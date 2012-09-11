@@ -1,3 +1,5 @@
+import random, xml.dom.minidom
+
 class VM:
     number = -1
     def __init__(self, id, speed):
@@ -77,18 +79,19 @@ class Demand:
         for v in self.vertices:
             if isinstance(v, VM):
                 tag = dom.createElement("vm")
-                tag.setAttribute("speed", v.speed)
+                tag.setAttribute("speed", str(v.speed))
             elif isinstance(v, DemandStorage):
                 tag = dom.createElement("storage")
-                tag.setAttribute("volume", v.volume)
-            tag.setAttribute("number", v.number)
-            tag.setAttribute("name", v.name)
+                tag.setAttribute("volume", str(v.volume))
+                tag.setAttribute("type", str(v.type))
+            tag.setAttribute("number", str(v.number))
+            tag.setAttribute("name", str(v.id))
             root.appendChild(tag)
         for v in self.edges:
             tag = dom.createElement("link")
-            tag.setAttribute("from", v.e1.number)
-            tag.setAttribute("to", v.e2.number)
-            tag.setAttribute("capacity", v.capacity)
+            tag.setAttribute("from", str(v.e1.number))
+            tag.setAttribute("to", str(v.e2.number))
+            tag.setAttribute("capacity", str(v.capacity))
             root.appendChild(tag)
         return dom.toprettyxml()
 
@@ -97,15 +100,28 @@ class Demand:
             v = VM("vm_" + str(i), random.randint(params["vm_min"], params["vm_max"]))
             self.AddVertex(v)
         for i in range(params["storages"]):
-            v = DemandStorage("storage_" + str(i), random.randint(params["st_min"], params["st_max"]))
+            v = DemandStorage("storage_" + str(i), random.randint(params["st_min"], params["st_max"]), 1)
             self.AddVertex(v)
-        for i in range(len(self.vertices)):
+        for i in range(len(self.vertices) - 1):
             for j in range(random.randint(1, 2)):
                 src = self.vertices[i]
-                dest = self.vertices[random.randint(i+1, len(self.vertices))]
+                dest = self.vertices[random.randint(i+1, len(self.vertices) - 1)]
                 capacity = random.randint(params["cap_min"], params["cap_max"])
                 e = DemandLink(src, dest, capacity)
                 if self.FindEdge(src, dest) == None:
                     self.edges.append(e)
 
+d = Demand("qwerty")
+d.GenerateRandom(
+                 {"vms": 5,
+                  "vm_max": 10,
+                  "vm_min": 2,
+                  "storages": 5,
+                  "st_min": 3,
+                  "st_max": 6,
+                  "cap_min": 11,
+                  "cap_max": 15
+                  })
 
+print d.ExportToXml()
+x = 99
