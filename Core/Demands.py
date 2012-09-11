@@ -12,9 +12,10 @@ class DemandStorage:
         self.type = type
 
 class DemandLink:
-    def __init__(self, e1, e2):
+    def __init__(self, e1, e2, capacity):
         self.e1 = e1
         self.e2 = e2
+        self.capacity = capacity
 
 class Demand:
     def __init__(self, id):
@@ -28,6 +29,45 @@ class Demand:
     def AddVertex(self, v):
         self.vertices.append(v)
         v.number = len(self.vertices)
+
+    def DeleteVertex(self, v):
+        ind = self.vertices.index(v)
+        new_edges = []
+        for e in self.edges:
+            if e.e1 != v and e.e2 != v:
+                new_edges.append(e)
+            else:
+                del e
+        self.edges = new_edges
+        del self.vertices[ind]
+
+    def DeleteEdge(self, ed):
+        new_edges = []
+        for e in self.edges:
+            if e != ed:
+                new_edges.append(e)
+            else:
+                del e
+        self.edges = new_edges
+
+    def FindEdge(self, v1, v2):
+        '''Search for a specific edge from v1 to v2. Returns None if the edge doesn't exist'''
+        for ver in self.edges:
+            if (ver.e1 == v1):
+                if (ver.e2 == v2):
+                    return ver
+        return None
+    
+    def FindAllEdges(self, v1 = None, v2 = None):
+        '''Search for all edges where source is v1 and destination is v2. 
+        If v1 or v2 is None, it doesn't set any restrictions.
+        I.e. FindAllEdges(None, None) returns a list of all edges of the graph'''
+        res = []
+        for ver in self.edges:
+            if (v1 is None) or (ver.e1 == v1):
+                if (v2 is None) or (ver.e2 == v2):
+                    res.append(ver)
+        return res
 
     def ExportToXml(self):
         dom = xml.dom.minidom.Document()
@@ -48,10 +88,24 @@ class Demand:
             tag = dom.createElement("link")
             tag.setAttribute("from", v.e1.number)
             tag.setAttribute("to", v.e2.number)
+            tag.setAttribute("capacity", v.capacity)
             root.appendChild(tag)
         return dom.toprettyxml()
 
-    def GenerateRandom(self):
-        pass
+    def GenerateRandom(self, params):
+        for i in range(params["vms"]):
+            v = VM("vm_" + str(i), random.randint(params["vm_min"], params["vm_max"]))
+            self.AddVertex(v)
+        for i in range(params["storages"]):
+            v = DemandStorage("storage_" + str(i), random.randint(params["st_min"], params["st_max"]))
+            self.AddVertex(v)
+        for i in range(len(self.vertices)):
+            for j in range(random.randint(1, 2)):
+                src = self.vertices[i]
+                dest = self.vertices[random.randint(i+1, len(self.vertices))]
+                capacity = random.randint(params["cap_min"], params["cap_max"])
+                e = DemandLink(src, dest, capacity)
+                if self.FindEdge(src, dest) == None:
+                    self.edges.append(e)
 
 
