@@ -1,4 +1,5 @@
 import xml.dom.minidom
+from Core.AbstractGraph import AbstractGraph
 
 class Storage:
     number = -1
@@ -24,16 +25,10 @@ class Link:
         self.e2 = e2
         self.capacity = capacity
 
-class ResourceGraph:
+class ResourceGraph(AbstractGraph):
     def __init__(self):
+        AbstractGraph.__init__(self)
         self.LoadFromXML("assets/resources.xml")
-
-    def AddLink(self, e):
-        self.edges.append(e)
-
-    def AddVertex(self, v):
-        self.vertices.append(v)
-        v.number = len(self.vertices)
 
     def ExportToXml(self):
         dom = xml.dom.minidom.Document()

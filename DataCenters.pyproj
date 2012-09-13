@@ -30,6 +30,7 @@
     <Folder Include="DCGUI\Windows\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\AbstractGraph.py" />
     <Compile Include="Core\Demands.py" />
     <Compile Include="Core\Resources.py" />
     <Compile Include="Core\__init__.py" />
