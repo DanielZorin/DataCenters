@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<resources>
+	<storage name="1" number="1" type="1" volume="2"/>
+	<computer name="1" number="2" speed="2"/>
+	<router name="1" number="3"/>
+	<storage name="1" number="4" type="2" volume="2"/>
+	<computer name="1" number="5" speed="2"/>
+	<router name="1" number="6"/>
+	<storage name="1" number="7" type="1" volume="2"/>
+	<storage name="1" number="8" type="2" volume="2"/>
+	<computer name="1" number="9" speed="2"/>
+	<computer name="1" number="10" speed="2"/>
+	<router name="1" number="11"/>
+	<router name="1" number="12"/>
+	<link capacity="1" from="8" to="7"/>
+	<link capacity="1" from="5" to="6"/>
+	<link capacity="2" from="3" to="4"/>
+	<link capacity="4" from="12" to="1"/>
+	<link capacity="5" from="10" to="11"/>
+</resources>

@@ -74,7 +74,7 @@ class Demand:
     def ExportToXml(self):
         dom = xml.dom.minidom.Document()
         root = dom.createElement("demand")
-        root.setAttribute("id", "0")
+        root.setAttribute("id", self.id)
         dom.appendChild(root)
         for v in self.vertices:
             if isinstance(v, VM):
