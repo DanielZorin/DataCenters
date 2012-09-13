@@ -61,7 +61,7 @@ QLabel, QSlider {
      <x>0</x>
      <y>0</y>
      <width>427</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -91,7 +91,9 @@ QLabel, QSlider {
    <addaction name="actionSave_System"/>
    <addaction name="separator"/>
    <addaction name="actionSelect"/>
-   <addaction name="actionVertex"/>
+   <addaction name="actionComputer"/>
+   <addaction name="actionStorage"/>
+   <addaction name="actionRouter"/>
    <addaction name="actionEdge"/>
   </widget>
   <action name="actionSelect">
@@ -112,16 +114,19 @@ QLabel, QSlider {
     <string>Alt+1</string>
    </property>
   </action>
-  <action name="actionVertex">
+  <action name="actionComputer">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/pics/pics/vertex.png</normaloff>:/pics/pics/vertex.png</iconset>
+     <normaloff>:/pics/pics/computer.png</normaloff>:/pics/pics/computer.png</iconset>
    </property>
    <property name="text">
-    <string>Add Vertex</string>
+    <string>Add Computer</string>
+   </property>
+   <property name="toolTip">
+    <string>Add Computer</string>
    </property>
    <property name="shortcut">
     <string>Alt+2</string>
@@ -194,6 +199,42 @@ QLabel, QSlider {
     <string>Ctrl+X</string>
    </property>
   </action>
+  <action name="actionStorage">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/pics/pics/storage.png</normaloff>:/pics/pics/storage.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Storage</string>
+   </property>
+   <property name="toolTip">
+    <string>Add Storage</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+4</string>
+   </property>
+  </action>
+  <action name="actionRouter">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/pics/pics/router.png</normaloff>:/pics/pics/router.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Router</string>
+   </property>
+   <property name="toolTip">
+    <string>Add Router</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+5</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="resources.qrc"/>
@@ -216,10 +257,10 @@ QLabel, QSlider {
    </hints>
   </connection>
   <connection>
-   <sender>actionVertex</sender>
+   <sender>actionComputer</sender>
    <signal>triggered()</signal>
    <receiver>GraphEditor</receiver>
-   <slot>toggleVertex()</slot>
+   <slot>toggleComputer()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -327,14 +368,48 @@ QLabel, QSlider {
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionStorage</sender>
+   <signal>triggered()</signal>
+   <receiver>GraphEditor</receiver>
+   <slot>toggleStorage()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>213</x>
+     <y>155</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionRouter</sender>
+   <signal>triggered()</signal>
+   <receiver>GraphEditor</receiver>
+   <slot>toggleRouter()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>213</x>
+     <y>155</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>toggleSelect()</slot>
-  <slot>toggleVertex()</slot>
+  <slot>toggleComputer()</slot>
   <slot>toggleEdge()</slot>
   <slot>New()</slot>
   <slot>Open()</slot>
   <slot>Save()</slot>
   <slot>SaveAs()</slot>
+  <slot>toggleStorage()</slot>
+  <slot>toggleRouter()</slot>
  </slots>
 </ui>

@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{a265c8e3-1b84-4fef-9c2e-f10cae54b066}</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Core\Demands.py</StartupFile>
+    <StartupFile>DCGUI.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -35,6 +35,8 @@
     <Compile Include="Core\__init__.py" />
     <Compile Include="DCGUI.py" />
     <Compile Include="DCGUI\MainWindow.py" />
+    <Compile Include="DCGUI\GraphEditor.py" />
+    <Compile Include="DCGUI\GraphCanvas.py" />
     <Compile Include="DCGUI\__init__.py" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />

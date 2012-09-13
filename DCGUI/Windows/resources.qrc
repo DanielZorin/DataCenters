@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="pics">
+    <file>pics/router.png</file>
+    <file>pics/storage.png</file>
     <file>pics/graph.png</file>
     <file>pics/settings.png</file>
     <file>pics/meenoos.png</file>
