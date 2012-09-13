@@ -149,6 +149,7 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.actionDelete_Demand, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.DeleteDemand)
         QtCore.QObject.connect(self.actionEdit_Demand, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.EditDemand)
         QtCore.QObject.connect(self.actionCreate_Random_Demands, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.RandomDemand)
+        QtCore.QObject.connect(self.demands, QtCore.SIGNAL(_fromUtf8("itemChanged(QListWidgetItem*)")), MainWindow.RenameDemand)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

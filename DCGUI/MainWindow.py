@@ -1,20 +1,21 @@
-from PyQt4.QtGui import QMainWindow, qApp, QListWidgetItem
+from PyQt4.QtGui import QMainWindow, qApp, QListWidgetItem, QDialog
 from PyQt4.QtCore import Qt
 from DCGUI.Windows.ui_MainWindow import Ui_MainWindow
 from DCGUI.GraphEditor import GraphEditor
-from Core.Resources import ResourceGraph
+from DCGUI.RandomDemandDialog import RandomDemandDialog
+from DCGUI.Project import Project
 
 class MainWindow(QMainWindow):
     project = None
-    
+    demands = {}
+
     def __init__(self):
         QMainWindow.__init__(self)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.graphEditor = GraphEditor()
-        #FIXME
-        resources = ResourceGraph()
-        self.graphEditor.setData(resources)
+        self.project = Project()
+        self.graphEditor.setData(self.project.resources)
 
 
     def NewProject(self):
@@ -44,18 +45,32 @@ class MainWindow(QMainWindow):
             qApp.processEvents()
 
     def AddDemand(self):
+        d = self.project.CreateDemand()
         it = QListWidgetItem("New demand", self.ui.demands)
         it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
+        self.demands[it] = d
         self.ui.demands.editItem(it)
 
     def DeleteDemand(self):
         pass
 
+    def RenameDemand(self, item):
+        if item in self.demands:
+            self.demands[item].id = str(item.text())
+
     def EditDemand(self):
         pass
 
     def RandomDemand(self):
-        pass
+        d = RandomDemandDialog()
+        d.exec_()
+        if d.result() == QDialog.Accepted: 
+            dict = d.GetResult()
+            for i in range(dict["n"]):
+                demand = self.project.CreateRandomDemand(dict)
+                it = QListWidgetItem(demand.id, self.ui.demands)
+                it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
+                self.demands[it] = demand
 
     def About(self):
         pass

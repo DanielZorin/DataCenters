@@ -464,6 +464,22 @@ QLabel, QSlider {
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>demands</sender>
+   <signal>itemChanged(QListWidgetItem*)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>RenameDemand()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>197</x>
+     <y>129</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>197</x>
+     <y>100</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>Exit()</slot>
@@ -477,5 +493,6 @@ QLabel, QSlider {
   <slot>DeleteDemand()</slot>
   <slot>EditDemand()</slot>
   <slot>RandomDemand()</slot>
+  <slot>RenameDemand()</slot>
  </slots>
 </ui>
