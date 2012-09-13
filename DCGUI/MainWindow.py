@@ -1,4 +1,5 @@
-from PyQt4.QtGui import QMainWindow, qApp
+from PyQt4.QtGui import QMainWindow, qApp, QListWidgetItem
+from PyQt4.QtCore import Qt
 from DCGUI.Windows.ui_MainWindow import Ui_MainWindow
 from DCGUI.GraphEditor import GraphEditor
 from Core.Resources import ResourceGraph
@@ -41,6 +42,20 @@ class MainWindow(QMainWindow):
         self.graphEditor.show()
         while self.graphEditor.isVisible():
             qApp.processEvents()
+
+    def AddDemand(self):
+        it = QListWidgetItem("New demand", self.ui.demands)
+        it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
+        self.ui.demands.editItem(it)
+
+    def DeleteDemand(self):
+        pass
+
+    def EditDemand(self):
+        pass
+
+    def RandomDemand(self):
+        pass
 
     def About(self):
         pass

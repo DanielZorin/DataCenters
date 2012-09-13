@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="pics">
+    <file>pics/dice.png</file>
     <file>pics/router.png</file>
     <file>pics/storage.png</file>
     <file>pics/graph.png</file>

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>329</width>
-    <height>76</height>
+    <width>396</width>
+    <height>201</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -41,6 +41,9 @@ QLabel, QSlider {
     <property name="sizeConstraint">
      <enum>QLayout::SetDefaultConstraint</enum>
     </property>
+    <item>
+     <widget class="QListWidget" name="demands"/>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -48,7 +51,7 @@ QLabel, QSlider {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>329</width>
+     <width>396</width>
      <height>21</height>
     </rect>
    </property>
@@ -72,7 +75,18 @@ QLabel, QSlider {
     </property>
     <addaction name="actionAbout"/>
    </widget>
+   <widget class="QMenu" name="menuProject">
+    <property name="title">
+     <string>Project</string>
+    </property>
+    <addaction name="actionEdit_Resources"/>
+    <addaction name="actionAdd_Demand"/>
+    <addaction name="actionDelete_Demand"/>
+    <addaction name="actionEdit_Demand"/>
+    <addaction name="actionCreate_Random_Demands"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuProject"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
@@ -90,6 +104,10 @@ QLabel, QSlider {
    <addaction name="actionSave_Project"/>
    <addaction name="separator"/>
    <addaction name="actionEdit_Resources"/>
+   <addaction name="actionAdd_Demand"/>
+   <addaction name="actionDelete_Demand"/>
+   <addaction name="actionEdit_Demand"/>
+   <addaction name="actionCreate_Random_Demands"/>
    <addaction name="separator"/>
    <addaction name="actionStart"/>
    <addaction name="actionSettings"/>
@@ -195,6 +213,42 @@ QLabel, QSlider {
    </property>
    <property name="shortcut">
     <string>F3</string>
+   </property>
+  </action>
+  <action name="actionAdd_Demand">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/pics/pics/add.png</normaloff>:/pics/pics/add.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Demand</string>
+   </property>
+  </action>
+  <action name="actionDelete_Demand">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/pics/pics/delete.png</normaloff>:/pics/pics/delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete Demand</string>
+   </property>
+  </action>
+  <action name="actionCreate_Random_Demands">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/pics/pics/dice.png</normaloff>:/pics/pics/dice.png</iconset>
+   </property>
+   <property name="text">
+    <string>Create Random Demands</string>
+   </property>
+  </action>
+  <action name="actionEdit_Demand">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/pics/pics/page_edit.png</normaloff>:/pics/pics/page_edit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Edit Demand</string>
    </property>
   </action>
  </widget>
@@ -346,6 +400,70 @@ QLabel, QSlider {
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionAdd_Demand</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>AddDemand()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>197</x>
+     <y>100</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionDelete_Demand</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>DeleteDemand()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>197</x>
+     <y>100</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionEdit_Demand</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>EditDemand()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>197</x>
+     <y>100</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionCreate_Random_Demands</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>RandomDemand()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>197</x>
+     <y>100</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>Exit()</slot>
@@ -354,35 +472,10 @@ QLabel, QSlider {
   <slot>OpenProject()</slot>
   <slot>SaveProject()</slot>
   <slot>SaveProjectAs()</slot>
-  <slot>Run()</slot>
-  <slot>Trace()</slot>
-  <slot>StepForward()</slot>
-  <slot>StepBackward()</slot>
-  <slot>ChangeScale(int)</slot>
-  <slot>SelectSchedule(QString)</slot>
-  <slot>ResetSchedule()</slot>
-  <slot>ShowLastStep()</slot>
-  <slot>Preferences()</slot>
-  <slot>GenerateRandomSystem()</slot>
-  <slot>LoadSystem()</slot>
-  <slot>LoadMethod()</slot>
-  <slot>ChangeName()</slot>
-  <slot>Settings()</slot>
-  <slot>ChangeLanguage()</slot>
-  <slot>ChangeLimits()</slot>
-  <slot>LaunchViewer()</slot>
-  <slot>ExportTrace()</slot>
-  <slot>EditName()</slot>
-  <slot>EditTdir()</slot>
-  <slot>EditRdir()</slot>
   <slot>EditProgram()</slot>
-  <slot>HideErrors()</slot>
-  <slot>ExportSchedule()</slot>
-  <slot>GenerateCode()</slot>
-  <slot>Parameters()</slot>
-  <slot>SetAnnealing()</slot>
-  <slot>SetGenetics()</slot>
-  <slot>ChangeAlgorithm()</slot>
-  <slot>PluginSettings()</slot>
+  <slot>AddDemand()</slot>
+  <slot>DeleteDemand()</slot>
+  <slot>EditDemand()</slot>
+  <slot>RandomDemand()</slot>
  </slots>
 </ui>
