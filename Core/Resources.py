@@ -28,7 +28,6 @@ class Link:
 class ResourceGraph(AbstractGraph):
     def __init__(self):
         AbstractGraph.__init__(self)
-        self.LoadFromXML("assets/resources.xml")
 
     def ExportToXml(self):
         dom = xml.dom.minidom.Document()

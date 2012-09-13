@@ -9,7 +9,7 @@ except AttributeError:
 class Ui_StorageDialog(object):
     def setupUi(self, StorageDialog):
         StorageDialog.setObjectName(_fromUtf8("StorageDialog"))
-        StorageDialog.resize(231, 139)
+        StorageDialog.resize(231, 184)
         StorageDialog.setStyleSheet(_fromUtf8("QWidget, QMenuBar::item, QHeaderView::section {\n"
 "    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
 "                                      stop: 0 #c5d8ef, stop: 1 #89a5c3);\n"
@@ -40,14 +40,14 @@ class Ui_StorageDialog(object):
         self.id.setObjectName(_fromUtf8("id"))
         self.horizontalLayout_2.addWidget(self.id)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
-        self.timelabel = QtGui.QLabel(StorageDialog)
+        self.volumelabel = QtGui.QLabel(StorageDialog)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.timelabel.sizePolicy().hasHeightForWidth())
-        self.timelabel.setSizePolicy(sizePolicy)
-        self.timelabel.setObjectName(_fromUtf8("timelabel"))
-        self.verticalLayout.addWidget(self.timelabel)
+        sizePolicy.setHeightForWidth(self.volumelabel.sizePolicy().hasHeightForWidth())
+        self.volumelabel.setSizePolicy(sizePolicy)
+        self.volumelabel.setObjectName(_fromUtf8("volumelabel"))
+        self.verticalLayout.addWidget(self.volumelabel)
         self.horizontalLayout_3 = QtGui.QHBoxLayout()
         self.horizontalLayout_3.setObjectName(_fromUtf8("horizontalLayout_3"))
         self.volume = QtGui.QLineEdit(StorageDialog)
@@ -56,6 +56,12 @@ class Ui_StorageDialog(object):
         self.volume.setObjectName(_fromUtf8("volume"))
         self.horizontalLayout_3.addWidget(self.volume)
         self.verticalLayout.addLayout(self.horizontalLayout_3)
+        self.typelabel = QtGui.QLabel(StorageDialog)
+        self.typelabel.setObjectName(_fromUtf8("typelabel"))
+        self.verticalLayout.addWidget(self.typelabel)
+        self.type = QtGui.QLineEdit(StorageDialog)
+        self.type.setObjectName(_fromUtf8("type"))
+        self.verticalLayout.addWidget(self.type)
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
         self.OK = QtGui.QPushButton(StorageDialog)
@@ -75,7 +81,8 @@ class Ui_StorageDialog(object):
     def retranslateUi(self, StorageDialog):
         StorageDialog.setWindowTitle(QtGui.QApplication.translate("StorageDialog", "Edit Storage", None, QtGui.QApplication.UnicodeUTF8))
         self.namelabel.setText(QtGui.QApplication.translate("StorageDialog", "Name:", None, QtGui.QApplication.UnicodeUTF8))
-        self.timelabel.setText(QtGui.QApplication.translate("StorageDialog", "Volume:", None, QtGui.QApplication.UnicodeUTF8))
+        self.volumelabel.setText(QtGui.QApplication.translate("StorageDialog", "Volume:", None, QtGui.QApplication.UnicodeUTF8))
+        self.typelabel.setText(QtGui.QApplication.translate("StorageDialog", "Type:", None, QtGui.QApplication.UnicodeUTF8))
         self.OK.setText(QtGui.QApplication.translate("StorageDialog", "OK", None, QtGui.QApplication.UnicodeUTF8))
         self.Cancel.setText(QtGui.QApplication.translate("StorageDialog", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
 

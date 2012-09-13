@@ -39,10 +39,12 @@ class StorageDialog(QDialog):
     def Load(self, v):
         self.ui.id.setText(v.id)
         self.ui.volume.setText(str(v.volume))
+        self.ui.type.setText(str(v.type))
         
     def SetResult(self, v):
         v.id = self.ui.id.text()
         v.volume = int(self.ui.volume.text())
+        v.type = self.ui.type.text()
 
 class RouterDialog(QDialog):
     def __init__(self):
@@ -62,18 +64,14 @@ class EdgeDialog(QDialog):
         QDialog.__init__(self)
         self.ui = Ui_EdgeDialog()
         self.ui.setupUi(self)
-        #self.valid = QIntValidator(0, 1000000, self)
-        #self.ui.volume.setValidator(self.valid)
+        self.valid = QIntValidator(0, 1000000, self)
+        self.ui.capacity.setValidator(self.valid)
 
     def Load(self, e):
-        #self.ui.name.setText(e.name)
-        #self.ui.volume.setText(str(e.volume))
-        pass
+        self.ui.capacity.setText(str(e.capacity))
 
     def SetResult(self, e):
-        #e.name = self.ui.name.text()
-        #e.volume = int(self.ui.volume.text())
-        pass
+        e.capacity = int(self.ui.capacity.text())
 
 class State:
     ''' Enum representing current editing mode '''
@@ -82,9 +80,6 @@ class State:
     Storage = 2
     Router = 3
     Edge = 4
-
-class VMDialog(QDialog):
-    pass
 
 class GraphCanvas(QWidget):
     resources = None
@@ -100,9 +95,7 @@ class GraphCanvas(QWidget):
 
     colors = {
               "line": QColor(10, 34, 200),
-              "vertex": QColor(123, 34, 100),
               "selected": QColor(1, 200, 1),
-              "text": QColor(0, 0, 0)
               }
 
     def __init__(self, parent=None):
@@ -112,23 +105,37 @@ class GraphCanvas(QWidget):
         self.computericon = QImage(":/pics/pics/computer.png")
         self.storageicon = QImage(":/pics/pics/storage.png")
         self.routericon = QImage(":/pics/pics/router.png")
+        self.computerselectedicon = QImage(":/pics/pics/computer_selected.png")
+        self.storageselectedicon = QImage(":/pics/pics/storage_selected.png")
+        self.routerselectedicon = QImage(":/pics/pics/router_selected.png")
         
     def paintEvent(self, event):
         if not self.resources:
             return
         paint = QPainter(self)
-        paint.setPen(self.colors["line"])
         for e in self.resources.edges:
+                if e == self.selectedEdge:
+                    paint.setPen(self.colors["selected"])
+                else:
+                    paint.setPen(self.colors["line"])
                 self.drawArrow(paint, self.vertices[e.e1].rect.x() + self.size / 2, self.vertices[e.e1].rect.y() + self.size / 2,
                              self.vertices[e.e2].rect.x() + self.size / 2, self.vertices[e.e2].rect.y() + self.size / 2)
         for task in self.vertices.values():
             if task.type == 0:
-                paint.drawImage(task.rect, self.computericon)
+                if self.selectedVertex != task:
+                    paint.drawImage(task.rect, self.computericon)
+                else:
+                    paint.drawImage(task.rect, self.computerselectedicon)
             elif task.type == 1:
-                paint.drawImage(task.rect, self.storageicon)
+                if self.selectedVertex != task:
+                    paint.drawImage(task.rect, self.storageicon)
+                else:
+                    paint.drawImage(task.rect, self.storageselectedicon)
             elif task.type == 2:
-                paint.drawImage(task.rect, self.routericon)
-
+                if self.selectedVertex != task:
+                    paint.drawImage(task.rect, self.routericon)
+                else:
+                    paint.drawImage(task.rect, self.routerselectedicon)
         paint.setPen(self.colors["line"])
         if self.edgeDraw:
             self.drawArrow(paint, self.curEdge[0].rect.x() + self.size / 2, self.curEdge[0].rect.y() + self.size / 2,
@@ -162,7 +169,28 @@ class GraphCanvas(QWidget):
         self.repaint()
 
     def keyPressEvent(self, e):
-        pass
+        if e.key() == QtCore.Qt.Key_Delete:
+            if self.selectedVertex != None:
+                v = next(v for v in self.vertices.keys() if self.vertices[v] == self.selectedVertex)
+                del self.vertices[v]
+                self.resources.DeleteVertex(v)
+                del self.selectedVertex
+                self.selectedVertex = None
+                self.changed = True
+                self.repaint()
+            elif self.selectedEdge != None:
+                self.resources.DeleteEdge(self.selectedEdge)
+                self.selectedEdge = None
+                self.changed = True
+                self.repaint()
+        elif e.key() == QtCore.Qt.Key_Return:
+            if self.selectedVertex != None:
+                v = next(v for v in self.vertices.keys() if self.vertices[v] == self.selectedVertex)
+                self.EditVertex(v)
+                self.repaint()
+            elif self.selectedEdge != None:
+                self.EditEdge(self.selectedEdge)
+                self.repaint()
 
     def ResizeCanvas(self):
         maxx = 0
@@ -192,19 +220,9 @@ class GraphCanvas(QWidget):
                 paint.rotate(-alpha)
             else:
                 paint.rotate(alpha-180)
-        endcoord = math.sqrt((x2-x1)**2 + (y2-y1)**2) - self.size / 2
+        endcoord = math.sqrt((x2-x1)**2 + (y2-y1)**2)
         p1 = QPointF(endcoord , 0)
         paint.drawLine(0, 0, p1.x(), 0)
-        
-        coord = math.sqrt(9**2 - 6**2)
-        p2 = QPointF(endcoord - coord, 6)
-        p3 = QPointF(endcoord - coord, -6)
-        path = QPainterPath()
-        path.moveTo(p1)
-        path.lineTo(p2)
-        path.lineTo(p3)
-        path.lineTo(p1)
-        paint.fillPath(path, paint.pen().color())
         paint.setWorldMatrix(m)
 
     def mousePressEvent(self, e):
@@ -240,7 +258,7 @@ class GraphCanvas(QWidget):
             task = Vert()
             task.rect = QtCore.QRect(e.x() - self.size / 2, e.y() - self.size / 2, self.size, self.size)
             task.type = 0
-            computer = Computer("id", 1)
+            computer = Computer("id", 0)
             self.vertices[computer] = task
             self.resources.AddVertex(computer)
             self.changed = True
@@ -250,7 +268,7 @@ class GraphCanvas(QWidget):
             task = Vert()
             task.rect = QtCore.QRect(e.x() - self.size / 2, e.y() - self.size / 2, self.size, self.size)
             task.type = 1
-            storage = Storage("id", 1)
+            storage = Storage("id", 0, 0)
             self.vertices[storage] = task
             self.resources.AddVertex(storage)
             self.changed = True
@@ -292,7 +310,7 @@ class GraphCanvas(QWidget):
         if self.edgeDraw:
             for v in self.vertices.keys():
                 if self.vertices[v].rect.contains(e.pos()):
-                    ne = Link(self.curEdge[1], v)
+                    ne = Link(self.curEdge[1], v, 0)
                     self.resources.AddLink(ne)
             self.edgeDraw = False
             self.curEdge = None 
@@ -336,3 +354,12 @@ class GraphCanvas(QWidget):
             if d.result() == QDialog.Accepted:
                 d.SetResult(v)
         self.changed = True
+
+    def Clear(self):
+        self.vertices = {}
+        self.edges = {}
+        self.selectedVertex = None
+        self.pressed = False
+        self.edgeDraw = False
+        self.curEdge = None
+        self.selectedEdge = None

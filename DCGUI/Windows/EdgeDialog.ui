@@ -1,19 +1,20 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>EdgeDialog</class>
- <widget class="QDialog" name="EdgeDialog" >
-  <property name="geometry" >
+ <widget class="QDialog" name="EdgeDialog">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>182</width>
-    <height>143</height>
+    <height>92</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Edit Edge</string>
   </property>
-  <property name="styleSheet" >
-   <string notr="true" >QWidget, QMenuBar::item {
+  <property name="styleSheet">
+   <string notr="true">QWidget, QMenuBar::item {
 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
                                       stop: 0 #c5d8ef, stop: 1 #89a5c3);
 }
@@ -22,36 +23,36 @@ QLabel, QSlider {
 	background-color: transparent;
 }a</string>
   </property>
-  <property name="locale" >
-   <locale country="UnitedStates" language="English" />
+  <property name="locale">
+   <locale language="English" country="UnitedStates"/>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2" >
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout" >
-     <property name="sizeConstraint" >
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="sizeConstraint">
       <enum>QLayout::SetNoConstraint</enum>
      </property>
      <item>
-      <widget class="QLabel" name="label" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+      <widget class="QLabel" name="capacitylabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="text" >
-        <string>Name:</string>
+       <property name="text">
+        <string>Capacity:</string>
        </property>
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2" >
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <widget class="QLineEdit" name="name" >
-         <property name="enabled" >
+        <widget class="QLineEdit" name="capacity">
+         <property name="enabled">
           <bool>true</bool>
          </property>
-         <property name="readOnly" >
+         <property name="readOnly">
           <bool>false</bool>
          </property>
         </widget>
@@ -59,44 +60,17 @@ QLabel, QSlider {
       </layout>
      </item>
      <item>
-      <widget class="QLabel" name="volumelabel" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text" >
-        <string>Data Volume:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_3" >
+      <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QLineEdit" name="volume" >
-         <property name="enabled" >
-          <bool>true</bool>
-         </property>
-         <property name="readOnly" >
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout" >
-       <item>
-        <widget class="QPushButton" name="OK" >
-         <property name="text" >
+        <widget class="QPushButton" name="OK">
+         <property name="text">
           <string>OK</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="Cancel" >
-         <property name="text" >
+        <widget class="QPushButton" name="Cancel">
+         <property name="text">
           <string>Cancel</string>
          </property>
         </widget>
@@ -115,11 +89,11 @@ QLabel, QSlider {
    <receiver>EdgeDialog</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>102</x>
      <y>240</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>199</x>
      <y>149</y>
     </hint>
@@ -131,11 +105,11 @@ QLabel, QSlider {
    <receiver>EdgeDialog</receiver>
    <slot>reject()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>288</x>
      <y>240</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>199</x>
      <y>149</y>
     </hint>

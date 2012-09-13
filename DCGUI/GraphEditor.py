@@ -1,9 +1,9 @@
-from PyQt4.QtGui import QMainWindow
+from PyQt4.QtGui import QMainWindow, QFileDialog
 from DCGUI.Windows.ui_GraphEditor import Ui_GraphEditor
 from DCGUI.GraphCanvas import GraphCanvas, State
 
 class GraphEditor(QMainWindow):
-    resources = None
+    xmlfile = None
 
     def __init__(self):
         QMainWindow.__init__(self)
@@ -14,7 +14,6 @@ class GraphEditor(QMainWindow):
 
     def setData(self, data):
         self.resources = data
-        print(self.resources.vertices[1])
         self.canvas.Visualize(self.resources)
 
     def toggleSelect(self):
@@ -57,7 +56,6 @@ class GraphEditor(QMainWindow):
         self.ui.actionEdge.setChecked(True)
         self.canvas.state = State.Edge
         
-
     def resizeEvent(self, e):
         super(QMainWindow, self).resizeEvent(e)
         self.canvas.ResizeCanvas()
@@ -73,13 +71,34 @@ class GraphEditor(QMainWindow):
         pass
 
     def New(self):
-        pass
+        self.resources.vertices = []
+        self.resources.edges = []
+        self.canvas.Clear()
+        self.canvas.Visualize(self.resources)
+        self.canvas.changed = True
+        self.xmlfile = None
 
     def Open(self):
-        pass
+        name = QFileDialog.getOpenFileName(filter="*.xml")
+        if name == None or name == '':
+            return
+        self.resources.LoadFromXML(name)
+        self.canvas.Clear()
+        self.canvas.Visualize(self.resources)
+        self.canvas.changed = True
+        self.xmlfile = name
 
     def Save(self):
-        pass
+        if self.xmlfile == None:
+            self.SaveAs()
+        else:
+            output = open(self.xmlfile, 'w')
+            output.write(self.resources.ExportToXml())
+            output.close()
 
     def SaveAs(self):
-        pass
+        self.xmlfile = QFileDialog.getSaveFileName(directory=".xml", filter="*.xml")
+        if self.xmlfile != '':
+            output = open(self.xmlfile, 'w')
+            output.write(self.resources.ExportToXml())
+            output.close()
