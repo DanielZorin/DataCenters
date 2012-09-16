@@ -1,0 +1,4 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+PROJECT(ants)
+
+# add_library(${PROJECT_NAME} main.c)

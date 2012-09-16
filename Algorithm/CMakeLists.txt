@@ -1,0 +1,18 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
+PROJECT(Algolib)
+
+INCLUDE_DIRECTORIES(include)
+
+SET ( COMPONENTS
+      common
+      centralised
+      decentralised
+      ants
+      )
+
+FOREACH(COMPONENT ${COMPONENTS})
+   ADD_SUBDIRECTORY(${COMPONENT})
+ENDFOREACH(COMPONENT)
+
+ADD_EXECUTABLE(${PROJECT_NAME} compilation.cpp)
