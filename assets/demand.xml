@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<demand id="Random">
+	<vm name="vm_0" number="1" speed="6"/>
+	<vm name="vm_1" number="2" speed="1"/>
+	<vm name="vm_2" number="3" speed="4"/>
+	<vm name="vm_3" number="4" speed="6"/>
+	<vm name="vm_4" number="5" speed="12"/>
+	<storage name="storage_0" number="6" type="1" volume="1"/>
+	<storage name="storage_1" number="7" type="1" volume="5"/>
+	<storage name="storage_2" number="8" type="1" volume="1"/>
+	<storage name="storage_3" number="9" type="1" volume="4"/>
+	<storage name="storage_4" number="10" type="1" volume="3"/>
+	<link capacity="15" from="1" to="10"/>
+	<link capacity="15" from="2" to="3"/>
+	<link capacity="13" from="3" to="5"/>
+	<link capacity="15" from="3" to="8"/>
+	<link capacity="12" from="4" to="7"/>
+	<link capacity="15" from="4" to="5"/>
+	<link capacity="13" from="5" to="7"/>
+	<link capacity="11" from="5" to="9"/>
+	<link capacity="13" from="6" to="10"/>
+	<link capacity="15" from="7" to="8"/>
+	<link capacity="15" from="8" to="9"/>
+	<link capacity="15" from="9" to="10"/>
+</demand>

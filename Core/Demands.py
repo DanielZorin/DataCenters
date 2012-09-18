@@ -1,16 +1,15 @@
 import random, xml.dom.minidom
-from Core.AbstractGraph import AbstractGraph
+from Core.AbstractGraph import AbstractGraph, AbstractVertex
 
-class VM:
-    number = -1
+class VM(AbstractVertex):
     def __init__(self, id, speed):
+        AbstractVertex.__init__(self, id)
         self.id = id
         self.speed = speed
 
-class DemandStorage:
-    number = -1
+class DemandStorage(AbstractVertex):
     def __init__(self, id, volume, type):
-        self.id = id
+        AbstractVertex.__init__(self, id)
         self.volume = volume
         self.type = type
 

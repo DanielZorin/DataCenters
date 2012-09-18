@@ -1,3 +1,11 @@
+class AbstractVertex:
+    x = None
+    y = None
+    number = -1
+
+    def __init__(self, id):
+        self.id = id
+
 class AbstractGraph:
     def __init__(self):
         self.vertices = []

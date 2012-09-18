@@ -1,23 +1,20 @@
 import xml.dom.minidom
-from Core.AbstractGraph import AbstractGraph
+from Core.AbstractGraph import AbstractGraph, AbstractVertex
 
-class Storage:
-    number = -1
+class Storage(AbstractVertex):
     def __init__(self, id, volume, type):
-        self.id = id
+        AbstractVertex.__init__(self, id)
         self.volume = volume
         self.type = type
 
-class Computer:
-    number = -1
+class Computer(AbstractVertex):
     def __init__(self, id, speed):
-        self.id = id
+        AbstractVertex.__init__(self, id)
         self.speed = speed
 
-class Router:
-    number = -1
+class Router(AbstractVertex):
     def __init__(self, id):
-        self.id = id
+        AbstractVertex.__init__(self, id)
 
 class Link:
     def __init__(self, e1, e2, capacity):
