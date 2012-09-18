@@ -37,6 +37,9 @@ class Demand(AbstractGraph):
                 tag = dom.createElement("storage")
                 tag.setAttribute("volume", str(v.volume))
                 tag.setAttribute("type", str(v.type))
+            if v.x:
+                tag.setAttribute("x", v.x)
+                tag.setAttribute("y", v.y)
             tag.setAttribute("number", str(v.number))
             tag.setAttribute("name", str(v.id))
             root.appendChild(tag)
@@ -87,6 +90,12 @@ class Demand(AbstractGraph):
                         volume = int(vertex.getAttribute("volume"))
                         type = int(vertex.getAttribute("type"))
                         v = DemandStorage(name, volume, type)
+                    x = vertex.getAttribute("x")
+                    y = vertex.getAttribute("y")
+                    if x != '':
+                        v.x = int(x)
+                    if y != '':
+                        v.y = int(y)
                     v.number = number
                     self.vertices.append(v)
 

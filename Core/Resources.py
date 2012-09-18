@@ -38,8 +38,11 @@ class ResourceGraph(AbstractGraph):
                 tag = dom.createElement("storage")
                 tag.setAttribute("volume", str(v.volume))
                 tag.setAttribute("type", str(v.type))
-            if isinstance(v, Router):
+            elif isinstance(v, Router):
                 tag = dom.createElement("router")
+            if v.x:
+                tag.setAttribute("x", v.x)
+                tag.setAttribute("y", v.y)
             tag.setAttribute("number", str(v.number))
             tag.setAttribute("name", str(v.id))
             root.appendChild(tag)
@@ -78,6 +81,12 @@ class ResourceGraph(AbstractGraph):
                         v = Storage(name, volume, type)
                     elif vertex.nodeName == "router":
                         v = Router(name)
+                    x = vertex.getAttribute("x")
+                    y = vertex.getAttribute("y")
+                    if x != '':
+                        v.x = int(x)
+                    if y != '':
+                        v.y = int(y)
                     v.number = number
                     self.vertices.append(v)
 
