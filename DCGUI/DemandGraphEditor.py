@@ -14,6 +14,7 @@ class DemandGraphEditor(QMainWindow):
 
     def setData(self, data):
         self.demand = data
+        self.canvas.Clear()
         self.canvas.Visualize(self.demand)
 
     def toggleSelect(self):
