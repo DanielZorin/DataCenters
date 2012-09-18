@@ -28,8 +28,12 @@ class ResourceGraph(AbstractGraph):
 
     def ExportToXml(self):
         dom = xml.dom.minidom.Document()
-        root = dom.createElement("resources")
+        root = self.CreateXml(dom)
         dom.appendChild(root)
+        return dom.toprettyxml()
+
+    def CreateXml(self, dom):
+        root = dom.createElement("resources")
         for v in self.vertices:
             if isinstance(v, Computer):
                 tag = dom.createElement("computer")
@@ -52,7 +56,7 @@ class ResourceGraph(AbstractGraph):
             tag.setAttribute("to", str(v.e2.number))
             tag.setAttribute("capacity", str(v.capacity))
             root.appendChild(tag)
-        return dom.toprettyxml()
+        return root
 
     def LoadFromXML(self, filename):
         ''' Load edges and vertices from XML
@@ -64,40 +68,43 @@ class ResourceGraph(AbstractGraph):
         self.edges = []
         for node in dom.childNodes:
             if node.tagName == "resources":
-                #Parse vertices
-                for vertex in node.childNodes:
-                    if isinstance(vertex, xml.dom.minidom.Text):
-                        continue
-                    if vertex.nodeName == "link":
-                        continue
-                    name = vertex.getAttribute("name")
-                    number = int(vertex.getAttribute("number"))
-                    if vertex.nodeName == "computer":
-                        speed = int(vertex.getAttribute("speed"))
-                        v = Computer(name, speed)
-                    elif vertex.nodeName == "storage":
-                        volume = int(vertex.getAttribute("volume"))
-                        type = int(vertex.getAttribute("type"))
-                        v = Storage(name, volume, type)
-                    elif vertex.nodeName == "router":
-                        v = Router(name)
-                    x = vertex.getAttribute("x")
-                    y = vertex.getAttribute("y")
-                    if x != '':
-                        v.x = int(x)
-                    if y != '':
-                        v.y = int(y)
-                    v.number = number
-                    self.vertices.append(v)
-
-                self.vertices.sort(key=lambda x: x.number)
-                    
-                #Parse edges
-                for edge in node.childNodes:
-                    if edge.nodeName == "link":
-                        source = int(edge.getAttribute("from"))
-                        destination = int(edge.getAttribute("to"))
-                        cap = int(edge.getAttribute("capacity"))
-                        e = Link(self.vertices[source-1], self.vertices[destination-1], cap)
-                        self.edges.append(e)
+                self.LoadFromXmlNode(node)
         f.close()
+
+    def LoadFromXmlNode(self, node):
+        #Parse vertices
+        for vertex in node.childNodes:
+            if isinstance(vertex, xml.dom.minidom.Text):
+                continue
+            if vertex.nodeName == "link":
+                continue
+            name = vertex.getAttribute("name")
+            number = int(vertex.getAttribute("number"))
+            if vertex.nodeName == "computer":
+                speed = int(vertex.getAttribute("speed"))
+                v = Computer(name, speed)
+            elif vertex.nodeName == "storage":
+                volume = int(vertex.getAttribute("volume"))
+                type = int(vertex.getAttribute("type"))
+                v = Storage(name, volume, type)
+            elif vertex.nodeName == "router":
+                v = Router(name)
+            x = vertex.getAttribute("x")
+            y = vertex.getAttribute("y")
+            if x != '':
+                v.x = int(x)
+            if y != '':
+                v.y = int(y)
+            v.number = number
+            self.vertices.append(v)
+
+        self.vertices.sort(key=lambda x: x.number)
+                    
+        #Parse edges
+        for edge in node.childNodes:
+            if edge.nodeName == "link":
+                source = int(edge.getAttribute("from"))
+                destination = int(edge.getAttribute("to"))
+                cap = int(edge.getAttribute("capacity"))
+                e = Link(self.vertices[source-1], self.vertices[destination-1], cap)
+                self.edges.append(e)

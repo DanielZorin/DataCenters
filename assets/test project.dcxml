@@ -1,0 +1,252 @@
+<?xml version="1.0" ?>
+<dcxml>
+	<resources>
+		<storage name="id" number="1" type="0" volume="0"/>
+		<storage name="id" number="2" type="0" volume="0"/>
+		<storage name="id" number="3" type="0" volume="0"/>
+		<storage name="id" number="4" type="0" volume="0"/>
+	</resources>
+	<demand id="ttt">
+		<storage name="id" number="1" type="0" volume="0"/>
+		<storage name="id" number="2" type="0" volume="0"/>
+		<storage name="id" number="3" type="0" volume="0"/>
+		<storage name="id" number="4" type="0" volume="0"/>
+	</demand>
+	<demand id="Random">
+		<vm name="vm_0" number="1" speed="6"/>
+		<vm name="vm_1" number="2" speed="12"/>
+		<vm name="vm_2" number="3" speed="4"/>
+		<vm name="vm_3" number="4" speed="4"/>
+		<vm name="vm_4" number="5" speed="3"/>
+		<storage name="storage_0" number="6" type="1" volume="4"/>
+		<storage name="storage_1" number="7" type="1" volume="3"/>
+		<storage name="storage_2" number="8" type="1" volume="2"/>
+		<storage name="storage_3" number="9" type="1" volume="1"/>
+		<storage name="storage_4" number="10" type="1" volume="5"/>
+		<link capacity="12" from="1" to="8"/>
+		<link capacity="13" from="2" to="8"/>
+		<link capacity="13" from="3" to="6"/>
+		<link capacity="13" from="4" to="7"/>
+		<link capacity="11" from="4" to="9"/>
+		<link capacity="15" from="5" to="7"/>
+		<link capacity="15" from="6" to="9"/>
+		<link capacity="13" from="7" to="9"/>
+		<link capacity="12" from="8" to="10"/>
+		<link capacity="14" from="8" to="9"/>
+		<link capacity="11" from="9" to="10"/>
+	</demand>
+	<demand id="Random">
+		<vm name="vm_0" number="1" speed="7"/>
+		<vm name="vm_1" number="2" speed="4"/>
+		<vm name="vm_2" number="3" speed="10"/>
+		<vm name="vm_3" number="4" speed="11"/>
+		<vm name="vm_4" number="5" speed="4"/>
+		<storage name="storage_0" number="6" type="1" volume="3"/>
+		<storage name="storage_1" number="7" type="1" volume="2"/>
+		<storage name="storage_2" number="8" type="1" volume="4"/>
+		<storage name="storage_3" number="9" type="1" volume="4"/>
+		<storage name="storage_4" number="10" type="1" volume="2"/>
+		<link capacity="11" from="1" to="4"/>
+		<link capacity="15" from="1" to="10"/>
+		<link capacity="13" from="2" to="8"/>
+		<link capacity="13" from="3" to="6"/>
+		<link capacity="12" from="3" to="9"/>
+		<link capacity="11" from="4" to="8"/>
+		<link capacity="12" from="5" to="7"/>
+		<link capacity="12" from="6" to="9"/>
+		<link capacity="15" from="7" to="8"/>
+		<link capacity="14" from="7" to="9"/>
+		<link capacity="13" from="8" to="9"/>
+		<link capacity="14" from="9" to="10"/>
+	</demand>
+	<demand id="Random">
+		<vm name="vm_0" number="1" speed="10"/>
+		<vm name="vm_1" number="2" speed="8"/>
+		<vm name="vm_2" number="3" speed="4"/>
+		<vm name="vm_3" number="4" speed="6"/>
+		<vm name="vm_4" number="5" speed="8"/>
+		<storage name="storage_0" number="6" type="1" volume="4"/>
+		<storage name="storage_1" number="7" type="1" volume="1"/>
+		<storage name="storage_2" number="8" type="1" volume="1"/>
+		<storage name="storage_3" number="9" type="1" volume="3"/>
+		<storage name="storage_4" number="10" type="1" volume="1"/>
+		<link capacity="12" from="1" to="10"/>
+		<link capacity="11" from="1" to="2"/>
+		<link capacity="14" from="2" to="9"/>
+		<link capacity="15" from="2" to="8"/>
+		<link capacity="12" from="3" to="6"/>
+		<link capacity="14" from="4" to="8"/>
+		<link capacity="15" from="5" to="7"/>
+		<link capacity="13" from="6" to="9"/>
+		<link capacity="12" from="7" to="10"/>
+		<link capacity="14" from="8" to="9"/>
+		<link capacity="14" from="9" to="10"/>
+	</demand>
+	<demand id="Random">
+		<vm name="vm_0" number="1" speed="3"/>
+		<vm name="vm_1" number="2" speed="8"/>
+		<vm name="vm_2" number="3" speed="11"/>
+		<vm name="vm_3" number="4" speed="6"/>
+		<vm name="vm_4" number="5" speed="7"/>
+		<storage name="storage_0" number="6" type="1" volume="5"/>
+		<storage name="storage_1" number="7" type="1" volume="1"/>
+		<storage name="storage_2" number="8" type="1" volume="3"/>
+		<storage name="storage_3" number="9" type="1" volume="5"/>
+		<storage name="storage_4" number="10" type="1" volume="4"/>
+		<link capacity="12" from="1" to="10"/>
+		<link capacity="15" from="2" to="6"/>
+		<link capacity="15" from="3" to="4"/>
+		<link capacity="14" from="4" to="10"/>
+		<link capacity="12" from="5" to="9"/>
+		<link capacity="14" from="5" to="10"/>
+		<link capacity="12" from="6" to="9"/>
+		<link capacity="12" from="7" to="10"/>
+		<link capacity="12" from="7" to="9"/>
+		<link capacity="11" from="8" to="9"/>
+		<link capacity="14" from="9" to="10"/>
+	</demand>
+	<demand id="Random">
+		<vm name="vm_0" number="1" speed="2"/>
+		<vm name="vm_1" number="2" speed="9"/>
+		<vm name="vm_2" number="3" speed="3"/>
+		<vm name="vm_3" number="4" speed="7"/>
+		<vm name="vm_4" number="5" speed="9"/>
+		<storage name="storage_0" number="6" type="1" volume="1"/>
+		<storage name="storage_1" number="7" type="1" volume="4"/>
+		<storage name="storage_2" number="8" type="1" volume="1"/>
+		<storage name="storage_3" number="9" type="1" volume="2"/>
+		<storage name="storage_4" number="10" type="1" volume="1"/>
+		<link capacity="11" from="1" to="9"/>
+		<link capacity="15" from="1" to="10"/>
+		<link capacity="12" from="2" to="6"/>
+		<link capacity="11" from="2" to="9"/>
+		<link capacity="15" from="3" to="5"/>
+		<link capacity="13" from="3" to="10"/>
+		<link capacity="11" from="4" to="9"/>
+		<link capacity="13" from="5" to="7"/>
+		<link capacity="12" from="6" to="7"/>
+		<link capacity="11" from="7" to="9"/>
+		<link capacity="14" from="7" to="8"/>
+		<link capacity="12" from="8" to="9"/>
+		<link capacity="12" from="9" to="10"/>
+	</demand>
+	<demand id="Random">
+		<vm name="vm_0" number="1" speed="5"/>
+		<vm name="vm_1" number="2" speed="3"/>
+		<vm name="vm_2" number="3" speed="11"/>
+		<vm name="vm_3" number="4" speed="6"/>
+		<vm name="vm_4" number="5" speed="13"/>
+		<storage name="storage_0" number="6" type="1" volume="3"/>
+		<storage name="storage_1" number="7" type="1" volume="4"/>
+		<storage name="storage_2" number="8" type="1" volume="5"/>
+		<storage name="storage_3" number="9" type="1" volume="1"/>
+		<storage name="storage_4" number="10" type="1" volume="4"/>
+		<link capacity="12" from="1" to="5"/>
+		<link capacity="11" from="1" to="9"/>
+		<link capacity="15" from="2" to="3"/>
+		<link capacity="13" from="3" to="10"/>
+		<link capacity="15" from="4" to="10"/>
+		<link capacity="12" from="4" to="5"/>
+		<link capacity="11" from="5" to="10"/>
+		<link capacity="11" from="6" to="9"/>
+		<link capacity="15" from="7" to="9"/>
+		<link capacity="12" from="8" to="9"/>
+		<link capacity="14" from="8" to="10"/>
+		<link capacity="12" from="9" to="10"/>
+	</demand>
+	<demand id="Random">
+		<vm name="vm_0" number="1" speed="14"/>
+		<vm name="vm_1" number="2" speed="11"/>
+		<vm name="vm_2" number="3" speed="9"/>
+		<vm name="vm_3" number="4" speed="8"/>
+		<vm name="vm_4" number="5" speed="4"/>
+		<storage name="storage_0" number="6" type="1" volume="5"/>
+		<storage name="storage_1" number="7" type="1" volume="5"/>
+		<storage name="storage_2" number="8" type="1" volume="1"/>
+		<storage name="storage_3" number="9" type="1" volume="3"/>
+		<storage name="storage_4" number="10" type="1" volume="2"/>
+		<link capacity="15" from="1" to="2"/>
+		<link capacity="12" from="1" to="9"/>
+		<link capacity="15" from="2" to="7"/>
+		<link capacity="14" from="3" to="8"/>
+		<link capacity="14" from="4" to="5"/>
+		<link capacity="14" from="4" to="10"/>
+		<link capacity="11" from="5" to="10"/>
+		<link capacity="12" from="6" to="7"/>
+		<link capacity="14" from="7" to="9"/>
+		<link capacity="15" from="7" to="10"/>
+		<link capacity="11" from="8" to="10"/>
+		<link capacity="14" from="9" to="10"/>
+	</demand>
+	<demand id="Random">
+		<vm name="vm_0" number="1" speed="10"/>
+		<vm name="vm_1" number="2" speed="12"/>
+		<vm name="vm_2" number="3" speed="8"/>
+		<vm name="vm_3" number="4" speed="8"/>
+		<vm name="vm_4" number="5" speed="1"/>
+		<storage name="storage_0" number="6" type="1" volume="1"/>
+		<storage name="storage_1" number="7" type="1" volume="5"/>
+		<storage name="storage_2" number="8" type="1" volume="4"/>
+		<storage name="storage_3" number="9" type="1" volume="2"/>
+		<storage name="storage_4" number="10" type="1" volume="5"/>
+		<link capacity="12" from="1" to="7"/>
+		<link capacity="15" from="1" to="4"/>
+		<link capacity="12" from="2" to="10"/>
+		<link capacity="11" from="2" to="5"/>
+		<link capacity="14" from="3" to="7"/>
+		<link capacity="14" from="3" to="10"/>
+		<link capacity="13" from="4" to="5"/>
+		<link capacity="13" from="5" to="8"/>
+		<link capacity="12" from="6" to="9"/>
+		<link capacity="14" from="7" to="9"/>
+		<link capacity="13" from="8" to="9"/>
+		<link capacity="13" from="9" to="10"/>
+	</demand>
+	<demand id="Random">
+		<vm name="vm_0" number="1" speed="13"/>
+		<vm name="vm_1" number="2" speed="2"/>
+		<vm name="vm_2" number="3" speed="7"/>
+		<vm name="vm_3" number="4" speed="12"/>
+		<vm name="vm_4" number="5" speed="10"/>
+		<storage name="storage_0" number="6" type="1" volume="2"/>
+		<storage name="storage_1" number="7" type="1" volume="5"/>
+		<storage name="storage_2" number="8" type="1" volume="4"/>
+		<storage name="storage_3" number="9" type="1" volume="1"/>
+		<storage name="storage_4" number="10" type="1" volume="1"/>
+		<link capacity="12" from="1" to="3"/>
+		<link capacity="11" from="1" to="5"/>
+		<link capacity="14" from="2" to="7"/>
+		<link capacity="13" from="2" to="8"/>
+		<link capacity="15" from="3" to="8"/>
+		<link capacity="14" from="3" to="6"/>
+		<link capacity="11" from="4" to="5"/>
+		<link capacity="12" from="4" to="6"/>
+		<link capacity="12" from="5" to="6"/>
+		<link capacity="11" from="6" to="9"/>
+		<link capacity="13" from="7" to="8"/>
+		<link capacity="13" from="7" to="10"/>
+		<link capacity="11" from="8" to="9"/>
+		<link capacity="15" from="9" to="10"/>
+	</demand>
+	<demand id="Random">
+		<vm name="vm_0" number="1" speed="8"/>
+		<vm name="vm_1" number="2" speed="3"/>
+		<vm name="vm_2" number="3" speed="10"/>
+		<vm name="vm_3" number="4" speed="15"/>
+		<vm name="vm_4" number="5" speed="10"/>
+		<storage name="storage_0" number="6" type="1" volume="1"/>
+		<storage name="storage_1" number="7" type="1" volume="2"/>
+		<storage name="storage_2" number="8" type="1" volume="4"/>
+		<storage name="storage_3" number="9" type="1" volume="4"/>
+		<storage name="storage_4" number="10" type="1" volume="4"/>
+		<link capacity="13" from="1" to="6"/>
+		<link capacity="14" from="2" to="5"/>
+		<link capacity="13" from="3" to="9"/>
+		<link capacity="14" from="4" to="7"/>
+		<link capacity="15" from="5" to="9"/>
+		<link capacity="13" from="6" to="7"/>
+		<link capacity="13" from="7" to="8"/>
+		<link capacity="15" from="8" to="10"/>
+		<link capacity="12" from="9" to="10"/>
+	</demand>
+</dcxml>
