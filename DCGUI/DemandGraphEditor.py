@@ -70,8 +70,7 @@ class DemandGraphEditor(QMainWindow):
         name = QFileDialog.getOpenFileName(filter="*.xml")
         if name == None or name == '':
             return
-        #TODO loading from XML
-        #self.demand.LoadFromXML(name)
+        self.demand.LoadFromXml(name)
         self.canvas.Clear()
         self.canvas.Visualize(self.demand)
         self.canvas.changed = True
