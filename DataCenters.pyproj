@@ -36,8 +36,8 @@
     <Compile Include="Core\__init__.py" />
     <Compile Include="DCGUI.py" />
     <Compile Include="DCGUI\MainWindow.py" />
-    <Compile Include="DCGUI\GraphEditor.py" />
-    <Compile Include="DCGUI\GraphCanvas.py" />
+    <Compile Include="DCGUI\ResourcesGraphEditor.py" />
+    <Compile Include="DCGUI\ResourcesGraphCanvas.py" />
     <Compile Include="DCGUI\Project.py" />
     <Compile Include="DCGUI\RandomDemandDialog.py" />
     <Compile Include="DCGUI\__init__.py" />

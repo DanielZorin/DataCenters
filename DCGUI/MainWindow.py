@@ -1,7 +1,7 @@
 from PyQt4.QtGui import QMainWindow, qApp, QListWidgetItem, QDialog
 from PyQt4.QtCore import Qt
 from DCGUI.Windows.ui_MainWindow import Ui_MainWindow
-from DCGUI.GraphEditor import GraphEditor
+from DCGUI.ResourcesGraphEditor import ResourcesGraphEditor
 from DCGUI.RandomDemandDialog import RandomDemandDialog
 from DCGUI.Project import Project
 
@@ -13,9 +13,9 @@ class MainWindow(QMainWindow):
         QMainWindow.__init__(self)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.graphEditor = GraphEditor()
+        self.resourcesGraphEditor = ResourcesGraphEditor()
         self.project = Project()
-        self.graphEditor.setData(self.project.resources)
+        self.resourcesGraphEditor.setData(self.project.resources)
 
 
     def NewProject(self):
@@ -40,8 +40,8 @@ class MainWindow(QMainWindow):
         pass
 
     def EditProgram(self):
-        self.graphEditor.show()
-        while self.graphEditor.isVisible():
+        self.resourcesGraphEditor.show()
+        while self.resourcesGraphEditor.isVisible():
             qApp.processEvents()
 
     def AddDemand(self):

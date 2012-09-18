@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>GraphEditor</class>
- <widget class="QMainWindow" name="GraphEditor">
+ <class>ResourcesGraphEditor</class>
+ <widget class="QMainWindow" name="ResourcesGraphEditor">
   <property name="windowModality">
    <enum>Qt::ApplicationModal</enum>
   </property>
@@ -243,7 +243,7 @@ QLabel, QSlider {
   <connection>
    <sender>actionSelect</sender>
    <signal>triggered()</signal>
-   <receiver>GraphEditor</receiver>
+   <receiver>ResourcesGraphEditor</receiver>
    <slot>toggleSelect()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -259,7 +259,7 @@ QLabel, QSlider {
   <connection>
    <sender>actionComputer</sender>
    <signal>triggered()</signal>
-   <receiver>GraphEditor</receiver>
+   <receiver>ResourcesGraphEditor</receiver>
    <slot>toggleComputer()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -275,7 +275,7 @@ QLabel, QSlider {
   <connection>
    <sender>actionEdge</sender>
    <signal>triggered()</signal>
-   <receiver>GraphEditor</receiver>
+   <receiver>ResourcesGraphEditor</receiver>
    <slot>toggleEdge()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -291,7 +291,7 @@ QLabel, QSlider {
   <connection>
    <sender>actionNew_System</sender>
    <signal>triggered()</signal>
-   <receiver>GraphEditor</receiver>
+   <receiver>ResourcesGraphEditor</receiver>
    <slot>New()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -307,7 +307,7 @@ QLabel, QSlider {
   <connection>
    <sender>actionOpen_System</sender>
    <signal>triggered()</signal>
-   <receiver>GraphEditor</receiver>
+   <receiver>ResourcesGraphEditor</receiver>
    <slot>Open()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -323,7 +323,7 @@ QLabel, QSlider {
   <connection>
    <sender>actionSave_System</sender>
    <signal>triggered()</signal>
-   <receiver>GraphEditor</receiver>
+   <receiver>ResourcesGraphEditor</receiver>
    <slot>Save()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -339,7 +339,7 @@ QLabel, QSlider {
   <connection>
    <sender>actionSave_System_As</sender>
    <signal>triggered()</signal>
-   <receiver>GraphEditor</receiver>
+   <receiver>ResourcesGraphEditor</receiver>
    <slot>SaveAs()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -355,7 +355,7 @@ QLabel, QSlider {
   <connection>
    <sender>actionExit</sender>
    <signal>triggered()</signal>
-   <receiver>GraphEditor</receiver>
+   <receiver>ResourcesGraphEditor</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -371,7 +371,7 @@ QLabel, QSlider {
   <connection>
    <sender>actionStorage</sender>
    <signal>triggered()</signal>
-   <receiver>GraphEditor</receiver>
+   <receiver>ResourcesGraphEditor</receiver>
    <slot>toggleStorage()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -387,7 +387,7 @@ QLabel, QSlider {
   <connection>
    <sender>actionRouter</sender>
    <signal>triggered()</signal>
-   <receiver>GraphEditor</receiver>
+   <receiver>ResourcesGraphEditor</receiver>
    <slot>toggleRouter()</slot>
    <hints>
     <hint type="sourcelabel">

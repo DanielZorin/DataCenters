@@ -1,15 +1,15 @@
 from PyQt4.QtGui import QMainWindow, QFileDialog
-from DCGUI.Windows.ui_GraphEditor import Ui_GraphEditor
-from DCGUI.GraphCanvas import GraphCanvas, State
+from DCGUI.Windows.ui_ResourcesGraphEditor import Ui_ResourcesGraphEditor
+from DCGUI.ResourcesGraphCanvas import ResourcesGraphCanvas, State
 
-class GraphEditor(QMainWindow):
+class ResourcesGraphEditor(QMainWindow):
     xmlfile = None
 
     def __init__(self):
         QMainWindow.__init__(self)
-        self.ui = Ui_GraphEditor()
+        self.ui = Ui_ResourcesGraphEditor()
         self.ui.setupUi(self)
-        self.canvas = GraphCanvas(self.ui.graphArea)
+        self.canvas = ResourcesGraphCanvas(self.ui.graphArea)
         self.ui.graphArea.setWidget(self.canvas)
 
     def setData(self, data):

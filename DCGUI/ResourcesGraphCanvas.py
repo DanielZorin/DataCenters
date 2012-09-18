@@ -81,7 +81,7 @@ class State:
     Router = 3
     Edge = 4
 
-class GraphCanvas(QWidget):
+class ResourcesGraphCanvas(QWidget):
     resources = None
     vertices = {}
     edges = {}
