@@ -5,6 +5,7 @@ from DCGUI.ResourcesGraphEditor import ResourcesGraphEditor
 from DCGUI.DemandGraphEditor import DemandGraphEditor
 from DCGUI.RandomDemandDialog import RandomDemandDialog
 from DCGUI.Project import Project
+from Core.Resources import Storage
 
 class MainWindow(QMainWindow):
     project = None
@@ -98,6 +99,11 @@ class MainWindow(QMainWindow):
         d.exec_()
         if d.result() == QDialog.Accepted: 
             dict = d.GetResult()
+            max_type = 0
+            for v in self.project.resources.vertices:
+                if isinstance(v,Storage) and (v.type > max_type):
+                    max_type = v.type
+            dict["max_type"] = int(max_type)
             for i in range(dict["n"]):
                 demand = self.project.CreateRandomDemand(dict)
                 it = QListWidgetItem(demand.id, self.ui.demands)

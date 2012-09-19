@@ -14,8 +14,8 @@ class RandomDemandDialog(QDialog):
                 "vm_max":int(self.ui.t2.text()), 
                 "st_min":int(self.ui.v1.text()), 
                 "st_max":int(self.ui.v2.text()),
-                "vms": 5,
-                "storages": 5,
-                "cap_min": 11,
-                "cap_max": 15
+                "vms": int(self.ui.vms.text()),
+                "storages": int(self.ui.storages.text()),
+                "cap_min": int(self.ui.c1.text()),
+                "cap_max": int(self.ui.c2.text())
                 }

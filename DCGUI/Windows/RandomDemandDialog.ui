@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>275</width>
-    <height>197</height>
+    <width>319</width>
+    <height>327</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -71,6 +71,13 @@ QLabel, QSlider {
              </widget>
             </item>
             <item>
+             <widget class="QLabel" name="label_6">
+              <property name="text">
+               <string>Number of VMs</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QLabel" name="label_3">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -93,6 +100,13 @@ QLabel, QSlider {
               </property>
               <property name="text">
                <string>Maximal time</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_7">
+              <property name="text">
+               <string>Number of storages</string>
               </property>
              </widget>
             </item>
@@ -122,6 +136,20 @@ QLabel, QSlider {
               </property>
              </widget>
             </item>
+            <item>
+             <widget class="QLabel" name="label_9">
+              <property name="text">
+               <string>Mininal capacity</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_10">
+              <property name="text">
+               <string>Maximal capacity</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
           <item>
@@ -133,6 +161,13 @@ QLabel, QSlider {
              <widget class="QLineEdit" name="n">
               <property name="text">
                <string>10</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="vms">
+              <property name="text">
+               <string>5</string>
               </property>
              </widget>
             </item>
@@ -151,6 +186,13 @@ QLabel, QSlider {
              </widget>
             </item>
             <item>
+             <widget class="QLineEdit" name="storages">
+              <property name="text">
+               <string>5</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QLineEdit" name="v1">
               <property name="text">
                <string>1</string>
@@ -161,6 +203,20 @@ QLabel, QSlider {
              <widget class="QLineEdit" name="v2">
               <property name="text">
                <string>5</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="c1">
+              <property name="text">
+               <string>11</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="c2">
+              <property name="text">
+               <string>15</string>
               </property>
              </widget>
             </item>
