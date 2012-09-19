@@ -145,10 +145,6 @@ class ResourcesGraphCanvas(QWidget):
 
     def Visualize(self, r):
         self.resources = r
-        x = 50
-        y = 50
-        maxi = 40 * int(math.sqrt(len(self.resources.vertices)))
-        maxx = 0
         for v in self.resources.vertices:
             task = Vert()
             if isinstance(v, Computer):
@@ -157,13 +153,7 @@ class ResourcesGraphCanvas(QWidget):
                 task.type = 1
             elif isinstance(v, Router):
                 task.type = 2
-            task.rect = QtCore.QRect(x - self.size / 2, y - self.size / 2, self.size, self.size)
-            if x < maxi:
-                x += 40
-                maxx = x
-            else:
-                y += 40
-                x = 50
+            task.rect = QtCore.QRect(v.x - self.size / 2, v.y - self.size / 2, self.size, self.size)
             self.vertices[v] = task
         self.ResizeCanvas()
         self.repaint()
@@ -363,3 +353,9 @@ class ResourcesGraphCanvas(QWidget):
         self.edgeDraw = False
         self.curEdge = None
         self.selectedEdge = None
+
+    def updatePos(self):
+        for v in self.vertices.keys():
+            task = self.vertices[v]
+            v.x = task.rect.x() + self.size/2
+            v.y = task.rect.y() + self.size/2

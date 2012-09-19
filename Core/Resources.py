@@ -45,8 +45,8 @@ class ResourceGraph(AbstractGraph):
             elif isinstance(v, Router):
                 tag = dom.createElement("router")
             if v.x:
-                tag.setAttribute("x", v.x)
-                tag.setAttribute("y", v.y)
+                tag.setAttribute("x", str(v.x))
+                tag.setAttribute("y", str(v.y))
             tag.setAttribute("number", str(v.number))
             tag.setAttribute("name", str(v.id))
             root.appendChild(tag)
@@ -92,9 +92,9 @@ class ResourceGraph(AbstractGraph):
             x = vertex.getAttribute("x")
             y = vertex.getAttribute("y")
             if x != '':
-                v.x = int(x)
+                v.x = float(x)
             if y != '':
-                v.y = int(y)
+                v.y = float(y)
             v.number = number
             self.vertices.append(v)
 

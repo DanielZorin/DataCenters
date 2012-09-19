@@ -1,4 +1,4 @@
-import random, xml.dom.minidom
+import random, xml.dom.minidom, math
 from Core.AbstractGraph import AbstractGraph, AbstractVertex
 
 class VM(AbstractVertex):
@@ -25,12 +25,32 @@ class Demand(AbstractGraph):
         self.id = id
 
     def GenerateRandom(self, params):
+        x = 50
+        y = 50
+        maxi = 40 * int(math.sqrt(params["vms"] + params["storages"]))
+        maxx = 0
         for i in range(params["vms"]):
             v = VM("vm_" + str(i), random.randint(params["vm_min"], params["vm_max"]))
+            v.x = x
+            v.y = y
             self.AddVertex(v)
+            if x < maxi:
+                x += 40
+                maxx = x
+            else:
+                y += 40
+                x = 50
         for i in range(params["storages"]):
             v = DemandStorage("storage_" + str(i), random.randint(params["st_min"], params["st_max"]), 1)
+            v.x = x
+            v.y = y
             self.AddVertex(v)
+            if x < maxi:
+                x += 40
+                maxx = x
+            else:
+                y += 40
+                x = 50
         for i in range(len(self.vertices) - 1):
             for j in range(random.randint(1, 2)):
                 src = self.vertices[i]
@@ -58,8 +78,8 @@ class Demand(AbstractGraph):
                 tag.setAttribute("volume", str(v.volume))
                 tag.setAttribute("type", str(v.type))
             if v.x:
-                tag.setAttribute("x", v.x)
-                tag.setAttribute("y", v.y)
+                tag.setAttribute("x", str(v.x))
+                tag.setAttribute("y", str(v.y))
             tag.setAttribute("number", str(v.number))
             tag.setAttribute("name", str(v.id))
             root.appendChild(tag)
@@ -101,9 +121,9 @@ class Demand(AbstractGraph):
             x = vertex.getAttribute("x")
             y = vertex.getAttribute("y")
             if x != '':
-                v.x = int(x)
+                v.x = float(x)
             if y != '':
-                v.y = int(y)
+                v.y = float(y)
             v.number = number
             self.vertices.append(v)
 

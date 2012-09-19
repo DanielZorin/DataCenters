@@ -1,6 +1,6 @@
 class AbstractVertex:
-    x = None
-    y = None
+    x = 50
+    y = 50
     number = -1
 
     def __init__(self, id):

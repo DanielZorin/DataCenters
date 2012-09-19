@@ -1,4 +1,4 @@
-from PyQt4.QtGui import QMainWindow, qApp, QListWidgetItem, QDialog, QFileDialog
+from PyQt4.QtGui import QMainWindow, qApp, QListWidgetItem, QDialog, QFileDialog, QMessageBox
 from PyQt4.QtCore import Qt
 from DCGUI.Windows.ui_MainWindow import Ui_MainWindow
 from DCGUI.ResourcesGraphEditor import ResourcesGraphEditor

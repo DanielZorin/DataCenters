@@ -89,6 +89,7 @@ class ResourcesGraphEditor(QMainWindow):
         self.xmlfile = name
 
     def Save(self):
+        self.canvas.updatePos()
         if self.xmlfile == None:
             self.SaveAs()
         else:
@@ -97,8 +98,12 @@ class ResourcesGraphEditor(QMainWindow):
             output.close()
 
     def SaveAs(self):
+        self.canvas.updatePos()
         self.xmlfile = QFileDialog.getSaveFileName(directory=".xml", filter="*.xml")
         if self.xmlfile != '':
             output = open(self.xmlfile, 'w')
             output.write(self.resources.ExportToXml())
             output.close()
+
+    def closeEvent(self, e):
+        self.canvas.updatePos()

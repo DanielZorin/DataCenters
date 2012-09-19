@@ -1,17 +1,17 @@
 <?xml version="1.0" ?>
 <resources>
-	<storage name="1" number="1" type="1" volume="2"/>
-	<computer name="1" number="2" speed="2"/>
-	<router name="1" number="3"/>
-	<storage name="1" number="4" type="2" volume="2"/>
-	<computer name="1" number="5" speed="2"/>
-	<router name="1" number="6"/>
-	<storage name="1" number="7" type="1" volume="2"/>
-	<storage name="1" number="8" type="2" volume="2"/>
-	<computer name="1" number="9" speed="2"/>
-	<computer name="1" number="10" speed="2"/>
-	<router name="1" number="11"/>
-	<router name="1" number="12"/>
+	<storage name="1" number="1" type="1" volume="2" x="24.5" y="16.5"/>
+	<computer name="1" number="2" speed="2" x="101.5" y="22.5"/>
+	<router name="1" number="3" x="382.5" y="15.5"/>
+	<storage name="1" number="4" type="2" volume="2" x="49.5" y="89.5"/>
+	<computer name="1" number="5" speed="2" x="245.5" y="92.5"/>
+	<router name="1" number="6" x="369.5" y="195.5"/>
+	<storage name="1" number="7" type="1" volume="2" x="23.5" y="132.5"/>
+	<storage name="1" number="8" type="2" volume="2" x="170.5" y="209.5"/>
+	<computer name="1" number="9" speed="2" x="325.5" y="87.5"/>
+	<computer name="1" number="10" speed="2" x="12.5" y="199.5"/>
+	<router name="1" number="11" x="76.5" y="207.5"/>
+	<router name="1" number="12" x="221.5" y="206.5"/>
 	<link capacity="1" from="8" to="7"/>
 	<link capacity="1" from="5" to="6"/>
 	<link capacity="2" from="3" to="4"/>
