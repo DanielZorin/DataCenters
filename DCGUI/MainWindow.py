@@ -1,32 +1,50 @@
-from PyQt4.QtGui import QMainWindow, qApp, QListWidgetItem, QDialog, QFileDialog, QMessageBox
-from PyQt4.QtCore import Qt
+from PyQt4.QtGui import QMainWindow, qApp, QListWidgetItem, QDialog, QFileDialog, QMessageBox, QAction, QKeySequence
+from PyQt4.QtCore import Qt, QObject, SIGNAL, QSettings
 from DCGUI.Windows.ui_MainWindow import Ui_MainWindow
 from DCGUI.ResourcesGraphEditor import ResourcesGraphEditor
 from DCGUI.DemandGraphEditor import DemandGraphEditor
 from DCGUI.RandomDemandDialog import RandomDemandDialog
 from DCGUI.Project import Project
 from Core.Resources import Storage
+import os
 
 class MainWindow(QMainWindow):
     project = None
     projectFile = None
     demands = {}
 
+    MaxRecentFiles = 10
+    ''' Limit on the number of items in recent files list'''
+
+    recentFileActions = []
+    ''' Recent files list'''
+
     def __init__(self):
         QMainWindow.__init__(self)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.settings = QSettings("LVK Inc", "DataCenters")   
         self.projFilter = self.tr("Data centers projects (*.dcxml)")
         self.resourcesGraphEditor = ResourcesGraphEditor()
         self.demandGraphEditor = DemandGraphEditor()
         self.project = Project()
         self.resourcesGraphEditor.setData(self.project.resources)
+        for i in range(self.MaxRecentFiles):
+            a = QAction(self)
+            a.setVisible(False)
+            a.setEnabled(False)
+            if i <= 9:
+                a.setShortcut(QKeySequence(self.tr("Alt+") + str(i + 1)))
+            QObject.connect(a, SIGNAL("triggered()"), self.OpenRecentFile);
+            self.ui.menuFile.insertAction(self.ui.actionExit, a)
+            self.recentFileActions.append(a)
+        self.UpdateRecentFileActions()
 
     def NewProject(self):
         pass
     
     def OpenProject(self):
-        name = str(QFileDialog.getOpenFileName(filter=self.projFilter))
+        name = unicode(QFileDialog.getOpenFileName(filter=self.projFilter))
         if name == None or name == '':
             return
         self.OpenProjectFromFile(name)
@@ -48,20 +66,30 @@ class MainWindow(QMainWindow):
             it = QListWidgetItem(d.id, self.ui.demands)
             it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
             self.demands[it] = d
-        #self.AddToRecent(name, self.project.name)
+        self.UpdateRecentFiles()
+
+    def OpenRecentFile(self):
+        ''' Opens a project from recent files list'''
+        text = unicode(self.sender().data().toString())
+        if os.path.exists(text):
+            self.OpenProjectFromFile(text)
+            self.UpdateRecentFiles()
+        else:
+            QMessageBox.critical(self, "Error", "Project not found")
+            self.RemoveFromRecentFiles(text)
     
     def SaveProject(self):
         if self.projectFile == None:
             self.SaveProjectAs()
         else:
             self.project.Save(self.projectFile)
-            #self.AddToRecent(self.projectFile, self.project.name)
+            self.UpdateRecentFiles()
     
     def SaveProjectAs(self):
-        self.projectFile = str(QFileDialog.getSaveFileName(directory=self.project.name + ".dcxml", filter=self.projFilter))
+        self.projectFile = unicode(QFileDialog.getSaveFileName(directory=self.project.name + ".dcxml", filter=self.projFilter))
         if self.projectFile != '':
             self.project.Save(self.projectFile)
-            #self.AddToRecent(self.projectFile, self.project.name)
+            self.UpdateRecentFiles()
 
     def Run(self):
         pass
@@ -86,7 +114,7 @@ class MainWindow(QMainWindow):
 
     def RenameDemand(self, item):
         if item in self.demands:
-            self.demands[item].id = str(item.text())
+            self.demands[item].id = unicode(item.text())
 
     def EditDemand(self):
         if (self.demands == {}) or (self.ui.demands.currentItem() == None):
@@ -115,4 +143,38 @@ class MainWindow(QMainWindow):
 
     def Exit(self):
         pass
+
+    def RemoveFromRecentFiles(self, s):
+        ''' Removes an item from recent files list'''
+        files = self.settings.value("recentFileList").toStringList();
+        files.removeAll(s);
+        self.settings.setValue("recentFileList", files);
+        self.UpdateRecentFileActions()
+
+    def UpdateRecentFiles(self):
+        ''' Updates the recent files list to keep the chronological order'''
+        files = self.settings.value("recentFileList").toStringList();
+        files.removeAll(self.projectFile);
+        files.prepend(self.projectFile);
+        while files.count() > self.MaxRecentFiles:
+            files.removeLast()
+
+        self.settings.setValue("recentFileList", files);
+        self.UpdateRecentFileActions()
+
+    def UpdateRecentFileActions(self):
+        ''' Updates the list of QActions for recent files'''
+        files = self.settings.value("recentFileList").toStringList();
+        numRecentFiles = min(files.count(), self.MaxRecentFiles);
+
+        for i in range(self.MaxRecentFiles):
+            if i < numRecentFiles:
+                text = self.tr("&%1: %2").arg(i + 1).arg(os.path.basename(unicode(files[i]))[:-6])
+                self.recentFileActions[i].setText(text)
+                self.recentFileActions[i].setData(files[i])
+                self.recentFileActions[i].setVisible(True)
+                self.recentFileActions[i].setEnabled(True)
+            else:
+                self.recentFileActions[i].setVisible(False)
+                self.recentFileActions[i].setEnabled(False)
 
