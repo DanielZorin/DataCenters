@@ -1,9 +1,11 @@
+from PyQt4.QtCore import QObject, pyqtSignal
 from PyQt4.QtGui import QMainWindow, QFileDialog
 from DCGUI.Windows.ui_DemandGraphEditor import Ui_DemandGraphEditor
 from DCGUI.DemandGraphCanvas import DemandGraphCanvas, State
 
 class DemandGraphEditor(QMainWindow):
     xmlfile = None
+    id_changed = pyqtSignal()
 
     def __init__(self):
         QMainWindow.__init__(self)
@@ -11,9 +13,11 @@ class DemandGraphEditor(QMainWindow):
         self.ui.setupUi(self)
         self.canvas = DemandGraphCanvas(self.ui.graphArea)
         self.ui.graphArea.setWidget(self.canvas)
+        self.basename = self.windowTitle()
 
     def setData(self, data):
         self.demand = data
+        self.setWindowTitle(self.demand.id + " - " + self.basename)
         self.canvas.Clear()
         self.canvas.Visualize(self.demand)
 
@@ -72,6 +76,8 @@ class DemandGraphEditor(QMainWindow):
         if name == None or name == '':
             return
         self.demand.LoadFromXml(name)
+        self.setWindowTitle(self.demand.id + " - " + self.basename)
+        self.id_changed.emit()
         self.canvas.Clear()
         self.canvas.Visualize(self.demand)
         self.canvas.changed = True

@@ -41,6 +41,7 @@ class MainWindow(QMainWindow):
         self.UpdateRecentFileActions()
         self.basename = self.windowTitle()
         self.setWindowTitle("Untitled" + " - " + self.basename)
+        self.demandGraphEditor.id_changed.connect(self.demandIdChanged)
 
     def NewProject(self):
         self.project = Project()
@@ -126,7 +127,6 @@ class MainWindow(QMainWindow):
         self.project.RemoveDemand(self.demands[item])
         del self.demands[item]
         self.ui.demands.takeItem(row)
-        
 
     def RenameDemand(self, item):
         if item in self.demands:
@@ -194,3 +194,6 @@ class MainWindow(QMainWindow):
                 self.recentFileActions[i].setVisible(False)
                 self.recentFileActions[i].setEnabled(False)
 
+    def demandIdChanged(self):
+        it = self.ui.demands.currentItem()
+        it.setText(self.demands[it].id)
