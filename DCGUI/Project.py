@@ -1,5 +1,6 @@
 from Core.Resources import ResourceGraph
 from Core.Demands import Demand
+from Methods.RandomMethod import RandomMethod
 import xml.dom.minidom
 
 def GetNumber():
@@ -18,6 +19,7 @@ class Project:
     def __init__(self):
         self.resources = ResourceGraph()
         self.demands = []
+        self.method = RandomMethod(self.resources, self.demands)
 
     def CreateDemand(self):
         d = Demand("")
@@ -61,3 +63,4 @@ class Project:
                         d = self.CreateDemand()
                         d.LoadFromXmlNode(node)
         f.close()
+        self.method = RandomMethod(self.resources, self.demands)

@@ -28,6 +28,7 @@
     <Folder Include="Core\" />
     <Folder Include="DCGUI\" />
     <Folder Include="DCGUI\Windows\" />
+    <Folder Include="Methods" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\AbstractGraph.py" />
@@ -43,6 +44,8 @@
     <Compile Include="DCGUI\Project.py" />
     <Compile Include="DCGUI\RandomDemandDialog.py" />
     <Compile Include="DCGUI\__init__.py" />
+    <Compile Include="Methods\RandomMethod.py" />
+    <Compile Include="Methods\__init__.py" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
 </Project>
