@@ -16,6 +16,9 @@ class Project:
         self.demands.append(d)
         return d
 
+    def RemoveDemand(self,d):
+        self.demands.remove(d)
+
     def CreateRandomDemand(self, dict):
         d = self.CreateDemand()
         d.id = "Random"
