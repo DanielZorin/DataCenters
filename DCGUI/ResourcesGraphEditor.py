@@ -11,6 +11,8 @@ class ResourcesGraphEditor(QMainWindow):
         self.ui.setupUi(self)
         self.canvas = ResourcesGraphCanvas(self.ui.graphArea)
         self.ui.graphArea.setWidget(self.canvas)
+        self.basename = self.windowTitle()
+        self.setWindowTitle("Untitled" + " - " + self.basename)
 
     def setData(self, data):
         self.resources = data
@@ -77,6 +79,7 @@ class ResourcesGraphEditor(QMainWindow):
         self.canvas.Visualize(self.resources)
         self.canvas.changed = True
         self.xmlfile = None
+        self.setWindowTitle("Untitled" + " - " + self.basename)
 
     def Open(self):
         name = QFileDialog.getOpenFileName(filter="*.xml")
@@ -87,6 +90,7 @@ class ResourcesGraphEditor(QMainWindow):
         self.canvas.Visualize(self.resources)
         self.canvas.changed = True
         self.xmlfile = name
+        self.setWindowTitle(str(self.xmlfile).split('/').pop().split('.')[0] + " - " + self.basename)
 
     def Save(self):
         self.canvas.updatePos()
@@ -104,6 +108,7 @@ class ResourcesGraphEditor(QMainWindow):
             output = open(self.xmlfile, 'w')
             output.write(self.resources.ExportToXml())
             output.close()
+            self.setWindowTitle(str(self.xmlfile).split('/').pop().split('.')[0] + " - " + self.basename)
 
     def closeEvent(self, e):
         self.canvas.updatePos()

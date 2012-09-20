@@ -39,6 +39,8 @@ class MainWindow(QMainWindow):
             self.ui.menuFile.insertAction(self.ui.actionExit, a)
             self.recentFileActions.append(a)
         self.UpdateRecentFileActions()
+        self.basename = self.windowTitle()
+        self.setWindowTitle("Untitled" + " - " + self.basename)
 
     def NewProject(self):
         pass
@@ -59,7 +61,6 @@ class MainWindow(QMainWindow):
             QMessageBox.critical(self, self.tr("An error occured"), self.tr("File is not a valid project file: ") + name)
             return
         self.projectFile = name
-
         self.resourcesGraphEditor.setData(self.project.resources)
         self.ui.demands.clear()
         for d in self.project.demands:
@@ -67,6 +68,7 @@ class MainWindow(QMainWindow):
             it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
             self.demands[it] = d
         self.UpdateRecentFiles()
+        self.setWindowTitle(self.projectFile.split('/').pop().split('.')[0] + " - " + self.basename)
 
     def OpenRecentFile(self):
         ''' Opens a project from recent files list'''
@@ -90,6 +92,7 @@ class MainWindow(QMainWindow):
         if self.projectFile != '':
             self.project.Save(self.projectFile)
             self.UpdateRecentFiles()
+        self.setWindowTitle(self.projectFile.split('/').pop().split('.')[0] + " - " + self.basename)
 
     def Run(self):
         pass
@@ -108,6 +111,7 @@ class MainWindow(QMainWindow):
         it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
         self.demands[it] = d
         self.ui.demands.editItem(it)
+        self.demands[it].id = unicode(it.text())
 
     def DeleteDemand(self):
         pass
