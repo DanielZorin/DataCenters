@@ -43,7 +43,12 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Untitled" + " - " + self.basename)
 
     def NewProject(self):
-        pass
+        self.project = Project()
+        self.resourcesGraphEditor.setData(self.project.resources)
+        self.projectFile = None
+        self.demands = {}
+        self.ui.demands.clear()
+        self.setWindowTitle("Untitled" + " - " + self.basename)
     
     def OpenProject(self):
         name = unicode(QFileDialog.getOpenFileName(filter=self.projFilter))

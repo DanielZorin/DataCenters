@@ -16,6 +16,7 @@ class ResourcesGraphEditor(QMainWindow):
 
     def setData(self, data):
         self.resources = data
+        self.canvas.Clear()
         self.canvas.Visualize(self.resources)
 
     def toggleSelect(self):
