@@ -2,6 +2,14 @@ from Core.Resources import ResourceGraph
 from Core.Demands import Demand
 import xml.dom.minidom
 
+def GetNumber():
+    i = 0
+    while True:
+        i += 1
+        yield i
+
+numbers = GetNumber()
+
 class Project:
     resources = None
     demands = []
@@ -21,7 +29,7 @@ class Project:
 
     def CreateRandomDemand(self, dict):
         d = self.CreateDemand()
-        d.id = "Random"
+        d.id = "Random_" + str(numbers.next())
         d.GenerateRandom(dict)
         return d
 
