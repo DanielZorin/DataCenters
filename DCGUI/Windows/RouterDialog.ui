@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>231</width>
-    <height>100</height>
+    <height>145</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -58,6 +58,16 @@ QLabel, QSlider {
         </widget>
        </item>
       </layout>
+     </item>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Capacity</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="capacity"/>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_3"/>

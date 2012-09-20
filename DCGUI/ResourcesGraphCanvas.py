@@ -54,9 +54,11 @@ class RouterDialog(QDialog):
         
     def Load(self, v):
         self.ui.id.setText(v.id)
+        self.ui.capacity.setText(str(v.capacity))
         
     def SetResult(self, v):
         v.id = self.ui.id.text()
+        v.capacity = self.ui.capacity.text()
         
 
 class EdgeDialog(QDialog):
@@ -268,7 +270,7 @@ class ResourcesGraphCanvas(QWidget):
             task = Vert()
             task.rect = QtCore.QRect(e.x() - self.size / 2, e.y() - self.size / 2, self.size, self.size)
             task.type = 2
-            router = Router("id")
+            router = Router("id", 0)
             self.vertices[router] = task
             self.resources.AddVertex(router)
             self.changed = True

@@ -13,8 +13,9 @@ class Computer(AbstractVertex):
         self.speed = speed
 
 class Router(AbstractVertex):
-    def __init__(self, id):
+    def __init__(self, id, capacity):
         AbstractVertex.__init__(self, id)
+        self.capacity = capacity
 
 class Link:
     def __init__(self, e1, e2, capacity):
@@ -44,6 +45,7 @@ class ResourceGraph(AbstractGraph):
                 tag.setAttribute("type", str(v.type))
             elif isinstance(v, Router):
                 tag = dom.createElement("router")
+                tag.setAttribute("capacity", str(v.capacity))
             if v.x:
                 tag.setAttribute("x", str(v.x))
                 tag.setAttribute("y", str(v.y))
@@ -88,7 +90,8 @@ class ResourceGraph(AbstractGraph):
                 type = int(vertex.getAttribute("type"))
                 v = Storage(name, volume, type)
             elif vertex.nodeName == "router":
-                v = Router(name)
+                capacity = int(vertex.getAttribute("capacity"))
+                v = Router(name,capacity)
             x = vertex.getAttribute("x")
             y = vertex.getAttribute("y")
             if x != '':
