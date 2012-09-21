@@ -60,12 +60,12 @@ class MainWindow(QMainWindow):
     def OpenProjectFromFile(self, name):
         self.project = Project()
         
-        try:
-            self.project.Load(name)
-        except :
+        #try:
+        self.project.Load(name)
+        #except :
             # TODO: proper exceptioning
-            QMessageBox.critical(self, self.tr("An error occured"), self.tr("File is not a valid project file: ") + name)
-            return
+        #    QMessageBox.critical(self, self.tr("An error occured"), self.tr("File is not a valid project file: ") + name)
+        #    return
         self.projectFile = name
         self.resourcesGraphEditor.setData(self.project.resources)
         self.ui.demands.clear()

@@ -111,3 +111,25 @@ class ResourceGraph(AbstractGraph):
                 cap = int(edge.getAttribute("capacity"))
                 e = Link(self.vertices[source-1], self.vertices[destination-1], cap)
                 self.edges.append(e)
+
+        self._buildPaths()
+
+    def FindPath(self, v1, v2):
+        if not self.PathExists(v1, v2):
+            return
+        comp = self.compdict[v1]
+        paths = [[v1]]
+        while True:
+            newpaths = []
+            for p in paths:
+                last = p[len(p)-1]
+                links = self.FindAllEdges(v1=last)
+                for e in links:
+                    other = e.e2 if e.e1 == last else e.e1
+                    if v2 == other:
+                        yield p + [e, v2]
+                    if True or isinstance(other, Router):
+                        pass
+                        if len(p)== 1 or ((len(p) >= 3) and (p[-3] != other)):
+                            newpaths.append(p + [e, other])
+            paths = newpaths
