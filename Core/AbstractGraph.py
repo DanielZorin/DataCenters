@@ -71,7 +71,7 @@ class AbstractGraph:
                     for e in links:
                         if e.e1 != v:
                             newcomp.add(e.e1)
-                        if e.e2 != v2:
+                        if e.e2 != v:
                             newcomp.add(e.e2)
                 if len(newcomp) == len(comp):
                     break

@@ -4,4 +4,6 @@ class RandomMethod:
         self.demands = demands
 
     def Run(self):
-        pass
+        g = self.resources.FindPath(self.resources.vertices[0], self.resources.vertices[1])
+        p = g.next()
+        x = 9
