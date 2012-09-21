@@ -27,6 +27,8 @@ class AbstractGraph:
             else:
                 del e
         self.edges = new_edges
+        for v in self.vertices[ind:]:
+            v.number -= 1
         del self.vertices[ind]
 
     def DeleteEdge(self, ed):
