@@ -23,6 +23,8 @@ class Demand(AbstractGraph):
     def __init__(self, id):
         AbstractGraph.__init__(self)
         self.id = id
+        self.startTime = 0
+        self.endTime = 0
 
     def GenerateRandom(self, params):
         x = 50
@@ -69,6 +71,8 @@ class Demand(AbstractGraph):
     def CreateXml(self, dom):
         root = dom.createElement("demand")
         root.setAttribute("id", self.id)
+        root.setAttribute("start", str(self.startTime))
+        root.setAttribute("end", str(self.endTime))
         for v in self.vertices:
             if isinstance(v, VM):
                 tag = dom.createElement("vm")
@@ -103,6 +107,8 @@ class Demand(AbstractGraph):
 
     def LoadFromXmlNode(self, node):
         self.id = node.getAttribute("id")
+        self.startTime = int(node.getAttribute("start"))
+        self.endTime = int(node.getAttribute("end"))
         #Parse vertices
         for vertex in node.childNodes:
             if isinstance(vertex, xml.dom.minidom.Text):

@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<demand id="Random">
+<demand end="25" id="Random" start="20">
 	<vm name="vm_0" number="1" speed="6" x="195.5" y="58.5"/>
 	<vm name="vm_1" number="2" speed="1" x="343.5" y="101.5"/>
 	<vm name="vm_2" number="3" speed="4" x="298.5" y="41.5"/>

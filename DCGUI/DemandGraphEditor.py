@@ -18,6 +18,8 @@ class DemandGraphEditor(QMainWindow):
     def setData(self, data):
         self.demand = data
         self.setWindowTitle(self.demand.id + " - " + self.basename)
+        self.ui.startTime.setText(str(self.demand.startTime))
+        self.ui.endTime.setText(str(self.demand.endTime))
         self.canvas.Clear()
         self.canvas.Visualize(self.demand)
 
@@ -66,6 +68,10 @@ class DemandGraphEditor(QMainWindow):
     def New(self):
         self.demand.vertices = []
         self.demand.edges = []
+        self.demand.startTime = 0
+        self.demand.endTime = 0
+        self.ui.startTime.setText("0")
+        self.ui.endTime.setText("0")
         self.canvas.Clear()
         self.canvas.Visualize(self.demand)
         self.canvas.changed = True
@@ -76,6 +82,8 @@ class DemandGraphEditor(QMainWindow):
         if name == None or name == '':
             return
         self.demand.LoadFromXml(name)
+        self.ui.startTime.setText(str(self.demand.startTime))
+        self.ui.endTime.setText(str(self.demand.endTime))
         self.setWindowTitle(self.demand.id + " - " + self.basename)
         self.id_changed.emit()
         self.canvas.Clear()
@@ -84,6 +92,7 @@ class DemandGraphEditor(QMainWindow):
         self.xmlfile = name
 
     def Save(self):
+        self.changeTime()
         self.canvas.updatePos()
         if self.xmlfile == None:
             self.SaveAs()
@@ -93,6 +102,7 @@ class DemandGraphEditor(QMainWindow):
             output.close()
 
     def SaveAs(self):
+        self.changeTime()
         self.canvas.updatePos()
         self.xmlfile = QFileDialog.getSaveFileName(directory=".xml", filter="*.xml")
         if self.xmlfile != '':
@@ -102,3 +112,8 @@ class DemandGraphEditor(QMainWindow):
 
     def closeEvent(self, e):
         self.canvas.updatePos()
+        self.changeTime()
+
+    def changeTime(self):
+        self.demand.startTime = int(self.ui.startTime.text())
+        self.demand.endTime = int(self.ui.endTime.text())

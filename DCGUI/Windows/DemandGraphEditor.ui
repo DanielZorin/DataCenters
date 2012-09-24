@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>427</width>
-    <height>312</height>
+    <width>443</width>
+    <height>338</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,8 +31,28 @@ QLabel, QSlider {
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Start Time:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="startTime"/>
+    </item>
+    <item row="0" column="2">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>End Time:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="3">
+     <widget class="QLineEdit" name="endTime"/>
+    </item>
+    <item row="1" column="0" colspan="4">
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QScrollArea" name="graphArea">
@@ -60,7 +80,7 @@ QLabel, QSlider {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>427</width>
+     <width>443</width>
      <height>20</height>
     </rect>
    </property>
@@ -220,6 +240,11 @@ QLabel, QSlider {
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>graphArea</tabstop>
+  <tabstop>startTime</tabstop>
+  <tabstop>endTime</tabstop>
+ </tabstops>
  <resources>
   <include location="resources.qrc"/>
  </resources>
@@ -368,6 +393,38 @@ QLabel, QSlider {
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>startTime</sender>
+   <signal>editingFinished()</signal>
+   <receiver>DemandGraphEditor</receiver>
+   <slot>changeTime()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>144</x>
+     <y>75</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>221</x>
+     <y>168</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>endTime</sender>
+   <signal>editingFinished()</signal>
+   <receiver>DemandGraphEditor</receiver>
+   <slot>changeTime()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>357</x>
+     <y>75</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>221</x>
+     <y>168</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>toggleSelect()</slot>
@@ -378,5 +435,6 @@ QLabel, QSlider {
   <slot>Save()</slot>
   <slot>SaveAs()</slot>
   <slot>toggleDemandStorage()</slot>
+  <slot>changeTime()</slot>
  </slots>
 </ui>

@@ -27,13 +27,13 @@
 		<link capacity="0" from="9" to="12"/>
 		<link capacity="0" from="12" to="10"/>
 	</resources>
-	<demand id="ttt">
+	<demand end="10" id="ttt" start="4">
 		<storage name="id" number="1" type="0" volume="0" x="62.5" y="161.5"/>
 		<storage name="id" number="2" type="0" volume="0" x="265.5" y="50.5"/>
 		<storage name="id" number="3" type="0" volume="0" x="297.5" y="150.5"/>
 		<storage name="id" number="4" type="0" volume="0" x="49.5" y="49.5"/>
 	</demand>
-	<demand id="Random">
+	<demand end="11" id="Random" start="5">
 		<vm name="vm_0" number="1" speed="6" x="188.5" y="20.5"/>
 		<vm name="vm_1" number="2" speed="12" x="18.5" y="28.5"/>
 		<vm name="vm_2" number="3" speed="4" x="140.5" y="65.5"/>
@@ -56,7 +56,7 @@
 		<link capacity="14" from="8" to="9"/>
 		<link capacity="11" from="9" to="10"/>
 	</demand>
-	<demand id="Random">
+	<demand end="30" id="Random" start="12">
 		<vm name="vm_0" number="1" speed="7" x="227.5" y="48.5"/>
 		<vm name="vm_1" number="2" speed="4" x="226.5" y="124.5"/>
 		<vm name="vm_2" number="3" speed="10" x="80.5" y="182.5"/>
@@ -80,7 +80,7 @@
 		<link capacity="13" from="8" to="9"/>
 		<link capacity="14" from="9" to="10"/>
 	</demand>
-	<demand id="Random">
+	<demand end="0" id="Random" start="0">
 		<vm name="vm_0" number="1" speed="10" x="50.0" y="50.0"/>
 		<vm name="vm_1" number="2" speed="8" x="50.0" y="50.0"/>
 		<vm name="vm_2" number="3" speed="4" x="50.0" y="50.0"/>
@@ -103,7 +103,7 @@
 		<link capacity="14" from="8" to="9"/>
 		<link capacity="14" from="9" to="10"/>
 	</demand>
-	<demand id="Random">
+	<demand end="0" id="Random" start="0">
 		<vm name="vm_0" number="1" speed="3" x="50.0" y="50.0"/>
 		<vm name="vm_1" number="2" speed="8" x="50.0" y="50.0"/>
 		<vm name="vm_2" number="3" speed="11" x="50.0" y="50.0"/>
@@ -126,7 +126,7 @@
 		<link capacity="11" from="8" to="9"/>
 		<link capacity="14" from="9" to="10"/>
 	</demand>
-	<demand id="Random">
+	<demand end="0" id="Random" start="0">
 		<vm name="vm_0" number="1" speed="2" x="50.0" y="50.0"/>
 		<vm name="vm_1" number="2" speed="9" x="50.0" y="50.0"/>
 		<vm name="vm_2" number="3" speed="3" x="50.0" y="50.0"/>
@@ -151,7 +151,7 @@
 		<link capacity="12" from="8" to="9"/>
 		<link capacity="12" from="9" to="10"/>
 	</demand>
-	<demand id="Random">
+	<demand end="0" id="Random" start="0">
 		<vm name="vm_0" number="1" speed="5" x="50.0" y="50.0"/>
 		<vm name="vm_1" number="2" speed="3" x="50.0" y="50.0"/>
 		<vm name="vm_2" number="3" speed="11" x="50.0" y="50.0"/>
@@ -175,7 +175,7 @@
 		<link capacity="14" from="8" to="10"/>
 		<link capacity="12" from="9" to="10"/>
 	</demand>
-	<demand id="Random">
+	<demand end="0" id="Random" start="0">
 		<vm name="vm_0" number="1" speed="14" x="50.0" y="50.0"/>
 		<vm name="vm_1" number="2" speed="11" x="50.0" y="50.0"/>
 		<vm name="vm_2" number="3" speed="9" x="50.0" y="50.0"/>
@@ -199,7 +199,7 @@
 		<link capacity="11" from="8" to="10"/>
 		<link capacity="14" from="9" to="10"/>
 	</demand>
-	<demand id="Random">
+	<demand end="0" id="Random" start="0">
 		<vm name="vm_0" number="1" speed="10" x="50.0" y="50.0"/>
 		<vm name="vm_1" number="2" speed="12" x="50.0" y="50.0"/>
 		<vm name="vm_2" number="3" speed="8" x="50.0" y="50.0"/>
@@ -223,7 +223,7 @@
 		<link capacity="13" from="8" to="9"/>
 		<link capacity="13" from="9" to="10"/>
 	</demand>
-	<demand id="Random">
+	<demand end="0" id="Random" start="0">
 		<vm name="vm_0" number="1" speed="13" x="50.0" y="50.0"/>
 		<vm name="vm_1" number="2" speed="2" x="50.0" y="50.0"/>
 		<vm name="vm_2" number="3" speed="7" x="50.0" y="50.0"/>
@@ -249,7 +249,7 @@
 		<link capacity="11" from="8" to="9"/>
 		<link capacity="15" from="9" to="10"/>
 	</demand>
-	<demand id="Random">
+	<demand end="0" id="Random" start="0">
 		<vm name="vm_0" number="1" speed="8" x="50.0" y="50.0"/>
 		<vm name="vm_1" number="2" speed="3" x="50.0" y="50.0"/>
 		<vm name="vm_2" number="3" speed="10" x="50.0" y="50.0"/>
