@@ -143,11 +143,11 @@ class MainWindow(QMainWindow):
         d.exec_()
         if d.result() == QDialog.Accepted: 
             dict = d.GetResult()
-            max_type = 0
+            types = []
             for v in self.project.resources.vertices:
-                if isinstance(v,Storage) and (v.type > max_type):
-                    max_type = v.type
-            dict["max_type"] = int(max_type)
+                if isinstance(v,Storage) and (types.count(v.type)==0):
+                    types.append(v.type)
+            dict["types"] = types
             for i in range(dict["n"]):
                 demand = self.project.CreateRandomDemand(dict)
                 it = QListWidgetItem(demand.id, self.ui.demands)

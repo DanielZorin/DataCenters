@@ -43,7 +43,8 @@ class Demand(AbstractGraph):
                 y += 40
                 x = 50
         for i in range(params["storages"]):
-            v = DemandStorage("storage_" + str(i), random.randint(params["st_min"], params["st_max"]), random.randint(0, params["max_type"]))
+            t=0 if params["types"]==[] else params["types"][random.randint(0,len(params["types"])-1)]
+            v = DemandStorage("storage_" + str(i), random.randint(params["st_min"], params["st_max"]), t)
             v.x = x
             v.y = y
             self.AddVertex(v)
