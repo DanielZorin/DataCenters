@@ -128,8 +128,9 @@ class ResourceGraph(AbstractGraph):
                     other = e.e2 if e.e1 == last else e.e1
                     if v2 == other:
                         yield p + [e, v2]
-                    if True or isinstance(other, Router):
-                        pass
-                        if len(p)== 1 or ((len(p) >= 3) and (p[-3] != other)):
+                    if isinstance(other, Router):
+                        if len(p)== 1 or ((len(p) >= 3) and (p[-3] != other) and (p.count(other) == 0)):
                             newpaths.append(p + [e, other])
+            if newpaths == []:
+                break
             paths = newpaths
