@@ -85,7 +85,9 @@ class RandomMethod:
             if success:
                 break
         if iter == 1000:
-            print "Failed to assign demand"
+            print "Failed to assign demand " + demand.id
+            return False
+        return True
 
     def DropVertex(self,demand,v):
         if v.resource == None:
@@ -118,24 +120,14 @@ class RandomMethod:
             self.DropLink(demand,e)
 
     def Run(self):
-        self.AssignDemand(self.demands[0])
-        #self.DropDemand(self.demands[0])
-        for v in self.resources.vertices:
-            if isinstance(v,Computer):
-                print v.speed
-                print v.usedSpeed
-                for d in v.assignedDemands:
-                    print d[0].id
-                    print d[1].id
-            if isinstance(v,Storage):
-                print v.volume
-                print v.usedVolume
-                for d in v.assignedDemands:
-                    print d[0].id
-                    print d[1].id
-        print "///////////////////"
-        for v in self.demands[0].vertices:
-            print v.resource
-        for e in self.demands[0].edges:
-            print e.path
+        for d in self.demands:
+            self.AssignDemand(d)
+        for d in self.demands:
+            print "\n"+d.id
+            for v in d.vertices:
+                print v.resource
+            for e in d.edges:
+                print e.path
+        #for d in self.demands:
+            #self.DropDemand(d)
         

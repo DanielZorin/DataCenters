@@ -129,7 +129,10 @@ class Ui_DemandGraphEditor(object):
         QtCore.QObject.connect(self.actionExit, QtCore.SIGNAL(_fromUtf8("triggered()")), DemandGraphEditor.close)
         QtCore.QObject.connect(self.actionDemandStorage, QtCore.SIGNAL(_fromUtf8("triggered()")), DemandGraphEditor.toggleDemandStorage)
         QtCore.QObject.connect(self.startTime, QtCore.SIGNAL(_fromUtf8("editingFinished()")), DemandGraphEditor.changeTime)
+        QtCore.QObject.connect(self.endTime, QtCore.SIGNAL(_fromUtf8("editingFinished()")), DemandGraphEditor.changeTime)
         QtCore.QMetaObject.connectSlotsByName(DemandGraphEditor)
+        DemandGraphEditor.setTabOrder(self.graphArea, self.startTime)
+        DemandGraphEditor.setTabOrder(self.startTime, self.endTime)
 
     def retranslateUi(self, DemandGraphEditor):
         DemandGraphEditor.setWindowTitle(QtGui.QApplication.translate("DemandGraphEditor", "Demand Graph Editor", None, QtGui.QApplication.UnicodeUTF8))

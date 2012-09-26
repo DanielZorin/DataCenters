@@ -9,7 +9,7 @@ except AttributeError:
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.resize(396, 201)
+        MainWindow.resize(445, 201)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -37,7 +37,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addWidget(self.demands)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 396, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 445, 20))
         self.menubar.setStyleSheet(_fromUtf8(""))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuFile = QtGui.QMenu(self.menubar)
@@ -107,6 +107,16 @@ class Ui_MainWindow(object):
         icon10.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/page_edit.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionEdit_Demand.setIcon(icon10)
         self.actionEdit_Demand.setObjectName(_fromUtf8("actionEdit_Demand"))
+        self.actionShow_Results = QtGui.QAction(MainWindow)
+        icon11 = QtGui.QIcon()
+        icon11.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/line_chart.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionShow_Results.setIcon(icon11)
+        self.actionShow_Results.setObjectName(_fromUtf8("actionShow_Results"))
+        self.actionShow_Statistics = QtGui.QAction(MainWindow)
+        icon12 = QtGui.QIcon()
+        icon12.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/chart.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionShow_Statistics.setIcon(icon12)
+        self.actionShow_Statistics.setObjectName(_fromUtf8("actionShow_Statistics"))
         self.menuFile.addAction(self.actionNew_Project)
         self.menuFile.addAction(self.actionOpen_Project)
         self.menuFile.addAction(self.actionSave_Project)
@@ -133,6 +143,8 @@ class Ui_MainWindow(object):
         self.toolBar.addAction(self.actionCreate_Random_Demands)
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.actionStart)
+        self.toolBar.addAction(self.actionShow_Statistics)
+        self.toolBar.addAction(self.actionShow_Results)
         self.toolBar.addAction(self.actionSettings)
 
         self.retranslateUi(MainWindow)
@@ -150,6 +162,7 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.actionEdit_Demand, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.EditDemand)
         QtCore.QObject.connect(self.actionCreate_Random_Demands, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.RandomDemand)
         QtCore.QObject.connect(self.demands, QtCore.SIGNAL(_fromUtf8("itemChanged(QListWidgetItem*)")), MainWindow.RenameDemand)
+        QtCore.QObject.connect(self.actionShow_Results, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.ShowResults)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -180,5 +193,9 @@ class Ui_MainWindow(object):
         self.actionDelete_Demand.setText(QtGui.QApplication.translate("MainWindow", "Delete Demand", None, QtGui.QApplication.UnicodeUTF8))
         self.actionCreate_Random_Demands.setText(QtGui.QApplication.translate("MainWindow", "Create Random Demands", None, QtGui.QApplication.UnicodeUTF8))
         self.actionEdit_Demand.setText(QtGui.QApplication.translate("MainWindow", "Edit Demand", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionShow_Results.setText(QtGui.QApplication.translate("MainWindow", "Show_Results", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionShow_Results.setToolTip(QtGui.QApplication.translate("MainWindow", "Show Results", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionShow_Statistics.setText(QtGui.QApplication.translate("MainWindow", "Show_Statistics", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionShow_Statistics.setToolTip(QtGui.QApplication.translate("MainWindow", "Show Statistics", None, QtGui.QApplication.UnicodeUTF8))
 
 from . import resources_rc

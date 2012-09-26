@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>396</width>
+    <width>445</width>
     <height>201</height>
    </rect>
   </property>
@@ -51,8 +51,8 @@ QLabel, QSlider {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>396</width>
-     <height>21</height>
+     <width>445</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -110,6 +110,8 @@ QLabel, QSlider {
    <addaction name="actionCreate_Random_Demands"/>
    <addaction name="separator"/>
    <addaction name="actionStart"/>
+   <addaction name="actionShow_Statistics"/>
+   <addaction name="actionShow_Results"/>
    <addaction name="actionSettings"/>
   </widget>
   <action name="actionExit">
@@ -251,6 +253,30 @@ QLabel, QSlider {
     <string>Edit Demand</string>
    </property>
   </action>
+  <action name="actionShow_Results">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/pics/pics/line_chart.png</normaloff>:/pics/pics/line_chart.png</iconset>
+   </property>
+   <property name="text">
+    <string>Show_Results</string>
+   </property>
+   <property name="toolTip">
+    <string>Show Results</string>
+   </property>
+  </action>
+  <action name="actionShow_Statistics">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/pics/pics/chart.png</normaloff>:/pics/pics/chart.png</iconset>
+   </property>
+   <property name="text">
+    <string>Show_Statistics</string>
+   </property>
+   <property name="toolTip">
+    <string>Show Statistics</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="resources.qrc"/>
@@ -268,7 +294,7 @@ QLabel, QSlider {
     </hint>
     <hint type="destinationlabel">
      <x>399</x>
-     <y>299</y>
+     <y>200</y>
     </hint>
    </hints>
   </connection>
@@ -284,7 +310,7 @@ QLabel, QSlider {
     </hint>
     <hint type="destinationlabel">
      <x>409</x>
-     <y>322</y>
+     <y>200</y>
     </hint>
    </hints>
   </connection>
@@ -300,7 +326,7 @@ QLabel, QSlider {
     </hint>
     <hint type="destinationlabel">
      <x>409</x>
-     <y>322</y>
+     <y>200</y>
     </hint>
    </hints>
   </connection>
@@ -316,7 +342,7 @@ QLabel, QSlider {
     </hint>
     <hint type="destinationlabel">
      <x>409</x>
-     <y>322</y>
+     <y>200</y>
     </hint>
    </hints>
   </connection>
@@ -380,7 +406,7 @@ QLabel, QSlider {
     </hint>
     <hint type="destinationlabel">
      <x>159</x>
-     <y>214</y>
+     <y>200</y>
     </hint>
    </hints>
   </connection>
@@ -396,7 +422,7 @@ QLabel, QSlider {
     </hint>
     <hint type="destinationlabel">
      <x>159</x>
-     <y>214</y>
+     <y>200</y>
     </hint>
    </hints>
   </connection>
@@ -480,6 +506,22 @@ QLabel, QSlider {
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionShow_Results</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>ShowResults()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>222</x>
+     <y>100</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>Exit()</slot>
@@ -494,5 +536,6 @@ QLabel, QSlider {
   <slot>EditDemand()</slot>
   <slot>RandomDemand()</slot>
   <slot>RenameDemand()</slot>
+  <slot>ShowResults()</slot>
  </slots>
 </ui>

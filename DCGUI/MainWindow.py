@@ -4,6 +4,7 @@ from DCGUI.Windows.ui_MainWindow import Ui_MainWindow
 from DCGUI.ResourcesGraphEditor import ResourcesGraphEditor
 from DCGUI.DemandGraphEditor import DemandGraphEditor
 from DCGUI.RandomDemandDialog import RandomDemandDialog
+from DCGUI.Vis import Vis
 from DCGUI.Project import Project
 from Core.Resources import Storage
 import os
@@ -27,6 +28,7 @@ class MainWindow(QMainWindow):
         self.projFilter = self.tr("Data centers projects (*.dcxml)")
         self.resourcesGraphEditor = ResourcesGraphEditor()
         self.demandGraphEditor = DemandGraphEditor()
+        self.Vis = Vis()
         self.project = Project()
         self.resourcesGraphEditor.setData(self.project.resources)
         for i in range(self.MaxRecentFiles):
@@ -198,3 +200,7 @@ class MainWindow(QMainWindow):
     def demandIdChanged(self):
         it = self.ui.demands.currentItem()
         it.setText(self.demands[it].id)
+
+    def ShowResults(self):
+        self.Vis.setData(self.project.resources)
+        self.Vis.show()
