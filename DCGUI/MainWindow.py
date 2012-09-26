@@ -101,6 +101,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle(self.projectFile.split('/').pop().split('.')[0] + " - " + self.basename)
 
     def Run(self):
+        self.project.resources._buildPaths()
         self.project.method.Run()
 
     def Settings(self):

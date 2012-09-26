@@ -58,7 +58,7 @@ class RouterDialog(QDialog):
         
     def SetResult(self, v):
         v.id = self.ui.id.text()
-        v.capacity = self.ui.capacity.text()
+        v.capacity = int(self.ui.capacity.text())
         
 
 class EdgeDialog(QDialog):

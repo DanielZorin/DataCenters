@@ -6,18 +6,21 @@ class VM(AbstractVertex):
         AbstractVertex.__init__(self, id)
         self.id = id
         self.speed = speed
+        self.resource = None
 
 class DemandStorage(AbstractVertex):
     def __init__(self, id, volume, type):
         AbstractVertex.__init__(self, id)
         self.volume = volume
         self.type = type
+        self.resource = None
 
 class DemandLink:
     def __init__(self, e1, e2, capacity):
         self.e1 = e1
         self.e2 = e2
         self.capacity = capacity
+        self.path = []
 
 class Demand(AbstractGraph):
     def __init__(self, id):
