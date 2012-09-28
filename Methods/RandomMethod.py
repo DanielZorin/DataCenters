@@ -40,7 +40,9 @@ class RandomMethod:
 
     def AssignVertex(self, demand, vdemand, vresource):
         vdemand.resource = vresource
-        vresource.assignedDemands.append([demand, vdemand])
+        if not vresource.assignedDemands.has_key(demand):
+            vresource.assignedDemands[demand] = []
+        vresource.assignedDemands[demand].append(vdemand)
         if isinstance(vdemand,VM):
             vresource.usedSpeed += vdemand.speed
         elif isinstance(vdemand,DemandStorage):
@@ -51,11 +53,15 @@ class RandomMethod:
         for elem in path[1:len(path)-1]:
             if isinstance(elem, Router):
                 elem.usedCapacity += link.capacity
-                elem.assignedDemands.append([demand,link])
+                if not elem.assignedDemands.has_key(demand):
+                    elem.assignedDemands[demand] = []
+                elem.assignedDemands[demand].append(link)
             else:
                 e = self.resources.FindEdge(elem.e1, elem.e2)
                 e.usedCapacity += link.capacity
-                e.assignedDemands.append([demand,link])
+                if not e.assignedDemands.has_key(demand):
+                    e.assignedDemands[demand] = []
+                e.assignedDemands[demand].append(link)
 
     def AssignDemand(self,demand):
         iter = 0
@@ -96,7 +102,9 @@ class RandomMethod:
             v.resource.usedSpeed -= v.speed
         elif isinstance(v,DemandStorage):
             v.resource.usedVolume -= v.volume
-        v.resource.assignedDemands.remove([demand,v])
+        v.resource.assignedDemands[demand].remove(v)
+        if v.resource.assignedDemands[demand]==[]:
+            del v.resource.assignedDemands[demand]
         v.resource = None
 
     def DropLink(self,demand,link):
@@ -106,12 +114,16 @@ class RandomMethod:
         for elem in path[1:len(path)-1]:
             if isinstance(elem, Router):
                 elem.usedCapacity -= link.capacity
-                elem.assignedDemands.remove([demand,link])
+                elem.assignedDemands[demand].remove(link)
+                if elem.assignedDemands[demand]==[]:
+                    del elem.assignedDemands[demand]
             else:
                 e = self.resources.FindEdge(elem.e1, elem.e2)
                 e.usedCapacity -= link.capacity
-                e.assignedDemands.remove([demand,link])
-        link.path = None
+                e.assignedDemands[demand].remove(link)
+                if e.assignedDemands[demand]==[]:
+                    del e.assignedDemands[demand]
+        link.path = []
 
     def DropDemand(self,demand):
         for v in demand.vertices:

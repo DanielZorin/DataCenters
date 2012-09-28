@@ -7,21 +7,21 @@ class Storage(AbstractVertex):
         self.volume = volume
         self.type = type
         self.usedVolume = 0
-        self.assignedDemands = []
+        self.assignedDemands = {}
 
 class Computer(AbstractVertex):
     def __init__(self, id, speed):
         AbstractVertex.__init__(self, id)
         self.speed = speed
         self.usedSpeed = 0
-        self.assignedDemands = []
+        self.assignedDemands = {}
 
 class Router(AbstractVertex):
     def __init__(self, id, capacity):
         AbstractVertex.__init__(self, id)
         self.capacity = capacity
         self.usedCapacity = 0
-        self.assignedDemands = []
+        self.assignedDemands = {}
 
 class Link:
     def __init__(self, e1, e2, capacity):
@@ -29,7 +29,7 @@ class Link:
         self.e2 = e2
         self.capacity = capacity
         self.usedCapacity = 0
-        self.assignedDemands = []
+        self.assignedDemands = {}
 
 class ResourceGraph(AbstractGraph):
     def __init__(self):
