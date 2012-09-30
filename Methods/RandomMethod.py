@@ -134,12 +134,8 @@ class RandomMethod:
     def Run(self):
         for d in self.demands:
             self.AssignDemand(d)
+
+    def Clear(self):
         for d in self.demands:
-            print "\n"+d.id
-            for v in d.vertices:
-                print v.resource
-            for e in d.edges:
-                print e.path
-        #for d in self.demands:
-            #self.DropDemand(d)
+            self.DropDemand(d)
         

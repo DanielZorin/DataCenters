@@ -4,17 +4,17 @@ from Core.Demands import VM
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import QPointF, QRect, QString
 from PyQt4.QtGui import QImage, QWidget, QPainter, QPainterPath, QColor, QCursor, QDialog, QIntValidator, QTableWidgetItem
-from DCGUI.Windows.ui_VertexInfo import Ui_VertexInfo
+from DCGUI.Windows.ui_Info import Ui_Info
 
 class Vert:
     rect = QRect()
     type = 0
 
 
-class VertexInfo(QWidget):
+class Info(QWidget):
     def __init__(self):
         QDialog.__init__(self)
-        self.ui = Ui_VertexInfo()
+        self.ui = Ui_Info()
         self.ui.setupUi(self)
         
     def LoadComputerInfo(self, v):
@@ -24,7 +24,7 @@ class VertexInfo(QWidget):
         str = QString("<b><font size=\"+1\">Statistics</font></b><br />")
         str += QString("&nbsp;&nbsp;Computer id:<font color=blue> %1</font><br />").arg(v.id)
         str += QString("&nbsp;&nbsp;Speed:<font color=blue> %1</font><br />").arg(v.speed)
-        str += QString("&nbsp;&nbsp;Used Speed:<font color=blue> %1 (%2%)</font><br />").arg(v.usedSpeed).arg(v.usedSpeed*100.0/v.speed)
+        str += QString("&nbsp;&nbsp;Used Speed:<font color=blue> %1 (%2%)</font><br />").arg(v.usedSpeed).arg(0 if v.speed == 0 else v.usedSpeed*100.0/v.speed)
         str += QString("&nbsp;&nbsp;Number of assigned demands:<font color=blue> %1</font><br />").arg(len(v.assignedDemands.keys()))
         str += QString("&nbsp;&nbsp;Number of assigned VMs:<font color=blue> %1</font><br />").arg(vm_num)
         str += QString("<b><font size=\"+1\">Assigned Demands</font></b><br />")
@@ -45,7 +45,7 @@ class VertexInfo(QWidget):
         str += QString("&nbsp;&nbsp;Storage id:<font color=blue> %1</font><br />").arg(v.id)
         str += QString("&nbsp;&nbsp;Type:<font color=blue> %1</font><br />").arg(v.type)
         str += QString("&nbsp;&nbsp;Volume:<font color=blue> %1</font><br />").arg(v.volume)
-        str += QString("&nbsp;&nbsp;Used Volume:<font color=blue> %1 (%2%)</font><br />").arg(v.usedVolume).arg(v.usedVolume*100.0/v.volume)
+        str += QString("&nbsp;&nbsp;Used Volume:<font color=blue> %1 (%2%)</font><br />").arg(v.usedVolume).arg(0 if v.volume == 0 else v.usedVolume*100.0/v.volume)
         str += QString("&nbsp;&nbsp;Number of assigned demands:<font color=blue> %1</font><br />").arg(len(v.assignedDemands.keys()))
         str += QString("&nbsp;&nbsp;Number of assigned storages:<font color=blue> %1</font><br />").arg(storage_num)
         str += QString("<b><font size=\"+1\">Assigned Demands</font></b><br />")
@@ -65,7 +65,7 @@ class VertexInfo(QWidget):
         str = QString("<b><font size=\"+1\">Statistics</font></b><br />")
         str += QString("&nbsp;&nbsp;Router id:<font color=blue> %1</font><br />").arg(v.id)
         str += QString("&nbsp;&nbsp;Capacity:<font color=blue> %1</font><br />").arg(v.capacity)
-        str += QString("&nbsp;&nbsp;Used Capacity:<font color=blue> %1 (%2%)</font><br />").arg(v.usedCapacity).arg(v.usedCapacity*100.0/v.capacity)
+        str += QString("&nbsp;&nbsp;Used Capacity:<font color=blue> %1 (%2%)</font><br />").arg(v.usedCapacity).arg(0 if v.capacity == 0 else v.usedCapacity*100.0/v.capacity)
         str += QString("&nbsp;&nbsp;Number of assigned demands:<font color=blue> %1</font><br />").arg(len(v.assignedDemands.keys()))
         str += QString("&nbsp;&nbsp;Number of assigned links:<font color=blue> %1</font><br />").arg(link_num)
         str += QString("<b><font size=\"+1\">Assigned Demands</font></b><br />")
@@ -79,6 +79,27 @@ class VertexInfo(QWidget):
                 str += QString("&nbsp;&nbsp;&nbsp;&nbsp;Link: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;Capacity: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(link.e1.id).arg(type2).arg(link.e2.id).arg(link.capacity)
         self.ui.textBrowser.setText(str)
         self.setWindowTitle(QString("%1 - Router Info").arg(v.id))
+
+    def LoadEdgeInfo(self, e):
+        link_num = 0
+        for d in e.assignedDemands.keys():
+            link_num += len(e.assignedDemands[d])
+        str = QString("<b><font size=\"+1\">Statistics</font></b><br />")
+        str += QString("&nbsp;&nbsp;Capacity:<font color=blue> %1</font><br />").arg(e.capacity)
+        str += QString("&nbsp;&nbsp;Used Capacity:<font color=blue> %1 (%2%)</font><br />").arg(e.usedCapacity).arg(0 if e.capacity == 0 else e.usedCapacity*100.0/e.capacity)
+        str += QString("&nbsp;&nbsp;Number of assigned demands:<font color=blue> %1</font><br />").arg(len(e.assignedDemands.keys()))
+        str += QString("&nbsp;&nbsp;Number of assigned links:<font color=blue> %1</font><br />").arg(link_num)
+        str += QString("<b><font size=\"+1\">Assigned Demands</font></b><br />")
+        demands = e.assignedDemands.keys()
+        demands.sort()
+        for d in demands:
+            str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(d.id)
+            for link in e.assignedDemands[d]:
+                type1 = "VM" if isinstance(link.e1,VM) else "Storage"
+                type2 = "VM" if isinstance(link.e2,VM) else "Storage"
+                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;Link: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;Capacity: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(link.e1.id).arg(type2).arg(link.e2.id).arg(link.capacity)
+        self.ui.textBrowser.setText(str)
+        self.setWindowTitle("Edge Info")
         
 
 class VisCanvas(QWidget):
@@ -232,7 +253,7 @@ class VisCanvas(QWidget):
 
     def ShowVertexInfo(self):
         v = next(v for v in self.vertices.keys() if self.vertices[v] == self.selectedVertex)
-        self.i = VertexInfo()
+        self.i = Info()
         if isinstance(v,Computer):
             self.i.LoadComputerInfo(v)
         if isinstance(v,Storage):
@@ -242,4 +263,6 @@ class VisCanvas(QWidget):
         self.i.show()
         
     def ShowEdgeInfo(self):
-        pass
+        self.i = Info()
+        self.i.LoadEdgeInfo(self.selectedEdge)
+        self.i.show()

@@ -104,6 +104,7 @@ class MainWindow(QMainWindow):
 
     def Run(self):
         self.project.resources._buildPaths()
+        self.project.method.Clear()
         self.project.method.Run()
 
     def Settings(self):

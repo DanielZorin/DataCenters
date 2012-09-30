@@ -92,7 +92,7 @@ class Ui_Vis(object):
         QtCore.QMetaObject.connectSlotsByName(Vis)
 
     def retranslateUi(self, Vis):
-        Vis.setWindowTitle(QtGui.QApplication.translate("Vis", "Resources Graph Editor", None, QtGui.QApplication.UnicodeUTF8))
+        Vis.setWindowTitle(QtGui.QApplication.translate("Vis", "Results Visualizer", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("Vis", "Time", None, QtGui.QApplication.UnicodeUTF8))
         self.menuFile.setTitle(QtGui.QApplication.translate("Vis", "File", None, QtGui.QApplication.UnicodeUTF8))
         self.toolBar.setWindowTitle(QtGui.QApplication.translate("Vis", "toolBar", None, QtGui.QApplication.UnicodeUTF8))

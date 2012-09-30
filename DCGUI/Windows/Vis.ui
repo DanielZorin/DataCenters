@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Resources Graph Editor</string>
+   <string>Results Visualizer</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
@@ -69,8 +69,6 @@ QLabel, QSlider {
            <height>230</height>
           </rect>
          </property>
-         <zorder></zorder>
-         <zorder></zorder>
         </widget>
        </widget>
       </item>
