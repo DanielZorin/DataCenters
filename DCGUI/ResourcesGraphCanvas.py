@@ -8,10 +8,6 @@ from DCGUI.Windows.ui_RouterDialog import Ui_RouterDialog
 from DCGUI.Windows.ui_EdgeDialog import Ui_EdgeDialog
 from DCGUI.Windows.ui_StorageDialog import Ui_StorageDialog
 
-class Vert:
-    rect = QRect()
-    type = 0
-
 class ComputerDialog(QDialog):
     def __init__(self):
         QDialog.__init__(self)
@@ -120,27 +116,27 @@ class ResourcesGraphCanvas(QWidget):
                     paint.setPen(self.colors["selected"])
                 else:
                     paint.setPen(self.colors["line"])
-                self.drawArrow(paint, self.vertices[e.e1].rect.x() + self.size / 2, self.vertices[e.e1].rect.y() + self.size / 2,
-                             self.vertices[e.e2].rect.x() + self.size / 2, self.vertices[e.e2].rect.y() + self.size / 2)
-        for task in self.vertices.values():
-            if task.type == 0:
-                if self.selectedVertex != task:
-                    paint.drawImage(task.rect, self.computericon)
+                self.drawArrow(paint, self.vertices[e.e1].x() + self.size / 2, self.vertices[e.e1].y() + self.size / 2,
+                             self.vertices[e.e2].x() + self.size / 2, self.vertices[e.e2].y() + self.size / 2)
+        for v in self.vertices.keys():
+            if isinstance(v, Computer):
+                if self.selectedVertex != self.vertices[v]:
+                    paint.drawImage(self.vertices[v], self.computericon)
                 else:
-                    paint.drawImage(task.rect, self.computerselectedicon)
-            elif task.type == 1:
-                if self.selectedVertex != task:
-                    paint.drawImage(task.rect, self.storageicon)
+                    paint.drawImage(self.vertices[v], self.computerselectedicon)
+            elif isinstance(v, Storage):
+                if self.selectedVertex != self.vertices[v]:
+                    paint.drawImage(self.vertices[v], self.storageicon)
                 else:
-                    paint.drawImage(task.rect, self.storageselectedicon)
-            elif task.type == 2:
-                if self.selectedVertex != task:
-                    paint.drawImage(task.rect, self.routericon)
+                    paint.drawImage(self.vertices[v], self.storageselectedicon)
+            elif isinstance(v, Router):
+                if self.selectedVertex != self.vertices[v]:
+                    paint.drawImage(self.vertices[v], self.routericon)
                 else:
-                    paint.drawImage(task.rect, self.routerselectedicon)
+                    paint.drawImage(self.vertices[v], self.routerselectedicon)
         paint.setPen(self.colors["line"])
         if self.edgeDraw:
-            self.drawArrow(paint, self.curEdge[0].rect.x() + self.size / 2, self.curEdge[0].rect.y() + self.size / 2,
+            self.drawArrow(paint, self.curEdge[0].x() + self.size / 2, self.curEdge[0].y() + self.size / 2,
                            QCursor.pos().x() - self.mapToGlobal(self.geometry().topLeft()).x(),
                            QCursor.pos().y() - self.mapToGlobal(self.geometry().topLeft()).y())
         paint.end()
@@ -148,15 +144,8 @@ class ResourcesGraphCanvas(QWidget):
     def Visualize(self, r):
         self.resources = r
         for v in self.resources.vertices:
-            task = Vert()
-            if isinstance(v, Computer):
-                task.type = 0
-            elif isinstance(v, Storage):
-                task.type = 1
-            elif isinstance(v, Router):
-                task.type = 2
-            task.rect = QtCore.QRect(v.x - self.size / 2, v.y - self.size / 2, self.size, self.size)
-            self.vertices[v] = task
+            rect = QtCore.QRect(v.x - self.size / 2, v.y - self.size / 2, self.size, self.size)
+            self.vertices[v] = rect
         self.ResizeCanvas()
         self.repaint()
 
@@ -188,10 +177,10 @@ class ResourcesGraphCanvas(QWidget):
         maxx = 0
         maxy = 0
         for r in self.vertices.values():
-            if r.rect.topRight().x() > maxx:
-                maxx = r.rect.topRight().x()
-            if r.rect.bottomRight().y() > maxy:
-                maxy = r.rect.bottomRight().y()
+            if r.topRight().x() > maxx:
+                maxx = r.topRight().x()
+            if r.bottomRight().y() > maxy:
+                maxy = r.bottomRight().y()
         self.setGeometry(0, 0, max(maxx + 10, self.parent().width()), max(maxy + 10, self.parent().height()))
 
     def drawArrow(self, paint, x1, y1, x2, y2):
@@ -220,15 +209,15 @@ class ResourcesGraphCanvas(QWidget):
     def mousePressEvent(self, e):
         if self.state == State.Select:
             for v in self.vertices.keys():
-                if self.vertices[v].rect.contains(e.pos()):
+                if self.vertices[v].contains(e.pos()):
                     self.selectedVertex = self.vertices[v]
                     self.selectedEdge = None
                     self.repaint()
                     self.pressed = True
                     return
             for ed in self.resources.edges:
-                a = self.vertices[ed.e1].rect.center()
-                b = self.vertices[ed.e2].rect.center()
+                a = self.vertices[ed.e1].center()
+                b = self.vertices[ed.e2].center()
                 c = e.pos()
                 ab = math.sqrt((a.x() - b.x())**2 + (a.y() - b.y())**2)
                 inner = QtCore.QRect(a, b)
@@ -247,38 +236,32 @@ class ResourcesGraphCanvas(QWidget):
             self.repaint()
             return
         elif self.state == State.Computer:
-            task = Vert()
-            task.rect = QtCore.QRect(e.x() - self.size / 2, e.y() - self.size / 2, self.size, self.size)
-            task.type = 0
+            rect = QtCore.QRect(e.x() - self.size / 2, e.y() - self.size / 2, self.size, self.size)
             computer = Computer("id", 0)
-            self.vertices[computer] = task
+            self.vertices[computer] = rect
             self.resources.AddVertex(computer)
             self.changed = True
             self.ResizeCanvas()
             self.repaint()
         elif self.state == State.Storage:
-            task = Vert()
-            task.rect = QtCore.QRect(e.x() - self.size / 2, e.y() - self.size / 2, self.size, self.size)
-            task.type = 1
+            rect = QtCore.QRect(e.x() - self.size / 2, e.y() - self.size / 2, self.size, self.size)
             storage = Storage("id", 0, 0)
-            self.vertices[storage] = task
+            self.vertices[storage] = rect
             self.resources.AddVertex(storage)
             self.changed = True
             self.ResizeCanvas()
             self.repaint()
         elif self.state == State.Router:
-            task = Vert()
-            task.rect = QtCore.QRect(e.x() - self.size / 2, e.y() - self.size / 2, self.size, self.size)
-            task.type = 2
+            rect = QtCore.QRect(e.x() - self.size / 2, e.y() - self.size / 2, self.size, self.size)
             router = Router("id", 0)
-            self.vertices[router] = task
+            self.vertices[router] = rect
             self.resources.AddVertex(router)
             self.changed = True
             self.ResizeCanvas()
             self.repaint()
         elif self.state == State.Edge:
             for v in self.vertices.keys():
-                if self.vertices[v].rect.contains(e.pos()):
+                if self.vertices[v].contains(e.pos()):
                     self.edgeDraw = True
                     self.curEdge = []
                     self.curEdge.append(self.vertices[v])
@@ -290,7 +273,7 @@ class ResourcesGraphCanvas(QWidget):
             return
         elif self.state == State.Select:
             if self.pressed:
-                self.selectedVertex.rect.moveTo(e.pos().x() - self.size / 2, e.pos().y() - self.size / 2)
+                self.selectedVertex.moveTo(e.pos().x() - self.size / 2, e.pos().y() - self.size / 2)
                 self.ResizeCanvas()
                 self.repaint()
         elif self.state == State.Edge:
@@ -301,7 +284,7 @@ class ResourcesGraphCanvas(QWidget):
         self.pressed = False
         if self.edgeDraw:
             for v in self.vertices.keys():
-                if self.vertices[v].rect.contains(e.pos()):
+                if self.vertices[v].contains(e.pos()):
                     ne = Link(self.curEdge[1], v, 0)
                     self.resources.AddLink(ne)
             self.edgeDraw = False
@@ -327,19 +310,19 @@ class ResourcesGraphCanvas(QWidget):
             self.changed = True
 
     def EditVertex(self, v):
-        if self.vertices[v].type == 0:
+        if isinstance(v, Computer):
             d = ComputerDialog()
             d.Load(v)
             d.exec_()
             if d.result() == QDialog.Accepted:
                 d.SetResult(v)
-        elif self.vertices[v].type == 1:
+        if isinstance(v, Storage):
             d = StorageDialog()
             d.Load(v)
             d.exec_()
             if d.result() == QDialog.Accepted:
                 d.SetResult(v)
-        elif self.vertices[v].type == 2:
+        if isinstance(v, Router):
             d = RouterDialog()
             d.Load(v)
             d.exec_()
@@ -358,6 +341,6 @@ class ResourcesGraphCanvas(QWidget):
 
     def updatePos(self):
         for v in self.vertices.keys():
-            task = self.vertices[v]
-            v.x = task.rect.x() + self.size/2
-            v.y = task.rect.y() + self.size/2
+            rect = self.vertices[v]
+            v.x = rect.x() + self.size/2
+            v.y = rect.y() + self.size/2
