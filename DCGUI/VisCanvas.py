@@ -6,11 +6,6 @@ from PyQt4.QtCore import QPointF, QRect, QString
 from PyQt4.QtGui import QImage, QWidget, QPainter, QPainterPath, QColor, QCursor, QDialog, QIntValidator, QTableWidgetItem
 from DCGUI.Windows.ui_Info import Ui_Info
 
-class Vert:
-    rect = QRect()
-    type = 0
-
-
 class Info(QWidget):
     def __init__(self):
         QDialog.__init__(self)
@@ -24,7 +19,7 @@ class Info(QWidget):
         str = QString("<b><font size=\"+1\">Statistics</font></b><br />")
         str += QString("&nbsp;&nbsp;Computer id:<font color=blue> %1</font><br />").arg(v.id)
         str += QString("&nbsp;&nbsp;Speed:<font color=blue> %1</font><br />").arg(v.speed)
-        str += QString("&nbsp;&nbsp;Used Speed:<font color=blue> %1 (%2%)</font><br />").arg(v.usedSpeed).arg(0 if v.speed == 0 else v.usedSpeed*100.0/v.speed)
+        str += QString("&nbsp;&nbsp;Used Speed:<font color=blue> %1 (%2%)</font><br />").arg(v.usedSpeed).arg(v.getUsedSpeedPercent())
         str += QString("&nbsp;&nbsp;Number of assigned demands:<font color=blue> %1</font><br />").arg(len(v.assignedDemands.keys()))
         str += QString("&nbsp;&nbsp;Number of assigned VMs:<font color=blue> %1</font><br />").arg(vm_num)
         str += QString("<b><font size=\"+1\">Assigned Demands</font></b><br />")
@@ -45,7 +40,7 @@ class Info(QWidget):
         str += QString("&nbsp;&nbsp;Storage id:<font color=blue> %1</font><br />").arg(v.id)
         str += QString("&nbsp;&nbsp;Type:<font color=blue> %1</font><br />").arg(v.type)
         str += QString("&nbsp;&nbsp;Volume:<font color=blue> %1</font><br />").arg(v.volume)
-        str += QString("&nbsp;&nbsp;Used Volume:<font color=blue> %1 (%2%)</font><br />").arg(v.usedVolume).arg(0 if v.volume == 0 else v.usedVolume*100.0/v.volume)
+        str += QString("&nbsp;&nbsp;Used Volume:<font color=blue> %1 (%2%)</font><br />").arg(v.usedVolume).arg(v.getUsedVolumePercent())
         str += QString("&nbsp;&nbsp;Number of assigned demands:<font color=blue> %1</font><br />").arg(len(v.assignedDemands.keys()))
         str += QString("&nbsp;&nbsp;Number of assigned storages:<font color=blue> %1</font><br />").arg(storage_num)
         str += QString("<b><font size=\"+1\">Assigned Demands</font></b><br />")
@@ -54,7 +49,7 @@ class Info(QWidget):
         for d in demands:
             str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(d.id)
             for v1 in v.assignedDemands[d]:
-                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;Storage id: <font color=blue>%1</font>&nbsp;&nbsp;Speed: <font color=blue>%2</font><br />").arg(v1.id).arg(v1.volume)
+                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;Storage id: <font color=blue>%1</font>&nbsp;&nbsp;Volume: <font color=blue>%2</font><br />").arg(v1.id).arg(v1.volume)
         self.ui.textBrowser.setText(str)
         self.setWindowTitle(QString("%1 - Storage Info").arg(v.id))
 
@@ -65,7 +60,7 @@ class Info(QWidget):
         str = QString("<b><font size=\"+1\">Statistics</font></b><br />")
         str += QString("&nbsp;&nbsp;Router id:<font color=blue> %1</font><br />").arg(v.id)
         str += QString("&nbsp;&nbsp;Capacity:<font color=blue> %1</font><br />").arg(v.capacity)
-        str += QString("&nbsp;&nbsp;Used Capacity:<font color=blue> %1 (%2%)</font><br />").arg(v.usedCapacity).arg(0 if v.capacity == 0 else v.usedCapacity*100.0/v.capacity)
+        str += QString("&nbsp;&nbsp;Used Capacity:<font color=blue> %1 (%2%)</font><br />").arg(v.usedCapacity).arg(v.getUsedCapacityPercent())
         str += QString("&nbsp;&nbsp;Number of assigned demands:<font color=blue> %1</font><br />").arg(len(v.assignedDemands.keys()))
         str += QString("&nbsp;&nbsp;Number of assigned links:<font color=blue> %1</font><br />").arg(link_num)
         str += QString("<b><font size=\"+1\">Assigned Demands</font></b><br />")
@@ -86,7 +81,7 @@ class Info(QWidget):
             link_num += len(e.assignedDemands[d])
         str = QString("<b><font size=\"+1\">Statistics</font></b><br />")
         str += QString("&nbsp;&nbsp;Capacity:<font color=blue> %1</font><br />").arg(e.capacity)
-        str += QString("&nbsp;&nbsp;Used Capacity:<font color=blue> %1 (%2%)</font><br />").arg(e.usedCapacity).arg(0 if e.capacity == 0 else e.usedCapacity*100.0/e.capacity)
+        str += QString("&nbsp;&nbsp;Used Capacity:<font color=blue> %1 (%2%)</font><br />").arg(e.usedCapacity).arg(e.getUsedCapacityPercent())
         str += QString("&nbsp;&nbsp;Number of assigned demands:<font color=blue> %1</font><br />").arg(len(e.assignedDemands.keys()))
         str += QString("&nbsp;&nbsp;Number of assigned links:<font color=blue> %1</font><br />").arg(link_num)
         str += QString("<b><font size=\"+1\">Assigned Demands</font></b><br />")
@@ -116,6 +111,7 @@ class VisCanvas(QWidget):
     colors = {
               "line": QColor(10, 34, 200),
               "selected": QColor(1, 200, 1),
+              "text": QColor(0,0,0)
               }
 
     def __init__(self, parent=None):
@@ -138,27 +134,36 @@ class VisCanvas(QWidget):
                     paint.setPen(self.colors["selected"])
                 else:
                     paint.setPen(self.colors["line"])
-                self.drawArrow(paint, self.vertices[e.e1].rect.x() + self.size / 2, self.vertices[e.e1].rect.y() + self.size / 2,
-                             self.vertices[e.e2].rect.x() + self.size / 2, self.vertices[e.e2].rect.y() + self.size / 2)
-        for task in self.vertices.values():
-            if task.type == 0:
-                if self.selectedVertex != task:
-                    paint.drawImage(task.rect, self.computericon)
+                x1 = self.vertices[e.e1].x() + self.size / 2
+                y1 = self.vertices[e.e1].y() + self.size / 2
+                x2 = self.vertices[e.e2].x() + self.size / 2
+                y2 = self.vertices[e.e2].y() + self.size / 2
+                self.drawArrow(paint, x1, y1, x2, y2)
+                paint.setPen(self.colors["text"])
+                paint.drawText((x1+x2)/2, (y1+y2)/2, str(int(e.getUsedCapacityPercent()))+"%")
+                
+        for v in self.vertices.keys():
+            if isinstance(v,Computer):
+                if self.selectedVertex != self.vertices[v]:
+                    paint.drawImage(self.vertices[v], self.computericon)
                 else:
-                    paint.drawImage(task.rect, self.computerselectedicon)
-            elif task.type == 1:
-                if self.selectedVertex != task:
-                    paint.drawImage(task.rect, self.storageicon)
+                    paint.drawImage(self.vertices[v], self.computerselectedicon)
+                paint.drawText(self.vertices[v].x() + self.size, self.vertices[v].y() + self.size, str(int(v.getUsedSpeedPercent()))+"%")
+            elif isinstance(v,Storage):
+                if self.selectedVertex != self.vertices[v]:
+                    paint.drawImage(self.vertices[v], self.storageicon)
                 else:
-                    paint.drawImage(task.rect, self.storageselectedicon)
-            elif task.type == 2:
-                if self.selectedVertex != task:
-                    paint.drawImage(task.rect, self.routericon)
+                    paint.drawImage(self.vertices[v], self.storageselectedicon)
+                paint.drawText(self.vertices[v].x() + self.size, self.vertices[v].y() + self.size, str(int(v.getUsedVolumePercent()))+"%")
+            elif isinstance(v,Router):
+                if self.selectedVertex != self.vertices[v]:
+                    paint.drawImage(self.vertices[v], self.routericon)
                 else:
-                    paint.drawImage(task.rect, self.routerselectedicon)
+                    paint.drawImage(self.vertices[v], self.routerselectedicon)
+                paint.drawText(self.vertices[v].x() + self.size, self.vertices[v].y() + self.size, str(int(v.getUsedCapacityPercent()))+"%")
         paint.setPen(self.colors["line"])
         if self.edgeDraw:
-            self.drawArrow(paint, self.curEdge[0].rect.x() + self.size / 2, self.curEdge[0].rect.y() + self.size / 2,
+            self.drawArrow(paint, self.curEdge[0].x() + self.size / 2, self.curEdge[0].y() + self.size / 2,
                            QCursor.pos().x() - self.mapToGlobal(self.geometry().topLeft()).x(),
                            QCursor.pos().y() - self.mapToGlobal(self.geometry().topLeft()).y())
         paint.end()
@@ -166,15 +171,8 @@ class VisCanvas(QWidget):
     def Visualize(self, r):
         self.resources = r
         for v in self.resources.vertices:
-            task = Vert()
-            if isinstance(v, Computer):
-                task.type = 0
-            elif isinstance(v, Storage):
-                task.type = 1
-            elif isinstance(v, Router):
-                task.type = 2
-            task.rect = QtCore.QRect(v.x - self.size / 2, v.y - self.size / 2, self.size, self.size)
-            self.vertices[v] = task
+            rect = QtCore.QRect(v.x - self.size / 2, v.y - self.size / 2, self.size, self.size)
+            self.vertices[v] = rect
         self.ResizeCanvas()
         self.repaint()
 
@@ -182,10 +180,10 @@ class VisCanvas(QWidget):
         maxx = 0
         maxy = 0
         for r in self.vertices.values():
-            if r.rect.topRight().x() > maxx:
-                maxx = r.rect.topRight().x()
-            if r.rect.bottomRight().y() > maxy:
-                maxy = r.rect.bottomRight().y()
+            if r.topRight().x() > maxx:
+                maxx = r.topRight().x()
+            if r.bottomRight().y() > maxy:
+                maxy = r.bottomRight().y()
         self.setGeometry(0, 0, max(maxx + 10, self.parent().width()), max(maxy + 10, self.parent().height()))
 
     def drawArrow(self, paint, x1, y1, x2, y2):
@@ -213,7 +211,7 @@ class VisCanvas(QWidget):
 
     def mousePressEvent(self, e):
         for v in self.vertices.keys():
-            if self.vertices[v].rect.contains(e.pos()):
+            if self.vertices[v].contains(e.pos()):
                 self.selectedVertex = self.vertices[v]
                 self.selectedEdge = None
                 self.repaint()
@@ -221,8 +219,8 @@ class VisCanvas(QWidget):
                 self.pressed = True
                 return
         for ed in self.resources.edges:
-            a = self.vertices[ed.e1].rect.center()
-            b = self.vertices[ed.e2].rect.center()
+            a = self.vertices[ed.e1].center()
+            b = self.vertices[ed.e2].center()
             c = e.pos()
             ab = math.sqrt((a.x() - b.x())**2 + (a.y() - b.y())**2)
             inner = QtCore.QRect(a, b)
