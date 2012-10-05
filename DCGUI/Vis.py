@@ -3,6 +3,7 @@ from PyQt4.QtGui import QMainWindow, QFileDialog, QTextEdit
 from DCGUI.Windows.ui_Vis import Ui_Vis
 from DCGUI.VisCanvas import VisCanvas
 from Core.Demands import VM, DemandStorage
+from Core.Resources import Computer, Storage, Router
 
 class Vis(QMainWindow):
     xmlfile = None
@@ -22,8 +23,17 @@ class Vis(QMainWindow):
     def setData(self, data):
         self.resources = data
         self.canvas.Clear()
-        self.canvas.Visualize(self.resources)
+        r = self.resources.GetTimeBounds()
+        self.time = r.t1
+        self.ui.timeSpinBox.setValue(r.t1)
+        self.ui.timeSpinBox.setMinimum(r.t1)
+        self.ui.timeSpinBox.setMaximum(r.t2)
+        self.ui.timeSlider.setValue(r.t1)
+        self.ui.timeSlider.setMinimum(r.t1)
+        self.ui.timeSlider.setMaximum(r.t2)
         self.ui.info.setText("")
+        timeInt = self.resources.GetTimeInterval(self.time)
+        self.canvas.Visualize(self.resources, timeInt)
         
     def resizeEvent(self, e):
         super(QMainWindow, self).resizeEvent(e)
@@ -33,48 +43,24 @@ class Vis(QMainWindow):
         super(QMainWindow, self).showEvent(e)
         self.canvas.ResizeCanvas()
 
-    def Open(self):
-        name = QFileDialog.getOpenFileName(filter="*.xml")
-        if name == None or name == '':
-            return
-        self.resources.LoadFromXML(name)
-        self.canvas.Clear()
-        self.canvas.Visualize(self.resources)
-        self.canvas.changed = True
-        self.xmlfile = name
-
-    def Save(self):
-        if self.xmlfile == None:
-            self.SaveAs()
-        else:
-            output = open(self.xmlfile, 'w')
-            output.write(self.resources.ExportToXml())
-            output.close()
-
-    def SaveAs(self):
-        self.xmlfile = QFileDialog.getSaveFileName(directory=".xml", filter="*.xml")
-        if self.xmlfile != '':
-            output = open(self.xmlfile, 'w')
-            output.write(self.resources.ExportToXml())
-            output.close()
-
     def ShowRouterInfo(self):
         v = next(v for v in self.canvas.vertices.keys() if self.canvas.vertices[v] == self.canvas.selectedVertex)
+        timeInt = self.resources.GetTimeInterval(self.time)
         link_num = 0
-        for d in v.assignedDemands.keys():
-            link_num += len(v.assignedDemands[d])
+        for d in v.intervals[timeInt].demands.keys():
+            link_num += len(v.intervals[timeInt].demands[d])
         str = QString("<b><font size=\"+1\">Statistics</font></b><br />")
         str += QString("&nbsp;&nbsp;Router id:<font color=blue> %1</font><br />").arg(v.id)
         str += QString("&nbsp;&nbsp;Capacity:<font color=blue> %1</font><br />").arg(v.capacity)
-        str += QString("&nbsp;&nbsp;Used Capacity:<font color=blue> %1 (%2%)</font><br />").arg(v.usedCapacity).arg(v.getUsedCapacityPercent())
-        str += QString("&nbsp;&nbsp;Number of assigned demands:<font color=blue> %1</font><br />").arg(len(v.assignedDemands.keys()))
+        str += QString("&nbsp;&nbsp;Used Capacity:<font color=blue> %1 (%2%)</font><br />").arg(v.intervals[timeInt].usedResource).arg(v.getUsedCapacityPercent(timeInt))
+        str += QString("&nbsp;&nbsp;Number of assigned demands:<font color=blue> %1</font><br />").arg(len(v.intervals[timeInt].demands.keys()))
         str += QString("&nbsp;&nbsp;Number of assigned links:<font color=blue> %1</font><br />").arg(link_num)
         str += QString("<b><font size=\"+1\">Assigned Demands</font></b><br />")
-        demands = v.assignedDemands.keys()
+        demands = v.intervals[timeInt].demands.keys()
         demands.sort()
         for d in demands:
             str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(d.id)
-            for link in v.assignedDemands[d]:
+            for link in v.intervals[timeInt].demands[d]:
                 type1 = "VM" if isinstance(link.e1,VM) else "Storage"
                 type2 = "VM" if isinstance(link.e2,VM) else "Storage"
                 str += QString("&nbsp;&nbsp;&nbsp;&nbsp;Link: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;Capacity: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(link.e1.id).arg(type2).arg(link.e2.id).arg(link.capacity)
@@ -82,61 +68,66 @@ class Vis(QMainWindow):
 
     def ShowComputerInfo(self):
         v = next(v for v in self.canvas.vertices.keys() if self.canvas.vertices[v] == self.canvas.selectedVertex)
+        timeInt = self.resources.GetTimeInterval(self.time)
         vm_num = 0
-        for d in v.assignedDemands.keys():
-            vm_num += len(v.assignedDemands[d])
+        for d in v.intervals[timeInt].demands.keys():
+            vm_num += len(v.intervals[timeInt].demands[d])
         str = QString("<b><font size=\"+1\">Statistics</font></b><br />")
         str += QString("&nbsp;&nbsp;Computer id:<font color=blue> %1</font><br />").arg(v.id)
         str += QString("&nbsp;&nbsp;Speed:<font color=blue> %1</font><br />").arg(v.speed)
-        str += QString("&nbsp;&nbsp;Used Speed:<font color=blue> %1 (%2%)</font><br />").arg(v.usedSpeed).arg(v.getUsedSpeedPercent())
-        str += QString("&nbsp;&nbsp;Number of assigned demands:<font color=blue> %1</font><br />").arg(len(v.assignedDemands.keys()))
+        str += QString("&nbsp;&nbsp;Used Speed:<font color=blue> %1 (%2%)</font><br />").arg(v.intervals[timeInt].usedResource).arg(v.getUsedSpeedPercent(timeInt))
+        str += QString("&nbsp;&nbsp;Number of assigned demands:<font color=blue> %1</font><br />").arg(len(v.intervals[timeInt].demands.keys()))
         str += QString("&nbsp;&nbsp;Number of assigned VMs:<font color=blue> %1</font><br />").arg(vm_num)
         str += QString("<b><font size=\"+1\">Assigned Demands</font></b><br />")
-        demands = v.assignedDemands.keys()
+        demands = v.intervals[timeInt].demands.keys()
         demands.sort()
         for d in demands:
             str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(d.id)
-            for v1 in v.assignedDemands[d]:
+            for v1 in v.intervals[timeInt].demands[d]:
                 str += QString("&nbsp;&nbsp;&nbsp;&nbsp;VM id: <font color=blue>%1</font>&nbsp;&nbsp;Speed: <font color=blue>%2</font><br />").arg(v1.id).arg(v1.speed)
         self.ui.info.setText(str)
 
     def ShowStorageInfo(self):
         v = next(v for v in self.canvas.vertices.keys() if self.canvas.vertices[v] == self.canvas.selectedVertex)
+        timeInt = self.resources.GetTimeInterval(self.time)
         storage_num = 0
-        for d in v.assignedDemands.keys():
-            storage_num += len(v.assignedDemands[d])
+        for d in v.intervals[timeInt].demands.keys():
+            storage_num += len(v.intervals[timeInt].demands[d])
         str = QString("<b><font size=\"+1\">Statistics</font></b><br />")
         str += QString("&nbsp;&nbsp;Storage id:<font color=blue> %1</font><br />").arg(v.id)
         str += QString("&nbsp;&nbsp;Type:<font color=blue> %1</font><br />").arg(v.type)
         str += QString("&nbsp;&nbsp;Volume:<font color=blue> %1</font><br />").arg(v.volume)
-        str += QString("&nbsp;&nbsp;Used Volume:<font color=blue> %1 (%2%)</font><br />").arg(v.usedVolume).arg(v.getUsedVolumePercent())
-        str += QString("&nbsp;&nbsp;Number of assigned demands:<font color=blue> %1</font><br />").arg(len(v.assignedDemands.keys()))
+        str += QString("&nbsp;&nbsp;Used Volume:<font color=blue> %1 (%2%)</font><br />").arg(v.intervals[timeInt].usedResource).arg(v.getUsedVolumePercent(timeInt))
+        str += QString("&nbsp;&nbsp;Number of assigned demands:<font color=blue> %1</font><br />").arg(len(v.intervals[timeInt].demands.keys()))
         str += QString("&nbsp;&nbsp;Number of assigned storages:<font color=blue> %1</font><br />").arg(storage_num)
         str += QString("<b><font size=\"+1\">Assigned Demands</font></b><br />")
-        demands = v.assignedDemands.keys()
+        demands = v.intervals[timeInt].demands.keys()
         demands.sort()
         for d in demands:
             str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(d.id)
-            for v1 in v.assignedDemands[d]:
+            for v1 in v.intervals[timeInt].demands[d]:
                 str += QString("&nbsp;&nbsp;&nbsp;&nbsp;Storage id: <font color=blue>%1</font>&nbsp;&nbsp;Volume: <font color=blue>%2</font><br />").arg(v1.id).arg(v1.volume)
         self.ui.info.setText(str)
 
     def ShowEdgeInfo(self):
         e = self.canvas.selectedEdge
+        if e == None:
+            return
+        timeInt = self.resources.GetTimeInterval(self.time)
         link_num = 0
-        for d in e.assignedDemands.keys():
-            link_num += len(e.assignedDemands[d])
+        for d in e.intervals[timeInt].demands.keys():
+            link_num += len(e.intervals[timeInt].demands[d])
         str = QString("<b><font size=\"+1\">Statistics</font></b><br />")
         str += QString("&nbsp;&nbsp;Capacity:<font color=blue> %1</font><br />").arg(e.capacity)
-        str += QString("&nbsp;&nbsp;Used Capacity:<font color=blue> %1 (%2%)</font><br />").arg(e.usedCapacity).arg(e.getUsedCapacityPercent())
-        str += QString("&nbsp;&nbsp;Number of assigned demands:<font color=blue> %1</font><br />").arg(len(e.assignedDemands.keys()))
+        str += QString("&nbsp;&nbsp;Used Capacity:<font color=blue> %1 (%2%)</font><br />").arg(e.intervals[timeInt].usedResource).arg(e.getUsedCapacityPercent(timeInt))
+        str += QString("&nbsp;&nbsp;Number of assigned demands:<font color=blue> %1</font><br />").arg(len(e.intervals[timeInt].demands.keys()))
         str += QString("&nbsp;&nbsp;Number of assigned links:<font color=blue> %1</font><br />").arg(link_num)
         str += QString("<b><font size=\"+1\">Assigned Demands</font></b><br />")
-        demands = e.assignedDemands.keys()
+        demands = e.intervals[timeInt].demands.keys()
         demands.sort()
         for d in demands:
             str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(d.id)
-            for link in e.assignedDemands[d]:
+            for link in e.intervals[timeInt].demands[d]:
                 type1 = "VM" if isinstance(link.e1,VM) else "Storage"
                 type2 = "VM" if isinstance(link.e2,VM) else "Storage"
                 str += QString("&nbsp;&nbsp;&nbsp;&nbsp;Link: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;Capacity: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(link.e1.id).arg(type2).arg(link.e2.id).arg(link.capacity)
@@ -145,8 +136,25 @@ class Vis(QMainWindow):
     def UpdateTimeFromSlider(self,value):
         self.time = value
         self.ui.timeSpinBox.setValue(value)
+        self.Update()
+        
 
     def UpdateTimeFromSpinBox(self,value):
         self.time = value
         self.ui.timeSlider.setValue(value)
+        self.Update()
+
+    def Update(self):
+        timeInt = self.resources.GetTimeInterval(self.time)
+        self.canvas.Visualize(self.resources, timeInt)
+        self.ShowEdgeInfo()
+        if self.canvas.selectedVertex == None:
+            return
+        v = next(v for v in self.canvas.vertices.keys() if self.canvas.vertices[v] == self.canvas.selectedVertex)
+        if isinstance(v,Router):
+            self.ShowRouterInfo()
+        elif isinstance(v,Computer):
+            self.ShowComputerInfo()
+        elif isinstance(v,Storage):
+            self.ShowStorageInfo()
 

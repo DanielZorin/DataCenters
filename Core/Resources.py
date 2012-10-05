@@ -1,47 +1,55 @@
 import xml.dom.minidom
 from Core.AbstractGraph import AbstractGraph, AbstractVertex
 
+class Range:
+    t1 = 0
+    t2 = 0
+    def __init__(self, start, end):
+        self.t1 = start
+        self.t2 = end
+
+class State:
+    def __init__(self):
+        self.usedResource = 0
+        self.demands = {}
+
 class Storage(AbstractVertex):
     def __init__(self, id, volume, type):
         AbstractVertex.__init__(self, id)
         self.volume = volume
         self.type = type
-        self.usedVolume = 0
-        self.assignedDemands = {}
+        self.intervals = {}
 
-    def getUsedVolumePercent(self):
-        return 0 if self.volume == 0 else self.usedVolume*100.0/self.volume
+    def getUsedVolumePercent(self, t):
+        return 0 if self.volume == 0 else self.intervals[t].usedResource*100.0/self.volume
 
 class Computer(AbstractVertex):
     def __init__(self, id, speed):
         AbstractVertex.__init__(self, id)
         self.speed = speed
-        self.usedSpeed = 0
-        self.assignedDemands = {}
+        self.intervals = {}
 
-    def getUsedSpeedPercent(self):
-        return 0 if self.speed == 0 else self.usedSpeed*100.0/self.speed
+    def getUsedSpeedPercent(self, t):
+        return 0 if self.speed == 0 else self.intervals[t].usedResource*100.0/self.speed
 
 class Router(AbstractVertex):
     def __init__(self, id, capacity):
         AbstractVertex.__init__(self, id)
         self.capacity = capacity
-        self.usedCapacity = 0
-        self.assignedDemands = {}
+        self.intervals = {}
 
-    def getUsedCapacityPercent(self):
-        return 0 if self.capacity == 0 else self.usedCapacity*100.0/self.capacity
+    def getUsedCapacityPercent(self, t):
+        return 0 if self.capacity == 0 else self.intervals[t].usedResource*100.0/self.capacity
 
 class Link:
     def __init__(self, e1, e2, capacity):
         self.e1 = e1
         self.e2 = e2
         self.capacity = capacity
-        self.usedCapacity = 0
-        self.assignedDemands = {}
+        self.intervals = {}
 
-    def getUsedCapacityPercent(self):
-        return 0 if self.capacity == 0 else self.usedCapacity*100.0/self.capacity
+    def getUsedCapacityPercent(self,t):
+        return 0 if self.capacity == 0 else self.intervals[t].usedResource*100.0/self.capacity
 
 class ResourceGraph(AbstractGraph):
     def __init__(self):
@@ -154,3 +162,22 @@ class ResourceGraph(AbstractGraph):
             if newpaths == []:
                 break
             paths = newpaths
+
+    def GetTimeBounds(self):
+        t2 = 0
+        t1 = 0
+        if not (self.vertices == []) and  not (self.vertices[0].intervals.keys() == []):
+            t1 = self.vertices[0].intervals.keys()[0].t1
+        for v in self.vertices:
+            for t in v.intervals.keys():
+                if t.t2 > t2:
+                    t2 = t.t2
+                if t.t1 < t1:
+                    t1 = t.t1
+        return Range(t1, t2)
+
+    def GetTimeInterval(self, time):
+        for v in self.vertices:
+            for t in v.intervals.keys():
+                if (time >= t.t1) and (time <= t.t2):
+                    return t

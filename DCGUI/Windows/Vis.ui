@@ -95,45 +95,10 @@ QLabel, QSlider {
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionOpen_System"/>
-    <addaction name="actionSave_System"/>
-    <addaction name="actionSave_System_As"/>
     <addaction name="actionExit"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
-  <action name="actionOpen_System">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/pics/pics/folder.png</normaloff>:/pics/pics/folder.png</iconset>
-   </property>
-   <property name="text">
-    <string>Open Graph</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+O</string>
-   </property>
-  </action>
-  <action name="actionSave_System">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/pics/pics/cd.png</normaloff>:/pics/pics/cd.png</iconset>
-   </property>
-   <property name="text">
-    <string>Save Graph</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+S</string>
-   </property>
-  </action>
-  <action name="actionSave_System_As">
-   <property name="text">
-    <string>Save Graph As...</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+S</string>
-   </property>
-  </action>
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
@@ -147,54 +112,6 @@ QLabel, QSlider {
   <include location="resources.qrc"/>
  </resources>
  <connections>
-  <connection>
-   <sender>actionOpen_System</sender>
-   <signal>triggered()</signal>
-   <receiver>Vis</receiver>
-   <slot>Open()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>209</x>
-     <y>165</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionSave_System</sender>
-   <signal>triggered()</signal>
-   <receiver>Vis</receiver>
-   <slot>Save()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>209</x>
-     <y>165</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionSave_System_As</sender>
-   <signal>triggered()</signal>
-   <receiver>Vis</receiver>
-   <slot>SaveAs()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>209</x>
-     <y>165</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>actionExit</sender>
    <signal>triggered()</signal>
