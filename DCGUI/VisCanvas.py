@@ -2,101 +2,9 @@ import math
 from Core.Resources import Computer, Storage, Router, Link
 from Core.Demands import VM
 from PyQt4 import QtGui, QtCore
-from PyQt4.QtCore import QPointF, QRect, QString
+from PyQt4.QtCore import QPointF, QRect, QString, pyqtSignal
 from PyQt4.QtGui import QImage, QWidget, QPainter, QPainterPath, QColor, QCursor, QDialog, QIntValidator, QTableWidgetItem
-from DCGUI.Windows.ui_Info import Ui_Info
-
-class Info(QWidget):
-    def __init__(self):
-        QDialog.__init__(self)
-        self.ui = Ui_Info()
-        self.ui.setupUi(self)
-        
-    def LoadComputerInfo(self, v):
-        vm_num = 0
-        for d in v.assignedDemands.keys():
-            vm_num += len(v.assignedDemands[d])
-        str = QString("<b><font size=\"+1\">Statistics</font></b><br />")
-        str += QString("&nbsp;&nbsp;Computer id:<font color=blue> %1</font><br />").arg(v.id)
-        str += QString("&nbsp;&nbsp;Speed:<font color=blue> %1</font><br />").arg(v.speed)
-        str += QString("&nbsp;&nbsp;Used Speed:<font color=blue> %1 (%2%)</font><br />").arg(v.usedSpeed).arg(v.getUsedSpeedPercent())
-        str += QString("&nbsp;&nbsp;Number of assigned demands:<font color=blue> %1</font><br />").arg(len(v.assignedDemands.keys()))
-        str += QString("&nbsp;&nbsp;Number of assigned VMs:<font color=blue> %1</font><br />").arg(vm_num)
-        str += QString("<b><font size=\"+1\">Assigned Demands</font></b><br />")
-        demands = v.assignedDemands.keys()
-        demands.sort()
-        for d in demands:
-            str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(d.id)
-            for v1 in v.assignedDemands[d]:
-                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;VM id: <font color=blue>%1</font>&nbsp;&nbsp;Speed: <font color=blue>%2</font><br />").arg(v1.id).arg(v1.speed)
-        self.ui.textBrowser.setText(str)
-        self.setWindowTitle(QString("%1 - Computer Info").arg(v.id))
-
-    def LoadStorageInfo(self, v):
-        storage_num = 0
-        for d in v.assignedDemands.keys():
-            storage_num += len(v.assignedDemands[d])
-        str = QString("<b><font size=\"+1\">Statistics</font></b><br />")
-        str += QString("&nbsp;&nbsp;Storage id:<font color=blue> %1</font><br />").arg(v.id)
-        str += QString("&nbsp;&nbsp;Type:<font color=blue> %1</font><br />").arg(v.type)
-        str += QString("&nbsp;&nbsp;Volume:<font color=blue> %1</font><br />").arg(v.volume)
-        str += QString("&nbsp;&nbsp;Used Volume:<font color=blue> %1 (%2%)</font><br />").arg(v.usedVolume).arg(v.getUsedVolumePercent())
-        str += QString("&nbsp;&nbsp;Number of assigned demands:<font color=blue> %1</font><br />").arg(len(v.assignedDemands.keys()))
-        str += QString("&nbsp;&nbsp;Number of assigned storages:<font color=blue> %1</font><br />").arg(storage_num)
-        str += QString("<b><font size=\"+1\">Assigned Demands</font></b><br />")
-        demands = v.assignedDemands.keys()
-        demands.sort()
-        for d in demands:
-            str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(d.id)
-            for v1 in v.assignedDemands[d]:
-                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;Storage id: <font color=blue>%1</font>&nbsp;&nbsp;Volume: <font color=blue>%2</font><br />").arg(v1.id).arg(v1.volume)
-        self.ui.textBrowser.setText(str)
-        self.setWindowTitle(QString("%1 - Storage Info").arg(v.id))
-
-    def LoadRouterInfo(self, v):
-        link_num = 0
-        for d in v.assignedDemands.keys():
-            link_num += len(v.assignedDemands[d])
-        str = QString("<b><font size=\"+1\">Statistics</font></b><br />")
-        str += QString("&nbsp;&nbsp;Router id:<font color=blue> %1</font><br />").arg(v.id)
-        str += QString("&nbsp;&nbsp;Capacity:<font color=blue> %1</font><br />").arg(v.capacity)
-        str += QString("&nbsp;&nbsp;Used Capacity:<font color=blue> %1 (%2%)</font><br />").arg(v.usedCapacity).arg(v.getUsedCapacityPercent())
-        str += QString("&nbsp;&nbsp;Number of assigned demands:<font color=blue> %1</font><br />").arg(len(v.assignedDemands.keys()))
-        str += QString("&nbsp;&nbsp;Number of assigned links:<font color=blue> %1</font><br />").arg(link_num)
-        str += QString("<b><font size=\"+1\">Assigned Demands</font></b><br />")
-        demands = v.assignedDemands.keys()
-        demands.sort()
-        for d in demands:
-            str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(d.id)
-            for link in v.assignedDemands[d]:
-                type1 = "VM" if isinstance(link.e1,VM) else "Storage"
-                type2 = "VM" if isinstance(link.e2,VM) else "Storage"
-                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;Link: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;Capacity: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(link.e1.id).arg(type2).arg(link.e2.id).arg(link.capacity)
-        self.ui.textBrowser.setText(str)
-        self.setWindowTitle(QString("%1 - Router Info").arg(v.id))
-
-    def LoadEdgeInfo(self, e):
-        link_num = 0
-        for d in e.assignedDemands.keys():
-            link_num += len(e.assignedDemands[d])
-        str = QString("<b><font size=\"+1\">Statistics</font></b><br />")
-        str += QString("&nbsp;&nbsp;Capacity:<font color=blue> %1</font><br />").arg(e.capacity)
-        str += QString("&nbsp;&nbsp;Used Capacity:<font color=blue> %1 (%2%)</font><br />").arg(e.usedCapacity).arg(e.getUsedCapacityPercent())
-        str += QString("&nbsp;&nbsp;Number of assigned demands:<font color=blue> %1</font><br />").arg(len(e.assignedDemands.keys()))
-        str += QString("&nbsp;&nbsp;Number of assigned links:<font color=blue> %1</font><br />").arg(link_num)
-        str += QString("<b><font size=\"+1\">Assigned Demands</font></b><br />")
-        demands = e.assignedDemands.keys()
-        demands.sort()
-        for d in demands:
-            str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(d.id)
-            for link in e.assignedDemands[d]:
-                type1 = "VM" if isinstance(link.e1,VM) else "Storage"
-                type2 = "VM" if isinstance(link.e2,VM) else "Storage"
-                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;Link: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;Capacity: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(link.e1.id).arg(type2).arg(link.e2.id).arg(link.capacity)
-        self.ui.textBrowser.setText(str)
-        self.setWindowTitle("Edge Info")
-        
-
+    
 class VisCanvas(QWidget):
     resources = None
     vertices = {}
@@ -107,6 +15,10 @@ class VisCanvas(QWidget):
     curEdge = None
     selectedEdge = None
     size = 25.0
+    router_selected = pyqtSignal()
+    storage_selected = pyqtSignal()
+    computer_selected = pyqtSignal()
+    edge_selected = pyqtSignal()
 
     colors = {
               "line": QColor(10, 34, 200),
@@ -215,8 +127,13 @@ class VisCanvas(QWidget):
                 self.selectedVertex = self.vertices[v]
                 self.selectedEdge = None
                 self.repaint()
-                self.ShowVertexInfo()
                 self.pressed = True
+                if isinstance(v,Computer):
+                    self.computer_selected.emit()
+                elif isinstance(v,Storage):
+                    self.storage_selected.emit()
+                elif isinstance(v,Router):
+                    self.router_selected.emit()
                 return
         for ed in self.resources.edges:
             a = self.vertices[ed.e1].center()
@@ -233,7 +150,7 @@ class VisCanvas(QWidget):
                     self.selectedEdge = ed
                     self.selectedVertex = None
                     self.repaint()
-                    self.ShowEdgeInfo()
+                    self.edge_selected.emit()
                     return
         self.selectedEdge = None
         self.selectedVertex = None
@@ -247,20 +164,4 @@ class VisCanvas(QWidget):
         self.pressed = False
         self.edgeDraw = False
         self.curEdge = None
-        self.selectedEdge = None
-
-    def ShowVertexInfo(self):
-        v = next(v for v in self.vertices.keys() if self.vertices[v] == self.selectedVertex)
-        self.i = Info()
-        if isinstance(v,Computer):
-            self.i.LoadComputerInfo(v)
-        if isinstance(v,Storage):
-            self.i.LoadStorageInfo(v)
-        if isinstance(v,Router):
-            self.i.LoadRouterInfo(v)
-        self.i.show()
-        
-    def ShowEdgeInfo(self):
-        self.i = Info()
-        self.i.LoadEdgeInfo(self.selectedEdge)
-        self.i.show()
+        self.selectedEdge = None       

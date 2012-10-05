@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>437</width>
+    <width>685</width>
     <height>339</height>
    </rect>
   </property>
@@ -31,29 +31,28 @@ QLabel, QSlider {
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Time</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="lineEdit">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-       </widget>
-      </item>
-     </layout>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Time:</string>
+      </property>
+     </widget>
     </item>
-    <item>
+    <item row="0" column="2">
+     <widget class="QSpinBox" name="timeSpinBox">
+      <property name="minimum">
+       <number>0</number>
+      </property>
+      <property name="maximum">
+       <number>99</number>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="3" rowspan="2">
+     <widget class="QTextBrowser" name="info"/>
+    </item>
+    <item row="1" column="0" colspan="3">
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item alignment="Qt::AlignVCenter">
        <widget class="QScrollArea" name="graphArea">
@@ -74,6 +73,13 @@ QLabel, QSlider {
       </item>
      </layout>
     </item>
+    <item row="0" column="1">
+     <widget class="QSlider" name="timeSlider">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -81,7 +87,7 @@ QLabel, QSlider {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>437</width>
+     <width>685</width>
      <height>20</height>
     </rect>
    </property>
@@ -95,20 +101,6 @@ QLabel, QSlider {
     <addaction name="actionExit"/>
    </widget>
    <addaction name="menuFile"/>
-  </widget>
-  <widget class="QToolBar" name="toolBar">
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="actionOpen_System"/>
-   <addaction name="actionSave_System"/>
-   <addaction name="separator"/>
   </widget>
   <action name="actionOpen_System">
    <property name="icon">
@@ -219,16 +211,41 @@ QLabel, QSlider {
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>timeSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>Vis</receiver>
+   <slot>UpdateTimeFromSlider(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>106</x>
+     <y>42</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>552</x>
+     <y>370</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>timeSpinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>Vis</receiver>
+   <slot>UpdateTimeFromSpinBox(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>374</x>
+     <y>38</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>44</x>
+     <y>397</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
-  <slot>toggleSelect()</slot>
-  <slot>toggleComputer()</slot>
-  <slot>toggleEdge()</slot>
-  <slot>New()</slot>
-  <slot>Open()</slot>
-  <slot>Save()</slot>
-  <slot>SaveAs()</slot>
-  <slot>toggleStorage()</slot>
-  <slot>toggleRouter()</slot>
+  <slot>UpdateTimeFromSlider(int)</slot>
+  <slot>UpdateTimeFromSpinBox(int)</slot>
  </slots>
 </ui>
