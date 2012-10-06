@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>445</width>
+    <width>488</width>
     <height>201</height>
    </rect>
   </property>
@@ -42,7 +42,28 @@ QLabel, QSlider {
      <enum>QLayout::SetDefaultConstraint</enum>
     </property>
     <item>
-     <widget class="QListWidget" name="demands"/>
+     <widget class="QTreeWidget" name="demands">
+      <column>
+       <property name="text">
+        <string>Name</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Starting time</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Length</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Scheduled</string>
+       </property>
+      </column>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -51,8 +72,8 @@ QLabel, QSlider {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>445</width>
-     <height>20</height>
+     <width>488</width>
+     <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -483,22 +504,6 @@ QLabel, QSlider {
     <hint type="sourcelabel">
      <x>-1</x>
      <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>197</x>
-     <y>100</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>demands</sender>
-   <signal>itemChanged(QListWidgetItem*)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>RenameDemand()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>197</x>
-     <y>129</y>
     </hint>
     <hint type="destinationlabel">
      <x>197</x>

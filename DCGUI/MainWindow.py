@@ -1,5 +1,5 @@
-from PyQt4.QtGui import QMainWindow, qApp, QListWidgetItem, QDialog, QFileDialog, QMessageBox, QAction, QKeySequence
-from PyQt4.QtCore import Qt, QObject, SIGNAL, QSettings
+from PyQt4.QtGui import QMainWindow, qApp, QTreeWidgetItem, QDialog, QFileDialog, QMessageBox, QAction, QKeySequence
+from PyQt4.QtCore import Qt, QObject, SIGNAL, QSettings, QStringList
 from DCGUI.Windows.ui_MainWindow import Ui_MainWindow
 from DCGUI.ResourcesGraphEditor import ResourcesGraphEditor
 from DCGUI.DemandGraphEditor import DemandGraphEditor
@@ -117,11 +117,13 @@ class MainWindow(QMainWindow):
 
     def AddDemand(self):
         d = self.project.CreateDemand()
-        it = QListWidgetItem("New demand", self.ui.demands)
+        it = QTreeWidgetItem(self.ui.demands, QStringList(["New demand", "0", "1", "No"]))
         it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
         self.demands[it] = d
         self.ui.demands.editItem(it)
-        self.demands[it].id = unicode(it.text())
+        self.demands[it].id = unicode(it.text(0))
+        self.demands[it].startTime = int(it.text(1))
+        self.demands[it].endTime = int(it.text(2))
 
     def DeleteDemand(self):
         item = self.ui.demands.currentItem()
@@ -154,7 +156,7 @@ class MainWindow(QMainWindow):
             dict["types"] = types
             for i in range(dict["n"]):
                 demand = self.project.CreateRandomDemand(dict)
-                it = QListWidgetItem(demand.id, self.ui.demands)
+                it = QTreeWidgetItem(self.ui.demands, QStringList([demand.id, str(demand.startTime), str(demand.endTime), "No"]))
                 it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
                 self.demands[it] = demand
 
