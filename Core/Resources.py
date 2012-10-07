@@ -1,13 +1,6 @@
 import xml.dom.minidom
 from Core.AbstractGraph import AbstractGraph, AbstractVertex
 
-class Range:
-    t1 = 0
-    t2 = 0
-    def __init__(self, start, end):
-        self.t1 = start
-        self.t2 = end
-
 class State:
     def __init__(self):
         self.usedResource = 0
@@ -164,20 +157,20 @@ class ResourceGraph(AbstractGraph):
             paths = newpaths
 
     def GetTimeBounds(self):
-        t2 = 0
         t1 = 0
+        t0 = 0
         if not (self.vertices == []) and  not (self.vertices[0].intervals.keys() == []):
-            t1 = self.vertices[0].intervals.keys()[0].t1
+            t0 = self.vertices[0].intervals.keys()[0][0]
         for v in self.vertices:
             for t in v.intervals.keys():
-                if t.t2 > t2:
-                    t2 = t.t2
-                if t.t1 < t1:
-                    t1 = t.t1
-        return Range(t1, t2)
+                if t[1] > t1:
+                    t1 = t[1]
+                if t[0] < t0:
+                    t0 = t[0]
+        return (t0, t1)
 
     def GetTimeInterval(self, time):
         for v in self.vertices:
             for t in v.intervals.keys():
-                if (time >= t.t1) and (time <= t.t2):
+                if (time >= t[0]) and (time <= t[1]):
                     return t

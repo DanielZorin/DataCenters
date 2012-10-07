@@ -21,17 +21,18 @@ class Vis(QMainWindow):
         self.canvas.storage_selected.connect(self.ShowStorageInfo)
         self.canvas.router_selected.connect(self.ShowRouterInfo)
 
-    def setData(self, data):
-        self.resources = data
+    def setData(self, project):
+        self.resources = project.resources
+        self.demands = project.demands
         self.canvas.Clear()
         r = self.resources.GetTimeBounds()
-        self.time = r.t1
-        self.ui.timeSpinBox.setValue(r.t1)
-        self.ui.timeSpinBox.setMinimum(r.t1)
-        self.ui.timeSpinBox.setMaximum(r.t2)
-        self.ui.timeSlider.setValue(r.t1)
-        self.ui.timeSlider.setMinimum(r.t1)
-        self.ui.timeSlider.setMaximum(r.t2)
+        self.time = r[0]
+        self.ui.timeSpinBox.setValue(r[0])
+        self.ui.timeSpinBox.setMinimum(r[0])
+        self.ui.timeSpinBox.setMaximum(r[1])
+        self.ui.timeSlider.setValue(r[0])
+        self.ui.timeSlider.setMinimum(r[0])
+        self.ui.timeSlider.setMaximum(r[1])
         self.ui.info.setText("")
         timeInt = self.resources.GetTimeInterval(self.time)
         self.canvas.Visualize(self.resources, timeInt)
@@ -59,12 +60,14 @@ class Vis(QMainWindow):
         str += QString("<b><font size=\"+1\">Assigned Demands</font></b><br />")
         demands = v.intervals[timeInt].demands.keys()
         demands.sort()
-        for d in demands:
-            str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(d.id)
-            for link in v.intervals[timeInt].demands[d]:
-                type1 = "VM" if isinstance(link.e1,VM) else "Storage"
-                type2 = "VM" if isinstance(link.e2,VM) else "Storage"
-                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;Link: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;Capacity: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(link.e1.id).arg(type2).arg(link.e2.id).arg(link.capacity)
+        for id in demands:
+            d = self.FindDemand(id)
+            str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(id)
+            for link in v.intervals[timeInt].demands[d.id]:
+                l = d.FindEdge(d.FindVertex(link[0]),d.FindVertex(link[1]))
+                type1 = "VM" if isinstance(l.e1,VM) else "Storage"
+                type2 = "VM" if isinstance(l.e2,VM) else "Storage"
+                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;Link: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;Capacity: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(l.e1.id).arg(type2).arg(l.e2.id).arg(l.capacity)
         self.ui.info.setText(str)
 
     def ShowComputerInfo(self):
@@ -82,10 +85,11 @@ class Vis(QMainWindow):
         str += QString("<b><font size=\"+1\">Assigned Demands</font></b><br />")
         demands = v.intervals[timeInt].demands.keys()
         demands.sort()
-        for d in demands:
-            str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(d.id)
-            for v1 in v.intervals[timeInt].demands[d]:
-                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;VM id: <font color=blue>%1</font>&nbsp;&nbsp;Speed: <font color=blue>%2</font><br />").arg(v1.id).arg(v1.speed)
+        for id in demands:
+            d = self.FindDemand(id)
+            str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(id)
+            for v1 in v.intervals[timeInt].demands[id]:
+                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;VM id: <font color=blue>%1</font>&nbsp;&nbsp;Speed: <font color=blue>%2</font><br />").arg(d.FindVertex(v1).id).arg(d.FindVertex(v1).speed)
         self.ui.info.setText(str)
 
     def ShowStorageInfo(self):
@@ -104,10 +108,11 @@ class Vis(QMainWindow):
         str += QString("<b><font size=\"+1\">Assigned Demands</font></b><br />")
         demands = v.intervals[timeInt].demands.keys()
         demands.sort()
-        for d in demands:
-            str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(d.id)
-            for v1 in v.intervals[timeInt].demands[d]:
-                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;Storage id: <font color=blue>%1</font>&nbsp;&nbsp;Volume: <font color=blue>%2</font><br />").arg(v1.id).arg(v1.volume)
+        for id in demands:
+            d = self.FindDemand(id)
+            str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(id)
+            for v1 in v.intervals[timeInt].demands[id]:
+                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;Storage id: <font color=blue>%1</font>&nbsp;&nbsp;Volume: <font color=blue>%2</font><br />").arg(d.FindVertex(v1).id).arg(d.FindVertex(v1).volume)
         self.ui.info.setText(str)
 
     def ShowEdgeInfo(self):
@@ -126,12 +131,14 @@ class Vis(QMainWindow):
         str += QString("<b><font size=\"+1\">Assigned Demands</font></b><br />")
         demands = e.intervals[timeInt].demands.keys()
         demands.sort()
-        for d in demands:
-            str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(d.id)
-            for link in e.intervals[timeInt].demands[d]:
-                type1 = "VM" if isinstance(link.e1,VM) else "Storage"
-                type2 = "VM" if isinstance(link.e2,VM) else "Storage"
-                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;Link: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;Capacity: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(link.e1.id).arg(type2).arg(link.e2.id).arg(link.capacity)
+        for id in demands:
+            d = self.FindDemand(id)
+            str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(id)
+            for link in e.intervals[timeInt].demands[id]:
+                l = d.FindEdge(d.FindVertex(link[0]),d.FindVertex(link[1]))
+                type1 = "VM" if isinstance(l.e1,VM) else "Storage"
+                type2 = "VM" if isinstance(l.e2,VM) else "Storage"
+                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;Link: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;Capacity: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(l.e1.id).arg(type2).arg(l.e2.id).arg(l.capacity)
         self.ui.info.setText(str)
 
     def UpdateTimeFromSlider(self,value):
@@ -158,3 +165,7 @@ class Vis(QMainWindow):
         elif isinstance(v,Storage):
             self.ShowStorageInfo()
 
+    def FindDemand(self, id):
+        for d in self.demands:
+            if d.id == id:
+                return d

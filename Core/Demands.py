@@ -161,3 +161,8 @@ class Demand(AbstractGraph):
                 cap = int(edge.getAttribute("capacity"))
                 e = DemandLink(self.vertices[source-1], self.vertices[destination-1], cap)
                 self.edges.append(e)
+
+    def FindVertex(self, number):
+        for v in self.vertices:
+            if v.number == number:
+                return v

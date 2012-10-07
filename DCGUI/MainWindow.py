@@ -104,7 +104,7 @@ class MainWindow(QMainWindow):
 
     def Run(self):
         self.project.resources._buildPaths()
-        self.project.method.Clear()
+        #self.project.method.Clear()
         self.project.method.Run()
 
     def Settings(self):
@@ -141,7 +141,11 @@ class MainWindow(QMainWindow):
     def EditDemand(self):
         if (self.demands == {}) or (self.ui.demands.currentItem() == None):
             return
-        self.demandGraphEditor.setData(self.demands[self.ui.demands.currentItem()])
+        d = self.demands[self.ui.demands.currentItem()]
+        if d.assigned:
+            self.project.method.DropDemand(d)
+            self.project.method.UpdateIntervals(d)
+        self.demandGraphEditor.setData(d)
         self.demandGraphEditor.show()
 
     def RandomDemand(self):
@@ -205,5 +209,5 @@ class MainWindow(QMainWindow):
         it.setText(self.demands[it].id)
 
     def ShowResults(self):
-        self.Vis.setData(self.project.resources)
+        self.Vis.setData(self.project)
         self.Vis.show()
