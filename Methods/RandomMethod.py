@@ -72,16 +72,17 @@ class RandomMethod:
             for v in demand.vertices:
                 lists = []
                 for time in ranges:
-                    lists.append(self.GetAvailableVertices(v,time))
+                    lists.append(self.GetAvailableVertices(v, time))
                 v1 = []
-                for elem in lists[0]:
-                    fl = True
-                    for i in range(1,len(lists)-1):
-                        if lists[i].count(elem) == 0:
-                            fl = False
-                            break
-                    if fl:
-                        v1.append(elem)
+                if len(lists) > 0:
+                    for elem in lists[0]:
+                        fl = True
+                        for i in range(1,len(lists)-1):
+                            if lists[i].count(elem) == 0:
+                                fl = False
+                                break
+                        if fl:
+                            v1.append(elem)
                 if v1==[]:
                     self.DropDemand(demand)
                     success = False
@@ -98,14 +99,15 @@ class RandomMethod:
                 for time in ranges:
                     lists.append(self.GetAvailableLinks(e,time))
                 e1 = []
-                for elem in lists[0]:
-                    fl = True
-                    for i in range(1,len(lists)-1):
-                        if lists[i].count(elem) == 0:
-                            fl = False
-                            break
-                    if fl:
-                        e1.append(elem)
+                if len(lists) > 0:
+                    for elem in lists[0]:
+                        fl = True
+                        for i in range(1,len(lists)-1):
+                            if lists[i].count(elem) == 0:
+                                fl = False
+                                break
+                        if fl:
+                            e1.append(elem)
                 if e1==[]:
                     self.DropDemand(demand)
                     success=False
@@ -114,6 +116,7 @@ class RandomMethod:
                 for time in ranges:
                     self.AssingLink(demand,e,e1[i],time)
             if success:
+                demand.assigned = True
                 break
         if iter == 1000:
             print "Failed to assign demand " + demand.id

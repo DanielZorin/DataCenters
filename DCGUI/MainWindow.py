@@ -72,7 +72,7 @@ class MainWindow(QMainWindow):
         self.resourcesGraphEditor.setData(self.project.resources)
         self.ui.demands.clear()
         for d in self.project.demands:
-            it = QListWidgetItem(d.id, self.ui.demands)
+            it = QTreeWidgetItem(self.ui.demands, QStringList([d.id, str(d.startTime), str(d.endTime), "Yes" if d.assigned else "No"]))
             it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
             self.demands[it] = d
         self.UpdateRecentFiles()

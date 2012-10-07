@@ -7,6 +7,7 @@ from Core.Resources import Computer, Storage, Router
 
 class Vis(QMainWindow):
     xmlfile = None
+    time = 0
 
     def __init__(self):
         QMainWindow.__init__(self)
@@ -136,8 +137,7 @@ class Vis(QMainWindow):
     def UpdateTimeFromSlider(self,value):
         self.time = value
         self.ui.timeSpinBox.setValue(value)
-        self.Update()
-        
+        self.Update()        
 
     def UpdateTimeFromSpinBox(self,value):
         self.time = value

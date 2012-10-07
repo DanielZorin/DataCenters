@@ -28,6 +28,7 @@ class Demand(AbstractGraph):
         self.id = id
         self.startTime = 0
         self.endTime = 0
+        self.assigned = False
 
     def GenerateRandom(self, params):
         x = 50
