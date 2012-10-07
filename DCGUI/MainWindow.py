@@ -129,10 +129,10 @@ class MainWindow(QMainWindow):
         item = self.ui.demands.currentItem()
         if (item == None):
             return
-        row = self.ui.demands.currentRow()
         self.project.RemoveDemand(self.demands[item])
         del self.demands[item]
-        self.ui.demands.takeItem(row)
+        self.ui.demands.takeTopLevelItem(self.ui.demands.indexOfTopLevelItem(item))
+        del item
 
     def RenameDemand(self, item):
         if item in self.demands:

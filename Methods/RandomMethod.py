@@ -27,7 +27,7 @@ class RandomMethod:
             except StopIteration:
                 return availableLinks
 
-    def checkPath(self,path,link,time):
+    def checkPath(self, path, link, time):
         for elem in path[1:len(path)-1]:
             if isinstance(elem, Router):
                 if (link.capacity > elem.capacity - elem.intervals[time].usedResource):
@@ -114,9 +114,10 @@ class RandomMethod:
                     break
                 i = random.randint(0, len(e1)-1)
                 for time in ranges:
-                    self.AssingLink(demand,e,e1[i],time)
+                    self.AssingLink(demand, e, e1[i], time)
             if success:
                 demand.assigned = True
+                print "Successfully assigned demand ", demand.id
                 break
         if iter == 1000:
             print "Failed to assign demand " + demand.id

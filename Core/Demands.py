@@ -31,6 +31,9 @@ class Demand(AbstractGraph):
         self.assigned = False
 
     def GenerateRandom(self, params):
+        #TODO: get ranges from the dialog
+        self.startTime = random.randint(0, 90)
+        self.endTime = random.randint(self.startTime, 100)
         x = 50
         y = 50
         maxi = 40 * int(math.sqrt(params["vms"] + params["storages"]))
@@ -78,6 +81,7 @@ class Demand(AbstractGraph):
         root.setAttribute("id", self.id)
         root.setAttribute("start", str(self.startTime))
         root.setAttribute("end", str(self.endTime))
+        root.setAttribute("assigned", str(self.assigned))
         for v in self.vertices:
             if isinstance(v, VM):
                 tag = dom.createElement("vm")
@@ -91,12 +95,21 @@ class Demand(AbstractGraph):
                 tag.setAttribute("y", str(v.y))
             tag.setAttribute("number", str(v.number))
             tag.setAttribute("name", str(v.id))
+            if v.resource:
+                tag.setAttribute("assignedto", str(v.resource.number))
             root.appendChild(tag)
         for v in self.edges:
             tag = dom.createElement("link")
             tag.setAttribute("from", str(v.e1.number))
             tag.setAttribute("to", str(v.e2.number))
             tag.setAttribute("capacity", str(v.capacity))
+            if v.path != []:
+                pathstr = ""
+                i = 0
+                while i <= len(v.path):
+                    pathstr += str(v.path[i].number) + ";"
+                    i += 2
+                tag.setAttribute("assignedto", pathstr)
             root.appendChild(tag)
         return root
 
