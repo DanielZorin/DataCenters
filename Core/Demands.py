@@ -95,7 +95,7 @@ class Demand(AbstractGraph):
                 tag.setAttribute("y", str(v.y))
             tag.setAttribute("number", str(v.number))
             tag.setAttribute("name", str(v.id))
-            if v.resource:
+            if self.assigned and v.resource:
                 tag.setAttribute("assignedto", str(v.resource.number))
             root.appendChild(tag)
         for v in self.edges:
@@ -103,13 +103,17 @@ class Demand(AbstractGraph):
             tag.setAttribute("from", str(v.e1.number))
             tag.setAttribute("to", str(v.e2.number))
             tag.setAttribute("capacity", str(v.capacity))
-            if v.path != []:
-                pathstr = ""
-                i = 0
-                while i <= len(v.path):
-                    pathstr += str(v.path[i].number) + ";"
-                    i += 2
+            if self.assigned:
+                if v.path != []:
+                    pathstr = ""
+                    i = 0
+                    while i <= len(v.path):
+                        pathstr += str(v.path[i].number) + ";"
+                        i += 2
+                else:
+                    pathstr = "none"
                 tag.setAttribute("assignedto", pathstr)
+
             root.appendChild(tag)
         return root
 
@@ -123,10 +127,11 @@ class Demand(AbstractGraph):
                 self.LoadFromXmlNode(node)
         f.close()
 
-    def LoadFromXmlNode(self, node):
+    def LoadFromXmlNode(self, node, resources):
         self.id = node.getAttribute("id")
         self.startTime = int(node.getAttribute("start"))
         self.endTime = int(node.getAttribute("end"))
+        self.assigned = True if node.getAttribute("assigned") == "True" else False
         #Parse vertices
         for vertex in node.childNodes:
             if isinstance(vertex, xml.dom.minidom.Text):
@@ -149,6 +154,9 @@ class Demand(AbstractGraph):
             if y != '':
                 v.y = float(y)
             v.number = number
+            if self.assigned:
+                num = int(vertex.getAttribute("assignedto"))
+                v.resource = (v for v in resources.vertices if v.number == num).next()
             self.vertices.append(v)
 
         self.vertices.sort(key=lambda x: x.number)
@@ -161,6 +169,21 @@ class Demand(AbstractGraph):
                 cap = int(edge.getAttribute("capacity"))
                 e = DemandLink(self.vertices[source-1], self.vertices[destination-1], cap)
                 self.edges.append(e)
+                if self.assigned:
+                    verts = edge.getAttribute("assignedto")
+                    if verts == "none":
+                        e.path = []
+                    else:
+                        nums = [int(s) for s in verts.split(";") if s != ""]
+                        print nums
+                        path = [(v for v in resources.vertices if v.number == nums[0]).next()]
+                        
+                        for n in nums[1:]:
+                            vert = [(v for v in resources.vertices if v.number == n).next()]
+                            edge = resources.FindEdge(path[-1], vert)
+                            path += [edge, vert]
+                        e.path = path
+                    
 
     def FindVertex(self, number):
         for v in self.vertices:

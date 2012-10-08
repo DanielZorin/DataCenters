@@ -59,8 +59,11 @@ class Project:
                         continue
                     if node.tagName == "resources":
                         self.resources.LoadFromXmlNode(node)
+                for node in root.childNodes:
+                    if isinstance(node, xml.dom.minidom.Text):
+                        continue
                     elif node.tagName == "demand":
                         d = self.CreateDemand()
-                        d.LoadFromXmlNode(node)
+                        d.LoadFromXmlNode(node, self.resources)
         f.close()
         self.method = RandomMethod(self.resources, self.demands)
