@@ -5,7 +5,7 @@ from DCGUI.DemandGraphCanvas import DemandGraphCanvas, State
 
 class DemandGraphEditor(QMainWindow):
     xmlfile = None
-    id_changed = pyqtSignal()
+    demand_changed = pyqtSignal()
 
     def __init__(self):
         QMainWindow.__init__(self)
@@ -85,7 +85,6 @@ class DemandGraphEditor(QMainWindow):
         self.ui.startTime.setText(str(self.demand.startTime))
         self.ui.endTime.setText(str(self.demand.endTime))
         self.setWindowTitle(self.demand.id + " - " + self.basename)
-        self.id_changed.emit()
         self.canvas.Clear()
         self.canvas.Visualize(self.demand)
         self.canvas.changed = True
@@ -113,6 +112,7 @@ class DemandGraphEditor(QMainWindow):
     def closeEvent(self, e):
         self.canvas.updatePos()
         self.changeTime()
+        self.demand_changed.emit()
 
     def changeTime(self):
         self.demand.startTime = int(self.ui.startTime.text())

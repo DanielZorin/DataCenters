@@ -1,11 +1,15 @@
 import random, copy
 from Core.Resources import Storage, Computer, Router, Link, State
 from Core.Demands import VM, DemandStorage, DemandLink
+from PyQt4.QtCore import QObject, pyqtSignal
 
-class RandomMethod:
+class RandomMethod(QObject):
+    demand_assigned = pyqtSignal(str)
+
     def __init__(self, resources, demands):
         self.resources = resources
         self.demands = demands
+        super(RandomMethod, self).__init__()
 
     def GetAvailableVertices(self,v,time):
         availableVertices = []
@@ -121,6 +125,7 @@ class RandomMethod:
             if success:
                 demand.assigned = True
                 print "Successfully assigned demand ", demand.id
+                self.demand_assigned.emit(demand.id)
                 break
         if iter == 1000:
             print "Failed to assign demand " + demand.id

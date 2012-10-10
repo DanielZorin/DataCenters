@@ -43,7 +43,7 @@ class MainWindow(QMainWindow):
         self.UpdateRecentFileActions()
         self.basename = self.windowTitle()
         self.setWindowTitle("Untitled" + " - " + self.basename)
-        self.demandGraphEditor.id_changed.connect(self.demandIdChanged)
+        self.demandGraphEditor.demand_changed.connect(self.demandChanged)
 
     def NewProject(self):
         self.project = Project()
@@ -105,6 +105,7 @@ class MainWindow(QMainWindow):
 
     def Run(self):
         self.project.resources._buildPaths()
+        self.project.method.demand_assigned.connect(self.demandAssigned)
         #self.project.method.Clear()
         self.project.method.Run()
 
@@ -205,10 +206,17 @@ class MainWindow(QMainWindow):
                 self.recentFileActions[i].setVisible(False)
                 self.recentFileActions[i].setEnabled(False)
 
-    def demandIdChanged(self):
+    def demandChanged(self):
         it = self.ui.demands.currentItem()
-        it.setText(self.demands[it].id)
+        it.setText(0, self.demands[it].id)
+        it.setText(1, str(self.demands[it].startTime))
+        it.setText(2, str(self.demands[it].endTime))
+        it.setText(3, "No")
 
     def ShowResults(self):
         self.Vis.setData(self.project)
         self.Vis.show()
+
+    def demandAssigned(self, id):
+        item = self.ui.demands.findItems(id, Qt.MatchExactly)[0]
+        item.setText(3, "Yes")
