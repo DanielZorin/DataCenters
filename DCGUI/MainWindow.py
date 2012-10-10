@@ -76,6 +76,7 @@ class MainWindow(QMainWindow):
             it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
             self.demands[it] = d
         self.UpdateRecentFiles()
+        self.project.method.LoadResults()
         self.setWindowTitle(self.projectFile.split('/').pop().split('.')[0] + " - " + self.basename)
 
     def OpenRecentFile(self):

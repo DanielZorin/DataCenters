@@ -179,7 +179,7 @@ class Demand(AbstractGraph):
                         path = [(v for v in resources.vertices if v.number == nums[0]).next()]
                         
                         for n in nums[1:]:
-                            vert = [(v for v in resources.vertices if v.number == n).next()]
+                            vert = (v for v in resources.vertices if v.number == n).next()
                             edge = resources.FindEdge(path[-1], vert)
                             path += [edge, vert]
                         e.path = path

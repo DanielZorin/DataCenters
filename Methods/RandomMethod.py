@@ -268,3 +268,18 @@ class RandomMethod:
                 self.RemoveTimePoint(e.intervals, demand.startTime)
                 self.RemoveTimePoint(e.intervals, demand.endTime)
         
+    def LoadAssignedDemand(self, demand):
+        self.PrepareIntervals(demand)
+        ranges = self.GetRanges(demand)
+        for time in ranges:
+            for v in demand.vertices:
+                self.AssignVertex(demand,v,v.resource,time)
+            for e in demand.edges:
+                if e.e1.resource == e.e2.resource:
+                    continue
+                self.AssignLink(demand, e, e.path, time)
+
+    def LoadResults(self):
+        for d in self.demands:
+            if d.assigned:
+                self.LoadAssignedDemand(d)
