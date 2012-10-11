@@ -65,5 +65,8 @@ class Project:
                     elif node.tagName == "demand":
                         d = self.CreateDemand()
                         d.LoadFromXmlNode(node, self.resources)
+        for d in self.demands:
+            if d.assigned:
+                self.resources.LoadAssignedDemand(d)
         f.close()
-        self.method = RandomMethod(self.resources, self.demands)
+        self.method = RandomMethod(self.resources, self.demands)               

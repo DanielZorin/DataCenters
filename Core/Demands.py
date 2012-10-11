@@ -175,7 +175,6 @@ class Demand(AbstractGraph):
                         e.path = []
                     else:
                         nums = [int(s) for s in verts.split(";") if s != ""]
-                        print nums
                         path = [(v for v in resources.vertices if v.number == nums[0]).next()]
                         
                         for n in nums[1:]:

@@ -1,5 +1,6 @@
-import xml.dom.minidom
+import xml.dom.minidom, copy
 from Core.AbstractGraph import AbstractGraph, AbstractVertex
+from Core.Demands import DemandStorage, VM
 
 class State:
     def __init__(self):
@@ -174,3 +175,105 @@ class ResourceGraph(AbstractGraph):
             for t in v.intervals.keys():
                 if (time >= t[0]) and (time <= t[1]):
                     return t
+
+    def GetRanges(self, demand):
+        v = self.vertices[0]
+        ranges = []
+        for t in v.intervals.keys():
+            if (t[0] >= demand.startTime) and (t[1] <= demand.endTime):
+                ranges.append(t)
+        return ranges
+
+    def AssignVertex(self, demand, vdemand, vresource, time):
+        vdemand.resource = vresource
+        if not vresource.intervals[time].demands.has_key(demand.id):
+            vresource.intervals[time].demands[demand.id] = []
+        vresource.intervals[time].demands[demand.id].append(vdemand.number)
+        if isinstance(vdemand, VM):
+            vresource.intervals[time].usedResource += vdemand.speed
+        elif isinstance(vdemand, DemandStorage):
+            vresource.intervals[time].usedResource += vdemand.volume
+
+    def AssignLink(self, demand, link, path, time):
+        link.path = path
+        for elem in path[1:len(path)-1]:
+            if isinstance(elem, Router):
+                elem.intervals[time].usedResource += link.capacity
+                if not elem.intervals[time].demands.has_key(demand.id):
+                    elem.intervals[time].demands[demand.id] = []
+                elem.intervals[time].demands[demand.id].append((link.e1.number, link.e2.number))
+            else:
+                e = self.FindEdge(elem.e1, elem.e2)
+                e.intervals[time].usedResource += link.capacity
+                if not e.intervals[time].demands.has_key(demand.id):
+                    e.intervals[time].demands[demand.id] = []
+                e.intervals[time].demands[demand.id].append((link.e1.number, link.e2.number))
+
+    def AddTimePoint(self, intervals, point):
+        points = []
+        for k in intervals.keys():
+            points.extend([k[0],k[1]])
+        points = list(set(points))
+        points.sort()        
+        if points.count(point) != 0:
+            return
+        if point > max(points):
+            intervals[(max(points),point)] = State()
+            return
+        if point < min(points):
+            intervals[(point,min(points))] = State()
+            return
+        i = 1
+        while points[i] < point:
+            i+=1
+        intervals[(points[i-1],point)] = copy.deepcopy(intervals[(points[i-1],points[i])])
+        intervals[(point,points[i])] = copy.deepcopy(intervals[(points[i-1],points[i])])
+        del intervals[(points[i-1],points[i])]
+
+    def RemoveTimePoint(self, intervals, point):
+        points = self.GetCurrentTimePoints()
+        if points.count(point) != 0:
+            return
+        points = []
+        for k in intervals.keys():
+            points.extend([k[0],k[1]])
+        points = list(set(points))
+        points.remove(point)
+        points.sort()
+        if point > max(points):
+            del intervals[(max(points),point)]
+            return
+        if point < min(points):
+            del intervals[(point,min(points))]
+            return
+        i = 1
+        while points[i] < point:
+            i+=1
+        intervals[(points[i-1],points[i])] = copy.deepcopy(intervals[(points[i-1],point)])
+        del intervals[(points[i-1],point)]
+        del intervals[(point,points[i])]
+
+    def PrepareIntervals(self, demand):
+        for v in self.vertices:
+            if v.intervals == {}:
+                v.intervals[(demand.startTime,demand.endTime)] = State()
+            else:
+                self.AddTimePoint(v.intervals, demand.startTime)
+                self.AddTimePoint(v.intervals, demand.endTime)
+        for e in self.edges:
+            if e.intervals == {}:
+                e.intervals[(demand.startTime,demand.endTime)] = State()
+            else:
+                self.AddTimePoint(e.intervals, demand.startTime)
+                self.AddTimePoint(e.intervals, demand.endTime)
+
+    def LoadAssignedDemand(self, demand):
+        self.PrepareIntervals(demand)
+        ranges = self.GetRanges(demand)
+        for time in ranges:
+            for v in demand.vertices:
+                self.AssignVertex(demand,v,v.resource,time)
+            for e in demand.edges:
+                if e.e1.resource == e.e2.resource:
+                    continue
+                self.AssignLink(demand, e, e.path, time)
