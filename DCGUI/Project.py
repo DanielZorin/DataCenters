@@ -75,4 +75,17 @@ class Project:
         for d in self.demands:
             if d.assigned:
                 self.resources.DropDemand(d)
-                self.resources.RemoveIntervals(d)           
+                self.resources.RemoveIntervals(d)   
+                
+    def GetStats(self):
+        stats = {"demands":0}
+        for d in self.demands:
+            if d.assigned:  
+                stats["demands"] += 1
+        stats["vmavg"] = 0
+        stats["stavg"] = 0
+        stats["netavg"] = 0
+        stats["vmmax"] = 0
+        stats["stmax"] = 0
+        stats["netmax"] = 0
+        return stats      

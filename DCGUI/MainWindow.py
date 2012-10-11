@@ -77,6 +77,7 @@ class MainWindow(QMainWindow):
             self.demands[it] = d
         self.UpdateRecentFiles()
         self.setWindowTitle(self.projectFile.split('/').pop().split('.')[0] + " - " + self.basename)
+        self.showStats()
 
     def OpenRecentFile(self):
         ''' Opens a project from recent files list'''
@@ -107,6 +108,17 @@ class MainWindow(QMainWindow):
         self.project.method.demand_assigned.connect(self.demandAssigned)
         #self.project.method.Clear()
         self.project.method.Run()
+        self.showStats()
+
+    def showStats(self):
+        stats = self.project.GetStats()
+        self.ui.demandcount.setText(str(stats["demands"]))
+        self.ui.vmavg.setText(str(stats["vmavg"]))
+        self.ui.stavg.setText(str(stats["stavg"]))
+        self.ui.netavg.setText(str(stats["netavg"]))
+        self.ui.vmmax.setText(str(stats["vmmax"]))
+        self.ui.stmax.setText(str(stats["stmax"]))
+        self.ui.netmax.setText(str(stats["netmax"]))
 
     def Settings(self):
         pass
