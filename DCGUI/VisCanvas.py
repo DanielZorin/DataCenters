@@ -9,11 +9,13 @@ class VisCanvas(QWidget):
     resources = None
     vertices = {}
     edges = {}
+    demandVertices = []
     selectedVertex = None
     pressed = False
     edgeDraw = False
     curEdge = None
     selectedEdge = None
+    demandEdges = []
     size = 25.0
     router_selected = pyqtSignal()
     storage_selected = pyqtSignal()
@@ -22,7 +24,8 @@ class VisCanvas(QWidget):
 
     colors = {
               "line": QColor(10, 34, 200),
-              "selected": QColor(1, 200, 1),
+              "selected_demand": QColor(1, 200, 1),
+              "selected": QColor(200, 1, 1),
               "text": QColor(0,0,0)
               }
 
@@ -44,6 +47,8 @@ class VisCanvas(QWidget):
         for e in self.resources.edges:
                 if e == self.selectedEdge:
                     paint.setPen(self.colors["selected"])
+                elif self.demandEdges.count(e):
+                    paint.setPen(self.colors["selected_demand"])
                 else:
                     paint.setPen(self.colors["line"])
                 x1 = self.vertices[e.e1].x() + self.size / 2
@@ -55,23 +60,28 @@ class VisCanvas(QWidget):
                 paint.drawText((x1+x2)/2, (y1+y2)/2, str(int(e.getUsedCapacityPercent(self.time)))+"%")
                 
         for v in self.vertices.keys():
+            if self.demandVertices.count(v) != 0:
+                paint.fillRect(self.vertices[v],self.colors["selected_demand"])
             if isinstance(v,Computer):
                 if self.selectedVertex != self.vertices[v]:
                     paint.drawImage(self.vertices[v], self.computericon)
                 else:
                     paint.drawImage(self.vertices[v], self.computerselectedicon)
+                paint.setPen(self.colors["text"])
                 paint.drawText(self.vertices[v].x() + self.size, self.vertices[v].y() + self.size, str(int(v.getUsedSpeedPercent(self.time)))+"%")
             elif isinstance(v,Storage):
                 if self.selectedVertex != self.vertices[v]:
                     paint.drawImage(self.vertices[v], self.storageicon)
                 else:
                     paint.drawImage(self.vertices[v], self.storageselectedicon)
+                paint.setPen(self.colors["text"])
                 paint.drawText(self.vertices[v].x() + self.size, self.vertices[v].y() + self.size, str(int(v.getUsedVolumePercent(self.time)))+"%")
             elif isinstance(v,Router):
                 if self.selectedVertex != self.vertices[v]:
                     paint.drawImage(self.vertices[v], self.routericon)
                 else:
                     paint.drawImage(self.vertices[v], self.routerselectedicon)
+                paint.setPen(self.colors["text"])
                 paint.drawText(self.vertices[v].x() + self.size, self.vertices[v].y() + self.size, str(int(v.getUsedCapacityPercent(self.time)))+"%")
         paint.setPen(self.colors["line"])
         if self.edgeDraw:

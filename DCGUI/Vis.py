@@ -174,3 +174,18 @@ class Vis(QMainWindow):
         for d in self.demands:
             if d.id == id:
                 return d
+            
+    def demandSelected(self):
+        id = self.ui.assignedDemands.selectedItems()[0].text(0)
+        d = self.FindDemand(id)
+        self.canvas.demandVertices = []
+        self.canvas.demandEdges = []
+        for v in d.vertices:
+            self.canvas.demandVertices.append(v.resource)
+        for e in d.edges:
+            for e1 in e.path[1:len(e.path)-1]:
+                if isinstance(e1,Router):
+                    self.canvas.demandVertices.append(e1)
+                else:
+                    self.canvas.demandEdges.append(self.resources.FindEdge(e1.e1, e1.e2))
+        self.Update()

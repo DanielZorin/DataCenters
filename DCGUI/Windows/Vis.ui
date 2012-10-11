@@ -37,7 +37,7 @@ QLabel, QSlider {
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -152,8 +152,8 @@ QLabel, QSlider {
    <slot>UpdateTimeFromSlider(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>106</x>
-     <y>42</y>
+     <x>149</x>
+     <y>31</y>
     </hint>
     <hint type="destinationlabel">
      <x>552</x>
@@ -168,8 +168,8 @@ QLabel, QSlider {
    <slot>UpdateTimeFromSpinBox(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>374</x>
-     <y>38</y>
+     <x>529</x>
+     <y>29</y>
     </hint>
     <hint type="destinationlabel">
      <x>44</x>
@@ -177,9 +177,26 @@ QLabel, QSlider {
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>assignedDemands</sender>
+   <signal>itemClicked(QTreeWidgetItem*,int)</signal>
+   <receiver>Vis</receiver>
+   <slot>demandSelected()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>36</x>
+     <y>81</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>28</x>
+     <y>296</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>UpdateTimeFromSlider(int)</slot>
   <slot>UpdateTimeFromSpinBox(int)</slot>
+  <slot>demandSelected()</slot>
  </slots>
 </ui>
