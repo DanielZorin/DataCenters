@@ -81,11 +81,6 @@ class RandomMethod(QObject):
         for d in self.demands:
             self.AssignDemand(d)
 
-    def Clear(self):
-        for d in self.demands:
-            if d.assigned:
-                self.resources.DropDemand(d)
-                self.RemoveIntervals(d)
 
 
         

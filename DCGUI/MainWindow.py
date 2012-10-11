@@ -165,6 +165,11 @@ class MainWindow(QMainWindow):
                 it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
                 self.demands[it] = demand
 
+    def Reset(self):
+        self.project.Reset()
+        for k in self.demands.keys():
+            k.setText(3, "No")
+
     def About(self):
         pass
 

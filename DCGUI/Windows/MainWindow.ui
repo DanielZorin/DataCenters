@@ -105,6 +105,9 @@ QLabel, QSlider {
     <addaction name="actionDelete_Demand"/>
     <addaction name="actionEdit_Demand"/>
     <addaction name="actionCreate_Random_Demands"/>
+    <addaction name="actionStart"/>
+    <addaction name="actionShow_Results"/>
+    <addaction name="actionReset"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuProject"/>
@@ -296,6 +299,11 @@ QLabel, QSlider {
    </property>
    <property name="toolTip">
     <string>Show Statistics</string>
+   </property>
+  </action>
+  <action name="actionReset">
+   <property name="text">
+    <string>Reset</string>
    </property>
   </action>
  </widget>
@@ -527,6 +535,22 @@ QLabel, QSlider {
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionReset</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>Reset()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>243</x>
+     <y>100</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>Exit()</slot>
@@ -542,5 +566,6 @@ QLabel, QSlider {
   <slot>RandomDemand()</slot>
   <slot>RenameDemand()</slot>
   <slot>ShowResults()</slot>
+  <slot>Reset()</slot>
  </slots>
 </ui>

@@ -69,4 +69,10 @@ class Project:
             if d.assigned:
                 self.resources.LoadAssignedDemand(d)
         f.close()
-        self.method = RandomMethod(self.resources, self.demands)               
+        self.method = RandomMethod(self.resources, self.demands)    
+        
+    def Reset(self):
+        for d in self.demands:
+            if d.assigned:
+                self.resources.DropDemand(d)
+                self.resources.RemoveIntervals(d)           

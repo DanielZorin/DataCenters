@@ -117,6 +117,8 @@ class Ui_MainWindow(object):
         icon12.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/chart.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionShow_Statistics.setIcon(icon12)
         self.actionShow_Statistics.setObjectName(_fromUtf8("actionShow_Statistics"))
+        self.actionReset = QtGui.QAction(MainWindow)
+        self.actionReset.setObjectName(_fromUtf8("actionReset"))
         self.menuFile.addAction(self.actionNew_Project)
         self.menuFile.addAction(self.actionOpen_Project)
         self.menuFile.addAction(self.actionSave_Project)
@@ -129,6 +131,9 @@ class Ui_MainWindow(object):
         self.menuProject.addAction(self.actionDelete_Demand)
         self.menuProject.addAction(self.actionEdit_Demand)
         self.menuProject.addAction(self.actionCreate_Random_Demands)
+        self.menuProject.addAction(self.actionStart)
+        self.menuProject.addAction(self.actionShow_Results)
+        self.menuProject.addAction(self.actionReset)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuProject.menuAction())
         self.menubar.addAction(self.menuHelp.menuAction())
@@ -162,6 +167,7 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.actionEdit_Demand, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.EditDemand)
         QtCore.QObject.connect(self.actionCreate_Random_Demands, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.RandomDemand)
         QtCore.QObject.connect(self.actionShow_Results, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.ShowResults)
+        QtCore.QObject.connect(self.actionReset, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.Reset)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -200,5 +206,6 @@ class Ui_MainWindow(object):
         self.actionShow_Results.setToolTip(QtGui.QApplication.translate("MainWindow", "Show Results", None, QtGui.QApplication.UnicodeUTF8))
         self.actionShow_Statistics.setText(QtGui.QApplication.translate("MainWindow", "Show_Statistics", None, QtGui.QApplication.UnicodeUTF8))
         self.actionShow_Statistics.setToolTip(QtGui.QApplication.translate("MainWindow", "Show Statistics", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionReset.setText(QtGui.QApplication.translate("MainWindow", "Reset", None, QtGui.QApplication.UnicodeUTF8))
 
 from . import resources_rc
