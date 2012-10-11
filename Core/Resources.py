@@ -46,6 +46,8 @@ class Link:
         return 0 if self.capacity == 0 else self.intervals[t].usedResource*100.0/self.capacity
 
 class ResourceGraph(AbstractGraph):
+    timepoints = {}
+
     def __init__(self):
         AbstractGraph.__init__(self)
 
@@ -176,6 +178,37 @@ class ResourceGraph(AbstractGraph):
                 if (time >= t[0]) and (time <= t[1]):
                     return t
 
+    def GetAvailableVertices(self,v,time):
+        availableVertices = []
+        for v1 in self.vertices:
+            if isinstance(v, VM) and isinstance(v1, Computer) and (v.speed <= v1.speed - v1.intervals[time].usedResource):
+                availableVertices.append(v1)
+            if isinstance(v, DemandStorage) and isinstance(v1, Storage) and (v.type == v1.type) and (v.volume <= v1.volume - v1.intervals[time].usedResource):
+                availableVertices.append(v1)
+        return availableVertices
+
+    def GetAvailableLinks(self, e, time):
+        availableLinks = []
+        g = self.FindPath(e.e1.resource, e.e2.resource)
+        while True:
+            try:
+                p = g.next()
+                if self.checkPath(p,e, time):
+                    availableLinks.append(p)
+            except StopIteration:
+                return availableLinks
+
+    def checkPath(self, path, link, time):
+        for elem in path[1:len(path)-1]:
+            if isinstance(elem, Router):
+                if (link.capacity > elem.capacity - elem.intervals[time].usedResource):
+                    return False
+            else:
+                e = self.FindEdge(elem.e1, elem.e2)
+                if (link.capacity > e.capacity - e.intervals[time].usedResource):
+                    return False
+        return True
+
     def GetRanges(self, demand):
         v = self.vertices[0]
         ranges = []
@@ -183,6 +216,45 @@ class ResourceGraph(AbstractGraph):
             if (t[0] >= demand.startTime) and (t[1] <= demand.endTime):
                 ranges.append(t)
         return ranges
+
+    def DropVertex(self,demand,v):
+        if v.resource == None:
+            return
+        for time in self.GetRanges(demand):
+            if isinstance(v,VM):
+                v.resource.intervals[time].usedResource -= v.speed
+            elif isinstance(v,DemandStorage):
+                v.resource.intervals[time].usedResource -= v.volume
+            v.resource.intervals[time].demands[demand.id].remove(v.number)
+            if v.resource.intervals[time].demands[demand.id]==[]:
+                del v.resource.intervals[time].demands[demand.id]
+        v.resource = None
+
+    def DropLink(self,demand,link):
+        if link.path == []:
+            return
+        path = link.path
+        for elem in path[1:len(path)-1]:
+            for time in self.GetRanges(demand):
+                if isinstance(elem, Router):
+                    elem.intervals[time].usedResource -= link.capacity
+                    elem.intervals[time].demands[demand.id].remove((link.e1.number,link.e2.number))
+                    if elem.intervals[time].demands[demand.id]==[]:
+                        del elem.intervals[time].demands[demand.id]
+                else:
+                    e = self.FindEdge(elem.e1, elem.e2)
+                    e.intervals[time].usedResource -= link.capacity
+                    e.intervals[time].demands[demand.id].remove((link.e1.number,link.e2.number))
+                    if e.intervals[time].demands[demand.id]==[]:
+                        del e.intervals[time].demands[demand.id]
+        link.path = []
+
+    def DropDemand(self,demand):
+        demand.assigned = False
+        for v in demand.vertices:
+            self.DropVertex(demand,v)
+        for e in demand.edges:
+            self.DropLink(demand,e)   
 
     def AssignVertex(self, demand, vdemand, vresource, time):
         vdemand.resource = vresource

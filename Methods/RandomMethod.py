@@ -11,37 +11,6 @@ class RandomMethod(QObject):
         self.demands = demands
         super(RandomMethod, self).__init__()
 
-    def GetAvailableVertices(self,v,time):
-        availableVertices = []
-        for v1 in self.resources.vertices:
-            if isinstance(v, VM) and isinstance(v1, Computer) and (v.speed <= v1.speed - v1.intervals[time].usedResource):
-                availableVertices.append(v1)
-            if isinstance(v, DemandStorage) and isinstance(v1, Storage) and (v.type == v1.type) and (v.volume <= v1.volume - v1.intervals[time].usedResource):
-                availableVertices.append(v1)
-        return availableVertices
-
-    def GetAvailableLinks(self, e, time):
-        availableLinks = []
-        g = self.resources.FindPath(e.e1.resource, e.e2.resource)
-        while True:
-            try:
-                p = g.next()
-                if self.checkPath(p,e, time):
-                    availableLinks.append(p)
-            except StopIteration:
-                return availableLinks
-
-    def checkPath(self, path, link, time):
-        for elem in path[1:len(path)-1]:
-            if isinstance(elem, Router):
-                if (link.capacity > elem.capacity - elem.intervals[time].usedResource):
-                    return False
-            else:
-                e = self.resources.FindEdge(elem.e1, elem.e2)
-                if (link.capacity > e.capacity - e.intervals[time].usedResource):
-                    return False
-        return True
-
     def AssignDemand(self,demand):
         if demand.assigned:
             return
@@ -54,7 +23,7 @@ class RandomMethod(QObject):
             for v in demand.vertices:
                 lists = []
                 for time in ranges:
-                    lists.append(self.GetAvailableVertices(v, time))
+                    lists.append(self.resources.GetAvailableVertices(v, time))
                 v1 = []
                 if len(lists) > 0:
                     for elem in lists[0]:
@@ -66,7 +35,7 @@ class RandomMethod(QObject):
                         if fl:
                             v1.append(elem)
                 if v1==[]:
-                    self.DropDemand(demand)
+                    self.resources.DropDemand(demand)
                     success = False
                     break;
                 i = random.randint(0, len(v1)-1)
@@ -79,7 +48,7 @@ class RandomMethod(QObject):
                     continue
                 lists = []
                 for time in ranges:
-                    lists.append(self.GetAvailableLinks(e,time))
+                    lists.append(self.resources.GetAvailableLinks(e,time))
                 e1 = []
                 if len(lists) > 0:
                     for elem in lists[0]:
@@ -91,7 +60,7 @@ class RandomMethod(QObject):
                         if fl:
                             e1.append(elem)
                 if e1==[]:
-                    self.DropDemand(demand)
+                    self.resources.DropDemand(demand)
                     success=False
                     break
                 i = random.randint(0, len(e1)-1)
@@ -104,49 +73,9 @@ class RandomMethod(QObject):
                 break
         if iter == 1000:
             print "Failed to assign demand " + demand.id
-            self.UpdateIntervals(demand)
+            self.RemoveIntervals(demand)
             return False
-        return True
-
-    def DropVertex(self,demand,v):
-        if v.resource == None:
-            return
-        for time in self.resources.GetRanges(demand):
-            if isinstance(v,VM):
-                v.resource.intervals[time].usedResource -= v.speed
-            elif isinstance(v,DemandStorage):
-                v.resource.intervals[time].usedResource -= v.volume
-            v.resource.intervals[time].demands[demand.id].remove(v.number)
-            if v.resource.intervals[time].demands[demand.id]==[]:
-                del v.resource.intervals[time].demands[demand.id]
-        v.resource = None
-
-    def DropLink(self,demand,link):
-        if link.path == []:
-            return
-        path = link.path
-        for elem in path[1:len(path)-1]:
-            for time in self.resources.GetRanges(demand):
-                if isinstance(elem, Router):
-                    elem.intervals[time].usedResource -= link.capacity
-                    elem.intervals[time].demands[demand.id].remove((link.e1.number,link.e2.number))
-                    if elem.intervals[time].demands[demand.id]==[]:
-                        del elem.intervals[time].demands[demand.id]
-                else:
-                    e = self.resources.FindEdge(elem.e1, elem.e2)
-                    e.intervals[time].usedResource -= link.capacity
-                    e.intervals[time].demands[demand.id].remove((link.e1.number,link.e2.number))
-                    if e.intervals[time].demands[demand.id]==[]:
-                        del e.intervals[time].demands[demand.id]
-        link.path = []
-
-    def DropDemand(self,demand):
-        demand.assigned = False
-        for v in demand.vertices:
-            self.DropVertex(demand,v)
-        for e in demand.edges:
-            self.DropLink(demand,e)
-        
+        return True   
 
     def Run(self):
         for d in self.demands:
@@ -155,8 +84,8 @@ class RandomMethod(QObject):
     def Clear(self):
         for d in self.demands:
             if d.assigned:
-                self.DropDemand(d)
-                self.UpdateIntervals(d)
+                self.resources.DropDemand(d)
+                self.RemoveIntervals(d)
 
     def GetCurrentTimePoints(self):
         l = set([])
@@ -191,7 +120,7 @@ class RandomMethod(QObject):
         del intervals[(points[i-1],point)]
         del intervals[(point,points[i])]
 
-    def UpdateIntervals(self, demand):
+    def RemoveIntervals(self, demand):
         for v in self.resources.vertices:
             if len(v.intervals.keys())==1:
                 del v.intervals[(demand.startTime,demand.endTime)]

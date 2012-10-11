@@ -76,7 +76,6 @@ class MainWindow(QMainWindow):
             it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
             self.demands[it] = d
         self.UpdateRecentFiles()
-        
         self.setWindowTitle(self.projectFile.split('/').pop().split('.')[0] + " - " + self.basename)
 
     def OpenRecentFile(self):
@@ -145,8 +144,8 @@ class MainWindow(QMainWindow):
             return
         d = self.demands[self.ui.demands.currentItem()]
         if d.assigned:
-            self.project.method.DropDemand(d)
-            self.project.method.UpdateIntervals(d)
+            self.project.resources.DropDemand(d)
+            #self.project.method.UpdateIntervals(d)
         self.demandGraphEditor.setData(d)
         self.demandGraphEditor.show()
 
