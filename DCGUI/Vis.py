@@ -1,5 +1,5 @@
-from PyQt4.QtCore import QString
-from PyQt4.QtGui import QMainWindow, QFileDialog, QTextEdit
+from PyQt4.QtCore import QString, Qt
+from PyQt4.QtGui import QMainWindow, QFileDialog, QTextEdit, QTreeWidgetItem
 from DCGUI.Windows.ui_Vis import Ui_Vis
 from DCGUI.VisCanvas import VisCanvas
 from Core.Demands import VM, DemandStorage
@@ -35,6 +35,11 @@ class Vis(QMainWindow):
         self.ui.timeSlider.setMaximum(r[1])
         self.ui.info.setText("")
         timeInt = self.resources.GetTimeInterval(self.time)
+        self.ui.assignedDemands.clear()
+        for d in self.demands:
+            if d.assigned:
+                it = QTreeWidgetItem(self.ui.assignedDemands, [d.id])
+                it.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
         self.canvas.Visualize(self.resources, timeInt)
         
     def resizeEvent(self, e):

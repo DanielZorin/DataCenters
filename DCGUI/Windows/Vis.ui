@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>685</width>
-    <height>339</height>
+    <width>800</width>
+    <height>283</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,73 +31,90 @@ QLabel, QSlider {
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>Time:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="2">
-     <widget class="QSpinBox" name="timeSpinBox">
-      <property name="minimum">
-       <number>0</number>
-      </property>
-      <property name="maximum">
-       <number>99</number>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="3" rowspan="2">
-     <widget class="QTextBrowser" name="info"/>
-    </item>
-    <item row="1" column="0" colspan="3">
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item alignment="Qt::AlignVCenter">
-       <widget class="QScrollArea" name="graphArea">
-        <property name="widgetResizable">
-         <bool>false</bool>
-        </property>
-        <widget class="QWidget" name="scrollAreaWidgetContents">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>398</width>
-           <height>230</height>
-          </rect>
-         </property>
-        </widget>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="0" column="1">
-     <widget class="QSlider" name="timeSlider">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <widget class="QSplitter" name="splitter">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
+      <widget class="QWidget" name="">
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Time:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="timeSlider">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="timeSpinBox">
+            <property name="minimum">
+             <number>0</number>
+            </property>
+            <property name="maximum">
+             <number>99</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QTreeWidget" name="assignedDemands">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>111</width>
+              <height>9999</height>
+             </size>
+            </property>
+            <column>
+             <property name="text">
+              <string>Assigned Demands</string>
+             </property>
+            </column>
+           </widget>
+          </item>
+          <item>
+           <widget class="QScrollArea" name="graphArea">
+            <property name="widgetResizable">
+             <bool>false</bool>
+            </property>
+            <widget class="QWidget" name="scrollAreaWidgetContents">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>405</width>
+               <height>230</height>
+              </rect>
+             </property>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QTextBrowser" name="info"/>
      </widget>
     </item>
    </layout>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>685</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <addaction name="actionExit"/>
-   </widget>
-   <addaction name="menuFile"/>
   </widget>
   <action name="actionExit">
    <property name="text">
