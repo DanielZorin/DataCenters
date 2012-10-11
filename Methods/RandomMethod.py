@@ -73,7 +73,7 @@ class RandomMethod(QObject):
                 break
         if iter == 1000:
             print "Failed to assign demand " + demand.id
-            self.RemoveIntervals(demand)
+            self.resources.RemoveIntervals(demand)
             return False
         return True   
 
@@ -87,50 +87,5 @@ class RandomMethod(QObject):
                 self.resources.DropDemand(d)
                 self.RemoveIntervals(d)
 
-    def GetCurrentTimePoints(self):
-        l = set([])
-        for d in self.demands:
-            if d.assigned:
-                l.add(d.startTime)
-                l.add(d.endTime)
-        l = list(l)
-        l.sort()
-        return l
 
-    def RemoveTimePoint(self, intervals, point):
-        points = self.GetCurrentTimePoints()
-        if points.count(point) != 0:
-            return
-        points = []
-        for k in intervals.keys():
-            points.extend([k[0],k[1]])
-        points = list(set(points))
-        points.remove(point)
-        points.sort()
-        if point > max(points):
-            del intervals[(max(points),point)]
-            return
-        if point < min(points):
-            del intervals[(point,min(points))]
-            return
-        i = 1
-        while points[i] < point:
-            i+=1
-        intervals[(points[i-1],points[i])] = copy.deepcopy(intervals[(points[i-1],point)])
-        del intervals[(points[i-1],point)]
-        del intervals[(point,points[i])]
-
-    def RemoveIntervals(self, demand):
-        for v in self.resources.vertices:
-            if len(v.intervals.keys())==1:
-                del v.intervals[(demand.startTime,demand.endTime)]
-            else:
-                self.RemoveTimePoint(v.intervals, demand.startTime)
-                self.RemoveTimePoint(v.intervals, demand.endTime)
-        for e in self.resources.edges:
-            if len(e.intervals.keys())==1:
-                del e.intervals[(demand.startTime,demand.endTime)]
-            else:
-                self.RemoveTimePoint(e.intervals, demand.startTime)
-                self.RemoveTimePoint(e.intervals, demand.endTime)
         

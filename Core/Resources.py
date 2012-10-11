@@ -46,7 +46,7 @@ class Link:
         return 0 if self.capacity == 0 else self.intervals[t].usedResource*100.0/self.capacity
 
 class ResourceGraph(AbstractGraph):
-    timepoints = {}
+    assignedDemands = set([])
 
     def __init__(self):
         AbstractGraph.__init__(self)
@@ -254,10 +254,13 @@ class ResourceGraph(AbstractGraph):
         for v in demand.vertices:
             self.DropVertex(demand,v)
         for e in demand.edges:
-            self.DropLink(demand,e)   
+            self.DropLink(demand,e)  
+        self.assignedDemands.remove(demand) 
+        #self.RemoveIntervals(demand)
 
     def AssignVertex(self, demand, vdemand, vresource, time):
         vdemand.resource = vresource
+        self.assignedDemands.add(demand)
         if not vresource.intervals[time].demands.has_key(demand.id):
             vresource.intervals[time].demands[demand.id] = []
         vresource.intervals[time].demands[demand.id].append(vdemand.number)
@@ -268,6 +271,7 @@ class ResourceGraph(AbstractGraph):
 
     def AssignLink(self, demand, link, path, time):
         link.path = path
+        self.assignedDemands.add(demand)
         for elem in path[1:len(path)-1]:
             if isinstance(elem, Router):
                 elem.intervals[time].usedResource += link.capacity
@@ -301,6 +305,15 @@ class ResourceGraph(AbstractGraph):
         intervals[(points[i-1],point)] = copy.deepcopy(intervals[(points[i-1],points[i])])
         intervals[(point,points[i])] = copy.deepcopy(intervals[(points[i-1],points[i])])
         del intervals[(points[i-1],points[i])]
+
+    def GetCurrentTimePoints(self):
+        l = set([])
+        for d in self.assignedDemands:
+            l.add(d.startTime)
+            l.add(d.endTime)
+        l = list(l)
+        l.sort()
+        return l
 
     def RemoveTimePoint(self, intervals, point):
         points = self.GetCurrentTimePoints()
@@ -349,3 +362,17 @@ class ResourceGraph(AbstractGraph):
                 if e.e1.resource == e.e2.resource:
                     continue
                 self.AssignLink(demand, e, e.path, time)
+
+    def RemoveIntervals(self, demand):
+        for v in self.vertices:
+            if len(v.intervals.keys())==1:
+                del v.intervals[(demand.startTime,demand.endTime)]
+            else:
+                self.RemoveTimePoint(v.intervals, demand.startTime)
+                self.RemoveTimePoint(v.intervals, demand.endTime)
+        for e in self.edges:
+            if len(e.intervals.keys())==1:
+                del e.intervals[(demand.startTime,demand.endTime)]
+            else:
+                self.RemoveTimePoint(e.intervals, demand.startTime)
+                self.RemoveTimePoint(e.intervals, demand.endTime)
