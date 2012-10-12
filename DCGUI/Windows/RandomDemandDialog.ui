@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Create Random System</string>
+   <string>Create Random Request</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget, QMenuBar::item {
@@ -66,7 +66,7 @@ QLabel, QSlider {
                </sizepolicy>
               </property>
               <property name="text">
-               <string>Number of demands</string>
+               <string>Number of requests</string>
               </property>
              </widget>
             </item>
@@ -86,7 +86,7 @@ QLabel, QSlider {
                </sizepolicy>
               </property>
               <property name="text">
-               <string>Mimimal time</string>
+               <string>Mimimal performance</string>
               </property>
              </widget>
             </item>
@@ -99,7 +99,7 @@ QLabel, QSlider {
                </sizepolicy>
               </property>
               <property name="text">
-               <string>Maximal time</string>
+               <string>Maximal performance</string>
               </property>
              </widget>
             </item>
@@ -119,7 +119,7 @@ QLabel, QSlider {
                </sizepolicy>
               </property>
               <property name="text">
-               <string>Minimal volume</string>
+               <string>Minimal capacity</string>
               </property>
              </widget>
             </item>
@@ -132,21 +132,21 @@ QLabel, QSlider {
                </sizepolicy>
               </property>
               <property name="text">
-               <string>Maximal volume</string>
+               <string>Maximal capacity</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_9">
               <property name="text">
-               <string>Mininal capacity</string>
+               <string>Mininal bandwidth</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_10">
               <property name="text">
-               <string>Maximal capacity</string>
+               <string>Maximal bandwidth</string>
               </property>
              </widget>
             </item>

@@ -68,7 +68,7 @@ QLabel, QSlider {
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Volume:</string>
+        <string>Capacity:</string>
        </property>
       </widget>
      </item>

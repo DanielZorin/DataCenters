@@ -85,7 +85,7 @@ QLabel, QSlider {
             </property>
             <column>
              <property name="text">
-              <string>Assigned Demands</string>
+              <string>Assigned Requests</string>
              </property>
             </column>
            </widget>

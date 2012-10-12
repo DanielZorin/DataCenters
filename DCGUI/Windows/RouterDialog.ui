@@ -62,7 +62,7 @@ QLabel, QSlider {
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Capacity</string>
+        <string>Bandwidth:</string>
        </property>
       </widget>
      </item>

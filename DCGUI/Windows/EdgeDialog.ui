@@ -41,7 +41,7 @@ QLabel, QSlider {
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Capacity:</string>
+        <string>Bandwidth:</string>
        </property>
       </widget>
      </item>

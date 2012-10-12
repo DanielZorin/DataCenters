@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Demand Graph Editor</string>
+   <string>Request Graph Editor</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
@@ -81,7 +81,7 @@ QLabel, QSlider {
      <x>0</x>
      <y>0</y>
      <width>443</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

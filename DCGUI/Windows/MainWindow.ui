@@ -78,7 +78,7 @@ QLabel, QSlider {
            <item>
             <widget class="QLabel" name="label_13">
              <property name="text">
-              <string>Total demands scheduled</string>
+              <string>Total requests scheduled</string>
              </property>
             </widget>
            </item>
@@ -362,7 +362,10 @@ QLabel, QSlider {
      <normaloff>:/pics/pics/add.png</normaloff>:/pics/pics/add.png</iconset>
    </property>
    <property name="text">
-    <string>Add Demand</string>
+    <string>Add Request</string>
+   </property>
+   <property name="toolTip">
+    <string>Add Request</string>
    </property>
   </action>
   <action name="actionDelete_Demand">
@@ -371,7 +374,10 @@ QLabel, QSlider {
      <normaloff>:/pics/pics/delete.png</normaloff>:/pics/pics/delete.png</iconset>
    </property>
    <property name="text">
-    <string>Delete Demand</string>
+    <string>Delete Request</string>
+   </property>
+   <property name="toolTip">
+    <string>Delete Request</string>
    </property>
   </action>
   <action name="actionCreate_Random_Demands">
@@ -380,7 +386,10 @@ QLabel, QSlider {
      <normaloff>:/pics/pics/dice.png</normaloff>:/pics/pics/dice.png</iconset>
    </property>
    <property name="text">
-    <string>Create Random Demands</string>
+    <string>Create Random Requests</string>
+   </property>
+   <property name="toolTip">
+    <string>Create Random Requests</string>
    </property>
   </action>
   <action name="actionEdit_Demand">
@@ -389,7 +398,10 @@ QLabel, QSlider {
      <normaloff>:/pics/pics/page_edit.png</normaloff>:/pics/pics/page_edit.png</iconset>
    </property>
    <property name="text">
-    <string>Edit Demand</string>
+    <string>Edit Request</string>
+   </property>
+   <property name="toolTip">
+    <string>Edit Request</string>
    </property>
   </action>
   <action name="actionShow_Results">
