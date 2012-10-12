@@ -58,7 +58,7 @@ class Ui_EdgeDialog(object):
 
     def retranslateUi(self, EdgeDialog):
         EdgeDialog.setWindowTitle(QtGui.QApplication.translate("EdgeDialog", "Edit Edge", None, QtGui.QApplication.UnicodeUTF8))
-        self.capacitylabel.setText(QtGui.QApplication.translate("EdgeDialog", "Capacity:", None, QtGui.QApplication.UnicodeUTF8))
+        self.capacitylabel.setText(QtGui.QApplication.translate("EdgeDialog", "Bandwidth:", None, QtGui.QApplication.UnicodeUTF8))
         self.OK.setText(QtGui.QApplication.translate("EdgeDialog", "OK", None, QtGui.QApplication.UnicodeUTF8))
         self.Cancel.setText(QtGui.QApplication.translate("EdgeDialog", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
 

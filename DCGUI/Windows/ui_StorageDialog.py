@@ -81,7 +81,7 @@ class Ui_StorageDialog(object):
     def retranslateUi(self, StorageDialog):
         StorageDialog.setWindowTitle(QtGui.QApplication.translate("StorageDialog", "Edit Storage", None, QtGui.QApplication.UnicodeUTF8))
         self.namelabel.setText(QtGui.QApplication.translate("StorageDialog", "Name:", None, QtGui.QApplication.UnicodeUTF8))
-        self.volumelabel.setText(QtGui.QApplication.translate("StorageDialog", "Volume:", None, QtGui.QApplication.UnicodeUTF8))
+        self.volumelabel.setText(QtGui.QApplication.translate("StorageDialog", "Capacity:", None, QtGui.QApplication.UnicodeUTF8))
         self.typelabel.setText(QtGui.QApplication.translate("StorageDialog", "Type:", None, QtGui.QApplication.UnicodeUTF8))
         self.OK.setText(QtGui.QApplication.translate("StorageDialog", "OK", None, QtGui.QApplication.UnicodeUTF8))
         self.Cancel.setText(QtGui.QApplication.translate("StorageDialog", "Cancel", None, QtGui.QApplication.UnicodeUTF8))

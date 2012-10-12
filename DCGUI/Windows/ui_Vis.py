@@ -82,7 +82,7 @@ class Ui_Vis(object):
     def retranslateUi(self, Vis):
         Vis.setWindowTitle(QtGui.QApplication.translate("Vis", "Results Visualizer", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("Vis", "Time:", None, QtGui.QApplication.UnicodeUTF8))
-        self.assignedDemands.headerItem().setText(0, QtGui.QApplication.translate("Vis", "Assigned Demands", None, QtGui.QApplication.UnicodeUTF8))
+        self.assignedDemands.headerItem().setText(0, QtGui.QApplication.translate("Vis", "Assigned Requests", None, QtGui.QApplication.UnicodeUTF8))
         self.actionExit.setText(QtGui.QApplication.translate("Vis", "Exit", None, QtGui.QApplication.UnicodeUTF8))
         self.actionExit.setShortcut(QtGui.QApplication.translate("Vis", "Ctrl+X", None, QtGui.QApplication.UnicodeUTF8))
 

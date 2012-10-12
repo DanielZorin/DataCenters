@@ -23,6 +23,7 @@ if __name__ == "__main__":
             clear("ui_" + s.replace(".ui", ".py"), 8)
 
     os.system("pyrcc4 -py3 resources.qrc -o resources_rc.py")
+    clear("resources_rc.py", 8)
     
     if 0 == 1:
         os.chdir("..")

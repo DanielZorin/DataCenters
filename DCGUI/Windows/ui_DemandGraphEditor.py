@@ -51,7 +51,7 @@ class Ui_DemandGraphEditor(object):
         self.gridLayout.addLayout(self.horizontalLayout, 1, 0, 1, 4)
         DemandGraphEditor.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(DemandGraphEditor)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 443, 20))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 443, 21))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuFile = QtGui.QMenu(self.menubar)
         self.menuFile.setObjectName(_fromUtf8("menuFile"))
@@ -135,7 +135,7 @@ class Ui_DemandGraphEditor(object):
         DemandGraphEditor.setTabOrder(self.startTime, self.endTime)
 
     def retranslateUi(self, DemandGraphEditor):
-        DemandGraphEditor.setWindowTitle(QtGui.QApplication.translate("DemandGraphEditor", "Demand Graph Editor", None, QtGui.QApplication.UnicodeUTF8))
+        DemandGraphEditor.setWindowTitle(QtGui.QApplication.translate("DemandGraphEditor", "Request Graph Editor", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("DemandGraphEditor", "Start Time:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setText(QtGui.QApplication.translate("DemandGraphEditor", "End Time:", None, QtGui.QApplication.UnicodeUTF8))
         self.menuFile.setTitle(QtGui.QApplication.translate("DemandGraphEditor", "File", None, QtGui.QApplication.UnicodeUTF8))

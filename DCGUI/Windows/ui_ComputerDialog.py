@@ -75,7 +75,7 @@ class Ui_ComputerDialog(object):
     def retranslateUi(self, ComputerDialog):
         ComputerDialog.setWindowTitle(QtGui.QApplication.translate("ComputerDialog", "Edit Computer", None, QtGui.QApplication.UnicodeUTF8))
         self.namelabel.setText(QtGui.QApplication.translate("ComputerDialog", "Name:", None, QtGui.QApplication.UnicodeUTF8))
-        self.timelabel.setText(QtGui.QApplication.translate("ComputerDialog", "Speed:", None, QtGui.QApplication.UnicodeUTF8))
+        self.timelabel.setText(QtGui.QApplication.translate("ComputerDialog", "Performance:", None, QtGui.QApplication.UnicodeUTF8))
         self.OK.setText(QtGui.QApplication.translate("ComputerDialog", "OK", None, QtGui.QApplication.UnicodeUTF8))
         self.Cancel.setText(QtGui.QApplication.translate("ComputerDialog", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
 
