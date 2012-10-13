@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>578</width>
-    <height>373</height>
+    <height>437</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -43,6 +43,135 @@ QLabel, QSlider {
     </property>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="projectname">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Project name</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="editname">
+          <property name="maximumSize">
+           <size>
+            <width>32</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="resources.qrc">
+            <normaloff>:/pics/pics/page_edit.png</normaloff>:/pics/pics/page_edit.png</iconset>
+          </property>
+          <property name="autoRepeatInterval">
+           <number>100</number>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Algorithm:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="comboBox">
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>0</height>
+           </size>
+          </property>
+          <item>
+           <property name="text">
+            <string>Ant Colony</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Centralized</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Decentralized</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="runall">
+          <property name="text">
+           <string>Schedule all</string>
+          </property>
+          <property name="icon">
+           <iconset resource="resources.qrc">
+            <normaloff>:/pics/pics/play.png</normaloff>:/pics/pics/play.png</iconset>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="runsel">
+          <property name="text">
+           <string>Schedule selected</string>
+          </property>
+          <property name="icon">
+           <iconset resource="resources.qrc">
+            <normaloff>:/pics/pics/fast_forward.png</normaloff>:/pics/pics/fast_forward.png</iconset>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
@@ -221,6 +350,7 @@ QLabel, QSlider {
     <addaction name="actionEdit_Demand"/>
     <addaction name="actionCreate_Random_Demands"/>
     <addaction name="actionStart"/>
+    <addaction name="actionSchedule_selected"/>
     <addaction name="actionShow_Results"/>
     <addaction name="actionReset"/>
    </widget>
@@ -249,6 +379,7 @@ QLabel, QSlider {
    <addaction name="actionCreate_Random_Demands"/>
    <addaction name="separator"/>
    <addaction name="actionStart"/>
+   <addaction name="actionSchedule_selected"/>
    <addaction name="actionShow_Statistics"/>
    <addaction name="actionShow_Results"/>
    <addaction name="actionSettings"/>
@@ -323,7 +454,10 @@ QLabel, QSlider {
     </iconset>
    </property>
    <property name="text">
-    <string>Launch Search</string>
+    <string>Schedule All</string>
+   </property>
+   <property name="toolTip">
+    <string>Schedule All</string>
    </property>
    <property name="shortcut">
     <string>F5</string>
@@ -428,7 +562,7 @@ QLabel, QSlider {
     <string>Show Results</string>
    </property>
    <property name="shortcut">
-    <string>F5</string>
+    <string>F7</string>
    </property>
   </action>
   <action name="actionShow_Statistics">
@@ -443,7 +577,7 @@ QLabel, QSlider {
     <string>Show Statistics</string>
    </property>
    <property name="shortcut">
-    <string>F6</string>
+    <string>F8</string>
    </property>
   </action>
   <action name="actionReset">
@@ -452,6 +586,18 @@ QLabel, QSlider {
    </property>
    <property name="shortcut">
     <string>F10</string>
+   </property>
+  </action>
+  <action name="actionSchedule_selected">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/pics/pics/fast_forward.png</normaloff>:/pics/pics/fast_forward.png</iconset>
+   </property>
+   <property name="text">
+    <string>Schedule selected</string>
+   </property>
+   <property name="shortcut">
+    <string>F6, Ctrl+S</string>
    </property>
   </action>
  </widget>
@@ -699,6 +845,54 @@ QLabel, QSlider {
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>editname</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>EditName()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>140</x>
+     <y>80</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>288</x>
+     <y>186</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>runsel</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>RunSelected()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>318</x>
+     <y>112</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>288</x>
+     <y>218</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>runall</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>Run()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>213</x>
+     <y>112</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>288</x>
+     <y>218</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>Exit()</slot>
@@ -715,5 +909,8 @@ QLabel, QSlider {
   <slot>RenameDemand()</slot>
   <slot>ShowResults()</slot>
   <slot>Reset()</slot>
+  <slot>EditName()</slot>
+  <slot>RunSelected()</slot>
+  <slot>Run()</slot>
  </slots>
 </ui>

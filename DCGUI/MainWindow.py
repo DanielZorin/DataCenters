@@ -1,4 +1,4 @@
-from PyQt4.QtGui import QMainWindow, qApp, QTreeWidgetItem, QDialog, QFileDialog, QMessageBox, QAction, QKeySequence
+from PyQt4.QtGui import QMainWindow, qApp, QTreeWidgetItem, QDialog, QFileDialog, QMessageBox, QAction, QKeySequence, QLineEdit
 from PyQt4.QtCore import Qt, QObject, SIGNAL, QSettings, QStringList
 from DCGUI.Windows.ui_MainWindow import Ui_MainWindow
 from DCGUI.ResourcesGraphEditor import ResourcesGraphEditor
@@ -76,7 +76,8 @@ class MainWindow(QMainWindow):
             it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
             self.demands[it] = d
         self.UpdateRecentFiles()
-        self.setWindowTitle(self.projectFile.split('/').pop().split('.')[0] + " - " + self.basename)
+        self.setWindowTitle(self.project.name + " - " + self.basename)
+        self.ui.projectname.setText(self.project.name)
         self.showStats()
 
     def OpenRecentFile(self):
@@ -109,6 +110,9 @@ class MainWindow(QMainWindow):
         #self.project.method.Clear()
         self.project.method.Run()
         self.showStats()
+
+    def RunSelected(self):
+        pass
 
     def showStats(self):
         stats = self.project.GetStats()
@@ -187,6 +191,26 @@ class MainWindow(QMainWindow):
 
     def Exit(self):
         pass
+
+    def EditName(self):
+        self.lineedit = QLineEdit(self.ui.projectname.parentWidget())
+        self.lineedit.setGeometry(self.ui.projectname.geometry())
+        self.lineedit.setText(self.ui.projectname.text())
+        self.lineedit.setFocus()
+        self.lineedit.show()
+        self.ui.projectname.hide()
+        # TODO: what's wrong?
+        #self.ui.editname.hide()
+        QObject.connect(self.lineedit, SIGNAL("editingFinished()"), self.ChangeName)
+
+    def ChangeName(self):
+        s = self.lineedit.text()
+        self.ui.projectname.setText(s)
+        self.ui.projectname.show()
+        #self.ui.editname.show()
+        self.lineedit.hide() 
+        self.project.name = s
+        self.setWindowTitle(self.project.name + " - " + self.tr("Data Centers GUI")) 
 
     def RemoveFromRecentFiles(self, s):
         ''' Removes an item from recent files list'''

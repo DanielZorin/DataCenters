@@ -38,6 +38,7 @@ class Project:
     def Save(self, filename):
         dom = xml.dom.minidom.Document()
         root = dom.createElement("dcxml")
+        root.setAttribute("name", self.name)
         resgraph = self.resources.CreateXml(dom)
         root.appendChild(resgraph)
         for d in self.demands:
@@ -54,6 +55,7 @@ class Project:
         self.demands = []
         for root in dom.childNodes:
             if root.tagName == "dcxml":
+                self.name = root.getAttribute("name")
                 for node in root.childNodes:
                     if isinstance(node, xml.dom.minidom.Text):
                         continue
