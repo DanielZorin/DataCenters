@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>319</width>
-    <height>327</height>
+    <height>353</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -150,6 +150,20 @@ QLabel, QSlider {
               </property>
              </widget>
             </item>
+            <item>
+             <widget class="QLabel" name="label_8">
+              <property name="text">
+               <string>Starting time</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_11">
+              <property name="text">
+               <string>End time</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
           <item>
@@ -217,6 +231,20 @@ QLabel, QSlider {
              <widget class="QLineEdit" name="c2">
               <property name="text">
                <string>15</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="starttime">
+              <property name="text">
+               <string>0</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="endtime">
+              <property name="text">
+               <string>100</string>
               </property>
              </widget>
             </item>

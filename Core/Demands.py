@@ -31,9 +31,8 @@ class Demand(AbstractGraph):
         self.assigned = False
 
     def GenerateRandom(self, params):
-        #TODO: get ranges from the dialog
-        self.startTime = random.randint(0, 90)
-        self.endTime = random.randint(self.startTime, 100)
+        self.startTime = random.randint(params["start"], params["end"] - 1)
+        self.endTime = random.randint(self.startTime, params["end"])
         x = 50
         y = 50
         maxi = 40 * int(math.sqrt(params["vms"] + params["storages"]))
