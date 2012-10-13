@@ -367,6 +367,9 @@ QLabel, QSlider {
    <property name="toolTip">
     <string>Add Request</string>
    </property>
+   <property name="shortcut">
+    <string>Alt+N</string>
+   </property>
   </action>
   <action name="actionDelete_Demand">
    <property name="icon">
@@ -378,6 +381,9 @@ QLabel, QSlider {
    </property>
    <property name="toolTip">
     <string>Delete Request</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+X</string>
    </property>
   </action>
   <action name="actionCreate_Random_Demands">
@@ -391,6 +397,9 @@ QLabel, QSlider {
    <property name="toolTip">
     <string>Create Random Requests</string>
    </property>
+   <property name="shortcut">
+    <string>F9</string>
+   </property>
   </action>
   <action name="actionEdit_Demand">
    <property name="icon">
@@ -402,6 +411,9 @@ QLabel, QSlider {
    </property>
    <property name="toolTip">
     <string>Edit Request</string>
+   </property>
+   <property name="shortcut">
+    <string>F4</string>
    </property>
   </action>
   <action name="actionShow_Results">
@@ -415,6 +427,9 @@ QLabel, QSlider {
    <property name="toolTip">
     <string>Show Results</string>
    </property>
+   <property name="shortcut">
+    <string>F5</string>
+   </property>
   </action>
   <action name="actionShow_Statistics">
    <property name="icon">
@@ -427,10 +442,16 @@ QLabel, QSlider {
    <property name="toolTip">
     <string>Show Statistics</string>
    </property>
+   <property name="shortcut">
+    <string>F6</string>
+   </property>
   </action>
   <action name="actionReset">
    <property name="text">
     <string>Reset</string>
+   </property>
+   <property name="shortcut">
+    <string>F10</string>
    </property>
   </action>
  </widget>
