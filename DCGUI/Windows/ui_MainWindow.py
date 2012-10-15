@@ -140,7 +140,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addLayout(self.verticalLayout)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 578, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 578, 20))
         self.menubar.setStyleSheet(_fromUtf8(""))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuFile = QtGui.QMenu(self.menubar)
@@ -277,6 +277,7 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.editname, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.EditName)
         QtCore.QObject.connect(self.runsel, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.RunSelected)
         QtCore.QObject.connect(self.runall, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.Run)
+        QtCore.QObject.connect(self.actionSchedule_selected, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.RunSelected)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

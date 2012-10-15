@@ -104,15 +104,24 @@ class MainWindow(QMainWindow):
             self.UpdateRecentFiles()
         self.setWindowTitle(self.projectFile.split('/').pop().split('.')[0] + " - " + self.basename)
 
-    def Run(self):
+    def InitProject(self):
         self.project.resources._buildPaths()
         self.project.method.demand_assigned.connect(self.demandAssigned)
+
+    def Run(self):
+        self.InitProject(self)
         #self.project.method.Clear()
         self.project.method.Run()
         self.showStats()
 
     def RunSelected(self):
-        pass
+        self.InitProject()
+        if self.ui.demands.selectedItems()==[]:
+            return
+        id = self.ui.demands.selectedItems()[0].text(0)
+        d = self.project.FindDemand(id)
+        self.project.method.Run(d)
+        self.showStats()
 
     def showStats(self):
         stats = self.project.GetStats()

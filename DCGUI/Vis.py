@@ -66,7 +66,7 @@ class Vis(QMainWindow):
         demands = v.intervals[timeInt].demands.keys()
         demands.sort()
         for id in demands:
-            d = self.FindDemand(id)
+            d = self.project.FindDemand(id)
             str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(id)
             for link in v.intervals[timeInt].demands[d.id]:
                 l = d.FindEdge(d.FindVertex(link[0]),d.FindVertex(link[1]))
@@ -91,7 +91,7 @@ class Vis(QMainWindow):
         demands = v.intervals[timeInt].demands.keys()
         demands.sort()
         for id in demands:
-            d = self.FindDemand(id)
+            d = self.project.FindDemand(id)
             str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(id)
             for v1 in v.intervals[timeInt].demands[id]:
                 str += QString("&nbsp;&nbsp;&nbsp;&nbsp;VM id: <font color=blue>%1</font>&nbsp;&nbsp;Performance: <font color=blue>%2</font><br />").arg(d.FindVertex(v1).id).arg(d.FindVertex(v1).speed)
@@ -114,7 +114,7 @@ class Vis(QMainWindow):
         demands = v.intervals[timeInt].demands.keys()
         demands.sort()
         for id in demands:
-            d = self.FindDemand(id)
+            d = self.project.FindDemand(id)
             str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(id)
             for v1 in v.intervals[timeInt].demands[id]:
                 str += QString("&nbsp;&nbsp;&nbsp;&nbsp;Storage id: <font color=blue>%1</font>&nbsp;&nbsp;Capacity: <font color=blue>%2</font><br />").arg(d.FindVertex(v1).id).arg(d.FindVertex(v1).volume)
@@ -137,7 +137,7 @@ class Vis(QMainWindow):
         demands = e.intervals[timeInt].demands.keys()
         demands.sort()
         for id in demands:
-            d = self.FindDemand(id)
+            d = self.project.FindDemand(id)
             str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(id)
             for link in e.intervals[timeInt].demands[id]:
                 l = d.FindEdge(d.FindVertex(link[0]),d.FindVertex(link[1]))
@@ -176,11 +176,6 @@ class Vis(QMainWindow):
             self.ShowComputerInfo()
         elif isinstance(v,Storage):
             self.ShowStorageInfo()
-
-    def FindDemand(self, id):
-        for d in self.demands:
-            if d.id == id:
-                return d
             
     def demandSelected(self):
         self.canvas.demandVertices = []
@@ -191,7 +186,7 @@ class Vis(QMainWindow):
             return
         for it in self.ui.assignedDemands.selectedItems():
             id = it.text(0)
-            d = self.FindDemand(id)
+            d = self.project.FindDemand(id)
             for v in d.vertices:
                 self.canvas.demandVertices.append(v.resource)
             for e in d.edges:

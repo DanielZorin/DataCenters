@@ -317,7 +317,7 @@ QLabel, QSlider {
      <x>0</x>
      <y>0</y>
      <width>578</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -886,6 +886,22 @@ QLabel, QSlider {
     <hint type="sourcelabel">
      <x>213</x>
      <y>112</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>288</x>
+     <y>218</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSchedule_selected</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>RunSelected()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
     </hint>
     <hint type="destinationlabel">
      <x>288</x>

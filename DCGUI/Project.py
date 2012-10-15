@@ -91,3 +91,8 @@ class Project:
         stats["stmax"] = 0
         stats["netmax"] = 0
         return stats      
+
+    def FindDemand(self, id):
+        for d in self.demands:
+            if d.id == id:
+                return d
