@@ -54,6 +54,7 @@ class Ui_Vis(object):
         self.assignedDemands = QtGui.QTreeWidget(self.layoutWidget)
         self.assignedDemands.setMinimumSize(QtCore.QSize(0, 0))
         self.assignedDemands.setMaximumSize(QtCore.QSize(111, 9999))
+        self.assignedDemands.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)
         self.assignedDemands.setObjectName(_fromUtf8("assignedDemands"))
         self.horizontalLayout.addWidget(self.assignedDemands)
         self.graphArea = QtGui.QScrollArea(self.layoutWidget)
@@ -76,7 +77,7 @@ class Ui_Vis(object):
         QtCore.QObject.connect(self.actionExit, QtCore.SIGNAL(_fromUtf8("triggered()")), Vis.close)
         QtCore.QObject.connect(self.timeSlider, QtCore.SIGNAL(_fromUtf8("valueChanged(int)")), Vis.UpdateTimeFromSlider)
         QtCore.QObject.connect(self.timeSpinBox, QtCore.SIGNAL(_fromUtf8("valueChanged(int)")), Vis.UpdateTimeFromSpinBox)
-        QtCore.QObject.connect(self.assignedDemands, QtCore.SIGNAL(_fromUtf8("itemClicked(QTreeWidgetItem*,int)")), Vis.demandSelected)
+        QtCore.QObject.connect(self.assignedDemands, QtCore.SIGNAL(_fromUtf8("itemSelectionChanged()")), Vis.demandSelected)
         QtCore.QMetaObject.connectSlotsByName(Vis)
 
     def retranslateUi(self, Vis):

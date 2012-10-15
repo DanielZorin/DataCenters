@@ -83,6 +83,9 @@ QLabel, QSlider {
               <height>9999</height>
              </size>
             </property>
+            <property name="selectionMode">
+             <enum>QAbstractItemView::ExtendedSelection</enum>
+            </property>
             <column>
              <property name="text">
               <string>Assigned Requests</string>
@@ -179,7 +182,7 @@ QLabel, QSlider {
   </connection>
   <connection>
    <sender>assignedDemands</sender>
-   <signal>itemClicked(QTreeWidgetItem*,int)</signal>
+   <signal>itemSelectionChanged()</signal>
    <receiver>Vis</receiver>
    <slot>demandSelected()</slot>
    <hints>

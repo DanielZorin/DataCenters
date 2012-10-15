@@ -37,7 +37,7 @@ class Vis(QMainWindow):
         timeInt = self.resources.GetTimeInterval(self.time)
         self.ui.assignedDemands.clear()
         for d in self.demands:
-            if d.assigned:
+            if d.assigned and (d.startTime <= self.time) and (d.endTime >= self.time):
                 it = QTreeWidgetItem(self.ui.assignedDemands, [d.id])
                 it.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
         self.canvas.Visualize(self.resources, timeInt)
@@ -158,6 +158,13 @@ class Vis(QMainWindow):
 
     def Update(self):
         timeInt = self.resources.GetTimeInterval(self.time)
+        self.ui.assignedDemands.clear()
+        for d in self.demands:
+            if (d.startTime <= self.time) and (d.endTime >= self.time) and d.assigned:
+                it = QTreeWidgetItem(self.ui.assignedDemands, [d.id])
+                it.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
+        self.canvas.demandVertices = []
+        self.canvas.demandEdges = []
         self.canvas.Visualize(self.resources, timeInt)
         self.ShowEdgeInfo()
         if self.canvas.selectedVertex == None:
@@ -176,16 +183,22 @@ class Vis(QMainWindow):
                 return d
             
     def demandSelected(self):
-        id = self.ui.assignedDemands.selectedItems()[0].text(0)
-        d = self.FindDemand(id)
         self.canvas.demandVertices = []
         self.canvas.demandEdges = []
-        for v in d.vertices:
-            self.canvas.demandVertices.append(v.resource)
-        for e in d.edges:
-            for e1 in e.path[1:len(e.path)-1]:
-                if isinstance(e1,Router):
-                    self.canvas.demandVertices.append(e1)
-                else:
-                    self.canvas.demandEdges.append(self.resources.FindEdge(e1.e1, e1.e2))
-        self.Update()
+        if self.ui.assignedDemands.selectedItems()==[]:
+            timeInt = self.resources.GetTimeInterval(self.time)
+            self.canvas.Visualize(self.resources, timeInt)
+            return
+        for it in self.ui.assignedDemands.selectedItems():
+            id = it.text(0)
+            d = self.FindDemand(id)
+            for v in d.vertices:
+                self.canvas.demandVertices.append(v.resource)
+            for e in d.edges:
+                for e1 in e.path[1:len(e.path)-1]:
+                    if isinstance(e1,Router):
+                        self.canvas.demandVertices.append(e1)
+                    else:
+                        self.canvas.demandEdges.append(self.resources.FindEdge(e1.e1, e1.e2))
+        timeInt = self.resources.GetTimeInterval(self.time)
+        self.canvas.Visualize(self.resources, timeInt)
