@@ -22,10 +22,9 @@ class Vis(QMainWindow):
         self.canvas.router_selected.connect(self.ShowRouterInfo)
 
     def setData(self, project):
-        self.resources = project.resources
-        self.demands = project.demands
+        self.project = project
         self.canvas.Clear()
-        r = self.resources.GetTimeBounds()
+        r = self.project.resources.GetTimeBounds()
         self.time = r[0]
         self.ui.timeSpinBox.setValue(r[0])
         self.ui.timeSpinBox.setMinimum(r[0])
@@ -34,13 +33,13 @@ class Vis(QMainWindow):
         self.ui.timeSlider.setMinimum(r[0])
         self.ui.timeSlider.setMaximum(r[1])
         self.ui.info.setText("")
-        timeInt = self.resources.GetTimeInterval(self.time)
+        timeInt = self.project.resources.GetTimeInterval(self.time)
         self.ui.assignedDemands.clear()
-        for d in self.demands:
+        for d in self.project.demands:
             if d.assigned and (d.startTime <= self.time) and (d.endTime >= self.time):
                 it = QTreeWidgetItem(self.ui.assignedDemands, [d.id])
                 it.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
-        self.canvas.Visualize(self.resources, timeInt)
+        self.canvas.Visualize(self.project.resources, timeInt)
         
     def resizeEvent(self, e):
         super(QMainWindow, self).resizeEvent(e)
@@ -52,7 +51,7 @@ class Vis(QMainWindow):
 
     def ShowRouterInfo(self):
         v = next(v for v in self.canvas.vertices.keys() if self.canvas.vertices[v] == self.canvas.selectedVertex)
-        timeInt = self.resources.GetTimeInterval(self.time)
+        timeInt = self.project.resources.GetTimeInterval(self.time)
         link_num = 0
         for d in v.intervals[timeInt].demands.keys():
             link_num += len(v.intervals[timeInt].demands[d])
@@ -77,7 +76,7 @@ class Vis(QMainWindow):
 
     def ShowComputerInfo(self):
         v = next(v for v in self.canvas.vertices.keys() if self.canvas.vertices[v] == self.canvas.selectedVertex)
-        timeInt = self.resources.GetTimeInterval(self.time)
+        timeInt = self.project.resources.GetTimeInterval(self.time)
         vm_num = 0
         for d in v.intervals[timeInt].demands.keys():
             vm_num += len(v.intervals[timeInt].demands[d])
@@ -99,7 +98,7 @@ class Vis(QMainWindow):
 
     def ShowStorageInfo(self):
         v = next(v for v in self.canvas.vertices.keys() if self.canvas.vertices[v] == self.canvas.selectedVertex)
-        timeInt = self.resources.GetTimeInterval(self.time)
+        timeInt = self.project.resources.GetTimeInterval(self.time)
         storage_num = 0
         for d in v.intervals[timeInt].demands.keys():
             storage_num += len(v.intervals[timeInt].demands[d])
@@ -124,7 +123,7 @@ class Vis(QMainWindow):
         e = self.canvas.selectedEdge
         if e == None:
             return
-        timeInt = self.resources.GetTimeInterval(self.time)
+        timeInt = self.project.resources.GetTimeInterval(self.time)
         link_num = 0
         for d in e.intervals[timeInt].demands.keys():
             link_num += len(e.intervals[timeInt].demands[d])
@@ -157,15 +156,15 @@ class Vis(QMainWindow):
         self.Update()
 
     def Update(self):
-        timeInt = self.resources.GetTimeInterval(self.time)
+        timeInt = self.project.resources.GetTimeInterval(self.time)
         self.ui.assignedDemands.clear()
-        for d in self.demands:
+        for d in self.project.demands:
             if (d.startTime <= self.time) and (d.endTime >= self.time) and d.assigned:
                 it = QTreeWidgetItem(self.ui.assignedDemands, [d.id])
                 it.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
         self.canvas.demandVertices = []
         self.canvas.demandEdges = []
-        self.canvas.Visualize(self.resources, timeInt)
+        self.canvas.Visualize(self.project.resources, timeInt)
         self.ShowEdgeInfo()
         if self.canvas.selectedVertex == None:
             return
@@ -181,8 +180,8 @@ class Vis(QMainWindow):
         self.canvas.demandVertices = []
         self.canvas.demandEdges = []
         if self.ui.assignedDemands.selectedItems()==[]:
-            timeInt = self.resources.GetTimeInterval(self.time)
-            self.canvas.Visualize(self.resources, timeInt)
+            timeInt = self.project.resources.GetTimeInterval(self.time)
+            self.canvas.Visualize(self.project.resources, timeInt)
             return
         for it in self.ui.assignedDemands.selectedItems():
             id = it.text(0)
@@ -194,6 +193,6 @@ class Vis(QMainWindow):
                     if isinstance(e1,Router):
                         self.canvas.demandVertices.append(e1)
                     else:
-                        self.canvas.demandEdges.append(self.resources.FindEdge(e1.e1, e1.e2))
-        timeInt = self.resources.GetTimeInterval(self.time)
-        self.canvas.Visualize(self.resources, timeInt)
+                        self.canvas.demandEdges.append(self.project.resources.FindEdge(e1.e1, e1.e2))
+        timeInt = self.project.resources.GetTimeInterval(self.time)
+        self.canvas.Visualize(self.project.resources, timeInt)
