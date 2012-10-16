@@ -67,9 +67,7 @@ class Project:
                     elif node.tagName == "demand":
                         d = self.CreateDemand()
                         d.LoadFromXmlNode(node, self.resources)
-        for d in self.demands:
-            if d.assigned:
-                self.resources.LoadAssignedDemand(d)
+        self.resources.LoadAllDemands(self.demands)
         f.close()
         self.method = RandomMethod(self.resources, self.demands)    
         
@@ -84,6 +82,7 @@ class Project:
         for d in self.demands:
             if d.assigned:  
                 stats["demands"] += 1
+
         stats["vmavg"] = 0
         stats["stavg"] = 0
         stats["netavg"] = 0

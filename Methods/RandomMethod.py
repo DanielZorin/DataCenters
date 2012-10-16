@@ -80,6 +80,3 @@ class RandomMethod(QObject):
     def Run(self):
         for d in self.demands:
             self.AssignDemand(d)
-
-    def Run(self, d):
-        self.AssignDemand(d)

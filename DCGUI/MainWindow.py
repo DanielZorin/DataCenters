@@ -109,7 +109,7 @@ class MainWindow(QMainWindow):
         self.project.method.demand_assigned.connect(self.demandAssigned)
 
     def Run(self):
-        self.InitProject(self)
+        self.InitProject()
         #self.project.method.Clear()
         self.project.method.Run()
         self.showStats()
@@ -120,7 +120,7 @@ class MainWindow(QMainWindow):
             return
         id = self.ui.demands.selectedItems()[0].text(0)
         d = self.project.FindDemand(id)
-        self.project.method.Run(d)
+        self.project.method.AssignDemand(d)
         self.showStats()
 
     def showStats(self):

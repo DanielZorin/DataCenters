@@ -363,6 +363,37 @@ class ResourceGraph(AbstractGraph):
                     continue
                 self.AssignLink(demand, e, e.path, time)
 
+    def LoadAllDemands(self, demands):
+        points = set([])
+        for demand in demands:
+            if demand.assigned:
+                points.add(demand.startTime)
+                points.add(demand.endTime)
+        points = list(points)
+        points.sort()
+        ranges = []
+        for i in range(0,len(points)-1):
+            ranges.append((points[i],points[i+1]))
+        for v in self.vertices:
+            v.intervals = {}
+            for r in ranges:
+                v.intervals[r] = State()
+        for e in self.edges:
+            e.intervals = {}
+            for r in ranges:
+                e.intervals[r] = State()
+        for demand in demands:
+            if demand.assigned:
+                r = self.GetRanges(demand)
+                for t in r:
+                    for v in demand.vertices:
+                        self.AssignVertex(demand,v,v.resource,t)
+                    for e in demand.edges:
+                        if e.e1.resource == e.e2.resource:
+                            continue
+                        self.AssignLink(demand, e, e.path, t)
+
+
     def RemoveIntervals(self, demand):
         for v in self.vertices:
             if len(v.intervals.keys())==1:
