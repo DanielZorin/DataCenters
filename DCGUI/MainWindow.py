@@ -126,12 +126,12 @@ class MainWindow(QMainWindow):
     def showStats(self):
         stats = self.project.GetStats()
         self.ui.demandcount.setText(str(stats["demands"]))
-        self.ui.vmavg.setText(str(stats["vmavg"]))
-        self.ui.stavg.setText(str(stats["stavg"]))
-        self.ui.netavg.setText(str(stats["netavg"]))
-        self.ui.vmmax.setText(str(stats["vmmax"]))
-        self.ui.stmax.setText(str(stats["stmax"]))
-        self.ui.netmax.setText(str(stats["netmax"]))
+        self.ui.vmavg.setText(str(stats["vmavg"])+"%")
+        self.ui.stavg.setText(str(stats["stavg"])+"%")
+        self.ui.netavg.setText(str(stats["netavg"])+"%")
+        self.ui.vmmax.setText(str(stats["vmmax"])+"%")
+        self.ui.stmax.setText(str(stats["stmax"])+"%")
+        self.ui.netmax.setText(str(stats["netmax"])+"%")
 
     def Settings(self):
         pass

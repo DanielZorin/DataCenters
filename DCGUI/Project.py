@@ -1,4 +1,4 @@
-from Core.Resources import ResourceGraph
+from Core.Resources import ResourceGraph, Computer, Storage, Router
 from Core.Demands import Demand
 from Methods.RandomMethod import RandomMethod
 import xml.dom.minidom
@@ -78,17 +78,60 @@ class Project:
                 self.resources.RemoveIntervals(d)   
                 
     def GetStats(self):
+        r = self.resources.GetTimeBounds()
+        time = r[1] - r[0]
         stats = {"demands":0}
         for d in self.demands:
             if d.assigned:  
                 stats["demands"] += 1
+        ranges = self.resources.vertices[0].intervals.keys()
+        totalSpeed = 0.0;
+        totalVolume = 0.0;
+        totalCapacity = 0.0;
+        for v in self.resources.vertices:
+            if isinstance(v, Computer):
+                totalSpeed += v.speed
+            elif isinstance(v, Storage):
+                totalVolume += v.volume
+            elif isinstance(v, Router):
+                totalCapacity += v.capacity
+        for e in self.resources.edges:
+            totalCapacity += e.capacity
+        maxUsedSpeed = 0.0
+        maxUsedVolume = 0.0
+        maxUsedCapacity = 0.0
+        avgUsedSpeed = 0.0
+        avgUsedVolume = 0.0
+        avgUsedCapacity = 0.0
+        for r in ranges:
+            usedSpeed = 0.0
+            usedVolume = 0.0
+            usedCapacity = 0.0
+            for v in self.resources.vertices:
+                if isinstance(v, Computer):
+                    usedSpeed += v.intervals[r].usedResource
+                elif isinstance(v, Storage):
+                    usedVolume += v.intervals[r].usedResource
+                elif isinstance(v, Router):
+                    usedCapacity += v.intervals[r].usedResource
+            for e in self.resources.edges:
+                    usedCapacity += e.intervals[r].usedResource
+            avgUsedSpeed += usedSpeed * (float(r[1]-r[0])/time)
+            avgUsedVolume += usedVolume * (float(r[1]-r[0])/time)
+            avgUsedCapacity += usedCapacity * (float(r[1]-r[0])/time)
+            if usedSpeed > maxUsedSpeed:
+                maxUsedSpeed = usedSpeed
+            if usedVolume > maxUsedVolume:
+                maxUsedVolume = usedVolume
+            if usedCapacity > maxUsedCapacity:
+                maxUsedCapacity = usedCapacity
 
-        stats["vmavg"] = 0
-        stats["stavg"] = 0
-        stats["netavg"] = 0
-        stats["vmmax"] = 0
-        stats["stmax"] = 0
-        stats["netmax"] = 0
+        stats["vmavg"] = round(avgUsedSpeed/totalSpeed*100,2)
+        stats["stavg"] = round(avgUsedVolume/totalVolume*100,2)
+        stats["netavg"] = round(avgUsedCapacity/totalCapacity*100,2)
+        stats["vmmax"] = round(maxUsedSpeed/totalSpeed*100,2)
+        stats["stmax"] = round(maxUsedVolume/totalVolume*100,2)
+        stats["netmax"] = round(maxUsedCapacity/totalCapacity*100,2)
         return stats      
 
     def FindDemand(self, id):
