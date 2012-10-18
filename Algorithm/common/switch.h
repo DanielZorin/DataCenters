@@ -1,0 +1,15 @@
+#ifndef SWITCH_H
+#define SWITCH_H
+
+#include "networkingElement.h"
+
+class Switch : public NetworkingElement
+{
+public:
+   Switch(string name = "unnamed_switch", unsigned long capacity = 0)
+   : NetworkingElement(name, capacity)
+   {}
+
+};
+
+#endif // SWITCH_H

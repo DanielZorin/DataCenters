@@ -1,32 +1,25 @@
 #ifndef ALGORITHM_H
 #define ALGORITHM_H
 
-#include "network.h"
-
 #include <vector>
+
+class Network;
 
 class Algorithm
 {
 public:
-    enum Mode {
-        Simple,
-        Replanning
-    };
 
 private:
     Algorithm();
 public:
-    Algorithm(Network& n) {
+    Algorithm(Network * n) {
         network = n;
     }
 
-    void setMode(Mode m) { mode = m; }
-    Mode getMode() { return mode; }
 public:
     virtual void schedule() = 0;
 protected:
-    Network network;
-    Mode mode;
+    Network * network;
 };
 
 #endif // ALGORITHM_H
