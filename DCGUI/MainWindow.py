@@ -261,6 +261,7 @@ class MainWindow(QMainWindow):
         it.setText(1, str(self.demands[it].startTime))
         it.setText(2, str(self.demands[it].endTime))
         it.setText(3, "No")
+        self.showStats()
 
     def ShowResults(self):
         self.Vis.setData(self.project)
