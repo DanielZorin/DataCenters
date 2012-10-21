@@ -179,12 +179,12 @@ class ResourceGraph(AbstractGraph):
                     return t
 
     def GetAvailableVertices(self,v,time):
-        availableVertices = []
+        availableVertices = set([])
         for v1 in self.vertices:
             if isinstance(v, VM) and isinstance(v1, Computer) and (v.speed <= v1.speed - v1.intervals[time].usedResource):
-                availableVertices.append(v1)
+                availableVertices.add(v1)
             if isinstance(v, DemandStorage) and isinstance(v1, Storage) and (v.type == v1.type) and (v.volume <= v1.volume - v1.intervals[time].usedResource):
-                availableVertices.append(v1)
+                availableVertices.add(v1)
         return availableVertices
 
     def GetAvailableLinks(self, e, time):

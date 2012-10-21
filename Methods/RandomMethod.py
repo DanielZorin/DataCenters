@@ -3,6 +3,14 @@ from Core.Resources import Storage, Computer, Router, Link, State
 from Core.Demands import VM, DemandStorage, DemandLink
 from PyQt4.QtCore import QObject, pyqtSignal
 
+def list_intersect(l1,l2):
+    res = []
+    for i in l1:
+        for j in l2:
+            if (i==j):
+                res.append(i)
+    return res
+
 class RandomMethod(QObject):
     demand_assigned = pyqtSignal(str)
 
@@ -24,16 +32,7 @@ class RandomMethod(QObject):
                 lists = []
                 for time in ranges:
                     lists.append(self.resources.GetAvailableVertices(v, time))
-                v1 = []
-                if len(lists) > 0:
-                    for elem in lists[0]:
-                        fl = True
-                        for i in range(1,len(lists)-1):
-                            if lists[i].count(elem) == 0:
-                                fl = False
-                                break
-                        if fl:
-                            v1.append(elem)
+                v1 = list(reduce(lambda x, y: x & y, lists))
                 if v1==[]:
                     self.resources.DropDemand(demand)
                     success = False
@@ -49,16 +48,7 @@ class RandomMethod(QObject):
                 lists = []
                 for time in ranges:
                     lists.append(self.resources.GetAvailableLinks(e,time))
-                e1 = []
-                if len(lists) > 0:
-                    for elem in lists[0]:
-                        fl = True
-                        for i in range(1,len(lists)-1):
-                            if lists[i].count(elem) == 0:
-                                fl = False
-                                break
-                        if fl:
-                            e1.append(elem)
+                e1 = reduce(list_intersect, lists)
                 if e1==[]:
                     self.resources.DropDemand(demand)
                     success=False
