@@ -170,6 +170,9 @@ class MainWindow(QMainWindow):
         d = self.demands[self.ui.demands.currentItem()]
         if d.assigned:
             self.project.resources.DropDemand(d)
+            for r in d.replications:
+                d.DeleteReplication(r)
+            
             #self.project.method.UpdateIntervals(d)
         self.demandGraphEditor.setData(d)
         self.demandGraphEditor.show()

@@ -22,12 +22,19 @@ class DemandLink:
         self.capacity = capacity
         self.path = []
 
+class Replication:
+    def __init__(self, replica, consistencyLink, link):
+        self.replica = replica
+        self.consistencyLink = consistencyLink
+        self.link = link
+
 class Demand(AbstractGraph):
     def __init__(self, id):
         AbstractGraph.__init__(self)
         self.id = id
         self.startTime = 0
         self.endTime = 0
+        self.replications = []
         self.assigned = False
 
     def GenerateRandom(self, params):
@@ -81,6 +88,7 @@ class Demand(AbstractGraph):
         root.setAttribute("start", str(self.startTime))
         root.setAttribute("end", str(self.endTime))
         root.setAttribute("assigned", str(self.assigned))
+        root.setAttribute("replicationcapacity", str(self.replicationCapacity))
         for v in self.vertices:
             if isinstance(v, VM):
                 tag = dom.createElement("vm")
@@ -131,6 +139,7 @@ class Demand(AbstractGraph):
         self.startTime = int(node.getAttribute("start"))
         self.endTime = int(node.getAttribute("end"))
         self.assigned = True if node.getAttribute("assigned") == "True" else False
+        self.replicationCapacity = int(node.getAttribute("replicationcapacity"))
         #Parse vertices
         for vertex in node.childNodes:
             if isinstance(vertex, xml.dom.minidom.Text):
@@ -181,9 +190,32 @@ class Demand(AbstractGraph):
                             edge = resources.FindEdge(path[-1], vert)
                             path += [edge, vert]
                         e.path = path
+        self.LoadReplications()
                     
-
     def FindVertex(self, number):
         for v in self.vertices:
             if v.number == number:
                 return v
+
+    def AddReplication(self, r):
+        self.AddVertex(r.replica)
+        self.AddLink(r.consistencyLink)
+        self.AddLink(r.link)
+        self.replications.append(r)
+
+    def DeleteReplication(self, r):
+        self.DeleteVertex(r.replica)
+        self.DeleteEdge(r.consistencyLink)
+        self.DeleteEdge(r.link)
+        self.replications.remove(r)
+
+    def LoadReplications(self):
+        for v in self.vertices:
+            if v.id.endswith("replica"):
+                edges = self.FindAllEdges(v)
+                if not len(edges) == 2:
+                    print "Failed to load replications"
+                if isinstance(edges[0].e1,VM) or isinstance(edges[0].e2,VM):
+                    self.replications.append(Replication(v,edges[1],edges[0]))
+                else:
+                    self.replications.append(Replication(v,edges[0],edges[1]))
