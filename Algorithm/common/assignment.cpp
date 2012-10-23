@@ -8,12 +8,12 @@ Node * Assignment::GetAssignment(Node * virtualMachine)
         return 0;
 }
 
-std::vector<Node *> Assignment::GetAssigned(Node * physicalMachine)
+Assignment::Nodes Assignment::GetAssigned(Node * physicalMachine)
 {
-    std::vector<Node *> virtualMachines;
+    Nodes virtualMachines;
     for ( NodeAssignment::iterator i = nodeAssignment.begin(); i != nodeAssignment.end(); i++)
         if ( (*i).second == physicalMachine )
-            virtualMachines.push_back((*i).first);
+            virtualMachines.insert((*i).first);
 
     return virtualMachines;
 }
@@ -26,12 +26,49 @@ Store * Assignment::GetAssignment(Store * virtualStorage)
         return 0;
 }
 
-std::vector<Store *> Assignment::GetAssigned(Store * physicalStore)
+Assignment::Stores Assignment::GetAssigned(Store * physicalStore)
 {
-    std::vector<Store *> virtualStores;
+    Stores virtualStores;
     for ( StoreAssignment::iterator i = storeAssignment.begin(); i != storeAssignment.end(); i++)
         if ( (*i).second == physicalStore )
-            virtualStores.push_back((*i).first);
+            virtualStores.insert((*i).first);
 
     return virtualStores;
+}
+
+Assignment::NetPath Assignment::GetAssignment(Link * netLink)
+{
+    if ( linkAssignment.count(netLink) )
+        return linkAssignment[netLink];
+    else
+        return Assignment::NetPath();
+}
+
+Assignment::Links Assignment::GetAssigned(NetworkingElement * networkingElement)
+{
+    Links virtualLinks;
+    for ( LinkAssignment::iterator i = linkAssignment.begin(); i != linkAssignment.end(); i++)
+    {
+        Link * link = (*i).first;
+        NetPath & netPath = (*i).second;
+        for (NetPath::iterator j = netPath.begin(); j != netPath.end(); j++)
+        {
+            if ( (*j) == networkingElement )
+            {
+                virtualLinks.insert(link);
+                break;
+            }
+        }
+    }
+    return virtualLinks;
+}
+
+string Assignment::GetXMLNode()
+{
+    return string();
+}
+
+string Assignment::GetFormattedXMLNode()
+{
+    return string();
 }
