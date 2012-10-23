@@ -48,10 +48,6 @@ public:
         linkAssignment.insert(std::pair<Link *, NetPath>(e, path));
     }
 
-public:
-    string GetXMLNode();
-    string GetFormattedXMLNode();
-
 private:
     NodeAssignment nodeAssignment;
     StoreAssignment storeAssignment;

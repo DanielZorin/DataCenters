@@ -63,12 +63,3 @@ Assignment::Links Assignment::GetAssigned(NetworkingElement * networkingElement)
     return virtualLinks;
 }
 
-string Assignment::GetXMLNode()
-{
-    return string();
-}
-
-string Assignment::GetFormattedXMLNode()
-{
-    return string();
-}
