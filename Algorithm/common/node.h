@@ -6,9 +6,11 @@
 class Node : public ComputationalElement
 {
 public:
-   Node(string name = "unnamed_node", unsigned long capacity = 0)
-   : ComputationalElement(name, capacity)
-   {}
+    Node(string name = "unnamed_node", unsigned long capacity = 0)
+        : ComputationalElement(name, capacity)
+    {
+        setType(Element::NODE);
+    }
 
 };
 

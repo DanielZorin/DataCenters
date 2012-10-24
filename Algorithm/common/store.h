@@ -5,9 +5,11 @@
 
 class Store : public ComputationalElement
 {
-   Store(string name = "unnamed_store", unsigned long capacity = 0)
-   : ComputationalElement(name, capacity)
-   {}
+    Store(string name = "unnamed_store", unsigned long capacity = 0)
+        : ComputationalElement(name, capacity)
+    {
+        setType(Element::STORE);
+    }
 };
 
 #endif // STORE_H

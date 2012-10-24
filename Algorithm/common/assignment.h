@@ -1,30 +1,17 @@
 #ifndef ASSIGNMENT_H
 #define ASSIGNMENT_H
 
-#include <map>
-#include <vector>
-#include <set>
+#include "publicdefs.h"
 
 #include <string>
-
-class Node;
-class Store;
-class Switch;
-class Link;
-class NetworkingElement;
-
 using std::string;
 
 class Assignment
 {
 public:
-    typedef std::map<Node *, Node *> NodeAssignment;
-    typedef std::set<Node *> Nodes;
-    typedef std::map<Store *, Store *> StoreAssignment;
-    typedef std::set<Store *> Stores;
-    typedef std::vector<NetworkingElement *> NetPath;
-    typedef std::set<Link *> Links;
-    typedef std::map<Link *, NetPath> LinkAssignment;
+    typedef std::map<Node *, Node *> NodeAssignments;
+    typedef std::map<Store *, Store *> StoreAssignments;
+    typedef std::map<Link *, NetPath> LinkAssignments;
 public:
     Node * GetAssignment(Node *);
     Nodes GetAssigned(Node *);
@@ -35,23 +22,23 @@ public:
     
     void AddAssignment(Node * w, Node * p)
     {
-        nodeAssignment.insert(std::pair<Node *, Node *>(w, p));
+        nodeAssignments.insert(NodeAssignment(w, p));
     }
 
     void AddAssignment(Store * s, Store * m)
     {
-        storeAssignment.insert(std::pair<Store *, Store *>(s, m));
+        storeAssignments.insert(StoreAssignment(s, m));
     }
 
     void AddAssignment(Link * e, NetPath & path)
     {
-        linkAssignment.insert(std::pair<Link *, NetPath>(e, path));
+        linkAssignments.insert(LinkAssignment(e, path));
     }
 
 private:
-    NodeAssignment nodeAssignment;
-    StoreAssignment storeAssignment;
-    LinkAssignment linkAssignment;
+    NodeAssignments nodeAssignments;
+    StoreAssignments storeAssignments;
+    LinkAssignments linkAssignments;
 
 };
 

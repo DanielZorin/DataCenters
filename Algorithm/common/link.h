@@ -6,9 +6,11 @@
 class Link : public NetworkingElement
 {
 public:
-   Link(string name = "unnamed_link", unsigned long capacity = 0)
-      : NetworkingElement(name, capacity)
-   {}
+    Link(string name = "unnamed_link", unsigned long capacity = 0)
+        : NetworkingElement(name, capacity)
+    {
+        setType(Element::LINK);
+    }
 
 };
 

@@ -8,12 +8,14 @@ using std::string;
 
 class ComputationalElement : public Element {
 private:
-   ComputationalElement();
+    ComputationalElement();
 protected:
-   ComputationalElement(string name = "unnamed_computational_element"
-      , unsigned long capacity = 0)
-   : Element(name, capacity)
-   {}
+    ComputationalElement(string name = "unnamed_computational_element"
+        , unsigned long capacity = 0)
+    : Element(name, capacity)
+    {
+        setType(Element::COMPUTATIONAL);
+    }
 };
 
 #endif // COMPUTATIONALELEMENT_H

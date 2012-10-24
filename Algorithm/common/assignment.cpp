@@ -2,16 +2,16 @@
 
 Node * Assignment::GetAssignment(Node * virtualMachine)
 {
-    if ( nodeAssignment.count(virtualMachine) )
-        return nodeAssignment[virtualMachine];
+    if ( nodeAssignments.count(virtualMachine) )
+        return nodeAssignments[virtualMachine];
     else
         return 0;
 }
 
-Assignment::Nodes Assignment::GetAssigned(Node * physicalMachine)
+Nodes Assignment::GetAssigned(Node * physicalMachine)
 {
     Nodes virtualMachines;
-    for ( NodeAssignment::iterator i = nodeAssignment.begin(); i != nodeAssignment.end(); i++)
+    for ( NodeAssignments::iterator i = nodeAssignments.begin(); i != nodeAssignments.end(); i++)
         if ( (*i).second == physicalMachine )
             virtualMachines.insert((*i).first);
 
@@ -20,34 +20,34 @@ Assignment::Nodes Assignment::GetAssigned(Node * physicalMachine)
 
 Store * Assignment::GetAssignment(Store * virtualStorage)
 {
-    if ( storeAssignment.count(virtualStorage) )
-        return storeAssignment[virtualStorage];
+    if ( storeAssignments.count(virtualStorage) )
+        return storeAssignments[virtualStorage];
     else
         return 0;
 }
 
-Assignment::Stores Assignment::GetAssigned(Store * physicalStore)
+Stores Assignment::GetAssigned(Store * physicalStore)
 {
     Stores virtualStores;
-    for ( StoreAssignment::iterator i = storeAssignment.begin(); i != storeAssignment.end(); i++)
+    for ( StoreAssignments::iterator i = storeAssignments.begin(); i != storeAssignments.end(); i++)
         if ( (*i).second == physicalStore )
             virtualStores.insert((*i).first);
 
     return virtualStores;
 }
 
-Assignment::NetPath Assignment::GetAssignment(Link * netLink)
+NetPath Assignment::GetAssignment(Link * netLink)
 {
-    if ( linkAssignment.count(netLink) )
-        return linkAssignment[netLink];
+    if ( linkAssignments.count(netLink) )
+        return linkAssignments[netLink];
     else
-        return Assignment::NetPath();
+        return NetPath();
 }
 
-Assignment::Links Assignment::GetAssigned(NetworkingElement * networkingElement)
+Links Assignment::GetAssigned(NetworkingElement * networkingElement)
 {
     Links virtualLinks;
-    for ( LinkAssignment::iterator i = linkAssignment.begin(); i != linkAssignment.end(); i++)
+    for ( LinkAssignments::iterator i = linkAssignments.begin(); i != linkAssignments.end(); i++)
     {
         Link * link = (*i).first;
         NetPath & netPath = (*i).second;

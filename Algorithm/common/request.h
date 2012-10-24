@@ -1,19 +1,15 @@
 #ifndef REQUEST_H
 #define REQUEST_H
 
-#include <set>
-
-class Link;
-class Node;
-class Store;
+#include "publicdefs.h"
 
 class Request
 {
 public:
     // types used for defining the request
-    typedef std::set<Node *> VirtualMachines;
-    typedef std::set<Store *> Storages;
-    typedef std::set<Link *> VirtualLinks;
+    typedef Nodes VirtualMachines;
+    typedef Stores Storages;
+    typedef Links VirtualLinks;
 public:
     // construct empty request
     Request()
