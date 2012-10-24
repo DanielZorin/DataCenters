@@ -10,6 +10,7 @@ class Assignment;
 class Algorithm
 {
 public:
+//    typedef enum {SUCCESS = 0, PARTIAL, FAILURE = -1} ResultType;
     class ResultEnum {
     public:
         enum Result {
