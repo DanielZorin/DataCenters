@@ -5,6 +5,7 @@ from DCGUI.ResourcesGraphEditor import ResourcesGraphEditor
 from DCGUI.DemandGraphEditor import DemandGraphEditor
 from DCGUI.RandomDemandDialog import RandomDemandDialog
 from DCGUI.Vis import Vis
+from DCGUI.GraphVis import GraphVis
 from DCGUI.Project import Project
 from Core.Resources import Storage
 import os
@@ -29,6 +30,7 @@ class MainWindow(QMainWindow):
         self.resourcesGraphEditor = ResourcesGraphEditor()
         self.demandGraphEditor = DemandGraphEditor()
         self.Vis = Vis()
+        self.graphvis = GraphVis()
         self.project = Project()
         self.resourcesGraphEditor.setData(self.project.resources)
         for i in range(self.MaxRecentFiles):
@@ -269,6 +271,10 @@ class MainWindow(QMainWindow):
     def ShowResults(self):
         self.Vis.setData(self.project)
         self.Vis.show()
+
+    def ShowGraphVis(self):
+        self.graphvis.setData(self.project)
+        self.graphvis.show()
 
     def demandAssigned(self, id):
         item = self.ui.demands.findItems(id, Qt.MatchExactly)[0]

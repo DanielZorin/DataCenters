@@ -36,6 +36,7 @@
     <Compile Include="Core\Resources.py" />
     <Compile Include="Core\__init__.py" />
     <Compile Include="DCGUI.py" />
+    <Compile Include="DCGUI\GraphVis.py" />
     <Compile Include="DCGUI\MainWindow.py" />
     <Compile Include="DCGUI\DemandGraphEditor.py" />
     <Compile Include="DCGUI\DemandGraphCanvas.py" />

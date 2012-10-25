@@ -188,7 +188,7 @@ QLabel, QSlider {
           </column>
           <column>
            <property name="text">
-            <string>Length</string>
+            <string>End time</string>
            </property>
           </column>
           <column>
@@ -317,7 +317,7 @@ QLabel, QSlider {
      <x>0</x>
      <y>0</y>
      <width>578</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -909,6 +909,22 @@ QLabel, QSlider {
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionShow_Statistics</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>ShowGraphVis()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>288</x>
+     <y>218</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>Exit()</slot>
@@ -928,5 +944,6 @@ QLabel, QSlider {
   <slot>EditName()</slot>
   <slot>RunSelected()</slot>
   <slot>Run()</slot>
+  <slot>ShowGraphVis()</slot>
  </slots>
 </ui>
