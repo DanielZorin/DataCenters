@@ -3,6 +3,7 @@
 
 #include <vector>
 
+// Class representing a single arc in the graph
 struct Arc
 {
     double pher;
@@ -23,6 +24,8 @@ struct Arc
     // default destructor
 };
 
+// Class representing a vertex in the graph that corresponds to one of the requests
+// Also manages arcs to the vertices representing physical resources
 class GraphComponent
 {
 public:
@@ -36,19 +39,24 @@ public:
 
     RequestType getType() { return type; }
     bool isCreated() { return success; }
-
 private:
+    // initialize
     bool init(int num);
 
+    // Arcs to physical resiurces
     std::vector<Arc*> physArcs;
 
+    // was init() successful?
     bool success;
+    // request type
     RequestType type;
 
     // No default constructor
     GraphComponent();
 };
 
+// Ant algorithm internal graph
+// Manages pheromone and heuristic values, builds paths
 class InternalGraph
 {
 public:
@@ -57,17 +65,23 @@ public:
 
     bool isCreated() { return success; }
 private:
+    // initialize
     bool init();
 
+    // Vertices that correspond to requests
     std::vector<GraphComponent*> vertices;
+    // Arcs between these vertices
     std::vector< std::vector<Arc*> > arcs;
+    // Current available physical resources for storages and computational nodes
     std::vector<double> resources;
 
+    // graph parameters
     int nodesNum;
     int storesNum;
     int vmNum;
     int stNum;
 
+    // was init() successful?
     bool success;
 
     // No default constructor, copy constructor and operator=

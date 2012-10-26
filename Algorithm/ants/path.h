@@ -3,9 +3,12 @@
 
 #include <vector>
 
+// Class representing a single vertex in the path
 struct PathElement
 {
+    // what request the vertex corresponds to
     int request;
+    // what resource the vertex is connected to
     int resource;
 
     PathElement(int req, int res)
@@ -23,6 +26,7 @@ struct PathElement
     //default destructor
 };
 
+// Class representing a single path in the internal graph
 class AntPath
 {
 public:
@@ -35,6 +39,7 @@ public:
 
     ~AntPath();
 private:
+    // Sequence of vertices
     std::vector<PathElement *> path;
 };
 

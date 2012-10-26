@@ -11,6 +11,9 @@
 #include "../common/algorithm.h"
 #include "internalgraph.h"
 
+
+// Ant algorithm control class
+// Constructs solution using Network and a set of requests
 class AntAlgorithm: public Algorithm
 {
 public:
@@ -19,6 +22,7 @@ public:
     {}
     virtual Algorithm::ResultEnum::Result schedule() { return Algorithm::ResultEnum::Result::SUCCESS; }
 
+    // start function
     void start();
 private:
     InternalGraph * graph;
