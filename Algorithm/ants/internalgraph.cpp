@@ -2,6 +2,23 @@
 #include "internalgraph.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+// Arc
+
+Arc::Arc(const Arc & a)
+{
+    pher = a.pher;
+    heur = a.heur;
+}
+
+Arc& Arc::operator=(const Arc & a)
+{
+    if (&a == this) return *this;
+    pher = a.pher;
+    heur = a.heur;
+    return *this;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 // GraphComponent
 
 GraphComponent::GraphComponent(int phys, RequestType t)
@@ -15,6 +32,35 @@ GraphComponent::~GraphComponent()
 {
     if (success)
         for (int i = 0; i < physArcs.size(); ++ i) delete physArcs[i];
+}
+
+GraphComponent::GraphComponent(const GraphComponent & gc)
+{
+    success = gc.success;
+    type = gc.type;
+
+    physArcs.reserve(gc.physArcs.size());
+    for (int i = 0; i < physArcs.size(); ++ i)
+    {
+        if (gc.physArcs[i]) physArcs[i] = new Arc(*gc.physArcs[i]);
+        else physArcs[i] = NULL;
+    }
+}
+
+GraphComponent& GraphComponent::operator=(const GraphComponent & gc)
+{
+    if (&gc == this) return *this;
+    for (int i = 0; i < physArcs.size(); ++ i) delete physArcs[i];
+
+    physArcs.resize(gc.physArcs.size());
+    success = gc.success;
+    type = gc.type;
+    for (int i = 0; i < physArcs.size(); ++ i)
+    {
+        if (gc.physArcs[i]) physArcs[i] = new Arc(*gc.physArcs[i]);
+        else physArcs[i] = NULL;
+    }
+    return *this;
 }
 
 bool GraphComponent::init(int num)

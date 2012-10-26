@@ -25,6 +25,11 @@ private:
 
     bool buildPath();
     bool buildLink();
+
+    // No default constructor, copy constructor and operator=
+    AntAlgorithm();
+    AntAlgorithm(const AntAlgorithm&);
+    AntAlgorithm& operator=(const AntAlgorithm&);
 };
 
 #endif

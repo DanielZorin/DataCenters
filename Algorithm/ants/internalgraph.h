@@ -18,6 +18,8 @@ struct Arc
     , heur(h)
     {}
 
+    Arc(const Arc & a);
+    Arc& operator=(const Arc & a);
     // default destructor
 };
 
@@ -28,6 +30,9 @@ public:
 
     GraphComponent(int phys, RequestType t);
     ~GraphComponent();
+
+    GraphComponent(const GraphComponent & gc);
+    GraphComponent& operator=(const GraphComponent & gc);
 
     RequestType getType() { return type; }
     bool isCreated() { return success; }
@@ -65,8 +70,10 @@ private:
 
     bool success;
 
-    // No default constructor
+    // No default constructor, copy constructor and operator=
     InternalGraph();
+    InternalGraph(const InternalGraph&);
+    InternalGraph& operator=(const InternalGraph&);
 };
 
 #endif
