@@ -41,6 +41,13 @@ public:
             capacity -= other.capacity;
     }
 
+    // Remove the assignment, it is assumed that the other
+    // element is assigned in this element.
+    virtual void RemoveAssignment(Element const * other)
+    {
+        capacity += other->capacity;
+    }
+
 private:
     unsigned long capacity;
     string name; 

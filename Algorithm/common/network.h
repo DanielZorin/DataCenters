@@ -19,6 +19,30 @@ public:
 public:
    Network() {}
    ~Network();
+
+public:
+   // Getters/Setters
+   
+   Nodes& getNodes()
+   {
+       return nodes;
+   }
+
+   Stores& getStores()
+   {
+       return stores;
+   }
+
+   Switches& getSwitches()
+   {
+       return switches;
+   }
+
+   Links& getLinks()
+   {
+       return links;
+   }
+
 private:
    Nodes nodes;
    Stores stores;

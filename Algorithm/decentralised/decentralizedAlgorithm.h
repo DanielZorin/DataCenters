@@ -1,55 +1,75 @@
-#include "decentralizedAlgorithm.h"
-#include "computationalElement.h"
-#include "networkingElement.h"
+#ifndef DECENTRALIZED_ALGORITHM_H
+#define DECENTRALIZED_ALGORITHM_H
+
+#include "algorithm.h"
 #include "request.h"
+#include <map>
 
-DecentralizedAlgorithm::ResultEnum::Result DecentralizedAlgorithm::schedule()
+// The algorithm of scheduling in data-center with different
+// resource pools schedulers. Three main stages are performed:
+//  - assigning of all possible computational nodes
+//  - assigning of all possible memory stores (from requests with 
+//     computational nodes already assigned)
+//  - assigning of all virtrual links (from requests with
+//     computational nodes and memory stores already assigned).
+// For details, see the algorithm specification.
+
+class Node;
+class Store;
+class Link;
+class ComputationalElement;
+
+class DecentralizedAlgorithm: public Algorithm
 {
-    Requests::iterator it = requests.begin();
-    Requests::iterator itEnd = requests.end();
+public:
+    typedef std::set<Request::VirtualMachines * > RequestsVirtualMachines;
+    typedef std::set<Request::Storages * > RequestsStorages;
+    typedef std::set<Request::VirtualLinks * > RequestsVirtualLinks;
+public:
 
-    // generate the set of nodes
-    ComputationalElements nodes;
-    for ( ; it != itEnd; ++it )
+    // constructor
+    DecentralizedAlgorithm(Network* network, Requests const& requests)
+    :
+        Algorithm(network, requests)
     {
-        nodes.insert((RequestComputationalElements*)(&(*it)->getVirtualMachines()));
     }
 
-    Requests assignedRequests = assignComputationalElements(nodes);
+    ~DecentralizedAlgorithm();
 
-    // generate the set of stores
-    it = assignedRequests.begin();
-    itEnd = assignedRequests.end();
+    // Schedule requests:
+    virtual ResultEnum::Result schedule();
 
-    ComputationalElements stores;
-    for ( ; it != itEnd; ++it )
-    {
-        stores.insert((RequestComputationalElements*)&((*it)->getStorages()));
-    }
+private:
+    // internal methods, performing the steps of the algorithm
 
-    assignedRequests = assignComputationalElements(stores);
+    // Perform the resource packing.
+    // Return the set of requests packed.
+    Requests assignComputationalElements(RequestsVirtualMachines& requestsVirtualMachines);
+    Requests assignComputationalElements(RequestsStorages& requestsStorages);
 
-    // generate the set of virtual links
-    it = assignedRequests.begin();
-    itEnd = assignedRequests.end();
+    // Perform the mapping of virtual links.
+    // The assognments are formed after execution of these method.
+    ResultEnum::Result assignVirtualLinks(RequestsVirtualLinks& requestsVirtualLinks);
 
-    NetworkingElements networkingElements;
-    for ( ; it != itEnd; ++it )
-    {
-        networkingElements.insert((RequestNetworkingElements*)&((*it)->getVirtualLinks()));
-    }
+    // Assign one request resources: virtual machines or storages.
+    // Used in the process of assigning computational elements.
+    // Return true if assignment succeded.
+    bool assignOneRequestResourses(Request::VirtualMachines * virtualMachines);
+    bool assignOneRequestResourses(Request::Storages * storages);
 
-    ResultEnum::Result result = assignVirtualLinks(networkingElements);
+    // Assign one computational element.
+    // Used in the process of assigning computational elements.
+    // Return true if assignment succeded.
+    bool assignOneComputationalElement(ComputationalElement* element, Assignment& localAssignment);
 
-    return result;
-}
+public:
+    // methods, that identifies different criterias to be used in the algorithm
 
-Algorithm::Requests DecentralizedAlgorithm::assignComputationalElements(ComputationalElements& computationalElements)
-{
-    return Requests();
-}
+    // The weight of the request virtual machines set to be assigned first.
+    static long requestVirtualMachinesWeight(Request::VirtualMachines* virtualMachines);
 
-Algorithm::ResultEnum::Result DecentralizedAlgorithm::assignVirtualLinks(NetworkingElements& networkingElements)
-{
-    return ResultEnum::SUCCESS;
-}
+    // The weight of one virtual machine to be assigned first.
+    static long virtualMachineWeight(Node * virtualMachine);
+};
+
+#endif
