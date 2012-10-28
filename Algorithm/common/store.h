@@ -5,6 +5,7 @@
 
 class Store : public ComputationalElement
 {
+public:
     Store(string name = "unnamed_store", unsigned long capacity = 0)
         : ComputationalElement(name, capacity)
     {

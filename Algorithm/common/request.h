@@ -3,6 +3,7 @@
 
 #include "publicdefs.h"
 
+// Class representing a resource request to the data center
 class Request
 {
 public:
@@ -12,32 +13,28 @@ public:
     typedef Links VirtualLinks;
 public:
     // construct empty request
-    Request()
-    {}
+    Request();
+    // copy constructor
+    Request(const Request & r);
+    // destructor
+    ~Request();
 
-    // TODO: construct non-empty request and/or add elements to request
-    // TODO: destructor
-public:
+    // operator=
+    Request& operator=(const Request & r);
+
     // Getters/Setters
+    const VirtualMachines& getVirtualMachines() const;
+    const Storages& getStorages() const;
+    const VirtualLinks& getVirtualLinks() const;
+    VirtualMachines& getVirtualMachines();
+    Storages& getStorages();
+    VirtualLinks& getVirtualLinks();
 
-    VirtualMachines& getVirtualMachines()
-    {
-        return virtualMachines;
-    }
-
-    Storages& getStorages()
-    {
-        return storages;
-    }
-
-    VirtualLinks& getVirtualLinks()
-    {
-        return virtualLinks;
-    }
-
+    Node* addVirtualMachine(Node * node);
+    Store* addStorage(Store * store);
+    Link* addLink(Link * link);
 private:
-    // Members:
-
+    // Members
     VirtualMachines virtualMachines;
     Storages storages;
     VirtualLinks virtualLinks;

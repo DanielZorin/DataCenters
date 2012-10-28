@@ -32,9 +32,9 @@ protected:
     virtual ~Element() {}
 
 public:
-    virtual unsigned long getCapacity() { return capacity; }
-    virtual string getName() { return name; }
-    virtual bool isAssignmentPossible(Element const & other) { return capacity >= other.capacity; }
+    virtual unsigned long getCapacity() const { return capacity; }
+    virtual string getName() const { return name; }
+    virtual bool isAssignmentPossible(Element const & other) const { return capacity >= other.capacity; }
     virtual void Assign(Element const & other)
     { 
         if (isAssignmentPossible(other)) 
