@@ -20,10 +20,8 @@ public:
     AntAlgorithm(Network * n, Requests const & r)
     : Algorithm(n, r)
     {}
-    virtual Algorithm::ResultEnum::Result schedule() { return Algorithm::ResultEnum::Result::SUCCESS; }
 
-    // start function
-    void start();
+    virtual Algorithm::ResultEnum::Result schedule();
 private:
     InternalGraph * graph;
 

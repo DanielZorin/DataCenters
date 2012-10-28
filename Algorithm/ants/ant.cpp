@@ -1,6 +1,6 @@
 #include "ant.h"
 
-void AntAlgorithm::start()
+Algorithm::ResultEnum::Result AntAlgorithm::schedule()
 {
     graph = new InternalGraph(1, 1, 1, 1);
 }

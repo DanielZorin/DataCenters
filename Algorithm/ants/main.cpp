@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     Network n;
     Algorithm::Requests r;
     AntAlgorithm alg(&n, r);
-    alg.start();
+    alg.schedule();
     return 0;
 }
 
