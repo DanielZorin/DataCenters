@@ -17,6 +17,7 @@ class Node;
 
 typedef std::set<Node *> Nodes;
 typedef std::set<Store *> Stores;
+typedef std::set<Switch *> Switches;
 typedef std::set<Link *> Links;
 
 #include <vector>

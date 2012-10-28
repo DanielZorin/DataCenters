@@ -1,49 +1,38 @@
 #ifndef NETWORK_H
 #define NETWORK_H
 
-#include <set>
+#include "publicdefs.h"
 
-class Node;
-class Store;
-class Switch;
-class Link;
-
+// Class representing a physical resources model of the data center
 class Network
 {
 public:
-   typedef std::set<Node *> Nodes;
-   typedef std::set<Store *> Stores;
-   typedef std::set<Switch *> Switches;
-   typedef std::set<Link *> Links;
-
-public:
-   Network() {}
+   // constructor
+   Network();
+   // copy constructor
+   Network(const Network & n);
+   // destructor
    ~Network();
 
-public:
+   // operator=
+   Network& operator=(const Network & n);
+
    // Getters/Setters
-   
-   Nodes& getNodes()
-   {
-       return nodes;
-   }
+   const Nodes& getNodes() const;
+   const Stores& getStores() const;
+   const Switches& getSwitches() const;
+   const Links& getLinks() const;
+   Nodes& getNodes();
+   Stores& getStores();
+   Switches& getSwitches();
+   Links& getLinks();
 
-   Stores& getStores()
-   {
-       return stores;
-   }
-
-   Switches& getSwitches()
-   {
-       return switches;
-   }
-
-   Links& getLinks()
-   {
-       return links;
-   }
-
+   Node* addNode(Node * node);
+   Store* addStore(Store * store);
+   Switch* addSwitch(Switch* sw);
+   Link* addLink(Link * link);
 private:
+   // members
    Nodes nodes;
    Stores stores;
    Switches switches;
