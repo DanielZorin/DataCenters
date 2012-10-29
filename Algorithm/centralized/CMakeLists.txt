@@ -1,5 +1,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
-PROJECT(centralised)
+PROJECT(centralized)
 
 FILE(GLOB SOURCE_FILES *.cpp)
 add_library(${PROJECT_NAME} ${SOURCE_FILES})

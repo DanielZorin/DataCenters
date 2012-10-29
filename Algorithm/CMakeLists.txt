@@ -6,9 +6,9 @@ INCLUDE_DIRECTORIES(common)
 
 SET ( COMPONENTS
       common
-      centralised
-      decentralised
-      ants
+      centralized
+      decentralized
+#      ants
       )
 
 FOREACH(COMPONENT ${COMPONENTS})
@@ -16,4 +16,4 @@ FOREACH(COMPONENT ${COMPONENTS})
 ENDFOREACH(COMPONENT)
 
 ADD_EXECUTABLE(${PROJECT_NAME} compilation.cpp)
-TARGET_LINK_LIBRARIES (${PROJECT_NAME} common)
+TARGET_LINK_LIBRARIES (${PROJECT_NAME} ${COMPONENTS})
