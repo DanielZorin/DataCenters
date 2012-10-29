@@ -126,7 +126,7 @@ bool DecentralizedAlgorithm::assignOneComputationalElement(ComputationalElement*
     {
         if ( nodes[index]->getCapacity() >= element->getCapacity() )
         {
-            nodes[index]->Assign(*element);
+            nodes[index]->assign(*element);
             localAssignment.AddAssignment((Node*)element, nodes[index]);
             return true;
         }

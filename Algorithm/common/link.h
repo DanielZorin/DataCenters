@@ -12,6 +12,12 @@ public:
         setType(Element::LINK);
     }
 
+    void bindElements(Element * a, Element * b);
+private:
+    Element * first;
+    Element * second;
+
+
 };
 
 #endif // LINK_H

@@ -35,7 +35,7 @@ public:
     virtual unsigned long getCapacity() const { return capacity; }
     virtual string getName() const { return name; }
     virtual bool isAssignmentPossible(Element const & other) const { return capacity >= other.capacity; }
-    virtual void Assign(Element const & other)
+    virtual void assign(Element const & other)
     { 
         if (isAssignmentPossible(other)) 
             capacity -= other.capacity;
@@ -48,6 +48,15 @@ public:
         capacity += other->capacity;
     }
 
+    // This function is to be called on all linked 
+    // elements to notify of unlinkage of that element
+    virtual void elementDestructionNotification(Element *) {}
+
+public:
+    inline bool isLink() { return type == LINK; }
+    inline bool isNode() { return type == NODE; }
+    inline bool isStore() { return type == STORE; }
+    inline bool isSwitch() { return type == SWITCH; }
 private:
     unsigned long capacity;
     string name; 
