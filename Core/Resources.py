@@ -15,7 +15,7 @@ class Storage(AbstractVertex):
         self.intervals = {}
 
     def getUsedVolumePercent(self, t):
-        return 0 if self.volume == 0 else self.intervals[t].usedResource*100.0/self.volume
+        return 0 if self.volume == 0 or not t in self.intervals else self.intervals[t].usedResource*100.0/self.volume
 
 class Computer(AbstractVertex):
     def __init__(self, id, speed):
@@ -24,7 +24,7 @@ class Computer(AbstractVertex):
         self.intervals = {}
 
     def getUsedSpeedPercent(self, t):
-        return 0 if self.speed == 0 else self.intervals[t].usedResource*100.0/self.speed
+        return 0 if self.speed == 0 or not t in self.intervals else self.intervals[t].usedResource*100.0/self.speed
 
 class Router(AbstractVertex):
     def __init__(self, id, capacity):
@@ -33,7 +33,7 @@ class Router(AbstractVertex):
         self.intervals = {}
 
     def getUsedCapacityPercent(self, t):
-        return 0 if self.capacity == 0 else self.intervals[t].usedResource*100.0/self.capacity
+        return 0 if self.capacity == 0 or not t in self.intervals else self.intervals[t].usedResource*100.0/self.capacity
 
 class Link:
     def __init__(self, e1, e2, capacity):
@@ -43,7 +43,7 @@ class Link:
         self.intervals = {}
 
     def getUsedCapacityPercent(self,t):
-        return 0 if self.capacity == 0 else self.intervals[t].usedResource*100.0/self.capacity
+        return 0 if self.capacity == 0 or not t in self.intervals else self.intervals[t].usedResource*100.0/self.capacity
 
 class ResourceGraph(AbstractGraph):
     assignedDemands = set([])

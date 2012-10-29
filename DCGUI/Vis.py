@@ -52,6 +52,8 @@ class Vis(QMainWindow):
     def ShowRouterInfo(self):
         v = next(v for v in self.canvas.vertices.keys() if self.canvas.vertices[v] == self.canvas.selectedVertex)
         timeInt = self.project.resources.GetTimeInterval(self.time)
+        if timeInt==None:
+            return
         link_num = 0
         for d in v.intervals[timeInt].demands.keys():
             link_num += len(v.intervals[timeInt].demands[d])
@@ -77,6 +79,8 @@ class Vis(QMainWindow):
     def ShowComputerInfo(self):
         v = next(v for v in self.canvas.vertices.keys() if self.canvas.vertices[v] == self.canvas.selectedVertex)
         timeInt = self.project.resources.GetTimeInterval(self.time)
+        if timeInt==None:
+            return
         vm_num = 0
         for d in v.intervals[timeInt].demands.keys():
             vm_num += len(v.intervals[timeInt].demands[d])
@@ -99,6 +103,8 @@ class Vis(QMainWindow):
     def ShowStorageInfo(self):
         v = next(v for v in self.canvas.vertices.keys() if self.canvas.vertices[v] == self.canvas.selectedVertex)
         timeInt = self.project.resources.GetTimeInterval(self.time)
+        if timeInt==None:
+            return
         storage_num = 0
         for d in v.intervals[timeInt].demands.keys():
             storage_num += len(v.intervals[timeInt].demands[d])
@@ -124,6 +130,8 @@ class Vis(QMainWindow):
         if e == None:
             return
         timeInt = self.project.resources.GetTimeInterval(self.time)
+        if timeInt==None:
+            return
         link_num = 0
         for d in e.intervals[timeInt].demands.keys():
             link_num += len(e.intervals[timeInt].demands[d])
