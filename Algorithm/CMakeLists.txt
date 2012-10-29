@@ -8,7 +8,7 @@ SET ( COMPONENTS
       common
       centralized
       decentralized
-#      ants
+      ants
       )
 
 FOREACH(COMPONENT ${COMPONENTS})
