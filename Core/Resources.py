@@ -255,7 +255,8 @@ class ResourceGraph(AbstractGraph):
             self.DropVertex(demand,v)
         for e in demand.edges:
             self.DropLink(demand,e)  
-        self.assignedDemands.remove(demand) 
+        if demand in self.assignedDemands:
+            self.assignedDemands.remove(demand) 
         #self.RemoveIntervals(demand)
 
     def AssignVertex(self, demand, vdemand, vresource, time):
