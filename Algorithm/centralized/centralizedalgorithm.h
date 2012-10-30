@@ -3,6 +3,8 @@
 
 #include "algorithm.h"
 
+#include <vector>
+
 class CentralizedAlgorithm : public Algorithm
 {
 private:
@@ -11,8 +13,15 @@ public:
     CentralizedAlgorithm(Network * n, Requests const & r)
         : Algorithm(n, r)
     {}
+private:
+    std::vector<Request *> prioritizeRequests();
+
+    Result buildVMAssignment();
+    Result buildStorageAssignment();
 public:
-    virtual Algorithm::ResultEnum::Result schedule();
+    virtual Algorithm::Result schedule();
+private:
+    Assignment * currentAssignment;
 };
 
 #endif // CENTRALIZEDALGORITHM_H

@@ -12,7 +12,7 @@ int main(int argc, char ** argv){
     Algorithm::Requests requests;
     requests.insert(r1);
     requests.insert(r2);
-    Algorithm::ResultEnum::Result result = Algorithm::ResultEnum::SUCCESS; 
+    Algorithm::Result result = Algorithm::SUCCESS; 
      
     return 0;
 }

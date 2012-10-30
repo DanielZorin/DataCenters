@@ -1,5 +1,12 @@
 #include "assignment.h"
 
+#include "request.h"
+
+string Assignment::getName()
+{
+    return request->getName();
+}
+
 Node * Assignment::GetAssignment(Node * virtualMachine)
 {
     if ( nodeAssignments.count(virtualMachine) )

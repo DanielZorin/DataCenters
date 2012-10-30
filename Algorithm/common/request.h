@@ -3,6 +3,9 @@
 
 #include "publicdefs.h"
 
+#include <string>
+using std::string;
+
 // Class representing a resource request to the data center
 class Request
 {
@@ -12,8 +15,9 @@ public:
     typedef Stores Storages;
     typedef Links VirtualLinks;
 public:
+    Request() {}
     // construct empty request
-    Request();
+    Request(string name);
     // copy constructor
     Request(const Request & r);
     // destructor
@@ -30,6 +34,8 @@ public:
     Storages& getStorages();
     VirtualLinks& getVirtualLinks();
 
+    inline string getName() { return name; }
+
     Node* addVirtualMachine(Node * node);
     Store* addStorage(Store * store);
     Link* addLink(Link * link);
@@ -38,6 +44,8 @@ private:
     VirtualMachines virtualMachines;
     Storages storages;
     VirtualLinks virtualLinks;
+
+    string name;
 };
 
 #endif // REQUEST_H

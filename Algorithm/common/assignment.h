@@ -20,6 +20,11 @@ public:
     NetPath GetAssignment(Link *);
     Links GetAssigned(NetworkingElement *);
     
+    Assignment()
+    : request(NULL) {}
+    Assignment(Request * r) { request = r; }
+    string getName();
+
     void AddAssignment(Node * w, Node * p)
     {
         nodeAssignments.insert(NodeAssignment(w, p));
@@ -40,6 +45,7 @@ private:
     StoreAssignments storeAssignments;
     LinkAssignments linkAssignments;
 
+    Request * request;
 };
 
 #endif // ASSIGNMENT_H

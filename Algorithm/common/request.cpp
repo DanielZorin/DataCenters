@@ -3,8 +3,9 @@
 #include "link.h"
 #include "store.h"
 
-Request::Request()
+Request::Request(string n)
 {
+    name = n;
 }
 
 Request::Request(const Request & r)

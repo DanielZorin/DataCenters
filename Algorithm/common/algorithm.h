@@ -10,14 +10,10 @@ class Assignment;
 class Algorithm
 {
 public:
-//    typedef enum {SUCCESS = 0, PARTIAL, FAILURE = -1} ResultType;
-    class ResultEnum {
-    public:
-        enum Result {
-            SUCCESS = 0,
-            PARTIAL,
-            FAILURE = -1
-        };
+    enum Result {
+        SUCCESS = 0,
+        PARTIAL,
+        FAILURE = -1
     };
 public:
     typedef std::set<Request *> Requests;
@@ -34,7 +30,7 @@ public:
 public:
     virtual Assignments getAssignments() { return assignments; }
 public:
-    virtual ResultEnum::Result schedule() = 0;
+    virtual Result schedule() = 0;
 protected:
     Network * network;
     Requests requests;
