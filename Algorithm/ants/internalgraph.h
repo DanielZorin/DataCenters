@@ -31,25 +31,28 @@ class GraphComponent
 public:
     typedef enum {NOTYPE = 0, VMACHINE = 1, STORAGE = 2} RequestType;
 
-    GraphComponent(int phys, RequestType t);
+    GraphComponent(unsigned long req, int phys, RequestType t);
     ~GraphComponent();
 
     GraphComponent(const GraphComponent & gc);
     GraphComponent& operator=(const GraphComponent & gc);
 
-    RequestType getType() { return type; }
-    bool isCreated() { return success; }
+    RequestType getType() const { return type; }
+    bool isCreated() const { return success; }
+
+    void updateHeuristic(std::vector<unsigned long> & res);
 private:
     // initialize
     bool init(int num);
 
     // Arcs to physical resiurces
     std::vector<Arc*> physArcs;
-
     // was init() successful?
     bool success;
     // request type
     RequestType type;
+    // requested resources
+    unsigned long required;
 
     // No default constructor
     GraphComponent();
@@ -60,20 +63,28 @@ private:
 class InternalGraph
 {
 public:
-    InternalGraph(unsigned int nodes, unsigned int stores, unsigned int vm, unsigned int st);
+    InternalGraph(unsigned int nodes, unsigned int stores, unsigned int vm, unsigned int st,
+                  std::vector<unsigned long> & ndRes, std::vector<unsigned long> & stRes, std::vector<unsigned long> & req);
     ~InternalGraph();
 
-    bool isCreated() { return success; }
+    bool isCreated() const { return success; }
 private:
     // initialize
-    bool init();
+    bool init(std::vector<unsigned long> & ndRes, std::vector<unsigned long> & stRes, std::vector<unsigned long> & req);
+    void clean(int i, int j, int k);
+    // calculate heuristic for arcs
+    void calcHeuristic(std::vector<unsigned long> & req);
+    // update heuristic for every graph component
+    void updateInternalHeuristic();
 
     // Vertices that correspond to requests
     std::vector<GraphComponent*> vertices;
     // Arcs between these vertices
     std::vector< std::vector<Arc*> > arcs;
-    // Current available physical resources for storages and computational nodes
-    std::vector<double> resources;
+    // Current available physical resources for computational nodes
+    std::vector<unsigned long> nodesRes;
+    // Current available physical resources for storages
+    std::vector<unsigned long> storesRes;
 
     // graph parameters
     int nodesNum;

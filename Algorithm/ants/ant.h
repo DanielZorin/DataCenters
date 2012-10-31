@@ -17,17 +17,23 @@
 class AntAlgorithm: public Algorithm
 {
 public:
-    AntAlgorithm(Network * n, Requests const & r)
-    : Algorithm(n, r)
-    {}
+    AntAlgorithm(Network * n, Requests const & r);
+    ~AntAlgorithm();
 
-    virtual Algorithm::ResultEnum::Result schedule();
+    virtual Algorithm::Result schedule();
+
+    bool isCreated() const { return success; }
 private:
     InternalGraph * graph;
+    // number of virtual machines and storages in all the requests
+    int vmCount;
+    int stCount;
+    bool init();
 
     bool buildPath();
     bool buildLink();
 
+    bool success;
     // No default constructor, copy constructor and operator=
     AntAlgorithm();
     AntAlgorithm(const AntAlgorithm&);
