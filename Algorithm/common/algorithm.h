@@ -11,9 +11,9 @@ class Algorithm
 {
 public:
     enum Result {
-        SUCCESS = 0,
-        PARTIAL,
-        FAILURE = -1
+        SUCCESS = 0x01,
+        FAILURE = 0x02,
+        PARTIAL = SUCCESS | FAILURE
     };
 public:
     typedef std::set<Request *> Requests;

@@ -1,7 +1,9 @@
 #ifndef CENTRALIZEDALGORITHM_H
 #define CENTRALIZEDALGORITHM_H
 
+#include "publicdefs.h"
 #include "algorithm.h"
+#include "request.h"
 
 #include <vector>
 
@@ -15,9 +17,13 @@ public:
     {}
 private:
     std::vector<Request *> prioritizeRequests();
+    std::vector<Node *> prioritizeVms(Request::VirtualMachines &);
 
-    Result buildVMAssignment();
-    Result buildStorageAssignment();
+    std::vector<Node *> getVMAssignmentCandidates(Node *);
+
+    Result buildVMAssignment(Request *);
+    Result buildStorageAssignment(Request *);
+
 public:
     virtual Algorithm::Result schedule();
 private:
