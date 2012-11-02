@@ -20,10 +20,11 @@ public:
         SWITCH          = 0x02 | NETWORKING
     };
 protected:
-    Element(string elementName = "unnamed", unsigned long elementCapacity = 0)
+    Element(string elementName = "unnamed", unsigned long elementCapacity = 0, unsigned long max = 0)
     :   name(elementName),
         capacity(elementCapacity)
     {
+        if (max == 0) maxCapacity = elementCapacity;
         setType(ELEMENT);
     }
 
@@ -33,6 +34,7 @@ protected:
 
 public:
     virtual unsigned long getCapacity() const { return capacity; }
+    virtual unsigned long getMaxCapacity() const { return maxCapacity; }
     virtual string getName() const { return name; }
     virtual bool isAssignmentPossible(Element const & other) const { return capacity >= other.capacity; }
     virtual void assign(Element const & other)
@@ -59,6 +61,7 @@ public:
     inline bool isSwitch() { return type == SWITCH; }
 private:
     unsigned long capacity;
+    unsigned long maxCapacity;
     string name; 
 protected:
     Type type;

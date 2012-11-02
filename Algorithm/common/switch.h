@@ -6,8 +6,8 @@
 class Switch : public NetworkingElement
 {
 public:
-    Switch(string name = "unnamed_switch", unsigned long capacity = 0)
-        : NetworkingElement(name, capacity)
+    Switch(string name = "unnamed_switch", unsigned long capacity = 0, unsigned long max = 0)
+        : NetworkingElement(name, capacity, max)
     {
         setType(Element::SWITCH);
     }

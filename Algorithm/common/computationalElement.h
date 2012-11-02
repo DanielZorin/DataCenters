@@ -11,8 +11,8 @@ private:
     ComputationalElement();
 protected:
     ComputationalElement(string name = "unnamed_computational_element"
-        , unsigned long capacity = 0)
-    : Element(name, capacity)
+        , unsigned long capacity = 0, unsigned long max = 0)
+    : Element(name, capacity, max)
     {
         setType(Element::COMPUTATIONAL);
     }

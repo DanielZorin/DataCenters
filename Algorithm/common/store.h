@@ -6,8 +6,8 @@
 class Store : public ComputationalElement
 {
 public:
-    Store(string name = "unnamed_store", unsigned long capacity = 0)
-        : ComputationalElement(name, capacity)
+    Store(string name = "unnamed_store", unsigned long capacity = 0, unsigned long max = 0)
+        : ComputationalElement(name, capacity, max)
     {
         setType(Element::STORE);
     }
