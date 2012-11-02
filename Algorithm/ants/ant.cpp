@@ -25,18 +25,23 @@ bool AntAlgorithm::init()
     const Nodes& nodes = network->getNodes();
     const Stores& stores = network->getStores();
     unsigned int cnodes = nodes.size(), cstores = stores.size();
-    std::vector<unsigned long> nodesRes(cnodes);
-    std::vector<unsigned long> storesRes(cstores);
+    std::vector<unsigned long> res(cnodes+cstores);
+    std::vector<unsigned long> cap(cnodes+cstores);
 
-    // get physical resources' capacity
-    int iRes = 0;
-    for (Nodes::iterator i = nodes.begin(); i != nodes.end(); i ++, ++ iRes)
-        nodesRes[iRes] = (*i)->getCapacity();
-    iRes = 0;
-    for (Stores::iterator i = stores.begin(); i != stores.end(); i ++, ++ iRes)
-        storesRes[iRes] = (*i)->getCapacity();
+    // get physical resources' current capacity and max capacity
+    int iVec = 0;
+    for (Nodes::iterator i = nodes.begin(); i != nodes.end(); i ++, ++ iVec)
+    {
+        res[iVec] = (*i)->getCapacity();
+        cap[iVec] = (*i)->getMaxCapacity();
+    }
+    for (Stores::iterator i = stores.begin(); i != stores.end(); i ++, ++ iVec)
+    {
+        res[iVec] = (*i)->getCapacity();
+        cap[iVec] = (*i)->getMaxCapacity();
+    }
 
-    // get requests' required capacity
+    // get requests' required current capacity
     std::vector<unsigned long> reqCapacity(vmCount+stCount);
     int iReq = 0;
     for (Requests::iterator i = requests.begin(); i != requests.end(); i ++)
@@ -52,7 +57,7 @@ bool AntAlgorithm::init()
             reqCapacity[iReq] = (*i)->getCapacity();
     }
 
-    graph = new InternalGraph(cnodes, cstores, vmCount, stCount, nodesRes, storesRes, reqCapacity);
+    graph = new InternalGraph(cnodes, cstores, vmCount, stCount, res, cap, reqCapacity);
 }
 
 Algorithm::Result AntAlgorithm::schedule()

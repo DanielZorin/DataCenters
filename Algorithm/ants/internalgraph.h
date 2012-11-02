@@ -40,7 +40,7 @@ public:
     RequestType getType() const { return type; }
     bool isCreated() const { return success; }
 
-    void updateHeuristic(std::vector<unsigned long> & res);
+    void updateHeuristic(std::vector<unsigned long> & res, std::vector<unsigned long> & cap);
 private:
     // initialize
     bool init(int num);
@@ -64,13 +64,13 @@ class InternalGraph
 {
 public:
     InternalGraph(unsigned int nodes, unsigned int stores, unsigned int vm, unsigned int st,
-                  std::vector<unsigned long> & ndRes, std::vector<unsigned long> & stRes, std::vector<unsigned long> & req);
+                  std::vector<unsigned long> & res, std::vector<unsigned long> & cap, std::vector<unsigned long> & req);
     ~InternalGraph();
 
     bool isCreated() const { return success; }
 private:
     // initialize
-    bool init(std::vector<unsigned long> & ndRes, std::vector<unsigned long> & stRes, std::vector<unsigned long> & req);
+    bool init(std::vector<unsigned long> & res, std::vector<unsigned long> & cap, std::vector<unsigned long> & req);
     void clean(int i, int j, int k);
     // calculate heuristic for arcs
     void calcHeuristic(std::vector<unsigned long> & req);
@@ -85,6 +85,10 @@ private:
     std::vector<unsigned long> nodesRes;
     // Current available physical resources for storages
     std::vector<unsigned long> storesRes;
+    // Maximum available physical resources for computational nodes
+    std::vector<unsigned long> nodesCap;
+    // Maximum available physical resources for storages
+    std::vector<unsigned long> storesCap;
 
     // graph parameters
     int nodesNum;
