@@ -36,6 +36,7 @@ class Demand(AbstractGraph):
         self.endTime = 0
         self.replications = []
         self.assigned = False
+        self.replicationCapacity = 0
 
     def GenerateRandom(self, params):
         self.startTime = random.randint(params["start"], params["end"] - 1)
