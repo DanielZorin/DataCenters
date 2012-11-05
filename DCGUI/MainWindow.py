@@ -1,4 +1,4 @@
-from PyQt4.QtGui import QMainWindow, qApp, QTreeWidgetItem, QDialog, QFileDialog, QMessageBox, QAction, QKeySequence, QLineEdit
+from PyQt4.QtGui import QMainWindow, qApp, QTreeWidgetItem, QDialog, QFileDialog, QMessageBox, QAction, QKeySequence, QLineEdit, QComboBox
 from PyQt4.QtCore import Qt, QObject, SIGNAL, QSettings, QStringList
 from DCGUI.Windows.ui_MainWindow import Ui_MainWindow
 from DCGUI.ResourcesGraphEditor import ResourcesGraphEditor
@@ -74,7 +74,12 @@ class MainWindow(QMainWindow):
         self.resourcesGraphEditor.setData(self.project.resources)
         self.ui.demands.clear()
         for d in self.project.demands:
-            it = QTreeWidgetItem(self.ui.demands, QStringList([d.id, str(d.startTime), str(d.endTime), "Yes" if d.assigned else "No"]))
+            it = QTreeWidgetItem(self.ui.demands, QStringList([d.id, str(d.startTime), str(d.endTime), "No" if d.critical else "Yes", "Yes" if d.assigned else "No"]))
+            cb = QComboBox()
+            cb.addItems(["No","Yes"])
+            cb.setCurrentIndex(0 if d.critical else 1)
+            QObject.connect(cb, SIGNAL("currentIndexChanged(int)"), it.emitDataChanged)
+            self.ui.demands.setItemWidget(it,3,cb)
             it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
             self.demands[it] = d
         self.UpdateRecentFiles()
@@ -145,14 +150,19 @@ class MainWindow(QMainWindow):
 
     def AddDemand(self):
         d = self.project.CreateDemand()
-        it = QTreeWidgetItem(self.ui.demands, QStringList(["New demand", "0", "1", "No"]))
+        it = QTreeWidgetItem(self.ui.demands, QStringList(["New demand", "0", "1", "No", "No"]))
+        cb = QComboBox()
+        cb.addItems(["No","Yes"])
+        self.ui.demands.setItemWidget(it,3,cb)
+        QObject.connect(cb, SIGNAL("currentIndexChanged(int)"), it.emitDataChanged)
         it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
         self.demands[it] = d
         self.ui.demands.editItem(it)
         self.demands[it].id = unicode(it.text(0))
         self.demands[it].startTime = int(it.text(1))
         self.demands[it].endTime = int(it.text(2))
-
+        self.demands[it].critical = False if self.ui.demands.itemWidget(it,3).currentText() == "Yes" else True
+    
     def DeleteDemand(self):
         item = self.ui.demands.currentItem()
         if (item == None):
@@ -162,9 +172,12 @@ class MainWindow(QMainWindow):
         self.ui.demands.takeTopLevelItem(self.ui.demands.indexOfTopLevelItem(item))
         del item
 
-    def RenameDemand(self, item):
+    def UpdateDemand(self, item):
         if item in self.demands:
-            self.demands[item].id = unicode(item.text())
+            self.demands[item].id = unicode(item.text(0))
+            self.demands[item].startTime = int(item.text(1))
+            self.demands[item].endTime = int(item.text(2))
+            self.demands[item].critical = False if self.ui.demands.itemWidget(item,3).currentText() == "Yes" else True
 
     def EditDemand(self):
         if (self.demands == {}) or (self.ui.demands.currentItem() == None):
@@ -191,14 +204,18 @@ class MainWindow(QMainWindow):
             dict["types"] = types
             for i in range(dict["n"]):
                 demand = self.project.CreateRandomDemand(dict)
-                it = QTreeWidgetItem(self.ui.demands, QStringList([demand.id, str(demand.startTime), str(demand.endTime), "No"]))
+                it = QTreeWidgetItem(self.ui.demands, QStringList([demand.id, str(demand.startTime), str(demand.endTime), "No", "No"]))
+                cb = QComboBox()
+                cb.addItems(["No","Yes"])
+                self.ui.demands.setItemWidget(it,3,cb)
+                QObject.connect(cb, SIGNAL("currentIndexChanged(int)"), it.emitDataChanged)
                 it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
                 self.demands[it] = demand
 
     def Reset(self):
         self.project.Reset()
         for k in self.demands.keys():
-            k.setText(3, "No")
+            k.setText(4, "No")
 
     def About(self):
         pass
@@ -265,7 +282,7 @@ class MainWindow(QMainWindow):
         it.setText(0, self.demands[it].id)
         it.setText(1, str(self.demands[it].startTime))
         it.setText(2, str(self.demands[it].endTime))
-        it.setText(3, "No")
+        it.setText(4, "No")
         self.showStats()
 
     def ShowResults(self):
@@ -278,4 +295,4 @@ class MainWindow(QMainWindow):
 
     def demandAssigned(self, id):
         item = self.ui.demands.findItems(id, Qt.MatchExactly)[0]
-        item.setText(3, "Yes")
+        item.setText(4, "Yes")

@@ -24,7 +24,7 @@
 		<link capacity="1000" from="10" to="3"/>
 		<link capacity="1000" from="11" to="10"/>
 	</resources>
-	<demand assigned="True" end="80" id="Random_1" replicationcapacity="1" start="45">
+	<demand assigned="True" critical="False" end="80" id="Random_1" replicationcapacity="1" start="45">
 		<vm assignedto="1" name="vm_0" number="1" speed="4" x="50.0" y="50.0"/>
 		<vm assignedto="7" name="vm_1" number="2" speed="2" x="90.0" y="50.0"/>
 		<vm assignedto="8" name="vm_2" number="3" speed="12" x="130.0" y="50.0"/>
@@ -46,7 +46,7 @@
 		<link assignedto="6;3;2;" capacity="14" from="8" to="10"/>
 		<link assignedto="6;3;2;" capacity="13" from="9" to="10"/>
 	</demand>
-	<demand assigned="True" end="93" id="Random_2" replicationcapacity="1" start="54">
+	<demand assigned="True" critical="False" end="93" id="Random_2" replicationcapacity="1" start="54">
 		<vm assignedto="1" name="vm_0" number="1" speed="3" x="50.0" y="50.0"/>
 		<vm assignedto="9" name="vm_1" number="2" speed="13" x="90.0" y="50.0"/>
 		<vm assignedto="1" name="vm_2" number="3" speed="7" x="130.0" y="50.0"/>
@@ -71,7 +71,7 @@
 		<link assignedto="2;3;6;" capacity="15" from="8" to="10"/>
 		<link assignedto="none" capacity="12" from="9" to="10"/>
 	</demand>
-	<demand assigned="True" end="89" id="Random_3" replicationcapacity="1" start="25">
+	<demand assigned="True" critical="True" end="89" id="Random_3" replicationcapacity="1" start="25">
 		<vm assignedto="8" name="vm_0" number="1" speed="14" x="50.0" y="50.0"/>
 		<vm assignedto="1" name="vm_1" number="2" speed="12" x="90.0" y="50.0"/>
 		<vm assignedto="8" name="vm_2" number="3" speed="3" x="130.0" y="50.0"/>
@@ -93,7 +93,7 @@
 		<link assignedto="none" capacity="11" from="8" to="9"/>
 		<link assignedto="none" capacity="13" from="9" to="10"/>
 	</demand>
-	<demand assigned="True" end="18" id="Random_4" replicationcapacity="1" start="14">
+	<demand assigned="True" critical="False" end="18" id="Random_4" replicationcapacity="1" start="14">
 		<vm assignedto="9" name="vm_0" number="1" speed="4" x="50.0" y="50.0"/>
 		<vm assignedto="1" name="vm_1" number="2" speed="4" x="90.0" y="50.0"/>
 		<vm assignedto="1" name="vm_2" number="3" speed="13" x="130.0" y="50.0"/>
@@ -118,7 +118,7 @@
 		<link assignedto="none" capacity="13" from="8" to="9"/>
 		<link assignedto="none" capacity="15" from="9" to="10"/>
 	</demand>
-	<demand assigned="False" end="95" id="Random_5" replicationcapacity="1" start="47">
+	<demand assigned="False" critical="True" end="95" id="Random_5" replicationcapacity="1" start="47">
 		<vm name="vm_0" number="1" speed="5" x="49.5" y="49.5"/>
 		<vm name="vm_1" number="2" speed="1200" x="89.5" y="49.5"/>
 		<vm name="vm_2" number="3" speed="6" x="129.5" y="49.5"/>
@@ -144,7 +144,7 @@
 		<link capacity="11" from="8" to="10"/>
 		<link capacity="15" from="9" to="10"/>
 	</demand>
-	<demand assigned="True" end="19" id="Random_6" replicationcapacity="1" start="13">
+	<demand assigned="True" critical="True" end="19" id="Random_6" replicationcapacity="1" start="13">
 		<vm assignedto="8" name="vm_0" number="1" speed="6" x="50.0" y="50.0"/>
 		<vm assignedto="9" name="vm_1" number="2" speed="1" x="90.0" y="50.0"/>
 		<vm assignedto="1" name="vm_2" number="3" speed="1" x="130.0" y="50.0"/>
@@ -169,7 +169,7 @@
 		<link assignedto="none" capacity="14" from="8" to="10"/>
 		<link assignedto="6;3;2;" capacity="13" from="9" to="10"/>
 	</demand>
-	<demand assigned="True" end="92" id="Random_7" replicationcapacity="1" start="80">
+	<demand assigned="True" critical="False" end="92" id="Random_7" replicationcapacity="1" start="80">
 		<vm assignedto="9" name="vm_0" number="1" speed="12" x="49.5" y="49.5"/>
 		<vm assignedto="4" name="vm_1" number="2" speed="13" x="89.5" y="49.5"/>
 		<vm assignedto="1" name="vm_2" number="3" speed="15" x="129.5" y="49.5"/>
@@ -193,7 +193,7 @@
 		<link assignedto="6;3;2;" capacity="15" from="8" to="10"/>
 		<link assignedto="6;3;2;" capacity="11" from="9" to="10"/>
 	</demand>
-	<demand assigned="True" end="92" id="Random_8" replicationcapacity="1" start="51">
+	<demand assigned="True" critical="True" end="92" id="Random_8" replicationcapacity="1" start="51">
 		<vm assignedto="8" name="vm_0" number="1" speed="4" x="50.0" y="50.0"/>
 		<vm assignedto="9" name="vm_1" number="2" speed="8" x="90.0" y="50.0"/>
 		<vm assignedto="1" name="vm_2" number="3" speed="11" x="130.0" y="50.0"/>
@@ -218,7 +218,7 @@
 		<link assignedto="none" capacity="13" from="8" to="10"/>
 		<link assignedto="none" capacity="12" from="9" to="10"/>
 	</demand>
-	<demand assigned="True" end="81" id="Random_9" replicationcapacity="1" start="71">
+	<demand assigned="True" critical="True" end="81" id="Random_9" replicationcapacity="1" start="71">
 		<vm assignedto="8" name="vm_0" number="1" speed="12" x="50.0" y="50.0"/>
 		<vm assignedto="8" name="vm_1" number="2" speed="6" x="90.0" y="50.0"/>
 		<vm assignedto="1" name="vm_2" number="3" speed="15" x="130.0" y="50.0"/>
@@ -243,7 +243,7 @@
 		<link assignedto="6;3;2;" capacity="11" from="8" to="10"/>
 		<link assignedto="none" capacity="13" from="9" to="10"/>
 	</demand>
-	<demand assigned="True" end="46" id="Random_10" replicationcapacity="1" start="17">
+	<demand assigned="True" critical="False" end="46" id="Random_10" replicationcapacity="1" start="17">
 		<vm assignedto="9" name="vm_0" number="1" speed="7" x="50.0" y="50.0"/>
 		<vm assignedto="1" name="vm_1" number="2" speed="13" x="90.0" y="50.0"/>
 		<vm assignedto="1" name="vm_2" number="3" speed="11" x="130.0" y="50.0"/>
@@ -270,7 +270,7 @@
 		<link assignedto="6;3;2;" capacity="12" from="8" to="10"/>
 		<link assignedto="6;3;2;" capacity="11" from="9" to="10"/>
 	</demand>
-	<demand assigned="True" end="10" id="New demand" replicationcapacity="1" start="1">
+	<demand assigned="True" critical="True" end="10" id="New demand" replicationcapacity="1" start="1">
 		<vm assignedto="7" name="id" number="1" speed="0" x="48.5" y="63.5"/>
 		<storage assignedto="6" name="id" number="2" type="0" volume="100" x="124.5" y="57.5"/>
 		<vm assignedto="4" name="id" number="3" speed="0" x="197.5" y="52.5"/>

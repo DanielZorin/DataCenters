@@ -9,7 +9,7 @@ except AttributeError:
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.resize(578, 437)
+        MainWindow.resize(680, 437)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -140,7 +140,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addLayout(self.verticalLayout)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 578, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 680, 20))
         self.menubar.setStyleSheet(_fromUtf8(""))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuFile = QtGui.QMenu(self.menubar)
@@ -279,6 +279,7 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.runall, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.Run)
         QtCore.QObject.connect(self.actionSchedule_selected, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.RunSelected)
         QtCore.QObject.connect(self.actionShow_Statistics, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.ShowGraphVis)
+        QtCore.QObject.connect(self.demands, QtCore.SIGNAL(_fromUtf8("itemChanged(QTreeWidgetItem*,int)")), MainWindow.UpdateDemand)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -293,7 +294,8 @@ class Ui_MainWindow(object):
         self.demands.headerItem().setText(0, QtGui.QApplication.translate("MainWindow", "Name", None, QtGui.QApplication.UnicodeUTF8))
         self.demands.headerItem().setText(1, QtGui.QApplication.translate("MainWindow", "Starting time", None, QtGui.QApplication.UnicodeUTF8))
         self.demands.headerItem().setText(2, QtGui.QApplication.translate("MainWindow", "End time", None, QtGui.QApplication.UnicodeUTF8))
-        self.demands.headerItem().setText(3, QtGui.QApplication.translate("MainWindow", "Scheduled", None, QtGui.QApplication.UnicodeUTF8))
+        self.demands.headerItem().setText(3, QtGui.QApplication.translate("MainWindow", "Can be rescheduled", None, QtGui.QApplication.UnicodeUTF8))
+        self.demands.headerItem().setText(4, QtGui.QApplication.translate("MainWindow", "Scheduled", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox.setTitle(QtGui.QApplication.translate("MainWindow", "Statistics", None, QtGui.QApplication.UnicodeUTF8))
         self.label_13.setText(QtGui.QApplication.translate("MainWindow", "Total requests scheduled", None, QtGui.QApplication.UnicodeUTF8))
         self.demandcount.setText(QtGui.QApplication.translate("MainWindow", "0", None, QtGui.QApplication.UnicodeUTF8))

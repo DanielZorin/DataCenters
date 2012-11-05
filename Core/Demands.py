@@ -37,6 +37,7 @@ class Demand(AbstractGraph):
         self.replications = []
         self.assigned = False
         self.replicationCapacity = 0
+        self.critical = True
 
     def GenerateRandom(self, params):
         self.startTime = random.randint(params["start"], params["end"] - 1)
@@ -90,6 +91,7 @@ class Demand(AbstractGraph):
         root.setAttribute("end", str(self.endTime))
         root.setAttribute("assigned", str(self.assigned))
         root.setAttribute("replicationcapacity", str(self.replicationCapacity))
+        root.setAttribute("critical", str(self.critical))
         for v in self.vertices:
             if isinstance(v, VM):
                 tag = dom.createElement("vm")
@@ -141,6 +143,7 @@ class Demand(AbstractGraph):
         self.endTime = int(node.getAttribute("end"))
         self.assigned = True if node.getAttribute("assigned") == "True" else False
         self.replicationCapacity = int(node.getAttribute("replicationcapacity"))
+        self.critical = True if node.getAttribute("critical") == "True" else False
         #Parse vertices
         for vertex in node.childNodes:
             if isinstance(vertex, xml.dom.minidom.Text):
