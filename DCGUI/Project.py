@@ -126,12 +126,12 @@ class Project:
             if usedCapacity > maxUsedCapacity:
                 maxUsedCapacity = usedCapacity
 
-        stats["vmavg"] = round(avgUsedSpeed/totalSpeed*100,2)
-        stats["stavg"] = round(avgUsedVolume/totalVolume*100,2)
-        stats["netavg"] = round(avgUsedCapacity/totalCapacity*100,2)
-        stats["vmmax"] = round(maxUsedSpeed/totalSpeed*100,2)
-        stats["stmax"] = round(maxUsedVolume/totalVolume*100,2)
-        stats["netmax"] = round(maxUsedCapacity/totalCapacity*100,2)
+        stats["vmavg"] = 0.0 if totalSpeed==0 else round(avgUsedSpeed/totalSpeed*100,2)
+        stats["stavg"] = 0.0 if totalVolume==0 else round(avgUsedVolume/totalVolume*100,2)
+        stats["netavg"] = 0.0 if totalCapacity==0 else round(avgUsedCapacity/totalCapacity*100,2)
+        stats["vmmax"] = 0.0 if totalSpeed==0 else round(maxUsedSpeed/totalSpeed*100,2)
+        stats["stmax"] = 0.0 if totalVolume==0 else round(maxUsedVolume/totalVolume*100,2)
+        stats["netmax"] = 0.0 if totalCapacity==0 else round(maxUsedCapacity/totalCapacity*100,2)
         return stats      
 
     def FindDemand(self, id):

@@ -131,6 +131,8 @@ class MainWindow(QMainWindow):
         self.showStats()
 
     def showStats(self):
+        if self.project.resources.vertices == []:
+            return
         stats = self.project.GetStats()
         self.ui.demandcount.setText(str(stats["demands"]))
         self.ui.vmavg.setText(str(stats["vmavg"])+"%")
