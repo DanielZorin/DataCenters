@@ -40,6 +40,22 @@ public:
         linkAssignments.insert(LinkAssignment(e, path));
     }
 
+    // Remove assignments for any virtual resource
+    void RemoveAssignment(Node * w)
+    {
+        nodeAssignments.erase(w);
+    }
+
+    void RemoveAssignment(Store * s)
+    {
+        storeAssignments.erase(s);
+    }
+
+    void RemoveAssignment(Link * e)
+    {
+        linkAssignments.erase(e);
+    }
+
 private:
     NodeAssignments nodeAssignments;
     StoreAssignments storeAssignments;

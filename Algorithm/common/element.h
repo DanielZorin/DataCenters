@@ -7,8 +7,6 @@
 using std::string;
 
 class Element {
-private:
-    Element();
 public:
     enum Type {
         ELEMENT         = 0x00,

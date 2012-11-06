@@ -10,21 +10,22 @@ Network::Network()
 
 Network::Network(const Network & n)
 {
-    for (Nodes::iterator i = n.nodes.begin(); i != n.nodes.end(); i ++)
+    for (Nodes::const_iterator i = n.nodes.begin(); i != n.nodes.end(); i ++)
         nodes.insert(new Node((*i)->getName(), (*i)->getCapacity()));
 
-    for (Stores::iterator i = n.stores.begin(); i != n.stores.end(); i ++)
+    for (Stores::const_iterator i = n.stores.begin(); i != n.stores.end(); i ++)
         stores.insert(new Store((*i)->getName(), (*i)->getCapacity()));
 
-    for (Switches::iterator i = n.switches.begin(); i != n.switches.end(); i ++)
+    for (Switches::const_iterator i = n.switches.begin(); i != n.switches.end(); i ++)
         switches.insert(new Switch((*i)->getName(), (*i)->getCapacity()));
 
-    for (Links::iterator i = n.links.begin(); i != n.links.end(); i ++)
+    for (Links::const_iterator i = n.links.begin(); i != n.links.end(); i ++)
         links.insert(new Link((*i)->getName(), (*i)->getCapacity()));
 }
 
 Network::~Network()
 {
+    /*
     for (Nodes::iterator i = nodes.begin(); i != nodes.end(); i++)
         delete *i;
 
@@ -36,6 +37,7 @@ Network::~Network()
 
     for (Links::iterator i = links.begin(); i != links.end(); i++)
         delete *i;
+        */
 }
 
 Network& Network::operator=(const Network & n)
@@ -60,16 +62,16 @@ Network& Network::operator=(const Network & n)
     links.clear();
 
     // add new items
-    for (Nodes::iterator i = n.nodes.begin(); i != n.nodes.end(); i ++)
+    for (Nodes::const_iterator i = n.nodes.begin(); i != n.nodes.end(); i ++)
         nodes.insert(new Node((*i)->getName(), (*i)->getCapacity()));
 
-    for (Stores::iterator i = n.stores.begin(); i != n.stores.end(); i ++)
+    for (Stores::const_iterator i = n.stores.begin(); i != n.stores.end(); i ++)
         stores.insert(new Store((*i)->getName(), (*i)->getCapacity()));
 
-    for (Switches::iterator i = n.switches.begin(); i != n.switches.end(); i ++)
+    for (Switches::const_iterator i = n.switches.begin(); i != n.switches.end(); i ++)
         switches.insert(new Switch((*i)->getName(), (*i)->getCapacity()));
 
-    for (Links::iterator i = n.links.begin(); i != n.links.end(); i ++)
+    for (Links::const_iterator i = n.links.begin(); i != n.links.end(); i ++)
         links.insert(new Link((*i)->getName(), (*i)->getCapacity()));
 
     return *this;

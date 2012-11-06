@@ -7,8 +7,6 @@
 using std::string;
 
 class NetworkingElement : public Element {
-private:
-    NetworkingElement();
 protected:
     NetworkingElement(string name = "unnamed_networking_element"
         , unsigned long capacity = 0, unsigned long max = 0)

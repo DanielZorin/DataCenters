@@ -7,8 +7,6 @@
 using std::string;
 
 class ComputationalElement : public Element {
-private:
-    ComputationalElement();
 protected:
     ComputationalElement(string name = "unnamed_computational_element"
         , unsigned long capacity = 0, unsigned long max = 0)
