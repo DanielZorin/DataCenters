@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>424</width>
+    <width>471</width>
     <height>272</height>
    </rect>
   </property>
@@ -60,7 +60,7 @@ QLabel, QSlider {
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="save">
         <property name="text">
          <string/>
         </property>
@@ -82,6 +82,20 @@ QLabel, QSlider {
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="scaledown">
+        <property name="text">
+         <string>-</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="scaleup">
+        <property name="text">
+         <string>+</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -119,8 +133,59 @@ QLabel, QSlider {
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>save</sender>
+   <signal>clicked()</signal>
+   <receiver>GraphVis</receiver>
+   <slot>Save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>229</x>
+     <y>21</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>235</x>
+     <y>135</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>scaledown</sender>
+   <signal>clicked()</signal>
+   <receiver>GraphVis</receiver>
+   <slot>ScaleDown()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>342</x>
+     <y>21</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>235</x>
+     <y>135</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>scaleup</sender>
+   <signal>clicked()</signal>
+   <receiver>GraphVis</receiver>
+   <slot>ScaleUp()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>423</x>
+     <y>21</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>235</x>
+     <y>135</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>Replot(int)</slot>
+  <slot>Save()</slot>
+  <slot>ScaleUp()</slot>
+  <slot>ScaleDown()</slot>
  </slots>
 </ui>

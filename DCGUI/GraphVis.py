@@ -1,10 +1,11 @@
 from PyQt4.QtCore import QString, Qt
-from PyQt4.QtGui import QMainWindow, QFileDialog, QTextEdit, QTreeWidgetItem, QGraphicsScene
+from PyQt4.QtGui import QMainWindow, QFileDialog, QTextEdit, QImage, QPainter, QPen, QColor, QTreeWidgetItem, QGraphicsScene
 from DCGUI.Windows.ui_GraphVis import Ui_GraphVis
 from Core.Demands import VM, DemandStorage
 from Core.Resources import Computer, Storage, Router
 
 class GraphVis(QMainWindow):
+    scaleFactor = 1.0
 
     def __init__(self):
         QMainWindow.__init__(self)
@@ -54,8 +55,26 @@ class GraphVis(QMainWindow):
     def Replot(self, i):
         self.Paint()
 
+    def Save(self):
+        fileName = unicode(QFileDialog.getSaveFileName(directory="graph.png", filter="*.png"))
+        if fileName == '':
+            return   
+        img = QImage(self.ui.graph.scene().height(), self.ui.graph.scene().width(), QImage.Format_RGB32)
+        ptr = QPainter(img)
+        self.ui.graph.scene().render(ptr)
+        ptr.end()
+        img.save(fileName)
+
+    def ScaleUp(self):
+        self.ui.graph.scale(1.2, 1.2)
+
+    def ScaleDown(self):
+        self.ui.graph.scale(0.8, 0.8)
+
     def Paint(self):
         scene = QGraphicsScene()
+
+        # Draw the graph
         tt = self.ui.graphtype.currentIndex()
         if tt == 0:
             points = self.avgSpeed
@@ -65,6 +84,10 @@ class GraphVis(QMainWindow):
             points = self.avgCapacity
         p0 = points[0]
         for p in points[1:]:
-            scene.addLine(p0[0], p0[1], p[0], p[1])
+            scene.addLine(5 + p0[0], 105 - p0[1], 5 + p[0], 105 - p[1], QPen(QColor(255, 0, 0)))
             p0 = p
+
+        # Draw the axis
+        scene.addLine(5, 5, 5, 105, QPen(QColor(0, 0, 0)))
+        scene.addLine(5, 105, self.time, 105, QPen(QColor(0, 0, 0)))
         self.ui.graph.setScene(scene)
