@@ -35,13 +35,28 @@ QLabel, QSlider {
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QComboBox" name="comboBox">
+       <widget class="QComboBox" name="graphtype">
         <property name="minimumSize">
          <size>
           <width>200</width>
           <height>0</height>
          </size>
         </property>
+        <item>
+         <property name="text">
+          <string>Average Speed</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Average Volume</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Average Capacity</string>
+         </property>
+        </item>
        </widget>
       </item>
       <item>
@@ -89,25 +104,23 @@ QLabel, QSlider {
  </resources>
  <connections>
   <connection>
-   <sender>actionExit</sender>
-   <signal>triggered()</signal>
+   <sender>graphtype</sender>
+   <signal>currentIndexChanged(int)</signal>
    <receiver>GraphVis</receiver>
-   <slot>close()</slot>
+   <slot>Replot(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
+     <x>109</x>
+     <y>21</y>
     </hint>
     <hint type="destinationlabel">
-     <x>209</x>
-     <y>165</y>
+     <x>211</x>
+     <y>135</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
-  <slot>UpdateTimeFromSlider(int)</slot>
-  <slot>UpdateTimeFromSpinBox(int)</slot>
-  <slot>demandSelected()</slot>
+  <slot>Replot(int)</slot>
  </slots>
 </ui>

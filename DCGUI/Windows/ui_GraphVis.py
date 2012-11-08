@@ -28,10 +28,13 @@ class Ui_GraphVis(object):
         self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
-        self.comboBox = QtGui.QComboBox(self.centralwidget)
-        self.comboBox.setMinimumSize(QtCore.QSize(200, 0))
-        self.comboBox.setObjectName(_fromUtf8("comboBox"))
-        self.horizontalLayout.addWidget(self.comboBox)
+        self.graphtype = QtGui.QComboBox(self.centralwidget)
+        self.graphtype.setMinimumSize(QtCore.QSize(200, 0))
+        self.graphtype.setObjectName(_fromUtf8("graphtype"))
+        self.graphtype.addItem(_fromUtf8(""))
+        self.graphtype.addItem(_fromUtf8(""))
+        self.graphtype.addItem(_fromUtf8(""))
+        self.horizontalLayout.addWidget(self.graphtype)
         self.pushButton = QtGui.QPushButton(self.centralwidget)
         self.pushButton.setText(_fromUtf8(""))
         icon1 = QtGui.QIcon()
@@ -50,11 +53,14 @@ class Ui_GraphVis(object):
         self.actionExit.setObjectName(_fromUtf8("actionExit"))
 
         self.retranslateUi(GraphVis)
-        QtCore.QObject.connect(self.actionExit, QtCore.SIGNAL(_fromUtf8("triggered()")), GraphVis.close)
+        QtCore.QObject.connect(self.graphtype, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(int)")), GraphVis.Replot)
         QtCore.QMetaObject.connectSlotsByName(GraphVis)
 
     def retranslateUi(self, GraphVis):
         GraphVis.setWindowTitle(QtGui.QApplication.translate("GraphVis", "Graph Plotter", None, QtGui.QApplication.UnicodeUTF8))
+        self.graphtype.setItemText(0, QtGui.QApplication.translate("GraphVis", "Average Speed", None, QtGui.QApplication.UnicodeUTF8))
+        self.graphtype.setItemText(1, QtGui.QApplication.translate("GraphVis", "Average Volume", None, QtGui.QApplication.UnicodeUTF8))
+        self.graphtype.setItemText(2, QtGui.QApplication.translate("GraphVis", "Average Capacity", None, QtGui.QApplication.UnicodeUTF8))
         self.actionExit.setText(QtGui.QApplication.translate("GraphVis", "Exit", None, QtGui.QApplication.UnicodeUTF8))
         self.actionExit.setShortcut(QtGui.QApplication.translate("GraphVis", "Ctrl+X", None, QtGui.QApplication.UnicodeUTF8))
 
