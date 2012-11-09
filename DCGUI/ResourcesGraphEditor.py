@@ -1,6 +1,14 @@
-from PyQt4.QtGui import QMainWindow, QFileDialog
+from PyQt4.QtGui import QMainWindow, QFileDialog, QDialog
 from DCGUI.Windows.ui_ResourcesGraphEditor import Ui_ResourcesGraphEditor
+from DCGUI.Windows.ui_TopologyDialog import Ui_TopologyDialog
 from DCGUI.ResourcesGraphCanvas import ResourcesGraphCanvas, State
+from DCGUI.TreeDialog import TreeDialog
+
+class TopologyDialog(QDialog):
+    def __init__(self):
+        QDialog.__init__(self)
+        self.ui = Ui_TopologyDialog()
+        self.ui.setupUi(self)
 
 class ResourcesGraphEditor(QMainWindow):
     xmlfile = None
@@ -113,3 +121,13 @@ class ResourcesGraphEditor(QMainWindow):
 
     def closeEvent(self, e):
         self.canvas.updatePos()
+
+    def generateTopology(self):
+        d = TopologyDialog()
+        d.exec_()
+        if d.ui.tree2.isChecked():
+            d1 = TreeDialog(2)
+        elif d.ui.tree3.isChecked():
+            d1 = TreeDialog(3)
+        d1.exec_()
+        dict = d1.GetResult()

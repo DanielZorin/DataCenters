@@ -40,6 +40,7 @@
     <Compile Include="DCGUI\MainWindow.py" />
     <Compile Include="DCGUI\DemandGraphEditor.py" />
     <Compile Include="DCGUI\DemandGraphCanvas.py" />
+    <Compile Include="DCGUI\TreeDialog.py" />
     <Compile Include="DCGUI\VisCanvas.py" />
     <Compile Include="DCGUI\Vis.py" />
     <Compile Include="DCGUI\ResourcesGraphEditor.py" />

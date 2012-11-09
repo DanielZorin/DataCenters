@@ -95,6 +95,8 @@ QLabel, QSlider {
    <addaction name="actionStorage"/>
    <addaction name="actionRouter"/>
    <addaction name="actionEdge"/>
+   <addaction name="separator"/>
+   <addaction name="actionTopology"/>
   </widget>
   <action name="actionSelect">
    <property name="checkable">
@@ -233,6 +235,18 @@ QLabel, QSlider {
    </property>
    <property name="shortcut">
     <string>Alt+5</string>
+   </property>
+  </action>
+  <action name="actionTopology">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/pics/pics/topology.png</normaloff>:/pics/pics/topology.png</iconset>
+   </property>
+   <property name="text">
+    <string>Generate Standart Topology</string>
+   </property>
+   <property name="toolTip">
+    <string>Generate Standart Topology</string>
    </property>
   </action>
  </widget>
@@ -400,6 +414,22 @@ QLabel, QSlider {
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionTopology</sender>
+   <signal>triggered()</signal>
+   <receiver>ResourcesGraphEditor</receiver>
+   <slot>generateTopology()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>213</x>
+     <y>155</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>toggleSelect()</slot>
@@ -411,5 +441,6 @@ QLabel, QSlider {
   <slot>SaveAs()</slot>
   <slot>toggleStorage()</slot>
   <slot>toggleRouter()</slot>
+  <slot>generateTopology()</slot>
  </slots>
 </ui>
