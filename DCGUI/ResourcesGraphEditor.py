@@ -123,11 +123,19 @@ class ResourcesGraphEditor(QMainWindow):
         self.canvas.updatePos()
 
     def generateTopology(self):
+        self.New()
         d = TopologyDialog()
         d.exec_()
-        if d.ui.tree2.isChecked():
+        if d.ui.common.isChecked():
+            d1 = TreeDialog(1)
+        elif d.ui.tree2.isChecked():
             d1 = TreeDialog(2)
         elif d.ui.tree3.isChecked():
             d1 = TreeDialog(3)
         d1.exec_()
         dict = d1.GetResult()
+        if dict["type"]==1:
+            self.resources.GenerateCommonStructure(dict)
+        else:
+            self.resources.GenerateTree(dict)
+        self.setData(self.resources)

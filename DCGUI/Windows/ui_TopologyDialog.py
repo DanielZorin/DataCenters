@@ -9,7 +9,7 @@ except AttributeError:
 class Ui_TopologyDialog(object):
     def setupUi(self, TopologyDialog):
         TopologyDialog.setObjectName(_fromUtf8("TopologyDialog"))
-        TopologyDialog.resize(231, 108)
+        TopologyDialog.resize(231, 131)
         TopologyDialog.setStyleSheet(_fromUtf8("QWidget, QMenuBar::item, QHeaderView::section {\n"
 "    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
 "                                      stop: 0 #c5d8ef, stop: 1 #89a5c3);\n"
@@ -25,10 +25,16 @@ class Ui_TopologyDialog(object):
         self.label = QtGui.QLabel(TopologyDialog)
         self.label.setObjectName(_fromUtf8("label"))
         self.verticalLayout.addWidget(self.label)
+        self.common = QtGui.QRadioButton(TopologyDialog)
+        self.common.setEnabled(True)
+        self.common.setAutoFillBackground(False)
+        self.common.setChecked(True)
+        self.common.setObjectName(_fromUtf8("common"))
+        self.verticalLayout.addWidget(self.common)
         self.tree2 = QtGui.QRadioButton(TopologyDialog)
         self.tree2.setEnabled(True)
         self.tree2.setAutoFillBackground(False)
-        self.tree2.setChecked(True)
+        self.tree2.setChecked(False)
         self.tree2.setObjectName(_fromUtf8("tree2"))
         self.verticalLayout.addWidget(self.tree2)
         self.tree3 = QtGui.QRadioButton(TopologyDialog)
@@ -52,6 +58,7 @@ class Ui_TopologyDialog(object):
     def retranslateUi(self, TopologyDialog):
         TopologyDialog.setWindowTitle(QtGui.QApplication.translate("TopologyDialog", "Choose Topology", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("TopologyDialog", "Choose topology:", None, QtGui.QApplication.UnicodeUTF8))
+        self.common.setText(QtGui.QApplication.translate("TopologyDialog", "Common DC topology", None, QtGui.QApplication.UnicodeUTF8))
         self.tree2.setText(QtGui.QApplication.translate("TopologyDialog", "Tree (2 router tiers)", None, QtGui.QApplication.UnicodeUTF8))
         self.tree3.setText(QtGui.QApplication.translate("TopologyDialog", "Tree (3 router tiers)", None, QtGui.QApplication.UnicodeUTF8))
         self.OK.setText(QtGui.QApplication.translate("TopologyDialog", "OK", None, QtGui.QApplication.UnicodeUTF8))
