@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="pics">
+    <file>pics/scaledown.png</file>
+    <file>pics/scaleup.png</file>
     <file>pics/topology.png</file>
     <file>pics/line_chart.png</file>
     <file>pics/computer_selected.png</file>

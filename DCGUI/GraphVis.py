@@ -1,5 +1,5 @@
 from PyQt4.QtCore import QString, Qt
-from PyQt4.QtGui import QMainWindow, QFileDialog, QTextEdit, QImage, QPainter, QPen, QColor, QTreeWidgetItem, QGraphicsScene
+from PyQt4.QtGui import QMainWindow, QFont, QFileDialog, QTextEdit, QImage, QPainter, QPen, QColor, QTreeWidgetItem, QGraphicsScene
 from DCGUI.Windows.ui_GraphVis import Ui_GraphVis
 from Core.Demands import VM, DemandStorage
 from Core.Resources import Computer, Storage, Router
@@ -58,8 +58,12 @@ class GraphVis(QMainWindow):
     def Save(self):
         fileName = unicode(QFileDialog.getSaveFileName(directory="graph.png", filter="*.png"))
         if fileName == '':
-            return   
-        img = QImage(self.ui.graph.scene().height(), self.ui.graph.scene().width(), QImage.Format_RGB32)
+            return
+        scene = self.ui.graph.scene()
+        scene.clearSelection()
+        scene.setSceneRect(scene.itemsBoundingRect())
+        img = QImage(scene.sceneRect().size().toSize(), QImage.Format_ARGB32)
+        img.fill(Qt.transparent)
         ptr = QPainter(img)
         self.ui.graph.scene().render(ptr)
         ptr.end()
@@ -84,10 +88,18 @@ class GraphVis(QMainWindow):
             points = self.avgCapacity
         p0 = points[0]
         for p in points[1:]:
-            scene.addLine(5 + p0[0], 105 - p0[1], 5 + p[0], 105 - p[1], QPen(QColor(255, 0, 0)))
+            scene.addLine(5 + p0[0] * 2, 205 - p0[1] * 2, 5 + p[0] * 2, 205 - p[1] * 2, QPen(QColor(255, 0, 0)))
             p0 = p
 
         # Draw the axis
-        scene.addLine(5, 5, 5, 105, QPen(QColor(0, 0, 0)))
-        scene.addLine(5, 105, self.time, 105, QPen(QColor(0, 0, 0)))
+        scene.addLine(5, 5, 5, 208, QPen(QColor(0, 0, 0)))
+        scene.addLine(2, 205, self.time * 2 + 5, 205, QPen(QColor(0, 0, 0)))
+        t = 0
+        while t <= self.time:
+            scene.addLine(5 + t * 2, 206, 5 + t * 2, 204)
+            font = QFont()
+            font.setPointSize(6)          
+            capt = scene.addText(str(t), font)
+            capt.setPos(t * 2, 203)
+            t += 10
         self.ui.graph.setScene(scene)

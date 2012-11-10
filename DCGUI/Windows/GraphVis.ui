@@ -86,14 +86,22 @@ QLabel, QSlider {
       <item>
        <widget class="QPushButton" name="scaledown">
         <property name="text">
-         <string>-</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="resources.qrc">
+          <normaloff>:/pics/pics/scaledown.png</normaloff>:/pics/pics/scaledown.png</iconset>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="scaleup">
         <property name="text">
-         <string>+</string>
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="resources.qrc">
+          <normaloff>:/pics/pics/scaleup.png</normaloff>:/pics/pics/scaleup.png</iconset>
         </property>
        </widget>
       </item>
