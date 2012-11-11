@@ -22,14 +22,23 @@ public:
     // The weight of the request storages set to be assigned first.
     static long requestStoragesWeight(Request::Storages * storages);
 
+    // The weight of the request virtual links set to be assigned first.
+    static long requestVirtualLinksWeight(Request::VirtualLinks * virtualLinks);
+
     // The weight of one virtual machine to be assigned first.
     static long virtualMachineWeight(Node * virtualMachine);
 
     // The weight of one storage to be assigned first.
     static long storageWeight(Store * storage);
 
+    // The weight of one virtual link to be assigned first.
+    static long virtualLinkWeight(Link * storage);
+
     // The depth of the limited exhaustive search procedure.
     static unsigned exhaustiveSearchDepth();
+
+    // The depth of the k-shortest-paths algorithm.
+    static unsigned kShortestPathDepth();
 };
 
 #endif

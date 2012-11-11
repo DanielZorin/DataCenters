@@ -13,6 +13,17 @@ public:
     }
 
     void bindElements(Element * a, Element * b);
+
+    Element * getFirst()
+    {
+        return first;
+    }
+
+    Element * getSecond()
+    {
+        return second;
+    }
+
 private:
     Element * first;
     Element * second;

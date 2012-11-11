@@ -38,4 +38,9 @@ typedef std::set<Request *> Requests;
 
 class Network;
 
+// To differ virtual resources from physical resources
+typedef Node VirtualMachine;
+typedef Store Storage;
+typedef Link VirtualLink;
+
 #endif // PUBLICDEFS_H

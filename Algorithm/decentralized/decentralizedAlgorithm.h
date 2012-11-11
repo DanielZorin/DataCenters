@@ -21,10 +21,6 @@ class ComputationalElement;
 class DecentralizedAlgorithm: public Algorithm
 {
 public:
-    typedef std::set<Request::VirtualMachines * > RequestsVirtualMachines;
-    typedef std::set<Request::Storages * > RequestsStorages;
-    typedef std::set<Request::VirtualLinks * > RequestsVirtualLinks;
-public:
 
     // constructor
     DecentralizedAlgorithm(Network* network, Requests const& requests)
