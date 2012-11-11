@@ -39,6 +39,11 @@ public:
         return NULL;
     }
 
+    RequestAssignment * GetRequestAssignment()
+    {
+        return &requestAssignment;
+    }
+
 protected:
     // Limited exhaustive search procedure for any element
     // (virtual machine, storage or virtual link), which can't be assigned.
