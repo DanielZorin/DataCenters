@@ -1,3 +1,4 @@
+#include <iostream>
 #include "../common/network.h"
 #include "../common/request.h"
 #include "ant.h"
@@ -12,7 +13,7 @@ int main(int argc, char *argv[])
     Store * s1 = new Store("", 1);
     Store * s2 = new Store("", 2);
     Store * s3 = new Store("", 3);
-    Store * s4 = new Store("", 4);
+    Store * s4 = new Store("", 4, 4, 1);
     Switch * w1 = new Switch("", 1);
     Switch * w2 = new Switch("", 2);
     Switch * w3 = new Switch("", 3);
@@ -73,8 +74,11 @@ int main(int argc, char *argv[])
     Store * st1 = new Store("", 1);
     Store * st2 = new Store("", 1);
     Store * st3 = new Store("", 2);
-    Store * st4 = new Store("", 2);
-    Store * st5 = new Store("", 20);
+//    Store * st5 = new Store("", 2);
+//    Store * st6 = new Store("", 2);
+//    Store * st7 = new Store("", 2);
+    Store * st4 = new Store("", 2, 2, 1);
+//    Store * st5 = new Store("", 20);
     Link * ch1 = new Link("", 3);
     Link * ch2 = new Link("", 3);
     Link * ch3 = new Link("", 3);
@@ -97,9 +101,12 @@ int main(int argc, char *argv[])
     req2->addVirtualMachine(vm4);
     req1->addStorage(st1);
     req1->addStorage(st2);
+//    req1->addStorage(st5);
+//    req1->addStorage(st6);
+//    req1->addStorage(st7);
     req2->addStorage(st3);
     req2->addStorage(st4);
-    req2->addStorage(st5);
+//    req2->addStorage(st5);
     req1->addLink(ch1);
     req1->addLink(ch2);
     req1->addLink(ch3);
@@ -110,8 +117,9 @@ int main(int argc, char *argv[])
     req2->addLink(ch8);
     r.insert(req1);
     r.insert(req2);
-    AntAlgorithm alg(&n, r);
+    AntAlgorithm alg(&n, r, 1, 1, 1, 1);
     if (!alg.isCreated()) return 1;
+    std::cerr << "Created\n";
     alg.schedule();
     return 0;
 }

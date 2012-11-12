@@ -17,7 +17,6 @@ PathElement& PathElement::operator=(const PathElement & p)
 AntPath::AntPath(int max)
 {
     path.reserve(max);
-    for (int i = 0; i < max; ++ i) path[i] = NULL;
 }
 
 AntPath::~AntPath()
@@ -31,7 +30,7 @@ AntPath::~AntPath()
 
 AntPath::AntPath(const AntPath & p)
 {
-    path.reserve(p.path.size());
+    path.resize(p.path.size());
     for (int i = 0; i < path.size(); ++ i)
     {
         if (p.path[i]) path[i] = new PathElement(*p.path[i]);
@@ -63,6 +62,29 @@ bool AntPath::setLength(int len)
     if (len < oldLength) return false;
 
     path.reserve(len);
-    for (int i = oldLength; i < len; ++ i) path[i] = NULL;
     return true;
+}
+
+void AntPath::addElement(PathElement * element)
+{
+    path.push_back(element);
+}
+
+int AntPath::eraseRequest(unsigned int req)
+{
+    for (int i = 0; i < path.size(); ++ i)
+    {
+        if (path[i]->request == req)
+        {
+            int res = path[i]->resource;
+            eraseElement(i);
+            return res;
+        }
+    }
+    return -1;
+}
+
+void AntPath::eraseElement(int index)
+{
+    if (index < path.size()) path.erase(path.begin()+index);
 }

@@ -7,9 +7,9 @@
 struct PathElement
 {
     // what request the vertex corresponds to
-    int request;
+    unsigned int request;
     // what resource the vertex is connected to
-    int resource;
+    unsigned int resource;
 
     PathElement(int req, int res)
     : request(req)
@@ -17,11 +17,11 @@ struct PathElement
     {}
 
     PathElement()
-    : request(-1)
-    , resource(-1)
+    : request(0)
+    , resource(0)
     {}
 
-    PathElement(const PathElement& p);
+    PathElement(const PathElement & p);
     PathElement& operator=(const PathElement & p);
     //default destructor
 };
@@ -33,9 +33,19 @@ public:
     AntPath(int max);
     AntPath(const AntPath & p);
     AntPath() {}
-    AntPath& operator=(const AntPath& p);
+    AntPath& operator=(const AntPath & p);
 
+    // Reserve elements
     bool setLength(int len);
+    // Add an element
+    void addElement(PathElement * element);
+    // Erase an element
+    void eraseElement(int index);
+    // Find and erase element with request == req
+    int eraseRequest(unsigned int req);
+
+    // Getters
+    const std::vector<PathElement *>& getPath() const { return path; }
 
     ~AntPath();
 private:
