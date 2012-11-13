@@ -2,6 +2,18 @@
 #include "request.h"
 #include "assignment.h"
 
+#include "network.h"
+
+CentralizedAlgorithm::CentralizedAlgorithm(Network * n, Requests const& r)
+: 
+    Algorithm(n, r),
+    nodeManager(getNetwork().getNodes()),
+    storeManager(getNetwork().getStores()),
+    networkManager(getNetwork().getLinks(), getNetwork().getSwitches())
+{
+        
+}
+
 Algorithm::Result CentralizedAlgorithm::schedule()
 {
     std::vector<Request *> prioritizedRequests = prioritizeRequests();     

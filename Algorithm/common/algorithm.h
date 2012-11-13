@@ -29,6 +29,7 @@ public:
     {}
 public:
     virtual Assignments getAssignments() { return assignments; }
+    Network & getNetwork() { return *network; }
 public:
     virtual Result schedule() = 0;
 protected:

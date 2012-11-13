@@ -5,6 +5,10 @@
 #include "algorithm.h"
 #include "request.h"
 
+#include "nodeManager.h"
+#include "storeManager.h"
+#include "networkManager.h"
+
 #include <vector>
 
 class CentralizedAlgorithm : public Algorithm
@@ -12,9 +16,7 @@ class CentralizedAlgorithm : public Algorithm
 private:
     CentralizedAlgorithm();
 public:
-    CentralizedAlgorithm(Network * n, Requests const & r)
-        : Algorithm(n, r)
-    {}
+    CentralizedAlgorithm(Network * n, Requests const & r);
 private:
     std::vector<Request *> prioritizeRequests();
     std::vector<Node *> prioritizeVms(Request::VirtualMachines &);
@@ -28,6 +30,10 @@ public:
     virtual Algorithm::Result schedule();
 private:
     Assignment * currentAssignment;
+
+    NodeManager nodeManager;
+    StoreManager storeManager;
+    NetworkManager networkManager;
 };
 
 #endif // CENTRALIZEDALGORITHM_H
