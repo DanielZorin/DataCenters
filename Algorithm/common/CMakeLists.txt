@@ -1,5 +1,11 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(common)
 
+SET ( QT_USE_QTXML TRUE )
+FIND_PACKAGE ( Qt4 REQUIRED )
+INCLUDE_DIRECTORIES( 
+        /usr/include/QtXml
+        /usr/include/QtCore 
+        )
 FILE(GLOB SOURCE_FILES *.cpp)
-add_library(${PROJECT_NAME} ${SOURCE_FILES})
+add_library(${PROJECT_NAME} ${SOURCE_FILES} ${QT_LIBRARIES})
