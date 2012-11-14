@@ -59,8 +59,8 @@ class Ui_TopologyDialog(object):
         TopologyDialog.setWindowTitle(QtGui.QApplication.translate("TopologyDialog", "Choose Topology", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("TopologyDialog", "Choose topology:", None, QtGui.QApplication.UnicodeUTF8))
         self.common.setText(QtGui.QApplication.translate("TopologyDialog", "Common DC topology", None, QtGui.QApplication.UnicodeUTF8))
-        self.tree2.setText(QtGui.QApplication.translate("TopologyDialog", "Tree (2 router tiers)", None, QtGui.QApplication.UnicodeUTF8))
-        self.tree3.setText(QtGui.QApplication.translate("TopologyDialog", "Tree (3 router tiers)", None, QtGui.QApplication.UnicodeUTF8))
+        self.tree2.setText(QtGui.QApplication.translate("TopologyDialog", "Tree (2 router layers)", None, QtGui.QApplication.UnicodeUTF8))
+        self.tree3.setText(QtGui.QApplication.translate("TopologyDialog", "Tree (3 router layers)", None, QtGui.QApplication.UnicodeUTF8))
         self.OK.setText(QtGui.QApplication.translate("TopologyDialog", "OK", None, QtGui.QApplication.UnicodeUTF8))
         self.Cancel.setText(QtGui.QApplication.translate("TopologyDialog", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
 

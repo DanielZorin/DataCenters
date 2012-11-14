@@ -408,12 +408,12 @@ class ResourceGraph(AbstractGraph):
                 self.RemoveTimePoint(e.intervals, demand.startTime)
                 self.RemoveTimePoint(e.intervals, demand.endTime)
 
-    def GenerateTree(self, params):
+    def GenerateTree3(self, params):
         leafwidth = 25
-        leafNumber = params["routersNum0"] * params["routerChilds0"] * (params["computersNum"] + params["storagesNum"])
-        if params["type"]==3:
-            leafNumber *= params["routerChilds1"]
+        leafNumber = params["computersNum"]*params["computersNodes"] + params["storagesNum"]*params["storagesNodes"]
         width = leafNumber*leafwidth
+        num2 = 0
+        num3 = 0
         for i in range(params["routersNum0"]):
             w = width / params["routersNum0"]
             r = Router("router_0_"+str(i), params["routerBandwidth0"])
@@ -429,41 +429,97 @@ class ResourceGraph(AbstractGraph):
                 self.AddVertex(child1)
                 channel1 = Link(r,child1,params["channelsBandwidth0"])
                 self.AddLink(channel1)
-                for k in range(params["routerChilds1"]):
-                    if params["type"]==3:
-                        w2 = width / (params["routerChilds1"]*params["routerChilds0"]*params["routersNum0"])
-                        num2 = num1*params["routerChilds1"] + k;
-                        child2 = Router("router_2_"+str(num2), params["routerBandwidth2"])
-                        child2.x = 15 + 0.5*w2 + num2*w2
-                        child2.y = 15 + 4*leafwidth
-                        self.AddVertex(child2)
-                        channel2 = Link(child1,child2,params["channelsBandwidth1"])
-                        self.AddLink(channel2)
-                        num3 = num2*(params["computersNum"]+params["storagesNum"])
-                    else:
-                        num3 = num1*(params["computersNum"]+params["storagesNum"])
-                        child2 = child1
+                for k in range(params["computersNodes"]/params["routerChilds0"]/params["routersNum0"]):
+                    w2 = width / (params["routerChilds1"]*params["routerChilds0"]*params["routersNum0"])
+                    child2 = Router("router_2_"+str(num2), params["routerBandwidth2"])
+                    child2.x = 15 + 0.5*w2 + num2*w2
+                    child2.y = 15 + 4*leafwidth
+                    self.AddVertex(child2)
+                    channel2 = Link(child1,child2,params["channelsBandwidth1"])
+                    self.AddLink(channel2)
+
                     for l in range(params["computersNum"]):
-                        computer = Computer(str(num3),params["performance"])
+                        computer = Computer("computer"+str(num3),params["performance"])
                         computer.x = 15 + 0.5*leafwidth + num3*leafwidth
-                        computer.y = 15 + 6*leafwidth if params["type"]==3 else 15 + 4*leafwidth
+                        computer.y = 15 + 6*leafwidth
                         self.AddVertex(computer)
-                        channel3 = Link(child2,computer,params["channelsBandwidth2"])
+                        channel3 = Link(child2,computer,params["computerChannelsBandwidth2"])
                         self.AddLink(channel3)
                         num3+=1
+                    num2+=1
+
+                for k in range(params["storagesNodes"]/params["routerChilds0"]/params["routersNum0"]):
+                    w2 = width / (params["routerChilds1"]*params["routerChilds0"]*params["routersNum0"])
+                    child2 = Router("router_2_"+str(num2), params["routerBandwidth2"])
+                    child2.x = 15 + 0.5*w2 + num2*w2
+                    child2.y = 15 + 4*leafwidth
+                    self.AddVertex(child2)
+                    channel2 = Link(child1,child2,params["channelsBandwidth1"])
+                    self.AddLink(channel2)
 
                     for l in range(params["storagesNum"]):
-                        storage = Storage(str(num3),params["capacity"],random.randint(0,params["numTypes"]-1))
+                        storage = Storage("storage"+str(num3),params["capacity"],random.randint(0,params["numTypes"]-1))
                         storage.x = 15 + 0.5*leafwidth + num3*leafwidth
-                        storage.y = 15 + 6*leafwidth if params["type"]==3 else 15 + 4*leafwidth
+                        storage.y = 15 + 6*leafwidth
                         self.AddVertex(storage)
-                        channel3 = Link(child2,storage,params["channelsBandwidth2"])
+                        channel3 = Link(child2,storage,params["storageChannelsBandwidth2"])
                         self.AddLink(channel3)
                         num3+=1
+                    num2+=1
+
+    def GenerateTree2(self, params):
+        leafwidth = 25
+        leafNumber = params["computersNum"]*params["computersNodes"] + params["storagesNum"]*params["storagesNodes"]
+        width = leafNumber*leafwidth
+        num1 = 0
+        num2 = 0
+        for i in range(params["routersNum0"]):
+            w = width / params["routersNum0"]
+            r = Router("router_0_"+str(i), params["routerBandwidth0"])
+            r.x = 15 + 0.5*w + i*w
+            r.y = 15
+            self.AddVertex(r)
+            for k in range(params["computersNodes"]/params["routersNum0"]):
+                w2 = width / (params["routerChilds0"]*params["routersNum0"])
+                child1 = Router("router_1_"+str(num1), params["routerBandwidth2"])
+                child1.x = 15 + 0.5*w2 + num1*w2
+                child1.y = 15 + 4*leafwidth
+                self.AddVertex(child1)
+                channel1 = Link(child1,r,params["channelsBandwidth1"])
+                self.AddLink(channel1)
+
+                for l in range(params["computersNum"]):
+                    computer = Computer("computer"+str(num2),params["performance"])
+                    computer.x = 15 + 0.5*leafwidth + num2*leafwidth
+                    computer.y = 15 + 6*leafwidth
+                    self.AddVertex(computer)
+                    channel2 = Link(child1,computer,params["computerChannelsBandwidth2"])
+                    self.AddLink(channel2)
+                    num2+=1
+                num1+=1
+
+            for k in range(params["storagesNodes"]/params["routersNum0"]):
+                w2 = width / (params["routerChilds0"]*params["routersNum0"])
+                child1 = Router("router_1_"+str(num1), params["routerBandwidth2"])
+                child1.x = 15 + 0.5*w2 + num1*w2
+                child1.y = 15 + 4*leafwidth
+                self.AddVertex(child1)
+                channel1 = Link(child1,r,params["channelsBandwidth1"])
+                self.AddLink(channel1)
+
+                for l in range(params["storagesNum"]):
+                    storage = Storage("storage"+str(num2),params["capacity"],random.randint(0,params["numTypes"]-1))
+                    storage.x = 15 + 0.5*leafwidth + num2*leafwidth
+                    storage.y = 15 + 6*leafwidth
+                    self.AddVertex(storage)
+                    channel2 = Link(child1,storage,params["storageChannelsBandwidth2"])
+                    self.AddLink(channel2)
+                    num2+=1
+                num1+=1
 
     def GenerateCommonStructure(self, params):
         leafwidth = 25
-        leafNumber = params["routersNum1"] * params["routerChilds1"] * (params["computersNum"] + params["storagesNum"])
+        leafNumber = params["computersNum"]*params["computersNodes"] + params["storagesNum"]*params["storagesNodes"]
         width = leafNumber*leafwidth
         rootRouters = []
         for i in range(params["routersNum0"]):
@@ -474,6 +530,8 @@ class ResourceGraph(AbstractGraph):
             self.AddVertex(r)
             rootRouters.append(r)
 
+        num2 = 0
+        num3 = 0
         for i in range(params["routersNum1"]):
             w1 = width / params["routersNum1"]
             child1 = Router("router_1_"+str(i), params["routerBandwidth1"])
@@ -483,31 +541,39 @@ class ResourceGraph(AbstractGraph):
             for r in rootRouters:
                 channel1 = Link(r,child1,params["channelsBandwidth0"])
                 self.AddLink(channel1)
-            for k in range(params["routerChilds1"]):
+            for k in range(params["computersNodes"]/params["routersNum1"]):
                 w2 = width / (params["routerChilds1"]*params["routersNum1"])
-                num2 = i*params["routerChilds1"] + k;
                 child2 = Router("router_2_"+str(num2), params["routerBandwidth2"])
                 child2.x = 15 + 0.5*w2 + num2*w2
                 child2.y = 15 + 4*leafwidth
                 self.AddVertex(child2)
                 channel2 = Link(child1,child2,params["channelsBandwidth1"])
                 self.AddLink(channel2)
-                num3 = num2*(params["computersNum"]+params["storagesNum"])
                 for l in range(params["computersNum"]):
-                    computer = Computer(str(num3),params["performance"])
+                    computer = Computer("computer"+str(num3),params["performance"])
                     computer.x = 15 + 0.5*leafwidth + num3*leafwidth
                     computer.y = 15 + 6*leafwidth
                     self.AddVertex(computer)
-                    channel3 = Link(child2,computer,params["channelsBandwidth2"])
+                    channel3 = Link(child2,computer,params["computerChannelsBandwidth2"])
                     self.AddLink(channel3)
                     num3+=1
 
+                num2+=1
+            for k in range(params["storagesNodes"]/params["routersNum1"]):
+                w2 = width / (params["routerChilds1"]*params["routersNum1"])
+                child2 = Router("router_2_"+str(num2), params["routerBandwidth2"])
+                child2.x = 15 + 0.5*w2 + num2*w2
+                child2.y = 15 + 4*leafwidth
+                self.AddVertex(child2)
+                channel2 = Link(child1,child2,params["channelsBandwidth1"])
+                self.AddLink(channel2)
+
                 for l in range(params["storagesNum"]):
-                    storage = Storage(str(num3),params["capacity"],random.randint(0,params["numTypes"]-1))
+                    storage = Storage("storage"+str(num3),params["capacity"],random.randint(0,params["numTypes"]-1))
                     storage.x = 15 + 0.5*leafwidth + num3*leafwidth
                     storage.y = 15 + 6*leafwidth
                     self.AddVertex(storage)
-                    channel3 = Link(child2,storage,params["channelsBandwidth2"])
+                    channel3 = Link(child2,storage,params["storageChannelsBandwidth2"])
                     self.AddLink(channel3)
                     num3+=1
-
+                num2+=1

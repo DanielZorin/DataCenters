@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>549</width>
-    <height>468</height>
+    <width>468</width>
+    <height>492</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -81,7 +81,7 @@ QLabel, QSlider {
      <property name="title">
       <string>Root layer</string>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <layout class="QHBoxLayout" name="horizontalLayout_16">
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
@@ -92,25 +92,42 @@ QLabel, QSlider {
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="routerBandwidth0">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>99999</number>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_15">
+          <item>
+           <widget class="QSpinBox" name="routerBandwidth0">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>99999</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_17">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>13</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
        </layout>
       </item>
       <item>
-       <spacer name="horizontalSpacer_5">
+       <spacer name="horizontalSpacer_2">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>93</width>
+          <width>40</width>
           <height>20</height>
          </size>
         </property>
@@ -133,25 +150,42 @@ QLabel, QSlider {
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="routerChilds0">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>99999</number>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_14">
+          <item>
+           <widget class="QSpinBox" name="routerChilds0">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>99999</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_16">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>17</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
        </layout>
       </item>
       <item>
-       <spacer name="horizontalSpacer_6">
+       <spacer name="horizontalSpacer_4">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>93</width>
+          <width>40</width>
           <height>20</height>
          </size>
         </property>
@@ -160,21 +194,45 @@ QLabel, QSlider {
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QLabel" name="label_10">
+         <widget class="QLabel" name="label_19">
           <property name="text">
-           <string>Channels bandwidth:</string>
+           <string>Outgoing channels    </string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="channelsBandwidth0">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>99999</number>
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>bandwidth:</string>
           </property>
          </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QSpinBox" name="channelsBandwidth0">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>99999</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_11">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>28</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
        </layout>
       </item>
@@ -223,7 +281,7 @@ QLabel, QSlider {
      <property name="title">
       <string>1st layer</string>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <layout class="QHBoxLayout" name="horizontalLayout_17">
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
@@ -234,22 +292,42 @@ QLabel, QSlider {
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="routerBandwidth1">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_13">
+          <item>
+           <widget class="QSpinBox" name="routerBandwidth1">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>99999</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_15">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>28</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
        </layout>
       </item>
       <item>
-       <spacer name="horizontalSpacer_7">
+       <spacer name="horizontalSpacer_5">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>28</width>
+          <width>40</width>
           <height>20</height>
          </size>
         </property>
@@ -272,22 +350,42 @@ QLabel, QSlider {
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="routerChilds1">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_9">
+          <item>
+           <widget class="QSpinBox" name="routerChilds1">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>99999</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_12">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>28</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
        </layout>
       </item>
       <item>
-       <spacer name="horizontalSpacer_8">
+       <spacer name="horizontalSpacer_6">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>28</width>
+          <width>40</width>
           <height>20</height>
          </size>
         </property>
@@ -298,19 +396,43 @@ QLabel, QSlider {
         <item>
          <widget class="QLabel" name="label_11">
           <property name="text">
-           <string>Channels bandwidth:</string>
+           <string>Outgoing channels    </string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="channelsBandwidth1">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>99999</number>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>bandwidth:</string>
           </property>
          </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QSpinBox" name="channelsBandwidth1">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>99999</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_10">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>18</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
        </layout>
       </item>
@@ -328,7 +450,7 @@ QLabel, QSlider {
      <property name="title">
       <string>2nd layer</string>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <layout class="QHBoxLayout" name="horizontalLayout_18">
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_10">
         <item>
@@ -339,90 +461,42 @@ QLabel, QSlider {
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="routerBandwidth2">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>99999</number>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_12">
+          <item>
+           <widget class="QSpinBox" name="routerBandwidth2">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>99999</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_14">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>28</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
        </layout>
       </item>
       <item>
-       <spacer name="horizontalSpacer_9">
+       <spacer name="horizontalSpacer_7">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>28</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout_12">
-        <item>
-         <widget class="QLabel" name="label_20">
-          <property name="text">
-           <string>Channels bandwidth:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="channelsBandwidth2">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_10">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>22</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout_15">
-        <item>
-         <widget class="QLabel" name="label_27">
-          <property name="text">
-           <string>Number of computers</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_28">
-          <property name="text">
-           <string>per router:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="computersNum"/>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_11">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>23</width>
+          <width>40</width>
           <height>20</height>
          </size>
         </property>
@@ -431,25 +505,100 @@ QLabel, QSlider {
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_13">
         <item>
+         <widget class="QLabel" name="label_27">
+          <property name="text">
+           <string>Number of routers to</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_28">
+          <property name="text">
+           <string>connect computers:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_11">
+          <item>
+           <widget class="QSpinBox" name="computersNodes">
+            <property name="minimum">
+             <number>0</number>
+            </property>
+            <property name="maximum">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_13">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>28</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_8">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_12">
+        <item>
          <widget class="QLabel" name="label_23">
           <property name="text">
-           <string>Number of storages</string>
+           <string>Number of routers to</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QLabel" name="label_24">
           <property name="text">
-           <string>per router:</string>
+           <string>connect storages:</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="storagesNum">
-          <property name="maximum">
-           <number>99999</number>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="QSpinBox" name="storagesNodes">
+            <property name="maximum">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_9">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>28</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
        </layout>
       </item>
@@ -461,18 +610,18 @@ QLabel, QSlider {
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_6">
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
+        <layout class="QVBoxLayout" name="verticalLayout_5">
          <item>
-          <widget class="QLabel" name="label_4">
+          <widget class="QLabel" name="label_13">
            <property name="text">
-            <string>Computer performance:</string>
+            <string>Number of storages per router:</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_7">
+          <widget class="QLabel" name="label_14">
            <property name="text">
-            <string>Number of storage types:</string>
+            <string>Computer channels bandwidth:</string>
            </property>
           </widget>
          </item>
@@ -483,12 +632,19 @@ QLabel, QSlider {
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Number of storage types:</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_5">
+        <layout class="QVBoxLayout" name="verticalLayout_4">
          <item>
-          <widget class="QSpinBox" name="performance">
+          <widget class="QSpinBox" name="storagesNum">
            <property name="minimum">
             <number>1</number>
            </property>
@@ -498,7 +654,7 @@ QLabel, QSlider {
           </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="numTypes">
+          <widget class="QSpinBox" name="computerChannelsBandwidth2">
            <property name="minimum">
             <number>1</number>
            </property>
@@ -517,22 +673,99 @@ QLabel, QSlider {
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QSpinBox" name="numTypes">
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>99999</number>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
       </layout>
      </item>
      <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>118</width>
-         <height>38</height>
-        </size>
-       </property>
-      </spacer>
+      <layout class="QVBoxLayout" name="verticalLayout_18">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_10">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_19">
+           <item>
+            <widget class="QLabel" name="label_26">
+             <property name="text">
+              <string>Number of computers per router:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_29">
+             <property name="text">
+              <string>Storage channels bandwidth:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_30">
+             <property name="text">
+              <string>Computer performance:</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_20">
+           <item>
+            <widget class="QSpinBox" name="computersNum">
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>99999</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="storageChannelsBandwidth2">
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>99999</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="performance">
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>99999</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>18</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>
@@ -567,8 +800,8 @@ QLabel, QSlider {
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>113</x>
-     <y>407</y>
+     <x>123</x>
+     <y>481</y>
     </hint>
     <hint type="destinationlabel">
      <x>199</x>
@@ -583,8 +816,8 @@ QLabel, QSlider {
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>488</x>
-     <y>407</y>
+     <x>457</x>
+     <y>481</y>
     </hint>
     <hint type="destinationlabel">
      <x>199</x>
@@ -592,9 +825,108 @@ QLabel, QSlider {
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>routersNum0</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>TreeDialog</receiver>
+   <slot>nodeNumChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>152</x>
+     <y>19</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>233</x>
+     <y>245</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>routersNum1</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>TreeDialog</receiver>
+   <slot>nodeNumChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>174</x>
+     <y>145</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>233</x>
+     <y>245</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>routerChilds0</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>TreeDialog</receiver>
+   <slot>nodeNumChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>213</x>
+     <y>108</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>233</x>
+     <y>245</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>routerChilds1</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>TreeDialog</receiver>
+   <slot>nodeNumChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>213</x>
+     <y>234</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>233</x>
+     <y>245</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>storagesNodes</sender>
+   <signal>editingFinished()</signal>
+   <receiver>TreeDialog</receiver>
+   <slot>storagesNodesChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>375</x>
+     <y>331</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>471</x>
+     <y>331</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>computersNodes</sender>
+   <signal>editingFinished()</signal>
+   <receiver>TreeDialog</receiver>
+   <slot>computersNodesChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>200</x>
+     <y>332</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>233</x>
+     <y>245</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>AddVersion()</slot>
   <slot>RemoveVersion()</slot>
+  <slot>nodeNumChanged()</slot>
+  <slot>computersNodesChanged()</slot>
+  <slot>storagesNodesChanged()</slot>
  </slots>
 </ui>

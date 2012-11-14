@@ -136,6 +136,8 @@ class ResourcesGraphEditor(QMainWindow):
         dict = d1.GetResult()
         if dict["type"]==1:
             self.resources.GenerateCommonStructure(dict)
-        else:
-            self.resources.GenerateTree(dict)
+        elif dict["type"]==2:
+            self.resources.GenerateTree2(dict)
+        elif dict["type"]==3:
+            self.resources.GenerateTree3(dict)
         self.setData(self.resources)
