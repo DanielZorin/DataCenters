@@ -23,24 +23,25 @@ class TreeDialog(QDialog):
 
     def GetResult(self):
         return {"type":self.type,
-                "routersNum0":int(self.ui.routersNum0.text()), 
-                "routerBandwidth0":int(self.ui.routerBandwidth0.text()),
-                "routerChilds0":int(self.ui.routerChilds0.text()), 
-                "channelsBandwidth0":int(self.ui.channelsBandwidth0.text()), 
-                "routerBandwidth1":int(self.ui.routerBandwidth1.text()),
-                "routerChilds1": int(self.ui.routerChilds1.text()),
-                "channelsBandwidth1": int(self.ui.channelsBandwidth1.text()),
-                "routerBandwidth2": int(self.ui.routerBandwidth2.text()),
-                "computerChannelsBandwidth2": int(self.ui.computerChannelsBandwidth2.text()),
-                "storageChannelsBandwidth2": int(self.ui.storageChannelsBandwidth2.text()),
-                "computersNodes": int(self.ui.computersNodes.text()),
-                "storagesNodes": int(self.ui.storagesNodes.text()),
-                "computersNum": int(self.ui.computersNum.text()),
-                "storagesNum": int(self.ui.storagesNum.text()),
-                "performance": int(self.ui.performance.text()),
-                "numTypes": int(self.ui.numTypes.text()),
-                "capacity": int(self.ui.capacity.text()),
-                "routersNum1": int(self.ui.routersNum1.text())
+                "routersNum0":self.ui.routersNum0.value(), 
+                "routerBandwidth0":self.ui.routerBandwidth0.value(),
+                "routerChilds0":self.ui.routerChilds0.value(), 
+                "channelsBandwidth0":self.ui.channelsBandwidth0.value(), 
+                "routerBandwidth1":self.ui.routerBandwidth1.value(),
+                "routerChilds1":self.ui.routerChilds1.value(),
+                "channelsBandwidth1":self.ui.channelsBandwidth1.value(),
+                "routerBandwidth2":self.ui.routerBandwidth2.value(),
+                "computerChannelsBandwidth2":self.ui.computerChannelsBandwidth2.value(),
+                "storageChannelsBandwidth2":self.ui.storageChannelsBandwidth2.value(),
+                "computersNodes":self.ui.computersNodes.value(),
+                "storagesNodes":self.ui.storagesNodes.value(),
+                "computersNum":self.ui.computersNum.value(),
+                "storagesNum":self.ui.storagesNum.value(),
+                "performance":self.ui.performance.value(),
+                "numTypes":self.ui.numTypes.value(),
+                "capacity":self.ui.capacity.value(),
+                "routersNum1":self.ui.routersNum1.value(),
+                "copyNum":self.ui.copyNum.value()
                 }
 
     def nodeNumChanged(self):
@@ -60,7 +61,6 @@ class TreeDialog(QDialog):
         self.ui.storagesNodes.setMaximum(computersNodes)
         self.ui.storagesNodes.setValue(0)
         
-
     def computersNodesChanged(self):
         computersNodes = self.ui.computersNodes.value()
         step = self.ui.computersNodes.singleStep()

@@ -126,6 +126,8 @@ class ResourcesGraphEditor(QMainWindow):
         self.New()
         d = TopologyDialog()
         d.exec_()
+        if not d.result():
+            return
         if d.ui.common.isChecked():
             d1 = TreeDialog(1)
         elif d.ui.tree2.isChecked():
@@ -133,6 +135,8 @@ class ResourcesGraphEditor(QMainWindow):
         elif d.ui.tree3.isChecked():
             d1 = TreeDialog(3)
         d1.exec_()
+        if not d1.result():
+            return
         dict = d1.GetResult()
         if dict["type"]==1:
             self.resources.GenerateCommonStructure(dict)
