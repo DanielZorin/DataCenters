@@ -62,6 +62,16 @@ private:
     // The weight of the path.
     // Used in the alogorithm of k shortest paths.
     static long calculateKShortestPathWeight(NetPath& path);
+
+    // Decreasing link's and switch's capacities by the value
+    // of the virtualLink capacity, removing elements with the zero
+    // or negative capacity (and save them to restore later)
+    static void decreaseCapacities(VirtualLink * virtualLink, Network * network, Links * removedLinks, 
+        Switches * removedSwitches);
+
+    // Restore removed links and switches and their capacities.
+    static void restoreCapacities(VirtualLink * virtualLink, Network * network, Links * removedLinks, 
+        Switches * removedSwitches);
 };
 
 #endif

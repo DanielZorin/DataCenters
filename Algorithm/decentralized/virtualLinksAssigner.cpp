@@ -75,7 +75,7 @@ bool VirtualLinksAssigner::assignOneRequest(Request::VirtualLinks * virtualLinks
     for ( unsigned index = 0; index < virtualLinksVec.size(); ++index )
     {
         // forming the link in physical resources from the virtual link
-        Link link("virtual_link");
+        Link link("dummy_virtual_link", virtualLinksVec[index]->getCapacity());
 
         Element * first = getAssigned(virtualLinksVec[index]->getFirst(), req);
         Element * second = getAssigned(virtualLinksVec[index]->getSecond(), req);
@@ -164,4 +164,35 @@ Element * VirtualLinksAssigner::getAssigned(Element * virtualResource, Request* 
     if ( virtualResource->isStore() )
         return (*storagesAssignments)[req]->GetAssignment(static_cast<Store*>(virtualResource));
     return NULL;
+}
+
+void VirtualLinksAssigner::removeAssignment(Request * req)
+{
+    // searching for the request
+    Assignment * assignment;
+    if ( virtualMachinesAssignments->find(req) != virtualMachinesAssignments->end() )
+        assignment = (*virtualMachinesAssignments)[req];
+    else if ( storagesAssignments->find(req) != storagesAssignments->end() )
+        assignment = (*storagesAssignments)[req];
+    else if ( requestAssignment.find(req) != requestAssignment.end() )
+    {
+        printf("\nshouldn't delete this request!!!\n\n");
+        assignment = requestAssignment[req];
+    } else
+        return; // no assignment found   
+
+    // Removing virtual machines
+    Request::VirtualMachines::iterator vmIt = req->getVirtualMachines().begin();
+    Request::VirtualMachines::iterator vmItEnd = req->getVirtualMachines().end();
+    for ( ; vmIt != vmItEnd; ++vmIt )
+        assignment->GetAssignment(*vmIt)->RemoveAssignment(*vmIt);
+
+    // Removing storages
+    Request::Storages::iterator stIt = req->getStorages().begin();
+    Request::Storages::iterator stItEnd = req->getStorages().end();
+    for ( ; stIt != stItEnd; ++stIt )
+        assignment->GetAssignment(*stIt)->RemoveAssignment(*stIt);
+
+    // It is expected that removing of virtualLinks is not necessary
+    // because it virtual links are assigned on the last step
 }

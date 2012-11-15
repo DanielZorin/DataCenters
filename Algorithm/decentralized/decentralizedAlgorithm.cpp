@@ -25,6 +25,9 @@ Algorithm::Result DecentralizedAlgorithm::schedule()
         storagesAssigner.GetRequestAssignment());
     assignedRequests = virtualLinksAssigner.PerformAssignment(assignedRequests);
 
+    // remove all assigned requests on previous steps
+    restoreNetwork(requests, assignedRequests, virtualLinksAssigner);
+
     Requests::iterator it = assignedRequests.begin();
     Requests::iterator itEnd = assignedRequests.end();
     for ( ; it != itEnd; ++it )
@@ -65,4 +68,16 @@ Algorithm::Result DecentralizedAlgorithm::schedule()
 
     printf("Number of assigned requests: %d\n", assignedRequests.size());
     return assignedRequests.size() == requests.size() ? SUCCESS : (assignedRequests.size() == 0 ? FAILURE : PARTIAL);
+}
+
+void DecentralizedAlgorithm::restoreNetwork(Requests& initialRequests, Requests& assignedRequests,
+                                            VirtualLinksAssigner& virtualLinksAssigner)
+{
+    Requests::iterator it = initialRequests.begin();
+    Requests::iterator itEnd = initialRequests.end();
+    for ( ; it != itEnd; ++it )
+    {
+        if ( assignedRequests.find(*it) == assignedRequests.end() )
+            virtualLinksAssigner.removeAssignment(*it);
+    }
 }

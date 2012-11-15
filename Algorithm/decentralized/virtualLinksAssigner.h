@@ -57,6 +57,12 @@ private:
     // Get the appropriate physical resource, on which the virtual resource us assigned
     Element * getAssigned(Element * virtualResource, Request* req);
 
+public:
+    // Remove the assignment of the request specified.
+    // It is expected that removing of virtualLinks is not necessary
+    // because it virtual links are assigned on the last step
+    void removeAssignment(Request * req);
+
 private:
     // Virtual machines and storages assignments to know
     // the assignments of virtual links vertexes.

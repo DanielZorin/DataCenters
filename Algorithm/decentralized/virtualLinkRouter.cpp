@@ -2,6 +2,7 @@
 #include <map>
 #include <algorithm>
 #include "link.h"
+#include "switch.h"
 #include "network.h"
 #include "criteria.h"
 
@@ -121,15 +122,23 @@ NetPath VirtualLinkRouter::searchPathDejkstra(VirtualLink * virtualLink, Network
 }
 
 NetPath VirtualLinkRouter::routeKShortestPaths(VirtualLink * virtualLink, Network * network)
-{
+{   
+    // links and switches that would be removed from the network,
+    // they should be restored after algorithm's finish
+    Links removedLinks;
+    Switches removedSwitches;
+
+    // first, create the graph with decreased capacities
+    decreaseCapacities(virtualLink, network, &removedLinks, &removedSwitches);
+
     // Yen's algorithm
     NetPath shortest = searchPathDejkstra(virtualLink, network, K_SHORTEST_PATHS);
     if ( shortest.size() == 0 )
+    {
+        restoreCapacities(virtualLink, network, &removedLinks, &removedSwitches);
         return NetPath(); // no path found!
+    }
 
-    // links that would be removed from the network,
-    // they should be restored after algorithm's finish
-    Links removedLinks;
     Links& links = network->getLinks();
 
     unsigned pathsFound = 1;
@@ -177,23 +186,34 @@ NetPath VirtualLinkRouter::routeKShortestPaths(VirtualLink * virtualLink, Networ
 
         if ( isNewPathFound && pathsFound != Criteria::kShortestPathDepth() )
         {
+            // restoring the capacity of link being removed
+            linkToRemove->RemoveAssignment(virtualLink);
             links.erase(links.find(linkToRemove));
             removedLinks.insert(linkToRemove);
         }
     }
 
-    // inserting removed links
-    Links::iterator it = removedLinks.begin();
-    Links::iterator itEnd = removedLinks.end();
-    for ( ; it != itEnd; ++it )
-        links.insert(*it);
+    // restoring removed capacities
+    restoreCapacities(virtualLink, network, &removedLinks, &removedSwitches);
 
     return shortest;
 }
 
 NetPath VirtualLinkRouter::routeDejkstra(VirtualLink * virtualLink, Network * network)
 {
-    return searchPathDejkstra(virtualLink, network, DEJKSTRA);
+    // links and switches that would be removed from the network,
+    // they should be restored after algorithm's finish
+    Links removedLinks;
+    Switches removedSwitches;
+
+    // first, create the graph with decreased capacities
+    decreaseCapacities(virtualLink, network, &removedLinks, &removedSwitches);
+
+    NetPath path = searchPathDejkstra(virtualLink, network, DEJKSTRA);
+
+    restoreCapacities(virtualLink, network, &removedLinks, &removedSwitches);
+
+    return path;
 }
 
 long VirtualLinkRouter::getEdgeWeigth(Link& link, Network * network, SearchPathAlgorithm algorithm)
@@ -223,4 +243,80 @@ long VirtualLinkRouter::calculateKShortestPathWeight(NetPath& path)
     }
 
     return result;
+}
+
+void VirtualLinkRouter::decreaseCapacities(VirtualLink * virtualLink, Network * network, Links * removedLinks, 
+        Switches * removedSwitches)
+{
+    // forming the set od switches to remove
+    Switches::iterator swIt = network->getSwitches().begin();
+    Switches::iterator swItEnd = network->getSwitches().end();
+    for ( ; swIt != swItEnd; ++swIt )
+    {
+        if ( (*swIt)->getCapacity() >= virtualLink->getCapacity() )
+            (*swIt)->assign(*virtualLink); // this just decrease capacity
+        else
+            removedSwitches->insert(*swIt);
+    }
+
+    // forming the set od links to remove
+    // Links with switches already removed (as their vertex), are removed
+    Links::iterator lIt = network->getLinks().begin();
+    Links::iterator lItEnd = network->getLinks().end();
+    for ( ; lIt != lItEnd; ++lIt )
+    {
+        if ( removedSwitches->find(static_cast<Switch*>((*lIt)->getFirst())) != removedSwitches->end() ||
+             removedSwitches->find(static_cast<Switch*>((*lIt)->getSecond())) != removedSwitches->end() )
+             removedLinks->insert(*lIt);
+        else
+        {
+            if ( (*lIt)->getCapacity() >= virtualLink->getCapacity() )
+                (*lIt)->assign(*virtualLink); // this just decrease capacity
+            else
+                removedLinks->insert(*lIt);
+        }
+    }
+
+    // removing links and switches
+    swIt = removedSwitches->begin();
+    swItEnd = removedSwitches->end();
+    Switches& switches = network->getSwitches();
+    for ( ; swIt != swItEnd; ++swIt )
+        switches.erase(*swIt);
+
+    lIt = removedLinks->begin();
+    lItEnd = removedLinks->end();
+    Links& links = network->getLinks();
+    for ( ; lIt != lItEnd; ++lIt )
+        links.erase(*lIt);
+}
+
+void VirtualLinkRouter::restoreCapacities(VirtualLink * virtualLink, Network * network,
+                                          Links * removedLinks, Switches * removedSwitches)
+{
+    // first, restoring the capacities values
+    Switches::iterator swIt = network->getSwitches().begin();
+    Switches::iterator swItEnd = network->getSwitches().end();
+    for ( ; swIt != swItEnd; ++swIt )
+        (*swIt)->RemoveAssignment(virtualLink); // this just insrease capacity
+
+    // forming the set od links to remove
+    // Links with switches already removed (as their vertex), are removed
+    Links::iterator lIt = network->getLinks().begin();
+    Links::iterator lItEnd = network->getLinks().end();
+    for ( ; lIt != lItEnd; ++lIt )
+        (*lIt)->RemoveAssignment(virtualLink); // this just increase capacity
+
+    // restoring removed links and switches
+    swIt = removedSwitches->begin();
+    swItEnd = removedSwitches->end();
+    Switches& switches = network->getSwitches();
+    for ( ; swIt != swItEnd; ++swIt )
+        switches.insert(*swIt);
+
+    lIt = removedLinks->begin();
+    lItEnd = removedLinks->end();
+    Links& links = network->getLinks();
+    for ( ; lIt != lItEnd; ++lIt )
+        links.insert(*lIt);
 }

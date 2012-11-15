@@ -17,6 +17,7 @@ class Node;
 class Store;
 class Link;
 class ComputationalElement;
+class VirtualLinksAssigner;
 
 class DecentralizedAlgorithm: public Algorithm
 {
@@ -33,6 +34,12 @@ public:
 
     // Schedule requests:
     virtual Result schedule();
+
+private:
+    // Restore the network by removing the assignments of
+    // requests, which were accepted on some step and rejected on the next step.
+    void restoreNetwork(Requests& initialRequests, Requests& assignedRequests,
+        VirtualLinksAssigner& virtualLinksAssigner);
 };
 
 #endif
