@@ -157,8 +157,6 @@ class MainWindow(QMainWindow):
         if self.settingsDialog.result() == QDialog.Accepted:
             self.settings.setValue("vis", self.Vis.canvas.settings)  
             self.settings.setValue("graphVis", self.graphvis.settings)
-            print self.Vis.canvas.settings
-            print self.settings.value("vis")
 
     def EditProgram(self):
         self.resourcesGraphEditor.show()
