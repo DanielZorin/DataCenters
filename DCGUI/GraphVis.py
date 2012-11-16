@@ -93,12 +93,12 @@ class GraphVis(QMainWindow):
             points = self.avgCapacity
         p0 = points[0]
         for p in points[1:]:
-            scene.addLine(5 + p0[0] * 2, 205 - p0[1] * 2, 5 + p[0] * 2, 205 - p[1] * 2, QPen(QColor(255, 0, 0)))
+            scene.addLine(5 + p0[0] * 2, 205 - p0[1] * 2, 5 + p[0] * 2, 205 - p[1] * 2, QPen(settings["graph"]))
             p0 = p
 
         # Draw the axis
-        scene.addLine(5, 5, 5, 208, QPen(QColor(0, 0, 0)))
-        scene.addLine(2, 205, self.time * 2 + 5, 205, QPen(QColor(0, 0, 0)))
+        scene.addLine(5, 5, 5, 208, QPen(settings["axis"]))
+        scene.addLine(2, 205, self.time * 2 + 5, 205, QPen(settings["axis"]))
         t = 0
         while t <= self.time:
             scene.addLine(5 + t * 2, 206, 5 + t * 2, 204)
