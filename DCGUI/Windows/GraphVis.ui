@@ -105,6 +105,17 @@ QLabel, QSlider {
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="resources.qrc">
+          <normaloff>:/pics/pics/settings.png</normaloff>:/pics/pics/settings.png</iconset>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
     <item>
@@ -189,11 +200,28 @@ QLabel, QSlider {
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>GraphVis</receiver>
+   <slot>Settings()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>446</x>
+     <y>21</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>235</x>
+     <y>135</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>Replot(int)</slot>
   <slot>Save()</slot>
   <slot>ScaleUp()</slot>
   <slot>ScaleDown()</slot>
+  <slot>Settings()</slot>
  </slots>
 </ui>

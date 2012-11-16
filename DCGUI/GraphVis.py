@@ -12,8 +12,8 @@ class GraphVis(QMainWindow):
               "net": True
               }
 
-    def __init__(self):
-        QMainWindow.__init__(self)
+    def __init__(self, parent):
+        QMainWindow.__init__(self, parent)
         self.ui = Ui_GraphVis()
         self.ui.setupUi(self)
 
@@ -80,6 +80,10 @@ class GraphVis(QMainWindow):
     def ScaleDown(self):
         self.ui.graph.scale(0.8, 0.8)
 
+    def Settings(self):
+        self.parent().Settings()
+        self.Paint()
+
     def Paint(self):
         scene = QGraphicsScene()
 
@@ -93,17 +97,17 @@ class GraphVis(QMainWindow):
             points = self.avgCapacity
         p0 = points[0]
         for p in points[1:]:
-            scene.addLine(5 + p0[0] * 2, 205 - p0[1] * 2, 5 + p[0] * 2, 205 - p[1] * 2, QPen(settings["graph"]))
+            scene.addLine(5 + p0[0] * 2, 205 - p0[1] * 2, 5 + p[0] * 2, 205 - p[1] * 2, QPen(self.settings["graph"]))
             p0 = p
 
         # Draw the axis
-        scene.addLine(5, 5, 5, 208, QPen(settings["axis"]))
-        scene.addLine(2, 205, self.time * 2 + 5, 205, QPen(settings["axis"]))
+        scene.addLine(5, 5, 5, 208, QPen(self.settings["axis"]))
+        scene.addLine(2, 205, self.time * 2 + 5, 205, QPen(self.settings["axis"]))
         t = 0
         while t <= self.time:
-            scene.addLine(5 + t * 2, 206, 5 + t * 2, 204)
+            scene.addLine(5 + t * 2, 206, 5 + t * 2, 204, QPen(self.settings["axis"]))
             font = QFont()
-            font.setPointSize(6)          
+            font.setPointSize(6)       
             capt = scene.addText(str(t), font)
             capt.setPos(t * 2, 203)
             t += 10

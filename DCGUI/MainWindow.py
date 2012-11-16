@@ -31,7 +31,7 @@ class MainWindow(QMainWindow):
         self.resourcesGraphEditor = ResourcesGraphEditor()
         self.demandGraphEditor = DemandGraphEditor()
         self.Vis = Vis()
-        self.graphvis = GraphVis()
+        self.graphvis = GraphVis(self)
         self.project = Project()
         self.settings = QSettings("LVK Inc", "DataCenters GUI")
         # TODO: Captain, we have a problem!

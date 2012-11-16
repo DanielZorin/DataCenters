@@ -58,6 +58,13 @@ class Ui_GraphVis(object):
         self.scaleup.setIcon(icon3)
         self.scaleup.setObjectName(_fromUtf8("scaleup"))
         self.horizontalLayout.addWidget(self.scaleup)
+        self.pushButton = QtGui.QPushButton(self.centralwidget)
+        self.pushButton.setText(_fromUtf8(""))
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/settings.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.pushButton.setIcon(icon4)
+        self.pushButton.setObjectName(_fromUtf8("pushButton"))
+        self.horizontalLayout.addWidget(self.pushButton)
         self.verticalLayout_2.addLayout(self.horizontalLayout)
         self.graph = QtGui.QGraphicsView(self.centralwidget)
         self.graph.setObjectName(_fromUtf8("graph"))
@@ -71,6 +78,7 @@ class Ui_GraphVis(object):
         QtCore.QObject.connect(self.save, QtCore.SIGNAL(_fromUtf8("clicked()")), GraphVis.Save)
         QtCore.QObject.connect(self.scaledown, QtCore.SIGNAL(_fromUtf8("clicked()")), GraphVis.ScaleDown)
         QtCore.QObject.connect(self.scaleup, QtCore.SIGNAL(_fromUtf8("clicked()")), GraphVis.ScaleUp)
+        QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), GraphVis.Settings)
         QtCore.QMetaObject.connectSlotsByName(GraphVis)
 
     def retranslateUi(self, GraphVis):
