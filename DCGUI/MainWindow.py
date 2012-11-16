@@ -42,6 +42,9 @@ class MainWindow(QMainWindow):
             #self.Vis.canvas.settings = self.settings.value("vis")
         #self.graphvis.settings = self.settings.value("graphVis")
         self.settingsDialog = SettingsDialog(self.Vis.canvas.settings, self.graphvis.settings)
+        self.settingsDialog.ui.backup.setChecked(self.settings.value("backup").toBool())
+        self.settingsDialog.ui.autosave.setChecked(self.settings.value("autosave").toBool())
+        self.settingsDialog.ui.interval.setValue(self.settings.value("interval").toInt()[0])
         self.resourcesGraphEditor.setData(self.project.resources)
         for i in range(self.MaxRecentFiles):
             a = QAction(self)
@@ -134,10 +137,12 @@ class MainWindow(QMainWindow):
         self.setWindowTitle(self.projectFile.split('/').pop().split('.')[0] + " - " + self.basename)
 
     def Backup(self):
-        self.project.Save(self.projectFile + ".bak")
+        if self.settings.value("backup").toBool():
+            self.project.Save(self.projectFile + ".bak")
 
     def Autosave(self):
-        self.project.Save(self.projectFile)
+        if self.settings.value("autosave").toBool():
+            self.project.Save(self.projectFile)
 
     def InitProject(self):
         self.project.resources._buildPaths()
@@ -169,12 +174,6 @@ class MainWindow(QMainWindow):
         self.ui.vmmax.setText(str(stats["vmmax"])+"%")
         self.ui.stmax.setText(str(stats["stmax"])+"%")
         self.ui.netmax.setText(str(stats["netmax"])+"%")
-
-    def Settings(self):
-        self.settingsDialog.exec_()
-        if self.settingsDialog.result() == QDialog.Accepted:
-            self.settings.setValue("vis", self.Vis.canvas.settings)  
-            self.settings.setValue("graphVis", self.graphvis.settings)
 
     def EditProgram(self):
         self.resourcesGraphEditor.show()
@@ -329,3 +328,13 @@ class MainWindow(QMainWindow):
     def demandAssigned(self, id):
         item = self.ui.demands.findItems(id, Qt.MatchExactly)[0]
         item.setText(4, "Yes")
+
+    def Settings(self):
+        self.settingsDialog.exec_()
+        if self.settingsDialog.result() == QDialog.Accepted:
+            self.settings.setValue("vis", self.Vis.canvas.settings)  
+            self.settings.setValue("graphVis", self.graphvis.settings)
+            self.settings.setValue("backup", self.settingsDialog.ui.backup.isChecked())
+            self.settings.setValue("autosave", self.settingsDialog.ui.autosave.isChecked())
+            self.settings.setValue("interval", self.settingsDialog.ui.interval.value())
+            self.autosaveTimer.setInterval(self.settings.value("interval").toInt()[0] * 1000)

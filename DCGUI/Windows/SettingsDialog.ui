@@ -128,7 +128,11 @@ QLabel, QSlider {
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="interval"/>
+            <widget class="QSpinBox" name="interval">
+             <property name="value">
+              <number>60</number>
+             </property>
+            </widget>
            </item>
            <item>
             <widget class="QLabel" name="label_8">
