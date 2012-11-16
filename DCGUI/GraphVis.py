@@ -6,6 +6,11 @@ from Core.Resources import Computer, Storage, Router
 
 class GraphVis(QMainWindow):
     scaleFactor = 1.0
+    settings = {
+              "axis": QColor(0, 0, 0),
+              "graph": QColor(255, 0, 0),
+              "net": True
+              }
 
     def __init__(self):
         QMainWindow.__init__(self)

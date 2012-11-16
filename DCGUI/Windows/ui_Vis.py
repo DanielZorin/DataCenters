@@ -12,7 +12,7 @@ class Ui_Vis(object):
         Vis.setWindowModality(QtCore.Qt.ApplicationModal)
         Vis.resize(800, 283)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/graph.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/line_chart.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Vis.setWindowIcon(icon)
         Vis.setStyleSheet(_fromUtf8("QWidget, QMenuBar::item {\n"
 "    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"

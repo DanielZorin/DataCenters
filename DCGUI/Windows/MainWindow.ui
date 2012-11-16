@@ -322,7 +322,7 @@ QLabel, QSlider {
      <x>0</x>
      <y>0</y>
      <width>680</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -966,5 +966,6 @@ QLabel, QSlider {
   <slot>RunSelected()</slot>
   <slot>Run()</slot>
   <slot>ShowGraphVis()</slot>
+  <slot>Settings()</slot>
  </slots>
 </ui>

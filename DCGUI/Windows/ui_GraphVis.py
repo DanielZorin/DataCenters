@@ -12,7 +12,7 @@ class Ui_GraphVis(object):
         GraphVis.setWindowModality(QtCore.Qt.ApplicationModal)
         GraphVis.resize(471, 272)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/graph.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/chart.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         GraphVis.setWindowIcon(icon)
         GraphVis.setStyleSheet(_fromUtf8("QWidget, QMenuBar::item {\n"
 "    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"

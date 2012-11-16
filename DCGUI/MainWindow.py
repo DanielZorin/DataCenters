@@ -7,6 +7,7 @@ from DCGUI.RandomDemandDialog import RandomDemandDialog
 from DCGUI.Vis import Vis
 from DCGUI.GraphVis import GraphVis
 from DCGUI.Project import Project
+from DCGUI.SettingsDialog import SettingsDialog
 from Core.Resources import Storage
 import os
 
@@ -32,6 +33,8 @@ class MainWindow(QMainWindow):
         self.Vis = Vis()
         self.graphvis = GraphVis()
         self.project = Project()
+        self.settings = QSettings("LVK Inc", "DataCenters GUI")
+        self.settingsDialog = SettingsDialog(self.Vis.canvas.settings, self.graphvis.settings)
         self.resourcesGraphEditor.setData(self.project.resources)
         for i in range(self.MaxRecentFiles):
             a = QAction(self)
@@ -143,7 +146,10 @@ class MainWindow(QMainWindow):
         self.ui.netmax.setText(str(stats["netmax"])+"%")
 
     def Settings(self):
-        pass
+        self.settingsDialog.exec_()
+        if self.settingsDialog.result() == QDialog.Accepted:
+            self.settings.setValue("vis", self.Vis.canvas.settings)  
+            self.settings.setValue("graphVis", self.graphvis.settings)
 
     def EditProgram(self):
         self.resourcesGraphEditor.show()

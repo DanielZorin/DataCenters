@@ -22,11 +22,13 @@ class VisCanvas(QWidget):
     computer_selected = pyqtSignal()
     edge_selected = pyqtSignal()
 
-    colors = {
+    settings = {
               "line": QColor(10, 34, 200),
               "selected_demand": QColor(1, 200, 1),
               "selected": QColor(200, 1, 1),
-              "text": QColor(0,0,0)
+              "text": QColor(0,0,0),
+              "node": True,
+              "computer": True
               }
 
     def __init__(self, parent=None):
@@ -46,11 +48,11 @@ class VisCanvas(QWidget):
         paint = QPainter(self)
         for e in self.resources.edges:
                 if e == self.selectedEdge:
-                    paint.setPen(self.colors["selected"])
+                    paint.setPen(self.settings["selected"])
                 elif self.demandEdges.count(e):
-                    paint.setPen(self.colors["selected_demand"])
+                    paint.setPen(self.settings["selected_demand"])
                 else:
-                    paint.setPen(self.colors["line"])
+                    paint.setPen(self.settings["line"])
                 x1 = self.vertices[e.e1].x() + self.size / 2
                 y1 = self.vertices[e.e1].y() + self.size / 2
                 x2 = self.vertices[e.e2].x() + self.size / 2
@@ -59,29 +61,29 @@ class VisCanvas(QWidget):
                 
         for v in self.vertices.keys():
             if self.demandVertices.count(v) != 0:
-                paint.fillRect(self.vertices[v],self.colors["selected_demand"])
+                paint.fillRect(self.vertices[v],self.settings["selected_demand"])
             if isinstance(v,Computer):
                 if self.selectedVertex != self.vertices[v]:
                     paint.drawImage(self.vertices[v], self.computericon)
                 else:
                     paint.drawImage(self.vertices[v], self.computerselectedicon)
-                paint.setPen(self.colors["text"])
+                paint.setPen(self.settings["text"])
                 paint.drawText(self.vertices[v].x() + self.size, self.vertices[v].y() + self.size, str(int(v.getUsedSpeedPercent(self.time)))+"%")
             elif isinstance(v,Storage):
                 if self.selectedVertex != self.vertices[v]:
                     paint.drawImage(self.vertices[v], self.storageicon)
                 else:
                     paint.drawImage(self.vertices[v], self.storageselectedicon)
-                paint.setPen(self.colors["text"])
+                paint.setPen(self.settings["text"])
                 paint.drawText(self.vertices[v].x() + self.size, self.vertices[v].y() + self.size, str(int(v.getUsedVolumePercent(self.time)))+"%")
             elif isinstance(v,Router):
                 if self.selectedVertex != self.vertices[v]:
                     paint.drawImage(self.vertices[v], self.routericon)
                 else:
                     paint.drawImage(self.vertices[v], self.routerselectedicon)
-                paint.setPen(self.colors["text"])
+                paint.setPen(self.settings["text"])
                 paint.drawText(self.vertices[v].x() + self.size, self.vertices[v].y() + self.size, str(int(v.getUsedCapacityPercent(self.time)))+"%")
-        paint.setPen(self.colors["line"])
+        paint.setPen(self.settings["line"])
         if self.edgeDraw:
             self.drawArrow(paint, self.curEdge[0].x() + self.size / 2, self.curEdge[0].y() + self.size / 2,
                            QCursor.pos().x() - self.mapToGlobal(self.geometry().topLeft()).x(),
@@ -91,7 +93,7 @@ class VisCanvas(QWidget):
                 y1 = self.vertices[e.e1].y() + self.size / 2
                 x2 = self.vertices[e.e2].x() + self.size / 2
                 y2 = self.vertices[e.e2].y() + self.size / 2
-                paint.setPen(self.colors["text"])
+                paint.setPen(self.settings["text"])
                 paint.drawText((x1+x2)/2, (y1+y2)/2, str(int(e.getUsedCapacityPercent(self.time)))+"%")
         paint.end()
 
