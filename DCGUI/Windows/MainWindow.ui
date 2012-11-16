@@ -193,7 +193,7 @@ QLabel, QSlider {
           </column>
           <column>
            <property name="text">
-            <string>Can be rescheduled</string>
+            <string>Allow rescheduling</string>
            </property>
           </column>
           <column>

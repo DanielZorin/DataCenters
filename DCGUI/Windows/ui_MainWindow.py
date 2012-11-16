@@ -294,7 +294,7 @@ class Ui_MainWindow(object):
         self.demands.headerItem().setText(0, QtGui.QApplication.translate("MainWindow", "Name", None, QtGui.QApplication.UnicodeUTF8))
         self.demands.headerItem().setText(1, QtGui.QApplication.translate("MainWindow", "Starting time", None, QtGui.QApplication.UnicodeUTF8))
         self.demands.headerItem().setText(2, QtGui.QApplication.translate("MainWindow", "End time", None, QtGui.QApplication.UnicodeUTF8))
-        self.demands.headerItem().setText(3, QtGui.QApplication.translate("MainWindow", "Can be rescheduled", None, QtGui.QApplication.UnicodeUTF8))
+        self.demands.headerItem().setText(3, QtGui.QApplication.translate("MainWindow", "Allow rescheduling", None, QtGui.QApplication.UnicodeUTF8))
         self.demands.headerItem().setText(4, QtGui.QApplication.translate("MainWindow", "Scheduled", None, QtGui.QApplication.UnicodeUTF8))
         self.groupBox.setTitle(QtGui.QApplication.translate("MainWindow", "Statistics", None, QtGui.QApplication.UnicodeUTF8))
         self.label_13.setText(QtGui.QApplication.translate("MainWindow", "Total requests scheduled", None, QtGui.QApplication.UnicodeUTF8))

@@ -1,5 +1,5 @@
 from PyQt4.QtGui import QMainWindow, qApp, QTreeWidgetItem, QDialog, QFileDialog, QMessageBox, QAction, QKeySequence, QLineEdit, QComboBox
-from PyQt4.QtCore import Qt, QObject, SIGNAL, QSettings, QStringList
+from PyQt4.QtCore import Qt, QObject, SIGNAL, QSettings, QStringList, QTimer
 from DCGUI.Windows.ui_MainWindow import Ui_MainWindow
 from DCGUI.ResourcesGraphEditor import ResourcesGraphEditor
 from DCGUI.DemandGraphEditor import DemandGraphEditor
@@ -56,6 +56,14 @@ class MainWindow(QMainWindow):
         self.basename = self.windowTitle()
         self.setWindowTitle("Untitled" + " - " + self.basename)
         self.demandGraphEditor.demand_changed.connect(self.demandChanged)
+        self.backupTimer = QTimer()
+        self.backupTimer.setInterval(60000)
+        self.backupTimer.setSingleShot(False)
+        QObject.connect(self.backupTimer, SIGNAL("timeout()"), self.Backup)
+        self.autosaveTimer = QTimer()
+        self.autosaveTimer.setInterval(60000)
+        self.autosaveTimer.setSingleShot(False)
+        QObject.connect(self.autosaveTimer, SIGNAL("timeout()"), self.Autosave)
 
     def NewProject(self):
         self.project = Project()
@@ -64,6 +72,8 @@ class MainWindow(QMainWindow):
         self.demands = {}
         self.ui.demands.clear()
         self.setWindowTitle("Untitled" + " - " + self.basename)
+        self.backupTimer.start()
+        self.autosaveTimer.start()
     
     def OpenProject(self):
         name = unicode(QFileDialog.getOpenFileName(filter=self.projFilter))
@@ -96,6 +106,8 @@ class MainWindow(QMainWindow):
         self.setWindowTitle(self.project.name + " - " + self.basename)
         self.ui.projectname.setText(self.project.name)
         self.showStats()
+        self.backupTimer.start()
+        self.autosaveTimer.start()
 
     def OpenRecentFile(self):
         ''' Opens a project from recent files list'''
@@ -120,6 +132,12 @@ class MainWindow(QMainWindow):
             self.project.Save(self.projectFile)
             self.UpdateRecentFiles()
         self.setWindowTitle(self.projectFile.split('/').pop().split('.')[0] + " - " + self.basename)
+
+    def Backup(self):
+        self.project.Save(self.projectFile + ".bak")
+
+    def Autosave(self):
+        self.project.Save(self.projectFile)
 
     def InitProject(self):
         self.project.resources._buildPaths()
