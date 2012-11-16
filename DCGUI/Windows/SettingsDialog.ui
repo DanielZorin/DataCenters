@@ -87,11 +87,6 @@ QLabel, QSlider {
              <pointsize>12</pointsize>
             </font>
            </property>
-           <item>
-            <property name="text">
-             <string>English</string>
-            </property>
-           </item>
           </widget>
          </item>
          <item>

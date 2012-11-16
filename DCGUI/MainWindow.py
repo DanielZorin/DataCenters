@@ -1,5 +1,5 @@
 from PyQt4.QtGui import QMainWindow, qApp, QTreeWidgetItem, QDialog, QFileDialog, QMessageBox, QAction, QKeySequence, QLineEdit, QComboBox
-from PyQt4.QtCore import Qt, QObject, SIGNAL, QSettings, QStringList, QTimer
+from PyQt4.QtCore import Qt, QObject, SIGNAL, QSettings, QStringList, QTimer, QTranslator
 from DCGUI.Windows.ui_MainWindow import Ui_MainWindow
 from DCGUI.ResourcesGraphEditor import ResourcesGraphEditor
 from DCGUI.DemandGraphEditor import DemandGraphEditor
@@ -9,7 +9,7 @@ from DCGUI.GraphVis import GraphVis
 from DCGUI.Project import Project
 from DCGUI.SettingsDialog import SettingsDialog
 from Core.Resources import Storage
-import os
+import os,re
 
 class MainWindow(QMainWindow):
     project = None
@@ -26,6 +26,7 @@ class MainWindow(QMainWindow):
         QMainWindow.__init__(self)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.loadTranslations()
         self.settings = QSettings("LVK Inc", "DataCenters")   
         self.projFilter = self.tr("Data centers projects (*.dcxml)")
         self.resourcesGraphEditor = ResourcesGraphEditor()
@@ -45,6 +46,12 @@ class MainWindow(QMainWindow):
         self.settingsDialog.ui.backup.setChecked(self.settings.value("backup").toBool())
         self.settingsDialog.ui.autosave.setChecked(self.settings.value("autosave").toBool())
         self.settingsDialog.ui.interval.setValue(self.settings.value("interval").toInt()[0])
+        i = 0
+        for s in self.languages:
+            self.settingsDialog.ui.languages.addItem(s)
+            if s == str(self.settings.value("language").toString()):
+                self.settingsDialog.ui.languages.setCurrentIndex(i)
+            i += 1
         self.resourcesGraphEditor.setData(self.project.resources)
         for i in range(self.MaxRecentFiles):
             a = QAction(self)
@@ -67,6 +74,7 @@ class MainWindow(QMainWindow):
         self.autosaveTimer.setInterval(60000)
         self.autosaveTimer.setSingleShot(False)
         QObject.connect(self.autosaveTimer, SIGNAL("timeout()"), self.Autosave)
+        self.Translate(str(self.settings.value("language", "English").toString()))
 
     def NewProject(self):
         self.project = Project()
@@ -338,3 +346,28 @@ class MainWindow(QMainWindow):
             self.settings.setValue("autosave", self.settingsDialog.ui.autosave.isChecked())
             self.settings.setValue("interval", self.settingsDialog.ui.interval.value())
             self.autosaveTimer.setInterval(self.settings.value("interval").toInt()[0] * 1000)
+            newlang = self.settingsDialog.ui.languages.currentText()
+            if newlang != self.settings.value("language"):
+                self.Translate(newlang)
+                self.settings.setValue("language", newlang)
+
+    def Translate(self, lang):
+        translator = QTranslator(qApp)
+        translator.load("DCGUI\Translations\dc_" + lang + ".qm")
+        qApp.installTranslator(translator)
+        self.ui.retranslateUi(self)
+        self.settingsDialog.ui.retranslateUi(self.settingsDialog)
+        self.demandGraphEditor.ui.retranslateUi(self.demandGraphEditor)
+        self.resourcesGraphEditor.ui.retranslateUi(self.resourcesGraphEditor)
+        self.Vis.ui.retranslateUi(self.Vis)
+        self.graphvis.ui.retranslateUi(self.graphvis)
+
+    def loadTranslations(self):
+        all = os.listdir("./DCGUI/Translations")
+        tsfile = re.compile("dc_([a-zA-z]*)\.ts")
+        res = []
+        for s in all:
+            m = tsfile.match(s)
+            if m != None:
+                res.append(m.group(1))
+        self.languages = res

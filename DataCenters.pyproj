@@ -27,6 +27,7 @@
   <ItemGroup>
     <Folder Include="Core\" />
     <Folder Include="DCGUI\" />
+    <Folder Include="DCGUI\Translations\" />
     <Folder Include="DCGUI\Windows\" />
     <Folder Include="Methods" />
   </ItemGroup>

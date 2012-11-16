@@ -51,7 +51,6 @@ class Ui_SettingsDialog(object):
         font.setPointSize(12)
         self.languages.setFont(font)
         self.languages.setObjectName(_fromUtf8("languages"))
-        self.languages.addItem(_fromUtf8(""))
         self.verticalLayout_2.addWidget(self.languages)
         self.label_4 = QtGui.QLabel(self.tab_3)
         self.label_4.setObjectName(_fromUtf8("label_4"))
@@ -240,7 +239,6 @@ class Ui_SettingsDialog(object):
     def retranslateUi(self, SettingsDialog):
         SettingsDialog.setWindowTitle(QtGui.QApplication.translate("SettingsDialog", "Settings", None, QtGui.QApplication.UnicodeUTF8))
         self.label_3.setText(QtGui.QApplication.translate("SettingsDialog", "Language", None, QtGui.QApplication.UnicodeUTF8))
-        self.languages.setItemText(0, QtGui.QApplication.translate("SettingsDialog", "English", None, QtGui.QApplication.UnicodeUTF8))
         self.label_4.setText(QtGui.QApplication.translate("SettingsDialog", "Saving Settings", None, QtGui.QApplication.UnicodeUTF8))
         self.backup.setText(QtGui.QApplication.translate("SettingsDialog", "Backup", None, QtGui.QApplication.UnicodeUTF8))
         self.autosave.setText(QtGui.QApplication.translate("SettingsDialog", "Auto Save", None, QtGui.QApplication.UnicodeUTF8))
