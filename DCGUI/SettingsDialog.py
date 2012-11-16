@@ -21,7 +21,13 @@ class SettingsDialog(QDialog):
         self.ui.axis.setStyleSheet("background-color: " + self.graphVis["axis"].name())
         self.ui.graph.setStyleSheet("background-color: " + self.graphVis["graph"].name())
         self.ui.selection.setStyleSheet("background-color: " + self.vis["selected"].name())
-        self.ui.highlight.setStyleSheet("background-color: " + self.vis["selected_demand"].name())  
+        self.ui.highlight.setStyleSheet("background-color: " + self.vis["selected_demand"].name())
+        self.ui.net.setChecked(self.graphVis["net"])
+        self.ui.names.setChecked(self.vis["node"])
+        self.ui.computer.setChecked(self.vis["computer"])
+        self.ui.storage.setChecked(self.vis["storage"])
+        self.ui.router.setChecked(self.vis["router"])
+        self.ui.channel.setChecked(self.vis["channel"])
                 
     def AxisColor(self):
         color = QColorDialog.getColor()
@@ -52,6 +58,12 @@ class SettingsDialog(QDialog):
         QDialog.exec_(self)
         
     def OK(self):
+        self.graphVis["net"] = self.ui.net.isChecked()
+        self.vis["node"] = self.ui.names.isChecked()
+        self.vis["computer"] = self.ui.computer.isChecked()
+        self.vis["storage"] = self.ui.storage.isChecked()
+        self.vis["router"] = self.ui.router.isChecked()
+        self.vis["channel"] = self.ui.channel.isChecked()
         self.accept()
         
     def Cancel(self):

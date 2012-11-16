@@ -28,7 +28,10 @@ class VisCanvas(QWidget):
               "selected": QColor(200, 1, 1),
               "text": QColor(0,0,0),
               "node": True,
-              "computer": True
+              "computer": True,
+              "storage": True,
+              "router": True,
+              "channel": True
               }
 
     def __init__(self, parent=None):

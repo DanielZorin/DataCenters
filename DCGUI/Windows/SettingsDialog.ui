@@ -60,7 +60,7 @@ QLabel, QSlider {
      <item>
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>2</number>
+        <number>1</number>
        </property>
        <property name="elideMode">
         <enum>Qt::ElideNone</enum>
@@ -233,7 +233,7 @@ QLabel, QSlider {
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="computers">
+             <widget class="QCheckBox" name="computer">
               <property name="text">
                <string>Show Computer Load</string>
               </property>

@@ -34,6 +34,13 @@ class MainWindow(QMainWindow):
         self.graphvis = GraphVis()
         self.project = Project()
         self.settings = QSettings("LVK Inc", "DataCenters GUI")
+        # TODO: Captain, we have a problem!
+        # For some reason, in Python 2.7 QSettings converts dicts to QVariant
+        # So the ini file is undecypherable
+        # This works fine in Python 3.2 by the way
+        #if self.settings.value("vis"):
+            #self.Vis.canvas.settings = self.settings.value("vis")
+        #self.graphvis.settings = self.settings.value("graphVis")
         self.settingsDialog = SettingsDialog(self.Vis.canvas.settings, self.graphvis.settings)
         self.resourcesGraphEditor.setData(self.project.resources)
         for i in range(self.MaxRecentFiles):
@@ -150,6 +157,8 @@ class MainWindow(QMainWindow):
         if self.settingsDialog.result() == QDialog.Accepted:
             self.settings.setValue("vis", self.Vis.canvas.settings)  
             self.settings.setValue("graphVis", self.graphvis.settings)
+            print self.Vis.canvas.settings
+            print self.settings.value("vis")
 
     def EditProgram(self):
         self.resourcesGraphEditor.show()
