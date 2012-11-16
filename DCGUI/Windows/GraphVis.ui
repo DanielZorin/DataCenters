@@ -18,7 +18,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
-    <normaloff>:/pics/pics/graph.png</normaloff>:/pics/pics/graph.png</iconset>
+    <normaloff>:/pics/pics/chart.png</normaloff>:/pics/pics/chart.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget, QMenuBar::item {
