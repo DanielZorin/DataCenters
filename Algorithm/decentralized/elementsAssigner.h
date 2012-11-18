@@ -49,7 +49,7 @@ protected:
     // (virtual machine, storage or virtual link), which can't be assigned.
     // Returns true if succeded.
     //
-    virtual bool limitedExhaustiveSearch(Element * element, Assignment* assignment) = 0;
+    virtual bool limitedExhaustiveSearch(Element * element, Assignment* assignment, Request* req) = 0;
 
 protected:
 

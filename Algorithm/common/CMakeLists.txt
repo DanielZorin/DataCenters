@@ -3,9 +3,10 @@ PROJECT(common)
 
 SET ( QT_USE_QTXML TRUE )
 FIND_PACKAGE ( Qt4 REQUIRED )
-INCLUDE_DIRECTORIES( 
-        /usr/include/QtXml
-        /usr/include/QtCore 
+INCLUDE_DIRECTORIES(
+		${QT_INCLUDE_DIR}
+		${QT_QTCORE_INCLUDE_DIR}
+        ${QT_QTXML_INCLUDE_DIR}        
         )
 FILE(GLOB SOURCE_FILES *.cpp)
 add_library(${PROJECT_NAME} ${SOURCE_FILES} ${QT_LIBRARIES})

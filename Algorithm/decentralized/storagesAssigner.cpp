@@ -73,7 +73,7 @@ bool StoragesAssigner::assignOneRequest(Request::Storages * storages, Assignment
         bool result = assignOneStorage(storagesVec[index], reqAssignment);
         if ( !result ) 
         {
-            result = limitedExhaustiveSearch(storagesVec[index], reqAssignment);
+            result = limitedExhaustiveSearch(storagesVec[index], reqAssignment, NULL);
             if ( !result )
             {
                 printf("    Request assignment failed, removing storages\n");
@@ -127,7 +127,7 @@ bool decreaseOrder(Store * st1, Store * st2)
     return Criteria::storageWeight(st1) > Criteria::storageWeight(st2);
 }
 
-bool StoragesAssigner::limitedExhaustiveSearch(Element * element, Assignment* assignment)
+bool StoragesAssigner::limitedExhaustiveSearch(Element * element, Assignment* assignment, Request* req)
 {
     printf("  Request assignment failed, trying limited exhaustive search\n");
 

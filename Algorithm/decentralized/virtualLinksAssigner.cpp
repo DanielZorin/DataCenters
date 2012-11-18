@@ -75,17 +75,13 @@ bool VirtualLinksAssigner::assignOneRequest(Request::VirtualLinks * virtualLinks
     for ( unsigned index = 0; index < virtualLinksVec.size(); ++index )
     {
         // forming the link in physical resources from the virtual link
-        Link link("dummy_virtual_link", virtualLinksVec[index]->getCapacity());
-
-        Element * first = getAssigned(virtualLinksVec[index]->getFirst(), req);
-        Element * second = getAssigned(virtualLinksVec[index]->getSecond(), req);
-        link.bindElements(first, second);
+        Link link = getPhysicalLink(virtualLinksVec[index], req);
 
         bool result = assignOneVirtualLink(virtualLinksVec[index], &link, reqAssignment);
         if ( !result )
         {
             // trying limited exhaustive search
-            result = limitedExhaustiveSearch(&link, reqAssignment);
+            result = limitedExhaustiveSearch(virtualLinksVec[index], reqAssignment, req);
         }
         
         if ( !result )
@@ -150,11 +146,140 @@ bool decreaseOrder(Link * vl1, Link * vl2)
     return Criteria::virtualLinkWeight(vl1) > Criteria::virtualLinkWeight(vl2);
 }
 
-bool VirtualLinksAssigner::limitedExhaustiveSearch(Element * element, Assignment* assignment)
+bool VirtualLinksAssigner::limitedExhaustiveSearch(Element * element, Assignment* assignment, Request* req)
 {
     printf("  Request assignment failed, trying limited exhaustive search\n");
-    // not implemented yer
+    
+    // first, forming all assigned virtual links
+    // and assosiated assignments and requests
+    std::map<VirtualLink*, Assignment* > vlAssignment;
+    std::map<VirtualLink*, Request* > vlRequest;
+    vlRequest[static_cast<VirtualLink*>(element)] = req;
+    getAllVirtualLinksAssignments(element, vlAssignment, vlRequest, assignment, req);
+    for ( unsigned depth = 1; depth <= Criteria::exhaustiveSearchDepth(); ++depth )
+        if ( recursiveExhaustiveSearch(static_cast<VirtualLink*>(element), assignment, vlAssignment,
+                vlRequest, vlAssignment.begin(), Links(), depth) )
+            return true;
     return false;
+}
+
+void VirtualLinksAssigner::getAllVirtualLinksAssignments(Element* element, 
+                                                     std::map<VirtualLink*, Assignment* >& vlAssignment,
+                                                     std::map<VirtualLink*, Request* >& vlRequest,
+                                                     Assignment* assignment, Request* req)
+{
+    Links::iterator linksIt = network->getLinks().begin();
+    Links::iterator linksItEnd = network->getLinks().end();
+    for ( ; linksIt != linksItEnd; ++linksIt )
+    {
+        // get list of assignments of current vl first
+        Links vls = assignment->GetAssigned(*linksIt);
+
+        Links::iterator vlIt = vls.begin();
+        Links::iterator vlItEnd = vls.end();
+
+        for ( ; vlIt != vlItEnd; ++vlIt )
+            if ( vlAssignment.find(*vlIt) == vlAssignment.end() )
+            {
+                vlAssignment[*vlIt] = assignment;
+                vlRequest[*vlIt] = req;
+            }
+
+        // going through all other assigned requests
+        RequestAssignment::iterator it = requestAssignment.begin();
+        RequestAssignment::iterator itEnd = requestAssignment.end();
+        for ( ; it != itEnd; ++it )
+        {
+            Links vls = it->second->GetAssigned(*linksIt);
+            vlIt = vls.begin();
+            vlItEnd = vls.end();
+            for ( ; vlIt != vlItEnd; ++vlIt )
+                if ( vlAssignment.find(*vlIt) == vlAssignment.end() )
+                {
+                    vlAssignment[*vlIt] = it->second;
+                    vlRequest[*vlIt] = it->first;
+                }
+        }
+    }
+}
+
+bool VirtualLinksAssigner::recursiveExhaustiveSearch(VirtualLink * virtualLink, Assignment* assignment,
+                                                     std::map<VirtualLink*, Assignment* >& vlAssignment,
+                                                     std::map<VirtualLink*, Request* >& vlRequest,
+                                                     std::map<VirtualLink*, Assignment* >::iterator curIt,
+                                                     Links& removedVirtualLinks, int level)
+{
+    if ( level > 0 )
+    {
+        if ( curIt == vlAssignment.end() )
+            return false; // the variant with the depth less then current is not regarded.
+        for ( ; curIt != vlAssignment.end(); ++curIt )
+        {
+            // removing virtual link and going in the next level of recursive search
+            NetPath path = curIt->second->GetAssignment(curIt->first);
+            RemoveVirtualLink(curIt->first, curIt->second);
+            curIt->second->RemoveAssignment(curIt->first);
+            
+
+            removedVirtualLinks.insert(curIt->first);
+            std::map<VirtualLink*, Assignment* >::iterator curItNext = curIt;
+            ++curItNext;
+            if ( recursiveExhaustiveSearch(virtualLink, assignment, vlAssignment, vlRequest, curItNext,
+                removedVirtualLinks, level-1) )
+                return true;
+
+            removedVirtualLinks.erase(curIt->first);
+            curIt->second->AddAssignment(curIt->first, path);
+            AddVirtualLink(curIt->first, &path, curIt->second);
+        }
+        return false; // all variants are parsed, no successful variant was found
+    } else {
+        // checking the existance of the path
+        Link physicalLink = getPhysicalLink(virtualLink, vlRequest[virtualLink]);
+        NetPath path = VirtualLinkRouter::routeDejkstra(&physicalLink, network);
+        if ( path.size() > 0 )
+        {
+            AddVirtualLink(virtualLink, &path, assignment);
+
+            // trying to reassign removed virtual links
+            Links::iterator it = removedVirtualLinks.begin();
+            Links::iterator itEnd = removedVirtualLinks.end();
+            for ( ; it != itEnd; ++it )
+            {
+                physicalLink = getPhysicalLink(*it, vlRequest[*it]);
+                NetPath newPath = VirtualLinkRouter::routeDejkstra(&physicalLink, network);
+                if ( newPath.size() > 0 )
+                {
+                    AddVirtualLink(*it, &newPath, vlAssignment[*it]);
+                    vlAssignment[*it]->AddAssignment(*it, newPath);
+                } else {
+                    // attempt failed
+                    for ( Links::iterator itRemove = removedVirtualLinks.begin(); itRemove != it;
+                        ++itRemove)
+                    {
+                        RemoveVirtualLink(*itRemove, vlAssignment[*itRemove]);
+                        vlAssignment[*itRemove]->RemoveAssignment(*itRemove);
+                    }
+                    RemoveVirtualLink(virtualLink, assignment);
+                    return false;
+                }
+            }
+            assignment->AddAssignment(virtualLink, path);
+            return true;
+        }
+        return false;
+    }
+}
+
+Link VirtualLinksAssigner::getPhysicalLink(VirtualLink* virtualLink, Request* req)
+{
+    Link link("dummy_virtual_link", virtualLink->getCapacity());
+
+    Element * first = getAssigned(virtualLink->getFirst(), req);
+    Element * second = getAssigned(virtualLink->getSecond(), req);
+    link.bindElements(first, second);
+
+    return link;
 }
 
 Element * VirtualLinksAssigner::getAssigned(Element * virtualResource, Request* req)

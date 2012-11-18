@@ -51,9 +51,27 @@ private:
 protected:
     // Limited exhaustive search.
     //
-    bool limitedExhaustiveSearch(Element * element, Assignment* assignment);
+    bool limitedExhaustiveSearch(Element * element, Assignment* assignment, Request* req);
 
 private:
+    // Get the map of all assigned virtual links and their assignments.
+    void getAllVirtualLinksAssignments(Element* element,
+        std::map<VirtualLink*, Assignment* >& vlAssignment, std::map<VirtualLink*, Request* >& vlRequest,
+        Assignment* assignment, Request* req);
+
+    // The recursive search of links to reassign, 
+    // used in the limited exhaustive search algorithm.
+    // Level is the depth of the algorithm, if it is equal to 0, it is
+    // the lowest level of the search.
+    bool recursiveExhaustiveSearch(VirtualLink * virtualLink, Assignment* assignment,
+                                 std::map<VirtualLink*, Assignment* >& vlAssignment,
+                                 std::map<VirtualLink*, Request* >& vlRequest,
+                                 std::map<VirtualLink*, Assignment* >::iterator curIt,
+                                 Links& removedVirtualLinks, int level);
+
+    // Get the physical link associated to the virtual link
+    Link getPhysicalLink(VirtualLink* virtualLink, Request* req);
+
     // Get the appropriate physical resource, on which the virtual resource us assigned
     Element * getAssigned(Element * virtualResource, Request* req);
 

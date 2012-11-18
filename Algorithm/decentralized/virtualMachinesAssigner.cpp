@@ -74,7 +74,7 @@ bool VirtualMachinesAssigner::assignOneRequest(Request::VirtualMachines * virtua
         if ( !result ) 
         {
             // trying limited exhaustive search
-            result = limitedExhaustiveSearch(virtualMachinesVec[index], reqAssignment);
+            result = limitedExhaustiveSearch(virtualMachinesVec[index], reqAssignment, NULL);
             if ( !result )
             {
                 printf("    Request assignment failed, removing virtual machines\n");
@@ -118,7 +118,7 @@ bool decreaseOrder(Node * vm1, Node * vm2)
     return Criteria::virtualMachineWeight(vm1) > Criteria::virtualMachineWeight(vm2);
 }
 
-bool VirtualMachinesAssigner::limitedExhaustiveSearch(Element * element, Assignment* assignment)
+bool VirtualMachinesAssigner::limitedExhaustiveSearch(Element * element, Assignment* assignment, Request* req)
 {
     printf("  Request assignment failed, trying limited exhaustive search\n");
 

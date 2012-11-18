@@ -41,7 +41,7 @@ private:
 protected:
     // Limited exhaustive search.
     //
-    bool limitedExhaustiveSearch(Element * element, Assignment* assignment);
+    bool limitedExhaustiveSearch(Element * element, Assignment* assignment, Request* req);
 
 private:
     // Methods-substeps in the limited exhaustive search algorithm
