@@ -44,17 +44,17 @@ QLabel, QSlider {
         </property>
         <item>
          <property name="text">
-          <string>Average Speed</string>
+          <string>Cumulative Used Speed</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Average Volume</string>
+          <string>Cumulative Used Volume</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Average Capacity</string>
+          <string>Cumulative Used Capacity</string>
          </property>
         </item>
        </widget>

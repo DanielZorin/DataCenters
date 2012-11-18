@@ -83,9 +83,9 @@ class Ui_GraphVis(object):
 
     def retranslateUi(self, GraphVis):
         GraphVis.setWindowTitle(QtGui.QApplication.translate("GraphVis", "Graph Plotter", None, QtGui.QApplication.UnicodeUTF8))
-        self.graphtype.setItemText(0, QtGui.QApplication.translate("GraphVis", "Average Speed", None, QtGui.QApplication.UnicodeUTF8))
-        self.graphtype.setItemText(1, QtGui.QApplication.translate("GraphVis", "Average Volume", None, QtGui.QApplication.UnicodeUTF8))
-        self.graphtype.setItemText(2, QtGui.QApplication.translate("GraphVis", "Average Capacity", None, QtGui.QApplication.UnicodeUTF8))
+        self.graphtype.setItemText(0, QtGui.QApplication.translate("GraphVis", "Cumulative Used Speed", None, QtGui.QApplication.UnicodeUTF8))
+        self.graphtype.setItemText(1, QtGui.QApplication.translate("GraphVis", "Cumulative Used Volume", None, QtGui.QApplication.UnicodeUTF8))
+        self.graphtype.setItemText(2, QtGui.QApplication.translate("GraphVis", "Cumulative Used Capacity", None, QtGui.QApplication.UnicodeUTF8))
         self.actionExit.setText(QtGui.QApplication.translate("GraphVis", "Exit", None, QtGui.QApplication.UnicodeUTF8))
         self.actionExit.setShortcut(QtGui.QApplication.translate("GraphVis", "Ctrl+X", None, QtGui.QApplication.UnicodeUTF8))
 
