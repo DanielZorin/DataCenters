@@ -11,6 +11,12 @@ DecentralizedAlgorithm::~DecentralizedAlgorithm()
     for ( ; it != itEnd; ++it )
         delete (*it);
     assignments.clear();
+
+    Replications::iterator rit = replications.begin();
+    Replications::iterator ritEnd = replications.end();
+    for ( ; rit != ritEnd; ++rit )
+        delete (*rit);
+    replications.clear();
 }
 
 Algorithm::Result DecentralizedAlgorithm::schedule()
@@ -24,6 +30,8 @@ Algorithm::Result DecentralizedAlgorithm::schedule()
     VirtualLinksAssigner virtualLinksAssigner(network, virtualMachinesAssigner.GetRequestAssignment(), 
         storagesAssigner.GetRequestAssignment());
     assignedRequests = virtualLinksAssigner.PerformAssignment(assignedRequests);
+
+    replications = virtualLinksAssigner.getReplications();
 
     // remove all assigned requests on previous steps
     restoreNetwork(requests, assignedRequests, virtualLinksAssigner);

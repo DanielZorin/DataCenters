@@ -2,6 +2,8 @@
 #include "node.h"
 #include "store.h"
 #include "link.h"
+#include "replication.h"
+#include "virtualLinkRouter.h"
 
 long Criteria::requestVirtualMachinesWeight(Request::VirtualMachines* virtualMachines)
 {
@@ -68,4 +70,32 @@ unsigned Criteria::exhaustiveSearchDepth()
 unsigned Criteria::kShortestPathDepth()
 {
     return 10;
+}
+
+long Criteria::replicationPathCost(Store* initialStore, Store* store, Network * network, NetPath& path)
+{
+    long result = -1l;
+    Link link("dummy_virtual_link", Replication::GetLinkBandwidth(store->getTypeOfStore()));
+    link.bindElements(initialStore, store);
+    path = VirtualLinkRouter::routeDejkstra(&link, network);
+
+    NetPath::iterator it = path.begin();
+    NetPath::iterator itEnd = path.end();
+    for ( ; it != itEnd; ++it )
+        result += (*it)->getCapacity();
+
+    return result;
+}
+
+long Criteria::replicationPathCost(VirtualLink* virtualLink, Network * network, NetPath& path)
+{
+    long result = -1l;
+    path = VirtualLinkRouter::routeDejkstra(virtualLink, network);
+
+    NetPath::iterator it = path.begin();
+    NetPath::iterator itEnd = path.end();
+    for ( ; it != itEnd; ++it )
+        result += (*it)->getCapacity();
+
+    return result;
 }

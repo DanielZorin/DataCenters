@@ -2,6 +2,7 @@
 
 #include "algorithm.h"
 #include "assignment.h"
+#include "replication.h"
 #include "criteria.h"
 #include "network.h"
 #include "node.h"
@@ -86,8 +87,8 @@ bool VirtualLinksAssigner::assignOneRequest(Request::VirtualLinks * virtualLinks
         
         if ( !result )
         {
-            // trying replication, not implemented yet
-            // result = replicate(virtualLinksVec[index], reqAssignment);
+            printf("        Trying replication\n");
+            result = replicate(virtualLinksVec[index], reqAssignment, req);
         }
 
         if ( !result )
@@ -320,4 +321,114 @@ void VirtualLinksAssigner::removeAssignment(Request * req)
 
     // It is expected that removing of virtualLinks is not necessary
     // because it virtual links are assigned on the last step
+}
+
+bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assignment, Request* req)
+{
+    Storage * storage = NULL;
+    VirtualMachine * virtualMachine = NULL;
+    if ( virtualLink->getFirst()->isStore() )
+    {
+        storage = static_cast<Storage *>(virtualLink->getFirst());
+        if ( !virtualLink->getSecond()->isNode() )
+            return false; // not parsing wrong variants
+        virtualMachine = static_cast<VirtualMachine *>(virtualLink->getSecond());
+    }
+    else if ( virtualLink->getSecond()->isStore() )
+    {
+        if ( !virtualLink->getFirst()->isNode() )
+            return false; // not parsing wrong variants
+        virtualMachine = static_cast<VirtualMachine *>(virtualLink->getFirst());
+        storage = static_cast<Storage *>(virtualLink->getSecond());
+    }
+    else
+        return false; // no storage in the link
+
+    Store * store = (*storagesAssignments)[req]->GetAssignment(storage);
+    Node * node = (*virtualMachinesAssignments)[req]->GetAssignment(virtualMachine);
+    // first, forming the set of memory stores with type equal to the store
+    
+    Stores::const_iterator it = network->getStores().begin();
+    Stores::const_iterator itEnd = network->getStores().end();
+
+    std::vector<Store * > stores;
+    for ( ; it != itEnd; ++it )
+    {
+        if ( (*it) != store &&
+             storage->getTypeOfStore() == (*it)->getTypeOfStore() &&
+             storage->getCapacity() <= (*it)->getCapacity() )
+            stores.push_back(*it);
+    }
+
+    // forming the set of all virtual machines, which are included in
+    // a virtual link with a storage specified
+    Nodes nodes;
+    Nodes vms = req->getVirtualMachines();
+    Nodes::iterator nIt = vms.begin();
+    Nodes::iterator nItEnd = vms.end();
+    for ( ; nIt != nItEnd; ++nIt )
+    {
+        if ( *nIt != node )
+            nodes.insert((*virtualMachinesAssignments)[req]->GetAssignment(*nIt));
+    }
+
+    long maxCost = -1l;
+    NetPath bestStoragePath, bestNodePath;
+    Store * bestStore = NULL;
+    for ( unsigned index = 0; index < stores.size(); ++index )
+    {
+        NetPath storagesPath;
+        long cost = Criteria::replicationPathCost(store, stores[index], network, storagesPath);
+        if ( cost >= 0 ) // path exist
+        {
+            // virtual link between node and the second store should exist
+            Link link("dummy_replication_link", virtualLink->getCapacity());
+            link.bindElements(node, stores[index]);
+            NetPath nodeToStorePath;
+            long nodeToStoreCost = Criteria::replicationPathCost(&link, network, nodeToStorePath);
+            if ( nodeToStoreCost >= 0 )
+            {
+                cost += nodeToStoreCost;
+                nIt = nodes.begin();
+                nItEnd = nodes.end();
+                for ( ; nIt != nItEnd; ++nIt )
+                {
+                    NetPath dummyPath;
+                    link.bindElements(*nIt, stores[index]);
+                    long newCost = Criteria::replicationPathCost(&link, network, dummyPath);
+                    if ( newCost >= 0 )
+                        cost += newCost;
+                }
+
+                if ( maxCost < cost )
+                {
+                    bestStore = stores[index];
+                    maxCost = cost;
+                    bestStoragePath = storagesPath;
+                    bestNodePath = nodeToStorePath;
+                }
+            }
+        }
+    }
+    
+    if ( maxCost < 0 ) // no replication found
+        return false;
+
+    // assign virtual link and storage's replication
+    bestStore->assign(*storage);
+    AddVirtualLink(virtualLink, &bestNodePath, assignment);
+
+    Link storagesLink("storages_link", Replication::GetLinkBandwidth(storage->getTypeOfStore()));
+    AddVirtualLink(&storagesLink, &bestStoragePath, assignment);
+
+    assignment->AddAssignment(virtualLink, bestNodePath);
+
+    Replication * replication = new Replication();
+    replication->setLink(bestStoragePath);
+    replication->setStorage(storage);
+    replication->bind(store, bestStore);
+
+    replications.insert(replication);
+
+    return true;
 }

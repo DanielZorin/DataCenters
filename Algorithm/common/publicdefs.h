@@ -13,6 +13,8 @@ class ComputationalElement;
 class Store;
 class Node;
 
+class Replication;
+
 #include <set>
 
 typedef std::set<Node *> Nodes;

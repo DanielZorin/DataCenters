@@ -1,6 +1,7 @@
 #ifndef VIRTUAL_LINKS_ASSIGNER_H_
 #define VIRTUAL_LINKS_ASSIGNER_H_
 
+#include "algorithm.h"
 #include "link.h"
 #include "elementsAssigner.h"
 #include "request.h"
@@ -53,6 +54,9 @@ protected:
     //
     bool limitedExhaustiveSearch(Element * element, Assignment* assignment, Request* req);
 
+    // Try to find replication.
+    bool replicate(VirtualLink* virtualLink, Assignment* assignment, Request* req);
+
 private:
     // Get the map of all assigned virtual links and their assignments.
     void getAllVirtualLinksAssignments(Element* element,
@@ -81,11 +85,20 @@ public:
     // because it virtual links are assigned on the last step
     void removeAssignment(Request * req);
 
+    // Get all replications
+    Algorithm::Replications& getReplications()
+    {
+        return replications;
+    }
+
 private:
     // Virtual machines and storages assignments to know
     // the assignments of virtual links vertexes.
     RequestAssignment* virtualMachinesAssignments;
     RequestAssignment* storagesAssignments;
+
+    // Replications.
+    Algorithm::Replications replications;
     /*
 private:
     // Methods-substeps in the limited exhaustive search algorithm
