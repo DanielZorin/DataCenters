@@ -57,13 +57,13 @@ class Vis(QMainWindow):
         link_num = 0
         for d in v.intervals[timeInt].demands.keys():
             link_num += len(v.intervals[timeInt].demands[d])
-        str = QString("<b><font size=\"+1\">Statistics</font></b><br />")
-        str += QString("&nbsp;&nbsp;Router id:<font color=blue> %1</font><br />").arg(v.id)
-        str += QString("&nbsp;&nbsp;Bandwidth:<font color=blue> %1</font><br />").arg(v.capacity)
-        str += QString("&nbsp;&nbsp;Used Bandwidth:<font color=blue> %1 (%2%)</font><br />").arg(v.intervals[timeInt].usedResource).arg(v.getUsedCapacityPercent(timeInt))
-        str += QString("&nbsp;&nbsp;Number of assigned requests:<font color=blue> %1</font><br />").arg(len(v.intervals[timeInt].demands.keys()))
-        str += QString("&nbsp;&nbsp;Number of assigned channels:<font color=blue> %1</font><br />").arg(link_num)
-        str += QString("<b><font size=\"+1\">Assigned Requests</font></b><br />")
+        str = QString("<b><font size=\"+1\">%1</font></b><br />").arg(self.tr("Statistics"))
+        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Router id")).arg(v.id)
+        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Bandwidth")).arg(v.capacity)
+        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2 (%3%)</font><br />").arg(self.tr("Used Bandwidth")).arg(v.intervals[timeInt].usedResource).arg(v.getUsedCapacityPercent(timeInt))
+        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Number of assigned requests")).arg(len(v.intervals[timeInt].demands.keys()))
+        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Number of assigned channels")).arg(link_num)
+        str += QString("<b><font size=\"+1\">%1</font></b><br />").arg(self.tr("Assigned Requests"))
         demands = v.intervals[timeInt].demands.keys()
         demands.sort()
         for id in demands:
@@ -71,9 +71,9 @@ class Vis(QMainWindow):
             str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(id)
             for link in v.intervals[timeInt].demands[d.id]:
                 l = d.FindEdge(d.FindVertex(link[0]),d.FindVertex(link[1]))
-                type1 = "VM" if isinstance(l.e1,VM) else "Storage"
-                type2 = "VM" if isinstance(l.e2,VM) else "Storage"
-                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;Channel: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;Bandwidth: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(l.e1.id).arg(type2).arg(l.e2.id).arg(l.capacity)
+                type1 = self.tr("VM") if isinstance(l.e1,VM) else self.tr("Storage")
+                type2 = self.tr("VM") if isinstance(l.e2,VM) else self.tr("Storage")
+                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;%6: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;%7: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(l.e1.id).arg(type2).arg(l.e2.id).arg(l.capacity).arg(self.tr("Channel")).arg(self.tr("Bandwidth"))
         self.ui.info.setText(str)
 
     def ShowComputerInfo(self):
@@ -84,20 +84,20 @@ class Vis(QMainWindow):
         vm_num = 0
         for d in v.intervals[timeInt].demands.keys():
             vm_num += len(v.intervals[timeInt].demands[d])
-        str = QString("<b><font size=\"+1\">Statistics</font></b><br />")
-        str += QString("&nbsp;&nbsp;Computer id:<font color=blue> %1</font><br />").arg(v.id)
-        str += QString("&nbsp;&nbsp;Performance:<font color=blue> %1</font><br />").arg(v.speed)
-        str += QString("&nbsp;&nbsp;Used Performance:<font color=blue> %1 (%2%)</font><br />").arg(v.intervals[timeInt].usedResource).arg(v.getUsedSpeedPercent(timeInt))
-        str += QString("&nbsp;&nbsp;Number of assigned requests:<font color=blue> %1</font><br />").arg(len(v.intervals[timeInt].demands.keys()))
-        str += QString("&nbsp;&nbsp;Number of assigned VMs:<font color=blue> %1</font><br />").arg(vm_num)
-        str += QString("<b><font size=\"+1\">Assigned Requests</font></b><br />")
+        str = QString("<b><font size=\"+1\">%1</font></b><br />").arg(self.tr("Statistics"))
+        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Computer id")).arg(v.id)
+        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Performance")).arg(v.speed)
+        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2 (%3%)</font><br />").arg(self.tr("Used Performance")).arg(v.intervals[timeInt].usedResource).arg(v.getUsedSpeedPercent(timeInt))
+        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Number of assigned requests")).arg(len(v.intervals[timeInt].demands.keys()))
+        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Number of assigned VMs")).arg(vm_num)
+        str += QString("<b><font size=\"+1\">%1</font></b><br />").arg(self.tr("Assigned Requests"))
         demands = v.intervals[timeInt].demands.keys()
         demands.sort()
         for id in demands:
             d = self.project.FindDemand(id)
             str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(id)
             for v1 in v.intervals[timeInt].demands[id]:
-                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;VM id: <font color=blue>%1</font>&nbsp;&nbsp;Performance: <font color=blue>%2</font><br />").arg(d.FindVertex(v1).id).arg(d.FindVertex(v1).speed)
+                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;%3: <font color=blue>%1</font>&nbsp;&nbsp;%4: <font color=blue>%2</font><br />").arg(d.FindVertex(v1).id).arg(d.FindVertex(v1).speed).arg(self.tr("VM id")).arg(self.tr("Performance"))
         self.ui.info.setText(str)
 
     def ShowStorageInfo(self):
@@ -108,21 +108,21 @@ class Vis(QMainWindow):
         storage_num = 0
         for d in v.intervals[timeInt].demands.keys():
             storage_num += len(v.intervals[timeInt].demands[d])
-        str = QString("<b><font size=\"+1\">Statistics</font></b><br />")
-        str += QString("&nbsp;&nbsp;Storage id:<font color=blue> %1</font><br />").arg(v.id)
-        str += QString("&nbsp;&nbsp;Type:<font color=blue> %1</font><br />").arg(v.type)
-        str += QString("&nbsp;&nbsp;Capacity:<font color=blue> %1</font><br />").arg(v.volume)
-        str += QString("&nbsp;&nbsp;Used Capacity:<font color=blue> %1 (%2%)</font><br />").arg(v.intervals[timeInt].usedResource).arg(v.getUsedVolumePercent(timeInt))
-        str += QString("&nbsp;&nbsp;Number of assigned requests:<font color=blue> %1</font><br />").arg(len(v.intervals[timeInt].demands.keys()))
-        str += QString("&nbsp;&nbsp;Number of assigned storages:<font color=blue> %1</font><br />").arg(storage_num)
-        str += QString("<b><font size=\"+1\">Assigned Requests</font></b><br />")
+        str = QString("<b><font size=\"+1\">%1</font></b><br />").arg(self.tr("Statistics"))
+        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Storage id")).arg(v.id)
+        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Type")).arg(v.type)
+        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Capacity")).arg(v.volume)
+        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2 (%3%)</font><br />").arg(self.tr("Used Capacity")).arg(v.intervals[timeInt].usedResource).arg(v.getUsedVolumePercent(timeInt))
+        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Number of assigned requests")).arg(len(v.intervals[timeInt].demands.keys()))
+        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Number of assigned storages")).arg(storage_num)
+        str += QString("<b><font size=\"+1\">%1</font></b><br />").arg(self.tr("Assigned Requests"))
         demands = v.intervals[timeInt].demands.keys()
         demands.sort()
         for id in demands:
             d = self.project.FindDemand(id)
             str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(id)
             for v1 in v.intervals[timeInt].demands[id]:
-                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;Storage id: <font color=blue>%1</font>&nbsp;&nbsp;Capacity: <font color=blue>%2</font><br />").arg(d.FindVertex(v1).id).arg(d.FindVertex(v1).volume)
+                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;%3: <font color=blue>%1</font>&nbsp;&nbsp;%4: <font color=blue>%2</font><br />").arg(d.FindVertex(v1).id).arg(d.FindVertex(v1).volume).arg(self.tr("Storage id")).arg(self.tr("Capacity"))
         self.ui.info.setText(str)
 
     def ShowEdgeInfo(self):
@@ -135,12 +135,12 @@ class Vis(QMainWindow):
         link_num = 0
         for d in e.intervals[timeInt].demands.keys():
             link_num += len(e.intervals[timeInt].demands[d])
-        str = QString("<b><font size=\"+1\">Statistics</font></b><br />")
-        str += QString("&nbsp;&nbsp;Bandwidth:<font color=blue> %1</font><br />").arg(e.capacity)
-        str += QString("&nbsp;&nbsp;Used Bandwidth:<font color=blue> %1 (%2%)</font><br />").arg(e.intervals[timeInt].usedResource).arg(e.getUsedCapacityPercent(timeInt))
-        str += QString("&nbsp;&nbsp;Number of assigned requests:<font color=blue> %1</font><br />").arg(len(e.intervals[timeInt].demands.keys()))
-        str += QString("&nbsp;&nbsp;Number of assigned channels:<font color=blue> %1</font><br />").arg(link_num)
-        str += QString("<b><font size=\"+1\">Assigned Requests</font></b><br />")
+        str = QString("<b><font size=\"+1\">%1</font></b><br />").arg(self.tr("Statistics"))
+        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Bandwidth")).arg(e.capacity)
+        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2 (%3%)</font><br />").arg(self.tr("Used Bandwidth")).arg(e.intervals[timeInt].usedResource).arg(e.getUsedCapacityPercent(timeInt))
+        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Number of assigned requests")).arg(len(e.intervals[timeInt].demands.keys()))
+        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Number of assigned channels")).arg(link_num)
+        str += QString("<b><font size=\"+1\">%1</font></b><br />").arg(self.tr("Assigned Requests"))
         demands = e.intervals[timeInt].demands.keys()
         demands.sort()
         for id in demands:
@@ -148,9 +148,9 @@ class Vis(QMainWindow):
             str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(id)
             for link in e.intervals[timeInt].demands[id]:
                 l = d.FindEdge(d.FindVertex(link[0]),d.FindVertex(link[1]))
-                type1 = "VM" if isinstance(l.e1,VM) else "Storage"
-                type2 = "VM" if isinstance(l.e2,VM) else "Storage"
-                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;Channel: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;Bandwidth: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(l.e1.id).arg(type2).arg(l.e2.id).arg(l.capacity)
+                type1 = self.tr("VM") if isinstance(l.e1,VM) else self.tr("Storage")
+                type2 = self.tr("VM") if isinstance(l.e2,VM) else self.tr("Storage")
+                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;%6: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;%7: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(l.e1.id).arg(type2).arg(l.e2.id).arg(l.capacity).arg(self.tr("Channel")).arg(self.tr("Bandwidth"))
         self.ui.info.setText(str)
 
     def UpdateTimeFromSlider(self,value):

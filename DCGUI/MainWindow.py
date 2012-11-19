@@ -28,13 +28,11 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         self.loadTranslations()
         self.settings = QSettings("LVK Inc", "DataCenters")   
-        self.projFilter = self.tr("Data centers projects (*.dcxml)")
         self.resourcesGraphEditor = ResourcesGraphEditor()
         self.demandGraphEditor = DemandGraphEditor()
         self.Vis = Vis()
         self.graphvis = GraphVis(self)
         self.project = Project()
-        self.settings = QSettings("LVK Inc", "DataCenters GUI")
         # TODO: Captain, we have a problem!
         # For some reason, in Python 2.7 QSettings converts dicts to QVariant
         # So the ini file is undecypherable
@@ -64,7 +62,6 @@ class MainWindow(QMainWindow):
             self.recentFileActions.append(a)
         self.UpdateRecentFileActions()
         self.basename = self.windowTitle()
-        self.setWindowTitle("Untitled" + " - " + self.basename)
         self.demandGraphEditor.demand_changed.connect(self.demandChanged)
         self.backupTimer = QTimer()
         self.backupTimer.setInterval(60000)
@@ -75,6 +72,8 @@ class MainWindow(QMainWindow):
         self.autosaveTimer.setSingleShot(False)
         QObject.connect(self.autosaveTimer, SIGNAL("timeout()"), self.Autosave)
         self.Translate(str(self.settings.value("language", "English").toString()))
+        self.projFilter = self.tr("Data centers projects (*.dcxml)")
+        self.setWindowTitle(self.tr("Untitled") + " - " + self.basename)
 
     def NewProject(self):
         self.project = Project()
@@ -82,7 +81,7 @@ class MainWindow(QMainWindow):
         self.projectFile = None
         self.demands = {}
         self.ui.demands.clear()
-        self.setWindowTitle("Untitled" + " - " + self.basename)
+        self.setWindowTitle(self.tr("Untitled") + " - " + self.basename)
         self.backupTimer.start()
         self.autosaveTimer.start()
     
@@ -105,9 +104,9 @@ class MainWindow(QMainWindow):
         self.resourcesGraphEditor.setData(self.project.resources)
         self.ui.demands.clear()
         for d in self.project.demands:
-            it = QTreeWidgetItem(self.ui.demands, QStringList([d.id, str(d.startTime), str(d.endTime), "No" if d.critical else "Yes", "Yes" if d.assigned else "No"]))
+            it = QTreeWidgetItem(self.ui.demands, QStringList([d.id, str(d.startTime), str(d.endTime), self.tr("No") if d.critical else self.tr("Yes"), self.tr("Yes") if d.assigned else self.tr("No")]))
             cb = QComboBox()
-            cb.addItems(["No","Yes"])
+            cb.addItems([self.tr("No"),self.tr("Yes")])
             cb.setCurrentIndex(0 if d.critical else 1)
             QObject.connect(cb, SIGNAL("currentIndexChanged(int)"), it.emitDataChanged)
             self.ui.demands.setItemWidget(it,3,cb)
@@ -127,7 +126,7 @@ class MainWindow(QMainWindow):
             self.OpenProjectFromFile(text)
             self.UpdateRecentFiles()
         else:
-            QMessageBox.critical(self, "Error", "Project not found")
+            QMessageBox.critical(self, self.tr("Error"), self.tr("Project not found"))
             self.RemoveFromRecentFiles(text)
     
     def SaveProject(self):
@@ -190,9 +189,9 @@ class MainWindow(QMainWindow):
 
     def AddDemand(self):
         d = self.project.CreateDemand()
-        it = QTreeWidgetItem(self.ui.demands, QStringList(["New demand", "0", "1", "No", "No"]))
+        it = QTreeWidgetItem(self.ui.demands, QStringList([self.tr("New demand"), "0", "1", self.tr("No"), self.tr("No")]))
         cb = QComboBox()
-        cb.addItems(["No","Yes"])
+        cb.addItems([self.tr("No"),self.tr("Yes")])
         self.ui.demands.setItemWidget(it,3,cb)
         QObject.connect(cb, SIGNAL("currentIndexChanged(int)"), it.emitDataChanged)
         it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
@@ -201,7 +200,7 @@ class MainWindow(QMainWindow):
         self.demands[it].id = unicode(it.text(0))
         self.demands[it].startTime = int(it.text(1))
         self.demands[it].endTime = int(it.text(2))
-        self.demands[it].critical = False if self.ui.demands.itemWidget(it,3).currentText() == "Yes" else True
+        self.demands[it].critical = False if self.ui.demands.itemWidget(it,3).currentText() == self.tr("Yes") else True
     
     def DeleteDemand(self):
         item = self.ui.demands.currentItem()
@@ -217,7 +216,7 @@ class MainWindow(QMainWindow):
             self.demands[item].id = unicode(item.text(0))
             self.demands[item].startTime = int(item.text(1))
             self.demands[item].endTime = int(item.text(2))
-            self.demands[item].critical = False if self.ui.demands.itemWidget(item,3).currentText() == "Yes" else True
+            self.demands[item].critical = False if self.ui.demands.itemWidget(item,3).currentText() == self.tr("Yes") else True
 
     def EditDemand(self):
         if (self.demands == {}) or (self.ui.demands.currentItem() == None):
@@ -244,9 +243,9 @@ class MainWindow(QMainWindow):
             dict["types"] = types
             for i in range(dict["n"]):
                 demand = self.project.CreateRandomDemand(dict)
-                it = QTreeWidgetItem(self.ui.demands, QStringList([demand.id, str(demand.startTime), str(demand.endTime), "No", "No"]))
+                it = QTreeWidgetItem(self.ui.demands, QStringList([demand.id, str(demand.startTime), str(demand.endTime), self.tr("No"), self.tr("No")]))
                 cb = QComboBox()
-                cb.addItems(["No","Yes"])
+                cb.addItems([self.tr("No"),self.tr("Yes")])
                 self.ui.demands.setItemWidget(it,3,cb)
                 QObject.connect(cb, SIGNAL("currentIndexChanged(int)"), it.emitDataChanged)
                 it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
@@ -255,7 +254,7 @@ class MainWindow(QMainWindow):
     def Reset(self):
         self.project.Reset()
         for k in self.demands.keys():
-            k.setText(4, "No")
+            k.setText(4, self.tr("No"))
 
     def About(self):
         pass
@@ -322,7 +321,7 @@ class MainWindow(QMainWindow):
         it.setText(0, self.demands[it].id)
         it.setText(1, str(self.demands[it].startTime))
         it.setText(2, str(self.demands[it].endTime))
-        it.setText(4, "No")
+        it.setText(4, self.tr("No"))
         self.showStats()
 
     def ShowResults(self):

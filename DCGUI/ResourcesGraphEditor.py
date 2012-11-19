@@ -20,7 +20,7 @@ class ResourcesGraphEditor(QMainWindow):
         self.canvas = ResourcesGraphCanvas(self.ui.graphArea)
         self.ui.graphArea.setWidget(self.canvas)
         self.basename = self.windowTitle()
-        self.setWindowTitle("Untitled" + " - " + self.basename)
+        self.setWindowTitle(self.tr("Untitled") + " - " + self.basename)
 
     def setData(self, data):
         self.resources = data
@@ -88,7 +88,7 @@ class ResourcesGraphEditor(QMainWindow):
         self.canvas.Visualize(self.resources)
         self.canvas.changed = True
         self.xmlfile = None
-        self.setWindowTitle("Untitled" + " - " + self.basename)
+        self.setWindowTitle(self.tr("Untitled") + " - " + self.basename)
 
     def Open(self):
         name = QFileDialog.getOpenFileName(filter="*.xml")

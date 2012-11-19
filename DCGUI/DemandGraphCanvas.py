@@ -14,7 +14,7 @@ class VMDialog(QDialog):
         self.ui.setupUi(self)
         self.valid = QIntValidator(0, 1000000, self)
         self.ui.speed.setValidator(self.valid)
-        self.setWindowTitle("Edit VM") #we use the same dialog for resources and demands
+        self.setWindowTitle(self.tr("Edit VM")) #we use the same dialog for resources and demands
         
     def Load(self, v):
         self.ui.id.setText(v.id)

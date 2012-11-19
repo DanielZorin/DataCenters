@@ -13,7 +13,7 @@ class TreeDialog(QDialog):
             self.ui.label2.hide()
         elif type==2:
             self.ui.level1.hide()
-            self.ui.level2.setTitle("1st tier")
+            self.ui.level2.setTitle(self.tr("1st layer"))
             self.ui.numRouters1Lab.hide()
             self.ui.routersNum1.hide()
         elif type==3:
