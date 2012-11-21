@@ -23,6 +23,7 @@ protected:
         capacity(elementCapacity)
     {
         if (max == 0) maxCapacity = elementCapacity;
+        else maxCapacity = max;
         setType(ELEMENT);
     }
 
