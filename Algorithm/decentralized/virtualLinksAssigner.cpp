@@ -317,7 +317,12 @@ void VirtualLinksAssigner::removeAssignment(Request * req)
     Request::Storages::iterator stIt = req->getStorages().begin();
     Request::Storages::iterator stItEnd = req->getStorages().end();
     for ( ; stIt != stItEnd; ++stIt )
-        assignment->GetAssignment(*stIt)->RemoveAssignment(*stIt);
+    {
+        // assignment may be NULL
+        Store * store = assignment->GetAssignment(*stIt);
+        if ( store != NULL )
+            store->RemoveAssignment(*stIt);
+    }
 
     // It is expected that removing of virtualLinks is not necessary
     // because it virtual links are assigned on the last step
@@ -360,16 +365,23 @@ bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assig
             stores.push_back(*it);
     }
 
-    // forming the set of all virtual machines, which are included in
+    // forming the set of all nodes with assigned virtual machines, which are included in
     // a virtual link with a storage specified
     Nodes nodes;
-    Nodes vms = req->getVirtualMachines();
-    Nodes::iterator nIt = vms.begin();
-    Nodes::iterator nItEnd = vms.end();
-    for ( ; nIt != nItEnd; ++nIt )
+    Links vls = req->getVirtualLinks();
+    Links::iterator vlIt = vls.begin();
+    Links::iterator vlItEnd = vls.end();
+    for ( ; vlIt != vlItEnd; ++vlIt )
     {
-        if ( *nIt != node )
-            nodes.insert((*virtualMachinesAssignments)[req]->GetAssignment(*nIt));
+        if ( (*vlIt) != virtualLink )
+        {
+            if ( (*vlIt)->getFirst() == storage && (*vlIt)->getSecond()->isNode() )
+                nodes.insert((*virtualMachinesAssignments)[req]->
+                    GetAssignment(static_cast<VirtualMachine *>((*vlIt)->getSecond())));
+            else if  ( (*vlIt)->getSecond() == storage && (*vlIt)->getFirst()->isNode() )
+                nodes.insert((*virtualMachinesAssignments)[req]->
+                    GetAssignment(static_cast<VirtualMachine *>((*vlIt)->getFirst())));
+        }
     }
 
     long maxCost = -1l;
@@ -389,8 +401,8 @@ bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assig
             if ( nodeToStoreCost >= 0 )
             {
                 cost += nodeToStoreCost;
-                nIt = nodes.begin();
-                nItEnd = nodes.end();
+                Nodes::iterator nIt = nodes.begin();
+                Nodes::iterator nItEnd = nodes.end();
                 for ( ; nIt != nItEnd; ++nIt )
                 {
                     NetPath dummyPath;
@@ -429,6 +441,8 @@ bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assig
     replication->bind(store, bestStore);
 
     replications.insert(replication);
+
+    printf("    Replication found!\n");
 
     return true;
 }

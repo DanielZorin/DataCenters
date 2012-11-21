@@ -3,6 +3,7 @@
 #include "storagesAssigner.h"
 #include "virtualLinksAssigner.h"
 #include "assignment.h"
+#include "replication.h"
 
 DecentralizedAlgorithm::~DecentralizedAlgorithm()
 {

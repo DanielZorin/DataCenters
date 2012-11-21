@@ -37,9 +37,14 @@ NetPath VirtualLinkRouter::searchPathDejkstra(VirtualLink * virtualLink, Network
         elementWeight[(*it)->getSecond()] = LONG_MAX;
         elementLinks[(*it)->getFirst()].insert(*it);
         elementLinks[(*it)->getSecond()].insert(*it);
-        isParsed[(*it)->getFirst()] = false;
-        isParsed[(*it)->getSecond()] = false;
+
+        // can go only to the switch, not to node or store
+        isParsed[(*it)->getFirst()] = !(*it)->getFirst()->isSwitch();
+        isParsed[(*it)->getSecond()] = !(*it)->getSecond()->isSwitch();
     }
+
+    isParsed[virtualLink->getFirst()] = false;
+    isParsed[virtualLink->getSecond()] = false;
 
     elementWeight[virtualLink->getFirst()] = 0l;
     Element * currentElement = virtualLink->getFirst();
@@ -100,7 +105,7 @@ NetPath VirtualLinkRouter::searchPathDejkstra(VirtualLink * virtualLink, Network
     NetPath answer;
     printf("Found path for link %s:\n", virtualLink->getName().c_str());
 
-    Element * other;
+    Element * other = currentElement; // for parsing results with just one edge
     while ( incomingEdge[currentElement]->getFirst() != virtualLink->getFirst() 
         && incomingEdge[currentElement]->getSecond() != virtualLink->getFirst() )
     {
