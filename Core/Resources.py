@@ -59,6 +59,9 @@ class ResourceGraph(AbstractGraph):
 
     def CreateXml(self, dom):
         root = dom.createElement("resources")
+        # TODO: take some meaningful interval
+        r = [q for q in self.vertices[0].intervals.keys()][0]
+        root.setAttribute("time", str(r[0]))
         for v in self.vertices:
             if isinstance(v, Computer):
                 tag = dom.createElement("computer")
@@ -73,6 +76,7 @@ class ResourceGraph(AbstractGraph):
             if v.x:
                 tag.setAttribute("x", str(v.x))
                 tag.setAttribute("y", str(v.y))
+            tag.setAttribute("used", str(v.intervals[r].usedResource))
             tag.setAttribute("number", str(v.number))
             tag.setAttribute("name", str(v.id))
             root.appendChild(tag)
@@ -81,6 +85,7 @@ class ResourceGraph(AbstractGraph):
             tag.setAttribute("from", str(v.e1.number))
             tag.setAttribute("to", str(v.e2.number))
             tag.setAttribute("capacity", str(v.capacity))
+            tag.setAttribute("used", str(v.intervals[r].usedResource))
             root.appendChild(tag)
         return root
 
