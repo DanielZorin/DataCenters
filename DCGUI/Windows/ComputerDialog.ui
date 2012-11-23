@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>231</width>
+    <width>178</width>
     <height>139</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Edit Computer</string>
+   <string>Edit Computational Node</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget, QMenuBar::item, QHeaderView::section {

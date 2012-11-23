@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Edit Router</string>
+   <string>Edit Commutation Element</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget, QMenuBar::item, QHeaderView::section {

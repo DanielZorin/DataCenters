@@ -125,10 +125,10 @@ QLabel, QSlider {
      <normaloff>:/pics/pics/computer.png</normaloff>:/pics/pics/computer.png</iconset>
    </property>
    <property name="text">
-    <string>Add Computer</string>
+    <string>Add Computational Node</string>
    </property>
    <property name="toolTip">
-    <string>Add Computer</string>
+    <string>Add Computational Node</string>
    </property>
    <property name="shortcut">
     <string>Alt+2</string>
@@ -143,7 +143,10 @@ QLabel, QSlider {
      <normaloff>:/pics/pics/edge.png</normaloff>:/pics/pics/edge.png</iconset>
    </property>
    <property name="text">
-    <string>Add Edge</string>
+    <string>Add Channel</string>
+   </property>
+   <property name="toolTip">
+    <string>Add Channel</string>
    </property>
    <property name="shortcut">
     <string>Alt+3</string>
@@ -210,10 +213,10 @@ QLabel, QSlider {
      <normaloff>:/pics/pics/storage.png</normaloff>:/pics/pics/storage.png</iconset>
    </property>
    <property name="text">
-    <string>Add Storage</string>
+    <string>Add Data Store</string>
    </property>
    <property name="toolTip">
-    <string>Add Storage</string>
+    <string>Add Data Store</string>
    </property>
    <property name="shortcut">
     <string>Alt+4</string>
@@ -228,10 +231,10 @@ QLabel, QSlider {
      <normaloff>:/pics/pics/router.png</normaloff>:/pics/pics/router.png</iconset>
    </property>
    <property name="text">
-    <string>Add Router</string>
+    <string>Add Commutation Element</string>
    </property>
    <property name="toolTip">
-    <string>Add Router</string>
+    <string>Add Commutation Element</string>
    </property>
    <property name="shortcut">
     <string>Alt+5</string>

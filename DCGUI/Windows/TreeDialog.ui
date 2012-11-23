@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>468</width>
-    <height>512</height>
+    <width>481</width>
+    <height>532</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -38,7 +38,7 @@ QLabel, QSlider {
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Number of roots:</string>
+        <string>Number of core switches:</string>
        </property>
       </widget>
      </item>
@@ -79,7 +79,7 @@ QLabel, QSlider {
       </sizepolicy>
      </property>
      <property name="title">
-      <string>Root layer</string>
+      <string>Core layer</string>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_16">
       <item>
@@ -87,7 +87,7 @@ QLabel, QSlider {
         <item>
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>Router bandwidth:</string>
+           <string>Switch bandwidth:</string>
           </property>
          </widget>
         </item>
@@ -145,7 +145,7 @@ QLabel, QSlider {
         <item>
          <widget class="QLabel" name="label2">
           <property name="text">
-           <string>channels per router:</string>
+           <string>channels per switch:</string>
           </property>
          </widget>
         </item>
@@ -244,7 +244,7 @@ QLabel, QSlider {
      <item>
       <widget class="QLabel" name="numRouters1Lab">
        <property name="text">
-        <string>Number of 1st layer routers:</string>
+        <string>Number of 2nd layer switches:</string>
        </property>
       </widget>
      </item>
@@ -279,7 +279,7 @@ QLabel, QSlider {
       </sizepolicy>
      </property>
      <property name="title">
-      <string>1st layer</string>
+      <string>2nd layer</string>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_17">
       <item>
@@ -287,7 +287,7 @@ QLabel, QSlider {
         <item>
          <widget class="QLabel" name="label_5">
           <property name="text">
-           <string>Router bandwidth:</string>
+           <string>Switches bandwidth:</string>
           </property>
          </widget>
         </item>
@@ -345,7 +345,7 @@ QLabel, QSlider {
         <item>
          <widget class="QLabel" name="label_15">
           <property name="text">
-           <string>channels per router:</string>
+           <string>channels per switch:</string>
           </property>
          </widget>
         </item>
@@ -448,7 +448,7 @@ QLabel, QSlider {
       </sizepolicy>
      </property>
      <property name="title">
-      <string>2nd layer</string>
+      <string>1st layer</string>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_18">
       <item>
@@ -456,7 +456,7 @@ QLabel, QSlider {
         <item>
          <widget class="QLabel" name="label_17">
           <property name="text">
-           <string>Router bandwidth:</string>
+           <string>Switch bandwidth:</string>
           </property>
          </widget>
         </item>
@@ -507,7 +507,7 @@ QLabel, QSlider {
         <item>
          <widget class="QLabel" name="label_27">
           <property name="text">
-           <string>Number of routers to</string>
+           <string>Number of switches to</string>
           </property>
          </widget>
         </item>
@@ -565,14 +565,14 @@ QLabel, QSlider {
         <item>
          <widget class="QLabel" name="label_23">
           <property name="text">
-           <string>Number of routers to</string>
+           <string>Number of switches to</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QLabel" name="label_24">
           <property name="text">
-           <string>connect storages:</string>
+           <string>connect data stores:</string>
           </property>
          </widget>
         </item>
@@ -614,28 +614,28 @@ QLabel, QSlider {
          <item>
           <widget class="QLabel" name="label_13">
            <property name="text">
-            <string>Number of storages per router:</string>
+            <string>Number of data stores per switch:</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QLabel" name="label_29">
            <property name="text">
-            <string>Storage channels bandwidth:</string>
+            <string>Data store channels bandwidth:</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QLabel" name="label_8">
            <property name="text">
-            <string>Storage capacity:</string>
+            <string>Data store capacity:</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QLabel" name="label_7">
            <property name="text">
-            <string>Number of storage types:</string>
+            <string>Number of data store types:</string>
            </property>
           </widget>
          </item>
@@ -696,7 +696,7 @@ QLabel, QSlider {
            <item>
             <widget class="QLabel" name="label_26">
              <property name="text">
-              <string>Number of computers per router:</string>
+              <string>Number of computers per switch:</string>
              </property>
             </widget>
            </item>
@@ -774,7 +774,7 @@ QLabel, QSlider {
      <item>
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>Number of high-level routers replicas (per router):</string>
+        <string>Number of high-level switches replicas (per switch):</string>
        </property>
       </widget>
      </item>

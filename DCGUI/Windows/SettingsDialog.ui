@@ -60,7 +60,7 @@ QLabel, QSlider {
      <item>
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <property name="elideMode">
         <enum>Qt::ElideNone</enum>
@@ -273,7 +273,7 @@ QLabel, QSlider {
             <item>
              <widget class="QCheckBox" name="storage">
               <property name="text">
-               <string>Show Storage Load</string>
+               <string>Show Data Store Load</string>
               </property>
               <property name="checked">
                <bool>true</bool>
@@ -283,7 +283,7 @@ QLabel, QSlider {
             <item>
              <widget class="QCheckBox" name="router">
               <property name="text">
-               <string>Show Router Load</string>
+               <string>Show Switch Load</string>
               </property>
               <property name="checked">
                <bool>true</bool>

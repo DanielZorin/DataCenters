@@ -35,7 +35,7 @@ QLabel, QSlider {
     <item row="0" column="0">
      <widget class="QLabel" name="label">
       <property name="text">
-       <string>Start Time:</string>
+       <string>Starting Time:</string>
       </property>
      </widget>
     </item>
@@ -81,7 +81,7 @@ QLabel, QSlider {
      <x>0</x>
      <y>0</y>
      <width>443</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -160,10 +160,10 @@ QLabel, QSlider {
      <normaloff>:/pics/pics/edge.png</normaloff>:/pics/pics/edge.png</iconset>
    </property>
    <property name="text">
-    <string>Add Link</string>
+    <string>Add Virtual Channel</string>
    </property>
    <property name="toolTip">
-    <string>Add Link</string>
+    <string>Add Virtual Channel</string>
    </property>
    <property name="shortcut">
     <string>Alt+3</string>

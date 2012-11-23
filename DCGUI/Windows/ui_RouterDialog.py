@@ -66,7 +66,7 @@ class Ui_RouterDialog(object):
         QtCore.QMetaObject.connectSlotsByName(RouterDialog)
 
     def retranslateUi(self, RouterDialog):
-        RouterDialog.setWindowTitle(QtGui.QApplication.translate("RouterDialog", "Edit Router", None, QtGui.QApplication.UnicodeUTF8))
+        RouterDialog.setWindowTitle(QtGui.QApplication.translate("RouterDialog", "Edit Commutation Element", None, QtGui.QApplication.UnicodeUTF8))
         self.namelabel.setText(QtGui.QApplication.translate("RouterDialog", "Name:", None, QtGui.QApplication.UnicodeUTF8))
         self.label.setText(QtGui.QApplication.translate("RouterDialog", "Bandwidth:", None, QtGui.QApplication.UnicodeUTF8))
         self.OK.setText(QtGui.QApplication.translate("RouterDialog", "OK", None, QtGui.QApplication.UnicodeUTF8))

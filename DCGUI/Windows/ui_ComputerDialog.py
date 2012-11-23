@@ -9,7 +9,7 @@ except AttributeError:
 class Ui_ComputerDialog(object):
     def setupUi(self, ComputerDialog):
         ComputerDialog.setObjectName(_fromUtf8("ComputerDialog"))
-        ComputerDialog.resize(231, 139)
+        ComputerDialog.resize(178, 139)
         ComputerDialog.setStyleSheet(_fromUtf8("QWidget, QMenuBar::item, QHeaderView::section {\n"
 "    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
 "                                      stop: 0 #c5d8ef, stop: 1 #89a5c3);\n"
@@ -73,7 +73,7 @@ class Ui_ComputerDialog(object):
         QtCore.QMetaObject.connectSlotsByName(ComputerDialog)
 
     def retranslateUi(self, ComputerDialog):
-        ComputerDialog.setWindowTitle(QtGui.QApplication.translate("ComputerDialog", "Edit Computer", None, QtGui.QApplication.UnicodeUTF8))
+        ComputerDialog.setWindowTitle(QtGui.QApplication.translate("ComputerDialog", "Edit Computational Node", None, QtGui.QApplication.UnicodeUTF8))
         self.namelabel.setText(QtGui.QApplication.translate("ComputerDialog", "Name:", None, QtGui.QApplication.UnicodeUTF8))
         self.timelabel.setText(QtGui.QApplication.translate("ComputerDialog", "Performance:", None, QtGui.QApplication.UnicodeUTF8))
         self.OK.setText(QtGui.QApplication.translate("ComputerDialog", "OK", None, QtGui.QApplication.UnicodeUTF8))

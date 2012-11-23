@@ -62,7 +62,7 @@ QLabel, QSlider {
       <bool>false</bool>
      </property>
      <property name="text">
-      <string>Tree (2 router layers)</string>
+      <string>Tree-like (2 switch layers)</string>
      </property>
      <property name="checked">
       <bool>false</bool>
@@ -72,7 +72,7 @@ QLabel, QSlider {
    <item>
     <widget class="QRadioButton" name="tree3">
      <property name="text">
-      <string>Tree (3 router layers)</string>
+      <string>Tree-like (3 switch layers)</string>
      </property>
     </widget>
    </item>

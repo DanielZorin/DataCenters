@@ -226,7 +226,7 @@ QLabel, QSlider {
            <item>
             <widget class="QLabel" name="label">
              <property name="text">
-              <string>Average VM load</string>
+              <string>Average computational nodes load</string>
              </property>
             </widget>
            </item>
@@ -240,7 +240,7 @@ QLabel, QSlider {
            <item>
             <widget class="QLabel" name="label_3">
              <property name="text">
-              <string>Maximal VM load</string>
+              <string>Maximal computational nodes load</string>
              </property>
             </widget>
            </item>
@@ -254,7 +254,7 @@ QLabel, QSlider {
            <item>
             <widget class="QLabel" name="label_6">
              <property name="text">
-              <string>Average storage load</string>
+              <string>Average stores load</string>
              </property>
             </widget>
            </item>
@@ -268,7 +268,7 @@ QLabel, QSlider {
            <item>
             <widget class="QLabel" name="label_7">
              <property name="text">
-              <string>Maximal storage load</string>
+              <string>Maximal stores load</string>
              </property>
             </widget>
            </item>
@@ -282,7 +282,7 @@ QLabel, QSlider {
            <item>
             <widget class="QLabel" name="label_9">
              <property name="text">
-              <string>Average network load</string>
+              <string>Average switches load</string>
              </property>
             </widget>
            </item>
@@ -296,7 +296,7 @@ QLabel, QSlider {
            <item>
             <widget class="QLabel" name="label_11">
              <property name="text">
-              <string>Maximal network load</string>
+              <string>Maximal switches load</string>
              </property>
             </widget>
            </item>
@@ -399,7 +399,10 @@ QLabel, QSlider {
   </action>
   <action name="actionAbout">
    <property name="text">
-    <string>About Scheduler</string>
+    <string>About DC GUI</string>
+   </property>
+   <property name="toolTip">
+    <string>About DC GUI</string>
    </property>
   </action>
   <action name="actionNew_Project">
@@ -561,7 +564,7 @@ QLabel, QSlider {
      <normaloff>:/pics/pics/line_chart.png</normaloff>:/pics/pics/line_chart.png</iconset>
    </property>
    <property name="text">
-    <string>Show_Results</string>
+    <string>Show Results</string>
    </property>
    <property name="toolTip">
     <string>Show Results</string>
@@ -576,7 +579,7 @@ QLabel, QSlider {
      <normaloff>:/pics/pics/chart.png</normaloff>:/pics/pics/chart.png</iconset>
    </property>
    <property name="text">
-    <string>Show_Statistics</string>
+    <string>Show Statistics</string>
    </property>
    <property name="toolTip">
     <string>Show Statistics</string>

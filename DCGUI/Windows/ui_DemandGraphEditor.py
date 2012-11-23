@@ -51,7 +51,7 @@ class Ui_DemandGraphEditor(object):
         self.gridLayout.addLayout(self.horizontalLayout, 1, 0, 1, 4)
         DemandGraphEditor.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(DemandGraphEditor)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 443, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 443, 20))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuFile = QtGui.QMenu(self.menubar)
         self.menuFile.setObjectName(_fromUtf8("menuFile"))
@@ -136,7 +136,7 @@ class Ui_DemandGraphEditor(object):
 
     def retranslateUi(self, DemandGraphEditor):
         DemandGraphEditor.setWindowTitle(QtGui.QApplication.translate("DemandGraphEditor", "Request Graph Editor", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("DemandGraphEditor", "Start Time:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setText(QtGui.QApplication.translate("DemandGraphEditor", "Starting Time:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_2.setText(QtGui.QApplication.translate("DemandGraphEditor", "End Time:", None, QtGui.QApplication.UnicodeUTF8))
         self.menuFile.setTitle(QtGui.QApplication.translate("DemandGraphEditor", "File", None, QtGui.QApplication.UnicodeUTF8))
         self.toolBar.setWindowTitle(QtGui.QApplication.translate("DemandGraphEditor", "toolBar", None, QtGui.QApplication.UnicodeUTF8))
@@ -145,8 +145,8 @@ class Ui_DemandGraphEditor(object):
         self.actionVM.setText(QtGui.QApplication.translate("DemandGraphEditor", "Add VM", None, QtGui.QApplication.UnicodeUTF8))
         self.actionVM.setToolTip(QtGui.QApplication.translate("DemandGraphEditor", "Add VM", None, QtGui.QApplication.UnicodeUTF8))
         self.actionVM.setShortcut(QtGui.QApplication.translate("DemandGraphEditor", "Alt+2", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionEdge.setText(QtGui.QApplication.translate("DemandGraphEditor", "Add Link", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionEdge.setToolTip(QtGui.QApplication.translate("DemandGraphEditor", "Add Link", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionEdge.setText(QtGui.QApplication.translate("DemandGraphEditor", "Add Virtual Channel", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionEdge.setToolTip(QtGui.QApplication.translate("DemandGraphEditor", "Add Virtual Channel", None, QtGui.QApplication.UnicodeUTF8))
         self.actionEdge.setShortcut(QtGui.QApplication.translate("DemandGraphEditor", "Alt+3", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew_System.setText(QtGui.QApplication.translate("DemandGraphEditor", "New Graph", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew_System.setShortcut(QtGui.QApplication.translate("DemandGraphEditor", "Ctrl+N", None, QtGui.QApplication.UnicodeUTF8))
