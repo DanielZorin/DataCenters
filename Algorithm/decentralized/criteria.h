@@ -40,6 +40,9 @@ public:
     // The depth of the k-shortest-paths algorithm.
     static unsigned kShortestPathDepth();
 
+    // Cost of some specified path.
+    static long pathCost(NetPath& path);
+
     // The cost of the path between some virtual machine (assigned on node) and
     // memory store to be used in the replication procedure
     static long replicationPathCost(Store* initialStore, Store* store, Network * network, NetPath& path);

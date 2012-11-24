@@ -13,7 +13,7 @@ class Replication
 public:
     // Constructor, destructor.
     Replication() {}
-    ~Replication() {}
+    ~Replication(); // removing assignments
 
 public:
     // Getters/setters.

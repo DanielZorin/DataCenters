@@ -101,6 +101,15 @@ bool VirtualLinksAssigner::assignOneRequest(Request::VirtualLinks * virtualLinks
                 RemoveVirtualLink(virtualLinksVec[i], reqAssignment);
             }
 
+            Algorithm::Replications::iterator it = replicationsOfAssignment[reqAssignment].begin();
+            Algorithm::Replications::iterator itEnd = replicationsOfAssignment[reqAssignment].end();
+            // removing replications
+            for ( ; it != itEnd; ++it )
+            {
+                replications.erase(*it);
+                delete *it; // this also removes assignments
+            }
+
             // tell the upper layer to delete assignment
             return false;
         }
@@ -111,11 +120,56 @@ bool VirtualLinksAssigner::assignOneRequest(Request::VirtualLinks * virtualLinks
 
 bool VirtualLinksAssigner::assignOneVirtualLink(Link * virtualLink, Link * physicalLink, Assignment* reqAssignment)
 {
-    NetPath path = VirtualLinkRouter::route(physicalLink, network, VirtualLinkRouter::K_SHORTEST_PATHS);
-    if ( path.size() > 0 )
+    if ( physicalLink->getFirst() == physicalLink->getSecond() )
     {
-        reqAssignment->AddAssignment(virtualLink, path);
-        AddVirtualLink(virtualLink, &path, reqAssignment);
+        reqAssignment->AddAssignment(virtualLink, NetPath()); // 0-weight path
+        return true;
+    }
+
+    // checking for existance of replication
+    bool hasReplication = false;
+    Link replicationLink("dummy_replication_link", virtualLink->getCapacity());
+    if ( virtualLink->getFirst()->isStore() && 
+            replicationOfStorage.find(virtualLink->getFirst()) != replicationOfStorage.end() )
+    {
+        replicationLink.bindElements(replicationOfStorage[virtualLink->getFirst()]->getSecondStore(),
+            physicalLink->getSecond());
+        hasReplication = true;
+    } else if ( virtualLink->getSecond()->isStore() && 
+            replicationOfStorage.find(virtualLink->getSecond()) != replicationOfStorage.end() )
+    {
+        replicationLink.bindElements(physicalLink->getFirst(),
+            replicationOfStorage[virtualLink->getSecond()]->getSecondStore());
+        hasReplication = true;
+    }
+
+    NetPath path = VirtualLinkRouter::route(physicalLink, network, VirtualLinkRouter::K_SHORTEST_PATHS);
+    NetPath replicationPath;
+    if ( hasReplication )
+    {
+        replicationPath = VirtualLinkRouter::route(&replicationLink, network,
+            VirtualLinkRouter::K_SHORTEST_PATHS);
+    }
+    
+    // choosing the best path
+    NetPath* bestPath;
+    if ( path.size() == 0 )
+        bestPath = &replicationPath;
+    else if ( replicationPath.size() == 0 )
+        bestPath = &path;
+    else if ( path.size() != replicationPath.size() )
+        bestPath = path.size() < replicationPath.size() ? &path : &replicationPath;
+    else
+    {
+        long pathCost = Criteria::pathCost(path);
+        long replicationPathCost = Criteria::pathCost(replicationPath);
+        bestPath = pathCost > replicationPathCost ? &path : &replicationPath;
+    }
+
+    if ( bestPath->size() > 0 )
+    {
+        reqAssignment->AddAssignment(virtualLink, *bestPath);
+        AddVirtualLink(virtualLink, bestPath, reqAssignment);
         return true;
     }
     return false;
@@ -237,7 +291,7 @@ bool VirtualLinksAssigner::recursiveExhaustiveSearch(VirtualLink * virtualLink, 
     } else {
         // checking the existance of the path
         Link physicalLink = getPhysicalLink(virtualLink, vlRequest[virtualLink]);
-        NetPath path = VirtualLinkRouter::routeDejkstra(&physicalLink, network);
+        NetPath path = VirtualLinkRouter::routeKShortestPaths(&physicalLink, network);
         if ( path.size() > 0 )
         {
             AddVirtualLink(virtualLink, &path, assignment);
@@ -248,7 +302,7 @@ bool VirtualLinksAssigner::recursiveExhaustiveSearch(VirtualLink * virtualLink, 
             for ( ; it != itEnd; ++it )
             {
                 physicalLink = getPhysicalLink(*it, vlRequest[*it]);
-                NetPath newPath = VirtualLinkRouter::routeDejkstra(&physicalLink, network);
+                NetPath newPath = VirtualLinkRouter::routeKShortestPaths(&physicalLink, network);
                 if ( newPath.size() > 0 )
                 {
                     AddVirtualLink(*it, &newPath, vlAssignment[*it]);
@@ -318,7 +372,7 @@ void VirtualLinksAssigner::removeAssignment(Request * req)
     Request::Storages::iterator stItEnd = req->getStorages().end();
     for ( ; stIt != stItEnd; ++stIt )
     {
-        // assignment may be NULL
+        // store may be NULL
         Store * store = assignment->GetAssignment(*stIt);
         if ( store != NULL )
             store->RemoveAssignment(*stIt);
@@ -349,6 +403,12 @@ bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assig
     else
         return false; // no storage in the link
 
+    if ( replicationOfStorage.find(storage) != replicationOfStorage.end() )
+    {
+        printf("    Replication for storage already exists\n");
+        return false;
+    }
+
     Store * store = (*storagesAssignments)[req]->GetAssignment(storage);
     Node * node = (*virtualMachinesAssignments)[req]->GetAssignment(virtualMachine);
     // first, forming the set of memory stores with type equal to the store
@@ -368,6 +428,7 @@ bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assig
     // forming the set of all nodes with assigned virtual machines, which are included in
     // a virtual link with a storage specified
     Nodes nodes;
+    Links vlsStorageReplication;
     Links vls = req->getVirtualLinks();
     Links::iterator vlIt = vls.begin();
     Links::iterator vlItEnd = vls.end();
@@ -376,11 +437,17 @@ bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assig
         if ( (*vlIt) != virtualLink )
         {
             if ( (*vlIt)->getFirst() == storage && (*vlIt)->getSecond()->isNode() )
+            {
                 nodes.insert((*virtualMachinesAssignments)[req]->
                     GetAssignment(static_cast<VirtualMachine *>((*vlIt)->getSecond())));
+                vlsStorageReplication.insert(*vlIt);
+            }
             else if  ( (*vlIt)->getSecond() == storage && (*vlIt)->getFirst()->isNode() )
+            {
                 nodes.insert((*virtualMachinesAssignments)[req]->
                     GetAssignment(static_cast<VirtualMachine *>((*vlIt)->getFirst())));
+                vlsStorageReplication.insert(*vlIt);
+            }
         }
     }
 
@@ -391,14 +458,14 @@ bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assig
     {
         NetPath storagesPath;
         long cost = Criteria::replicationPathCost(store, stores[index], network, storagesPath);
-        if ( cost >= 0 ) // path exist
+        if ( cost > 0 ) // path exist
         {
             // virtual link between node and the second store should exist
             Link link("dummy_replication_link", virtualLink->getCapacity());
             link.bindElements(node, stores[index]);
             NetPath nodeToStorePath;
             long nodeToStoreCost = Criteria::replicationPathCost(&link, network, nodeToStorePath);
-            if ( nodeToStoreCost >= 0 )
+            if ( nodeToStoreCost > 0 )
             {
                 cost += nodeToStoreCost;
                 Nodes::iterator nIt = nodes.begin();
@@ -408,7 +475,7 @@ bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assig
                     NetPath dummyPath;
                     link.bindElements(*nIt, stores[index]);
                     long newCost = Criteria::replicationPathCost(&link, network, dummyPath);
-                    if ( newCost >= 0 )
+                    if ( newCost > 0 )
                         cost += newCost;
                 }
 
@@ -441,8 +508,42 @@ bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assig
     replication->bind(store, bestStore);
 
     replications.insert(replication);
+    replicationOfStorage[storage] = replication;
+
+    // trying to reassign all already assigned virtual links
+    // with the replicated storage as it's node.
+    for ( vlIt = vlsStorageReplication.begin(); vlIt != vlsStorageReplication.end(); ++vlIt )
+        reassignAfterReplication(*vlIt, bestStore, assignment);
+
+    replicationsOfAssignment[assignment].insert(replication);
 
     printf("    Replication found!\n");
 
     return true;
+}
+
+void VirtualLinksAssigner::reassignAfterReplication(VirtualLink* virtualLink, Store* replicationStore,
+                                                    Assignment* assignment)
+{
+    // reassign element only if the path cost of the way to the replication is
+    // more then the path cost of already assigned path
+    NetPath pathToReplication;
+    Element * vm = virtualLink->getFirst()->isNode() ? virtualLink->getFirst() :
+        virtualLink->getSecond();
+    Link link("dummy_replication_link", virtualLink->getCapacity());
+    link.bindElements(vm, replicationStore);
+    long pathToReplicationCost = Criteria::replicationPathCost(&link, network, pathToReplication);
+	
+	NetPath initialPath = assignment->GetAssignment(virtualLink);
+	long initialCost = Criteria::pathCost(initialPath);
+	if ( pathToReplication.size() < initialPath.size()
+		 || pathToReplication.size() == initialPath.size() && pathToReplicationCost > initialCost )
+    {
+        // reassign
+        RemoveVirtualLink(virtualLink, assignment);
+        assignment->RemoveAssignment(virtualLink);
+
+        assignment->AddAssignment(virtualLink, pathToReplication);
+        AddVirtualLink(virtualLink, &pathToReplication, assignment);
+    }
 }

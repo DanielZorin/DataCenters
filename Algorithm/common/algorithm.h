@@ -29,6 +29,8 @@ public:
         : network(n)
         , requests(r)
     {}
+
+    virtual ~Algorithm() {}
 public:
     virtual Assignments getAssignments() { return assignments; }
     virtual Replications getReplications() { return replications; }

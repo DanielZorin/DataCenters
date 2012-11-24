@@ -57,6 +57,9 @@ protected:
     // Try to find replication.
     bool replicate(VirtualLink* virtualLink, Assignment* assignment, Request* req);
 
+    // Reassign already assigned virtual link of current request after replication.
+    void reassignAfterReplication(VirtualLink* virtualLink, Store* replication, Assignment* assignment);
+
 private:
     // Get the map of all assigned virtual links and their assignments.
     void getAllVirtualLinksAssignments(Element* element,
@@ -99,6 +102,13 @@ private:
 
     // Replications.
     Algorithm::Replications replications;
+
+    // Replication-storage map
+    std::map<Element* , Replication*> replicationOfStorage;
+
+    // Assignment-replication map (to remove replications if
+    // assignment failed).
+    std::map<Assignment* , Algorithm::Replications > replicationsOfAssignment;
     /*
 private:
     // Methods-substeps in the limited exhaustive search algorithm

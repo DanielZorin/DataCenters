@@ -72,30 +72,32 @@ unsigned Criteria::kShortestPathDepth()
     return 10;
 }
 
-long Criteria::replicationPathCost(Store* initialStore, Store* store, Network * network, NetPath& path)
+long Criteria::pathCost(NetPath& path)
 {
-    long result = -1l;
-    Link link("dummy_virtual_link", Replication::GetLinkBandwidth(store->getTypeOfStore()));
-    link.bindElements(initialStore, store);
-    path = VirtualLinkRouter::routeDejkstra(&link, network);
-
+    long result = 0l;
     NetPath::iterator it = path.begin();
     NetPath::iterator itEnd = path.end();
     for ( ; it != itEnd; ++it )
         result += (*it)->getCapacity();
+    return result;
+}
 
+long Criteria::replicationPathCost(Store* initialStore, Store* store, Network * network, NetPath& path)
+{
+    long result;
+    Link link("dummy_virtual_link", Replication::GetLinkBandwidth(store->getTypeOfStore()));
+    link.bindElements(initialStore, store);
+    path = VirtualLinkRouter::routeDejkstra(&link, network);
+
+    result = pathCost(path);
     return result;
 }
 
 long Criteria::replicationPathCost(VirtualLink* virtualLink, Network * network, NetPath& path)
 {
-    long result = -1l;
+    long result;
     path = VirtualLinkRouter::routeDejkstra(virtualLink, network);
 
-    NetPath::iterator it = path.begin();
-    NetPath::iterator itEnd = path.end();
-    for ( ; it != itEnd; ++it )
-        result += (*it)->getCapacity();
-
+    result = pathCost(path);
     return result;
 }

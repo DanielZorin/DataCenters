@@ -1,6 +1,7 @@
 #include "virtualLinkRouter.h"
 #include <map>
 #include <algorithm>
+#include <limits.h>
 #include "link.h"
 #include "switch.h"
 #include "network.h"
@@ -17,16 +18,33 @@ NetPath VirtualLinkRouter::route(VirtualLink * virtualLink, Network * network, S
     return NetPath();
 }
 
+// choose the next element to parse during the dejkstra algorithm
+Element* chooseNext(std::map<Element * , long>& elementWeight, std::set<Element *>& elementsToParse) {
+    Element* nextElement = NULL;
+    long minWeight = LONG_MAX;
+    std::set<Element *>::iterator it = elementsToParse.begin();
+    std::set<Element *>::iterator itEnd = elementsToParse.end();
+    for ( ; it != itEnd; ++it )
+    {
+        if ( elementWeight[*it] < minWeight )
+        {
+            minWeight = (*it)->getCapacity();
+            nextElement = *it;
+        }
+    }
+    return nextElement;
+}
+
 NetPath VirtualLinkRouter::searchPathDejkstra(VirtualLink * virtualLink, Network * network, SearchPathAlgorithm algorithm)
 {
     if ( virtualLink->getFirst() == virtualLink->getSecond() )
-        return NetPath(1, static_cast<NetworkingElement * >(virtualLink->getFirst()));
+        return NetPath();
     
     // local variables
     std::map<Element * , long> elementWeight;
     std::map<Element * , Link*> incomingEdge;
     std::map<Element * , Links> elementLinks;
-    std::map<Element * , bool> isParsed;
+    std::set<Element *> elementsToParse;
 
     // initializing parameters
     Links::iterator it = network->getLinks().begin();
@@ -39,21 +57,22 @@ NetPath VirtualLinkRouter::searchPathDejkstra(VirtualLink * virtualLink, Network
         elementLinks[(*it)->getSecond()].insert(*it);
 
         // can go only to the switch, not to node or store
-        isParsed[(*it)->getFirst()] = !(*it)->getFirst()->isSwitch();
-        isParsed[(*it)->getSecond()] = !(*it)->getSecond()->isSwitch();
+        if ( (*it)->getFirst()->isSwitch() )
+            elementsToParse.insert((*it)->getFirst());
+        if ( (*it)->getSecond()->isSwitch() )
+            elementsToParse.insert((*it)->getSecond());
     }
 
-    isParsed[virtualLink->getFirst()] = false;
-    isParsed[virtualLink->getSecond()] = false;
+    elementsToParse.insert(virtualLink->getFirst());
+    elementsToParse.insert(virtualLink->getSecond());
 
     elementWeight[virtualLink->getFirst()] = 0l;
     Element * currentElement = virtualLink->getFirst();
 
     // algorithm itself
-    while ( currentElement != virtualLink->getSecond() )
+    while ( currentElement != NULL && currentElement != virtualLink->getSecond() )
     {
-        long minimalWeight = LONG_MAX;
-        Element * minimalWeightNeighbor = NULL;
+        elementsToParse.erase(currentElement);
         
         // going through all neighbors of current element,
         // parsing their weight and choosing the element with the
@@ -70,32 +89,22 @@ NetPath VirtualLinkRouter::searchPathDejkstra(VirtualLink * virtualLink, Network
         {
             Element * other = (*it)->getFirst() == currentElement ? 
                 (*it)->getSecond() : (*it)->getFirst();
-            if ( !isParsed[other] )
+            if ( elementsToParse.find(other) != elementsToParse.end() )
             {
                 Link edge("dijkstra_edge", (*it)->getCapacity());
                 edge.bindElements(currentElement, other);
 
                 // weight of reaching the next element from current element
                 long weight = getEdgeWeigth(edge, network, algorithm) + elementWeight[currentElement];
-                if ( weight < elementWeight[other] || elementWeight[other] == -1 )
+                if ( weight < elementWeight[other] )
                 {
                     elementWeight[other] = weight;
                     incomingEdge[other] = (*it);
                 }
-                
-                // checking the vertex to parse next
-                if ( elementWeight[other] < minimalWeight || minimalWeight == -1 )
-                {
-                    minimalWeight = elementWeight[other];
-                    minimalWeightNeighbor = other;
-                }
             }
         }
-
-        isParsed[currentElement] = true;
-        currentElement = minimalWeightNeighbor;
-        if ( minimalWeightNeighbor == NULL )
-            break;
+        
+        currentElement = chooseNext(elementWeight, elementsToParse);
     }
 
     if ( currentElement != virtualLink->getSecond() )
