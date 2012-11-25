@@ -87,7 +87,7 @@ long Criteria::replicationPathCost(Store* initialStore, Store* store, Network * 
     long result;
     Link link("dummy_virtual_link", Replication::GetLinkBandwidth(store->getTypeOfStore()));
     link.bindElements(initialStore, store);
-    path = VirtualLinkRouter::routeDejkstra(&link, network);
+    path = VirtualLinkRouter::routeKShortestPaths(&link, network);
 
     result = pathCost(path);
     return result;
@@ -96,7 +96,7 @@ long Criteria::replicationPathCost(Store* initialStore, Store* store, Network * 
 long Criteria::replicationPathCost(VirtualLink* virtualLink, Network * network, NetPath& path)
 {
     long result;
-    path = VirtualLinkRouter::routeDejkstra(virtualLink, network);
+    path = VirtualLinkRouter::routeKShortestPaths(virtualLink, network);
 
     result = pathCost(path);
     return result;

@@ -451,6 +451,7 @@ bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assig
         }
     }
 
+    int minLength = INT_MAX;
     long maxCost = -1l;
     NetPath bestStoragePath, bestNodePath;
     Store * bestStore = NULL;
@@ -458,6 +459,7 @@ bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assig
     {
         NetPath storagesPath;
         long cost = Criteria::replicationPathCost(store, stores[index], network, storagesPath);
+        int length = storagesPath.size(); // summary length of the path
         if ( cost > 0 ) // path exist
         {
             // virtual link between node and the second store should exist
@@ -468,6 +470,7 @@ bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assig
             if ( nodeToStoreCost > 0 )
             {
                 cost += nodeToStoreCost;
+                length += nodeToStorePath.size();
                 Nodes::iterator nIt = nodes.begin();
                 Nodes::iterator nItEnd = nodes.end();
                 for ( ; nIt != nItEnd; ++nIt )
@@ -476,13 +479,17 @@ bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assig
                     link.bindElements(*nIt, stores[index]);
                     long newCost = Criteria::replicationPathCost(&link, network, dummyPath);
                     if ( newCost > 0 )
+                    {
                         cost += newCost;
+                        length += dummyPath.size();
+                    }
                 }
 
-                if ( maxCost < cost )
+                if ( length < minLength || length == minLength && maxCost < cost )
                 {
                     bestStore = stores[index];
                     maxCost = cost;
+                    minLength = length;
                     bestStoragePath = storagesPath;
                     bestNodePath = nodeToStorePath;
                 }
