@@ -13,6 +13,7 @@
 #include <QDomNode>
 #include <QDomElement>
 #include <QMap>
+#include <QStringList>
 
 class Overseer
 {
@@ -20,6 +21,11 @@ protected:
     QMap<uint, Node *> nodes;
     QMap<uint, Store *> stores;
     QMap<uint, Switch *> switches;
+
+    QMap<uint, QDomElement> nodeXMLCache;
+    QMap<uint, QDomElement> storeXMLCache;
+    QMap<uint, QDomElement> switchXMLCache;
+    QMap<Link*, QDomElement> linkXMLCache;
 public:
     Overseer() {}
     virtual ~Overseer() {}
@@ -35,6 +41,7 @@ public:
             uint capacity = node.attribute("speed").toUInt();
             Node * anode = new Node(name.toStdString(), capacity, capacity);
             addNode(uid, anode);
+            nodeXMLCache[uid] = node;
         }
     }
 
@@ -49,6 +56,7 @@ public:
             uint type = store.attribute("type").toUInt();
             Store * astore = new Store(name.toStdString(), capacity, capacity, type);
             addStore(uid, astore);
+            storeXMLCache[uid] = store;
         }
     }
 
@@ -62,6 +70,7 @@ public:
             uint capacity = eswitch.attribute("capacity").toUInt();
             Switch * aswitch = new Switch(name.toStdString(), capacity, capacity);
             addSwitch(uid, aswitch);
+            switchXMLCache[uid] = eswitch;
         }
     }
 
@@ -76,6 +85,7 @@ public:
             Link * alink = new Link(QString("%1_%2").arg(idFrom).arg(idTo).toStdString(),
                     capacity, capacity);
             addLink(idFrom, idTo, alink);
+            linkXMLCache[alink] = link;
         }
     }
 
@@ -111,6 +121,32 @@ public:
             return switches[id];
         else
             return NULL;
+    }
+
+    uint getIdByElement(Element * element) const
+    {
+        if ( element->isNode() )
+        {
+            Node * node;
+            node = static_cast<Node *>(element);
+            return nodes.key(node);
+        }
+        else if ( element->isStore() )
+        {
+            Store * store;
+            store = static_cast<Store *>(element);
+            return stores.key(store);
+        }
+        else if ( element->isSwitch() )
+        {
+            Switch * aswitch;
+            aswitch = static_cast<Switch *>(element);
+            return switches.key(aswitch);
+        }
+        else
+        {
+            return (uint)-1;
+        }
     }
 
 
@@ -194,6 +230,7 @@ public:
 
     virtual void parse(QDomElement & demand)
     {
+        this->demand = demand;
         QString name = demand.attribute("id");
         request->setName(name.toStdString());
         QDomNodeList nodes = demand.elementsByTagName("vm");
@@ -221,14 +258,77 @@ public:
         Overseer::addLink(idFrom, idTo, link);
         request->addLink(link);
     }
+
+    QString getName() { return QString(request->getName().c_str()); }
+
+    void assignVMs(Assignment * a, NetworkOverseer const& network)
+    {
+        for ( QMap<uint, Node *>::iterator i = nodes.begin(); 
+                i != nodes.end(); i++)
+        {
+            uint vmId = i.key();
+            Node * vm = i.value();
+            Node * node = a->GetAssignment(vm);
+            uint nodeId = network.getIdByElement(node);
+            QDomElement xmlNode = nodeXMLCache[vmId];
+            xmlNode.setAttribute("assignedTo", nodeId);
+        }
+    }
+
+    void assignStorages(Assignment * a, NetworkOverseer const& network)
+    {
+        for ( QMap<uint, Store *>::iterator i = stores.begin();
+                i != stores.end(); i++)
+        {
+            uint storageId = i.key();
+            Store * storage = i.value();
+            Store * store = a->GetAssignment(storage);
+            uint storeId = network.getIdByElement(store);
+            QDomElement xmlStore = storeXMLCache[storageId];
+            xmlStore.setAttribute("assignedTo", storeId);
+        } 
+    }
+
+    QString getAssignmentChain(NetPath path, NetworkOverseer const& network)
+    {
+        QStringList result;
+        for ( NetPath::iterator i = path.begin(); i != path.end(); i++)
+        {
+            NetworkingElement * ne = *i;
+            uint uid = network.getIdByElement(ne);
+            if ( uid != (uint)-1 )
+                result << QString().setNum(uid);
+        }
+        return result.join(";");
+    }
+
+    void assignLinks(Assignment * a, NetworkOverseer const& network)
+    {
+        for ( QMap<Link *, QDomElement>::iterator i = linkXMLCache.begin();
+                i != linkXMLCache.end(); i++)
+        {
+            Link * link = i.key();
+            QDomElement xmlLink = i.value();
+            NetPath netPath = a->GetAssignment(link);
+            QString assignmentChain = getAssignmentChain(netPath, network);
+            xmlLink.setAttribute("assignedTo", assignmentChain);
+        }
+    }
+
+    void assign(Assignment * a, NetworkOverseer const& network)
+    {
+        demand.setAttribute("assigned", "True");
+        assignVMs(a, network);
+        assignStorages(a, network);
+        assignLinks(a, network);
+    }
+
 private:
     Request * request;
+    QDomElement demand;
 };
 
-
-
 // XMLConverter implementation
-
 
 XMLConverter::XMLConverter(std::string const& contents)
     :
@@ -246,9 +346,26 @@ XMLConverter::~XMLConverter()
         delete requestOverseers[i];
 }
 
+std::string XMLConverter::getMixdownContent()
+{
+    int indentation = 4;
+    return document.toString(indentation).toStdString();
+}
+
 Network* XMLConverter::getNetwork()
 {
     return networkOverseer->getNetwork();
+}
+
+Requests XMLConverter::getRequests()
+{
+    Requests result;
+    for (uint i = 0; i < requestOverseers.length(); i++)
+    {
+        RequestOverseer * requestOverseer = requestOverseers[i];
+        result.insert(requestOverseer->getRequest());
+    }
+    return result;
 }
 
 void XMLConverter::parseContents()
@@ -275,5 +392,28 @@ void XMLConverter::parseRequests(QDomNodeList & requests)
         RequestOverseer * requestOverseer = new RequestOverseer();
         requestOverseer->parse(request);
         requestOverseers.append(requestOverseer);
+    }
+}
+
+RequestOverseer * XMLConverter::getOverseerByRequestName(QString & requestName)
+{
+    for (uint i = 0; i < requestOverseers.length(); i++)
+    {
+        RequestOverseer * overseer = requestOverseers[i];
+        if ( overseer->getName() == requestName )
+            return overseer;
+    }
+    return 0;
+}
+
+void XMLConverter::setAssignments(Assignments & assignments)
+{
+    for (Assignments::iterator i = assignments.begin(), e = assignments.end();
+            i != e; i++)
+    {
+        Assignment * assignment = *i;
+        QString assignmentName(assignment->getName().c_str());
+        RequestOverseer * overseer = getOverseerByRequestName(assignmentName);
+        overseer->assign(assignment, *networkOverseer);
     }
 }

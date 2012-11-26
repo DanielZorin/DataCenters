@@ -16,17 +16,20 @@ public:
 public:
     XMLConverter(std::string const& );
     ~XMLConverter();
+    std::string getMixdownContent();
 
     Requests getRequests();
     Network * getNetwork();
-private:
 
+    void setAssignments(Assignments &);
+private:
     void parseContents();
     void parseNetwork(QDomElement &);
     void parseRequests(QDomNodeList &);
 
-private:
+    RequestOverseer * getOverseerByRequestName(QString &);
 
+private:
     NetworkOverseer* networkOverseer;
     QList<RequestOverseer *> requestOverseers;
     QDomDocument document;
