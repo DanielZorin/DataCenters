@@ -35,6 +35,7 @@ public:
     VirtualLinks& getVirtualLinks();
 
     inline string getName() { return name; }
+    inline void setName(string n) { name = n; }
 
     Node* addVirtualMachine(Node * node);
     Store* addStorage(Store * store);

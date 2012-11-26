@@ -6,13 +6,16 @@
 #include <string>
 
 #include <QDomDocument>
-#include <QMap>
+#include <QList>
 
-class Element;
+class NetworkOverseer;
+class RequestOverseer;
 
 class XMLConverter {
 public:
+public:
     XMLConverter(std::string const& );
+    ~XMLConverter();
 
     Requests getRequests();
     Network * getNetwork();
@@ -20,29 +23,12 @@ private:
 
     void parseContents();
     void parseNetwork(QDomElement &);
-
-    void parseNodes(QDomNodeList &);
-    void parseStores(QDomNodeList &);
-    void parseSwitches(QDomNodeList &);
-    void parseLinks(QDomNodeList &);
-
-    void addNode(uint, Node *);
-    void addStore(uint, Store *);
-    void addSwitch(uint, Switch *);
-    void addLink(uint, uint, Link *);
-
-    Element * getElementByID(uint id);
-
     void parseRequests(QDomNodeList &);
 
 private:
-    QMap<uint, Node *> nodes;
-    QMap<uint, Store *> stores;
-    QMap<uint, Switch *> switches;
 
-    Network * network;
-    Requests requests;
-
+    NetworkOverseer* networkOverseer;
+    QList<RequestOverseer *> requestOverseers;
     QDomDocument document;
 };
 
