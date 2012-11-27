@@ -50,6 +50,8 @@ public:
     void initValues(std::vector<unsigned long> & res, std::vector<unsigned long> & cap, std::vector<unsigned int> & types);
     // Update heuristic on arcs
     void updateHeuristic(unsigned int resNum, unsigned int resCur, unsigned int resCap);
+    // Update pheromone on the arc
+    void updatePheromone(unsigned int res, double value);
     // Choose resource for the request
     unsigned int chooseResource(double pherDeg, double heurDeg);
 private:

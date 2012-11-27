@@ -32,6 +32,9 @@ private:
     int stCount;
     // Path storage (one iteration)
     std::vector<AntPath*> paths;
+    // Best path and its value
+    AntPath* bestPath;
+    double bestValue;
     // Objective function values for each path
     std::vector<double> objValues;
 
@@ -45,6 +48,7 @@ private:
     bool init();
     bool buildPath(unsigned int ant);
     bool buildLink(unsigned int ant);
+    unsigned int objFunctions();
     void removeRequestElements(unsigned int vertex, AntPath* pt, std::set<unsigned int> & available, GraphComponent::RequestType t);
 
     // is init() successful?

@@ -164,6 +164,23 @@ void GraphComponent::updateHeuristic(unsigned int resNum, unsigned int resCur, u
 //    std::cerr << '\n';
 }
 
+void GraphComponent::updatePheromone(unsigned int res, double value)
+{
+    double maxPher = 0;
+    maxPher = (physArcs[res]->pher += value);
+//    std::cerr << "physArcs[" << res << "] += " << value << ", maxPher = " << maxPher << '\n';
+    // Normalize if needed
+    if (maxPher > 1)
+    {
+        for (int i = 0; i < physArcs.size(); ++ i)
+        {
+            physArcs[i]->pher /= maxPher;
+//            std::cerr << "physArcs[" << i << "] = " << physArcs[i]->pher << ' ';
+        }
+    }
+//    std::cerr << '\n';
+}
+
 unsigned int GraphComponent::chooseResource(double pherDeg, double heurDeg)
 {
     unsigned int size = physArcs.size();
@@ -238,23 +255,65 @@ void InternalGraph::nextPath()
 
 void InternalGraph::updatePheromone(std::vector<AntPath*> & paths, std::vector<double> & objValues)
 {
-    if (paths.size())
+    for (int i = 0; i < paths.size(); ++ i)
     {
-        std::cerr << "paths[0]: ";
-        const std::vector<PathElement *> & path = paths[0]->getPath();
-        for (int i = 0; i < path.size(); ++ i)
-            std::cerr << '(' << path[i]->request << ',' << path[i]->resource << ")-";
+        std::cerr << "paths[" << i << "]: ";
+        const std::vector<PathElement *> & path = paths[i]->getPath();
+        for (int j = 0; j < path.size(); ++ j)
+            std::cerr << '(' << path[j]->request << ',' << path[j]->resource << ")-";
         std::cerr << '\n';
     }
 
-    if (paths.size() > 1)
+    unsigned int from, to, tmp;
+    double tmpMax = 0, maxPherST = 0, maxPherVM = 0;
+    std::cerr << "Updating.\n";
+    for (int i = 0; i < paths.size(); ++ i)
     {
-        std::cerr << "paths[1]: ";
-        const std::vector<PathElement *> & path1 = paths[1]->getPath();
-        for (int i = 0; i < path1.size(); ++ i)
-            std::cerr << '(' << path1[i]->request << ',' << path1[i]->resource << ")-";
-        std::cerr << '\n';
+        const std::vector<PathElement *> & path = paths[i]->getPath();
+//        std::cerr << i << ":\n";
+        for (int j = 0; j < path.size()-1; ++ j)
+        {
+            to = path[j+1]->request;
+            if (to == 0)
+            {
+                if (tmpMax > maxPherVM) maxPherVM = tmpMax;
+                tmpMax = 0;
+                continue;
+            }
+            from = path[j]->request;
+            arcs[from][to]->pher += objValues[i];
+//            std::cerr << "arcs[" << from << "][" << to << "] += " << objValues[i] << ", vertices[" << to-1 << "]->";
+            vertices[to-1]->updatePheromone(path[j+1]->resource, objValues[i]);
+
+            if (arcs[from][to]->pher > tmpMax) tmpMax = arcs[from][to]->pher;
+//            std::cerr << ", tmpMax = " << tmpMax << ". ";
+        }
+        if (tmpMax > maxPherST) maxPherST = tmpMax;
+        tmpMax = 0;
+//        std::cerr << "\n\n";
     }
+
+//    std::cerr << "maxPherVM = " << maxPherVM << " maxPherST = " << maxPherST << '\n';
+    // Normalize if needed
+    if (maxPherVM > 1)
+    {
+        for (int i = 0; i < vmNum+1; ++ i)
+            for (int j = 0; j < vmNum+1; ++ j)
+            {
+                arcs[i][j]->pher /= maxPherVM;
+//                std::cerr << "arcs[" << i << "][" << j << "] = " << arcs[i][j]->pher << ' ';
+            }
+    }
+    if (maxPherST > 1)
+    {
+        for (int i = vmNum+1; i < vmNum+stNum+1; ++ i)
+            for (int j = vmNum+1; j < vmNum+stNum+1; ++ j)
+            {
+                arcs[i][j]->pher /= maxPherST;
+//                std::cerr << "arcs[" << i << "][" << j << "] = " << arcs[i][j]->pher << ' ';
+            }
+    }
+//    std::cerr << "\n\n";
 }
 
 void InternalGraph::updateInternalHeuristic(unsigned int resNum, GraphComponent::RequestType t)
@@ -321,7 +380,7 @@ unsigned int InternalGraph::selectVertex(AntPath* pt, unsigned int cur, std::set
     // choose resource
     GraphComponent * gc = vertices[vertex-1];
     unsigned int res = gc->chooseResource(pherDeg, heurDeg);
-    std::cerr << "vertex = " << vertex << ", resource = " << res << '\n';
+//    std::cerr << "vertex = " << vertex << ", resource = " << res << '\n';
     if (res >= gc->getResNum()) { s = false; return vertex; } // failed to choose a resource
 
     if (gc->getType() == GraphComponent::VMACHINE)

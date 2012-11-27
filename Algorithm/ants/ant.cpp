@@ -5,6 +5,8 @@ AntAlgorithm::AntAlgorithm(Network * n, Requests const & r, unsigned int ants, u
 : Algorithm(n, r)
 , vmCount(0)
 , stCount(0)
+, bestPath(NULL)
+, bestValue(0)
 , antNum(ants)
 , iterNum(iter)
 , pherDeg(pd)
@@ -105,8 +107,21 @@ bool AntAlgorithm::init()
     }
 }
 
+unsigned int AntAlgorithm::objFunctions()
+{
+    unsigned int iMax = antNum+1;
+    double vMax = 0;
+    for (int i = 0; i < antNum; ++ i)
+    {
+        objValues[i] = (paths[i]->getLength()-2)/((double)(vmCount+stCount));
+        if (objValues[i] > vMax) { vMax = objValues[i]; iMax = i; }
+    }
+    return iMax;
+}
+
 Algorithm::Result AntAlgorithm::schedule()
 {
+    unsigned int iMax = 0;
     for (int i = 0; i < iterNum; ++ i)
     {
         for (int ant = 0; ant < antNum; ++ ant)
@@ -116,13 +131,22 @@ Algorithm::Result AntAlgorithm::schedule()
             buildLink(ant);
         }
 
-        // TODO: Calculate obj function
+        // remember the best solution
+        iMax = objFunctions();
+        if (iMax < antNum && objValues[iMax] > bestValue)
+        {
+            delete bestPath;
+            bestPath = new AntPath(*paths[iMax]);
+            bestValue = objValues[iMax];
+            std::cerr << "bestValue = " << bestValue << '\n';
+        }
 
         graph->updatePheromone(paths, objValues);
 
         for (int j = 0; j < paths.size(); ++ j)
             if (paths[i]) { delete paths[i]; paths[i] = NULL; }
     }
+    return Algorithm::SUCCESS;
 }
 
 void AntAlgorithm::removeRequestElements(unsigned int vertex, AntPath* pt, std::set<unsigned int> & available, GraphComponent::RequestType t)
@@ -179,6 +203,7 @@ bool AntAlgorithm::buildPath(unsigned int ant)
     unsigned int vertex, oldVertex;
     bool s;
     // build through virtual machines' vertices
+    pt->addElement(new PathElement(0, 0));
     while (!availableNodes.empty())
     {
         vertex = graph->selectVertex(pt, 0, availableNodes, s);

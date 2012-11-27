@@ -46,6 +46,7 @@ public:
 
     // Getters
     const std::vector<PathElement *>& getPath() const { return path; }
+    unsigned int getLength() const { return path.size(); }
 
     ~AntPath();
 private:
