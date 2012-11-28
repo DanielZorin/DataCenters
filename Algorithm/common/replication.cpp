@@ -15,3 +15,4 @@ Replication::~Replication()
         (*it)->RemoveAssignment(&dummy); // just increase capacity
     }
 }
+
