@@ -138,3 +138,8 @@ class Project:
         for d in self.demands:
             if d.id == id:
                 return d
+                
+    def Run(self):
+        self.Save("tmp_dump.dcxml")
+        os.system("../Algorithm/main.exe tmp_dump.dcxml result.dcxml")
+        self.Load("result.dcxml")

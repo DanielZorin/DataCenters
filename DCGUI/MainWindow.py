@@ -158,7 +158,7 @@ class MainWindow(QMainWindow):
     def Run(self):
         self.InitProject()
         #self.project.method.Clear()
-        self.project.method.Run()
+        self.project.Run()
         self.showStats()
 
     def RunSelected(self):
