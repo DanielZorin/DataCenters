@@ -61,10 +61,11 @@ class ResourceGraph(AbstractGraph):
         root = dom.createElement("resources")
         # TODO: take some meaningful interval
 		try:
-        	r = [q for q in self.vertices[0].intervals.keys()][0]
+            r = [q for q in self.vertices[0].intervals.keys()][0]
 		except:
-			r = None
-        root.setAttribute("time", str(r[0]))
+            r = None
+        if r:
+            root.setAttribute("time", str(r[0]))
         for v in self.vertices:
             if isinstance(v, Computer):
                 tag = dom.createElement("computer")
