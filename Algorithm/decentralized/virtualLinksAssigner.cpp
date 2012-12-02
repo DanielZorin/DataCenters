@@ -87,17 +87,14 @@ bool VirtualLinksAssigner::assignOneRequest(Request::VirtualLinks * virtualLinks
         
         if ( !result )
         {
-            printf("        Trying replication\n");
             result = replicate(virtualLinksVec[index], reqAssignment, req);
         }
 
         if ( !result )
         {
-            printf("    Request assignment failed, removing virtual links\n");
             // remove assignments
             for ( unsigned i = 0; i < index; ++i )
             {
-                printf("Virtual link %s is removed\n", virtualLinksVec[i]->getName().c_str());
                 RemoveVirtualLink(virtualLinksVec[i], reqAssignment);
             }
 
@@ -203,8 +200,6 @@ bool decreaseOrder(Link * vl1, Link * vl2)
 
 bool VirtualLinksAssigner::limitedExhaustiveSearch(Element * element, Assignment* assignment, Request* req)
 {
-    printf("  Request assignment failed, trying limited exhaustive search\n");
-    
     // first, forming all assigned virtual links
     // and assosiated assignments and requests
     std::map<VirtualLink*, Assignment* > vlAssignment;
@@ -356,7 +351,6 @@ void VirtualLinksAssigner::removeAssignment(Request * req)
         assignment = (*storagesAssignments)[req];
     else if ( requestAssignment.find(req) != requestAssignment.end() )
     {
-        printf("\nshouldn't delete this request!!!\n\n");
         assignment = requestAssignment[req];
     } else
         return; // no assignment found   
@@ -405,7 +399,6 @@ bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assig
 
     if ( replicationOfStorage.find(storage) != replicationOfStorage.end() )
     {
-        printf("    Replication for storage already exists\n");
         return false;
     }
 
@@ -523,8 +516,6 @@ bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assig
         reassignAfterReplication(*vlIt, bestStore, assignment);
 
     replicationsOfAssignment[assignment].insert(replication);
-
-    printf("    Replication found!\n");
 
     return true;
 }

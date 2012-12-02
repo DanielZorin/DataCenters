@@ -25,7 +25,6 @@ Network::Network(const Network & n)
 
 Network::~Network()
 {
-    /*
     for (Nodes::iterator i = nodes.begin(); i != nodes.end(); i++)
         delete *i;
 
@@ -37,7 +36,6 @@ Network::~Network()
 
     for (Links::iterator i = links.begin(); i != links.end(); i++)
         delete *i;
-        */
 }
 
 Network& Network::operator=(const Network & n)

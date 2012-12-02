@@ -70,12 +70,14 @@ Algorithm::Result DecentralizedAlgorithm::schedule()
         Request::VirtualLinks::iterator vlItEnd = vls.end();
         
         for ( ; vlIt != vlItEnd; ++vlIt )
-            assignment->AddAssignment(*vlIt, vlAssignment->GetAssignment(*vlIt));
+        {
+            NetPath path = vlAssignment->GetAssignment(*vlIt);
+            assignment->AddAssignment(*vlIt, path);
+        }
 
         assignments.insert(assignment);
     }
 
-    printf("Number of assigned requests: %d\n", assignedRequests.size());
     return assignedRequests.size() == requests.size() ? SUCCESS : (assignedRequests.size() == 0 ? FAILURE : PARTIAL);
 }
 

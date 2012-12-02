@@ -51,12 +51,12 @@ bool AntAlgorithm::init()
         // get physical resources' current capacity and max capacity
         int iVec = 0;
         int iTypes = 0;
-        for (Nodes::iterator i = nodes.begin(); i != nodes.end(); i ++, ++ iVec)
+        for (Nodes::const_iterator i = nodes.begin(); i != nodes.end(); i ++, ++ iVec)
         {
             res[iVec] = (*i)->getCapacity();
             cap[iVec] = (*i)->getMaxCapacity();
         }
-        for (Stores::iterator i = stores.begin(); i != stores.end(); i ++, ++ iVec)
+        for (Stores::const_iterator i = stores.begin(); i != stores.end(); i ++, ++ iVec)
         {
             res[iVec] = (*i)->getCapacity();
             cap[iVec] = (*i)->getMaxCapacity();
@@ -72,13 +72,13 @@ bool AntAlgorithm::init()
         for (Requests::iterator i = requests.begin(); i != requests.end(); i ++)
         {
             const Request::VirtualMachines& vms = (*i)->getVirtualMachines();
-            for (Request::VirtualMachines::iterator i = vms.begin(); i != vms.end(); i ++, ++ iReq)
+            for (Request::VirtualMachines::const_iterator i = vms.begin(); i != vms.end(); i ++, ++ iReq)
                 reqCapacity[iReq] = (*i)->getCapacity();
         }
         for (Requests::iterator i = requests.begin(); i != requests.end(); i ++)
         {
             const Request::Storages& sts = (*i)->getStorages();
-            for (Request::Storages::iterator i = sts.begin(); i != sts.end(); i ++, ++ iReq)
+            for (Request::Storages::const_iterator i = sts.begin(); i != sts.end(); i ++, ++ iReq)
             {
                 reqCapacity[iReq] = (*i)->getCapacity();
                 reqTypes[iReqTypes] = (*i)->getTypeOfStore();

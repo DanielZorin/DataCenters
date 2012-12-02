@@ -79,7 +79,6 @@ NetPath VirtualLinkRouter::searchPathDejkstra(VirtualLink * virtualLink, Network
         // lowest weight
         if ( elementLinks.find(currentElement) == elementLinks.end() )
         {
-            printf("No links assosiated with element\n");
             return NetPath(); // No links assosiated with element
         }
 
@@ -112,7 +111,6 @@ NetPath VirtualLinkRouter::searchPathDejkstra(VirtualLink * virtualLink, Network
 
     // retrieving the way
     NetPath answer;
-    printf("Found path for link %s:\n", virtualLink->getName().c_str());
 
     Element * other = currentElement; // for parsing results with just one edge
     while ( incomingEdge[currentElement]->getFirst() != virtualLink->getFirst() 
@@ -122,14 +120,10 @@ NetPath VirtualLinkRouter::searchPathDejkstra(VirtualLink * virtualLink, Network
         other = incomingEdge[currentElement]->getFirst() == currentElement ?
             incomingEdge[currentElement]->getSecond() : incomingEdge[currentElement]->getFirst();
         answer.push_back(static_cast<NetworkingElement *>(other));
-        //printf("    %s -> %s -> %s\n", currentElement->getName().c_str(),
-        //    incomingEdge[currentElement]->getName().c_str(), other->getName().c_str());
         currentElement = other;
     }
     answer.push_back(incomingEdge[other]);
-    //printf("    %s -> %s -> %s\n", currentElement->getName().c_str(),
-    //        incomingEdge[currentElement]->getName().c_str(), virtualLink->getFirst()->getName().c_str());
-
+    
     // this step may be skiped, but doing for sure
     std::reverse(answer.begin(), answer.end());
     return answer;

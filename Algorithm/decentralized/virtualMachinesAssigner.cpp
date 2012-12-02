@@ -77,11 +77,9 @@ bool VirtualMachinesAssigner::assignOneRequest(Request::VirtualMachines * virtua
             result = limitedExhaustiveSearch(virtualMachinesVec[index], reqAssignment, NULL);
             if ( !result )
             {
-                printf("    Request assignment failed, removing virtual machines\n");
                 // remove assignments
                 for ( unsigned i = 0; i < index; ++i )
                 {
-                    printf("Virtual machine %s is removed from node %s\n", virtualMachinesVec[i]->getName().c_str(), reqAssignment->GetAssignment(virtualMachinesVec[i])->getName().c_str());
                     reqAssignment->GetAssignment(virtualMachinesVec[i])->RemoveAssignment(virtualMachinesVec[i]);
                 }
 
@@ -106,7 +104,6 @@ bool VirtualMachinesAssigner::assignOneVirtualMachine(Node * virtualMachine, Ass
         {
             nodes[index]->assign(*virtualMachine);
             reqAssignment->AddAssignment(virtualMachine, nodes[index]);
-            printf("Assigned virtual machine %s on node %s\n", virtualMachine->getName().c_str(), nodes[index]->getName().c_str());
             return true;
         }
     }
@@ -120,8 +117,6 @@ bool decreaseOrder(Node * vm1, Node * vm2)
 
 bool VirtualMachinesAssigner::limitedExhaustiveSearch(Element * element, Assignment* assignment, Request* req)
 {
-    printf("  Request assignment failed, trying limited exhaustive search\n");
-
     // first, forming all assigned virtual machines of nodes
     // it is essential to reassign only elements with capacity less then
     // element's capacity.
@@ -180,12 +175,6 @@ bool VirtualMachinesAssigner::limitedExhaustiveSearch(Element * element, Assignm
 
             if ( assigned )
             {
-                printf("  Limited exhaustive search succeded, assigning vm %s to node %s\n", element->getName().c_str(), it->first->getName().c_str());
-                printf("  Reassignments:\n");
-                for ( vmIt = it->second.begin(); vmIt != vmItEnd; ++vmIt )
-                {
-                    printf("    Vm %s on node %s\n", (*vmIt)->getName().c_str(), vmAssignment[*vmIt]->GetAssignment(*vmIt)->getName().c_str());
-                }
                 assignment->AddAssignment(static_cast<Node*>(element), it->first);
                 return true;
             }

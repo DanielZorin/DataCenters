@@ -76,11 +76,9 @@ bool StoragesAssigner::assignOneRequest(Request::Storages * storages, Assignment
             result = limitedExhaustiveSearch(storagesVec[index], reqAssignment, NULL);
             if ( !result )
             {
-                printf("    Request assignment failed, removing storages\n");
                 // remove assignments
                 for ( unsigned i = 0; i < index; ++i )
                 {
-                    printf("Storage %s is removed from storage %s\n", storagesVec[i]->getName().c_str(), reqAssignment->GetAssignment(storagesVec[i])->getName().c_str());
                     reqAssignment->GetAssignment(storagesVec[i])->RemoveAssignment(storagesVec[i]);
                 }
 
@@ -115,7 +113,6 @@ bool StoragesAssigner::assignOneStorage(Store * storage, Assignment* reqAssignme
         {
             stores[index]->assign(*storage);
             reqAssignment->AddAssignment(storage, stores[index]);
-            printf("Assigned storage %s on memory store %s\n", storage->getName().c_str(), stores[index]->getName().c_str());
             return true;
         }
     }
@@ -129,8 +126,6 @@ bool decreaseOrder(Store * st1, Store * st2)
 
 bool StoragesAssigner::limitedExhaustiveSearch(Element * element, Assignment* assignment, Request* req)
 {
-    printf("  Request assignment failed, trying limited exhaustive search\n");
-
     // first, forming all assigned virtual machines of nodes
     // it is essential to reassign only elements with capacity less then
     // element's capacity.
@@ -189,12 +184,6 @@ bool StoragesAssigner::limitedExhaustiveSearch(Element * element, Assignment* as
 
             if ( assigned )
             {
-                printf("  Limited exhaustive search succeded, assigning storage %s to store %s\n", element->getName().c_str(), it->first->getName().c_str());
-                printf("  Reassignments:\n");
-                for ( stIt = it->second.begin(); stIt != stItEnd; ++stIt )
-                {
-                    printf("    St %s on node %s\n", (*stIt)->getName().c_str(), stAssignment[*stIt]->GetAssignment(*stIt)->getName().c_str());
-                }
                 assignment->AddAssignment(static_cast<Store*>(element), it->first);
                 return true;
             }
