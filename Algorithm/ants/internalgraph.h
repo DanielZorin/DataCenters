@@ -101,7 +101,7 @@ public:
     // Perform some actions when a new path is about to start building
     void nextPath();
     // Update pheromone
-    void updatePheromone(std::vector<AntPath*> & paths, std::vector<double> & objValues);
+    void updatePheromone(std::vector<AntPath*> & paths, std::vector<double> & objValues, double evapRate);
     // Update heuristic for every graph component
     void updateInternalHeuristic(unsigned int resNum, GraphComponent::RequestType t);
     // From vertex cur, select a new vertex (one of the set members)

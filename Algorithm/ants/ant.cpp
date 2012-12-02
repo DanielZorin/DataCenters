@@ -2,7 +2,7 @@
 #include "ant.h"
 #include "../decentralized/virtualLinkRouter.h"
 
-AntAlgorithm::AntAlgorithm(Network * n, Requests const & r, unsigned int ants, unsigned int iter, double pd, double hd)
+AntAlgorithm::AntAlgorithm(Network * n, Requests const & r, unsigned int ants, unsigned int iter, double pd, double hd, double evap)
 : Algorithm(n, r)
 , vmCount(0)
 , stCount(0)
@@ -12,6 +12,7 @@ AntAlgorithm::AntAlgorithm(Network * n, Requests const & r, unsigned int ants, u
 , iterNum(iter)
 , pherDeg(pd)
 , heurDeg(hd)
+, evapRate(evap)
 {
     if (!init()) success = false;
     else
@@ -151,7 +152,7 @@ Algorithm::Result AntAlgorithm::schedule()
             std::cerr << "bestValue = " << bestValue << '\n';
         }
 
-        graph->updatePheromone(paths, objValues);
+        graph->updatePheromone(paths, objValues, evapRate);
 
         for (int j = 0; j < paths.size(); ++ j)
             if (paths[i]) { delete paths[i]; paths[i] = NULL; }

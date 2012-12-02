@@ -117,7 +117,7 @@ int main(int argc, char *argv[])
     req2->addLink(ch8);
     r.insert(req1);
     r.insert(req2);
-    AntAlgorithm alg(&n, r, 5, 2, 1, 1);
+    AntAlgorithm alg(&n, r, 5, 2, 1, 1, 0.1);
     if (!alg.isCreated()) return 1;
     std::cerr << "Created\n";
     alg.schedule();

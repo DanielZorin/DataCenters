@@ -18,7 +18,7 @@
 class AntAlgorithm: public Algorithm
 {
 public:
-    AntAlgorithm(Network * n, Requests const & r, unsigned int ants, unsigned int iter, double pd, double hd);
+    AntAlgorithm(Network * n, Requests const & r, unsigned int ants, unsigned int iter, double pd, double hd, double evap);
     ~AntAlgorithm();
 
     virtual Algorithm::Result schedule();
@@ -43,6 +43,7 @@ private:
     unsigned int iterNum;
     double heurDeg;
     double pherDeg;
+    double evapRate;
 
     // private functions
     bool init();
