@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <set>
+#include "../common/element.h"
 #include "path.h"
 
 // Class representing a single arc in the graph
@@ -33,7 +34,7 @@ class GraphComponent
 public:
     typedef enum {NOTYPE = 0, VMACHINE = 1, STORAGE = 2} RequestType;
 
-    GraphComponent(unsigned long req, int phys, RequestType t, unsigned int sType = 0);
+    GraphComponent(unsigned long req, int phys, Element * pr, RequestType t, unsigned int sType = 0);
     ~GraphComponent();
 
     GraphComponent(const GraphComponent & gc);
@@ -43,6 +44,8 @@ public:
     RequestType getType() const { return type; }
     unsigned long getRequired () const { return required; }
     bool isCreated() const { return success; }
+
+    Element * getPointer () { return request; }
 
     // Perform some actions when a new path is about to start building
     void nextPath();
@@ -70,6 +73,8 @@ private:
     unsigned long required;
     // storage type
     unsigned int storageType;
+    // pointer to corresponding request
+    Element * request;
 
     // No default constructor
     GraphComponent();
@@ -80,9 +85,16 @@ private:
 class InternalGraph
 {
 public:
-    InternalGraph(unsigned int nodes, unsigned int stores, unsigned int vm, unsigned int st,
-                  std::vector<unsigned long> & res, std::vector<unsigned long> & cap, std::vector<unsigned long> & req,
-                  std::vector<unsigned int> & types, std::vector<unsigned int> & reqTypes);
+    InternalGraph(unsigned int nodes, unsigned int stores, unsigned int vm, unsigned int st, // request set and network parameters
+                  std::vector<unsigned long> & res, // current physical resources capacity
+                  std::vector<unsigned long> & cap, // maximum physical resources capacity
+                  std::vector<unsigned long> & req, // resources demanded by requests
+                  std::vector<unsigned int> & types, // physical store types
+                  std::vector<unsigned int> & reqTypes, // virtual storage types
+                  std::vector<Element *> & pn, // pointers to physical nodes
+                  std::vector<Element *> & ps, // pointers to physical stores
+                  std::vector<Element *> & virtElems // pointer to virtual requests
+                  );
     ~InternalGraph();
 
     bool isCreated() const { return success; }
@@ -102,7 +114,8 @@ public:
 private:
     // initialize
     bool init(std::vector<unsigned long> & res, std::vector<unsigned long> & cap, std::vector<unsigned long> & req,
-              std::vector<unsigned int> & reqTypes);
+              std::vector<unsigned int> & reqTypes, std::vector<Element *> & pn, std::vector<Element *> & ps,
+              std::vector<Element *> & virtElems);
     void clean(int i, int j, int k);
     // calculate heuristic for arcs
     void initValues(std::vector<unsigned long> & req, std::vector<unsigned int> & types);
@@ -124,6 +137,11 @@ private:
     std::vector<unsigned long> nodesCap;
     // Maximum available physical resources for storages
     std::vector<unsigned long> storesCap;
+
+    // Pointers to physical nodes
+    std::vector<Element *> physNodes;
+    // Pointers to physical stores
+    std::vector<Element *> physStores;
 
     // select parameters
     double pherDeg;

@@ -2,23 +2,32 @@
 #define PATH_H
 
 #include <vector>
+#include "../common/element.h"
 
 // Class representing a single vertex in the path
 struct PathElement
 {
     // what request the vertex corresponds to
     unsigned int request;
+    // pointer to that request
+    Element * requestPointer;
     // what resource the vertex is connected to
     unsigned int resource;
+    // pointer to that resource
+    Element * resourcePointer;
 
-    PathElement(int req, int res)
+    PathElement(int req, Element * preq, int res, Element * pres)
     : request(req)
+    , requestPointer(preq)
     , resource(res)
+    , resourcePointer(pres)
     {}
 
     PathElement()
     : request(0)
+    , requestPointer(NULL)
     , resource(0)
+    , resourcePointer(NULL)
     {}
 
     PathElement(const PathElement & p);

@@ -2,6 +2,7 @@
 #include <map>
 #include <algorithm>
 #include <limits.h>
+#include <stdio.h>
 #include "link.h"
 #include "switch.h"
 #include "network.h"

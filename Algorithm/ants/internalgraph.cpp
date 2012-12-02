@@ -26,10 +26,11 @@ Arc& Arc::operator=(const Arc & a)
 /////////////////////////////////////////////////////////////////////////////////////////////
 // GraphComponent
 
-GraphComponent::GraphComponent(unsigned long req, int phys, RequestType t, unsigned int sType)
+GraphComponent::GraphComponent(unsigned long req, int phys, Element * pr, RequestType t, unsigned int sType)
 : type(t)
 , required(req)
 , storageType(sType)
+, request(pr)
 {
     if (!init(phys)) success = false;
     else success = true;
@@ -85,7 +86,7 @@ bool GraphComponent::init(int num)
         for (i = 0; i < num; ++ i)
             physArcs[i] = new Arc;
 
-        std::cerr << "Created graph component, num = " << num << ", capacity = " << required << ", type = " << storageType << '\n';
+        std::cerr << "Created graph component, num = " << num << ", capacity = " << required << '(' << request->getCapacity() << "), type = " << storageType << '\n';
         return true;
     }
     catch (const char* s)
@@ -203,9 +204,16 @@ unsigned int GraphComponent::chooseResource(double pherDeg, double heurDeg)
 /////////////////////////////////////////////////////////////////////////////////////////////
 // InternalGraph
 
-InternalGraph::InternalGraph(unsigned int nodes, unsigned int stores, unsigned int vm, unsigned int st,
-                             std::vector<unsigned long> & res, std::vector<unsigned long> & cap, std::vector<unsigned long> & req,
-                             std::vector<unsigned int> & types, std::vector<unsigned int> & reqTypes)
+InternalGraph::InternalGraph(unsigned int nodes, unsigned int stores, unsigned int vm, unsigned int st, // request set and network parameters
+                             std::vector<unsigned long> & res, // current physical resources capacity
+                             std::vector<unsigned long> & cap, // maximum physical resources capacity
+                             std::vector<unsigned long> & req, // resources demanded by requests
+                             std::vector<unsigned int> & types, // physical store types
+                             std::vector<unsigned int> & reqTypes, // virtual storage types
+                             std::vector<Element *> & pn, // pointers to physical nodes
+                             std::vector<Element *> & ps, // pointers to physical stores
+                             std::vector<Element *> & virtElems // pointer to virtual requests
+                             )
 : nodesNum(nodes)
 , storesNum(stores)
 , vmNum(vm)
@@ -214,7 +222,7 @@ InternalGraph::InternalGraph(unsigned int nodes, unsigned int stores, unsigned i
 , pherDeg(0)
 {
     srand((unsigned)time(NULL));
-    if (!init(res, cap, req, reqTypes)) success = false;
+    if (!init(res, cap, req, reqTypes, pn, ps, virtElems)) success = false;
     else
     {
         success = true;
@@ -260,7 +268,13 @@ void InternalGraph::updatePheromone(std::vector<AntPath*> & paths, std::vector<d
         std::cerr << "paths[" << i << "]: ";
         const std::vector<PathElement *> & path = paths[i]->getPath();
         for (int j = 0; j < path.size(); ++ j)
-            std::cerr << '(' << path[j]->request << ',' << path[j]->resource << ")-";
+        {
+            if (path[j]->requestPointer && path[j]->resourcePointer)
+                std::cerr << '(' << path[j]->request << '[' << path[j]->requestPointer->getCapacity() <<  "]," << path[j]->resource << '[' <<
+                             path[j]->resourcePointer->getMaxCapacity() << "])-";
+            else
+                std::cerr << '(' << path[j]->request <<  "," << path[j]->resource << ")-";
+        }
         std::cerr << '\n';
     }
 
@@ -388,15 +402,16 @@ unsigned int InternalGraph::selectVertex(AntPath* pt, unsigned int cur, std::set
 //        std::cerr << "cur = " << cur << '\n';
         curNodesRes[res] -= gc->getRequired();
         updateInternalHeuristic(res, GraphComponent::VMACHINE);
+        pt->addElement(new PathElement(vertex, gc->getPointer(), res, physNodes[res]));
     }
     else if (gc->getType() == GraphComponent::STORAGE)
     {
 //        std::cerr << "cur = " << cur << '\n';
         curStoresRes[res] -= gc->getRequired();
         updateInternalHeuristic(res, GraphComponent::STORAGE);
+        pt->addElement(new PathElement(vertex, gc->getPointer(), res, physStores[res]));
     }
 
-    pt->addElement(new PathElement(vertex, res));
     s = true;
     return vertex;
 }
@@ -419,7 +434,8 @@ void InternalGraph::clean(int i, int j, int k)
 }
 
 bool InternalGraph::init(std::vector<unsigned long> & res, std::vector<unsigned long> & cap, std::vector<unsigned long> & req,
-                         std::vector<unsigned int> & reqTypes)
+                         std::vector<unsigned int> & reqTypes, std::vector<Element *> & pn, std::vector<Element *> & ps,
+                         std::vector<Element *> & virtElems)
 {
     int i = 0, j = 0, k = 0;
 
@@ -430,7 +446,7 @@ bool InternalGraph::init(std::vector<unsigned long> & res, std::vector<unsigned 
         vertices.resize(vmNum+stNum);
         for (i = 0; i < vmNum; ++ i)
         {
-            vertices[i] = new GraphComponent(req[i], nodesNum, GraphComponent::VMACHINE);
+            vertices[i] = new GraphComponent(req[i], nodesNum, virtElems[i], GraphComponent::VMACHINE);
             if (!vertices[i]->isCreated())
             {
                 for (int p = 0; p < i; ++ p) delete vertices[p];
@@ -439,7 +455,7 @@ bool InternalGraph::init(std::vector<unsigned long> & res, std::vector<unsigned 
         }
         for (i = vmNum; i < vmNum+stNum; ++ i)
         {
-            vertices[i] = new GraphComponent(req[i], storesNum, GraphComponent::STORAGE, reqTypes[i-vmNum]);
+            vertices[i] = new GraphComponent(req[i], storesNum, virtElems[i], GraphComponent::STORAGE, reqTypes[i-vmNum]);
             if (!vertices[i]->isCreated())
             {
                 for (int p = 0; p < i; ++ p) delete vertices[p];
@@ -457,30 +473,34 @@ bool InternalGraph::init(std::vector<unsigned long> & res, std::vector<unsigned 
         nodesRes.resize(nodesNum);
         curNodesRes.resize(nodesNum);
         nodesCap.resize(nodesNum);
+        physNodes.resize(nodesNum);
         for (int p = 0; p < nodesNum; ++ p)
         {
             curNodesRes[p] = res[p];
             nodesRes[p] = res[p];
             nodesCap[p] = cap[p];
+            physNodes[p] = pn[p];
         }
         storesRes.resize(storesNum);
         curStoresRes.resize(storesNum);
         storesCap.resize(storesNum);
+        physStores.resize(storesNum);
         for (int p = 0; p < storesNum; ++ p)
         {
             curStoresRes[p] = res[p+nodesNum];
             storesRes[p] = res[p+nodesNum];
             storesCap[p] = cap[p+nodesNum];
+            physStores[p] = ps[p];
         }
 
         std::cerr << "Created graph, values: " << nodesNum << " " << storesNum << " " << vmNum << " " << stNum << "\nResources:\n";
-        for (int p = 0; p < nodesRes.size(); ++ p) std::cerr << nodesRes[p] << ' ';
+        for (int p = 0; p < nodesRes.size(); ++ p) std::cerr << nodesRes[p] << '(' << physNodes[p]->getCapacity() << ") ";
         std::cerr << '\n';
-        for (int p = 0; p < storesRes.size(); ++ p) std::cerr << storesRes[p] << ' ';
+        for (int p = 0; p < storesRes.size(); ++ p) std::cerr << storesRes[p] << '(' << physStores[p]->getCapacity() << ") ";
         std::cerr << "\nCapacities:\n";
-        for (int p = 0; p < nodesCap.size(); ++ p) std::cerr << nodesCap[p] << ' ';
+        for (int p = 0; p < nodesCap.size(); ++ p) std::cerr << nodesCap[p] << '(' << physNodes[p]->getMaxCapacity() << ") ";
         std::cerr << '\n';
-        for (int p = 0; p < storesCap.size(); ++ p) std::cerr << storesCap[p] << ' ';
+        for (int p = 0; p < storesCap.size(); ++ p) std::cerr << storesCap[p] << '(' << physStores[p]->getMaxCapacity() << ") ";
         std::cerr << '\n';
         return true;
     }

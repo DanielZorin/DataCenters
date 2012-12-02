@@ -4,5 +4,5 @@ PROJECT(ants)
 include_directories(./)
 add_subdirectory(anttest)
 
-FILE(GLOB SOURCE_FILES *.cpp)
+FILE(GLOB SOURCE_FILES *.cpp ../decentralized/virtualLinkRouter.cpp)
 add_library(${PROJECT_NAME} ${SOURCE_FILES})

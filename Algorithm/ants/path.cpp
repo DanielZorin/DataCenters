@@ -5,14 +5,18 @@
 PathElement::PathElement(const PathElement & p)
 {
     request = p.request;
+    requestPointer = p.requestPointer;
     resource = p.resource;
+    resourcePointer = p.resourcePointer;
 }
 
 PathElement& PathElement::operator=(const PathElement & p)
 {
     if (&p == this) return *this;
     request = p.request;
+    requestPointer = p.requestPointer;
     resource = p.resource;
+    resourcePointer = p.resourcePointer;
     return *this;
 }
 

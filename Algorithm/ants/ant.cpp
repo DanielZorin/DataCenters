@@ -1,5 +1,6 @@
 #include <iostream>
 #include "ant.h"
+#include "../decentralized/virtualLinkRouter.h"
 
 AntAlgorithm::AntAlgorithm(Network * n, Requests const & r, unsigned int ants, unsigned int iter, double pd, double hd)
 : Algorithm(n, r)
@@ -47,6 +48,8 @@ bool AntAlgorithm::init()
         std::vector<unsigned long> res(cnodes+cstores);
         std::vector<unsigned long> cap(cnodes+cstores);
         std::vector<unsigned int> types(cstores);
+        std::vector<Element *> physNodes(cnodes);
+        std::vector<Element *> physStores(cstores);
 
         // get physical resources' current capacity and max capacity
         int iVec = 0;
@@ -55,17 +58,20 @@ bool AntAlgorithm::init()
         {
             res[iVec] = (*i)->getCapacity();
             cap[iVec] = (*i)->getMaxCapacity();
+            physNodes[iVec] = (*i);
         }
         for (Stores::const_iterator i = stores.begin(); i != stores.end(); i ++, ++ iVec)
         {
             res[iVec] = (*i)->getCapacity();
             cap[iVec] = (*i)->getMaxCapacity();
             types[iTypes] = (*i)->getTypeOfStore();
+            physStores[iTypes] = (*i);
             ++ iTypes;
         }
 
         // get requests' required current capacity
         std::vector<unsigned long> reqCapacity(vmCount+stCount);
+        std::vector<Element *> virtElems(vmCount+stCount);
         std::vector<unsigned int> reqTypes(stCount);
         int iReq = 0;
         int iReqTypes = 0;
@@ -73,7 +79,10 @@ bool AntAlgorithm::init()
         {
             const Request::VirtualMachines& vms = (*i)->getVirtualMachines();
             for (Request::VirtualMachines::const_iterator i = vms.begin(); i != vms.end(); i ++, ++ iReq)
+            {
                 reqCapacity[iReq] = (*i)->getCapacity();
+                virtElems[iReq] = (*i);
+            }
         }
         for (Requests::iterator i = requests.begin(); i != requests.end(); i ++)
         {
@@ -81,12 +90,13 @@ bool AntAlgorithm::init()
             for (Request::Storages::const_iterator i = sts.begin(); i != sts.end(); i ++, ++ iReq)
             {
                 reqCapacity[iReq] = (*i)->getCapacity();
+                virtElems[iReq] = (*i);
                 reqTypes[iReqTypes] = (*i)->getTypeOfStore();
                 ++ iReqTypes;
             }
         }
 
-        graph = new InternalGraph(cnodes, cstores, vmCount, stCount, res, cap, reqCapacity, types, reqTypes);
+        graph = new InternalGraph(cnodes, cstores, vmCount, stCount, res, cap, reqCapacity, types, reqTypes, physNodes, physStores, virtElems);
         if (graph->isCreated()) return true;
         return false;
     }
@@ -203,7 +213,7 @@ bool AntAlgorithm::buildPath(unsigned int ant)
     unsigned int vertex, oldVertex;
     bool s;
     // build through virtual machines' vertices
-    pt->addElement(new PathElement(0, 0));
+    pt->addElement(new PathElement(0, NULL, 0, NULL));
     while (!availableNodes.empty())
     {
         vertex = graph->selectVertex(pt, 0, availableNodes, s);
@@ -223,7 +233,7 @@ bool AntAlgorithm::buildPath(unsigned int ant)
     }
 
     //build through storages' vertices
-    pt->addElement(new PathElement(0, 0));
+    pt->addElement(new PathElement(0, NULL, 0, NULL));
     while (!availableStores.empty())
     {
         vertex = graph->selectVertex(pt, 0, availableStores, s);
