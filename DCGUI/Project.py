@@ -2,6 +2,7 @@ from Core.Resources import ResourceGraph, Computer, Storage, Router
 from Core.Demands import Demand
 from Methods.RandomMethod import RandomMethod
 import xml.dom.minidom
+import os
 
 def GetNumber():
     i = 0

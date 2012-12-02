@@ -41,7 +41,7 @@ Algorithm::Result DecentralizedAlgorithm::schedule()
     Requests::iterator itEnd = assignedRequests.end();
     for ( ; it != itEnd; ++it )
     {
-        Assignment * assignment = new Assignment;
+        Assignment * assignment = new Assignment(*it);
         // add vms assignments
         Assignment * vmAssignment = virtualMachinesAssigner.GetRequestAssignment(*it);
         

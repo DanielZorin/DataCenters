@@ -170,13 +170,21 @@ bool StoragesAssigner::limitedExhaustiveSearch(Element * element, Assignment* as
                 {
                     // attempt failed
                     // retrieving assignments
+                    it->first->RemoveAssignment(element);
+
                     std::vector<Store *>::iterator stAssignedIt = it->second.begin();
                     for ( ; stAssignedIt != stIt; ++stAssignedIt )
                     {
                         stAssignment[*stAssignedIt]->GetAssignment(*stAssignedIt)->RemoveAssignment(*stAssignedIt);
                         stAssignment[*stAssignedIt]->RemoveAssignment(*stAssignedIt);
                     }
-                    it->first->RemoveAssignment(element);
+
+                    for ( stAssignedIt = it->second.begin(); stAssignedIt != stItEnd; ++stAssignedIt )
+                    {
+                        stAssignment[*stAssignedIt]->AddAssignment(*stAssignedIt, it->first);
+                        it->first->assign(*(*stAssignedIt));
+                    }
+                    
                     assigned = false;
                     break;
                 }
@@ -200,20 +208,8 @@ void StoragesAssigner::getAvailableStoreAssignments(Element* element, std::map<S
     {
         if ( (*storesIt)->getTypeOfStore() == static_cast<Store*>(element)->getTypeOfStore() )
         {
-            // get list of assignments of current request first
-            Stores stores = assignment->GetAssigned(*storesIt);
-
-            Stores::iterator stIt = stores.begin();
-            Stores::iterator stItEnd = stores.end();
-
             // inserting only vms with capacity less then the element's one
             STsOnStore[*storesIt] = std::vector<Store *>();
-            for ( ; stIt != stItEnd; ++stIt )
-                if ( (*stIt)->getCapacity() < element->getCapacity() )
-                {
-                    STsOnStore[*storesIt].push_back(*stIt);
-                    stAssignment[*stIt] = assignment;
-                }
 
             // going through all other assigned requests
             RequestAssignment::iterator it = requestAssignment.begin();
@@ -221,8 +217,8 @@ void StoragesAssigner::getAvailableStoreAssignments(Element* element, std::map<S
             for ( ; it != itEnd; ++it )
             {
                 Stores storages = it->second->GetAssigned(*storesIt);
-                stIt = storages.begin();
-                stItEnd = storages.end();
+                Stores::iterator stIt = storages.begin();
+                Stores::iterator stItEnd = storages.end();
                 for ( ; stIt != stItEnd; ++stIt )
                     if ( (*stIt)->getCapacity() < element->getCapacity() )
                     {

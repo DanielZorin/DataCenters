@@ -335,7 +335,11 @@ Link VirtualLinksAssigner::getPhysicalLink(VirtualLink* virtualLink, Request* re
 Element * VirtualLinksAssigner::getAssigned(Element * virtualResource, Request* req)
 {
     if ( virtualResource->isNode() )
+    {
+        if ( (*virtualMachinesAssignments)[req]->GetAssignment(static_cast<Node*>(virtualResource)) == NULL )
+            printf("fail!\n");
         return (*virtualMachinesAssignments)[req]->GetAssignment(static_cast<Node*>(virtualResource));
+    }
     if ( virtualResource->isStore() )
         return (*storagesAssignments)[req]->GetAssignment(static_cast<Store*>(virtualResource));
     return NULL;

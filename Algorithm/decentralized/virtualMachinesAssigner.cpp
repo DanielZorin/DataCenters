@@ -161,13 +161,20 @@ bool VirtualMachinesAssigner::limitedExhaustiveSearch(Element * element, Assignm
                 {
                     // attempt failed
                     // retrieving assignments
+                    it->first->RemoveAssignment(element);
                     std::vector<Node *>::iterator vmAssignedIt = it->second.begin();
                     for ( ; vmAssignedIt != vmIt; ++vmAssignedIt )
                     {
                         vmAssignment[*vmAssignedIt]->GetAssignment(*vmAssignedIt)->RemoveAssignment(*vmAssignedIt);
                         vmAssignment[*vmAssignedIt]->RemoveAssignment(*vmAssignedIt);
+                        
                     }
-                    it->first->RemoveAssignment(element);
+
+                    for ( vmAssignedIt = it->second.begin(); vmAssignedIt != vmItEnd; ++vmAssignedIt )
+                    {
+                        vmAssignment[*vmAssignedIt]->AddAssignment(*vmAssignedIt, it->first);
+                        it->first->assign(*(*vmAssignedIt));
+                    }
                     assigned = false;
                     break;
                 }
@@ -189,20 +196,8 @@ void VirtualMachinesAssigner::getAvailableNodeAssignments(Element* element, std:
     Nodes::iterator nodesItEnd = network->getNodes().end();
     for ( ; nodesIt != nodesItEnd; ++nodesIt )
     {
-        // get list of assignments of current vm first
-        Nodes vms = assignment->GetAssigned(*nodesIt);
-
-        Nodes::iterator vmIt = vms.begin();
-        Nodes::iterator vmItEnd = vms.end();
-
         // inserting only vms with capacity less then the element's one
         VMsOnNode[*nodesIt] = std::vector<Node *>();
-        for ( ; vmIt != vmItEnd; ++vmIt )
-            if ( (*vmIt)->getCapacity() < element->getCapacity() )
-            {
-                VMsOnNode[*nodesIt].push_back(*vmIt);
-                vmAssignment[*vmIt] = assignment;
-            }
 
         // going through all other assigned requests
         RequestAssignment::iterator it = requestAssignment.begin();
@@ -210,8 +205,8 @@ void VirtualMachinesAssigner::getAvailableNodeAssignments(Element* element, std:
         for ( ; it != itEnd; ++it )
         {
             Nodes vms = it->second->GetAssigned(*nodesIt);
-            vmIt = vms.begin();
-            vmItEnd = vms.end();
+            Nodes::iterator vmIt = vms.begin();
+            Nodes::iterator vmItEnd = vms.end();
             for ( ; vmIt != vmItEnd; ++vmIt )
                 if ( (*vmIt)->getCapacity() < element->getCapacity() )
                 {

@@ -21,8 +21,10 @@ int main(int argc, char ** argv)
     QString input;
     {
         QFile inputFile(inputName);
+        inputFile.open(QIODevice::ReadOnly | QIODevice::Text);
         QTextStream inputStream(&inputFile);
         input = inputStream.readAll();
+        inputFile.close();
     }
 
     XMLConverter converter(input);
@@ -37,9 +39,12 @@ int main(int argc, char ** argv)
 
     {
         QFile outputFile(outputName);
+        outputFile.open(QIODevice::WriteOnly | QIODevice::Text);
         QTextStream outputStream(&outputFile);
         outputStream << converter.getMixdownContent();
+        outputFile.close();
     }
-
+    
+    
     delete algorithm;
 }

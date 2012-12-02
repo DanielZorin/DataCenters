@@ -60,9 +60,9 @@ class ResourceGraph(AbstractGraph):
     def CreateXml(self, dom):
         root = dom.createElement("resources")
         # TODO: take some meaningful interval
-		try:
+        try:
             r = [q for q in self.vertices[0].intervals.keys()][0]
-		except:
+        except:
             r = None
         if r:
             root.setAttribute("time", str(r[0]))

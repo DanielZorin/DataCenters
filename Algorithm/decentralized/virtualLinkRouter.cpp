@@ -67,6 +67,7 @@ NetPath VirtualLinkRouter::searchPathDejkstra(VirtualLink * virtualLink, Network
     elementsToParse.insert(virtualLink->getSecond());
 
     elementWeight[virtualLink->getFirst()] = 0l;
+    elementWeight[virtualLink->getSecond()] = LONG_MAX;
     Element * currentElement = virtualLink->getFirst();
 
     // algorithm itself
