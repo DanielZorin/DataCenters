@@ -24,6 +24,14 @@ public:
         return second;
     }
 
+    Element * getLinkedComputationalElement()
+    {
+        if ( first->isComputational() )
+            return first;
+        if ( second->isComputational() )
+            return second;
+    }
+
 private:
     Element * first;
     Element * second;

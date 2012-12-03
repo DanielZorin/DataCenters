@@ -11,8 +11,11 @@ using std::endl;
 
 int main(int argc, char ** argv)
 {
-    if ( argc < 2 && argc > 4 )
+    if ( argc < 2 || argc > 4 )
+    {
         cerr << "Usage: " << argv[0] << " <input_file> [output_file = input_file] [algorithm = [a|c|d]]" << endl;
+        return 1;
+    }
 
     QString inputName = QString(argv[1]);
     QString outputName = argc > 2 ? QString(argv[2]) : inputName;

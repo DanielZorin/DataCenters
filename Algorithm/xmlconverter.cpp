@@ -271,7 +271,7 @@ public:
             Node * node = a->GetAssignment(vm);
             uint nodeId = network.getIdByElement(node);
             QDomElement xmlNode = nodeXMLCache[vmId];
-            xmlNode.setAttribute("assignedTo", nodeId);
+            xmlNode.setAttribute("assignedto", nodeId);
         }
     }
 
@@ -285,20 +285,37 @@ public:
             Store * store = a->GetAssignment(storage);
             uint storeId = network.getIdByElement(store);
             QDomElement xmlStore = storeXMLCache[storageId];
-            xmlStore.setAttribute("assignedTo", storeId);
+            xmlStore.setAttribute("assignedto", storeId);
         } 
     }
 
     QString getAssignmentChain(NetPath path, NetworkOverseer const& network)
     {
+        if ( path.size() == 0 )
+            return QString("none");
+
         QStringList result;
         for ( NetPath::iterator i = path.begin(); i != path.end(); i++)
         {
             NetworkingElement * ne = *i;
-            uint uid = network.getIdByElement(ne);
-            if ( uid != (uint)-1 )
+            if ( ne->isSwitch() ) 
+            {
+                uint uid = network.getIdByElement(ne);
                 result << QString().setNum(uid);
+            }
         }
+
+        NetPath::iterator first = path.begin(), last = path.end();
+        if ( (*first)->isLink() && (*(--last))->isLink() )
+        {
+            Link * begin = static_cast<Link *>(*first);
+            Link * end = static_cast<Link *>(*last);
+            uint firstComp = network.getIdByElement(begin->getLinkedComputationalElement());
+            uint lastComp = network.getIdByElement(end->getLinkedComputationalElement());
+            result.prepend(QString().setNum(firstComp));
+            result.append(QString().setNum(lastComp));
+        
+        } 
         return result.join(";");
     }
 
@@ -311,7 +328,7 @@ public:
             QDomElement xmlLink = i.value();
             NetPath netPath = a->GetAssignment(link);
             QString assignmentChain = getAssignmentChain(netPath, network);
-            xmlLink.setAttribute("assignedTo", assignmentChain);
+            xmlLink.setAttribute("assignedto", assignmentChain);
         }
     }
 

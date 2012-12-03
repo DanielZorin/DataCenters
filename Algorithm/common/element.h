@@ -58,6 +58,8 @@ public:
     inline bool isNode() { return type == NODE; }
     inline bool isStore() { return type == STORE; }
     inline bool isSwitch() { return type == SWITCH; }
+    inline bool isNetworking() { return isSwitch() || isLink(); }
+    inline bool isComputational() { return isNode() || isStore(); }
 private:
     unsigned long capacity;
     unsigned long maxCapacity;

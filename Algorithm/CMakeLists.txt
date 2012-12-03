@@ -4,11 +4,21 @@ PROJECT(Algolib)
 
 INCLUDE_DIRECTORIES(common)
 
+SET ( QT_USE_QTXML TRUE )
+
+FIND_PACKAGE ( Qt4 REQUIRED )
+INCLUDE( ${QT_USE_FILE})
+INCLUDE_DIRECTORIES(
+        ${QT_INCLUDE_DIR}
+        ${QT_QTCORE_INCLUDE_DIR}
+        ${QT_QTXML_INCLUDE_DIR}        
+        )
+
 SET ( COMPONENTS
-      common
-      centralized
-      decentralized
-      ants
+    common
+    centralized
+    decentralized
+    ants
       )
 
 SET ( QT_USE_QTXML TRUE )
