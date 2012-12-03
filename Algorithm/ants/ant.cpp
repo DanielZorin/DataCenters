@@ -19,7 +19,8 @@ AntAlgorithm::AntAlgorithm(Network * n, Requests const & r, unsigned int ants, u
     {
         success = true;
         paths.resize(ants);
-        for (int i = 0; i < ants; ++ i) paths[i] = NULL;
+        for (int i = 0; i < ants; ++ i)
+            paths[i] = NULL;
         objValues.resize(ants);
         graph->setPherDeg(pd);
         graph->setHeurDeg(hd);
@@ -139,7 +140,8 @@ Algorithm::Result AntAlgorithm::schedule()
         {
             graph->nextPath();
             buildPath(ant);
-            buildLink(ant);
+            buildLink(ant, false);
+            std::cerr << "---\n";
         }
 
         // remember the best solution
@@ -149,6 +151,7 @@ Algorithm::Result AntAlgorithm::schedule()
             delete bestPath;
             bestPath = new AntPath(*paths[iMax]);
             bestValue = objValues[iMax];
+//            if (ZERO(bestValue-1)) break;
             std::cerr << "bestValue = " << bestValue << '\n';
         }
 
@@ -257,7 +260,50 @@ bool AntAlgorithm::buildPath(unsigned int ant)
     return true;
 }
 
-bool AntAlgorithm::buildLink(unsigned int ant)
+std::vector<NetPath>* AntAlgorithm::buildLink(unsigned int ant, bool resultNeeded)
 {
-    return true;
+    std::set<unsigned int> emptySet; // for removeRequestElements
+    Element* firstRes, *secondRes;
+    int firstVertex, secondVertex;
+    GraphComponent::RequestType firstType;
+    Link linkToBuild;
+    std::vector<NetPath>* resultPaths = NULL;
+    if (resultNeeded) resultPaths = new std::vector<NetPath>;
+    for(Requests::iterator i = requests.begin(); i != requests.end(); i ++)
+    {
+        const Request::VirtualLinks& links = (*i)->getVirtualLinks();
+        if (resultNeeded) resultPaths->reserve(resultPaths->size()+links.size());
+        for (Request::VirtualLinks::const_iterator lk = links.begin(); lk != links.end(); lk ++)
+        {
+            firstRes = paths[ant]->findPointer((*lk)->getFirst(), firstVertex);
+            secondRes = paths[ant]->findPointer((*lk)->getSecond(), secondVertex);
+            if (firstRes && secondRes)
+            {
+//                std::cerr << "Routing link from " << firstVertex << '(' << (*lk)->getFirst() << ") to " << secondVertex << '(' << (*lk)->getSecond() << 
+//                             "), capacity = " << (*lk)->getCapacity() << '\n';
+                firstType = (firstRes->isNode()) ? GraphComponent::VMACHINE : GraphComponent::STORAGE;
+                linkToBuild.bindElements(firstRes, secondRes);
+                NetPath channel = VirtualLinkRouter::route(&linkToBuild, network, VirtualLinkRouter::DEJKSTRA);
+//                NetPath channel = VirtualLinkRouter::route(&linkToBuild, network, VirtualLinkRouter::K_SHORTEST_PATHS);
+                if (channel.empty())
+                {
+                    //TODO:replication
+                    // replication failed, removing first is enough
+                    std::cerr << "There is no virtual channel\n";
+                    removeRequestElements(firstVertex, paths[ant], emptySet, firstType);
+                }
+/*                else
+                {
+                    std::cerr << "Found channel: ";
+                    for (int index = 0; index < channel.size(); ++ index)
+                    {
+                        std::cerr << channel[index]->getName() << '(' << channel[index]->getCapacity() << ")-";
+                    }
+                    std::cerr << '\n';
+                }*/
+                if (resultNeeded) resultPaths->push_back(channel);
+            }
+        }
+    }
+    return resultPaths;
 }

@@ -14,12 +14,12 @@ public:
 
     void bindElements(Element * a, Element * b);
 
-    Element * getFirst()
+    Element * getFirst() const
     {
         return first;
     }
 
-    Element * getSecond()
+    Element * getSecond() const
     {
         return second;
     }

@@ -35,7 +35,7 @@ private:
     // Best path and its value
     AntPath* bestPath;
     double bestValue;
-    // Objective function values for each path
+    // Objective function values for each path+netpath
     std::vector<double> objValues;
 
     // parameters
@@ -48,7 +48,7 @@ private:
     // private functions
     bool init();
     bool buildPath(unsigned int ant);
-    bool buildLink(unsigned int ant);
+    std::vector<NetPath>* buildLink(unsigned int ant, bool resultNeeded);
     unsigned int objFunctions();
     void removeRequestElements(unsigned int vertex, AntPath* pt, std::set<unsigned int> & available, GraphComponent::RequestType t);
 

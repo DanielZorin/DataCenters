@@ -86,7 +86,8 @@ bool GraphComponent::init(int num)
         for (i = 0; i < num; ++ i)
             physArcs[i] = new Arc;
 
-        std::cerr << "Created graph component, num = " << num << ", capacity = " << required << '(' << request->getCapacity() << "), type = " << storageType << '\n';
+        std::cerr << "Created graph component, num = " << num << ", capacity = " << required << '(' << request->getCapacity() << "), type = " << storageType <<
+                     ", pointer = " << request << '\n';
         return true;
     }
     catch (const char* s)
@@ -268,13 +269,8 @@ void InternalGraph::updatePheromone(std::vector<AntPath*> & paths, std::vector<d
         std::cerr << "paths[" << i << "]: ";
         const std::vector<PathElement *> & path = paths[i]->getPath();
         for (int j = 0; j < path.size(); ++ j)
-        {
-            if (path[j]->requestPointer && path[j]->resourcePointer)
-                std::cerr << '(' << path[j]->request << '[' << path[j]->requestPointer->getCapacity() <<  "]," << path[j]->resource << '[' <<
-                             path[j]->resourcePointer->getMaxCapacity() << "])-";
-            else
-                std::cerr << '(' << path[j]->request <<  "," << path[j]->resource << ")-";
-        }
+            std::cerr << '(' << path[j]->request <<  "," << path[j]->resource << ")-";
+
         std::cerr << '\n';
     }
 

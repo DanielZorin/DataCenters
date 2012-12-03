@@ -52,6 +52,8 @@ public:
     void eraseElement(int index);
     // Find and erase element with request == req
     int eraseRequest(unsigned int req);
+    // Find element with requestPointer == ptr and return resource pointer and request number
+    Element * findPointer(Element * ptr, int& req);
 
     // Getters
     const std::vector<PathElement *>& getPath() const { return path; }

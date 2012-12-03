@@ -94,3 +94,16 @@ void AntPath::eraseElement(int index)
 {
     if (index < path.size()) path.erase(path.begin()+index);
 }
+
+Element * AntPath::findPointer(Element * ptr, int& req)
+{
+    for (int i = 0; i < path.size(); ++ i)
+    {
+        if (path[i]->requestPointer == ptr)
+        {
+            req = path[i]->request;
+            return path[i]->resourcePointer;
+        }
+    }
+    return NULL;
+}

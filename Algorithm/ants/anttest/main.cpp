@@ -7,28 +7,29 @@
 int main(int argc, char *argv[])
 {
     Network n;
-    Node * n1 = new Node("", 1);
-    Node * n2 = new Node("", 2);
-    Node * n3 = new Node("", 3);
-    Store * s1 = new Store("", 1);
-    Store * s2 = new Store("", 2);
-    Store * s3 = new Store("", 3);
-    Store * s4 = new Store("", 4, 4, 1);
-    Switch * w1 = new Switch("", 1);
-    Switch * w2 = new Switch("", 2);
-    Switch * w3 = new Switch("", 3);
-    Link * l1 = new Link("", 3);
-    Link * l2 = new Link("", 3);
-    Link * l3 = new Link("", 3);
-    Link * l4 = new Link("", 4);
-    Link * l5 = new Link("", 5);
-    Link * l6 = new Link("", 6);
-    Link * l7 = new Link("", 7);
-    Link * l8 = new Link("", 8);
-    Link * l9 = new Link("", 9);
-    Link * l10 = new Link("", 10);
-    Link * l11 = new Link("", 11);
-    Link * l12 = new Link("", 12);
+    Node * n1 = new Node("n0", 1);
+    Node * n2 = new Node("n1", 2);
+    Node * n3 = new Node("n2", 3);
+    Store * s1 = new Store("s0", 1);
+    Store * s2 = new Store("s1", 2);
+    Store * s3 = new Store("s2", 3);
+    Store * s4 = new Store("s3", 4, 4, 1);
+    Switch * w1 = new Switch("w0", 1);
+    Switch * w2 = new Switch("w1", 1);
+    Switch * w3 = new Switch("w2", 1);
+    Link * l1 = new Link("n0w0", 30);
+    Link * l2 = new Link("n0w2", 30);
+    Link * l3 = new Link("n1w2", 30);
+    Link * l4 = new Link("n1w1", 40);
+    Link * l5 = new Link("n2w2", 50);
+    Link * l6 = new Link("w0w1", 60);
+    Link * l7 = new Link("w0s0", 70);
+    Link * l8 = new Link("w0s1", 80);
+    Link * l9 = new Link("w1s2", 90);
+    Link * l10 = new Link("w2s0", 100);
+    Link * l11 = new Link("w2s1", 110);
+    Link * l12 = new Link("w2s2", 120);
+    Link * l13 = new Link("w2s3", 130);
     l1->bindElements(n1,w1);
     l2->bindElements(n1,w3);
     l3->bindElements(n2,w3);
@@ -41,6 +42,7 @@ int main(int argc, char *argv[])
     l10->bindElements(w3,s1);
     l11->bindElements(w3,s2);
     l12->bindElements(w3,s3);
+    l13->bindElements(w3,s4);
     n.addNode(n1);
     n.addNode(n2);
     n.addNode(n3);
@@ -63,6 +65,7 @@ int main(int argc, char *argv[])
     n.addLink(l10);
     n.addLink(l11);
     n.addLink(l12);
+    n.addLink(l13);
 
     Algorithm::Requests r;
     Request * req1 = new Request;
@@ -117,7 +120,7 @@ int main(int argc, char *argv[])
     req2->addLink(ch8);
     r.insert(req1);
     r.insert(req2);
-    AntAlgorithm alg(&n, r, 5, 2, 1, 1, 0.1);
+    AntAlgorithm alg(&n, r, 1, 1, 1, 1, 0.1);
     if (!alg.isCreated()) return 1;
     std::cerr << "Created\n";
     alg.schedule();
