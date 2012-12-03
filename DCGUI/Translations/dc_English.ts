@@ -749,7 +749,7 @@
     <message>
         <location filename="ResourcesGraphEditor.ui" line="252"/>
         <source>Generate Standart Topology</source>
-        <translation>Generate Standart Topology</translation>
+        <translation>Generate Standard Topology</translation>
     </message>
     <message>
         <location filename="ResourcesGraphEditor.py" line="91"/>
