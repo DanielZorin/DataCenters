@@ -9,9 +9,9 @@ Algorithm * AlgorithmDispatcher::Dispatch(QString & type, Network * network, Req
     Algorithm * algorithm = 0;
     if ( type == QString("c") )
         algorithm = new CentralizedAlgorithm(network, requests);
-    /*
+
     if ( type == QString("d") )
         algorithm = new DecentralizedAlgorithm(network, requests);
-    */
+
     return algorithm;
 }

@@ -64,12 +64,12 @@ long Criteria::virtualLinkWeight(Link* virtualLink)
 
 unsigned Criteria::exhaustiveSearchDepth()
 {
-    return 4;
+    return 3;
 }
 
 unsigned Criteria::kShortestPathDepth()
 {
-    return 10;
+    return 5;
 }
 
 long Criteria::pathCost(NetPath& path)

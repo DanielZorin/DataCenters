@@ -222,27 +222,14 @@ void VirtualLinksAssigner::getAllVirtualLinksAssignments(Element* element,
     Links::iterator linksItEnd = network->getLinks().end();
     for ( ; linksIt != linksItEnd; ++linksIt )
     {
-        // get list of assignments of current vl first
-        Links vls = assignment->GetAssigned(*linksIt);
-
-        Links::iterator vlIt = vls.begin();
-        Links::iterator vlItEnd = vls.end();
-
-        for ( ; vlIt != vlItEnd; ++vlIt )
-            if ( vlAssignment.find(*vlIt) == vlAssignment.end() )
-            {
-                vlAssignment[*vlIt] = assignment;
-                vlRequest[*vlIt] = req;
-            }
-
         // going through all other assigned requests
         RequestAssignment::iterator it = requestAssignment.begin();
         RequestAssignment::iterator itEnd = requestAssignment.end();
         for ( ; it != itEnd; ++it )
         {
             Links vls = it->second->GetAssigned(*linksIt);
-            vlIt = vls.begin();
-            vlItEnd = vls.end();
+            Links::iterator vlIt = vls.begin();
+            Links::iterator vlItEnd = vls.end();
             for ( ; vlIt != vlItEnd; ++vlIt )
                 if ( vlAssignment.find(*vlIt) == vlAssignment.end() )
                 {
@@ -290,6 +277,7 @@ bool VirtualLinksAssigner::recursiveExhaustiveSearch(VirtualLink * virtualLink, 
         if ( path.size() > 0 )
         {
             AddVirtualLink(virtualLink, &path, assignment);
+            assignment->AddAssignment(virtualLink, path);
 
             // trying to reassign removed virtual links
             Links::iterator it = removedVirtualLinks.begin();
@@ -311,10 +299,10 @@ bool VirtualLinksAssigner::recursiveExhaustiveSearch(VirtualLink * virtualLink, 
                         vlAssignment[*itRemove]->RemoveAssignment(*itRemove);
                     }
                     RemoveVirtualLink(virtualLink, assignment);
+                    assignment->RemoveAssignment(virtualLink);
                     return false;
                 }
-            }
-            assignment->AddAssignment(virtualLink, path);
+            }            
             return true;
         }
         return false;
@@ -449,6 +437,7 @@ bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assig
     }
 
     int minLength = INT_MAX;
+    int maxNumOfAssigned = -1;
     long maxCost = -1l;
     NetPath bestStoragePath, bestNodePath;
     Store * bestStore = NULL;
@@ -457,6 +446,7 @@ bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assig
         NetPath storagesPath;
         long cost = Criteria::replicationPathCost(store, stores[index], network, storagesPath);
         int length = storagesPath.size(); // summary length of the path
+        int numOfAssigned = 1;
         if ( cost > 0 ) // path exist
         {
             // virtual link between node and the second store should exist
@@ -479,12 +469,15 @@ bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assig
                     {
                         cost += newCost;
                         length += dummyPath.size();
+                        ++numOfAssigned;
                     }
                 }
 
-                if ( length < minLength || length == minLength && maxCost < cost )
+                if ( maxNumOfAssigned < numOfAssigned || maxNumOfAssigned == numOfAssigned &&
+                    (length < minLength || length == minLength && maxCost < cost) )
                 {
                     bestStore = stores[index];
+                    maxNumOfAssigned = numOfAssigned;
                     maxCost = cost;
                     minLength = length;
                     bestStoragePath = storagesPath;
@@ -535,6 +528,9 @@ void VirtualLinksAssigner::reassignAfterReplication(VirtualLink* virtualLink, St
     Link link("dummy_replication_link", virtualLink->getCapacity());
     link.bindElements(vm, replicationStore);
     long pathToReplicationCost = Criteria::replicationPathCost(&link, network, pathToReplication);
+
+    if ( pathToReplication.size() == 0 )
+        return; // no need to reassign
 	
 	NetPath initialPath = assignment->GetAssignment(virtualLink);
 	long initialCost = Criteria::pathCost(initialPath);
