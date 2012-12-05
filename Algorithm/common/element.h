@@ -41,6 +41,8 @@ public:
         if (isAssignmentPossible(other)) 
             capacity -= other.capacity;
     }
+    void setCapacity(unsigned long c) { capacity = c; }
+    void setMaxCapacity(unsigned long mc) { maxCapacity = mc; }
 
     // Remove the assignment, it is assumed that the other
     // element is assigned in this element.

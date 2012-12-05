@@ -11,13 +11,17 @@ Request::Request(string n)
 Request::Request(const Request & r)
 {
     for (VirtualMachines::const_iterator i = r.virtualMachines.begin(); i != r.virtualMachines.end(); i ++)
-        virtualMachines.insert(new Node((*i)->getName(), (*i)->getCapacity()));
+        virtualMachines.insert(new Node((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity()));
 
     for (Stores::const_iterator i = r.storages.begin(); i != r.storages.end(); i ++)
-        storages.insert(new Store((*i)->getName(), (*i)->getCapacity()));
+        storages.insert(new Store((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity(), (*i)->getTypeOfStore()));
 
     for (VirtualLinks::const_iterator i = r.virtualLinks.begin(); i != r.virtualLinks.end(); i ++)
-        virtualLinks.insert(new Link((*i)->getName(), (*i)->getCapacity()));
+    {
+        Link* tmp = new Link((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity());
+        tmp->bindElements((*i)->getFirst(), (*i)->getSecond());
+        virtualLinks.insert(tmp);
+    }
 }
 
 Request::~Request()
@@ -51,13 +55,17 @@ Request& Request::operator=(const Request & r)
 
     // add new items
     for (VirtualMachines::const_iterator i = r.virtualMachines.begin(); i != r.virtualMachines.end(); i ++)
-        virtualMachines.insert(new Node((*i)->getName(), (*i)->getCapacity()));
+        virtualMachines.insert(new Node((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity()));
 
     for (Stores::const_iterator i = r.storages.begin(); i != r.storages.end(); i ++)
-        storages.insert(new Store((*i)->getName(), (*i)->getCapacity()));
+        storages.insert(new Store((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity(), (*i)->getTypeOfStore()));
 
     for (VirtualLinks::const_iterator i = r.virtualLinks.begin(); i != r.virtualLinks.end(); i ++)
-        virtualLinks.insert(new Link((*i)->getName(), (*i)->getCapacity()));
+    {
+        Link* tmp = new Link((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity());
+        tmp->bindElements((*i)->getFirst(), (*i)->getSecond());
+        virtualLinks.insert(tmp);
+    }
 
     return *this;
 }

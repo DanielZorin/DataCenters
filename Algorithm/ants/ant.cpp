@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits.h>
 #include "ant.h"
 #include "../decentralized/virtualLinkRouter.h"
 
@@ -38,6 +39,8 @@ bool AntAlgorithm::init()
 {
     try
     {
+        copyNetwork = new Network(*network);
+
         // how many VMs and storages we have
         for (Requests::iterator i = requests.begin(); i != requests.end(); i ++)
         {
@@ -266,8 +269,8 @@ std::vector<NetPath>* AntAlgorithm::buildLink(unsigned int ant, bool resultNeede
     Element* firstRes, *secondRes;
     int firstVertex, secondVertex;
     GraphComponent::RequestType firstType;
-    Link linkToBuild;
     std::vector<NetPath>* resultPaths = NULL;
+    const Stores& storesPtr = network->getStores();
     if (resultNeeded) resultPaths = new std::vector<NetPath>;
     for(Requests::iterator i = requests.begin(); i != requests.end(); i ++)
     {
@@ -279,31 +282,118 @@ std::vector<NetPath>* AntAlgorithm::buildLink(unsigned int ant, bool resultNeede
             secondRes = paths[ant]->findPointer((*lk)->getSecond(), secondVertex);
             if (firstRes && secondRes)
             {
-//                std::cerr << "Routing link from " << firstVertex << '(' << (*lk)->getFirst() << ") to " << secondVertex << '(' << (*lk)->getSecond() << 
-//                             "), capacity = " << (*lk)->getCapacity() << '\n';
-                firstType = (firstRes->isNode()) ? GraphComponent::VMACHINE : GraphComponent::STORAGE;
+                Link linkToBuild("", (*lk)->getCapacity());
                 linkToBuild.bindElements(firstRes, secondRes);
+//                std::cerr << "Routing link from " << firstVertex << '(' << (*lk)->getFirst() << ") to " << secondVertex << '(' << (*lk)->getSecond() <<
+//                             "), capacity = " << linkToBuild.getCapacity() << ", assigned to " << linkToBuild.getFirst() << " and " << linkToBuild.getSecond() << '\n';
+                firstType = (firstRes->isNode()) ? GraphComponent::VMACHINE : GraphComponent::STORAGE;
+                // try to route
                 NetPath channel = VirtualLinkRouter::route(&linkToBuild, network, VirtualLinkRouter::DEJKSTRA);
-//                NetPath channel = VirtualLinkRouter::route(&linkToBuild, network, VirtualLinkRouter::K_SHORTEST_PATHS);
                 if (channel.empty())
                 {
-                    //TODO:replication
-                    // replication failed, removing first is enough
-                    std::cerr << "There is no virtual channel\n";
-                    removeRequestElements(firstVertex, paths[ant], emptySet, firstType);
+                    // replication
+                    Element * source = (firstType == GraphComponent::STORAGE) ? firstRes : secondRes;
+                    Element * destination = (firstType == GraphComponent::STORAGE) ? secondRes : firstRes;
+                    Element * replicating = ((*lk)->getFirst()->isNode() == true) ? (*lk)->getSecond() : (*lk)->getFirst();
+                    Element * repDest = NULL;
+//                    std::cerr << "Trying replication. Source = " << source << ", dest = " << destination << ", replicating = " << replicating << '\n';
+                    NetPath repChannel, dataChannel;
+                    Link repLink("", 1);
+                    Link dataLink("", (*lk)->getCapacity());
+                    bool repSuccess = false;
+                    std::vector<unsigned long> curStoresRes = graph->getCurStoresRes();
+                    unsigned int minRes = curStoresRes[0], minIndex = 0;
+                    if (static_cast<Store *>(replicating)->getTypeOfStore() != 0)
+                    {
+                        for (int p = 0; p < curStoresRes.size(); ++ p)
+                        {
+                            if (curStoresRes[p] < replicating->getCapacity()) curStoresRes[p] = LONG_MAX;
+                            else curStoresRes[p] -= replicating->getCapacity();
+                        }
+                        while (1)
+                        {
+                            // sort
+                            for (unsigned int q = 0; q < curStoresRes.size(); ++ q)
+                            {
+                                if (curStoresRes[q] < LONG_MAX && curStoresRes[q] < minRes) { minRes = curStoresRes[q]; minIndex = q; }
+                            }
+                            if (minIndex >= curStoresRes.size()) { repSuccess = false; break; }
+                            curStoresRes[minIndex] = LONG_MAX;
+                            // SET DON'T HAVE += FOR ITERATORS, ****!
+                            Stores::const_iterator iter = storesPtr.begin();
+                            for (unsigned int q = 0; q < minIndex; ++ q) iter ++;
+                            repDest = *iter;
+    //                        std::cerr << "Trying " << minIndex << '(' << repDest << ")\n";
+                            // is replication possible?
+                            if (repDest == source || static_cast<Store *>(repDest)->getTypeOfStore() != static_cast<Store *>(replicating)->getTypeOfStore())
+                            {
+                                minIndex = curStoresRes.size();
+                                minRes = LONG_MAX;
+                                continue;
+                            }
+                            repLink.bindElements(repDest, source);
+                            dataLink.bindElements(repDest, destination);
+
+                            // route channels
+    //                        std::cerr << "Routing link from " << repDest << " to " << source << ", capacity = " << repLink.getCapacity();
+                            repChannel = VirtualLinkRouter::route(&repLink, network, VirtualLinkRouter::DEJKSTRA);
+    //                        if (repChannel.empty()) std::cerr << "... no\n";
+    //                        else std::cerr << "... yes\n";
+
+    //                        std::cerr << "Routing link from " << repDest << " to " << destination << ", capacity = " << dataLink.getCapacity();
+                            dataChannel = VirtualLinkRouter::route(&dataLink, network, VirtualLinkRouter::DEJKSTRA);
+    //                        if (dataChannel.empty()) std::cerr << "... no\n";
+    //                        else std::cerr << "... yes\n";
+
+                            if (!repChannel.empty() && !dataChannel.empty()) { repSuccess = true; break; }
+                            minIndex = curStoresRes.size();
+                            minRes = LONG_MAX;
+                        }
+                    }
+                    if (!repSuccess)
+                    {
+                        // replication failed, removing first is enough
+//                        std::cerr << "There is no virtual channel\n";
+                        removeRequestElements(firstVertex, paths[ant], emptySet, firstType);
+                    }
+                    else
+                    {
+                        if (resultNeeded)
+                        {
+                            resultPaths->push_back(repChannel);
+                            resultPaths->push_back(dataChannel);
+                        }
+//                        std::cerr << "Replication successful, minIndex = " << minIndex << ", paths: " << '\n';
+                        for (int index = 0; index < repChannel.size(); ++ index)
+                        {
+                           repChannel[index]->assign(repLink);
+//                           std::cerr << repChannel[index]->getName() << '(' << repChannel[index]->getCapacity() << ")-";
+                        }
+//                        std::cerr << '\n';
+                        for (int index = 0; index < dataChannel.size(); ++ index)
+                        {
+                           dataChannel[index]->assign(dataLink);
+//                           std::cerr << dataChannel[index]->getName() << '(' << dataChannel[index]->getCapacity() << ")-";
+                        }
+//                        std::cerr << '\n';
+                        graph->decreaseCurStoresRes(minIndex, replicating->getCapacity());
+                    }
                 }
-/*                else
+                else // !channel.empty()
                 {
-                    std::cerr << "Found channel: ";
+//                    std::cerr << "Found channel: ";
                     for (int index = 0; index < channel.size(); ++ index)
                     {
-                        std::cerr << channel[index]->getName() << '(' << channel[index]->getCapacity() << ")-";
+                        channel[index]->assign(linkToBuild);
+//                        std::cerr << channel[index]->getName() << '(' << channel[index]->getCapacity() << ")-";
                     }
-                    std::cerr << '\n';
-                }*/
-                if (resultNeeded) resultPaths->push_back(channel);
+//                    std::cerr << '\n';
+                    if (resultNeeded) resultPaths->push_back(channel);
+                }
             }
         }
     }
+    // restore network
+    network->assign(*copyNetwork);
     return resultPaths;
 }

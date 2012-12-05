@@ -111,6 +111,8 @@ public:
     void setPherDeg(double deg) { pherDeg = deg; }
     // Request erased from path, add the resources back
     void requestErased(int resource, unsigned int request, GraphComponent::RequestType t);
+    std::vector<unsigned long> getCurStoresRes() { return curStoresRes; }
+    void decreaseCurStoresRes(int index, unsigned long cap) { curStoresRes[index] -= cap; }
 private:
     // initialize
     bool init(std::vector<unsigned long> & res, std::vector<unsigned long> & cap, std::vector<unsigned long> & req,

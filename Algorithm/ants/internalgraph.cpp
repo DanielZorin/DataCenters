@@ -223,6 +223,7 @@ InternalGraph::InternalGraph(unsigned int nodes, unsigned int stores, unsigned i
 , pherDeg(0)
 {
     srand((unsigned)time(NULL));
+//    srand(0);
     if (!init(res, cap, req, reqTypes, pn, ps, virtElems)) success = false;
     else
     {

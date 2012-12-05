@@ -27,6 +27,10 @@ public:
         return replicationCapacity;
     }
 
+    void setTypeOfStore(unsigned type)
+    {
+        typeOfStore = type;
+    }
 private:
     // Type of store/storage
     unsigned typeOfStore;

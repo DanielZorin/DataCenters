@@ -10,13 +10,13 @@ int main(int argc, char *argv[])
     Node * n1 = new Node("n0", 1);
     Node * n2 = new Node("n1", 2);
     Node * n3 = new Node("n2", 3);
-    Store * s1 = new Store("s0", 1);
-    Store * s2 = new Store("s1", 2);
-    Store * s3 = new Store("s2", 3);
-    Store * s4 = new Store("s3", 4, 4, 1);
-    Switch * w1 = new Switch("w0", 1);
-    Switch * w2 = new Switch("w1", 1);
-    Switch * w3 = new Switch("w2", 1);
+    Store * s1 = new Store("s0", 10);
+    Store * s2 = new Store("s1", 20);
+    Store * s3 = new Store("s2", 30);
+    Store * s4 = new Store("s3", 40, 40, 1);
+    Switch * w1 = new Switch("w0", 10);
+    Switch * w2 = new Switch("w1", 10);
+    Switch * w3 = new Switch("w2", 10);
     Link * l1 = new Link("n0w0", 30);
     Link * l2 = new Link("n0w2", 30);
     Link * l3 = new Link("n1w2", 30);
@@ -29,7 +29,8 @@ int main(int argc, char *argv[])
     Link * l10 = new Link("w2s0", 100);
     Link * l11 = new Link("w2s1", 110);
     Link * l12 = new Link("w2s2", 120);
-    Link * l13 = new Link("w2s3", 130);
+//    Link * l13 = new Link("w2s3", 130);
+    Link * l14 = new Link("s2s3", 140);
     l1->bindElements(n1,w1);
     l2->bindElements(n1,w3);
     l3->bindElements(n2,w3);
@@ -42,7 +43,8 @@ int main(int argc, char *argv[])
     l10->bindElements(w3,s1);
     l11->bindElements(w3,s2);
     l12->bindElements(w3,s3);
-    l13->bindElements(w3,s4);
+//    l13->bindElements(w3,s4);
+    l14->bindElements(s3,s4);
     n.addNode(n1);
     n.addNode(n2);
     n.addNode(n3);
@@ -65,7 +67,8 @@ int main(int argc, char *argv[])
     n.addLink(l10);
     n.addLink(l11);
     n.addLink(l12);
-    n.addLink(l13);
+//    n.addLink(l13);
+    n.addLink(l14);
 
     Algorithm::Requests r;
     Request * req1 = new Request;
@@ -126,4 +129,3 @@ int main(int argc, char *argv[])
     alg.schedule();
     return 0;
 }
-

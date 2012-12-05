@@ -37,6 +37,8 @@ private:
     double bestValue;
     // Objective function values for each path+netpath
     std::vector<double> objValues;
+    // copy network
+    Network * copyNetwork;
 
     // parameters
     unsigned int antNum;

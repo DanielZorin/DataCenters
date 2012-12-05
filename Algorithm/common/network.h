@@ -17,6 +17,12 @@ public:
    // operator=
    Network& operator=(const Network & n);
 
+   // quick assign
+   // assigns only the capacity and typeOfStore values from the given network to the existing network
+   // doesn't cause reallocation, doesn't assign resource names
+   // if there are different number of resources in the networks, only first possible capacities will be assigned
+   Network & assign(const Network & n);
+
    // Getters/Setters
    const Nodes& getNodes() const;
    const Stores& getStores() const;
