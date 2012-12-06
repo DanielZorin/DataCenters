@@ -15,10 +15,10 @@ INCLUDE_DIRECTORIES(
         )
 
 SET ( COMPONENTS
-    common
     centralized
     decentralized
     ants
+    common
       )
 
 FOREACH(COMPONENT ${COMPONENTS})
