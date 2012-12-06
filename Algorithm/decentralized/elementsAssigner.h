@@ -4,6 +4,9 @@
 #include "publicdefs.h"
 #include<map>
 
+// to add NULL constant independently
+#include <cstddef>
+
 // The class to assign any of virtual elements
 // to physical resources.
 

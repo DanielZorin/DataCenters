@@ -1,4 +1,6 @@
 #include "path.h"
+// To add NULL constant definition independently
+#include <cstddef> 
 
 PathElement::PathElement(const PathElement & p)
 {
