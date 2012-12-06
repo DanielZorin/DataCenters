@@ -339,12 +339,6 @@ QLabel, QSlider {
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
-   <widget class="QMenu" name="menuHelp">
-    <property name="title">
-     <string>Help</string>
-    </property>
-    <addaction name="actionAbout"/>
-   </widget>
    <widget class="QMenu" name="menuProject">
     <property name="title">
      <string>Project</string>
@@ -356,12 +350,12 @@ QLabel, QSlider {
     <addaction name="actionCreate_Random_Demands"/>
     <addaction name="actionStart"/>
     <addaction name="actionSchedule_selected"/>
+    <addaction name="actionShow_Statistics"/>
     <addaction name="actionShow_Results"/>
     <addaction name="actionReset"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuProject"/>
-   <addaction name="menuHelp"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">

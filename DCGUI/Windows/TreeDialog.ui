@@ -87,7 +87,14 @@ QLabel, QSlider {
         <item>
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>Switch bandwidth:</string>
+           <string>Switches</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string>bandwidth: </string>
           </property>
          </widget>
         </item>
@@ -287,7 +294,14 @@ QLabel, QSlider {
         <item>
          <widget class="QLabel" name="label_5">
           <property name="text">
-           <string>Switches bandwidth:</string>
+           <string>Switches</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_12">
+          <property name="text">
+           <string>bandwidth: </string>
           </property>
          </widget>
         </item>
@@ -456,7 +470,14 @@ QLabel, QSlider {
         <item>
          <widget class="QLabel" name="label_17">
           <property name="text">
-           <string>Switch bandwidth:</string>
+           <string>Switches</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_16">
+          <property name="text">
+           <string>bandwidth: </string>
           </property>
          </widget>
         </item>

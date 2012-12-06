@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="en_US">
+<!DOCTYPE TS><TS version="2.0" language="en_US" sourcelanguage="">
 <context>
     <name>ComputerDialog</name>
     <message>
@@ -216,17 +215,17 @@
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="368"/>
+        <location filename="MainWindow.ui" line="362"/>
         <source>toolBar</source>
         <translation>toolBar</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="449"/>
+        <location filename="MainWindow.ui" line="443"/>
         <source>Save Project As...</source>
         <translation>Сохранить проект как...</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="394"/>
+        <location filename="MainWindow.ui" line="388"/>
         <source>Exit</source>
         <translation>Выход</translation>
     </message>
@@ -261,22 +260,22 @@
         <translation>Статистика</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="480"/>
+        <location filename="MainWindow.ui" line="474"/>
         <source>Settings...</source>
         <translation>Настройки...</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="510"/>
+        <location filename="MainWindow.ui" line="504"/>
         <source>Add Request</source>
         <translation>Добавить запрос</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="525"/>
+        <location filename="MainWindow.ui" line="519"/>
         <source>Delete Request</source>
         <translation>Удалить запрос</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="555"/>
+        <location filename="MainWindow.ui" line="549"/>
         <source>Edit Request</source>
         <translation>Редактировать запрос</translation>
     </message>
@@ -321,7 +320,7 @@
         <translation>New demand</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="283"/>
+        <location filename="MainWindow.py" line="357"/>
         <source>Data Centers GUI</source>
         <translation>Средство планирования вычислений в ЦОД</translation>
     </message>
@@ -336,7 +335,7 @@
         <translation>Назначить все</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="605"/>
+        <location filename="MainWindow.ui" line="599"/>
         <source>Schedule selected</source>
         <translation>Назначить выбранные</translation>
     </message>
@@ -372,141 +371,136 @@
     </message>
     <message>
         <location filename="MainWindow.ui" line="344"/>
-        <source>Help</source>
-        <translation>Помощь</translation>
-    </message>
-    <message>
-        <location filename="MainWindow.ui" line="350"/>
         <source>Project</source>
         <translation>Проект</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="397"/>
+        <location filename="MainWindow.ui" line="391"/>
         <source>Ctrl+X</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="415"/>
+        <location filename="MainWindow.ui" line="409"/>
         <source>New Project</source>
         <translation>Новый проект</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="418"/>
+        <location filename="MainWindow.ui" line="412"/>
         <source>Ctrl+N</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="428"/>
+        <location filename="MainWindow.ui" line="422"/>
         <source>Open Project</source>
         <translation>Открыть проект</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="431"/>
+        <location filename="MainWindow.ui" line="425"/>
         <source>Ctrl+O</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="441"/>
+        <location filename="MainWindow.ui" line="435"/>
         <source>Save Project</source>
         <translation>Сохранить проект</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="444"/>
+        <location filename="MainWindow.ui" line="438"/>
         <source>Ctrl+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="452"/>
+        <location filename="MainWindow.ui" line="446"/>
         <source>Ctrl+Shift+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="468"/>
+        <location filename="MainWindow.ui" line="462"/>
         <source>Schedule All</source>
         <translation>Назначить все</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="471"/>
+        <location filename="MainWindow.ui" line="465"/>
         <source>F5</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="483"/>
+        <location filename="MainWindow.ui" line="477"/>
         <source>F12</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="495"/>
+        <location filename="MainWindow.ui" line="489"/>
         <source>Edit Resources</source>
         <translation>Редактировать ресурсы</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="498"/>
+        <location filename="MainWindow.ui" line="492"/>
         <source>F3</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="513"/>
+        <location filename="MainWindow.ui" line="507"/>
         <source>Alt+N</source>
         <translation> </translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="528"/>
+        <location filename="MainWindow.ui" line="522"/>
         <source>Alt+X</source>
         <translation> </translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="540"/>
+        <location filename="MainWindow.ui" line="534"/>
         <source>Create Random Requests</source>
         <translation>Генерация случайных запросов</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="543"/>
+        <location filename="MainWindow.ui" line="537"/>
         <source>F9</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="558"/>
+        <location filename="MainWindow.ui" line="552"/>
         <source>F4</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="570"/>
+        <location filename="MainWindow.ui" line="564"/>
         <source>Show Results</source>
         <translation>Визуализация результатов</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="573"/>
+        <location filename="MainWindow.ui" line="567"/>
         <source>F7</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="585"/>
+        <location filename="MainWindow.ui" line="579"/>
         <source>Show Statistics</source>
         <translation>Показать статистику</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="588"/>
+        <location filename="MainWindow.ui" line="582"/>
         <source>F8</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="593"/>
+        <location filename="MainWindow.ui" line="587"/>
         <source>Reset</source>
         <translation>Сбросить</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="596"/>
+        <location filename="MainWindow.ui" line="590"/>
         <source>F10</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="608"/>
+        <location filename="MainWindow.ui" line="602"/>
         <source>F6, Ctrl+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="405"/>
+        <location filename="MainWindow.ui" line="399"/>
         <source>About DC GUI</source>
         <translation>Сведения о средстве планирования вычислений в ЦОД</translation>
     </message>
@@ -992,7 +986,7 @@
 <context>
     <name>TreeDialog</name>
     <message>
-        <location filename="TreeDialog.ui" line="818"/>
+        <location filename="TreeDialog.ui" line="839"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
@@ -1007,42 +1001,42 @@
         <translation>Параметры топологии</translation>
     </message>
     <message>
-        <location filename="TreeDialog.ui" line="341"/>
+        <location filename="TreeDialog.ui" line="355"/>
         <source>Number of outgoing</source>
         <translation>Число исходящих</translation>
     </message>
     <message>
-        <location filename="TreeDialog.ui" line="399"/>
+        <location filename="TreeDialog.ui" line="413"/>
         <source>Outgoing channels    </source>
         <translation>Пропускная способность</translation>
     </message>
     <message>
-        <location filename="TreeDialog.ui" line="406"/>
+        <location filename="TreeDialog.ui" line="420"/>
         <source>bandwidth:</source>
         <translation>исходящих каналов:</translation>
     </message>
     <message>
-        <location filename="TreeDialog.ui" line="282"/>
+        <location filename="TreeDialog.ui" line="289"/>
         <source>2nd layer</source>
         <translation>2ой уровень</translation>
     </message>
     <message>
-        <location filename="TreeDialog.ui" line="517"/>
+        <location filename="TreeDialog.ui" line="538"/>
         <source>connect computers:</source>
         <translation>объединяющих вычислители:</translation>
     </message>
     <message>
-        <location filename="TreeDialog.ui" line="706"/>
+        <location filename="TreeDialog.ui" line="727"/>
         <source>Computer channels bandwidth:</source>
         <translation>Скорость каналов, соед. вычислители:</translation>
     </message>
     <message>
-        <location filename="TreeDialog.ui" line="713"/>
+        <location filename="TreeDialog.ui" line="734"/>
         <source>Computer performance:</source>
         <translation>Производительность вычислителей:</translation>
     </message>
     <message>
-        <location filename="TreeDialog.ui" line="811"/>
+        <location filename="TreeDialog.ui" line="832"/>
         <source>OK</source>
         <translation>ОК</translation>
     </message>
@@ -1057,64 +1051,64 @@
         <translation>&quot;Корневой&quot; уровень</translation>
     </message>
     <message>
-        <location filename="TreeDialog.ui" line="459"/>
-        <source>Switch bandwidth:</source>
-        <translation>Скорость коммутаторов:</translation>
-    </message>
-    <message>
-        <location filename="TreeDialog.ui" line="348"/>
+        <location filename="TreeDialog.ui" line="362"/>
         <source>channels per switch:</source>
         <translation>каналов для 1 коммутатора:</translation>
     </message>
     <message>
-        <location filename="TreeDialog.ui" line="247"/>
+        <location filename="TreeDialog.ui" line="254"/>
         <source>Number of 2nd layer switches:</source>
         <translation>Число коммутаторов 2ого уровня:</translation>
     </message>
     <message>
-        <location filename="TreeDialog.ui" line="290"/>
-        <source>Switches bandwidth:</source>
-        <translation>Скорость коммутаторов:</translation>
-    </message>
-    <message>
-        <location filename="TreeDialog.ui" line="568"/>
+        <location filename="TreeDialog.ui" line="589"/>
         <source>Number of switches to</source>
         <translation>Количество коммутаторов</translation>
     </message>
     <message>
-        <location filename="TreeDialog.ui" line="575"/>
+        <location filename="TreeDialog.ui" line="596"/>
         <source>connect data stores:</source>
         <translation>объединяющих хранилища:</translation>
     </message>
     <message>
-        <location filename="TreeDialog.ui" line="624"/>
+        <location filename="TreeDialog.ui" line="645"/>
         <source>Data store channels bandwidth:</source>
         <translation>Скорость коммутаторов, соед. хранилища:</translation>
     </message>
     <message>
-        <location filename="TreeDialog.ui" line="631"/>
+        <location filename="TreeDialog.ui" line="652"/>
         <source>Data store capacity:</source>
         <translation>Объем хранилищ:</translation>
     </message>
     <message>
-        <location filename="TreeDialog.ui" line="638"/>
+        <location filename="TreeDialog.ui" line="659"/>
         <source>Number of data store types:</source>
         <translation>Число типов хранилищ:</translation>
     </message>
     <message>
-        <location filename="TreeDialog.ui" line="699"/>
+        <location filename="TreeDialog.ui" line="720"/>
         <source>Number of computers per switch:</source>
         <translation>Число вычислителей на 1 коммутатор:</translation>
     </message>
     <message>
-        <location filename="TreeDialog.ui" line="777"/>
+        <location filename="TreeDialog.ui" line="798"/>
         <source>Number of high-level switches replicas (per switch):</source>
         <translation>Число копий каждого коммутатора корневого (и, возможно 2ого) уровня:</translation>
     </message>
     <message>
-        <location filename="TreeDialog.ui" line="617"/>
+        <location filename="TreeDialog.ui" line="638"/>
         <source>Number of data stores per switch:</source>
         <translation>Число хранилищ на 1 коммутатор:</translation>
+    </message>
+    <message>
+        <location filename="TreeDialog.ui" line="473"/>
+        <source>Switches</source>
+        <translation>Пропускная способность</translation>
+    </message>
+    <message>
+        <location filename="TreeDialog.ui" line="480"/>
+        <source>bandwidth: </source>
+        <translation>коммутаторов:</translation>
     </message>
 </context>
 <context>
@@ -1246,6 +1240,22 @@
         <location filename="Vis.ui" line="127"/>
         <source>Ctrl+X</source>
         <translation></translation>
+    </message>
+</context>
+<context>
+    <name>self.demandGraphEditor</name>
+    <message>
+        <location filename="MainWindow.py" line="358"/>
+        <source>Request Graph Editor</source>
+        <translation>Редактор графа запроса</translation>
+    </message>
+</context>
+<context>
+    <name>self.resourcesGraphEditor</name>
+    <message>
+        <location filename="MainWindow.py" line="359"/>
+        <source>Resources Graph Editor</source>
+        <translation>Редактор графа ресурсов</translation>
     </message>
 </context>
 </TS>
