@@ -11,6 +11,7 @@
 
 #include <vector>
 #include <algorithm>
+#include <climits>
 
 VirtualLinksAssigner::~VirtualLinksAssigner()
 {
@@ -119,7 +120,8 @@ bool VirtualLinksAssigner::assignOneVirtualLink(Link * virtualLink, Link * physi
 {
     if ( physicalLink->getFirst() == physicalLink->getSecond() )
     {
-        reqAssignment->AddAssignment(virtualLink, NetPath()); // 0-weight path
+        NetPath path;
+        reqAssignment->AddAssignment(virtualLink, path); // 0-weight path
         return true;
     }
 
@@ -207,9 +209,12 @@ bool VirtualLinksAssigner::limitedExhaustiveSearch(Element * element, Assignment
     vlRequest[static_cast<VirtualLink*>(element)] = req;
     getAllVirtualLinksAssignments(element, vlAssignment, vlRequest, assignment, req);
     for ( unsigned depth = 1; depth <= Criteria::exhaustiveSearchDepth(); ++depth )
+    {
+        Links removedVirtualLinks; // used in the recursive algorithm, initiate as empty
         if ( recursiveExhaustiveSearch(static_cast<VirtualLink*>(element), assignment, vlAssignment,
-                vlRequest, vlAssignment.begin(), Links(), depth) )
+                vlRequest, vlAssignment.begin(), removedVirtualLinks, depth) )
             return true;
+    }
     return false;
 }
 
@@ -323,11 +328,7 @@ Link VirtualLinksAssigner::getPhysicalLink(VirtualLink* virtualLink, Request* re
 Element * VirtualLinksAssigner::getAssigned(Element * virtualResource, Request* req)
 {
     if ( virtualResource->isNode() )
-    {
-        if ( (*virtualMachinesAssignments)[req]->GetAssignment(static_cast<Node*>(virtualResource)) == NULL )
-            printf("fail!\n");
         return (*virtualMachinesAssignments)[req]->GetAssignment(static_cast<Node*>(virtualResource));
-    }
     if ( virtualResource->isStore() )
         return (*storagesAssignments)[req]->GetAssignment(static_cast<Store*>(virtualResource));
     return NULL;

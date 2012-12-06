@@ -54,20 +54,10 @@ public:
     }
 
 public:
-    // Get/Set the baandwidth of the link (which are used fo maintaining consistency of replication).
-    static void SetLinkBandwidth(unsigned typeOfStore, long bandwidth)
-    {
-        if ( typeOfStore != 0 ) // 0 - not database, but memory in RAM
-            consistencyBandwidths[typeOfStore] = bandwidth;
-    }
-
-    static long GetLinkBandwidth(unsigned typeOfStore)
-    {
-        if ( consistencyBandwidths.find(typeOfStore) != consistencyBandwidths.end() )
-            return consistencyBandwidths[typeOfStore];
-        return 0l;
-    }
-
+    // Get/Set the bandwidth of the link (which are used fo maintaining consistency of replication).
+    static void SetLinkBandwidth(unsigned typeOfStore, long bandwidth);
+    static long GetLinkBandwidth(unsigned typeOfStore);
+    
 private:
     // The storage, for which replication is maintained.
     Storage * storage;
