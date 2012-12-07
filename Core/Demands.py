@@ -16,15 +16,18 @@ class DemandStorage(AbstractVertex):
         self.resource = None
 
 class DemandLink:
-    def __init__(self, e1, e2, capacity):
+    def __init__(self, e1, e2, capacity, fromreplica=False, toreplica=False):
         self.e1 = e1
         self.e2 = e2
         self.capacity = capacity
         self.path = []
+        self.fromreplica = fromreplica
+        self.toreplica = toreplica
 
 class Replication:
-    def __init__(self, replica, consistencyLink, link):
-        self.replica = replica
+    def __init__(self, src, assignedto, consistencyLink, link):
+        self.replica = src
+        self.assignedto = assignedto
         self.consistencyLink = consistencyLink
         self.link = link
 
@@ -113,6 +116,10 @@ class Demand(AbstractGraph):
             tag.setAttribute("from", str(v.e1.number))
             tag.setAttribute("to", str(v.e2.number))
             tag.setAttribute("capacity", str(v.capacity))
+            if v.fromreplica:
+                tag.setAttribute("fromtype", "replica")
+            if v.toreplica:
+                tag.setAttribute("totype", "replica")
             if self.assigned:
                 if v.path != []:
                     pathstr = ""
@@ -172,7 +179,16 @@ class Demand(AbstractGraph):
             self.vertices.append(v)
 
         self.vertices.sort(key=lambda x: x.number)
-                    
+
+        for vertex in node.childNodes:
+            if isinstance(vertex, xml.dom.minidom.Text):
+                continue
+            if vertex.nodeName == "replica":
+                storage = int(vertex.getAttribute("storage_number"))
+                v = (v for v in self.vertices if v.number == storage).next()  
+                num = int(vertex.getAttribute("assignedto"))
+                assign = (v for v in resources.vertices if v.number == num).next()
+                self.replications.append(Replication(v, assign))                    
         #Parse edges
         for edge in node.childNodes:
             if edge.nodeName == "link":
@@ -181,6 +197,10 @@ class Demand(AbstractGraph):
                 cap = int(edge.getAttribute("capacity"))
                 e = DemandLink(self.vertices[source-1], self.vertices[destination-1], cap)
                 self.edges.append(e)
+                if edge.getAttribute("fromtype") == "replica":
+                    e.fromreplica = True
+                if edge.getAttribute("totype") == "replica":
+                    e.toreplica = True
                 if self.assigned:
                     verts = edge.getAttribute("assignedto")
                     if verts == "none":
@@ -194,7 +214,7 @@ class Demand(AbstractGraph):
                             edge = resources.FindEdge(path[-1], vert)
                             path += [edge, vert]
                         e.path = path
-        self.LoadReplications()
+        #self.LoadReplications()
                     
     def FindVertex(self, number):
         for v in self.vertices:
