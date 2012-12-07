@@ -26,11 +26,9 @@ class DemandLink:
         self.toreplica = toreplica
 
 class Replication:
-    def __init__(self, src, assignedto, consistencyLink, link):
+    def __init__(self, src, assignedto):
         self.replica = src
         self.assignedto = assignedto
-        self.consistencyLink = consistencyLink
-        self.link = link
 
 class Demand(AbstractGraph):
     def __init__(self, id):
@@ -39,6 +37,7 @@ class Demand(AbstractGraph):
         self.startTime = 0
         self.endTime = 0
         self.replications = []
+        self.replicalinks = []
         self.assigned = False
         self.critical = True
 
@@ -111,7 +110,13 @@ class Demand(AbstractGraph):
             if self.assigned and v.resource:
                 tag.setAttribute("assignedto", str(v.resource.number))
             root.appendChild(tag)
-        for v in self.edges:
+        for r in self.replications:
+            tag = dom.createElement("replica")
+            tag.setAttribute("storage_number", str(r.replica.number))
+            tag.setAttribute("assignedto", str(r.assignedto.number))
+            root.appendChild(tag)
+        links = self.edges + self.replicalinks
+        for v in links:
             tag = dom.createElement("link")
             tag.setAttribute("from", str(v.e1.number))
             tag.setAttribute("to", str(v.e2.number))
@@ -130,7 +135,6 @@ class Demand(AbstractGraph):
                 else:
                     pathstr = "none"
                 tag.setAttribute("assignedto", pathstr)
-
             root.appendChild(tag)
         return root
 
@@ -139,6 +143,8 @@ class Demand(AbstractGraph):
         dom = xml.dom.minidom.parse(f)
         self.vertices = []
         self.edges = []
+        self.replications = []
+        self.replicalinks = []
         for node in dom.childNodes:
             if node.tagName == "demand":
                 self.LoadFromXmlNode(node)
@@ -154,7 +160,7 @@ class Demand(AbstractGraph):
         for vertex in node.childNodes:
             if isinstance(vertex, xml.dom.minidom.Text):
                 continue
-            if vertex.nodeName == "link":
+            if vertex.nodeName == "link" or vertex.nodeName == "replica":
                 continue
             name = vertex.getAttribute("name")
             number = int(vertex.getAttribute("number"))
@@ -196,11 +202,14 @@ class Demand(AbstractGraph):
                 destination = int(edge.getAttribute("to"))
                 cap = int(edge.getAttribute("capacity"))
                 e = DemandLink(self.vertices[source-1], self.vertices[destination-1], cap)
-                self.edges.append(e)
                 if edge.getAttribute("fromtype") == "replica":
                     e.fromreplica = True
-                if edge.getAttribute("totype") == "replica":
+                    self.replicalinks.append(e)
+                elif edge.getAttribute("totype") == "replica":
                     e.toreplica = True
+                    self.replicalinks.append(e)
+                else:
+                    self.edges.append(e)
                 if self.assigned:
                     verts = edge.getAttribute("assignedto")
                     if verts == "none":

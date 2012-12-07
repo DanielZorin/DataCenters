@@ -32,6 +32,7 @@ class MainWindow(QMainWindow):
         self.demandGraphEditor = DemandGraphEditor()
         self.Vis = Vis()
         self.graphvis = GraphVis(self)
+        self.demands = {}
         self.project = Project()
         # TODO: Captain, we have a problem!
         # For some reason, in Python 2.7 QSettings converts dicts to QVariant
@@ -92,6 +93,7 @@ class MainWindow(QMainWindow):
         self.OpenProjectFromFile(name)
         
     def OpenProjectFromFile(self, name):
+        self.demands = {}
         self.project = Project()
         
         #try:
@@ -224,8 +226,6 @@ class MainWindow(QMainWindow):
         d = self.demands[self.ui.demands.currentItem()]
         if d.assigned:
             self.project.resources.DropDemand(d)
-            for r in d.replications:
-                d.DeleteReplication(r)
             
             #self.project.method.UpdateIntervals(d)
         self.demandGraphEditor.setData(d)
@@ -258,6 +258,7 @@ class MainWindow(QMainWindow):
         self.project.Reset()
         for k in self.demands.keys():
             k.setText(4, self.tr("No"))
+        self.showStats()
 
     def About(self):
         pass
@@ -366,6 +367,13 @@ class MainWindow(QMainWindow):
         self.resourcesGraphEditor.ui.retranslateUi(self.resourcesGraphEditor)
         self.Vis.ui.retranslateUi(self.Vis)
         self.graphvis.ui.retranslateUi(self.graphvis)
+        self.showStats()
+        for k in self.demands.keys():
+            if self.demands[k].assigned:
+                k.setText(4, self.tr("Yes"))
+            else:
+                k.setText(4, self.tr("No"))
+
 
     def loadTranslations(self):
         all = os.listdir("./DCGUI/Translations")

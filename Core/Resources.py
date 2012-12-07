@@ -260,10 +260,16 @@ class ResourceGraph(AbstractGraph):
 
     def DropDemand(self,demand):
         demand.assigned = False
+        for r in demand.replications:
+            self.DropReplica(demand,r)
+        for rl in demand.replicalinks:
+            self.DropReplicaLink(demand,rl)
+        demand.replications = []
+        demand.replicalinks = []
         for v in demand.vertices:
             self.DropVertex(demand,v)
         for e in demand.edges:
-            self.DropLink(demand,e)  
+            self.DropLink(demand,e)
         if demand in self.assignedDemands:
             self.assignedDemands.remove(demand) 
         #self.RemoveIntervals(demand)
@@ -278,6 +284,37 @@ class ResourceGraph(AbstractGraph):
             vresource.intervals[time].usedResource += vdemand.speed
         elif isinstance(vdemand, DemandStorage):
             vresource.intervals[time].usedResource += vdemand.volume
+
+    def AssignReplica(self, demand, replica, time):
+        replica.assignedto.intervals[time].usedResource += replica.replica.volume
+
+    def DropReplica(self, demand, replica):
+        if replica.assignedto == None:
+            return
+        for time in self.GetRanges(demand):
+            replica.assignedto.intervals[time].usedResource -= replica.replica.volume
+
+    def AssignReplicaLink(self, demand, link, path, time):
+        for elem in path[1:len(path)-1]:
+            if isinstance(elem, Router):
+                elem.intervals[time].usedResource += link.capacity
+            else:
+                e = self.FindEdge(elem.e1, elem.e2)
+                e.intervals[time].usedResource += link.capacity
+
+    def DropReplicaLink(self,demand,link):
+        if link.path == []:
+            return
+        path = link.path
+        for elem in path[1:len(path)-1]:
+            for time in self.GetRanges(demand):
+                if isinstance(elem, Router):
+                    elem.intervals[time].usedResource -= link.capacity
+              
+                else:
+                    e = self.FindEdge(elem.e1, elem.e2)
+                    e.intervals[time].usedResource -= link.capacity
+        link.path = []
 
     def AssignLink(self, demand, link, path, time):
         link.path = path
@@ -372,6 +409,10 @@ class ResourceGraph(AbstractGraph):
                 if e.e1.resource == e.e2.resource:
                     continue
                 self.AssignLink(demand, e, e.path, time)
+            for r in demand.replications:
+                self.AssignReplica(demand,replica,time)
+            for rl in demand.replicalinks:
+                self.AssignReplicaLink(demand, rl, rl.path, time)
 
     def LoadAllDemands(self, demands):
         points = set([])
@@ -402,6 +443,10 @@ class ResourceGraph(AbstractGraph):
                         if e.e1.resource == e.e2.resource:
                             continue
                         self.AssignLink(demand, e, e.path, t)
+                    for r in demand.replications:
+                        self.AssignReplica(demand,r,t)
+                    for rl in demand.replicalinks:
+                        self.AssignReplicaLink(demand, rl, rl.path, t)
 
     def RemoveIntervals(self, demand):
         for v in self.vertices:
