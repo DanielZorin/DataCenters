@@ -86,9 +86,10 @@ class Project:
             if d.assigned:  
                 stats["demands"] += 1
         ranges = self.resources.vertices[0].intervals.keys()
-        totalSpeed = 0.0;
-        totalVolume = 0.0;
-        totalCapacity = 0.0;
+        totalSpeed = 0.0
+        totalVolume = 0.0
+        totalCapacity = 0.0
+        totalLeafCapacity = 0.0
         for v in self.resources.vertices:
             if isinstance(v, Computer):
                 totalSpeed += v.speed
@@ -98,16 +99,21 @@ class Project:
                 totalCapacity += v.capacity
         for e in self.resources.edges:
             totalCapacity += e.capacity
+            if isinstance(e[0], Computer) or isinstance(e[0], Storage) or isinstance(e[1], Computer) or isinstance(e[1], Storage):
+                totalLeafCapacity += e.capacity
         maxUsedSpeed = 0.0
         maxUsedVolume = 0.0
         maxUsedCapacity = 0.0
+        maxUsedLeafCapcity = 0.0
         avgUsedSpeed = 0.0
         avgUsedVolume = 0.0
         avgUsedCapacity = 0.0
+        avgUsedLeafCapacity = 0.0
         for r in ranges:
             usedSpeed = 0.0
             usedVolume = 0.0
             usedCapacity = 0.0
+            usedLeafCapacity = 0.0
             for v in self.resources.vertices:
                 if isinstance(v, Computer):
                     usedSpeed += v.intervals[r].usedResource
@@ -116,16 +122,21 @@ class Project:
                 elif isinstance(v, Router):
                     usedCapacity += v.intervals[r].usedResource
             for e in self.resources.edges:
-                    usedCapacity += e.intervals[r].usedResource
+                usedCapacity += e.intervals[r].usedResource
+                if isinstance(e[0], Computer) or isinstance(e[0], Storage) or isinstance(e[1], Computer) or isinstance(e[1], Storage):
+                    usedLeafCapacity += e.intervals[r].usedResource
             avgUsedSpeed += usedSpeed * (float(r[1]-r[0])/time)
             avgUsedVolume += usedVolume * (float(r[1]-r[0])/time)
             avgUsedCapacity += usedCapacity * (float(r[1]-r[0])/time)
+            avgUsedLeafCapacity += usedLeafCapacity * (float(r[1]-r[0])/time)
             if usedSpeed > maxUsedSpeed:
                 maxUsedSpeed = usedSpeed
             if usedVolume > maxUsedVolume:
                 maxUsedVolume = usedVolume
             if usedCapacity > maxUsedCapacity:
                 maxUsedCapacity = usedCapacity
+            if usedLeafCapacity > maxUsedLeafCapacity:
+                maxUsedLeafCapacity = usedLeafCapacity
 
         stats["vmavg"] = 0.0 if totalSpeed==0 else round(avgUsedSpeed/totalSpeed*100,2)
         stats["stavg"] = 0.0 if totalVolume==0 else round(avgUsedVolume/totalVolume*100,2)
@@ -133,6 +144,8 @@ class Project:
         stats["vmmax"] = 0.0 if totalSpeed==0 else round(maxUsedSpeed/totalSpeed*100,2)
         stats["stmax"] = 0.0 if totalVolume==0 else round(maxUsedVolume/totalVolume*100,2)
         stats["netmax"] = 0.0 if totalCapacity==0 else round(maxUsedCapacity/totalCapacity*100,2)
+        stats["leafmax"] = 0.0 if totalLeafCapacity==0 else round(maxUsedLeafCapacity/totalLeafCapacity*100,2)
+        stats["leafavg"] = 0.0 if totalLeafCapacity==0 else round(avgUsedLeafCapacity/totalLeafCapacity*100,2)
         return stats      
 
     def FindDemand(self, id):
