@@ -52,7 +52,7 @@ private:
     bool buildPath(unsigned int ant);
     std::vector<NetPath>* buildLink(unsigned int ant, bool resultNeeded);
     unsigned int objFunctions();
-    void removeRequestElements(unsigned int vertex, AntPath* pt, std::set<unsigned int> & available, GraphComponent::RequestType t);
+    void removeRequestElements(unsigned int vertex, AntPath* pt, std::set<unsigned int> & availableVM, std::set<unsigned int> & availableST, GraphComponent::RequestType t);
 
     // is init() successful?
     bool success;

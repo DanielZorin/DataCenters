@@ -107,3 +107,18 @@ Element * AntPath::findPointer(Element * ptr, int& req)
     }
     return NULL;
 }
+
+int AntPath::erasePointer(Element * ptr, int& req)
+{
+    for (int i = 0; i < path.size(); ++ i)
+    {
+        if (path[i]->requestPointer == ptr)
+        {
+            req = path[i]->request;
+            int res = path[i]->resource;
+            eraseElement(i);
+            return res;
+        }
+    }
+    return -1;
+}
