@@ -5,7 +5,7 @@ from PyQt4.QtCore import QPointF, QRect
 from PyQt4.QtGui import QImage, QWidget, QPainter, QPainterPath, QColor, QCursor, QDialog, QIntValidator, QTableWidgetItem
 from DCGUI.Windows.ui_ComputerDialog import Ui_ComputerDialog
 from DCGUI.Windows.ui_EdgeDialog import Ui_EdgeDialog
-from DCGUI.Windows.ui_StorageDialog import Ui_StorageDialog
+from DCGUI.Windows.ui_DemandStorageDialog import Ui_DemandStorageDialog
 
 class VMDialog(QDialog):
     def __init__(self):
@@ -27,7 +27,7 @@ class VMDialog(QDialog):
 class DemandStorageDialog(QDialog):
     def __init__(self):
         QDialog.__init__(self)
-        self.ui = Ui_StorageDialog()
+        self.ui = Ui_DemandStorageDialog()
         self.ui.setupUi(self)
         self.valid = QIntValidator(0, 1000000, self)
         self.ui.volume.setValidator(self.valid)
@@ -36,11 +36,19 @@ class DemandStorageDialog(QDialog):
         self.ui.id.setText(v.id)
         self.ui.volume.setText(str(v.volume))
         self.ui.type.setText(str(v.type))
+        self.ui.replcapacity.setText(str(v.replicationCapacity))
         
     def SetResult(self, v):
         v.id = self.ui.id.text()
         v.volume = int(self.ui.volume.text())
-        v.type = self.ui.type.text()
+        v.type = int(self.ui.type.text())
+        v.replicationCapacity = int(self.ui.replcapacity.text())
+
+    def typeChanged(self):
+        if self.ui.type.text()=="0":
+            self.ui.replcapacity.setEnabled(False)
+        else:
+            self.ui.replcapacity.setEnabled(True)
 
      
 
@@ -224,7 +232,7 @@ class DemandGraphCanvas(QWidget):
             self.repaint()
         elif self.state == State.DemandStorage:
             rect = QtCore.QRect(e.x() - self.size / 2, e.y() - self.size / 2, self.size, self.size)
-            storage = DemandStorage("id", 0, 0)
+            storage = DemandStorage("id", 0, 0, 0)
             self.vertices[storage] = rect
             self.demand.AddVertex(storage)
             self.changed = True

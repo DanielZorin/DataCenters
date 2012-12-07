@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>319</width>
-    <height>353</height>
+    <width>377</width>
+    <height>405</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -137,6 +137,20 @@ QLabel, QSlider {
              </widget>
             </item>
             <item>
+             <widget class="QLabel" name="label_13">
+              <property name="text">
+               <string>Minimal Consistency bandwidth</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_12">
+              <property name="text">
+               <string>Maximal Consistency bandwidth</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QLabel" name="label_9">
               <property name="text">
                <string>Mininal bandwidth</string>
@@ -215,6 +229,20 @@ QLabel, QSlider {
             </item>
             <item>
              <widget class="QLineEdit" name="v2">
+              <property name="text">
+               <string>5</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="cc1">
+              <property name="text">
+               <string>3</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="cc2">
               <property name="text">
                <string>5</string>
               </property>

@@ -233,13 +233,16 @@ class MainWindow(QMainWindow):
 
     def RandomDemand(self):
         d = RandomDemandDialog()
+        types = []
+        for v in self.project.resources.vertices:
+            if isinstance(v,Storage) and (types.count(v.type)==0):
+                types.append(v.type)
+        if len(types) == 1: #only type 0
+            d.ui.cc1.setEnabled(False)
+            d.ui.cc2.setEnabled(False)
         d.exec_()
         if d.result() == QDialog.Accepted: 
             dict = d.GetResult()
-            types = []
-            for v in self.project.resources.vertices:
-                if isinstance(v,Storage) and (types.count(v.type)==0):
-                    types.append(v.type)
             dict["types"] = types
             for i in range(dict["n"]):
                 demand = self.project.CreateRandomDemand(dict)

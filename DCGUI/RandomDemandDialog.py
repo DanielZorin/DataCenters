@@ -18,6 +18,8 @@ class RandomDemandDialog(QDialog):
                 "storages": int(self.ui.storages.text()),
                 "cap_min": int(self.ui.c1.text()),
                 "cap_max": int(self.ui.c2.text()),
+                "cons_cap_min": int(self.ui.cc1.text()),
+                "cons_cap_max": int(self.ui.cc2.text()),
                 "start": int(self.ui.starttime.text()),
                 "end": int(self.ui.endtime.text())
                 }

@@ -79,7 +79,7 @@ class RandomMethod(QObject):
         else:
             st = link.e2
             vm = link.e1
-        replica = DemandStorage(st.id+"_replica",st.volume,st.type)
+        replica = DemandStorage(st.id+"_replica",st.volume,st.type,st.replicationCapacity)
         consistencyLink = DemandLink(st,replica,demand.replicationCapacity)
         link = DemandLink(vm,replica,link.capacity)
         r = Replication(replica, consistencyLink, link)

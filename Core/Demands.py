@@ -9,11 +9,12 @@ class VM(AbstractVertex):
         self.resource = None
 
 class DemandStorage(AbstractVertex):
-    def __init__(self, id, volume, type):
+    def __init__(self, id, volume, type, replicationCapacity):
         AbstractVertex.__init__(self, id)
         self.volume = volume
         self.type = type
         self.resource = None
+        self.replicationCapacity = replicationCapacity
 
 class DemandLink:
     def __init__(self, e1, e2, capacity, fromreplica=False, toreplica=False):
@@ -39,7 +40,6 @@ class Demand(AbstractGraph):
         self.endTime = 0
         self.replications = []
         self.assigned = False
-        self.replicationCapacity = 0
         self.critical = True
 
     def GenerateRandom(self, params):
@@ -62,7 +62,7 @@ class Demand(AbstractGraph):
                 x = 50
         for i in range(params["storages"]):
             t=0 if params["types"]==[] else params["types"][random.randint(0,len(params["types"])-1)]
-            v = DemandStorage("storage_" + str(i), random.randint(params["st_min"], params["st_max"]), t)
+            v = DemandStorage("storage_" + str(i), random.randint(params["st_min"], params["st_max"]), t, random.randint(params["cons_cap_min"], params["cons_cap_max"]))
             v.x = x
             v.y = y
             self.AddVertex(v)
@@ -93,7 +93,6 @@ class Demand(AbstractGraph):
         root.setAttribute("start", str(self.startTime))
         root.setAttribute("end", str(self.endTime))
         root.setAttribute("assigned", str(self.assigned))
-        root.setAttribute("replicationcapacity", str(self.replicationCapacity))
         root.setAttribute("critical", str(self.critical))
         for v in self.vertices:
             if isinstance(v, VM):
@@ -103,6 +102,7 @@ class Demand(AbstractGraph):
                 tag = dom.createElement("storage")
                 tag.setAttribute("volume", str(v.volume))
                 tag.setAttribute("type", str(v.type))
+                tag.setAttribute("replicationcapacity", str(v.replicationCapacity))
             if v.x:
                 tag.setAttribute("x", str(v.x))
                 tag.setAttribute("y", str(v.y))
@@ -149,7 +149,6 @@ class Demand(AbstractGraph):
         self.startTime = int(node.getAttribute("start"))
         self.endTime = int(node.getAttribute("end"))
         self.assigned = True if node.getAttribute("assigned") == "True" else False
-        self.replicationCapacity = int(node.getAttribute("replicationcapacity"))
         self.critical = True if node.getAttribute("critical") == "True" else False
         #Parse vertices
         for vertex in node.childNodes:
@@ -165,7 +164,8 @@ class Demand(AbstractGraph):
             elif vertex.nodeName == "storage":
                 volume = int(vertex.getAttribute("volume"))
                 type = int(vertex.getAttribute("type"))
-                v = DemandStorage(name, volume, type)
+                replicationCapacity = int(vertex.getAttribute("replicationcapacity"))
+                v = DemandStorage(name, volume, type, replicationCapacity)
             x = vertex.getAttribute("x")
             y = vertex.getAttribute("y")
             if x != '':
