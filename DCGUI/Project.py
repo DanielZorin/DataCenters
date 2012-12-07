@@ -99,12 +99,12 @@ class Project:
                 totalCapacity += v.capacity
         for e in self.resources.edges:
             totalCapacity += e.capacity
-            if isinstance(e[0], Computer) or isinstance(e[0], Storage) or isinstance(e[1], Computer) or isinstance(e[1], Storage):
+            if isinstance(e.e1, Computer) or isinstance(e.e1, Storage) or isinstance(e.e2, Computer) or isinstance(e.e2, Storage):
                 totalLeafCapacity += e.capacity
         maxUsedSpeed = 0.0
         maxUsedVolume = 0.0
         maxUsedCapacity = 0.0
-        maxUsedLeafCapcity = 0.0
+        maxUsedLeafCapacity = 0.0
         avgUsedSpeed = 0.0
         avgUsedVolume = 0.0
         avgUsedCapacity = 0.0
@@ -123,7 +123,7 @@ class Project:
                     usedCapacity += v.intervals[r].usedResource
             for e in self.resources.edges:
                 usedCapacity += e.intervals[r].usedResource
-                if isinstance(e[0], Computer) or isinstance(e[0], Storage) or isinstance(e[1], Computer) or isinstance(e[1], Storage):
+                if isinstance(e.e1, Computer) or isinstance(e.e1, Storage) or isinstance(e.e2, Computer) or isinstance(e.e2, Storage):
                     usedLeafCapacity += e.intervals[r].usedResource
             avgUsedSpeed += usedSpeed * (float(r[1]-r[0])/time)
             avgUsedVolume += usedVolume * (float(r[1]-r[0])/time)
