@@ -57,6 +57,14 @@ class Vis(QMainWindow):
         link_num = 0
         for d in v.intervals[timeInt].demands.keys():
             link_num += len(v.intervals[timeInt].demands[d])
+        replicalinks = {}
+        for d in self.project.demands:
+            replicalinks[d.id] = []
+            if (d.startTime,d.endTime)==timeInt:
+                for r in d.replicalinks:
+                    if r.path.count(v) != 0:
+                        link_num += 1
+                        replicalinks[d.id].append(r)
         str = QString("<b><font size=\"+1\">%1</font></b><br />").arg(self.tr("Statistics"))
         str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Router id")).arg(v.id)
         str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Bandwidth")).arg(v.capacity)
@@ -65,15 +73,30 @@ class Vis(QMainWindow):
         str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Number of assigned channels")).arg(link_num)
         str += QString("<b><font size=\"+1\">%1</font></b><br />").arg(self.tr("Assigned Requests"))
         demands = v.intervals[timeInt].demands.keys()
+        for id in replicalinks.keys():
+            if demands.count(id) == 0 and replicalinks[id] != []:
+                demands.append(id)
         demands.sort()
         for id in demands:
             d = self.project.FindDemand(id)
             str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(id)
-            for link in v.intervals[timeInt].demands[d.id]:
-                l = d.FindEdge(d.FindVertex(link[0]),d.FindVertex(link[1]))
-                type1 = self.tr("VM") if isinstance(l.e1,VM) else self.tr("Storage")
-                type2 = self.tr("VM") if isinstance(l.e2,VM) else self.tr("Storage")
-                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;%6: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;%7: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(l.e1.id).arg(type2).arg(l.e2.id).arg(l.capacity).arg(self.tr("Channel")).arg(self.tr("Bandwidth"))
+            if v.intervals[timeInt].demands.has_key(id):
+                for link in v.intervals[timeInt].demands[d.id]:
+                    l = d.FindEdge(d.FindVertex(link[0]),d.FindVertex(link[1]))
+                    type1 = self.tr("VM") if isinstance(l.e1,VM) else self.tr("Storage")
+                    type2 = self.tr("VM") if isinstance(l.e2,VM) else self.tr("Storage")
+                    str += QString("&nbsp;&nbsp;&nbsp;&nbsp;%6: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;%7: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(l.e1.id).arg(type2).arg(l.e2.id).arg(l.capacity).arg(self.tr("Channel")).arg(self.tr("Bandwidth"))
+            for r in replicalinks[id]:
+                if r.e1 == r.e2:
+                    str += QString("&nbsp;&nbsp;&nbsp;&nbsp;%1 <font color=blue>%2</font>&nbsp;&nbsp;%3: <font color=blue>%4</font>&nbsp;&nbsp;<br />").arg(self.tr("Consistency channel: <font color=blue>Storage</font>")).arg(r.e1.id).arg(self.tr("<font color=blue>&lt;---&gt; replica</font>. Bandwidth")).arg(r.capacity)
+                elif r.toreplica:
+                    type1 = self.tr("VM") if isinstance(r.e1,VM) else self.tr("Storage")
+                    type2 = self.tr("Replica of storage")
+                    str += QString("&nbsp;&nbsp;&nbsp;&nbsp;%6: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;%7: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(r.e1.id).arg(type2).arg(r.e2.id).arg(r.capacity).arg(self.tr("Channel")).arg(self.tr("Bandwidth"))
+                else:
+                    type1 = self.tr("Replica of storage")
+                    type2 = self.tr("VM") if isinstance(r.e2,VM) else self.tr("Storage")
+                    str += QString("&nbsp;&nbsp;&nbsp;&nbsp;%6: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;%7: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(r.e1.id).arg(type2).arg(r.e2.id).arg(r.capacity).arg(self.tr("Channel")).arg(self.tr("Bandwidth"))
         self.ui.info.setText(str)
 
     def ShowComputerInfo(self):
@@ -106,8 +129,16 @@ class Vis(QMainWindow):
         if timeInt==None:
             return
         storage_num = 0
+        replicas = {}
         for d in v.intervals[timeInt].demands.keys():
             storage_num += len(v.intervals[timeInt].demands[d])
+        for d in self.project.demands:
+            replicas[d.id] = []
+            if (d.startTime,d.endTime)==timeInt:
+                for r in d.replications:
+                    if r.assignedto==v:
+                        storage_num += 1
+                        replicas[d.id].append(r)
         str = QString("<b><font size=\"+1\">%1</font></b><br />").arg(self.tr("Statistics"))
         str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Storage id")).arg(v.id)
         str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Type")).arg(v.type)
@@ -117,12 +148,18 @@ class Vis(QMainWindow):
         str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Number of assigned storages")).arg(storage_num)
         str += QString("<b><font size=\"+1\">%1</font></b><br />").arg(self.tr("Assigned Requests"))
         demands = v.intervals[timeInt].demands.keys()
+        for id in replicas.keys():
+            if demands.count(id) == 0 and replicas[id] != []:
+                demands.append(id)
         demands.sort()
         for id in demands:
             d = self.project.FindDemand(id)
             str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(id)
-            for v1 in v.intervals[timeInt].demands[id]:
-                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;%3: <font color=blue>%1</font>&nbsp;&nbsp;%4: <font color=blue>%2</font><br />").arg(d.FindVertex(v1).id).arg(d.FindVertex(v1).volume).arg(self.tr("Storage id")).arg(self.tr("Capacity"))
+            if v.intervals[timeInt].demands.has_key(id):
+                for v1 in v.intervals[timeInt].demands[id]:
+                    str += QString("&nbsp;&nbsp;&nbsp;&nbsp;%3: <font color=blue>%1</font>&nbsp;&nbsp;%4: <font color=blue>%2</font><br />").arg(d.FindVertex(v1).id).arg(d.FindVertex(v1).volume).arg(self.tr("Storage id")).arg(self.tr("Capacity"))
+            for r in replicas[id]:
+                    str += QString("&nbsp;&nbsp;&nbsp;&nbsp;%3: <font color=blue>%1</font>&nbsp;&nbsp;%4: <font color=blue>%2</font><br />").arg(r.replica.id).arg(r.replica.volume).arg(self.tr("Replica of")).arg(self.tr("Capacity"))
         self.ui.info.setText(str)
 
     def ShowEdgeInfo(self):
@@ -135,6 +172,14 @@ class Vis(QMainWindow):
         link_num = 0
         for d in e.intervals[timeInt].demands.keys():
             link_num += len(e.intervals[timeInt].demands[d])
+        replicalinks = {}
+        for d in self.project.demands:
+            replicalinks[d.id] = []
+            if (d.startTime,d.endTime)==timeInt:
+                for r in d.replicalinks:
+                    if r.path.count(e) != 0:
+                        link_num += 1
+                        replicalinks[d.id].append(r)
         str = QString("<b><font size=\"+1\">%1</font></b><br />").arg(self.tr("Statistics"))
         str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Bandwidth")).arg(e.capacity)
         str += QString("&nbsp;&nbsp;%1:<font color=blue> %2 (%3%)</font><br />").arg(self.tr("Used Bandwidth")).arg(e.intervals[timeInt].usedResource).arg(e.getUsedCapacityPercent(timeInt))
@@ -142,15 +187,30 @@ class Vis(QMainWindow):
         str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Number of assigned channels")).arg(link_num)
         str += QString("<b><font size=\"+1\">%1</font></b><br />").arg(self.tr("Assigned Requests"))
         demands = e.intervals[timeInt].demands.keys()
+        for id in replicalinks.keys():
+            if demands.count(id) == 0 and replicalinks[id] != []:
+                demands.append(id)
         demands.sort()
         for id in demands:
             d = self.project.FindDemand(id)
             str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(id)
-            for link in e.intervals[timeInt].demands[id]:
-                l = d.FindEdge(d.FindVertex(link[0]),d.FindVertex(link[1]))
-                type1 = self.tr("VM") if isinstance(l.e1,VM) else self.tr("Storage")
-                type2 = self.tr("VM") if isinstance(l.e2,VM) else self.tr("Storage")
-                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;%6: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;%7: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(l.e1.id).arg(type2).arg(l.e2.id).arg(l.capacity).arg(self.tr("Channel")).arg(self.tr("Bandwidth"))
+            if e.intervals[timeInt].demands.has_key(id):
+                for link in e.intervals[timeInt].demands[id]:
+                    l = d.FindEdge(d.FindVertex(link[0]),d.FindVertex(link[1]))
+                    type1 = self.tr("VM") if isinstance(l.e1,VM) else self.tr("Storage")
+                    type2 = self.tr("VM") if isinstance(l.e2,VM) else self.tr("Storage")
+                    str += QString("&nbsp;&nbsp;&nbsp;&nbsp;%6: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;%7: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(l.e1.id).arg(type2).arg(l.e2.id).arg(l.capacity).arg(self.tr("Channel")).arg(self.tr("Bandwidth"))
+            for r in replicalinks[id]:
+                if r.e1 == r.e2:
+                    str += QString("&nbsp;&nbsp;&nbsp;&nbsp;%1 <font color=blue>%2</font>&nbsp;&nbsp;%3: <font color=blue>%4</font>&nbsp;&nbsp;<br />").arg(self.tr("Consistency channel: <font color=blue>Storage</font>")).arg(r.e1.id).arg(self.tr("<font color=blue>&lt;---&gt; replica</font>. Bandwidth")).arg(r.capacity)
+                elif r.toreplica:
+                    type1 = self.tr("VM") if isinstance(r.e1,VM) else self.tr("Storage")
+                    type2 = self.tr("Replica of storage")
+                    str += QString("&nbsp;&nbsp;&nbsp;&nbsp;%6: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;%7: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(r.e1.id).arg(type2).arg(r.e2.id).arg(r.capacity).arg(self.tr("Channel")).arg(self.tr("Bandwidth"))
+                else:
+                    type1 = self.tr("Replica of storage")
+                    type2 = self.tr("VM") if isinstance(r.e2,VM) else self.tr("Storage")
+                    str += QString("&nbsp;&nbsp;&nbsp;&nbsp;%6: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;%7: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(r.e1.id).arg(type2).arg(r.e2.id).arg(r.capacity).arg(self.tr("Channel")).arg(self.tr("Bandwidth"))
         self.ui.info.setText(str)
 
     def UpdateTimeFromSlider(self,value):
@@ -196,7 +256,10 @@ class Vis(QMainWindow):
             d = self.project.FindDemand(id)
             for v in d.vertices:
                 self.canvas.demandVertices.append(v.resource)
-            for e in d.edges:
+            for r in d.replications:
+                self.canvas.demandVertices.append(r.assignedto)
+            links = d.edges + d.replicalinks
+            for e in links:
                 for e1 in e.path[1:len(e.path)-1]:
                     if isinstance(e1,Router):
                         self.canvas.demandVertices.append(e1)
