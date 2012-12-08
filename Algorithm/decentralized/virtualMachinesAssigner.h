@@ -49,6 +49,12 @@ private:
     // Get the map of all assigned virtual machines of nodes with capacity less then element's one
     // and, additionally, all vm's assignments.
     void getAvailableNodeAssignments(Element* element, std::map<Node*, std::vector<Node*> >& nodesAssignments, std::map<Node*, Assignment* >& vmAssignment, Assignment* assignment);
+
+private:
+    // Useful variables used during the algorithm
+
+    // Nodes with already assigned virtual machines of currently parsed request.
+    std::vector<Node* > requestsAssignedNodes;
 };
 
 #endif

@@ -54,7 +54,8 @@ public:
             QString name = store.attribute("name");
             uint capacity = store.attribute("volume").toUInt();
             uint type = store.attribute("type").toUInt();
-            Store * astore = new Store(name.toStdString(), capacity, capacity, type);
+            uint replicationCapacity = store.attribute("replicationcapacity").toUInt();
+            Store * astore = new Store(name.toStdString(), capacity, capacity, type, replicationCapacity);
             addStore(uid, astore);
             storeXMLCache[uid] = store;
         }

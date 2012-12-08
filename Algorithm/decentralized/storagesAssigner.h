@@ -49,6 +49,12 @@ private:
     // Get the map of all assigned storages of stores with capacity less then element's one
     // and, additionally, all storage's assignments.
     void getAvailableStoreAssignments(Element* element, std::map<Store*, std::vector<Store*> >& storesAssignments, std::map<Store*, Assignment* >& stAssignment, Assignment* assignment);
+
+private:
+    // Useful variables used during the algorithm
+
+    // Stores with already assigned storages of currently parsed request.
+    std::vector<Store* > requestsAssignedStores;
 };
 
 #endif

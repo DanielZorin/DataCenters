@@ -15,11 +15,15 @@ StoragesAssigner::~StoragesAssigner()
 // Functions used by sort algorithm to compare resource's weights.
 bool requestStoragesCompare(Request::Storages* st1, Request::Storages* st2)
 {
-    return Criteria::requestStoragesWeight(st1) < Criteria::requestStoragesWeight(st2);
+    return Criteria::requestStoragesWeight(st1) > Criteria::requestStoragesWeight(st2);
 }
 bool storagesCompare(Store * st1, Store * st2)
 {
-    return Criteria::storageWeight(st1) < Criteria::storageWeight(st2);
+    return Criteria::storageWeight(st1) > Criteria::storageWeight(st2);
+}
+bool storesCompare(Store * st1, Store * st2)
+{
+    return Criteria::storageWeight(st1) > Criteria::storageWeight(st2);
 }
 
 Requests StoragesAssigner::PerformAssignment(Requests& requests)
@@ -65,6 +69,8 @@ Requests StoragesAssigner::PerformAssignment(Requests& requests)
 
 bool StoragesAssigner::assignOneRequest(Request::Storages * storages, Assignment* reqAssignment)
 {
+    requestsAssignedStores.clear();
+
     // form the vector from the set to have an ability to sort it
     std::vector<Store * > storagesVec(storages->begin(), storages->end());
     std::sort(storagesVec.begin(), storagesVec.end(), storagesCompare);
@@ -93,6 +99,21 @@ bool StoragesAssigner::assignOneRequest(Request::Storages * storages, Assignment
 
 bool StoragesAssigner::assignOneStorage(Store * storage, Assignment* reqAssignment)
 {
+    /*
+    // trying to assign to the nodes with already assigned vms
+    for ( unsigned index = 0; index < requestsAssignedStores.size(); ++index )
+    {
+        if ( requestsAssignedStores[index]->getTypeOfStore() == storage->getTypeOfStore() 
+             && requestsAssignedStores[index]->getCapacity() >= storage->getCapacity() )
+        {
+            requestsAssignedStores[index]->assign(*storage);
+            reqAssignment->AddAssignment(storage, requestsAssignedStores[index]);
+            return true;
+        }
+    }
+    */
+
+    // assignment failed, trying other storages
     // form the vector from the set to have an ability to sort it
     // !! getting the set of stores of the appropriate type
     Stores::const_iterator it = network->getStores().begin();
@@ -105,7 +126,7 @@ bool StoragesAssigner::assignOneStorage(Store * storage, Assignment* reqAssignme
             stores.push_back(*it);
     }
 
-    std::sort(stores.begin(), stores.end(), storagesCompare);
+    std::sort(stores.begin(), stores.end(), storesCompare);
 
     for ( unsigned index = 0; index < stores.size(); ++index )
     {
@@ -113,6 +134,8 @@ bool StoragesAssigner::assignOneStorage(Store * storage, Assignment* reqAssignme
         {
             stores[index]->assign(*storage);
             reqAssignment->AddAssignment(storage, stores[index]);
+            requestsAssignedStores.push_back(stores[index]);
+            std::sort(requestsAssignedStores.begin(), requestsAssignedStores.end(), storesCompare);
             return true;
         }
     }

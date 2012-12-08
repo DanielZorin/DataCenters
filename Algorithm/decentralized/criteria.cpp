@@ -64,7 +64,7 @@ long Criteria::virtualLinkWeight(Link* virtualLink)
 
 unsigned Criteria::exhaustiveSearchDepth()
 {
-    return 3;
+    return 2;
 }
 
 unsigned Criteria::kShortestPathDepth()
@@ -82,10 +82,11 @@ long Criteria::pathCost(NetPath& path)
     return result;
 }
 
-long Criteria::replicationPathCost(Store* initialStore, Store* store, Network * network, NetPath& path)
+long Criteria::replicationPathCost(Store* initialStore, Store* store, Network * network, NetPath& path,
+                                   unsigned replicationCapacity)
 {
     long result;
-    Link link("dummy_virtual_link", Replication::GetLinkBandwidth(store->getTypeOfStore()));
+    Link link("dummy_virtual_link", replicationCapacity);
     link.bindElements(initialStore, store);
     path = VirtualLinkRouter::routeKShortestPaths(&link, network);
 

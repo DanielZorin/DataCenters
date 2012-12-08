@@ -20,11 +20,11 @@ VirtualLinksAssigner::~VirtualLinksAssigner()
 // Functions used by sort algorithm to campare resource's weights.
 bool requestVirtualLinksCompare(Request::VirtualLinks* vl1, Request::VirtualLinks* vl2)
 {
-    return Criteria::requestVirtualLinksWeight(vl1) < Criteria::requestVirtualLinksWeight(vl2);
+    return Criteria::requestVirtualLinksWeight(vl1) > Criteria::requestVirtualLinksWeight(vl2);
 }
 bool virtualLinksCompare(Link * vl1, Link * vl2)
 {
-    return Criteria::virtualLinkWeight(vl1) < Criteria::virtualLinkWeight(vl2);
+    return Criteria::virtualLinkWeight(vl1) > Criteria::virtualLinkWeight(vl2);
 }
 
 Requests VirtualLinksAssigner::PerformAssignment(Requests& requests)
@@ -104,9 +104,11 @@ bool VirtualLinksAssigner::assignOneRequest(Request::VirtualLinks * virtualLinks
             // removing replications
             for ( ; it != itEnd; ++it )
             {
+                (*it)->Remove(); // remove assignments of replication
                 replications.erase(*it);
-                delete *it; // this also removes assignments
+                delete *it;
             }
+            replicationsOfAssignment.erase(reqAssignment);
 
             // tell the upper layer to delete assignment
             return false;
@@ -445,7 +447,8 @@ bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assig
     for ( unsigned index = 0; index < stores.size(); ++index )
     {
         NetPath storagesPath;
-        long cost = Criteria::replicationPathCost(store, stores[index], network, storagesPath);
+        long cost = Criteria::replicationPathCost(store, stores[index], network, storagesPath,
+            storage->getReplicationCapacity());
         int length = storagesPath.size(); // summary length of the path
         int numOfAssigned = 1;
         if ( cost > 0 ) // path exist
@@ -495,7 +498,7 @@ bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assig
     bestStore->assign(*storage);
     AddVirtualLink(virtualLink, &bestNodePath, assignment);
 
-    Link storagesLink("storages_link", Replication::GetLinkBandwidth(storage->getTypeOfStore()));
+    Link storagesLink("storages_link", storage->getReplicationCapacity());
     AddVirtualLink(&storagesLink, &bestStoragePath, assignment);
 
     assignment->AddAssignment(virtualLink, bestNodePath);

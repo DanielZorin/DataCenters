@@ -15,11 +15,15 @@ VirtualMachinesAssigner::~VirtualMachinesAssigner()
 // Functions used by sort algorithm to campare resource's weights.
 bool requestVirtualMachinesCompare(Request::VirtualMachines* vm1, Request::VirtualMachines* vm2)
 {
-    return Criteria::requestVirtualMachinesWeight(vm1) < Criteria::requestVirtualMachinesWeight(vm2);
+    return Criteria::requestVirtualMachinesWeight(vm1) > Criteria::requestVirtualMachinesWeight(vm2);
 }
 bool virtualMachinesCompare(Node * vm1, Node * vm2)
 {
-    return Criteria::virtualMachineWeight(vm1) < Criteria::virtualMachineWeight(vm2);
+    return Criteria::virtualMachineWeight(vm1) > Criteria::virtualMachineWeight(vm2);
+}
+bool virtualNodesCompare(Node * n1, Node * n2)
+{
+    return Criteria::virtualMachineWeight(n1) > Criteria::virtualMachineWeight(n2);
 }
 
 Requests VirtualMachinesAssigner::PerformAssignment(Requests& requests)
@@ -65,6 +69,9 @@ Requests VirtualMachinesAssigner::PerformAssignment(Requests& requests)
 
 bool VirtualMachinesAssigner::assignOneRequest(Request::VirtualMachines * virtualMachines, Assignment* reqAssignment)
 {
+    // forming the assigned nodes of current request
+    requestsAssignedNodes.clear();
+
     // form the vector from the set to have an ability to sort it
     std::vector<Node * > virtualMachinesVec(virtualMachines->begin(), virtualMachines->end());
     std::sort(virtualMachinesVec.begin(), virtualMachinesVec.end(), virtualMachinesCompare);
@@ -94,9 +101,24 @@ bool VirtualMachinesAssigner::assignOneRequest(Request::VirtualMachines * virtua
 
 bool VirtualMachinesAssigner::assignOneVirtualMachine(Node * virtualMachine, Assignment* reqAssignment)
 {
+    /*
+    // trying to assign to the nodes with already assigned vms
+    for ( unsigned index = 0; index < requestsAssignedNodes.size(); ++index )
+    {
+        if ( requestsAssignedNodes[index]->getCapacity() >= virtualMachine->getCapacity() )
+        {
+            requestsAssignedNodes[index]->assign(*virtualMachine);
+            reqAssignment->AddAssignment(virtualMachine, requestsAssignedNodes[index]);
+            return true;
+        }
+    }
+    */
+
+    // assignment failed, trying other nodes
+
     // form the vector from the set to have an ability to sort it
     std::vector<Node * > nodes(network->getNodes().begin(), network->getNodes().end());
-    std::sort(nodes.begin(), nodes.end(), virtualMachinesCompare);
+    std::sort(nodes.begin(), nodes.end(), virtualNodesCompare);
 
     for ( unsigned index = 0; index < nodes.size(); ++index )
     {
@@ -104,6 +126,8 @@ bool VirtualMachinesAssigner::assignOneVirtualMachine(Node * virtualMachine, Ass
         {
             nodes[index]->assign(*virtualMachine);
             reqAssignment->AddAssignment(virtualMachine, nodes[index]);
+            requestsAssignedNodes.push_back(nodes[index]);
+            std::sort(requestsAssignedNodes.begin(), requestsAssignedNodes.end(), virtualNodesCompare);
             return true;
         }
     }

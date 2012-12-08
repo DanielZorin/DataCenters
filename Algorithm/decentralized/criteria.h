@@ -45,7 +45,8 @@ public:
 
     // The cost of the path between some virtual machine (assigned on node) and
     // memory store to be used in the replication procedure
-    static long replicationPathCost(Store* initialStore, Store* store, Network * network, NetPath& path);
+    static long replicationPathCost(Store* initialStore, Store* store, Network * network, NetPath& path,
+                                    unsigned replicationCapacity);
     static long replicationPathCost(VirtualLink* virtualLink, Network * network, NetPath& path);
 };
 

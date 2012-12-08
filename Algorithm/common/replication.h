@@ -13,7 +13,7 @@ class Replication
 public:
     // Constructor, destructor.
     Replication() {}
-    ~Replication(); // removing assignments
+    ~Replication() {}
 
 public:
     // Getters/setters.
@@ -54,9 +54,10 @@ public:
     }
 
 public:
-    // Get/Set the bandwidth of the link (which are used fo maintaining consistency of replication).
-    static void SetLinkBandwidth(unsigned typeOfStore, long bandwidth);
-    static long GetLinkBandwidth(unsigned typeOfStore);
+    // Remove the replication.
+    // This also removes the assignments of the replication.
+    //
+    void Remove();
     
 private:
     // The storage, for which replication is maintained.
@@ -68,9 +69,6 @@ private:
 
     // Network path between stores.
     NetPath link;
-
-    // The map between the type of store and bandwidth.
-    static std::map<unsigned, long> consistencyBandwidths;
 };
 
 #endif
