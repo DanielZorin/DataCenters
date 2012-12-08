@@ -136,17 +136,20 @@ unsigned int AntAlgorithm::objFunctions()
 
 Algorithm::Result AntAlgorithm::schedule()
 {
+    std::cerr << "Algorithm parameters: antNum = " << antNum << ", iter = " << iterNum << ", pd = " << pherDeg << ", hd = " << heurDeg << ", evap = " << evapRate << '\n';
     unsigned int iMax = 0;
     std::map<Link *, AssignedChannel> channels;
     for (int i = 0; i < iterNum; ++ i)
     {
+        std::cerr << "Iteration " << i << '\n';
         for (int ant = 0; ant < antNum; ++ ant)
         {
+            std::cerr << "Ant " << ant << '/' << antNum << '\r';
             channels.clear();
             graph->nextPath();
             buildPath(ant);
             buildLink(ant, channels);
-            std::cerr << "---\n";
+//            std::cerr << "---\n";
         }
 
         // remember the best solution
@@ -156,15 +159,15 @@ Algorithm::Result AntAlgorithm::schedule()
             delete bestPath;
             bestPath = new AntPath(*paths[iMax]);
             bestValue = objValues[iMax];
-//            if (ZERO(bestValue-1)) break;
-            std::cerr << "bestValue = " << bestValue << '\n';
+            if (ZERO(bestValue-1)) break;
         }
+        std::cerr << "bestValue = " << bestValue << '\n';
 
         graph->updatePheromone(paths, objValues, evapRate);
 
         // clean
         for (int j = 0; j < paths.size(); ++ j)
-            if (paths[i]) { delete paths[i]; paths[i] = NULL; }
+            if (paths[j]) { delete paths[j]; paths[j] = NULL; }
         for (std::map<Link *, AssignedChannel>::iterator iter = channels.begin(); iter != channels.end(); iter ++)
         {
             if (iter->second.dataChannel) delete iter->second.dataChannel;

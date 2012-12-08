@@ -236,18 +236,18 @@ void InternalGraph::requestErased(int resource, unsigned int request, GraphCompo
 {
     if (t == GraphComponent::VMACHINE)
     {
-        std::cerr << "deleting = " << request << ", curNodesRes[" << resource << "] = " << curNodesRes[resource] << '\n';
+//        std::cerr << "deleting = " << request << ", curNodesRes[" << resource << "] = " << curNodesRes[resource] << '\n';
         curNodesRes[resource] += vertices[request-1]->getRequired();
         updateInternalHeuristic(resource, GraphComponent::VMACHINE);
-        std::cerr << "After: curNodesRes[" << resource << "] = " << curNodesRes[resource] << '\n';
+//        std::cerr << "After: curNodesRes[" << resource << "] = " << curNodesRes[resource] << '\n';
     }
 
     else if (t == GraphComponent::STORAGE)
     {
-        std::cerr << "deleting = " << request << ", curStoresRes[" << resource << "] = " << curStoresRes[resource] << '\n';
+//        std::cerr << "deleting = " << request << ", curStoresRes[" << resource << "] = " << curStoresRes[resource] << '\n';
         curStoresRes[resource] += vertices[request-1]->getRequired();
         updateInternalHeuristic(resource, GraphComponent::STORAGE);
-        std::cerr << "After: curStoresRes[" << resource << "] = " << curStoresRes[resource] << '\n';
+//        std::cerr << "After: curStoresRes[" << resource << "] = " << curStoresRes[resource] << '\n';
     }
 
 }
@@ -265,6 +265,7 @@ void InternalGraph::nextPath()
 
 void InternalGraph::updatePheromone(std::vector<AntPath*> & paths, std::vector<double> & objValues, double evapRate)
 {
+/*
     for (int i = 0; i < paths.size(); ++ i)
     {
         std::cerr << "paths[" << i << "]: ";
@@ -274,14 +275,14 @@ void InternalGraph::updatePheromone(std::vector<AntPath*> & paths, std::vector<d
 
         std::cerr << '\n';
     }
-
+*/
     for (int i = 0; i < arcs.size(); ++ i)
         for (int j = 0; j < arcs[i].size(); ++ j)
             arcs[i][j]->pher *= 1-evapRate;
 
     unsigned int from, to, tmp;
     double tmpMax = 0, maxPherST = 0, maxPherVM = 0;
-    std::cerr << "Updating.\n";
+//    std::cerr << "Updating.\n";
     for (int i = 0; i < paths.size(); ++ i)
     {
         const std::vector<PathElement *> & path = paths[i]->getPath();
@@ -312,6 +313,7 @@ void InternalGraph::updatePheromone(std::vector<AntPath*> & paths, std::vector<d
     // Normalize if needed
     if (maxPherVM > 1)
     {
+        for (int i = 1; i < vmNum+1; ++ i) arcs[0][i]->pher /= maxPherVM;
         for (int i = 0; i < vmNum+1; ++ i)
             for (int j = 0; j < vmNum+1; ++ j)
             {
@@ -321,6 +323,7 @@ void InternalGraph::updatePheromone(std::vector<AntPath*> & paths, std::vector<d
     }
     if (maxPherST > 1)
     {
+        for (int i = vmNum+1; i < vmNum+stNum+1; ++ i) arcs[0][i]->pher /= maxPherST;
         for (int i = vmNum+1; i < vmNum+stNum+1; ++ i)
             for (int j = vmNum+1; j < vmNum+stNum+1; ++ j)
             {
@@ -368,27 +371,34 @@ unsigned int InternalGraph::selectVertex(AntPath* pt, unsigned int cur, std::set
         sum += value;
         roulette[index] = sum;
     }
-    if (ZERO(sum)) sum = size;
 
     double choose = rand()/(double)RAND_MAX * sum;
-/*    if (cur == 0)
+/*
+    std::cerr << "arcs [cur][q] = ";
+    for (int q = 0; q < arcs[cur].size(); ++ q) std::cerr << arcs[cur][q]->pher << ' ';
+    std::cerr << ", roulette = ";
+    for (int q = 0; q < roulette.size(); ++ q) std::cerr << roulette[q] << ' ';
+    std::cerr << ", sum = " << sum << ", choose = " << choose << '\n';
+*/
+    if (ZERO(sum))
     {
-        std::cerr << "arcs [0][q] = ";
-        for (int q = 0; q < arcs[0].size(); ++ q) std::cerr << arcs[0][q]->heur << ' ';
-        std::cerr << ", roulette = ";
-        for (int q = 0; q < roulette.size(); ++ q) std::cerr << roulette[q] << ' ';
-        std::cerr << ", sum = " << sum << ", choose = " << choose << '\n';
-    }*/
-    for (unsigned int i = 0; i < size; ++ i)
+        std::set<unsigned int>::iterator sel = available.begin();
+        vertex = *sel;
+        available.erase(sel);
+    }
+    else
     {
-        if (choose < roulette[i])
+        for (unsigned int i = 0; i < size; ++ i)
         {
-            std::set<unsigned int>::iterator sel = available.begin();
-            //set don't have += for iterators
-            for (unsigned int j = i; j > 0; -- j) sel ++;
-            vertex = *sel;
-            available.erase(sel);
-            break;
+            if (choose < roulette[i])
+            {
+                std::set<unsigned int>::iterator sel = available.begin();
+                // set don't have += for iterators
+                for (unsigned int j = i; j > 0; -- j) sel ++;
+                vertex = *sel;
+                available.erase(sel);
+                break;
+            }
         }
     }
 
@@ -494,7 +504,7 @@ bool InternalGraph::init(std::vector<unsigned long> & res, std::vector<unsigned 
             physStores[p] = ps[p];
         }
 
-        std::cerr << "Created graph, values: " << nodesNum << " " << storesNum << " " << vmNum << " " << stNum << "\nResources:\n";
+        std::cerr << "Created graph, values: nodes = " << nodesNum << ", stores = " << storesNum << ", vms = " << vmNum << ", sts =  " << stNum << "\nResources:\n";
         for (int p = 0; p < nodesRes.size(); ++ p) std::cerr << nodesRes[p] << '(' << physNodes[p]->getCapacity() << ") ";
         std::cerr << '\n';
         for (int p = 0; p < storesRes.size(); ++ p) std::cerr << storesRes[p] << '(' << physStores[p]->getCapacity() << ") ";

@@ -45,7 +45,7 @@ typedef Node VirtualMachine;
 typedef Store Storage;
 typedef Link VirtualLink;
 
-#define EPS 0.000001
+#define EPS 0.00000000001
 #define ABS(a) (((a) > 0) ? (a) : (-(a)))
 #define ZERO(a) ((ABS(a)) < (EPS))
 
