@@ -83,6 +83,8 @@ bool GraphComponent::init(int num)
 
         physArcs.resize(num);
         physHeurs.resize(num);
+        justHeurs.resize(num);
+        initJustHeurs.resize(num);
         for (i = 0; i < num; ++ i)
             physArcs[i] = new Arc;
 
@@ -114,6 +116,9 @@ void GraphComponent::nextPath()
 {
     for (int i = 0; i < physArcs.size(); ++ i)
         physArcs[i]->heur = physHeurs[i];
+
+    for (int i = 0; i < physArcs.size(); ++ i)
+        justHeurs[i] = initJustHeurs[i];
 }
 
 void GraphComponent::initValues(std::vector<unsigned long> & res, std::vector<unsigned long> & cap, std::vector<unsigned int> & types)
@@ -121,25 +126,26 @@ void GraphComponent::initValues(std::vector<unsigned long> & res, std::vector<un
     double maxHeur = 0;
     for (int i = 0; i < physArcs.size(); ++ i)
     {
-        if (type == STORAGE && types[i] != storageType) physArcs[i]->heur = -1;
+        if (type == STORAGE && types[i] != storageType) justHeurs [i] = initJustHeurs[i] = physArcs[i]->heur = -1;
         else
         {
             physArcs[i]->pher = 1;
-            physArcs[i]->heur = cap[i]-res[i]+required;
-            if (physArcs[i]->heur > cap[i]) physArcs[i]->heur = 0;
+            justHeurs[i] = initJustHeurs[i] = physArcs[i]->heur = cap[i]-res[i]+required;
+            if (physArcs[i]->heur > cap[i]) justHeurs[i] = initJustHeurs[i] = physArcs[i]->heur = 0;
             if (physArcs[i]->heur > maxHeur) maxHeur = physArcs[i]->heur;
         }
     }
+
     if (!ZERO(maxHeur))
     {
         for (int i = 0; i < physArcs.size(); ++ i)
         {
             if (!(type == STORAGE && types[i] != storageType)) physArcs[i]->heur /= maxHeur;
             physHeurs[i] = physArcs[i]->heur;
-            std::cerr << "physArcs[" << i << "] = " << physArcs[i]->heur << ' ';
+//            std::cerr << "physArcs[" << i << "] = " << physArcs[i]->heur << ' ';
         }
     }
-    std::cerr << '\n';
+//    std::cerr << '\n';
 }
 
 void GraphComponent::updateHeuristic(unsigned int resNum, unsigned int resCur, unsigned int resCap)
@@ -147,18 +153,18 @@ void GraphComponent::updateHeuristic(unsigned int resNum, unsigned int resCur, u
     double maxHeur = 0;
     if (!(ZERO(physArcs[resNum]->heur+1)))
     {
-        physArcs[resNum]->heur = resCap-resCur+required;
-        if (physArcs[resNum]->heur > resCap) physArcs[resNum]->heur = 0;
+        justHeurs[resNum] = resCap-resCur+required;
+        if (justHeurs[resNum] > resCap) justHeurs[resNum] = 0;
 
         for (int i = 0; i < physArcs.size(); ++ i)
-            if (physArcs[i]->heur > maxHeur) maxHeur = physArcs[i]->heur;
+            if (justHeurs[i] > maxHeur) maxHeur = justHeurs[i];
 
-//        std::cerr << "Updated with resNum = " << resNum << '\n';
+//        std::cerr << "Updated with resNum = " << resNum << ", resCur = " << resCur << ", resCap = " << resCap << ", maxHeur = " << maxHeur << '\n';
         if (!ZERO(maxHeur))
         {
             for (int i = 0; i < physArcs.size(); ++ i)
             {
-                if (!(ZERO(physArcs[i]->heur+1))) physArcs[i]->heur /= maxHeur;
+                if (!(ZERO(physArcs[i]->heur+1))) physArcs[i]->heur = justHeurs[i]/maxHeur;
 //                std::cerr << "physArcs[" << i << "] = " << physArcs[i]->heur << ' ';
             }
         }
@@ -197,7 +203,13 @@ unsigned int GraphComponent::chooseResource(double pherDeg, double heurDeg)
     }
     if (ZERO(sum)) return size+1;
 
+
     double choose = rand()/(double)RAND_MAX * sum;
+/*    std::cerr << "physArcs = ";
+    for (int q = 0; q < physArcs.size(); ++ q) std::cerr << physArcs[q]->heur << ' ';
+    std::cerr << ", roulette = ";
+    for (int q = 0; q < roulette.size(); ++ q) std::cerr << roulette[q] << ' ';
+    std::cerr << ", sum = " << sum << ", choose = " << choose << '\n';*/
     for (unsigned int i = 0; i < size; ++ i)
         if (choose < roulette[i]) return i;
 }
@@ -255,9 +267,15 @@ void InternalGraph::requestErased(int resource, unsigned int request, GraphCompo
 void InternalGraph::nextPath()
 {
     for (int i = 0; i < nodesNum; ++ i)
+    {
+        if (curNodesRes[i] < 0) std::cerr << "!!!curNodesRes[" << i << "] < 0 !!!\n";
         curNodesRes[i] = nodesRes[i];
+    }
     for (int i = 0; i < storesNum; ++ i)
+    {
+        if (curStoresRes[i] < 0) std::cerr << "!!!curStoresRes[" << i << "] < 0 !!!\n";
         curStoresRes[i] = storesRes[i];
+    }
 
     for (int i = 0; i < vertices.size(); ++ i)
         vertices[i]->nextPath();
@@ -405,8 +423,15 @@ unsigned int InternalGraph::selectVertex(AntPath* pt, unsigned int cur, std::set
     // choose resource
     GraphComponent * gc = vertices[vertex-1];
     unsigned int res = gc->chooseResource(pherDeg, heurDeg);
-//    std::cerr << "vertex = " << vertex << ", resource = " << res << '\n';
-    if (res >= gc->getResNum()) { s = false; return vertex; } // failed to choose a resource
+//    std::cerr << "cur = " << cur << ", vertex = " << vertex << ", resource = " << res << "...";
+    if (res >= gc->getResNum())
+    {
+        // failed to choose a resource
+        s = false;
+//        std::cerr << "no\n";
+        return vertex;
+    }
+//    std::cerr << "ok\n";
 
     if (gc->getType() == GraphComponent::VMACHINE)
     {
@@ -561,7 +586,7 @@ void InternalGraph::initValues(std::vector<unsigned long> & req, std::vector<uns
             if (i == j) continue;
             arcs[i][j]->pher = 1;
             arcs[i][j]->heur = req[j-1]/(double)maxVM;
-            std::cerr << "arcs[" << i << "][" << j << "]->heur = " << arcs[i][j]->heur << ' ';
+//            std::cerr << "arcs[" << i << "][" << j << "]->heur = " << arcs[i][j]->heur << ' ';
         }
     }
 
@@ -572,10 +597,10 @@ void InternalGraph::initValues(std::vector<unsigned long> & req, std::vector<uns
             if (i == j) continue;
             arcs[i][j]->pher = 1;
             arcs[i][j]->heur = req[j-1]/(double)maxST;
-            std::cerr << "arcs[" << i << "][" << j << "]->heur = " << arcs[i][j]->heur << ' ';
+//            std::cerr << "arcs[" << i << "][" << j << "]->heur = " << arcs[i][j]->heur << ' ';
         }
     }
-    std::cerr << '\n';
+//    std::cerr << '\n';
 
     // Init for each graph component
     for (int i = 0; i < vertices.size(); ++ i)

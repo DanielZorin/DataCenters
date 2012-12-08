@@ -162,7 +162,6 @@ Algorithm::Result AntAlgorithm::schedule()
             delete bestPath;
             bestPath = new AntPath(*paths[iMax]);
             bestValue = objValues[iMax];
-            if (ZERO(bestValue-1)) break;
         }
         std::cerr << "bestValue = " << bestValue << '\n';
 
@@ -176,6 +175,7 @@ Algorithm::Result AntAlgorithm::schedule()
             if (iter->second.dataChannel) delete iter->second.dataChannel;
             if (iter->second.repChannel) delete iter->second.repChannel;
         }
+        if (ZERO(bestValue-1)) break;
     }
     return Algorithm::SUCCESS;
 }
@@ -270,6 +270,7 @@ bool AntAlgorithm::buildPath(unsigned int ant)
         else oldVertex = vertex;
     }
 
+//    std::cerr << "================\n";
     //build through storages' vertices
     pt->addElement(new PathElement(0, NULL, 0, NULL));
     while (!availableStores.empty())
