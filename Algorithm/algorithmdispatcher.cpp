@@ -13,5 +13,8 @@ Algorithm * AlgorithmDispatcher::Dispatch(QString & type, Network * network, Req
     if ( type == QString("d") )
         algorithm = new DecentralizedAlgorithm(network, requests);
 
+    if ( type == QString("a") )
+        algorithm = new AntAlgorithm(network, requests);
+
     return algorithm;
 }

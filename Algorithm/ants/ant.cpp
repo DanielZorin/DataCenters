@@ -145,10 +145,13 @@ Algorithm::Result AntAlgorithm::schedule()
         for (int ant = 0; ant < antNum; ++ ant)
         {
             std::cerr << "Ant " << ant << '/' << antNum << '\r';
+//            std::cerr << "Ant " << ant << '/' << antNum;
             channels.clear();
             graph->nextPath();
             buildPath(ant);
+//            std::cerr << ", path length before = " << paths[ant]->getLength()-2;
             buildLink(ant, channels);
+//            std::cerr << ", path length after = " << paths[ant]->getLength()-2 << '\n';
 //            std::cerr << "---\n";
         }
 
