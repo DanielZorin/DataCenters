@@ -130,8 +130,9 @@ void GraphComponent::initValues(std::vector<unsigned long> & res, std::vector<un
         else
         {
             physArcs[i]->pher = 1;
-            justHeurs[i] = initJustHeurs[i] = physArcs[i]->heur = cap[i]-res[i]+required;
-            if (physArcs[i]->heur > cap[i]) justHeurs[i] = initJustHeurs[i] = physArcs[i]->heur = 0;
+//            justHeurs[i] = initJustHeurs[i] = physArcs[i]->heur = cap[i]-res[i]+required;
+            justHeurs[i] = initJustHeurs[i] = physArcs[i]->heur = res[i]-required;
+            if (physArcs[i]->heur > cap[i] || physArcs[i]->heur < 0) justHeurs[i] = initJustHeurs[i] = physArcs[i]->heur = 0;
             if (physArcs[i]->heur > maxHeur) maxHeur = physArcs[i]->heur;
         }
     }
@@ -153,8 +154,9 @@ void GraphComponent::updateHeuristic(unsigned int resNum, unsigned int resCur, u
     double maxHeur = 0;
     if (!(ZERO(physArcs[resNum]->heur+1)))
     {
-        justHeurs[resNum] = resCap-resCur+required;
-        if (justHeurs[resNum] > resCap) justHeurs[resNum] = 0;
+//        justHeurs[resNum] = resCap-resCur+required;
+        justHeurs[resNum] = resCur-required;
+        if (justHeurs[resNum] > resCap || justHeurs[resNum] < 0) justHeurs[resNum] = 0;
 
         for (int i = 0; i < physArcs.size(); ++ i)
             if (justHeurs[i] > maxHeur) maxHeur = justHeurs[i];
