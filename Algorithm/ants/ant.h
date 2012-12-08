@@ -12,6 +12,35 @@
 #include "internalgraph.h"
 #include "path.h"
 
+// A struct to store information about assigned virtual channel
+// Makes it possible to easy unassign it if needed
+struct AssignedChannel
+{
+    // channel to virtual machine
+    NetPath * dataChannel;
+    //  consistency channel (NULL if not used)
+    NetPath * repChannel;
+    // The store where the replica is (NULL if not used)
+    Store* replica;
+    // Its index (only makes sense when replica is not NULL)
+    unsigned int rindex;
+
+    AssignedChannel()
+    : dataChannel(NULL)
+    , repChannel(NULL)
+    , replica(NULL)
+    , rindex(0)
+    {
+    }
+
+    AssignedChannel(NetPath * dc, NetPath * rc, Store * st, unsigned int ri)
+    : dataChannel(dc)
+    , repChannel(rc)
+    , replica(st)
+    , rindex(ri)
+    {
+    }
+};
 
 // Ant algorithm control class
 // Constructs solution using Network and a set of requests
@@ -50,7 +79,7 @@ private:
     // private functions
     bool init();
     bool buildPath(unsigned int ant);
-    std::vector<NetPath>* buildLink(unsigned int ant, bool resultNeeded);
+    void buildLink(unsigned int ant, std::map<Link *, AssignedChannel> & channels);
     unsigned int objFunctions();
     void removeRequestElements(unsigned int vertex, AntPath* pt, std::set<unsigned int> & availableVM, std::set<unsigned int> & availableST, GraphComponent::RequestType t);
 

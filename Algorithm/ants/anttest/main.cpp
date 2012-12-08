@@ -93,6 +93,7 @@ int main(int argc, char *argv[])
     Link * ch6 = new Link("", 5);
     Link * ch7 = new Link("", 5);
     Link * ch8 = new Link("", 5);
+//    Link * ch9 = new Link("", 500);
     ch1->bindElements(vm1, st1);
     ch2->bindElements(vm1, st2);
     ch3->bindElements(vm2, st1);
@@ -101,6 +102,7 @@ int main(int argc, char *argv[])
     ch6->bindElements(vm3, st4);
     ch7->bindElements(vm4, st3);
     ch8->bindElements(vm4, st4);
+//    ch9->bindElements(vm4, st4);
     req1->addVirtualMachine(vm1);
     req1->addVirtualMachine(vm2);
     req2->addVirtualMachine(vm3);
@@ -121,6 +123,7 @@ int main(int argc, char *argv[])
     req2->addLink(ch6);
     req2->addLink(ch7);
     req2->addLink(ch8);
+//    req2->addLink(ch9);
     r.insert(req1);
     r.insert(req2);
     AntAlgorithm alg(&n, r, 1, 1, 1, 1, 0.1);
