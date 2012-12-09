@@ -152,7 +152,6 @@ Algorithm::Result AntAlgorithm::schedule()
 //            std::cerr << ", path length before = " << paths[ant]->getLength()-2;
             buildLink(ant, channels);
 //            std::cerr << ", path length after = " << paths[ant]->getLength()-2 << '\n';
-//            std::cerr << "---\n";
         }
 
         // remember the best solution
@@ -163,9 +162,9 @@ Algorithm::Result AntAlgorithm::schedule()
             bestPath = new AntPath(*paths[iMax]);
             bestValue = objValues[iMax];
         }
-        std::cerr << "bestValue = " << bestValue << '\n';
+        std::cerr << "current best value = " << objValues[iMax] << ", bestValue = " << bestValue << '\n';
 
-        graph->updatePheromone(paths, objValues, evapRate);
+        graph->updatePheromone(paths, objValues, evapRate, objValues[iMax]);
 
         // clean
         for (int j = 0; j < paths.size(); ++ j)
@@ -327,7 +326,7 @@ void AntAlgorithm::buildLink(unsigned int ant, std::map<Link *, AssignedChannel>
                     Element * repDest = NULL;
 //                    std::cerr << "Trying replication. Source = " << source << ", dest = " << destination << ", replicating = " << replicating << '\n';
                     NetPath * repChannel, * dataChannel;
-                    Link repLink("", 1);
+                    Link repLink("", static_cast<Store *>(replicating)->getReplicationCapacity());
                     Link dataLink("", (*lk)->getCapacity());
                     bool repSuccess = false;
                     std::vector<unsigned long> curStoresRes = graph->getCurStoresRes();
@@ -401,8 +400,8 @@ void AntAlgorithm::buildLink(unsigned int ant, std::map<Link *, AssignedChannel>
                                 if (ach.repChannel)
                                 {
 //                                    std::cerr << "Restored capacity on the consistency channel: ";
-//                                  TODO: place correct replication link capacity here
-                                    Link tmp("", 1);
+                                    Element * repElem = (place->first->getFirst()->isStore()) ? place->first->getFirst() : place->first->getSecond();
+                                    Link tmp("", static_cast<Store *>(repElem)->getReplicationCapacity());
                                     for (int index = 0; index < ach.repChannel->size(); ++ index)
                                     {
                                         (*(ach.repChannel))[index]->RemoveAssignment(&tmp);

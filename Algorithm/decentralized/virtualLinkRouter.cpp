@@ -235,8 +235,8 @@ long VirtualLinkRouter::getEdgeWeigth(Link& link, Network * network, SearchPathA
     {
         if ( link.getSecond()->isSwitch() )
             // the less capacity - the less weight - the more chance to choose it
-            return - (long)(link.getCapacity() + link.getSecond()->getCapacity());
-        return - (long)link.getCapacity();
+            return (long)(link.getMaxCapacity() - link.getCapacity() + link.getSecond()->getMaxCapacity() - link.getSecond()->getCapacity());
+        return (long)link.getMaxCapacity() - (long)link.getCapacity();
     }
 
     return link.getCapacity();

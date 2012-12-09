@@ -283,7 +283,7 @@ void InternalGraph::nextPath()
         vertices[i]->nextPath();
 }
 
-void InternalGraph::updatePheromone(std::vector<AntPath*> & paths, std::vector<double> & objValues, double evapRate)
+void InternalGraph::updatePheromone(std::vector<AntPath*> & paths, std::vector<double> & objValues, double evapRate, double max)
 {
 /*
     for (int i = 0; i < paths.size(); ++ i)
@@ -305,6 +305,7 @@ void InternalGraph::updatePheromone(std::vector<AntPath*> & paths, std::vector<d
 //    std::cerr << "Updating.\n";
     for (int i = 0; i < paths.size(); ++ i)
     {
+        if (objValues[i] < max) continue;
         const std::vector<PathElement *> & path = paths[i]->getPath();
 //        std::cerr << i << ":\n";
         for (int j = 0; j < path.size()-1; ++ j)
