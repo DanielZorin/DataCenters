@@ -155,5 +155,5 @@ class Project:
                 
     def Run(self):
         self.Save("tmp_dump.dcxml")
-        os.system("../Algorithm/main.exe tmp_dump.dcxml result.dcxml")
+        os.system("..\\Algorithm\\main.exe tmp_dump.dcxml result.dcxml")
         return

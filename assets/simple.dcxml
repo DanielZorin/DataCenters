@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<dcxml name="test project">
+	<resources time="2">
+		<router capacity="100" name="router_0_0" number="1" used="12" x="64.5" y="14.5"/>
+		<router capacity="100" name="router_1_0" number="2" used="12" x="39.5" y="64.5"/>
+		<router capacity="100" name="router_2_0" number="3" used="0" x="27.5" y="114.5"/>
+		<computer name="computer0" number="4" speed="100" used="0" x="22.5" y="163.5"/>
+		<router capacity="100" name="router_2_1" number="5" used="12" x="52.5" y="114.5"/>
+		<storage name="storage1" number="6" type="1" used="43" volume="100" x="52.5" y="164.5"/>
+		<router capacity="100" name="router_1_1" number="7" used="12" x="89.5" y="64.5"/>
+		<router capacity="100" name="router_2_2" number="8" used="12" x="77.5" y="114.5"/>
+		<computer name="computer2" number="9" speed="100" used="12" x="77.5" y="164.5"/>
+		<router capacity="100" name="router_2_3" number="10" used="0" x="102.5" y="114.5"/>
+		<storage name="storage3" number="11" type="1" used="0" volume="100" x="102.5" y="164.5"/>
+		<link capacity="100" from="1" to="2" used="12"/>
+		<link capacity="100" from="2" to="3" used="0"/>
+		<link capacity="100" from="3" to="4" used="0"/>
+		<link capacity="100" from="2" to="5" used="12"/>
+		<link capacity="100" from="5" to="6" used="12"/>
+		<link capacity="100" from="1" to="7" used="12"/>
+		<link capacity="100" from="7" to="8" used="12"/>
+		<link capacity="100" from="8" to="9" used="12"/>
+		<link capacity="100" from="7" to="10" used="0"/>
+		<link capacity="100" from="10" to="11" used="0"/>
+	</resources>
+	<demand assigned="True" critical="True" end="5" id="Random_2" start="2">
+		<vm assignedto="9" name="vm_0" number="1" speed="12" x="50.0" y="50.0"/>
+		<storage assignedto="6" name="storage_0" number="2" replicationcapacity="4" type="1" volume="43" x="50.0" y="90.0"/>
+		<link assignedto="9;8;7;1;2;5;6;" capacity="12" from="1" to="2"/>
+	</demand>
+</dcxml>

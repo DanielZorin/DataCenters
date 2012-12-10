@@ -160,8 +160,16 @@ class MainWindow(QMainWindow):
     def Run(self):
         self.InitProject()
         #self.project.method.Clear()
-        self.project.Run()
-        self.OpenProjectFromFile("result.dcxml")
+        self.project.Save(self.projectFile)
+        if self.ui.algorithm.currentIndex() == 0:
+            alg = "a"
+        elif self.ui.algorithm.currentIndex() == 1:
+            alg = "c"
+        else:
+            alg = "d"
+        os.system("Algorithm\\main.exe " + os.path.relpath(self.projectFile) + " " + os.path.relpath(self.projectFile) + " " + alg)
+        #self.project.Run()
+        self.OpenProjectFromFile(self.projectFile)
         self.showStats()
 
     def RunSelected(self):
