@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{DF5EAE9F-D583-4E59-A621-CCB99FEED3E0}</ProjectGuid>
+    <Keyword>Qt4VSv1.0</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>UNICODE;WIN32;QT_LARGEFILE_SUPPORT;QT_DLL;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Optimization>Disabled</Optimization>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtXml;common;centralized;decentralized;ants;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>qtmaind.lib;QtCored4.lib;QtGuid4.lib;QtXmld4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>UNICODE;WIN32;QT_LARGEFILE_SUPPORT;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_XML_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtXml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <AdditionalDependencies>qtmain.lib;QtCore4.lib;QtGui4.lib;QtXml4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="algorithmdispatcher.cpp" />
+    <ClCompile Include="ants\ant.cpp" />
+    <ClCompile Include="ants\anttest\main.cpp" />
+    <ClCompile Include="ants\internalgraph.cpp" />
+    <ClCompile Include="ants\path.cpp" />
+    <ClCompile Include="centralized\centralizedalgorithm.cpp" />
+    <ClCompile Include="centralized\networkManager.cpp" />
+    <ClCompile Include="centralized\nodeManager.cpp" />
+    <ClCompile Include="centralized\storeManager.cpp" />
+    <ClCompile Include="common\assignment.cpp" />
+    <ClCompile Include="common\link.cpp" />
+    <ClCompile Include="common\network.cpp" />
+    <ClCompile Include="common\replication.cpp" />
+    <ClCompile Include="common\request.cpp" />
+    <ClCompile Include="decentralized\criteria.cpp" />
+    <ClCompile Include="decentralized\decentralizedAlgorithm.cpp" />
+    <ClCompile Include="decentralized\elementsAssigner.cpp" />
+    <ClCompile Include="decentralized\storagesAssigner.cpp" />
+    <ClCompile Include="decentralized\virtualLinkRouter.cpp" />
+    <ClCompile Include="decentralized\virtualLinksAssigner.cpp" />
+    <ClCompile Include="decentralized\virtualMachinesAssigner.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="xmlconverter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="algorithmdispatcher.h" />
+    <ClInclude Include="ants\ant.h" />
+    <ClInclude Include="ants\internalgraph.h" />
+    <ClInclude Include="ants\path.h" />
+    <ClInclude Include="centralized\centralizedalgorithm.h" />
+    <ClInclude Include="centralized\networkManager.h" />
+    <ClInclude Include="centralized\nodeManager.h" />
+    <ClInclude Include="centralized\storeManager.h" />
+    <ClInclude Include="common\algorithm.h" />
+    <ClInclude Include="common\assignment.h" />
+    <ClInclude Include="common\computationalElement.h" />
+    <ClInclude Include="common\element.h" />
+    <ClInclude Include="common\link.h" />
+    <ClInclude Include="common\network.h" />
+    <ClInclude Include="common\networkingElement.h" />
+    <ClInclude Include="common\node.h" />
+    <ClInclude Include="common\publicdefs.h" />
+    <ClInclude Include="common\replication.h" />
+    <ClInclude Include="common\request.h" />
+    <ClInclude Include="common\store.h" />
+    <ClInclude Include="common\switch.h" />
+    <ClInclude Include="decentralized\criteria.h" />
+    <ClInclude Include="decentralized\decentralizedAlgorithm.h" />
+    <ClInclude Include="decentralized\elementsAssigner.h" />
+    <ClInclude Include="decentralized\storagesAssigner.h" />
+    <ClInclude Include="decentralized\virtualLinkRouter.h" />
+    <ClInclude Include="decentralized\virtualLinksAssigner.h" />
+    <ClInclude Include="decentralized\virtualMachinesAssigner.h" />
+    <ClInclude Include="xmlconverter.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties UicDir=".\GeneratedFiles" MocDir=".\GeneratedFiles\$(ConfigurationName)" MocOptions="" RccDir=".\GeneratedFiles" lupdateOnBuild="0" lupdateOptions="" lreleaseOptions="" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
