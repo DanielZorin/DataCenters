@@ -8,6 +8,7 @@
 #include "../common/network.h"
 #include "../common/request.h"
 #include "../common/assignment.h"
+#include "../common/replication.h"
 #include "../common/algorithm.h"
 #include "internalgraph.h"
 #include "path.h"
@@ -18,7 +19,7 @@ struct AssignedChannel
 {
     // channel to virtual machine
     NetPath * dataChannel;
-    //  consistency channel (NULL if not used)
+    //  consistency channel (NULL if not used or there is another object of this type with the same repChannel)
     NetPath * repChannel;
     // The store where the replica is (NULL if not used)
     Store* replica;
@@ -47,7 +48,7 @@ struct AssignedChannel
 class AntAlgorithm: public Algorithm
 {
 public:
-    AntAlgorithm(Network * n, Requests const & r, unsigned int ants = 80, unsigned int iter = 100, double pd = 1, double hd = 2, double evap = 0.1);
+    AntAlgorithm(Network * n, Requests const & r, unsigned int ants = 80, unsigned int iter = 1, double pd = 1, double hd = 2, double evap = 0.1);
     ~AntAlgorithm();
 
     virtual Algorithm::Result schedule();
@@ -79,9 +80,12 @@ private:
     // private functions
     bool init();
     bool buildPath(unsigned int ant);
-    void buildLink(unsigned int ant, std::map<Link *, AssignedChannel> & channels);
+    void buildLink(unsigned int ant, std::map<Link *, AssignedChannel> & channels, bool restore = true);
     unsigned int objFunctions();
     void removeRequestElements(unsigned int vertex, AntPath* pt, std::set<unsigned int> & availableVM, std::set<unsigned int> & availableST, GraphComponent::RequestType t);
+    bool lastReplica(const std::map<Link *, AssignedChannel> & channels, Link * link, Element * rep);
+    bool replicaExists(const std::map<Link *, AssignedChannel> & channels, Element * replicating, Element * st);
+    const AssignedChannel * findReplica(const std::map<Link *, AssignedChannel> & channels, Element * replicating);
 
     // is init() successful?
     bool success;

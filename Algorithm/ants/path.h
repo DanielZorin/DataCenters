@@ -30,6 +30,8 @@ struct PathElement
     , resourcePointer(NULL)
     {}
 
+    ~PathElement() {}
+
     PathElement(const PathElement & p);
     PathElement& operator=(const PathElement & p);
     //default destructor
