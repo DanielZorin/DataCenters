@@ -10,6 +10,7 @@
 #include <vector>
 #include <algorithm>
 #include <climits>
+#include <stdio.h>
 
 VirtualLinksAssigner::~VirtualLinksAssigner()
 {
@@ -69,6 +70,7 @@ Requests VirtualLinksAssigner::PerformAssignment(Requests& requests)
 bool VirtualLinksAssigner::assignOneRequest(Request::VirtualLinks * virtualLinks,
                                             Assignment* reqAssignment, Request* req)
 {
+    printf("Parsing request\n");
     // form the vector from the set to have an ability to sort it
     std::vector<Link * > virtualLinksVec(virtualLinks->begin(), virtualLinks->end());
     std::sort(virtualLinksVec.begin(), virtualLinksVec.end(), virtualLinksCompare);
@@ -77,15 +79,18 @@ bool VirtualLinksAssigner::assignOneRequest(Request::VirtualLinks * virtualLinks
         // forming the link in physical resources from the virtual link
         Link link = getPhysicalLink(virtualLinksVec[index], req);
 
+        printf("   searching path\n");
         bool result = assignOneVirtualLink(virtualLinksVec[index], &link, reqAssignment);
         if ( !result )
         {
+            printf("      fail! exhaustive search\n");
             // trying limited exhaustive search
             result = limitedExhaustiveSearch(virtualLinksVec[index], reqAssignment, req);
         }
         
         if ( !result )
         {
+            printf("      fail! replication\n");
             result = replicate(virtualLinksVec[index], reqAssignment, req);
         }
 
@@ -108,11 +113,13 @@ bool VirtualLinksAssigner::assignOneRequest(Request::VirtualLinks * virtualLinks
             }
             replicationsOfAssignment.erase(reqAssignment);
 
+            printf("   fail\n");
             // tell the upper layer to delete assignment
             return false;
         }
     }
 
+    printf("   success!\n");
     return true;
 }
 
@@ -210,6 +217,7 @@ bool VirtualLinksAssigner::limitedExhaustiveSearch(Element * element, Assignment
     getAllVirtualLinksAssignments(element, vlAssignment, vlRequest, assignment, req);
     for ( unsigned depth = 1; depth <= Criteria::exhaustiveSearchDepth(); ++depth )
     {
+        printf("            depth = %d\n", depth);
         Links removedVirtualLinks; // used in the recursive algorithm, initiate as empty
         if ( recursiveExhaustiveSearch(static_cast<VirtualLink*>(element), assignment, vlAssignment,
                 vlRequest, vlAssignment.begin(), removedVirtualLinks, depth) )
@@ -512,7 +520,7 @@ bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assig
     // trying to reassign all already assigned virtual links
     // with the replicated storage as it's node.
     for ( vlIt = vlsStorageReplication.begin(); vlIt != vlsStorageReplication.end(); ++vlIt )
-        reassignAfterReplication(*vlIt, bestStore, assignment);
+        reassignAfterReplication(*vlIt, bestStore, assignment, req);
 
     replicationsOfAssignment[assignment].insert(replication);
 
@@ -520,30 +528,35 @@ bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assig
 }
 
 void VirtualLinksAssigner::reassignAfterReplication(VirtualLink* virtualLink, Store* replicationStore,
-                                                    Assignment* assignment)
+                                                    Assignment* assignment, Request* req)
 {
     // reassign element only if the path cost of the way to the replication is
     // more then the path cost of already assigned path
+ 	 NetPath initialPath = assignment->GetAssignment(virtualLink);
+    RemoveVirtualLink(virtualLink, assignment);
+    assignment->RemoveAssignment(virtualLink);
+
     NetPath pathToReplication;
     Element * vm = virtualLink->getFirst()->isNode() ? virtualLink->getFirst() :
         virtualLink->getSecond();
+    Node * node = (*virtualMachinesAssignments)[req]->GetAssignment(static_cast<VirtualMachine*>(vm));
     Link link("dummy_replication_link", virtualLink->getCapacity());
-    link.bindElements(vm, replicationStore);
+    link.bindElements(node, replicationStore);
     long pathToReplicationCost = Criteria::replicationPathCost(&link, network, pathToReplication);
 
-    if ( pathToReplication.size() == 0 )
-        return; // no need to reassign
-	
-	NetPath initialPath = assignment->GetAssignment(virtualLink);
-	long initialCost = Criteria::pathCost(initialPath);
-	if ( pathToReplication.size() < initialPath.size()
-		 || pathToReplication.size() == initialPath.size() && pathToReplicationCost > initialCost )
-    {
-        // reassign
-        RemoveVirtualLink(virtualLink, assignment);
-        assignment->RemoveAssignment(virtualLink);
-
-        assignment->AddAssignment(virtualLink, pathToReplication);
-        AddVirtualLink(virtualLink, &pathToReplication, assignment);
+    if ( pathToReplication.size() != 0 )
+    {	
+        long initialCost = Criteria::pathCost(initialPath);
+	     if ( pathToReplication.size() < initialPath.size()
+	 	      || pathToReplication.size() == initialPath.size() && pathToReplicationCost > initialCost )
+        {
+            // reassign
+            assignment->AddAssignment(virtualLink, pathToReplication);
+            AddVirtualLink(virtualLink, &pathToReplication, assignment);
+            return;
+        }
     }
+
+    assignment->AddAssignment(virtualLink, initialPath);
+    AddVirtualLink(virtualLink, &initialPath, assignment);
 }

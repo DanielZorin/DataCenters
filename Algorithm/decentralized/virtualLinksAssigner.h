@@ -59,7 +59,7 @@ protected:
     bool replicate(VirtualLink* virtualLink, Assignment* assignment, Request* req);
 
     // Reassign already assigned virtual link of current request after replication.
-    void reassignAfterReplication(VirtualLink* virtualLink, Store* replication, Assignment* assignment);
+    void reassignAfterReplication(VirtualLink* virtualLink, Store* replication, Assignment* assignment, Request* req);
 
 private:
     // Get the map of all assigned virtual links and their assignments.

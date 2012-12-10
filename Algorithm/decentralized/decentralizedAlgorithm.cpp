@@ -4,6 +4,7 @@
 #include "virtualLinksAssigner.h"
 #include "assignment.h"
 
+#include <stdio.h>
 DecentralizedAlgorithm::~DecentralizedAlgorithm()
 {
     Assignments::iterator it = assignments.begin();
@@ -15,15 +16,19 @@ DecentralizedAlgorithm::~DecentralizedAlgorithm()
 
 Algorithm::Result DecentralizedAlgorithm::schedule()
 {
+    printf("There are %d requests\n", (int)requests.size());
     VirtualMachinesAssigner virtualMachinesAssigner(network);
     Requests assignedRequests = virtualMachinesAssigner.PerformAssignment(requests);
+    printf("VMs parsed, assigned %d requests\n", (int)assignedRequests.size());
 
     StoragesAssigner storagesAssigner(network);
     assignedRequests = storagesAssigner.PerformAssignment(assignedRequests);
+    printf("Storages parsed, assigned %d requests\n", (int)assignedRequests.size());
 
     VirtualLinksAssigner virtualLinksAssigner(network, virtualMachinesAssigner.GetRequestAssignment(), 
         storagesAssigner.GetRequestAssignment());
     assignedRequests = virtualLinksAssigner.PerformAssignment(assignedRequests);
+    printf("finally: assigned %d requests\n", (int)assignedRequests.size());
 
 
     // remove all assigned requests on previous steps
