@@ -72,7 +72,7 @@ class VisCanvas(QWidget):
                     paint.drawImage(self.vertices[v], self.computerselectedicon)
                 if self.settings["computer"]:
                     paint.setPen(self.settings["text"])
-                    paint.drawText(self.vertices[v].x() + self.size, self.vertices[v].y() + self.size, str(int(v.getUsedSpeedPercent(self.time)))+"%")
+                    paint.drawText(self.vertices[v].x(), self.vertices[v].y()+self.size/2, str(int(v.getUsedSpeedPercent(self.time)))+"%")
             elif isinstance(v,Storage):
                 if self.selectedVertex != self.vertices[v]:
                     paint.drawImage(self.vertices[v], self.storageicon)
@@ -80,7 +80,7 @@ class VisCanvas(QWidget):
                     paint.drawImage(self.vertices[v], self.storageselectedicon)
                 if self.settings["storage"]:
                     paint.setPen(self.settings["text"])
-                    paint.drawText(self.vertices[v].x() + self.size, self.vertices[v].y() + self.size, str(int(v.getUsedVolumePercent(self.time)))+"%")
+                    paint.drawText(self.vertices[v].x(), self.vertices[v].y() + self.size/2, str(int(v.getUsedVolumePercent(self.time)))+"%")
             elif isinstance(v,Router):
                 if self.selectedVertex != self.vertices[v]:
                     paint.drawImage(self.vertices[v], self.routericon)
@@ -88,7 +88,7 @@ class VisCanvas(QWidget):
                     paint.drawImage(self.vertices[v], self.routerselectedicon)
                 if self.settings["router"]:
                     paint.setPen(self.settings["text"])
-                    paint.drawText(self.vertices[v].x() + self.size, self.vertices[v].y() + self.size, str(int(v.getUsedCapacityPercent(self.time)))+"%")
+                    paint.drawText(self.vertices[v].x(), self.vertices[v].y() + self.size/2, str(int(v.getUsedCapacityPercent(self.time)))+"%")
         paint.setPen(self.settings["line"])
         if self.edgeDraw:
             self.drawArrow(paint, self.curEdge[0].x() + self.size / 2, self.curEdge[0].y() + self.size / 2,
