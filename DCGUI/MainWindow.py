@@ -180,9 +180,11 @@ class MainWindow(QMainWindow):
         self.ui.vmavg.setText(str(stats["vmavg"])+"%")
         self.ui.stavg.setText(str(stats["stavg"])+"%")
         self.ui.netavg.setText(str(stats["netavg"])+"%")
+        self.ui.leafavg.setText(str(stats["leafavg"])+"%")
         self.ui.vmmax.setText(str(stats["vmmax"])+"%")
         self.ui.stmax.setText(str(stats["stmax"])+"%")
         self.ui.netmax.setText(str(stats["netmax"])+"%")
+        self.ui.leafmax.setText(str(stats["leafmax"])+"%")
 
     def EditProgram(self):
         self.resourcesGraphEditor.show()

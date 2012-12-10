@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>721</width>
-    <height>437</height>
+    <height>512</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -282,7 +282,7 @@ QLabel, QSlider {
            <item>
             <widget class="QLabel" name="label_9">
              <property name="text">
-              <string>Average switches load</string>
+              <string>Average network load</string>
              </property>
             </widget>
            </item>
@@ -296,12 +296,40 @@ QLabel, QSlider {
            <item>
             <widget class="QLabel" name="label_11">
              <property name="text">
-              <string>Maximal switches load</string>
+              <string>Maximal network load</string>
              </property>
             </widget>
            </item>
            <item>
             <widget class="QLabel" name="netmax">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>Average leaf channels load</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="leafavg">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>Maximal leaf channels load</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="leafmax">
              <property name="text">
               <string>0</string>
              </property>
