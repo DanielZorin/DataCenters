@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="en_US" sourcelanguage="">
+<!DOCTYPE TS>
+<TS version="2.0" language="en_US">
 <context>
     <name>ComputerDialog</name>
     <message>
@@ -147,6 +148,44 @@
     </message>
 </context>
 <context>
+    <name>DemandStorageDialog</name>
+    <message>
+        <location filename="DemandStorageDialog.ui" line="14"/>
+        <source>Edit Storage</source>
+        <translation>Edit Storage</translation>
+    </message>
+    <message>
+        <location filename="DemandStorageDialog.ui" line="44"/>
+        <source>Name:</source>
+        <translation>Name:</translation>
+    </message>
+    <message>
+        <location filename="DemandStorageDialog.ui" line="71"/>
+        <source>Capacity:</source>
+        <translation>Capacity:</translation>
+    </message>
+    <message>
+        <location filename="DemandStorageDialog.ui" line="92"/>
+        <source>Type:</source>
+        <translation>Type:</translation>
+    </message>
+    <message>
+        <location filename="DemandStorageDialog.ui" line="102"/>
+        <source>Consistency link bandwidth:</source>
+        <translation>Consistency link bandwidth:</translation>
+    </message>
+    <message>
+        <location filename="DemandStorageDialog.ui" line="114"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <location filename="DemandStorageDialog.ui" line="121"/>
+        <source>Cancel</source>
+        <translation>Cancel</translation>
+    </message>
+</context>
+<context>
     <name>EdgeDialog</name>
     <message>
         <location filename="EdgeDialog.ui" line="44"/>
@@ -210,27 +249,27 @@
         <translation>Project name</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="333"/>
+        <location filename="MainWindow.ui" line="361"/>
         <source>File</source>
         <translation>File</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="362"/>
+        <location filename="MainWindow.ui" line="390"/>
         <source>toolBar</source>
         <translation>toolBar</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="443"/>
+        <location filename="MainWindow.ui" line="471"/>
         <source>Save Project As...</source>
         <translation>Save Project As...</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="388"/>
+        <location filename="MainWindow.ui" line="416"/>
         <source>Exit</source>
         <translation>Exit</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="357"/>
+        <location filename="MainWindow.ui" line="20"/>
         <source>Data Centers GUI</source>
         <translation>Data Centers GUI</translation>
     </message>
@@ -260,7 +299,7 @@
         <translation>Schedule all</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="599"/>
+        <location filename="MainWindow.ui" line="627"/>
         <source>Schedule selected</source>
         <translation>Schedule selected</translation>
     </message>
@@ -300,207 +339,207 @@
         <translation>Total requests scheduled</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="306"/>
+        <location filename="MainWindow.ui" line="334"/>
         <source>0</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="344"/>
+        <location filename="MainWindow.ui" line="372"/>
         <source>Project</source>
         <translation>Project</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="409"/>
+        <location filename="MainWindow.ui" line="437"/>
         <source>New Project</source>
         <translation>New Project</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="412"/>
+        <location filename="MainWindow.ui" line="440"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="422"/>
+        <location filename="MainWindow.ui" line="450"/>
         <source>Open Project</source>
         <translation>Open Project</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="425"/>
+        <location filename="MainWindow.ui" line="453"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="435"/>
+        <location filename="MainWindow.ui" line="463"/>
         <source>Save Project</source>
         <translation>Save Project</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="438"/>
+        <location filename="MainWindow.ui" line="466"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="446"/>
+        <location filename="MainWindow.ui" line="474"/>
         <source>Ctrl+Shift+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="462"/>
+        <location filename="MainWindow.ui" line="490"/>
         <source>Schedule All</source>
         <translation>Schedule All</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="465"/>
+        <location filename="MainWindow.ui" line="493"/>
         <source>F5</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="474"/>
+        <location filename="MainWindow.ui" line="502"/>
         <source>Settings...</source>
         <translation>Settings...</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="477"/>
+        <location filename="MainWindow.ui" line="505"/>
         <source>F12</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="489"/>
+        <location filename="MainWindow.ui" line="517"/>
         <source>Edit Resources</source>
         <translation>Edit Resources</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="602"/>
+        <location filename="MainWindow.ui" line="630"/>
         <source>F6, Ctrl+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="391"/>
+        <location filename="MainWindow.ui" line="419"/>
         <source>Ctrl+X</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="492"/>
+        <location filename="MainWindow.ui" line="520"/>
         <source>F3</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="504"/>
+        <location filename="MainWindow.ui" line="532"/>
         <source>Add Request</source>
         <translation>Add Request</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="507"/>
+        <location filename="MainWindow.ui" line="535"/>
         <source>Alt+N</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="519"/>
+        <location filename="MainWindow.ui" line="547"/>
         <source>Delete Request</source>
         <translation>Delete Request</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="522"/>
+        <location filename="MainWindow.ui" line="550"/>
         <source>Alt+X</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="534"/>
+        <location filename="MainWindow.ui" line="562"/>
         <source>Create Random Requests</source>
         <translation>Create Random Requests</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="537"/>
+        <location filename="MainWindow.ui" line="565"/>
         <source>F9</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="549"/>
+        <location filename="MainWindow.ui" line="577"/>
         <source>Edit Request</source>
         <translation>Edit Request</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="552"/>
+        <location filename="MainWindow.ui" line="580"/>
         <source>F4</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="564"/>
+        <location filename="MainWindow.ui" line="592"/>
         <source>Show Results</source>
         <translation>Show Results</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="567"/>
+        <location filename="MainWindow.ui" line="595"/>
         <source>F7</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="579"/>
+        <location filename="MainWindow.ui" line="607"/>
         <source>Show Statistics</source>
         <translation>Show Statistics</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="582"/>
+        <location filename="MainWindow.ui" line="610"/>
         <source>F8</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="587"/>
+        <location filename="MainWindow.ui" line="615"/>
         <source>Reset</source>
         <translation>Reset</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="590"/>
+        <location filename="MainWindow.ui" line="618"/>
         <source>F10</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="59"/>
+        <location filename="MainWindow.py" line="60"/>
         <source>Alt+</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="75"/>
+        <location filename="MainWindow.py" line="76"/>
         <source>Data centers projects (*.dcxml)</source>
         <translation>Data centers projects (*.dcxml)</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="84"/>
+        <location filename="MainWindow.py" line="85"/>
         <source>Untitled</source>
         <translation>Untitled</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="324"/>
+        <location filename="MainWindow.py" line="377"/>
         <source>No</source>
         <translation>No</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="248"/>
+        <location filename="MainWindow.py" line="375"/>
         <source>Yes</source>
         <translation>Yes</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="129"/>
+        <location filename="MainWindow.py" line="131"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="129"/>
+        <location filename="MainWindow.py" line="131"/>
         <source>Project not found</source>
         <translation>Project not found</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="192"/>
+        <location filename="MainWindow.py" line="196"/>
         <source>New demand</source>
         <translation>New demand</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="310"/>
+        <location filename="MainWindow.py" line="316"/>
         <source>&amp;%1: %2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="399"/>
+        <location filename="MainWindow.ui" line="427"/>
         <source>About DC GUI</source>
         <translation>About DC GUI</translation>
     </message>
@@ -526,13 +565,23 @@
     </message>
     <message>
         <location filename="MainWindow.ui" line="285"/>
-        <source>Average switches load</source>
-        <translation>Average switches load</translation>
+        <source>Average network load</source>
+        <translation>Average network load</translation>
     </message>
     <message>
         <location filename="MainWindow.ui" line="299"/>
-        <source>Maximal switches load</source>
-        <translation>Maximal switches load</translation>
+        <source>Maximal network load</source>
+        <translation>Maximal network load</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.ui" line="313"/>
+        <source>Average leaf channels load</source>
+        <translation>Average leaf channels load</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.ui" line="327"/>
+        <source>Maximal leaf channels load</source>
+        <translation>Maximal leaf channels load</translation>
     </message>
 </context>
 <context>
@@ -578,69 +627,85 @@
         <translation>Maximal capacity</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="142"/>
+        <location filename="RandomDemandDialog.ui" line="156"/>
         <source>Mininal bandwidth</source>
         <translation>Mininal bandwidth</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="149"/>
+        <location filename="RandomDemandDialog.ui" line="163"/>
         <source>Maximal bandwidth</source>
         <translation>Maximal bandwidth</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="156"/>
+        <location filename="RandomDemandDialog.ui" line="170"/>
         <source>Starting time</source>
         <translation>Starting time</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="163"/>
+        <location filename="RandomDemandDialog.ui" line="177"/>
         <source>End time</source>
         <translation>End time</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="177"/>
+        <location filename="RandomDemandDialog.ui" line="191"/>
         <source>10</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="219"/>
+        <location filename="RandomDemandDialog.ui" line="247"/>
         <source>5</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="212"/>
+        <location filename="RandomDemandDialog.ui" line="226"/>
         <source>1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="233"/>
+        <location filename="RandomDemandDialog.ui" line="261"/>
         <source>15</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="226"/>
+        <location filename="RandomDemandDialog.ui" line="254"/>
         <source>11</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="240"/>
+        <location filename="RandomDemandDialog.ui" line="268"/>
         <source>0</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="247"/>
+        <location filename="RandomDemandDialog.ui" line="275"/>
         <source>100</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="260"/>
+        <location filename="RandomDemandDialog.ui" line="288"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="267"/>
+        <location filename="RandomDemandDialog.ui" line="295"/>
         <source>Cancel</source>
         <translation>Cancel</translation>
+    </message>
+    <message>
+        <location filename="RandomDemandDialog.ui" line="142"/>
+        <source>Minimal Consistency bandwidth</source>
+        <translation>Minimal Consistency bandwidth</translation>
+    </message>
+    <message>
+        <location filename="RandomDemandDialog.ui" line="149"/>
+        <source>Maximal Consistency bandwidth</source>
+        <translatorcomment>Maximal Consistency bandwidth</translatorcomment>
+        <translation>Maximal Consistency bandwidth</translation>
+    </message>
+    <message>
+        <location filename="RandomDemandDialog.ui" line="240"/>
+        <source>3</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1006,7 +1071,7 @@
         <translation>bandwidth:</translation>
     </message>
     <message>
-        <location filename="TreeDialog.py" line="16"/>
+        <location filename="TreeDialog.ui" line="465"/>
         <source>1st layer</source>
         <translation>1st layer</translation>
     </message>
@@ -1132,7 +1197,7 @@
         <translation>Time:</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="143"/>
+        <location filename="Vis.ui" line="91"/>
         <source>Assigned Requests</source>
         <translation>Assigned Requests</translation>
     </message>
@@ -1147,105 +1212,125 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="Vis.py" line="61"/>
+        <location filename="Vis.py" line="69"/>
         <source>Router id</source>
         <translation>Router id</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="153"/>
+        <location filename="Vis.py" line="213"/>
         <source>Bandwidth</source>
-        <translation>Router id</translation>
+        <translation>Bandwidth</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="140"/>
+        <location filename="Vis.py" line="185"/>
         <source>Used Bandwidth</source>
         <translation>Used Bandwidth</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="141"/>
+        <location filename="Vis.py" line="186"/>
         <source>Number of assigned requests</source>
         <translation>Number of assigned requests</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="142"/>
+        <location filename="Vis.py" line="187"/>
         <source>Number of assigned channels</source>
         <translation>Number of assigned channels</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="152"/>
+        <location filename="Vis.py" line="212"/>
         <source>VM</source>
         <translation>VM</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="152"/>
+        <location filename="Vis.py" line="212"/>
         <source>Storage</source>
         <translation>Storage</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="153"/>
+        <location filename="Vis.py" line="213"/>
         <source>Channel</source>
         <translation>Channel</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="138"/>
+        <location filename="Vis.py" line="183"/>
         <source>Statistics</source>
         <translation>Statistics</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="88"/>
+        <location filename="Vis.py" line="111"/>
         <source>Computer id</source>
         <translation>Computer id</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="100"/>
+        <location filename="Vis.py" line="123"/>
         <source>Performance</source>
         <translation>Performance</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="90"/>
+        <location filename="Vis.py" line="113"/>
         <source>Used Performance</source>
         <translation>Used Performance</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="92"/>
+        <location filename="Vis.py" line="115"/>
         <source>Number of assigned VMs</source>
         <translation>Number of assigned VMs</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="100"/>
+        <location filename="Vis.py" line="123"/>
         <source>VM id</source>
         <translation>VM id</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="125"/>
+        <location filename="Vis.py" line="160"/>
         <source>Storage id</source>
         <translation>Storage id</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="113"/>
+        <location filename="Vis.py" line="144"/>
         <source>Type</source>
         <translation>Type</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="125"/>
+        <location filename="Vis.py" line="162"/>
         <source>Capacity</source>
         <translation>Capacity</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="115"/>
+        <location filename="Vis.py" line="146"/>
         <source>Used Capacity</source>
         <translation>Used Capacity</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="117"/>
+        <location filename="Vis.py" line="148"/>
         <source>Number of assigned storages</source>
         <translation>Number of assigned storages</translation>
+    </message>
+    <message>
+        <location filename="Vis.py" line="205"/>
+        <source>Consistency channel: &lt;font color=blue&gt;Storage&lt;/font&gt;</source>
+        <translation>Consistency channel: &lt;font color=blue&gt;Storage&lt;/font&gt;</translation>
+    </message>
+    <message>
+        <location filename="Vis.py" line="205"/>
+        <source>&lt;font color=blue&gt;&amp;lt;---&amp;gt; replica&lt;/font&gt;. Bandwidth</source>
+        <translation>font color=blue&gt;&amp;lt;---&amp;gt; replica&lt;/font&gt;. Bandwidth</translation>
+    </message>
+    <message>
+        <location filename="Vis.py" line="211"/>
+        <source>Replica of storage</source>
+        <translation>Replica of storage</translation>
+    </message>
+    <message>
+        <location filename="Vis.py" line="162"/>
+        <source>Replica of</source>
+        <translation>Replica of</translation>
     </message>
 </context>
 <context>
     <name>self.demandGraphEditor</name>
     <message>
-        <location filename="MainWindow.py" line="358"/>
+        <location filename="MainWindow.py" line="364"/>
         <source>Request Graph Editor</source>
         <translation>Request Graph Editor</translation>
     </message>
@@ -1253,7 +1338,7 @@
 <context>
     <name>self.resourcesGraphEditor</name>
     <message>
-        <location filename="MainWindow.py" line="359"/>
+        <location filename="MainWindow.py" line="365"/>
         <source>Resources Graph Editor</source>
         <translation>Resources Graph Editor</translation>
     </message>

@@ -371,11 +371,15 @@ class MainWindow(QMainWindow):
         self.graphvis.ui.retranslateUi(self.graphvis)
         self.showStats()
         for k in self.demands.keys():
+            cb = QComboBox()
+            cb.addItems([self.tr("No"),self.tr("Yes")])
+            cb.setCurrentIndex(0 if self.demands[k].critical else 1)
+            QObject.connect(cb, SIGNAL("currentIndexChanged(int)"), k.emitDataChanged)
+            self.ui.demands.setItemWidget(k,3,cb)
             if self.demands[k].assigned:
                 k.setText(4, self.tr("Yes"))
             else:
                 k.setText(4, self.tr("No"))
-
 
     def loadTranslations(self):
         all = os.listdir("./DCGUI/Translations")

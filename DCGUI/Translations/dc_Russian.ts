@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="en_US" sourcelanguage="">
+<!DOCTYPE TS>
+<TS version="2.0" language="en_US">
 <context>
     <name>ComputerDialog</name>
     <message>
@@ -147,6 +148,44 @@
     </message>
 </context>
 <context>
+    <name>DemandStorageDialog</name>
+    <message>
+        <location filename="DemandStorageDialog.ui" line="14"/>
+        <source>Edit Storage</source>
+        <translation>Редактирование хранилища</translation>
+    </message>
+    <message>
+        <location filename="DemandStorageDialog.ui" line="44"/>
+        <source>Name:</source>
+        <translation>Имя:</translation>
+    </message>
+    <message>
+        <location filename="DemandStorageDialog.ui" line="71"/>
+        <source>Capacity:</source>
+        <translation>Объем:</translation>
+    </message>
+    <message>
+        <location filename="DemandStorageDialog.ui" line="92"/>
+        <source>Type:</source>
+        <translation>Тип:</translation>
+    </message>
+    <message>
+        <location filename="DemandStorageDialog.ui" line="102"/>
+        <source>Consistency link bandwidth:</source>
+        <translation>Пропускная способность канала консист.:</translation>
+    </message>
+    <message>
+        <location filename="DemandStorageDialog.ui" line="114"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <location filename="DemandStorageDialog.ui" line="121"/>
+        <source>Cancel</source>
+        <translation>Отмена</translation>
+    </message>
+</context>
+<context>
     <name>EdgeDialog</name>
     <message>
         <location filename="EdgeDialog.ui" line="44"/>
@@ -210,22 +249,22 @@
         <translation>Имя проекта</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="333"/>
+        <location filename="MainWindow.ui" line="361"/>
         <source>File</source>
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="362"/>
+        <location filename="MainWindow.ui" line="390"/>
         <source>toolBar</source>
         <translation>toolBar</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="443"/>
+        <location filename="MainWindow.ui" line="471"/>
         <source>Save Project As...</source>
         <translation>Сохранить проект как...</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="388"/>
+        <location filename="MainWindow.ui" line="416"/>
         <source>Exit</source>
         <translation>Выход</translation>
     </message>
@@ -260,72 +299,72 @@
         <translation>Статистика</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="474"/>
+        <location filename="MainWindow.ui" line="502"/>
         <source>Settings...</source>
         <translation>Настройки...</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="504"/>
+        <location filename="MainWindow.ui" line="532"/>
         <source>Add Request</source>
         <translation>Добавить запрос</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="519"/>
+        <location filename="MainWindow.ui" line="547"/>
         <source>Delete Request</source>
         <translation>Удалить запрос</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="549"/>
+        <location filename="MainWindow.ui" line="577"/>
         <source>Edit Request</source>
         <translation>Редактировать запрос</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="59"/>
+        <location filename="MainWindow.py" line="60"/>
         <source>Alt+</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="75"/>
+        <location filename="MainWindow.py" line="76"/>
         <source>Data centers projects (*.dcxml)</source>
         <translation>Проекты ЦОД (*.dcxml)</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="84"/>
+        <location filename="MainWindow.py" line="85"/>
         <source>Untitled</source>
         <translation>Новый проект</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="324"/>
+        <location filename="MainWindow.py" line="377"/>
         <source>No</source>
         <translation>Нет</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="248"/>
+        <location filename="MainWindow.py" line="375"/>
         <source>Yes</source>
         <translation>Да</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="129"/>
+        <location filename="MainWindow.py" line="131"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="129"/>
+        <location filename="MainWindow.py" line="131"/>
         <source>Project not found</source>
         <translation>Проект не найден</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="192"/>
+        <location filename="MainWindow.py" line="196"/>
         <source>New demand</source>
         <translation>New demand</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="357"/>
+        <location filename="MainWindow.ui" line="20"/>
         <source>Data Centers GUI</source>
         <translation>Средство планирования вычислений в ЦОД</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="310"/>
+        <location filename="MainWindow.py" line="316"/>
         <source>&amp;%1: %2</source>
         <translation></translation>
     </message>
@@ -335,7 +374,7 @@
         <translation>Назначить все</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="599"/>
+        <location filename="MainWindow.ui" line="627"/>
         <source>Schedule selected</source>
         <translation>Назначить выбранные</translation>
     </message>
@@ -365,142 +404,142 @@
         <translation>Количество назначенных запросов</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="306"/>
+        <location filename="MainWindow.ui" line="334"/>
         <source>0</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="344"/>
+        <location filename="MainWindow.ui" line="372"/>
         <source>Project</source>
         <translation>Проект</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="391"/>
+        <location filename="MainWindow.ui" line="419"/>
         <source>Ctrl+X</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="409"/>
+        <location filename="MainWindow.ui" line="437"/>
         <source>New Project</source>
         <translation>Новый проект</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="412"/>
+        <location filename="MainWindow.ui" line="440"/>
         <source>Ctrl+N</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="422"/>
+        <location filename="MainWindow.ui" line="450"/>
         <source>Open Project</source>
         <translation>Открыть проект</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="425"/>
+        <location filename="MainWindow.ui" line="453"/>
         <source>Ctrl+O</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="435"/>
+        <location filename="MainWindow.ui" line="463"/>
         <source>Save Project</source>
         <translation>Сохранить проект</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="438"/>
+        <location filename="MainWindow.ui" line="466"/>
         <source>Ctrl+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="446"/>
+        <location filename="MainWindow.ui" line="474"/>
         <source>Ctrl+Shift+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="462"/>
+        <location filename="MainWindow.ui" line="490"/>
         <source>Schedule All</source>
         <translation>Назначить все</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="465"/>
+        <location filename="MainWindow.ui" line="493"/>
         <source>F5</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="477"/>
+        <location filename="MainWindow.ui" line="505"/>
         <source>F12</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="489"/>
+        <location filename="MainWindow.ui" line="517"/>
         <source>Edit Resources</source>
         <translation>Редактировать ресурсы</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="492"/>
+        <location filename="MainWindow.ui" line="520"/>
         <source>F3</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="507"/>
+        <location filename="MainWindow.ui" line="535"/>
         <source>Alt+N</source>
         <translation> </translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="522"/>
+        <location filename="MainWindow.ui" line="550"/>
         <source>Alt+X</source>
         <translation> </translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="534"/>
+        <location filename="MainWindow.ui" line="562"/>
         <source>Create Random Requests</source>
         <translation>Генерация случайных запросов</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="537"/>
+        <location filename="MainWindow.ui" line="565"/>
         <source>F9</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="552"/>
+        <location filename="MainWindow.ui" line="580"/>
         <source>F4</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="564"/>
+        <location filename="MainWindow.ui" line="592"/>
         <source>Show Results</source>
         <translation>Визуализация результатов</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="567"/>
+        <location filename="MainWindow.ui" line="595"/>
         <source>F7</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="579"/>
+        <location filename="MainWindow.ui" line="607"/>
         <source>Show Statistics</source>
         <translation>Показать статистику</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="582"/>
+        <location filename="MainWindow.ui" line="610"/>
         <source>F8</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="587"/>
+        <location filename="MainWindow.ui" line="615"/>
         <source>Reset</source>
         <translation>Сбросить</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="590"/>
+        <location filename="MainWindow.ui" line="618"/>
         <source>F10</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="602"/>
+        <location filename="MainWindow.ui" line="630"/>
         <source>F6, Ctrl+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="399"/>
+        <location filename="MainWindow.ui" line="427"/>
         <source>About DC GUI</source>
         <translation>Сведения о средстве планирования вычислений в ЦОД</translation>
     </message>
@@ -526,19 +565,29 @@
     </message>
     <message>
         <location filename="MainWindow.ui" line="285"/>
-        <source>Average switches load</source>
-        <translation>Средняя загрузка коммутаторов</translation>
+        <source>Average network load</source>
+        <translation>Средняя загрузка сети</translation>
     </message>
     <message>
         <location filename="MainWindow.ui" line="299"/>
-        <source>Maximal switches load</source>
-        <translation>Максимальная загрузка коммутаторов</translation>
+        <source>Maximal network load</source>
+        <translation>Максимальная загрузка сети</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.ui" line="313"/>
+        <source>Average leaf channels load</source>
+        <translation>Ср. загрузка каналов с лист. вершинами</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.ui" line="327"/>
+        <source>Maximal leaf channels load</source>
+        <translation>Макс. загрузка каналов с лист. вершинами</translation>
     </message>
 </context>
 <context>
     <name>RandomDemandDialog</name>
     <message>
-        <location filename="RandomDemandDialog.ui" line="267"/>
+        <location filename="RandomDemandDialog.ui" line="295"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
     </message>
@@ -583,64 +632,79 @@
         <translation>Максимальный объем</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="142"/>
+        <location filename="RandomDemandDialog.ui" line="156"/>
         <source>Mininal bandwidth</source>
         <translation>Минимальная пропускная способность</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="149"/>
+        <location filename="RandomDemandDialog.ui" line="163"/>
         <source>Maximal bandwidth</source>
         <translation>Максимальная пропускная способность</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="156"/>
+        <location filename="RandomDemandDialog.ui" line="170"/>
         <source>Starting time</source>
         <translation>Время поступления</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="163"/>
+        <location filename="RandomDemandDialog.ui" line="177"/>
         <source>End time</source>
         <translation>Время окончания</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="177"/>
+        <location filename="RandomDemandDialog.ui" line="191"/>
         <source>10</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="219"/>
+        <location filename="RandomDemandDialog.ui" line="247"/>
         <source>5</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="212"/>
+        <location filename="RandomDemandDialog.ui" line="226"/>
         <source>1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="233"/>
+        <location filename="RandomDemandDialog.ui" line="261"/>
         <source>15</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="226"/>
+        <location filename="RandomDemandDialog.ui" line="254"/>
         <source>11</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="240"/>
+        <location filename="RandomDemandDialog.ui" line="268"/>
         <source>0</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="247"/>
+        <location filename="RandomDemandDialog.ui" line="275"/>
         <source>100</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="260"/>
+        <location filename="RandomDemandDialog.ui" line="288"/>
         <source>OK</source>
         <translation>ОК</translation>
+    </message>
+    <message>
+        <location filename="RandomDemandDialog.ui" line="142"/>
+        <source>Minimal Consistency bandwidth</source>
+        <translation>Минимальная пропускная способн. каналов консист</translation>
+    </message>
+    <message>
+        <location filename="RandomDemandDialog.ui" line="149"/>
+        <source>Maximal Consistency bandwidth</source>
+        <translation>Максимальная пропускная способн. каналов консист</translation>
+    </message>
+    <message>
+        <location filename="RandomDemandDialog.ui" line="240"/>
+        <source>3</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -991,7 +1055,7 @@
         <translation>Отмена</translation>
     </message>
     <message>
-        <location filename="TreeDialog.py" line="16"/>
+        <location filename="TreeDialog.ui" line="465"/>
         <source>1st layer</source>
         <translation>1ый уровень</translation>
     </message>
@@ -1127,102 +1191,102 @@
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="61"/>
+        <location filename="Vis.py" line="69"/>
         <source>Router id</source>
         <translation>Id коммутатора</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="153"/>
+        <location filename="Vis.py" line="213"/>
         <source>Bandwidth</source>
         <translation>Пропускная способность</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="140"/>
+        <location filename="Vis.py" line="185"/>
         <source>Used Bandwidth</source>
         <translation>Используемая пропускная способность</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="141"/>
+        <location filename="Vis.py" line="186"/>
         <source>Number of assigned requests</source>
         <translation>Количество запланированных запросов</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="142"/>
+        <location filename="Vis.py" line="187"/>
         <source>Number of assigned channels</source>
         <translation>Количество назначенных вирт.каналов</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="143"/>
+        <location filename="Vis.ui" line="91"/>
         <source>Assigned Requests</source>
         <translation>Запросы</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="152"/>
+        <location filename="Vis.py" line="212"/>
         <source>VM</source>
         <translation>ВМ</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="152"/>
+        <location filename="Vis.py" line="212"/>
         <source>Storage</source>
         <translation>Хранилище</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="153"/>
+        <location filename="Vis.py" line="213"/>
         <source>Channel</source>
         <translation>Канал</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="138"/>
+        <location filename="Vis.py" line="183"/>
         <source>Statistics</source>
         <translation>Статистика</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="88"/>
+        <location filename="Vis.py" line="111"/>
         <source>Computer id</source>
         <translation>Id вычислителя</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="100"/>
+        <location filename="Vis.py" line="123"/>
         <source>Performance</source>
         <translation>Производительность</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="90"/>
+        <location filename="Vis.py" line="113"/>
         <source>Used Performance</source>
         <translation>Используемая производительность</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="92"/>
+        <location filename="Vis.py" line="115"/>
         <source>Number of assigned VMs</source>
         <translation>Количество назначенных вирт.машин</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="100"/>
+        <location filename="Vis.py" line="123"/>
         <source>VM id</source>
         <translation>Id вирт.машины</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="125"/>
+        <location filename="Vis.py" line="160"/>
         <source>Storage id</source>
         <translation>Id хранилища данных</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="113"/>
+        <location filename="Vis.py" line="144"/>
         <source>Type</source>
         <translation>Тип</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="125"/>
+        <location filename="Vis.py" line="162"/>
         <source>Capacity</source>
         <translation>Объем</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="115"/>
+        <location filename="Vis.py" line="146"/>
         <source>Used Capacity</source>
         <translation>Используемый объем</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="117"/>
+        <location filename="Vis.py" line="148"/>
         <source>Number of assigned storages</source>
         <translation>Количество размещенных хранилищ</translation>
     </message>
@@ -1241,11 +1305,31 @@
         <source>Ctrl+X</source>
         <translation></translation>
     </message>
+    <message>
+        <location filename="Vis.py" line="205"/>
+        <source>Consistency channel: &lt;font color=blue&gt;Storage&lt;/font&gt;</source>
+        <translation>Канал для поддержания консист.: &lt;font color=blue&gt;Хранилище&lt;/font&gt;</translation>
+    </message>
+    <message>
+        <location filename="Vis.py" line="205"/>
+        <source>&lt;font color=blue&gt;&amp;lt;---&amp;gt; replica&lt;/font&gt;. Bandwidth</source>
+        <translation>&lt;font color=blue&gt;&amp;lt;---&amp;gt; Реплика&lt;/font&gt;. Пропускная способность</translation>
+    </message>
+    <message>
+        <location filename="Vis.py" line="211"/>
+        <source>Replica of storage</source>
+        <translation>Реплика хранилища</translation>
+    </message>
+    <message>
+        <location filename="Vis.py" line="162"/>
+        <source>Replica of</source>
+        <translation>Реплика</translation>
+    </message>
 </context>
 <context>
     <name>self.demandGraphEditor</name>
     <message>
-        <location filename="MainWindow.py" line="358"/>
+        <location filename="MainWindow.py" line="364"/>
         <source>Request Graph Editor</source>
         <translation>Редактор графа запроса</translation>
     </message>
@@ -1253,7 +1337,7 @@
 <context>
     <name>self.resourcesGraphEditor</name>
     <message>
-        <location filename="MainWindow.py" line="359"/>
+        <location filename="MainWindow.py" line="365"/>
         <source>Resources Graph Editor</source>
         <translation>Редактор графа ресурсов</translation>
     </message>
