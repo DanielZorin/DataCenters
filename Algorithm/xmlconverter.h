@@ -5,8 +5,8 @@
 
 #include <string>
 
-#include <QDomDocument>
-#include <QList>
+#include <QtXml/QDomDocument>
+#include <QtCore/QList>
 
 class NetworkOverseer;
 class RequestOverseer;

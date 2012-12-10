@@ -3,7 +3,7 @@
 
 #include "publicdefs.h"
 #include "algorithm.h"
-#include <QtCore>
+#include <QtCore/QString>
 
 class AlgorithmDispatcher
 {

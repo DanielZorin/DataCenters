@@ -10,10 +10,10 @@
 #include "store.h"
 #include "assignment.h"
 
-#include <QDomNode>
-#include <QDomElement>
-#include <QMap>
-#include <QStringList>
+#include <QtXml/QDomNode>
+#include <QtXml/QDomElement>
+#include <QtCore/QMap>
+#include <QtCore/QStringList>
 
 class Overseer
 {

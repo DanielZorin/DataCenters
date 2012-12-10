@@ -7,7 +7,10 @@
 using std::cerr;
 using std::endl;
 
-#include <QtCore>
+#include <QtCore/QString>
+#include <QtCore/QFile>
+#include <QtCore/QIODevice>
+#include <QtCore/QTextStream>
 
 int main(int argc, char ** argv)
 {
