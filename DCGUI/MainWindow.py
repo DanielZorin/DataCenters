@@ -161,6 +161,7 @@ class MainWindow(QMainWindow):
         self.InitProject()
         #self.project.method.Clear()
         self.project.Run()
+        self.OpenProjectFromFile("result.dcxml")
         self.showStats()
 
     def RunSelected(self):
