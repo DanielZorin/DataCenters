@@ -3,7 +3,6 @@
 #include "storagesAssigner.h"
 #include "virtualLinksAssigner.h"
 #include "assignment.h"
-#include "replication.h"
 
 DecentralizedAlgorithm::~DecentralizedAlgorithm()
 {
@@ -12,12 +11,6 @@ DecentralizedAlgorithm::~DecentralizedAlgorithm()
     for ( ; it != itEnd; ++it )
         delete (*it);
     assignments.clear();
-
-    Replications::iterator rit = replications.begin();
-    Replications::iterator ritEnd = replications.end();
-    for ( ; rit != ritEnd; ++rit )
-        delete (*rit);
-    replications.clear();
 }
 
 Algorithm::Result DecentralizedAlgorithm::schedule()
@@ -32,7 +25,6 @@ Algorithm::Result DecentralizedAlgorithm::schedule()
         storagesAssigner.GetRequestAssignment());
     assignedRequests = virtualLinksAssigner.PerformAssignment(assignedRequests);
 
-    replications = virtualLinksAssigner.getReplications();
 
     // remove all assigned requests on previous steps
     restoreNetwork(requests, assignedRequests, virtualLinksAssigner);
@@ -75,6 +67,7 @@ Algorithm::Result DecentralizedAlgorithm::schedule()
             assignment->AddAssignment(*vlIt, path);
         }
 
+        assignment->setReplications(virtualLinksAssigner.getReplicationsOfAssignment(vlAssignment));
         assignments.insert(assignment);
     }
 

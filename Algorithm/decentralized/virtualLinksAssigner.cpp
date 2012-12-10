@@ -1,8 +1,6 @@
 #include "virtualLinksAssigner.h"
 
 #include "algorithm.h"
-#include "assignment.h"
-#include "replication.h"
 #include "criteria.h"
 #include "network.h"
 #include "node.h"
@@ -99,8 +97,8 @@ bool VirtualLinksAssigner::assignOneRequest(Request::VirtualLinks * virtualLinks
                 RemoveVirtualLink(virtualLinksVec[i], reqAssignment);
             }
 
-            Algorithm::Replications::iterator it = replicationsOfAssignment[reqAssignment].begin();
-            Algorithm::Replications::iterator itEnd = replicationsOfAssignment[reqAssignment].end();
+            Assignment::Replications::iterator it = replicationsOfAssignment[reqAssignment].begin();
+            Assignment::Replications::iterator itEnd = replicationsOfAssignment[reqAssignment].end();
             // removing replications
             for ( ; it != itEnd; ++it )
             {

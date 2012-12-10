@@ -5,6 +5,7 @@
 #include "link.h"
 #include "elementsAssigner.h"
 #include "request.h"
+#include "assignment.h"
 
 class VirtualLinksAssigner : public ElementsAssigner
 {
@@ -89,9 +90,9 @@ public:
     void removeAssignment(Request * req);
 
     // Get all replications
-    Algorithm::Replications& getReplications()
+    Assignment::Replications& getReplicationsOfAssignment(Assignment* assignment)
     {
-        return replications;
+        return replicationsOfAssignment[assignment];
     }
 
 private:
@@ -101,14 +102,14 @@ private:
     RequestAssignment* storagesAssignments;
 
     // Replications.
-    Algorithm::Replications replications;
+    Assignment::Replications replications;
 
     // Replication-storage map
     std::map<Element* , Replication*> replicationOfStorage;
 
     // Assignment-replication map (to remove replications if
     // assignment failed).
-    std::map<Assignment* , Algorithm::Replications > replicationsOfAssignment;
+    std::map<Assignment* , Assignment::Replications > replicationsOfAssignment;
     /*
 private:
     // Methods-substeps in the limited exhaustive search algorithm

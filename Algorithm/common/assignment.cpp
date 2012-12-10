@@ -1,6 +1,17 @@
 #include "assignment.h"
 
 #include "request.h"
+#include <stdio.h>
+#include <assert.h>
+
+Assignment::~Assignment()
+{
+    Replications::iterator rit = replications.begin();
+    Replications::iterator ritEnd = replications.end();
+    for ( ; rit != ritEnd; ++rit )
+        delete (*rit);
+    replications.clear();
+}
 
 string Assignment::getName()
 {
@@ -70,3 +81,19 @@ Links Assignment::GetAssigned(NetworkingElement * networkingElement)
     return virtualLinks;
 }
 
+bool Assignment::isReplicaOnStore(Storage * storage, Store * store)
+{
+   if ( GetAssignment(storage) == store )
+      return false;
+
+   // Searching the replication to be sure
+   Replications::iterator it = replications.begin();
+   for ( ; it != replications.end(); ++it )
+      if ( (*it)->getStorage() == storage )
+      {
+         assert((*it)->getSecondStore() == store);
+         return true;
+      }
+   assert(false); // replication should be found
+   return false; // unfeasible
+}

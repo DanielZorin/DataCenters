@@ -214,7 +214,9 @@ private:
 class RequestOverseer : public Overseer
 {
 public:
-    RequestOverseer()
+    RequestOverseer(QDomDocument* doc)
+    :
+        document(doc)
     {
         request = new Request();
     }
@@ -320,6 +322,24 @@ public:
         return result.join(";");
     }
 
+    bool isReplica(Assignment * a, Element * element, NetPath& path)
+    {
+        if ( path.size() == 0 || !element->isStore() )
+           return false;
+
+        Element* first = static_cast<Link*>(path[0])->getLinkedComputationalElement();
+        Element* last = static_cast<Link*>(path[path.size()-1])->getLinkedComputationalElement();
+        if ( first->isStore() && a->isReplicaOnStore(static_cast<Storage*>(element), 
+                 static_cast<Store*>(first)) )
+           return true;
+
+        if ( last->isStore() && a->isReplicaOnStore(static_cast<Storage*>(element),
+                 static_cast<Store*>(last)) )
+           return true;
+
+        return false;
+    }
+
     void assignLinks(Assignment * a, NetworkOverseer const& network)
     {
         for ( QMap<Link *, QDomElement>::iterator i = linkXMLCache.begin();
@@ -330,12 +350,44 @@ public:
             NetPath netPath = a->GetAssignment(link);
             QString assignmentChain = getAssignmentChain(netPath, network);
             xmlLink.setAttribute("assignedto", assignmentChain);
+            if ( isReplica(a, link->getFirst(), netPath) )
+               xmlLink.setAttribute("fromtype", "replica");
+            if ( isReplica(a, link->getSecond(), netPath) )
+               xmlLink.setAttribute("totype", "replica");
         }
+    }
+
+    void addReplicas(Assignment * a, NetworkOverseer const& network)
+    {
+        Assignment::Replications replications = a->getReplications();
+        Assignment::Replications::iterator it = replications.begin();
+        for ( ; it != replications.end(); ++it )
+        {
+            QDomElement replica = document->createElement("replica");
+            demand.appendChild(replica);
+            uint storeId = network.getIdByElement((*it)->getSecondStore());
+            uint storageId = getIdByElement((*it)->getStorage());
+            replica.setAttribute("assignedto", storeId);
+            replica.setAttribute("storage_number", storageId);
+
+            // add link for consistency
+            QDomElement link = document->createElement("link");
+            demand.appendChild(link);
+            NetPath path = (*it)->getLink();
+            QString assignmentChain = getAssignmentChain(path, network);
+            link.setAttribute("assignedto", assignmentChain);
+            link.setAttribute("capacity", (*it)->getStorage()->getReplicationCapacity());
+            link.setAttribute("totype", "replica");
+
+            link.setAttribute("from", storageId);
+            link.setAttribute("to", storageId);
+       }
     }
 
     void assign(Assignment * a, NetworkOverseer const& network)
     {
         demand.setAttribute("assigned", "True");
+        addReplicas(a, network);
         assignVMs(a, network);
         assignStorages(a, network);
         assignLinks(a, network);
@@ -344,6 +396,7 @@ public:
 private:
     Request * request;
     QDomElement demand;
+    QDomDocument* document; // to create codes
 };
 
 // XMLConverter implementation
@@ -406,7 +459,7 @@ void XMLConverter::parseRequests(QDomNodeList & requests)
     for ( uint i = 0; i < requests.length(); i++ )
     {
         QDomElement request = requests.item(i).toElement();
-        RequestOverseer * requestOverseer = new RequestOverseer();
+        RequestOverseer * requestOverseer = new RequestOverseer(&document);
         requestOverseer->parse(request);
         requestOverseers.append(requestOverseer);
     }
