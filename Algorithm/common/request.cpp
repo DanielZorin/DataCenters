@@ -22,7 +22,6 @@ Request::Request(const Request & r)
 
 Request::~Request()
 {
-    /*
     for (VirtualMachines::const_iterator i = virtualMachines.begin(); i != virtualMachines.end(); i ++)
         delete *i;
 
@@ -31,7 +30,6 @@ Request::~Request()
 
     for (VirtualLinks::const_iterator i = virtualLinks.begin(); i != virtualLinks.end(); i ++)
         delete *i;
-        */
 }
 
 Request& Request::operator=(const Request & r)

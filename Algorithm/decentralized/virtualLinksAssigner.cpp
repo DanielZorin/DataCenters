@@ -61,6 +61,15 @@ Requests VirtualLinksAssigner::PerformAssignment(Requests& requests)
         {
             requestAssignment.erase(requestsVirtualLinks[vl]);
             delete reqAssignment;
+
+            // removing storages, so that replication gives better results
+            Request* req = requestsVirtualLinks[vl];
+            Stores::iterator it = req->getStorages().begin();
+            for ( ; it != req->getStorages().end(); ++it )
+            {
+                (*storagesAssignments)[req]->GetAssignment(*it)->RemoveAssignment(*it);
+                (*storagesAssignments)[req]->RemoveAssignment(*it);
+            }
         }
     }
 
