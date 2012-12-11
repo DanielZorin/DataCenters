@@ -60,7 +60,7 @@ class Vis(QMainWindow):
         replicalinks = {}
         for d in self.project.demands:
             replicalinks[d.id] = []
-            if (d.startTime,d.endTime)==timeInt:
+            if d.startTime<=timeInt[0] and d.endTime>=timeInt[1]:
                 for r in d.replicalinks:
                     if r.path.count(v) != 0:
                         link_num += 1
@@ -134,7 +134,7 @@ class Vis(QMainWindow):
             storage_num += len(v.intervals[timeInt].demands[d])
         for d in self.project.demands:
             replicas[d.id] = []
-            if (d.startTime,d.endTime)==timeInt:
+            if d.startTime<=timeInt[0] and d.endTime>=timeInt[1]:
                 for r in d.replications:
                     if r.assignedto==v:
                         storage_num += 1
@@ -175,7 +175,7 @@ class Vis(QMainWindow):
         replicalinks = {}
         for d in self.project.demands:
             replicalinks[d.id] = []
-            if (d.startTime,d.endTime)==timeInt:
+            if d.startTime<=timeInt[0] and d.endTime>=timeInt[1]:
                 for r in d.replicalinks:
                     if r.path.count(e) != 0:
                         link_num += 1

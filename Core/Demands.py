@@ -117,6 +117,8 @@ class Demand(AbstractGraph):
             root.appendChild(tag)
         links = self.edges + self.replicalinks
         for v in links:
+            if self.assigned and v.path==[]:
+                continue
             tag = dom.createElement("link")
             tag.setAttribute("from", str(v.e1.number))
             tag.setAttribute("to", str(v.e2.number))
@@ -205,9 +207,13 @@ class Demand(AbstractGraph):
                 if edge.getAttribute("fromtype") == "replica":
                     e.fromreplica = True
                     self.replicalinks.append(e)
+                    if self.vertices[source-1] != self.vertices[destination-1]:
+                        self.edges.append(DemandLink(self.vertices[source-1], self.vertices[destination-1], cap))
                 elif edge.getAttribute("totype") == "replica":
                     e.toreplica = True
                     self.replicalinks.append(e)
+                    if self.vertices[source-1] != self.vertices[destination-1]:
+                        self.edges.append(DemandLink(self.vertices[source-1], self.vertices[destination-1], cap))
                 else:
                     self.edges.append(e)
                 if self.assigned:
@@ -223,32 +229,8 @@ class Demand(AbstractGraph):
                             edge = resources.FindEdge(path[-1], vert)
                             path += [edge, vert]
                         e.path = path
-        #self.LoadReplications()
                     
     def FindVertex(self, number):
         for v in self.vertices:
             if v.number == number:
                 return v
-
-    def AddReplication(self, r):
-        self.AddVertex(r.replica)
-        self.AddLink(r.consistencyLink)
-        self.AddLink(r.link)
-        self.replications.append(r)
-
-    def DeleteReplication(self, r):
-        self.DeleteVertex(r.replica)
-        self.DeleteEdge(r.consistencyLink)
-        self.DeleteEdge(r.link)
-        self.replications.remove(r)
-
-    def LoadReplications(self):
-        for v in self.vertices:
-            if v.id.endswith("replica"):
-                edges = self.FindAllEdges(v)
-                if not len(edges) == 2:
-                    print "Failed to load replications"
-                if isinstance(edges[0].e1,VM) or isinstance(edges[0].e2,VM):
-                    self.replications.append(Replication(v,edges[1],edges[0]))
-                else:
-                    self.replications.append(Replication(v,edges[0],edges[1]))

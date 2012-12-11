@@ -309,8 +309,7 @@ class ResourceGraph(AbstractGraph):
         for elem in path[1:len(path)-1]:
             for time in self.GetRanges(demand):
                 if isinstance(elem, Router):
-                    elem.intervals[time].usedResource -= link.capacity
-              
+                    elem.intervals[time].usedResource -= link.capacity    
                 else:
                     e = self.FindEdge(elem.e1, elem.e2)
                     e.intervals[time].usedResource -= link.capacity
