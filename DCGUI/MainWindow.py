@@ -310,7 +310,7 @@ class MainWindow(QMainWindow):
         files.removeAll(self.projectFile);
         files.prepend(self.projectFile);
         while files.count() > self.MaxRecentFiles:
-            files.removeLast()
+            files.removeAt(files.count()-1)
 
         self.settings.setValue("recentFileList", files);
         self.UpdateRecentFileActions()
