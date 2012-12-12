@@ -75,6 +75,8 @@ class MainWindow(QMainWindow):
         self.Translate(str(self.settings.value("language", "English").toString()))
         self.projFilter = self.tr("Data centers projects (*.dcxml)")
         self.setWindowTitle(self.tr("Untitled") + " - " + self.basename)
+        self.ui.actionSchedule_selected.setVisible(False)
+        self.ui.runsel.setHidden(True)
 
     def NewProject(self):
         self.project = Project()
