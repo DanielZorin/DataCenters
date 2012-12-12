@@ -160,6 +160,7 @@ class MainWindow(QMainWindow):
     def Run(self):
         self.InitProject()
         #self.project.method.Clear()
+        self.Reset()
         self.project.Save(self.projectFile)
         if self.ui.algorithm.currentIndex() == 0:
             alg = "a"
