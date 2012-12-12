@@ -104,6 +104,8 @@ public:
     bool isCreated() const { return success; }
     // Perform some actions when a new path is about to start building
     void nextPath();
+    // When building the best path, call this function to assign path's vertices to graph's resources so it is possible to build the same links later
+    void assignPath(AntPath * pt);
     // Update pheromone
     void updatePheromone(std::vector<AntPath*> & paths, std::vector<double> & objValues, double evapRate, double max);
     // Update heuristic for every graph component

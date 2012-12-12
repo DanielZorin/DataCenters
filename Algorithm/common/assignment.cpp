@@ -94,6 +94,22 @@ bool Assignment::isReplicaOnStore(Storage * storage, Store * store)
          assert((*it)->getSecondStore() == store);
          return true;
       }
-   assert(false); // replication should be found
+//   assert(false); // replication should be found
    return false; // unfeasible
+}
+
+bool Assignment::checkReplicaOnStore(Storage * storage, Store * store)
+{
+   if ( GetAssignment(storage) == store )
+      return false;
+
+   // Searching the replication to be sure
+   Replications::iterator it = replications.begin();
+   for ( ; it != replications.end(); ++it )
+      if ( (*it)->getStorage() == storage )
+      {
+         assert((*it)->getSecondStore() == store);
+         return true;
+      }
+   return false;
 }

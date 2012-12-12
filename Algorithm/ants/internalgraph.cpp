@@ -236,9 +236,7 @@ InternalGraph::InternalGraph(unsigned int nodes, unsigned int stores, unsigned i
 , heurDeg(0)
 , pherDeg(0)
 {
-//    unsigned tmp = (unsigned)time(NULL);
-//    srand(tmp);
-//    std::cerr << tmp << '\n';
+//    srand((unsigned)time(NULL));
     srand(1355151386);
     if (!init(res, cap, req, reqTypes, pn, ps, virtElems)) success = false;
     else
@@ -283,6 +281,19 @@ void InternalGraph::nextPath()
 
     for (int i = 0; i < vertices.size(); ++ i)
         vertices[i]->nextPath();
+}
+
+void InternalGraph::assignPath(AntPath * pt)
+{
+    GraphComponent * gc;
+    const std::vector<PathElement *> & path = pt->getPath();
+    for (int i = 0; i < path.size(); ++ i)
+    {
+        if (path[i]->request == 0) continue;
+        gc = vertices[path[i]->request-1];
+        if (gc->getType() == GraphComponent::VMACHINE) curNodesRes[path[i]->resource] -= gc->getRequired();
+        else if (gc->getType() == GraphComponent::STORAGE) curStoresRes[path[i]->resource] -= gc->getRequired();
+    }
 }
 
 void InternalGraph::updatePheromone(std::vector<AntPath*> & paths, std::vector<double> & objValues, double evapRate, double max)
@@ -533,8 +544,9 @@ bool InternalGraph::init(std::vector<unsigned long> & res, std::vector<unsigned 
             storesCap[p] = cap[p+nodesNum];
             physStores[p] = ps[p];
         }
-/*
-        std::cerr << "Created graph, values: nodes = " << nodesNum << ", stores = " << storesNum << ", vms = " << vmNum << ", sts =  " << stNum << "\nResources:\n";
+
+        std::cerr << "Created graph, values: nodes = " << nodesNum << ", stores = " << storesNum << ", vms = " << vmNum << ", sts =  " << stNum << '\n';
+/*        std::cerr << "Resources:\n";
         for (int p = 0; p < nodesRes.size(); ++ p) std::cerr << nodesRes[p] << '(' << physNodes[p]->getCapacity() << ") ";
         std::cerr << '\n';
         for (int p = 0; p < storesRes.size(); ++ p) std::cerr << storesRes[p] << '(' << physStores[p]->getCapacity() << ") ";

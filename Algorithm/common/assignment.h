@@ -74,6 +74,8 @@ public:
 
     // Check whether the store keeps the replica of the storage
     bool isReplicaOnStore(Storage * storage, Store * store);
+    // Check whether the store keeps the replica of the storage but return false if not
+    bool checkReplicaOnStore(Storage * storage, Store * store);
 
     // Set/Get the full set of replications of current request
     void setReplications(Replications& replications)

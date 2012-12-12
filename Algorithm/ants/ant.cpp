@@ -20,10 +20,11 @@ AntAlgorithm::AntAlgorithm(Network * n, Requests const & r, unsigned int ants, u
     else
     {
         success = true;
-        paths.resize(ants);
-        for (int i = 0; i < ants; ++ i)
+        paths.resize(antNum);
+        originPaths.resize(antNum);
+        for (int i = 0; i < antNum; ++ i)
             paths[i] = NULL;
-        objValues.resize(ants);
+        objValues.resize(antNum);
         graph->setPherDeg(pd);
         graph->setHeurDeg(hd);
     }
@@ -34,7 +35,10 @@ AntAlgorithm::~AntAlgorithm()
     delete graph;
     if (bestPath) delete bestPath;
     for (int i = 0; i < paths.size(); ++ i)
+    {
         if (paths[i]) delete paths[i];
+        if (originPaths[i]) delete originPaths[i];
+    }
 }
 
 bool AntAlgorithm::init()
@@ -49,6 +53,7 @@ bool AntAlgorithm::init()
             vmCount += (*i)->getVirtualMachines().size();
             stCount += (*i)->getStorages().size();
         }
+        if (antNum == 0) antNum = (vmCount+stCount)/2;
         const Nodes& nodes = network->getNodes();
         const Stores& stores = network->getStores();
         unsigned int cnodes = nodes.size(), cstores = stores.size();
@@ -199,26 +204,30 @@ Algorithm::Result AntAlgorithm::schedule()
         if (iMax < antNum && objValues[iMax] > bestValue)
         {
             delete bestPath;
-            bestPath = new AntPath(*paths[iMax]);
+            bestPath = new AntPath(*originPaths[iMax]);
             bestValue = objValues[iMax];
         }
         std::cerr << "bestValue = " << bestValue;
         if (iMax < antNum) std::cerr << ", current best value = " << objValues[iMax] << '\n';
-        else std::cerr << '\n';
+        else std::cerr << "\n\n\n";
 
         graph->updatePheromone(paths, objValues, evapRate, objValues[iMax]);
 
         // clean
         for (int j = 0; j < paths.size(); ++ j)
+        {
             if (paths[j]) { delete paths[j]; paths[j] = NULL; }
+            if (originPaths[j]) { delete originPaths[j]; originPaths[j] = NULL; }
+        }
         if (ZERO(bestValue-1)) break;
     }
 
     // generate assignments
     if (bestPath == NULL) return Algorithm::FAILURE;
     std::cerr << "generating answer...";
-
     channels.clear();
+    graph->nextPath();
+    graph->assignPath(bestPath);
     paths[0] = bestPath;
     buildLink(0, channels, true);
     Assignment* asg;
@@ -281,7 +290,7 @@ Algorithm::Result AntAlgorithm::schedule()
                     const AssignedChannel * exist = findReplica(channels, tmpElem);
                     rpl->setLink(*(exist->repChannel));
                 }
-                asg->AddReplication(rpl);
+                if (!asg->checkReplicaOnStore(static_cast<Storage *>(tmpElem), place->second.replica)) asg->AddReplication(rpl);
             }
         }
         if (added) assignments.insert(asg);
@@ -407,6 +416,7 @@ bool AntAlgorithm::buildPath(unsigned int ant)
     }
 
     paths[ant] = pt;
+    originPaths[ant] = new AntPath(*pt);
     return true;
 }
 

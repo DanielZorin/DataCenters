@@ -48,7 +48,7 @@ struct AssignedChannel
 class AntAlgorithm: public Algorithm
 {
 public:
-    AntAlgorithm(Network * n, Requests const & r, unsigned int ants = 80, unsigned int iter = 1, double pd = 1, double hd = 2, double evap = 0.1);
+    AntAlgorithm(Network * n, Requests const & r, unsigned int ants = 0, unsigned int iter = 1, double pd = 1, double hd = 2, double evap = 0.1);
     ~AntAlgorithm();
 
     virtual Algorithm::Result schedule();
@@ -60,8 +60,9 @@ private:
     // number of virtual machines and storages in all the requests
     int vmCount;
     int stCount;
-    // Path storage (one iteration)
+    // Path storages (one iteration)
     std::vector<AntPath*> paths;
+    std::vector<AntPath*> originPaths;
     // Best path and its value
     AntPath* bestPath;
     double bestValue;
