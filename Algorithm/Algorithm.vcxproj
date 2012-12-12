@@ -74,7 +74,6 @@
   <ItemGroup>
     <ClCompile Include="algorithmdispatcher.cpp" />
     <ClCompile Include="ants\ant.cpp" />
-    <ClCompile Include="ants\anttest\main.cpp" />
     <ClCompile Include="ants\internalgraph.cpp" />
     <ClCompile Include="ants\path.cpp" />
     <ClCompile Include="centralized\centralizedalgorithm.cpp" />

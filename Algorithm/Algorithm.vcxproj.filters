@@ -69,9 +69,6 @@
     <ClCompile Include="ants\ant.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ants\anttest\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ants\internalgraph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
