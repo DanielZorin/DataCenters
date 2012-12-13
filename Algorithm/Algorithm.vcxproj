@@ -70,6 +70,9 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <AdditionalDependencies>qtmain.lib;QtCore4.lib;QtGui4.lib;QtXml4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>C:\Qt\4.8.4\bin\moc.exe -o mainwindow_moc.h mainwindow.h</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="algorithmdispatcher.cpp" />
@@ -124,6 +127,8 @@
     <ClInclude Include="decentralized\virtualLinkRouter.h" />
     <ClInclude Include="decentralized\virtualLinksAssigner.h" />
     <ClInclude Include="decentralized\virtualMachinesAssigner.h" />
+    <ClInclude Include="mainwindow.h" />
+    <ClInclude Include="qdebugstream.h" />
     <ClInclude Include="xmlconverter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

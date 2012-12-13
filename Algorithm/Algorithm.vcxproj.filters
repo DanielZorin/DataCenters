@@ -176,5 +176,11 @@
     <ClInclude Include="centralized\storeManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="qdebugstream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mainwindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
