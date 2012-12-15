@@ -209,7 +209,7 @@ Algorithm::Result AntAlgorithm::schedule()
         }
         std::cerr << "bestValue = " << bestValue;
         if (iMax < antNum) std::cerr << ", current best value = " << objValues[iMax] << '\n';
-        else std::cerr << "\n\n\n";
+        else std::cerr << '\n';
 
         graph->updatePheromone(paths, objValues, evapRate, objValues[iMax]);
 
@@ -298,6 +298,10 @@ Algorithm::Result AntAlgorithm::schedule()
         added = false;
     }
     std::cerr << "ok\n";
+    std::cout << assignments.size() << ' ';
+    int repSum = 0;
+    for (Assignments::iterator i = assignments.begin(); i != assignments.end(); i ++) repSum += (*i)->getReplications().size();
+    std::cout << repSum << '\n';
 
     paths[0] = NULL;
     if (ZERO(bestValue-1)) return Algorithm::SUCCESS;
@@ -432,6 +436,7 @@ void AntAlgorithm::buildLink(unsigned int ant, std::map<Link *, AssignedChannel>
         Request::VirtualLinks& links = (*i)->getVirtualLinks();
         for (Request::VirtualLinks::iterator lk = links.begin(); lk != links.end(); lk ++)
         {
+            if ((*lk)->getFirst() == (*lk)->getSecond()) continue;
             firstRes = paths[ant]->findPointer((*lk)->getFirst(), firstVertex);
             secondRes = paths[ant]->findPointer((*lk)->getSecond(), secondVertex);
             if (firstRes && secondRes)
@@ -458,7 +463,7 @@ void AntAlgorithm::buildLink(unsigned int ant, std::map<Link *, AssignedChannel>
                     bool repSuccess = false;
                     std::vector<unsigned long> curStoresRes = graph->getCurStoresRes();
                     unsigned int minRes = curStoresRes[0], minIndex = 0;
-                    if (static_cast<Store *>(replicating)->getTypeOfStore() != 0)
+                    if (static_cast<Store *>(replicating)->getTypeOfStore() != 0 && replicating->isStore())
                     {
                         // try existing replication
                         const AssignedChannel * exist = findReplica(channels, replicating);
@@ -496,10 +501,13 @@ void AntAlgorithm::buildLink(unsigned int ant, std::map<Link *, AssignedChannel>
                                 Stores::const_iterator iter = storesPtr.begin();
                                 for (unsigned int q = 0; q < minIndex; ++ q) iter ++;
                                 repDest = *iter;
-    //                            std::cerr << "Trying " << minIndex << '(' << repDest << ")\n";
+//                                std::cerr << "Trying " << minIndex << '(' << repDest << ")\n";
                                 // is replication possible?
                                 if (repDest == source || static_cast<Store *>(repDest)->getTypeOfStore() != static_cast<Store *>(replicating)->getTypeOfStore())
                                 {
+//                                    std::cerr << "Failed because repDest == " << repDest << ", source == " << source << ", repDest.type == " <<
+//                                                 static_cast<Store *>(repDest)->getTypeOfStore() << "replicating.type == " <<
+//                                                 static_cast<Store *>(replicating)->getTypeOfStore() << '\n';
                                     minIndex = curStoresRes.size();
                                     minRes = LONG_MAX;
                                     continue;
@@ -508,15 +516,15 @@ void AntAlgorithm::buildLink(unsigned int ant, std::map<Link *, AssignedChannel>
                                 dataLink.bindElements(repDest, destination);
 
                                 // route channels
-    //                            std::cerr << "Routing link from " << repDest << " to " << source << ", capacity = " << repLink.getCapacity();
+//                                std::cerr << "Routing link from " << repDest << " to " << source << ", capacity = " << repLink.getCapacity();
                                 repChannel = new NetPath(VirtualLinkRouter::route(&repLink, network, VirtualLinkRouter::DEJKSTRA));
-    //                            if (repChannel.empty()) std::cerr << "... no\n";
-    //                            else std::cerr << "... yes\n";
+//                                if (repChannel->empty()) std::cerr << "... no\n";
+//                                else std::cerr << "... yes\n";
 
-    //                            std::cerr << "Routing link from " << repDest << " to " << destination << ", capacity = " << dataLink.getCapacity();
+//                                std::cerr << "Routing link from " << repDest << " to " << destination << ", capacity = " << dataLink.getCapacity();
                                 dataChannel = new NetPath(VirtualLinkRouter::route(&dataLink, network, VirtualLinkRouter::DEJKSTRA));
-    //                            if (dataChannel.empty()) std::cerr << "... no\n";
-    //                            else std::cerr << "... yes\n";
+//                                if (dataChannel->empty()) std::cerr << "... no\n";
+//                                else std::cerr << "... yes\n";
 
                                 if (!repChannel->empty() && !dataChannel->empty()) { repSuccess = true; break; }
                                 minIndex = curStoresRes.size();
@@ -577,7 +585,7 @@ void AntAlgorithm::buildLink(unsigned int ant, std::map<Link *, AssignedChannel>
                             for (int index = 0; index < repChannel->size(); ++ index)
                             {
                             (*repChannel)[index]->assign(repLink);
-    //                           std::cerr << (*repChannel)[index]->getName() << '(' << (*repChannel)[index]->getCapacity() << ")-";
+//                               std::cerr << (*repChannel)[index]->getName() << '(' << (*repChannel)[index]->getCapacity() << ")-";
                             }
                         }
 //                        std::cerr << '\n';
