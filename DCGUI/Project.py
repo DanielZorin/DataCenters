@@ -75,8 +75,11 @@ class Project:
     def Reset(self):
         for d in self.demands:
             if d.assigned:
-                self.resources.DropDemand(d)
-                self.resources.RemoveIntervals(d)   
+                try:
+                    self.resources.DropDemand(d)
+                    self.resources.RemoveIntervals(d)
+                except:
+                    pass   
                 
     def GetStats(self):
         r = self.resources.GetTimeBounds()

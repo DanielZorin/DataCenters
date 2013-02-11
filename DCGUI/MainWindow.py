@@ -160,6 +160,7 @@ class MainWindow(QMainWindow):
         self.project.method.demand_assigned.connect(self.demandAssigned)
 
     def Run(self):
+        self.Reset()
         self.InitProject()
         #self.project.method.Clear()
         self.Reset()
@@ -394,7 +395,7 @@ class MainWindow(QMainWindow):
                 k.setText(4, self.tr("No"))
 
     def loadTranslations(self):
-        all = os.listdir("./DCGUI/Translations")
+        all = os.listdir("./Translations")
         tsfile = re.compile("dc_([a-zA-z]*)\.ts")
         res = []
         for s in all:
