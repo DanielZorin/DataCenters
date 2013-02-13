@@ -50,6 +50,7 @@
     <Compile Include="DCGUI\Project.py" />
     <Compile Include="DCGUI\RandomDemandDialog.py" />
     <Compile Include="DCGUI\__init__.py" />
+    <Compile Include="ExeBuild.py" />
     <Compile Include="Methods\RandomMethod.py" />
     <Compile Include="Methods\__init__.py" />
   </ItemGroup>

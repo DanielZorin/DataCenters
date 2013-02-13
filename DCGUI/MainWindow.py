@@ -371,7 +371,7 @@ class MainWindow(QMainWindow):
 
     def Translate(self, lang):
         translator = QTranslator(qApp)
-        translator.load("DCGUI\Translations\dc_" + lang + ".qm")
+        translator.load("Translations\dc_" + lang + ".qm")
         qApp.installTranslator(translator)
         self.basename = self.tr("Data Centers GUI")
         self.demandGraphEditor.basename = self.demandGraphEditor.tr("Request Graph Editor")
