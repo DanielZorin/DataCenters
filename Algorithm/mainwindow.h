@@ -36,6 +36,7 @@ class OurMainWindow : public QMainWindow
 	QString outputName;
 	QPushButton* ok;
 	QTextEdit* myTextEdit;
+	QDebugStream *qout, *qout2;
 public:
 	OurMainWindow(int argc, char** argv) : QMainWindow()
 	{
@@ -48,8 +49,8 @@ public:
 		layout->addWidget(ok);
 		setCentralWidget(new QWidget());
 		centralWidget()->setLayout(layout);
-		QDebugStream qout(std::cout, myTextEdit);
-		QDebugStream qout2(std::cerr, myTextEdit);
+		qout = new QDebugStream(std::cout, myTextEdit);
+		qout2 = new QDebugStream(std::cerr, myTextEdit);
 
 		std::cout << "Starting algorithm" << endl;
 		QString inputName = QString(argv[1]);
@@ -69,7 +70,7 @@ public:
 		Network * network = converter->getNetwork();
 		Requests requests = converter->getRequests();
 
-		Algorithm * algorithm = AlgorithmDispatcher::Dispatch(algorithmType, network, requests); 
+		algorithm = AlgorithmDispatcher::Dispatch(algorithmType, network, requests); 
 		QTimer* timer = new QTimer();
 		timer->setInterval(1000);
 		timer->setSingleShot(true);

@@ -10,7 +10,7 @@ int main(int argc, char ** argv)
         cerr << "Usage: " << argv[0] << " <input_file> [output_file = input_file] [algorithm = [a|c|d]]" << endl;
         return 1;
     }
-	if (false)
+	if (true)
 	{
 		QApplication app(argc, argv);
 		OurMainWindow* mw = new OurMainWindow(argc, argv);
