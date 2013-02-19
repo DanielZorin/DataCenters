@@ -152,7 +152,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addLayout(self.verticalLayout)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 721, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 721, 20))
         self.menubar.setStyleSheet(_fromUtf8(""))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuFile = QtGui.QMenu(self.menubar)
@@ -233,6 +233,11 @@ class Ui_MainWindow(object):
         self.actionSchedule_selected = QtGui.QAction(MainWindow)
         self.actionSchedule_selected.setIcon(icon3)
         self.actionSchedule_selected.setObjectName(_fromUtf8("actionSchedule_selected"))
+        self.actionRunMultiple = QtGui.QAction(MainWindow)
+        icon15 = QtGui.QIcon()
+        icon15.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/multtests.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionRunMultiple.setIcon(icon15)
+        self.actionRunMultiple.setObjectName(_fromUtf8("actionRunMultiple"))
         self.menuFile.addAction(self.actionNew_Project)
         self.menuFile.addAction(self.actionOpen_Project)
         self.menuFile.addAction(self.actionSave_Project)
@@ -266,6 +271,7 @@ class Ui_MainWindow(object):
         self.toolBar.addAction(self.actionShow_Statistics)
         self.toolBar.addAction(self.actionShow_Results)
         self.toolBar.addAction(self.actionSettings)
+        self.toolBar.addAction(self.actionRunMultiple)
 
         self.retranslateUi(MainWindow)
         QtCore.QObject.connect(self.actionExit, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.Exit)
@@ -289,6 +295,7 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.actionSchedule_selected, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.RunSelected)
         QtCore.QObject.connect(self.actionShow_Statistics, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.ShowGraphVis)
         QtCore.QObject.connect(self.demands, QtCore.SIGNAL(_fromUtf8("itemChanged(QTreeWidgetItem*,int)")), MainWindow.UpdateDemand)
+        QtCore.QObject.connect(self.actionRunMultiple, QtCore.SIGNAL(_fromUtf8("triggered()")), MainWindow.RunMultipleTests)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -369,5 +376,7 @@ class Ui_MainWindow(object):
         self.actionReset.setShortcut(QtGui.QApplication.translate("MainWindow", "F10", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSchedule_selected.setText(QtGui.QApplication.translate("MainWindow", "Schedule selected", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSchedule_selected.setShortcut(QtGui.QApplication.translate("MainWindow", "F6, Ctrl+S", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionRunMultiple.setText(QtGui.QApplication.translate("MainWindow", "runMultiple", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionRunMultiple.setToolTip(QtGui.QApplication.translate("MainWindow", "Run Multiple Tests", None, QtGui.QApplication.UnicodeUTF8))
 
 from . import resources_rc

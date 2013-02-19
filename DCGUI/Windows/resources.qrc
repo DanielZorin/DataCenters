@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="pics">
+    <file>pics/multtests.png</file>
     <file>pics/scaledown.png</file>
     <file>pics/scaleup.png</file>
     <file>pics/topology.png</file>

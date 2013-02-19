@@ -350,7 +350,7 @@ QLabel, QSlider {
      <x>0</x>
      <y>0</y>
      <width>721</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -410,6 +410,7 @@ QLabel, QSlider {
    <addaction name="actionShow_Statistics"/>
    <addaction name="actionShow_Results"/>
    <addaction name="actionSettings"/>
+   <addaction name="actionRunMultiple"/>
   </widget>
   <action name="actionExit">
    <property name="text">
@@ -628,6 +629,18 @@ QLabel, QSlider {
    </property>
    <property name="shortcut">
     <string>F6, Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionRunMultiple">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/pics/pics/multtests.png</normaloff>:/pics/pics/multtests.png</iconset>
+   </property>
+   <property name="text">
+    <string>runMultiple</string>
+   </property>
+   <property name="toolTip">
+    <string>Run Multiple Tests</string>
    </property>
   </action>
  </widget>
@@ -971,6 +984,22 @@ QLabel, QSlider {
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionRunMultiple</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>RunMultipleTests()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>481</x>
+     <y>35</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>726</x>
+     <y>81</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>Exit()</slot>
@@ -992,5 +1021,6 @@ QLabel, QSlider {
   <slot>Run()</slot>
   <slot>ShowGraphVis()</slot>
   <slot>Settings()</slot>
+  <slot>RunMultipleTests()</slot>
  </slots>
 </ui>

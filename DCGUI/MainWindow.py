@@ -8,6 +8,7 @@ from DCGUI.Vis import Vis
 from DCGUI.GraphVis import GraphVis
 from DCGUI.Project import Project
 from DCGUI.SettingsDialog import SettingsDialog
+from DCGUI.TestsWindow import TestsWindow 
 from Core.Resources import Storage
 import os,re
 
@@ -175,6 +176,12 @@ class MainWindow(QMainWindow):
         #self.project.Run()
         self.OpenProjectFromFile(self.projectFile)
         self.showStats()
+
+    def RunMultipleTests(self):
+        window = TestsWindow()
+        window.show()
+        while window.isVisible():
+            qApp.processEvents()
 
     def RunSelected(self):
         self.InitProject()
@@ -371,7 +378,7 @@ class MainWindow(QMainWindow):
 
     def Translate(self, lang):
         translator = QTranslator(qApp)
-        translator.load("Translations\dc_" + lang + ".qm")
+        translator.load("./DCGUI/Translations/dc_" + lang + ".qm")
         qApp.installTranslator(translator)
         self.basename = self.tr("Data Centers GUI")
         self.demandGraphEditor.basename = self.demandGraphEditor.tr("Request Graph Editor")
@@ -395,7 +402,7 @@ class MainWindow(QMainWindow):
                 k.setText(4, self.tr("No"))
 
     def loadTranslations(self):
-        all = os.listdir("./Translations")
+        all = os.listdir("./DCGUI/Translations")
         tsfile = re.compile("dc_([a-zA-z]*)\.ts")
         res = []
         for s in all:
