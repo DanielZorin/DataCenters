@@ -196,7 +196,8 @@ class Demand(AbstractGraph):
                 v = (v for v in self.vertices if v.number == storage).next()  
                 num = int(vertex.getAttribute("assignedto"))
                 assign = (v for v in resources.vertices if v.number == num).next()
-                self.replications.append(Replication(v, assign))                    
+                if all(r.replica != v and r.assignedto != assign for r in self.replications):
+                    self.replications.append(Replication(v, assign))                    
         #Parse edges
         for edge in node.childNodes:
             if edge.nodeName == "link":

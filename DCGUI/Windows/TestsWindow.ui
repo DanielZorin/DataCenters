@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>371</width>
-    <height>216</height>
+    <width>410</width>
+    <height>359</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -176,12 +176,79 @@ QLabel, QSlider {
         </item>
        </layout>
        <zorder></zorder>
-       <zorder></zorder>
       </widget>
       <widget class="QWidget" name="Graphs">
        <attribute name="title">
         <string>Graphs</string>
        </attribute>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="0">
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_4">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Vertical axis:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_3">
+                <property name="text">
+                 <string>Horizontal axis:</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_3">
+              <item>
+               <widget class="QComboBox" name="vertical">
+                <item>
+                 <property name="text">
+                  <string>Number of assigned requests</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Number of replications</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="horizontal">
+                <item>
+                 <property name="text">
+                  <string>Computational nodes and data stores load</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Computational nodes load</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Data stores load</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graph"/>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -323,8 +390,8 @@ QLabel, QSlider {
    <slot>Add()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>307</x>
-     <y>75</y>
+     <x>366</x>
+     <y>157</y>
     </hint>
     <hint type="destinationlabel">
      <x>377</x>
@@ -339,8 +406,8 @@ QLabel, QSlider {
    <slot>Remove()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>310</x>
-     <y>109</y>
+     <x>366</x>
+     <y>187</y>
     </hint>
     <hint type="destinationlabel">
      <x>378</x>
@@ -355,8 +422,8 @@ QLabel, QSlider {
    <slot>Run()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>315</x>
-     <y>133</y>
+     <x>366</x>
+     <y>217</y>
     </hint>
     <hint type="destinationlabel">
      <x>380</x>

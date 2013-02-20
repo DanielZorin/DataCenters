@@ -50,7 +50,7 @@ class Project:
         f.write(dom.toprettyxml())
         f.close()
 
-    def Load(self, filename):
+    def Load(self, filename, light = False):
         f = open(filename, "r")
         dom = xml.dom.minidom.parse(f)
         self.demands = []
@@ -68,7 +68,9 @@ class Project:
                     elif node.tagName == "demand":
                         d = self.CreateDemand()
                         d.LoadFromXmlNode(node, self.resources)
-        self.resources.LoadAllDemands(self.demands)
+        if not light:
+            #get time intervals and assigne demands
+            self.resources.LoadAllDemands(self.demands)
         f.close()
         self.method = RandomMethod(self.resources, self.demands)    
         
