@@ -1,4 +1,5 @@
-from PyQt4.QtGui import QMainWindow, QFileDialog, QTreeWidgetItem, QGraphicsScene, QColor, QPen, QFont
+from PyQt4.QtCore import Qt
+from PyQt4.QtGui import QMainWindow, QFileDialog, QTreeWidgetItem, QGraphicsScene, QColor, QPen, QFont, QImage, QPainter
 from DCGUI.Windows.ui_TestsWindow import Ui_TestsWindow
 from DCGUI.Project import Project
 from Core.Demands import DemandStorage, VM
@@ -39,6 +40,8 @@ class TestsWindow(QMainWindow):
             alg = "d"
         for p in self.projects.values():
             os.system("Algorithm\\main.exe " + os.path.relpath(p) + " " + os.path.relpath(p) + " " + alg)
+
+    def ChangeTab(self):
         self.getStatistics()
         self.Paint()
 
@@ -80,7 +83,16 @@ class TestsWindow(QMainWindow):
         vert = self.ui.vertical.currentIndex()
         v = []
         h = []
-        for proj in self.stats.values():
+        projects = []
+        if hor == 0:
+            projects = sorted(self.stats.values(),key=lambda x: 0.5*(x["computersload"]+x["storesload"]))
+        elif hor == 1:
+            projects = sorted(self.stats.values(),key=lambda x: x["computersload"])
+        elif hor == 2:
+            projects = sorted(self.stats.values(),key=lambda x: x["storesload"])
+        if projects == []:
+            return
+        for proj in projects:
             if vert == 0:
                 v.append(proj["assigned"])
             elif vert == 1:
@@ -109,6 +121,30 @@ class TestsWindow(QMainWindow):
             font.setPointSize(6)       
             t1 = scene.addText(str(0.1*(i + 1)), font)
             t1.setPos((i + 1) * 20, 212)
-            t2 = scene.addText(str(int(0.1*maxnum*(i + 1))), font)
-            t2.setPos(-10, 200 - (i + 1) * 20)
+            if int(0.1*maxnum*(i + 1)) != 0:
+                t2 = scene.addText(str(int(0.1*maxnum*(i + 1))), font)
+                t2.setPos(-10, 200 - (i + 1) * 20)
         self.ui.graph.setScene(scene)
+
+    def ScaleUp(self):
+        self.ui.graph.scale(1.2, 1.2)
+
+    def ScaleDown(self):
+        self.ui.graph.scale(0.8, 0.8)
+
+    def Replot(self, i):
+        self.Paint()
+
+    def Save(self):
+        fileName = unicode(QFileDialog.getSaveFileName(directory="graph.png", filter="*.png"))
+        if fileName == '':
+            return
+        scene = self.ui.graph.scene()
+        scene.clearSelection()
+        scene.setSceneRect(scene.itemsBoundingRect())
+        img = QImage(scene.sceneRect().size().toSize(), QImage.Format_ARGB32)
+        img.fill(Qt.transparent)
+        ptr = QPainter(img)
+        self.ui.graph.scene().render(ptr)
+        ptr.end()
+        img.save(fileName)

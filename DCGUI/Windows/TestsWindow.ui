@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>410</width>
+    <width>465</width>
     <height>359</height>
    </rect>
   </property>
@@ -241,6 +241,39 @@ QLabel, QSlider {
               </item>
              </layout>
             </item>
+            <item>
+             <widget class="QPushButton" name="save">
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/pics/pics/cd.png</normaloff>:/pics/pics/cd.png</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="scaledown">
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/pics/pics/scaledown.png</normaloff>:/pics/pics/scaledown.png</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="scaleup">
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/pics/pics/scaleup.png</normaloff>:/pics/pics/scaleup.png</iconset>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
           <item>
@@ -431,6 +464,102 @@ QLabel, QSlider {
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>vertical</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>TestsWindow</receiver>
+   <slot>Replot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>261</x>
+     <y>55</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>267</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontal</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>TestsWindow</receiver>
+   <slot>Replot()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>194</x>
+     <y>73</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>195</x>
+     <y>-6</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>save</sender>
+   <signal>clicked()</signal>
+   <receiver>TestsWindow</receiver>
+   <slot>Save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>361</x>
+     <y>65</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>362</x>
+     <y>-4</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>scaledown</sender>
+   <signal>clicked()</signal>
+   <receiver>TestsWindow</receiver>
+   <slot>ScaleDown()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>391</x>
+     <y>65</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>388</x>
+     <y>-13</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>scaleup</sender>
+   <signal>clicked()</signal>
+   <receiver>TestsWindow</receiver>
+   <slot>ScaleUp()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>426</x>
+     <y>63</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>426</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tests_tabs</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>TestsWindow</receiver>
+   <slot>ChangeTab()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>14</x>
+     <y>51</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-35</x>
+     <y>51</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>toggleSelect()</slot>
@@ -441,5 +570,10 @@ QLabel, QSlider {
   <slot>Add()</slot>
   <slot>Remove()</slot>
   <slot>Run()</slot>
+  <slot>Replot()</slot>
+  <slot>Save()</slot>
+  <slot>ScaleUp()</slot>
+  <slot>ScaleDown()</slot>
+  <slot>ChangeTab()</slot>
  </slots>
 </ui>
