@@ -37,4 +37,8 @@
     <file>pics/folder.png</file>
     <file>pics/page.png</file>
   </qresource>
+  <qresource>
+    <file>Translations/dc_Russian.qm</file>
+    <file>Translations/dc_English.qm</file>
+  </qresource>
 </RCC>

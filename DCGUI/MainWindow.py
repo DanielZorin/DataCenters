@@ -1,5 +1,5 @@
 from PyQt4.QtGui import QMainWindow, qApp, QTreeWidgetItem, QDialog, QFileDialog, QMessageBox, QAction, QKeySequence, QLineEdit, QComboBox
-from PyQt4.QtCore import Qt, QObject, SIGNAL, QSettings, QStringList, QTimer, QTranslator
+from PyQt4.QtCore import Qt, QObject, SIGNAL, QSettings, QStringList, QTimer, QTranslator, QDir
 from DCGUI.Windows.ui_MainWindow import Ui_MainWindow
 from DCGUI.ResourcesGraphEditor import ResourcesGraphEditor
 from DCGUI.DemandGraphEditor import DemandGraphEditor
@@ -378,7 +378,7 @@ class MainWindow(QMainWindow):
 
     def Translate(self, lang):
         translator = QTranslator(qApp)
-        translator.load("./DCGUI/Translations/dc_" + lang + ".qm")
+        translator.load(":Translations/dc_" + lang + ".qm")
         qApp.installTranslator(translator)
         self.basename = self.tr("Data Centers GUI")
         self.demandGraphEditor.basename = self.demandGraphEditor.tr("Request Graph Editor")
@@ -402,8 +402,8 @@ class MainWindow(QMainWindow):
                 k.setText(4, self.tr("No"))
 
     def loadTranslations(self):
-        all = os.listdir("./DCGUI/Translations")
-        tsfile = re.compile("dc_([a-zA-z]*)\.ts")
+        all = QDir(":Translations").entryList()
+        tsfile = re.compile("dc_([a-zA-z]*)\.qm")
         res = []
         for s in all:
             m = tsfile.match(s)
