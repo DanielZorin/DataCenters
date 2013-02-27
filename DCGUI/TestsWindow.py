@@ -15,6 +15,7 @@ class TestsWindow(QMainWindow):
         self.ui = Ui_TestsWindow()
         self.ui.setupUi(self)
         self.projects = {}
+        self.changed = True
 
     def Add(self):
         name = str(QFileDialog.getOpenFileName(filter="*.dcxml"))
@@ -22,6 +23,7 @@ class TestsWindow(QMainWindow):
             return
         it = QTreeWidgetItem(self.ui.projects, [os.path.splitext(os.path.split(name)[1])[0]])
         self.projects[it]=name
+        self.changed = True
 
     def Remove(self):
         item = self.ui.projects.currentItem()
@@ -30,6 +32,7 @@ class TestsWindow(QMainWindow):
         del self.projects[item]
         self.ui.projects.takeTopLevelItem(self.ui.projects.indexOfTopLevelItem(item))
         del item
+        self.changed = True
 
     def Run(self):
         if self.ui.algorithm.currentIndex() == 0:
@@ -40,10 +43,13 @@ class TestsWindow(QMainWindow):
             alg = "d"
         for p in self.projects.values():
             os.system("Algorithm\\main.exe " + os.path.relpath(p) + " " + os.path.relpath(p) + " " + alg)
+        self.changed = True
 
     def ChangeTab(self):
-        self.getStatistics()
-        self.Paint()
+        if self.ui.tests_tabs.currentIndex() == 1 and self.changed:
+            self.getStatistics()
+            self.Paint()
+            self.changed = False
 
     def getStatistics(self):
         self.stats = {}
@@ -103,15 +109,8 @@ class TestsWindow(QMainWindow):
                 h.append(proj["computersload"])
             elif hor == 2:
                 h.append(proj["storesload"])
-        x0 = h[0]
-        y0 = v[0]
-        maxnum = max(v)
-        for x,y in zip(h,v):
-            scene.addLine(5 + x0 * 200, 210 - float(y0)/maxnum * 200, 5 + x * 200, 210 - float(y)/maxnum * 200, QPen(self.settings["graph"]))
-            scene.addLine(5 + x * 200 - 2, 210 - float(y)/maxnum * 200 - 2 , 5 + x * 200 + 2, 210 - float(y)/maxnum * 200 + 2, QPen(self.settings["graph"]))
-            scene.addLine(5 + x * 200 + 2, 210 - float(y)/maxnum * 200 - 2, 5 + x * 200 - 2, 210 - float(y)/maxnum * 200 + 2, QPen(self.settings["graph"]))
-            x0 = x
-            y0 = y
+
+        maxnum = max(max(v), 1)
         scene.addLine(5, 5, 5, 213, QPen(self.settings["axis"]))
         scene.addLine(2, 210, 210, 210, QPen(self.settings["axis"]))
         for i in range(10):
@@ -124,6 +123,15 @@ class TestsWindow(QMainWindow):
             if int(0.1*maxnum*(i + 1)) != 0:
                 t2 = scene.addText(str(int(0.1*maxnum*(i + 1))), font)
                 t2.setPos(-10, 200 - (i + 1) * 20)
+
+        x0 = h[0]
+        y0 = v[0]
+        for x,y in zip(h,v):
+            scene.addLine(5 + x0 * 200, 210 - float(y0)/maxnum * 200, 5 + x * 200, 210 - float(y)/maxnum * 200, QPen(self.settings["graph"]))
+            scene.addLine(5 + x * 200 - 2, 210 - float(y)/maxnum * 200 - 2 , 5 + x * 200 + 2, 210 - float(y)/maxnum * 200 + 2, QPen(self.settings["graph"]))
+            scene.addLine(5 + x * 200 + 2, 210 - float(y)/maxnum * 200 - 2, 5 + x * 200 - 2, 210 - float(y)/maxnum * 200 + 2, QPen(self.settings["graph"]))
+            x0 = x
+            y0 = y
         self.ui.graph.setScene(scene)
 
     def ScaleUp(self):
