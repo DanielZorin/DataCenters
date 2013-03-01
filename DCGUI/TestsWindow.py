@@ -18,11 +18,12 @@ class TestsWindow(QMainWindow):
         self.changed = True
 
     def Add(self):
-        name = str(QFileDialog.getOpenFileName(filter="*.dcxml"))
-        if name == None or name == '':
+        names = QFileDialog.getOpenFileNames(filter="*.dcxml")
+        if names.isEmpty():
             return
-        it = QTreeWidgetItem(self.ui.projects, [os.path.splitext(os.path.split(name)[1])[0]])
-        self.projects[it]=name
+        for name in names:
+            it = QTreeWidgetItem(self.ui.projects, [os.path.splitext(os.path.split(str(name))[1])[0]])
+            self.projects[it]=str(name)
         self.changed = True
 
     def Remove(self):
