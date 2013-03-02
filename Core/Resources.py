@@ -8,6 +8,12 @@ class State:
         self.demands = {}
 
 class Storage(AbstractVertex):
+    ''' Storage element
+
+    :param id: name
+    :param volume: storage size
+    :param type: storage type (enum/int)
+    '''
     def __init__(self, id, volume, type):
         AbstractVertex.__init__(self, id)
         self.volume = volume
@@ -18,6 +24,11 @@ class Storage(AbstractVertex):
         return 0 if self.volume == 0 or not t in self.intervals else self.intervals[t].usedResource*100.0/self.volume
 
 class Computer(AbstractVertex):
+    ''' Computer element
+
+    :param id: name
+    :param speed: computer performance
+    '''
     def __init__(self, id, speed):
         AbstractVertex.__init__(self, id)
         self.speed = speed
@@ -27,6 +38,11 @@ class Computer(AbstractVertex):
         return 0 if self.speed == 0 or not t in self.intervals else self.intervals[t].usedResource*100.0/self.speed
 
 class Router(AbstractVertex):
+    ''' Router/switch element
+
+    :param id: name
+    :param capcity: total channel bandwidth
+    '''
     def __init__(self, id, capacity):
         AbstractVertex.__init__(self, id)
         self.capacity = capacity
@@ -36,6 +52,12 @@ class Router(AbstractVertex):
         return 0 if self.capacity == 0 or not t in self.intervals else self.intervals[t].usedResource*100.0/self.capacity
 
 class Link:
+    ''' Channe;
+
+    :param e1: first node
+    :param e2: second node
+    :param capacity: bandwidth
+    '''
     def __init__(self, e1, e2, capacity):
         self.e1 = e1
         self.e2 = e2
@@ -46,12 +68,17 @@ class Link:
         return 0 if self.capacity == 0 or not t in self.intervals else self.intervals[t].usedResource*100.0/self.capacity
 
 class ResourceGraph(AbstractGraph):
+    ''' Graph of physical resources
+    '''
     assignedDemands = set([])
 
     def __init__(self):
         AbstractGraph.__init__(self)
 
     def ExportToXml(self):
+        '''
+        :returns: string with XML representation
+        '''
         dom = xml.dom.minidom.Document()
         root = self.CreateXml(dom)
         dom.appendChild(root)

@@ -1,24 +1,37 @@
 class AbstractVertex:
+    ''' Represents a graph vertex.
+        
+    :param id: name of the vertex
+    '''
+    
     x = 50
+    ''' X coordinate on the canvas'''
+
     y = 50
+    ''' Y coordinate on the canvas'''
+
     number = -1
 
     def __init__(self, id):
         self.id = id
 
 class AbstractGraph:
+    ''' Represents a graph with vertices and edges'''
     def __init__(self):
         self.vertices = []
         self.edges = []
 
     def AddLink(self, e):
+        ''' Add edge'''
         self.edges.append(e)
 
     def AddVertex(self, v):
+        ''' Add vertex'''
         self.vertices.append(v)
         v.number = len(self.vertices)
 
     def DeleteVertex(self, v):
+        ''' Delete vertex and all edges incident to it'''
         ind = self.vertices.index(v)
         new_edges = []
         for e in self.edges:
@@ -32,6 +45,7 @@ class AbstractGraph:
         del self.vertices[ind]
 
     def DeleteEdge(self, ed):
+        ''' Delete edge'''
         new_edges = []
         for e in self.edges:
             if e != ed:
@@ -59,6 +73,9 @@ class AbstractGraph:
         return res
 
     def _buildPaths(self):
+        ''' Searches all linked components of the graph (self.components)
+            and constructs a dictionary (self.compdict) vertex -> component
+        '''
         toParse = list(self.vertices)
         components = []
         while True:
@@ -91,5 +108,6 @@ class AbstractGraph:
                     break
 
     def PathExists(self, v1, v2):
+        ''' Check that there is a path between v1 and v2'''
         return self.compdict[v1] == self.compdict[v2]
 
