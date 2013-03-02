@@ -172,7 +172,7 @@ class MainWindow(QMainWindow):
             alg = "c"
         else:
             alg = "d"
-        os.system("Algorithm\\main.exe " + os.path.relpath(self.projectFile) + " " + os.path.relpath(self.projectFile) + " " + alg)
+        os.system("algorithm.exe " + os.path.relpath(self.projectFile) + " " + os.path.relpath(self.projectFile) + " " + alg)
         #self.project.Run()
         self.OpenProjectFromFile(self.projectFile)
         self.showStats()
