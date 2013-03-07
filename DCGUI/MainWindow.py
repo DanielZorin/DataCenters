@@ -1,4 +1,4 @@
-from PyQt4.QtGui import QMainWindow, qApp, QTreeWidgetItem, QDialog, QFileDialog, QMessageBox, QAction, QKeySequence, QLineEdit, QComboBox
+from PyQt4.QtGui import QMainWindow, qApp, QTreeWidgetItem, QDialog, QFileDialog, QMessageBox, QActionGroup, QAction, QKeySequence, QLineEdit, QComboBox
 from PyQt4.QtCore import Qt, QObject, SIGNAL, QSettings, QStringList, QTimer, QTranslator, QDir
 from DCGUI.Windows.ui_MainWindow import Ui_MainWindow
 from DCGUI.ResourcesGraphEditor import ResourcesGraphEditor
@@ -8,14 +8,16 @@ from DCGUI.Vis import Vis
 from DCGUI.GraphVis import GraphVis
 from DCGUI.Project import Project
 from DCGUI.SettingsDialog import SettingsDialog
+from DCGUI.ParamsDialog import ParamsDialog
 from DCGUI.TestsWindow import TestsWindow 
 from Core.Resources import Storage
-import os,re
+import os, re, sys
 
 class MainWindow(QMainWindow):
     project = None
     projectFile = None
     demands = {}
+    generators = {}
 
     MaxRecentFiles = 10
     ''' Limit on the number of items in recent files list'''
@@ -78,6 +80,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle(self.tr("Untitled") + " - " + self.basename)
         self.ui.actionSchedule_selected.setVisible(False)
         self.ui.runsel.setHidden(True)
+        self.loadPlugins()
 
     def NewProject(self):
         self.project = Project()
@@ -410,3 +413,32 @@ class MainWindow(QMainWindow):
             if m != None:
                 res.append(m.group(1))
         self.languages = res
+
+    def loadPlugins(self):
+        sys.path.append(os.curdir + os.sep + "plugins")
+        plugins = QActionGroup(self)
+        for s in os.listdir("plugins"):
+            # TODO: check all errors
+            if s.endswith(".py"):
+                plugin = __import__(s[:-3])
+                if "pluginMain" in dir(plugin):
+                    pluginClass = plugin.pluginMain()
+                    name = pluginClass.GetName()
+                    action = QAction(name, self)
+                    action.setCheckable(True)
+                    QObject.connect(action, SIGNAL("triggered()"), self.GenerateRequests)
+                    plugins.addAction(action)
+                    self.ui.menuGenerators.addAction(action)
+                    self.generators[action] = pluginClass()
+                else:
+                    print("pluginMain not found in " + s)
+
+    def GenerateRequests(self):
+        generator = self.generators[self.sender()]
+        data = generator.GetSettings()
+        d = ParamsDialog(data, self)
+        d.exec_()
+        if d.result() == QDialog.Accepted:
+            generator.UpdateSettings(d.data)
+            #TODO: populate the table with new demands
+            self.demands = generator.Generate(self.project.resources)

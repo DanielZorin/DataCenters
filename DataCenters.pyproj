@@ -30,6 +30,7 @@
     <Folder Include="DCGUI\Translations\" />
     <Folder Include="DCGUI\Windows\" />
     <Folder Include="Methods" />
+    <Folder Include="plugins" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\AbstractGraph.py" />
@@ -41,6 +42,7 @@
     <Compile Include="DCGUI\MainWindow.py" />
     <Compile Include="DCGUI\DemandGraphEditor.py" />
     <Compile Include="DCGUI\DemandGraphCanvas.py" />
+    <Compile Include="DCGUI\ParamsDialog.py" />
     <Compile Include="DCGUI\TestsWindow.py" />
     <Compile Include="DCGUI\SettingsDialog.py" />
     <Compile Include="DCGUI\TreeDialog.py" />
@@ -54,6 +56,8 @@
     <Compile Include="ExeBuild.py" />
     <Compile Include="Methods\RandomMethod.py" />
     <Compile Include="Methods\__init__.py" />
+    <Compile Include="plugins\IdealGenerator.py" />
+    <Compile Include="plugins\__init__.py" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
 </Project>

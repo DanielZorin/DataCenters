@@ -350,7 +350,7 @@ QLabel, QSlider {
      <x>0</x>
      <y>0</y>
      <width>721</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -371,11 +371,17 @@ QLabel, QSlider {
     <property name="title">
      <string>Project</string>
     </property>
+    <widget class="QMenu" name="menuGenerators">
+     <property name="title">
+      <string>Generate Requests</string>
+     </property>
+    </widget>
     <addaction name="actionEdit_Resources"/>
     <addaction name="actionAdd_Demand"/>
     <addaction name="actionDelete_Demand"/>
     <addaction name="actionEdit_Demand"/>
     <addaction name="actionCreate_Random_Demands"/>
+    <addaction name="menuGenerators"/>
     <addaction name="actionStart"/>
     <addaction name="actionSchedule_selected"/>
     <addaction name="actionShow_Statistics"/>
@@ -641,6 +647,11 @@ QLabel, QSlider {
    </property>
    <property name="toolTip">
     <string>Run Multiple Tests</string>
+   </property>
+  </action>
+  <action name="actionFds">
+   <property name="text">
+    <string>fds</string>
    </property>
   </action>
  </widget>
@@ -991,8 +1002,8 @@ QLabel, QSlider {
    <slot>RunMultipleTests()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>481</x>
-     <y>35</y>
+     <x>-1</x>
+     <y>-1</y>
     </hint>
     <hint type="destinationlabel">
      <x>726</x>
