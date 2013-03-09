@@ -1,8 +1,8 @@
+import random
+
 class IdealGenerator:
-
-
-    bandwidth = 1
-    delay = 0
+    storagePercent = 50
+    number = 10
 
     def __init__(self):
         pass
@@ -12,7 +12,7 @@ class IdealGenerator:
         return "Ideal"
 
     def Generate(self, resources):
-        pass
+        median = self.storagePercent / self.number
 
     def GetSettings(self):
         # importing here to allow using the class without Qt
@@ -23,16 +23,16 @@ class IdealGenerator:
                 self.parent = parent
             def getTranslatedSettings(self):
                 return [
-                [self.tr("Channel bandwidth"), self.parent.bandwidth],
-                [self.tr("Delay"), self.parent.delay]
+                [self.tr("Request count"), self.parent.number],
+                [self.tr("Storage"), self.parent.storagePercent]
                         ]
         t = Translator(self)
         return t.getTranslatedSettings()
 
     def UpdateSettings(self, dict):
         # importing here to allow using the class without Qt
-        self.bandwidth = dict[0][1]
-        self.delay = dict[1][1]
+        self.number = dict[0][1]
+        self.storagePercent = dict[1][1]
 
 def pluginMain():
     return IdealGenerator
