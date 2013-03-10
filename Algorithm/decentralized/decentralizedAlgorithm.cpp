@@ -3,6 +3,7 @@
 #include "storagesAssigner.h"
 #include "virtualLinksAssigner.h"
 #include "assignment.h"
+#include "criteria.h"
 
 #include <iostream>
 DecentralizedAlgorithm::~DecentralizedAlgorithm()
@@ -16,6 +17,10 @@ DecentralizedAlgorithm::~DecentralizedAlgorithm()
 
 Algorithm::Result DecentralizedAlgorithm::schedule()
 {
+    Criteria::identifyPackMode(&requests, network);
+    std::cerr << "Mode of bin pack is " << (Criteria::getPackMode() == (int)Criteria::BFD
+        ? "BFD\n" : "Network critical\n");
+
     std::cerr << "There are " << (int)requests.size() << " requests\n";
     VirtualMachinesAssigner virtualMachinesAssigner(network);
     Requests assignedRequests = virtualMachinesAssigner.PerformAssignment(requests);

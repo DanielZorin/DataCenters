@@ -21,9 +21,11 @@ bool virtualMachinesCompare(Node * vm1, Node * vm2)
 {
     return Criteria::virtualMachineWeight(vm1) > Criteria::virtualMachineWeight(vm2);
 }
-bool virtualNodesCompare(Node * n1, Node * n2)
+bool nodesCompare(Node * n1, Node * n2)
 {
-    return Criteria::virtualMachineWeight(n1) > Criteria::virtualMachineWeight(n2);
+    if ( Criteria::getPackMode() == Criteria::NETWORK_CRITICAL )
+        return Criteria::virtualMachineWeight(n1) > Criteria::virtualMachineWeight(n2);
+    return Criteria::virtualMachineWeight(n1) < Criteria::virtualMachineWeight(n2);
 }
 
 Requests VirtualMachinesAssigner::PerformAssignment(Requests& requests)
@@ -118,7 +120,7 @@ bool VirtualMachinesAssigner::assignOneVirtualMachine(Node * virtualMachine, Ass
 
     // form the vector from the set to have an ability to sort it
     std::vector<Node * > nodes(network->getNodes().begin(), network->getNodes().end());
-    std::sort(nodes.begin(), nodes.end(), virtualNodesCompare);
+    std::sort(nodes.begin(), nodes.end(), nodesCompare);
 
     for ( unsigned index = 0; index < nodes.size(); ++index )
     {
@@ -127,7 +129,7 @@ bool VirtualMachinesAssigner::assignOneVirtualMachine(Node * virtualMachine, Ass
             nodes[index]->assign(*virtualMachine);
             reqAssignment->AddAssignment(virtualMachine, nodes[index]);
             requestsAssignedNodes.push_back(nodes[index]);
-            std::sort(requestsAssignedNodes.begin(), requestsAssignedNodes.end(), virtualNodesCompare);
+            std::sort(requestsAssignedNodes.begin(), requestsAssignedNodes.end(), nodesCompare);
             return true;
         }
     }

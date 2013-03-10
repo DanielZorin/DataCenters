@@ -23,7 +23,9 @@ bool storagesCompare(Store * st1, Store * st2)
 }
 bool storesCompare(Store * st1, Store * st2)
 {
-    return Criteria::storageWeight(st1) > Criteria::storageWeight(st2);
+    if ( Criteria::getPackMode() == Criteria::NETWORK_CRITICAL )
+        return Criteria::storageWeight(st1) > Criteria::storageWeight(st2);
+    return Criteria::storageWeight(st1) < Criteria::storageWeight(st2);
 }
 
 Requests StoragesAssigner::PerformAssignment(Requests& requests)

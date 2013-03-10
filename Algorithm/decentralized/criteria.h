@@ -7,6 +7,19 @@
 // No object of these class can be created, all methods are static.
 class Criteria
 {
+public:
+    // Mode of performing bin packing.
+    // There are two modes: BFD - best fit decreasing, and CriticalNetwork.
+    //    BFD - standart algorithm is used, this mode is chosen when network is not critical resource.
+    //    CriticalNetwork is chosen when network is critical resource, so vms and storages are packed
+    //      appropriately.
+    //
+    enum PackMode
+    {
+        BFD = 0,
+        NETWORK_CRITICAL
+    };
+
 private:
     // Class with just static criterias represented,
     // with different implementations of criterias proposed.
@@ -48,6 +61,20 @@ public:
     static long replicationPathCost(Store* initialStore, Store* store, Network * network, NetPath& path,
                                     unsigned replicationCapacity);
     static long replicationPathCost(VirtualLink* virtualLink, Network * network, NetPath& path);
+
+    // Automatically identify pack mode according to input parameters
+    static void identifyPackMode(Requests* requests, Network* network);
+
+    // Get pack mode.
+    static PackMode getPackMode()
+    {
+        return packMode;
+    }
+
+private:
+    // Chosen mode of perfmorming bin packing.
+    //
+    static PackMode packMode;
 };
 
 #endif
