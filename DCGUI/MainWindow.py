@@ -425,7 +425,7 @@ class MainWindow(QMainWindow):
                     pluginClass = plugin.pluginMain()
                     name = pluginClass.GetName()
                     action = QAction(name, self)
-                    action.setCheckable(True)
+                    action.setCheckable(False)
                     QObject.connect(action, SIGNAL("triggered()"), self.GenerateRequests)
                     plugins.addAction(action)
                     self.ui.menuGenerators.addAction(action)
@@ -441,4 +441,14 @@ class MainWindow(QMainWindow):
         if d.result() == QDialog.Accepted:
             generator.UpdateSettings(d.data)
             #TODO: populate the table with new demands
-            self.demands = generator.Generate(self.project.resources)
+            self.project.demands = generator.Generate(self.project.resources)
+            self.ui.demands.clear()
+            self.demands = {}
+            for demand in self.project.demands:
+                it = QTreeWidgetItem(self.ui.demands, QStringList([demand.id, str(demand.startTime), str(demand.endTime), self.tr("No"), self.tr("No")]))
+                cb = QComboBox()
+                cb.addItems([self.tr("No"),self.tr("Yes")])
+                self.ui.demands.setItemWidget(it,3,cb)
+                QObject.connect(cb, SIGNAL("currentIndexChanged(int)"), it.emitDataChanged)
+                it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
+                self.demands[it] = demand

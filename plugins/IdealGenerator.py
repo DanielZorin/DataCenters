@@ -30,14 +30,14 @@ class IdealGenerator:
         compTotal = int(sum(comps) * float(self.compPercent) / 100.0)
         stTotal = int(sum(storages) * float(self.storagePercent) / 100.0)
         while (sumSt < stTotal) and (sumComp < compTotal):
-            st = int(max([0, int(random.gauss(medianStorage, 2))]) * sum(storages) / 100.0)
-            comp = int(max([0, int(random.gauss(medianComp, 2))]) * sum(comps) / 100.0)
+            st = int(max([0, random.gauss(medianStorage, 2)]) * sum(storages) / 100.0)
+            comp = int(max([0, random.gauss(medianComp, 2)]) * sum(comps) / 100.0)
             sumSt += st
             sumComp += comp
             requests += [[st, comp]]
         res = []
         for r in requests:
-            d = Demand("demand_" + str(r))
+            d = Demand("demand_" + str(r[0]) + "_" + str(r[1]))
             sumSt = 0
             while sumSt < r[0]:
                 st = min([max(storages), random.randint(1, r[0] / 3 + 1)])
@@ -56,6 +56,7 @@ class IdealGenerator:
                         break
                 d.AddVertex(VM("vm", st))
                 sumComp += st
+            res.append(d)
 
         return res
 

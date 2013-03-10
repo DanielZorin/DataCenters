@@ -35,7 +35,7 @@ class Demand(AbstractGraph):
         AbstractGraph.__init__(self)
         self.id = id
         self.startTime = 0
-        self.endTime = 0
+        self.endTime = 1
         self.replications = []
         self.replicalinks = []
         self.assigned = False
