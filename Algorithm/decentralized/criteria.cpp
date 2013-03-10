@@ -65,7 +65,12 @@ long Criteria::virtualLinkWeight(Link* virtualLink)
     return virtualLink->getCapacity();
 }
 
-unsigned Criteria::exhaustiveSearchDepth()
+unsigned Criteria::exhaustiveSearchDepthNetwork()
+{
+    return 2;
+}
+
+unsigned Criteria::exhaustiveSearchDepthComputational()
 {
     return 2;
 }
@@ -106,13 +111,13 @@ long Criteria::replicationPathCost(VirtualLink* virtualLink, Network * network, 
     return result;
 }
 
-#define NETWORK_CRITICAL_BORDER 0.3
+#define NETWORK_CRITICAL_BORDER 0.1
 void Criteria::identifyPackMode(Requests* requests, Network* network)
 {
     // setting to NETWORK_CRITICAL if network is critical,
     // i.e. if ratio between requests virtual link capacities and
     // network link capacities for link coming from nodes or stores
-    // is more then some border value (0.3 in our chosen).
+    // is more then some border value (0.1 in our chosen).
     long networkCapacity = 0l;
     long requestsCapacity = 0l;
     Links::const_iterator it = network->getLinks().begin();
@@ -133,7 +138,7 @@ void Criteria::identifyPackMode(Requests* requests, Network* network)
             requestsCapacity += (*it)->getCapacity();
     }
 
-    if ( networkCapacity == 0l || ((double)requestsCapacity) / networkCapacity > NETWORK_CRITICAL_BORDER )
+    if ( networkCapacity != 0l && ((double)requestsCapacity) / networkCapacity > NETWORK_CRITICAL_BORDER )
         packMode = Criteria::NETWORK_CRITICAL;
     // otherwise default value is used
 }

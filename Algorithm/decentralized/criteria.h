@@ -48,7 +48,10 @@ public:
     static long virtualLinkWeight(Link * storage);
 
     // The depth of the limited exhaustive search procedure.
-    static unsigned exhaustiveSearchDepth();
+    static unsigned exhaustiveSearchDepthNetwork();
+
+    // The depth of the limited exhaustive search procedure.
+    static unsigned exhaustiveSearchDepthComputational();
 
     // The depth of the k-shortest-paths algorithm.
     static unsigned kShortestPathDepth();

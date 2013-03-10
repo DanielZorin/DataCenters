@@ -224,7 +224,7 @@ bool VirtualLinksAssigner::limitedExhaustiveSearch(Element * element, Assignment
     std::map<VirtualLink*, Request* > vlRequest;
     vlRequest[static_cast<VirtualLink*>(element)] = req;
     getAllVirtualLinksAssignments(element, vlAssignment, vlRequest, assignment, req);
-    for ( unsigned depth = 1; depth <= Criteria::exhaustiveSearchDepth(); ++depth )
+    for ( unsigned depth = 1; depth <= Criteria::exhaustiveSearchDepthNetwork(); ++depth )
     {
         std::cerr << "            depth = " << depth << "\n";
         Links removedVirtualLinks; // used in the recursive algorithm, initiate as empty

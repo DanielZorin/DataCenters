@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <algorithm>
+#include <iostream>
 
 VirtualMachinesAssigner::~VirtualMachinesAssigner()
 {
@@ -71,9 +72,6 @@ Requests VirtualMachinesAssigner::PerformAssignment(Requests& requests)
 
 bool VirtualMachinesAssigner::assignOneRequest(Request::VirtualMachines * virtualMachines, Assignment* reqAssignment)
 {
-    // forming the assigned nodes of current request
-    requestsAssignedNodes.clear();
-
     // form the vector from the set to have an ability to sort it
     std::vector<Node * > virtualMachinesVec(virtualMachines->begin(), virtualMachines->end());
     std::sort(virtualMachinesVec.begin(), virtualMachinesVec.end(), virtualMachinesCompare);
@@ -103,19 +101,6 @@ bool VirtualMachinesAssigner::assignOneRequest(Request::VirtualMachines * virtua
 
 bool VirtualMachinesAssigner::assignOneVirtualMachine(Node * virtualMachine, Assignment* reqAssignment)
 {
-    /*
-    // trying to assign to the nodes with already assigned vms
-    for ( unsigned index = 0; index < requestsAssignedNodes.size(); ++index )
-    {
-        if ( requestsAssignedNodes[index]->getCapacity() >= virtualMachine->getCapacity() )
-        {
-            requestsAssignedNodes[index]->assign(*virtualMachine);
-            reqAssignment->AddAssignment(virtualMachine, requestsAssignedNodes[index]);
-            return true;
-        }
-    }
-    */
-
     // assignment failed, trying other nodes
 
     // form the vector from the set to have an ability to sort it
@@ -128,8 +113,6 @@ bool VirtualMachinesAssigner::assignOneVirtualMachine(Node * virtualMachine, Ass
         {
             nodes[index]->assign(*virtualMachine);
             reqAssignment->AddAssignment(virtualMachine, nodes[index]);
-            requestsAssignedNodes.push_back(nodes[index]);
-            std::sort(requestsAssignedNodes.begin(), requestsAssignedNodes.end(), nodesCompare);
             return true;
         }
     }
@@ -150,68 +133,103 @@ bool VirtualMachinesAssigner::limitedExhaustiveSearch(Element * element, Assignm
     std::map<Node*, Assignment* > vmAssignment;
     getAvailableNodeAssignments(element, VMsOnNode, vmAssignment, assignment);
 
-    // searching of all available nodes, in which, after removing
-    // all of nodes with capacity less then element's one, the space is enough
-    // for assigning the element
-    std::map<Node*, std::vector<Node *> >::iterator it = VMsOnNode.begin();
-    std::map<Node*, std::vector<Node *> >::iterator itEnd = VMsOnNode.end();
-    for ( ; it != itEnd; ++it )
+    std::cerr << "     Exhaustive search\n";
+    for ( unsigned depth = 1; depth <= Criteria::exhaustiveSearchDepthComputational(); ++depth )
     {
-        unsigned long capacitySum = it->first->getCapacity();
+        std::cerr << "            depth = " << depth << "\n";
+        
+        std::vector<VirtualMachine*> vec;
+        vec.reserve(depth);
+        if ( recursiveExhaustiveSearch(element, assignment, VMsOnNode, vmAssignment, VMsOnNode.begin(),
+                vec, depth) )
+            return true;
+    }
+    return false;
+}
 
-        // sorting in the decrease order
-        std::sort(it->second.begin(), it->second.end(), decreaseOrder);
-        std::vector<Node *>::iterator vmIt = it->second.begin();
-        std::vector<Node *>::iterator vmItEnd = it->second.end();
-        for ( ; vmIt != vmItEnd; ++vmIt )
-            capacitySum += (*vmIt)->getCapacity();
+bool VirtualMachinesAssigner::recursiveExhaustiveSearch(Element * element, Assignment* assignment,
+                                                        std::map<Node*, std::vector<Node *> >& VMsOnNode,
+                                                        std::map<Node*, Assignment* >& vmAssignment,
+                                                        std::map<Node*, std::vector<Node *> >::iterator curIt,
+                                                        std::vector<VirtualMachine*>& vmsSetToAssign,
+                                                        unsigned depth)
+{
+    if ( curIt == VMsOnNode.end() )
+        return false;
 
-        if ( capacitySum >= element->getCapacity() )
+    for ( ; curIt != VMsOnNode.end(); ++curIt )
+    {
+        // removing all vms of node
+        std::vector<Node *>::iterator it = curIt->second.begin();
+        std::vector<Node *>::iterator itEnd = curIt->second.end();
+
+        std::vector<VirtualMachine*>vec = vmsSetToAssign;
+        for ( ; it != itEnd; ++it )
         {
-            // removing all vms, assigning the current element and trying to
-            // reassign removed vms.
-            for ( vmIt = it->second.begin(); vmIt != vmItEnd; ++vmIt )
-            {
-                vmAssignment[*vmIt]->RemoveAssignment(*vmIt);
-                it->first->RemoveAssignment(*vmIt);
-            }
-
-            it->first->assign(*element);
-
-            vmIt = it->second.begin();
-            bool assigned = true;
-            for ( vmIt = it->second.begin(); vmIt != vmItEnd; ++vmIt )
-            {
-                bool result = assignOneVirtualMachine(*vmIt, vmAssignment[*vmIt]);
-                if ( !result )
-                {
-                    // attempt failed
-                    // retrieving assignments
-                    it->first->RemoveAssignment(element);
-                    std::vector<Node *>::iterator vmAssignedIt = it->second.begin();
-                    for ( ; vmAssignedIt != vmIt; ++vmAssignedIt )
-                    {
-                        vmAssignment[*vmAssignedIt]->GetAssignment(*vmAssignedIt)->RemoveAssignment(*vmAssignedIt);
-                        vmAssignment[*vmAssignedIt]->RemoveAssignment(*vmAssignedIt);
-                        
-                    }
-
-                    for ( vmAssignedIt = it->second.begin(); vmAssignedIt != vmItEnd; ++vmAssignedIt )
-                    {
-                        vmAssignment[*vmAssignedIt]->AddAssignment(*vmAssignedIt, it->first);
-                        it->first->assign(*(*vmAssignedIt));
-                    }
-                    assigned = false;
-                    break;
-                }
-            }
-
-            if ( assigned )
-            {
-                assignment->AddAssignment(static_cast<Node*>(element), it->first);
-                return true;
-            }
+            vec.push_back(*it);
+            vmAssignment[*it]->RemoveAssignment(*it);
+            curIt->first->RemoveAssignment(*it);
         }
+
+        if ( depth == 1 )
+        {
+            if ( tryToAssign(element, assignment, vmAssignment, vec, curIt->first) )
+                return true;
+        } else {
+            std::map<Node*, std::vector<Node *> >::iterator nextIt = curIt;
+            ++nextIt;
+            if ( recursiveExhaustiveSearch(element, assignment, VMsOnNode, vmAssignment, nextIt, 
+                    vec, depth - 1) )
+                return true;
+        }
+
+        // assign again
+        it = curIt->second.begin();
+        for ( ; it != itEnd; ++it )
+        {
+            vmAssignment[*it]->AddAssignment(*it, curIt->first);
+            curIt->first->assign(*(*it));
+        }
+    }
+    return false;
+}
+
+bool VirtualMachinesAssigner::tryToAssign(Element * element, Assignment* assignment,
+                                          std::map<Node*, Assignment* >& vmAssignment,
+                                          std::vector<VirtualMachine*>& vmsSetToAssign, Node* nodeToAssign)
+{
+    nodeToAssign->assign(*element);
+
+    // sorting in the decrease order
+    std::sort(vmsSetToAssign.begin(), vmsSetToAssign.end(), decreaseOrder);
+    std::vector<Node *>::iterator vmIt = vmsSetToAssign.begin();
+    std::vector<Node *>::iterator vmItEnd = vmsSetToAssign.end();
+
+    bool assigned = true;
+    for ( ; vmIt != vmItEnd; ++vmIt )
+    {
+        bool result = assignOneVirtualMachine(*vmIt, vmAssignment[*vmIt]);
+        if ( !result )
+        {
+            // attempt failed
+            // retrieving assignments
+            nodeToAssign->RemoveAssignment(element);
+            std::vector<Node *>::iterator vmAssignedIt = vmsSetToAssign.begin();
+            for ( ; vmAssignedIt != vmIt; ++vmAssignedIt )
+            {
+                vmAssignment[*vmAssignedIt]->GetAssignment(*vmAssignedIt)->RemoveAssignment(*vmAssignedIt);
+                vmAssignment[*vmAssignedIt]->RemoveAssignment(*vmAssignedIt);
+            }
+
+            assigned = false;
+            break;
+        }
+    }
+
+    if ( assigned )
+    {
+        assignment->AddAssignment(static_cast<Node*>(element), nodeToAssign);
+        return true;
     }
     return false;
 }
@@ -234,11 +252,10 @@ void VirtualMachinesAssigner::getAvailableNodeAssignments(Element* element, std:
             Nodes::iterator vmIt = vms.begin();
             Nodes::iterator vmItEnd = vms.end();
             for ( ; vmIt != vmItEnd; ++vmIt )
-                if ( (*vmIt)->getCapacity() < element->getCapacity() )
-                {
-                    VMsOnNode[*nodesIt].push_back(*vmIt);
-                    vmAssignment[*vmIt] = it->second;
-                }
+            {
+                VMsOnNode[*nodesIt].push_back(*vmIt);
+                vmAssignment[*vmIt] = it->second;
+            }
         }
     }
 }

@@ -50,6 +50,18 @@ private:
     // and, additionally, all storage's assignments.
     void getAvailableStoreAssignments(Element* element, std::map<Store*, std::vector<Store*> >& storesAssignments, std::map<Store*, Assignment* >& stAssignment, Assignment* assignment);
 
+    bool recursiveExhaustiveSearch(Element * element, Assignment* assignment,
+                                    std::map<Store*, std::vector<Store *> >& STsOnStore,
+                                    std::map<Store*, Assignment* >& stAssignment,
+                                    std::map<Store*, std::vector<Store *> >::iterator curIt,
+                                    std::vector<Storage*>& stsSetToAssign,
+                                    unsigned depth);
+
+    // Try to reassign the set of elements
+    bool tryToAssign(Element * element, Assignment* assignment,
+                      std::map<Store*, Assignment* >& stAssignment,
+                      std::vector<Storage*>& stsSetToAssign, Store* storeToAssign);
+
 private:
     // Useful variables used during the algorithm
 

@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <algorithm>
+#include <iostream>
 
 StoragesAssigner::~StoragesAssigner()
 {
@@ -154,73 +155,107 @@ bool StoragesAssigner::limitedExhaustiveSearch(Element * element, Assignment* as
     // first, forming all assigned virtual machines of nodes
     // it is essential to reassign only elements with capacity less then
     // element's capacity.
-    std::map<Store*, std::vector<Store *> > STsOnStore;
+    std::map<Store*, std::vector<Store *> > STsOnNode;
     std::map<Store*, Assignment* > stAssignment;
-    getAvailableStoreAssignments(element, STsOnStore, stAssignment, assignment);
+    getAvailableStoreAssignments(element, STsOnNode, stAssignment, assignment);
 
-    // searching of all available stores, in which, after removing
-    // all of storages with capacity less then element's one, the space is enough
-    // for assigning the element
-    std::map<Store*, std::vector<Store *> >::iterator it = STsOnStore.begin();
-    std::map<Store*, std::vector<Store *> >::iterator itEnd = STsOnStore.end();
-    for ( ; it != itEnd; ++it )
+    std::cerr << "     Exhaustive search\n";
+    for ( unsigned depth = 1; depth <= Criteria::exhaustiveSearchDepthComputational(); ++depth )
     {
-        unsigned long capacitySum = it->first->getCapacity();
+        std::cerr << "            depth = " << depth << "\n";
+        
+        std::vector<Storage*> vec;
+        vec.reserve(depth);
+        if ( recursiveExhaustiveSearch(element, assignment, STsOnNode, stAssignment, STsOnNode.begin(),
+                vec, depth) )
+            return true;
+    }
+    return false;
+}
 
-        // sorting in the decrease order
-        std::sort(it->second.begin(), it->second.end(), decreaseOrder);
-        std::vector<Store *>::iterator stIt = it->second.begin();
-        std::vector<Store *>::iterator stItEnd = it->second.end();
-        for ( ; stIt != stItEnd; ++stIt )
-            capacitySum += (*stIt)->getCapacity();
+bool StoragesAssigner::recursiveExhaustiveSearch(Element * element, Assignment* assignment,
+                                                std::map<Store*, std::vector<Store *> >& STsOnNode,
+                                                std::map<Store*, Assignment* >& stAssignment,
+                                                std::map<Store*, std::vector<Store *> >::iterator curIt,
+                                                std::vector<Storage*>& stsSetToAssign,
+                                                unsigned depth)
+{
+    if ( curIt == STsOnNode.end() )
+        return false;
 
-        if ( capacitySum >= element->getCapacity() )
+    for ( ; curIt != STsOnNode.end(); ++curIt )
+    {
+        // removing all vms of node
+        std::vector<Store *>::iterator it = curIt->second.begin();
+        std::vector<Store *>::iterator itEnd = curIt->second.end();
+
+        std::vector<Storage*>vec = stsSetToAssign;
+        for ( ; it != itEnd; ++it )
         {
-            // removing all vms, assigning the current element and trying to
-            // reassign removed vms.
-            for ( stIt = it->second.begin(); stIt != stItEnd; ++stIt )
-            {
-                stAssignment[*stIt]->RemoveAssignment(*stIt);
-                it->first->RemoveAssignment(*stIt);
-            }
-
-            it->first->assign(*element);
-
-            stIt = it->second.begin();
-            bool assigned = true;
-            for ( stIt = it->second.begin(); stIt != stItEnd; ++stIt )
-            {
-                bool result = assignOneStorage(*stIt, stAssignment[*stIt]);
-                if ( !result )
-                {
-                    // attempt failed
-                    // retrieving assignments
-                    it->first->RemoveAssignment(element);
-
-                    std::vector<Store *>::iterator stAssignedIt = it->second.begin();
-                    for ( ; stAssignedIt != stIt; ++stAssignedIt )
-                    {
-                        stAssignment[*stAssignedIt]->GetAssignment(*stAssignedIt)->RemoveAssignment(*stAssignedIt);
-                        stAssignment[*stAssignedIt]->RemoveAssignment(*stAssignedIt);
-                    }
-
-                    for ( stAssignedIt = it->second.begin(); stAssignedIt != stItEnd; ++stAssignedIt )
-                    {
-                        stAssignment[*stAssignedIt]->AddAssignment(*stAssignedIt, it->first);
-                        it->first->assign(*(*stAssignedIt));
-                    }
-                    
-                    assigned = false;
-                    break;
-                }
-            }
-
-            if ( assigned )
-            {
-                assignment->AddAssignment(static_cast<Store*>(element), it->first);
-                return true;
-            }
+            vec.push_back(*it);
+            stAssignment[*it]->RemoveAssignment(*it);
+            curIt->first->RemoveAssignment(*it);
         }
+
+        if ( depth == 1 )
+        {
+            if ( tryToAssign(element, assignment, stAssignment, vec, curIt->first) )
+                return true;
+        } else {
+            std::map<Store*, std::vector<Store *> >::iterator nextIt = curIt;
+            ++nextIt;
+            if ( recursiveExhaustiveSearch(element, assignment, STsOnNode, stAssignment, nextIt, 
+                    vec, depth - 1) )
+                return true;
+        }
+
+        // assign again
+        it = curIt->second.begin();
+        for ( ; it != itEnd; ++it )
+        {
+            stAssignment[*it]->AddAssignment(*it, curIt->first);
+            curIt->first->assign(*(*it));
+        }
+    }
+    return false;
+}
+
+bool StoragesAssigner::tryToAssign(Element * element, Assignment* assignment,
+                                  std::map<Store*, Assignment* >& stAssignment,
+                                  std::vector<Storage*>& stsSetToAssign, Store* storeToAssign)
+{
+    storeToAssign->assign(*element);
+
+    // sorting in the decrease order
+    std::sort(stsSetToAssign.begin(), stsSetToAssign.end(), decreaseOrder);
+    std::vector<Storage *>::iterator stIt = stsSetToAssign.begin();
+    std::vector<Storage *>::iterator stItEnd = stsSetToAssign.end();
+
+    bool assigned = true;
+    for ( ; stIt != stItEnd; ++stIt )
+    {
+        bool result = assignOneStorage(*stIt, stAssignment[*stIt]);
+        if ( !result )
+        {
+            // attempt failed
+            // retrieving assignments
+            storeToAssign->RemoveAssignment(element);
+            std::vector<Store *>::iterator stAssignedIt = stsSetToAssign.begin();
+            for ( ; stAssignedIt != stIt; ++stAssignedIt )
+            {
+                stAssignment[*stAssignedIt]->GetAssignment(*stAssignedIt)->RemoveAssignment(*stAssignedIt);
+                stAssignment[*stAssignedIt]->RemoveAssignment(*stAssignedIt);
+            }
+
+            assigned = false;
+            break;
+        }
+    }
+
+    if ( assigned )
+    {
+        assignment->AddAssignment(static_cast<Store*>(element), storeToAssign);
+        return true;
     }
     return false;
 }
@@ -245,11 +280,10 @@ void StoragesAssigner::getAvailableStoreAssignments(Element* element, std::map<S
                 Stores::iterator stIt = storages.begin();
                 Stores::iterator stItEnd = storages.end();
                 for ( ; stIt != stItEnd; ++stIt )
-                    if ( (*stIt)->getCapacity() < element->getCapacity() )
-                    {
-                        STsOnStore[*storesIt].push_back(*stIt);
-                        stAssignment[*stIt] = it->second;
-                    }
+                {
+                    STsOnStore[*storesIt].push_back(*stIt);
+                    stAssignment[*stIt] = it->second;
+                }
             }
         }
     }

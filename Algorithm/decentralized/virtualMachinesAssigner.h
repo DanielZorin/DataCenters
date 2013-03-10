@@ -50,6 +50,18 @@ private:
     // and, additionally, all vm's assignments.
     void getAvailableNodeAssignments(Element* element, std::map<Node*, std::vector<Node*> >& nodesAssignments, std::map<Node*, Assignment* >& vmAssignment, Assignment* assignment);
 
+    bool recursiveExhaustiveSearch(Element * element, Assignment* assignment,
+                                    std::map<Node*, std::vector<Node *> >& VMsOnNode,
+                                    std::map<Node*, Assignment* >& vmAssignment,
+                                    std::map<Node*, std::vector<Node *> >::iterator curIt,
+                                    std::vector<VirtualMachine*>& vmsSetToAssign,
+                                    unsigned depth);
+
+    // Try to reassign the set of elements
+    bool tryToAssign(Element * element, Assignment* assignment,
+                      std::map<Node*, Assignment* >& vmAssignment,
+                      std::vector<VirtualMachine*>& vmsSetToAssign, Node* nodeToAssign);
+
 private:
     // Useful variables used during the algorithm
 
