@@ -541,7 +541,9 @@ void VirtualLinksAssigner::reassignAfterReplication(VirtualLink* virtualLink, St
 {
     // reassign element only if the path cost of the way to the replication is
     // more then the path cost of already assigned path
- 	 NetPath initialPath = assignment->GetAssignment(virtualLink);
+ 	NetPath initialPath = assignment->GetAssignment(virtualLink);
+    if ( initialPath.size() == 0 )
+        return; // no assigned yet
     RemoveVirtualLink(virtualLink, assignment);
     assignment->RemoveAssignment(virtualLink);
 
