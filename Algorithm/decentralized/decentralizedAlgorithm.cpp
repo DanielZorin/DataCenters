@@ -4,7 +4,7 @@
 #include "virtualLinksAssigner.h"
 #include "assignment.h"
 
-#include <stdio.h>
+#include <iostream>
 DecentralizedAlgorithm::~DecentralizedAlgorithm()
 {
     Assignments::iterator it = assignments.begin();
@@ -16,19 +16,19 @@ DecentralizedAlgorithm::~DecentralizedAlgorithm()
 
 Algorithm::Result DecentralizedAlgorithm::schedule()
 {
-    printf("There are %d requests\n", (int)requests.size());
+    std::cerr << "There are " << (int)requests.size() << " requests\n";
     VirtualMachinesAssigner virtualMachinesAssigner(network);
     Requests assignedRequests = virtualMachinesAssigner.PerformAssignment(requests);
-    printf("VMs parsed, assigned %d requests\n", (int)assignedRequests.size());
+    std::cerr << "VMs parsed, assigned " << (int)assignedRequests.size() << " requests\n" ;
 
     StoragesAssigner storagesAssigner(network);
     assignedRequests = storagesAssigner.PerformAssignment(assignedRequests);
-    printf("Storages parsed, assigned %d requests\n", (int)assignedRequests.size());
+    std::cerr << "Storages parsed, assigned " << (int)assignedRequests.size() << " requests\n";
 
     VirtualLinksAssigner virtualLinksAssigner(network, virtualMachinesAssigner.GetRequestAssignment(), 
         storagesAssigner.GetRequestAssignment());
     assignedRequests = virtualLinksAssigner.PerformAssignment(assignedRequests);
-    printf("finally: assigned %d requests\n", (int)assignedRequests.size());
+    std::cerr << "finally: assigned " << (int)assignedRequests.size() << " requests\n";
 
 
     // remove all assigned requests on previous steps

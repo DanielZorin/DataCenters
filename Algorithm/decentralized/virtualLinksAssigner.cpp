@@ -10,7 +10,7 @@
 #include <vector>
 #include <algorithm>
 #include <climits>
-#include <stdio.h>
+#include <iostream>
 
 VirtualLinksAssigner::~VirtualLinksAssigner()
 {
@@ -79,7 +79,7 @@ Requests VirtualLinksAssigner::PerformAssignment(Requests& requests)
 bool VirtualLinksAssigner::assignOneRequest(Request::VirtualLinks * virtualLinks,
                                             Assignment* reqAssignment, Request* req)
 {
-    printf("Parsing request\n");
+    std::cerr << "Parsing request\n";
     // form the vector from the set to have an ability to sort it
     std::vector<Link * > virtualLinksVec(virtualLinks->begin(), virtualLinks->end());
     std::sort(virtualLinksVec.begin(), virtualLinksVec.end(), virtualLinksCompare);
@@ -88,18 +88,18 @@ bool VirtualLinksAssigner::assignOneRequest(Request::VirtualLinks * virtualLinks
         // forming the link in physical resources from the virtual link
         Link link = getPhysicalLink(virtualLinksVec[index], req);
 
-        printf("   searching path\n");
+        std::cerr << "   searching path\n";
         bool result = assignOneVirtualLink(virtualLinksVec[index], &link, reqAssignment);
         if ( !result )
         {
-            printf("      fail! exhaustive search\n");
+            std::cerr << "      fail! exhaustive search\n";
             // trying limited exhaustive search
             result = limitedExhaustiveSearch(virtualLinksVec[index], reqAssignment, req);
         }
         
         if ( !result )
         {
-            printf("      fail! replication\n");
+            std::cerr << "      fail! replication\n";
             result = replicate(virtualLinksVec[index], reqAssignment, req);
         }
 
@@ -122,13 +122,13 @@ bool VirtualLinksAssigner::assignOneRequest(Request::VirtualLinks * virtualLinks
             }
             replicationsOfAssignment.erase(reqAssignment);
 
-            printf("   fail\n");
+            std::cerr << "   fail\n";
             // tell the upper layer to delete assignment
             return false;
         }
     }
 
-    printf("   success!\n");
+    std::cerr << "   success!\n";
     return true;
 }
 
@@ -226,7 +226,7 @@ bool VirtualLinksAssigner::limitedExhaustiveSearch(Element * element, Assignment
     getAllVirtualLinksAssignments(element, vlAssignment, vlRequest, assignment, req);
     for ( unsigned depth = 1; depth <= Criteria::exhaustiveSearchDepth(); ++depth )
     {
-        printf("            depth = %d\n", depth);
+        std::cerr << "            depth = " << depth << "\n";
         Links removedVirtualLinks; // used in the recursive algorithm, initiate as empty
         if ( recursiveExhaustiveSearch(static_cast<VirtualLink*>(element), assignment, vlAssignment,
                 vlRequest, vlAssignment.begin(), removedVirtualLinks, depth) )
