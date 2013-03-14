@@ -40,6 +40,9 @@ public:
             QString name = node.attribute("name");
             uint capacity = node.attribute("speed").toUInt();
             Node * anode = new Node(name.toStdString(), capacity, capacity);
+            uint ramCapacity = node.attribute("ramcapacity").toUInt();
+            anode->setRamCapacity(ramCapacity);
+            anode->setMaxRamCapacity(ramCapacity);
             addNode(uid, anode);
             nodeXMLCache[uid] = node;
         }

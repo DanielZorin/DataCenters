@@ -56,12 +56,12 @@ public:
     virtual void elementDestructionNotification(Element *) {}
 
 public:
-    inline bool isLink() { return type == LINK; }
-    inline bool isNode() { return type == NODE; }
-    inline bool isStore() { return type == STORE; }
-    inline bool isSwitch() { return type == SWITCH; }
-    inline bool isNetworking() { return isSwitch() || isLink(); }
-    inline bool isComputational() { return isNode() || isStore(); }
+    inline bool isLink() const { return type == LINK; }
+    inline bool isNode() const { return type == NODE; }
+    inline bool isStore() const { return type == STORE; }
+    inline bool isSwitch() const { return type == SWITCH; }
+    inline bool isNetworking() const { return isSwitch() || isLink(); }
+    inline bool isComputational() const { return isNode() || isStore(); }
 private:
     unsigned long capacity;
     unsigned long maxCapacity;

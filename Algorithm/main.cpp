@@ -1,7 +1,7 @@
 #include <iostream>
 using std::cerr;
 using std::endl;
-#include "mainwindow_moc.h"
+#include "mainwindow.h"
 
 int main(int argc, char ** argv)
 {
