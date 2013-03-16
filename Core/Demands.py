@@ -2,10 +2,11 @@ import random, xml.dom.minidom, math
 from Core.AbstractGraph import AbstractGraph, AbstractVertex
 
 class VM(AbstractVertex):
-    def __init__(self, id, speed):
+    def __init__(self, id, speed, ram):
         AbstractVertex.__init__(self, id)
         self.id = id
         self.speed = speed
+        self.ram = ram
         self.resource = None
 
 class DemandStorage(AbstractVertex):
@@ -49,7 +50,7 @@ class Demand(AbstractGraph):
         maxi = 40 * int(math.sqrt(params["vms"] + params["storages"]))
         maxx = 0
         for i in range(params["vms"]):
-            v = VM("vm_" + str(i), random.randint(params["vm_min"], params["vm_max"]))
+            v = VM("vm_" + str(i), random.randint(params["vm_min"], params["vm_max"]), random.randint(params["ram_min"], params["ram_max"]))
             v.x = x
             v.y = y
             self.AddVertex(v)
@@ -97,6 +98,7 @@ class Demand(AbstractGraph):
             if isinstance(v, VM):
                 tag = dom.createElement("vm")
                 tag.setAttribute("speed", str(v.speed))
+                tag.setAttribute("ramcapacity", str(v.ram))
             elif isinstance(v, DemandStorage):
                 tag = dom.createElement("storage")
                 tag.setAttribute("volume", str(v.volume))
@@ -168,7 +170,8 @@ class Demand(AbstractGraph):
             number = int(vertex.getAttribute("number"))
             if vertex.nodeName == "vm":
                 speed = int(vertex.getAttribute("speed"))
-                v = VM(name, speed)
+                ram = int(vertex.getAttribute("ramcapacity")) if vertex.hasAttribute("ramcapacity") else 0
+                v = VM(name, speed, ram)
             elif vertex.nodeName == "storage":
                 volume = int(vertex.getAttribute("volume"))
                 type = int(vertex.getAttribute("type"))

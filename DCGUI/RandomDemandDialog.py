@@ -12,6 +12,8 @@ class RandomDemandDialog(QDialog):
         return {"n":int(self.ui.n.text()), 
                 "vm_min":int(self.ui.t1.text()), 
                 "vm_max":int(self.ui.t2.text()), 
+                "ram_min":int(self.ui.r1.text()), 
+                "ram_max":int(self.ui.r2.text()), 
                 "st_min":int(self.ui.v1.text()), 
                 "st_max":int(self.ui.v2.text()),
                 "vms": int(self.ui.vms.text()),

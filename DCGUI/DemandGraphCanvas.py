@@ -14,15 +14,18 @@ class VMDialog(QDialog):
         self.ui.setupUi(self)
         self.valid = QIntValidator(0, 1000000, self)
         self.ui.speed.setValidator(self.valid)
+        self.ui.ram.setValidator(self.valid)
         self.setWindowTitle(self.tr("Edit VM")) #we use the same dialog for resources and demands
         
     def Load(self, v):
         self.ui.id.setText(v.id)
         self.ui.speed.setText(str(v.speed))
+        self.ui.ram.setText(str(v.ram))
         
     def SetResult(self, v):
         v.id = self.ui.id.text()
         v.speed = int(self.ui.speed.text())
+        v.ram = int(self.ui.ram.text())
 
 class DemandStorageDialog(QDialog):
     def __init__(self):
@@ -224,7 +227,7 @@ class DemandGraphCanvas(QWidget):
             return
         elif self.state == State.VM:
             rect = QtCore.QRect(e.x() - self.size / 2, e.y() - self.size / 2, self.size, self.size)
-            vm = VM("id", 0)
+            vm = VM("id", 0, 0)
             self.vertices[vm] = rect
             self.demand.AddVertex(vm)
             self.changed = True

@@ -15,14 +15,17 @@ class ComputerDialog(QDialog):
         self.ui.setupUi(self)
         self.valid = QIntValidator(0, 1000000, self)
         self.ui.speed.setValidator(self.valid)
+        self.ui.ram.setValidator(self.valid)
         
     def Load(self, v):
         self.ui.id.setText(v.id)
         self.ui.speed.setText(str(v.speed))
+        self.ui.ram.setText(str(v.ram))
         
     def SetResult(self, v):
         v.id = self.ui.id.text()
         v.speed = int(self.ui.speed.text())
+        v.ram = int(self.ui.ram.text())
 
 class StorageDialog(QDialog):
     def __init__(self):
@@ -237,7 +240,7 @@ class ResourcesGraphCanvas(QWidget):
             return
         elif self.state == State.Computer:
             rect = QtCore.QRect(e.x() - self.size / 2, e.y() - self.size / 2, self.size, self.size)
-            computer = Computer("id", 0)
+            computer = Computer("id", 0, 0)
             self.vertices[computer] = rect
             self.resources.AddVertex(computer)
             self.changed = True

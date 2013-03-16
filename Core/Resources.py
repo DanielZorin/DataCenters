@@ -28,10 +28,12 @@ class Computer(AbstractVertex):
 
     :param id: name
     :param speed: computer performance
+    :param ram: RAM capacity
     '''
-    def __init__(self, id, speed):
+    def __init__(self, id, speed, ram):
         AbstractVertex.__init__(self, id)
         self.speed = speed
+        self.ram = ram
         self.intervals = {}
 
     def getUsedSpeedPercent(self, t):
@@ -97,6 +99,7 @@ class ResourceGraph(AbstractGraph):
             if isinstance(v, Computer):
                 tag = dom.createElement("computer")
                 tag.setAttribute("speed", str(v.speed))
+                tag.setAttribute("ramcapacity", str(v.ram))
             elif isinstance(v, Storage):
                 tag = dom.createElement("storage")
                 tag.setAttribute("volume", str(v.volume))
@@ -144,7 +147,8 @@ class ResourceGraph(AbstractGraph):
             number = int(vertex.getAttribute("number"))
             if vertex.nodeName == "computer":
                 speed = int(vertex.getAttribute("speed"))
-                v = Computer(name, speed)
+                ram = int(vertex.getAttribute("ramcapacity")) if vertex.hasAttribute("ramcapacity") else 0
+                v = Computer(name, speed, ram)
             elif vertex.nodeName == "storage":
                 volume = int(vertex.getAttribute("volume"))
                 type = int(vertex.getAttribute("type"))
@@ -527,7 +531,7 @@ class ResourceGraph(AbstractGraph):
                         channel2 = Link(child1,child2,params["channelsBandwidth1"])
                         self.AddLink(channel2)
                     for l in range(params["computersNum"]):
-                        computer = Computer("computer"+str(num3),params["performance"])
+                        computer = Computer("computer"+str(num3), params["performance"], params["ram"])
                         computer.x = 15 + 0.5*leafwidth + num3*leafwidth
                         computer.y = 15 + 6*leafwidth
                         self.AddVertex(computer)
@@ -580,7 +584,7 @@ class ResourceGraph(AbstractGraph):
                     channel1 = Link(child1,r,params["channelsBandwidth1"])
                     self.AddLink(channel1)
                 for l in range(params["computersNum"]):
-                    computer = Computer("computer"+str(num2),params["performance"])
+                    computer = Computer("computer"+str(num2), params["performance"], params["ram"])
                     computer.x = 15 + 0.5*leafwidth + num2*leafwidth
                     computer.y = 15 + 4*leafwidth
                     self.AddVertex(computer)
@@ -645,7 +649,7 @@ class ResourceGraph(AbstractGraph):
                     channel2 = Link(child1,child2,params["channelsBandwidth1"])
                     self.AddLink(channel2)
                 for l in range(params["computersNum"]):
-                    computer = Computer("computer"+str(num3),params["performance"])
+                    computer = Computer("computer"+str(num3), params["performance"], params["ram"])
                     computer.x = 15 + 0.5*leafwidth + num3*leafwidth
                     computer.y = 15 + 6*leafwidth
                     self.AddVertex(computer)

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>377</width>
-    <height>405</height>
+    <height>457</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -100,6 +100,20 @@ QLabel, QSlider {
               </property>
               <property name="text">
                <string>Maximal performance</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_14">
+              <property name="text">
+               <string>Minimal RAM capacity</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_15">
+              <property name="text">
+               <string>Maximal RAM capacity</string>
               </property>
              </widget>
             </item>
@@ -210,6 +224,20 @@ QLabel, QSlider {
              <widget class="QLineEdit" name="t2">
               <property name="text">
                <string>15</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="r1">
+              <property name="text">
+               <string>1</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="r2">
+              <property name="text">
+               <string>5</string>
               </property>
              </widget>
             </item>

@@ -9,7 +9,7 @@ except AttributeError:
 class Ui_ComputerDialog(object):
     def setupUi(self, ComputerDialog):
         ComputerDialog.setObjectName(_fromUtf8("ComputerDialog"))
-        ComputerDialog.resize(178, 139)
+        ComputerDialog.resize(184, 184)
         ComputerDialog.setStyleSheet(_fromUtf8("QWidget, QMenuBar::item, QHeaderView::section {\n"
 "    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
 "                                      stop: 0 #c5d8ef, stop: 1 #89a5c3);\n"
@@ -56,6 +56,12 @@ class Ui_ComputerDialog(object):
         self.speed.setObjectName(_fromUtf8("speed"))
         self.horizontalLayout_3.addWidget(self.speed)
         self.verticalLayout.addLayout(self.horizontalLayout_3)
+        self.label = QtGui.QLabel(ComputerDialog)
+        self.label.setObjectName(_fromUtf8("label"))
+        self.verticalLayout.addWidget(self.label)
+        self.ram = QtGui.QLineEdit(ComputerDialog)
+        self.ram.setObjectName(_fromUtf8("ram"))
+        self.verticalLayout.addWidget(self.ram)
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
         self.OK = QtGui.QPushButton(ComputerDialog)
@@ -76,6 +82,7 @@ class Ui_ComputerDialog(object):
         ComputerDialog.setWindowTitle(QtGui.QApplication.translate("ComputerDialog", "Edit Computational Node", None, QtGui.QApplication.UnicodeUTF8))
         self.namelabel.setText(QtGui.QApplication.translate("ComputerDialog", "Name:", None, QtGui.QApplication.UnicodeUTF8))
         self.timelabel.setText(QtGui.QApplication.translate("ComputerDialog", "Performance:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setText(QtGui.QApplication.translate("ComputerDialog", "RAM capacity:", None, QtGui.QApplication.UnicodeUTF8))
         self.OK.setText(QtGui.QApplication.translate("ComputerDialog", "OK", None, QtGui.QApplication.UnicodeUTF8))
         self.Cancel.setText(QtGui.QApplication.translate("ComputerDialog", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
 

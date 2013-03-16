@@ -38,6 +38,7 @@ class TreeDialog(QDialog):
                 "computersNum":self.ui.computersNum.value(),
                 "storagesNum":self.ui.storagesNum.value(),
                 "performance":self.ui.performance.value(),
+                "ram":self.ui.ram.value(),
                 "numTypes":self.ui.numTypes.value(),
                 "capacity":self.ui.capacity.value(),
                 "routersNum1":self.ui.routersNum1.value(),

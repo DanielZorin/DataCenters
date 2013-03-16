@@ -735,6 +735,13 @@ QLabel, QSlider {
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QLabel" name="label_18">
+             <property name="text">
+              <string>Computer RAM capacity:</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
          <item>
@@ -769,22 +776,19 @@ QLabel, QSlider {
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QSpinBox" name="ram">
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="maximum">
+              <number>99999</number>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
         </layout>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>18</height>
-          </size>
-         </property>
-        </spacer>
        </item>
       </layout>
      </item>

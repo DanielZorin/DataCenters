@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>178</width>
-    <height>139</height>
+    <width>184</width>
+    <height>184</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -85,6 +85,16 @@ QLabel, QSlider {
         </widget>
        </item>
       </layout>
+     </item>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>RAM capacity:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="ram"/>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
