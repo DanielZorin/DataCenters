@@ -4,7 +4,7 @@ from DCGUI.Windows.ui_TestsWindow import Ui_TestsWindow
 from DCGUI.Project import Project
 from Core.Demands import DemandStorage, VM
 from Core.Resources import Computer, Storage, Router
-import os
+import os, sys
 
 class TestsWindow(QMainWindow):
     settings = {"axis": QColor(0, 0, 0),
@@ -42,8 +42,12 @@ class TestsWindow(QMainWindow):
             alg = "c"
         else:
             alg = "d"
+        if sys.platform.startswith("win"):
+            name = "Algolib.exe"
+        else:
+            name = "./Algolib"
         for p in self.projects.values():
-            os.system("Algorithm\\main.exe " + os.path.relpath(p) + " " + os.path.relpath(p) + " " + alg)
+            os.system(name + " \"" + os.path.relpath(p) + "\" \"" + os.path.relpath(p) + "\" " + alg)
         self.changed = True
 
     def ChangeTab(self):
