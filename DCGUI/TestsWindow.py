@@ -66,11 +66,12 @@ class TestsWindow(QMainWindow):
             p = Project()
             p.Load(name,light=True)
             self.stats[name]["assigned"] = 0
-            replicas = 0
             requiredspeed = 0
             requiredvolume = 0
+            requiredram = 0
             totalspeed = 0
             totalvolume = 0
+            totalram = 0
             for d in p.demands:
                 if d.assigned:
                     self.stats[name]["assigned"] += 1
@@ -80,12 +81,14 @@ class TestsWindow(QMainWindow):
                         requiredvolume += v.volume
                     elif isinstance(v, VM):
                         requiredspeed += v.speed
+                        requiredram += v.ram
             for v in p.resources.vertices:
                 if isinstance(v, Storage):
                     totalvolume += v.volume
                 elif isinstance(v, Computer):
                     totalspeed += v.speed
             self.stats[name]["computersload"] = float(requiredspeed)/totalspeed
+            self.stats[name]["ramload"] = float(requiredram)/totalram
             self.stats[name]["storesload"] = float(requiredvolume)/totalvolume
 
     def Paint(self):
@@ -96,10 +99,14 @@ class TestsWindow(QMainWindow):
         h = []
         projects = []
         if hor == 0:
-            projects = sorted(self.stats.values(),key=lambda x: 0.5*(x["computersload"]+x["storesload"]))
+            projects = sorted(self.stats.values(),key=lambda x: 1.0 / 3.0 * (x["computersload"] + x["storesload"] + x["ramload"]))
         elif hor == 1:
-            projects = sorted(self.stats.values(),key=lambda x: x["computersload"])
+            projects = sorted(self.stats.values(),key=lambda x: 0.5*(x["computersload"]+x["ramload"]))
         elif hor == 2:
+            projects = sorted(self.stats.values(),key=lambda x: x["computersload"])
+        elif hor == 3:
+            projects = sorted(self.stats.values(),key=lambda x: x["ramload"])
+        elif hor == 4:
             projects = sorted(self.stats.values(),key=lambda x: x["storesload"])
         if projects == []:
             return
@@ -109,10 +116,14 @@ class TestsWindow(QMainWindow):
             elif vert == 1:
                 v.append(proj["replicas"])
             if hor == 0:
-                h.append(0.5*(proj["computersload"]+proj["storesload"]))
+                h.append(1.0 / 3.0 * (proj["computersload"] + proj["storesload"] + proj["ramload"]))
             elif hor == 1:
-                h.append(proj["computersload"])
+                h.append(0.5 * (proj["computersload"] + proj["ramload"]))
             elif hor == 2:
+                h.append(proj["computersload"])
+            elif hor == 3:
+                h.append(proj["ramload"])
+            elif hor == 4:
                 h.append(proj["storesload"])
 
         maxnum = max(max(v), 1)

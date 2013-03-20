@@ -3,7 +3,7 @@ from Core.Resources import Computer, Storage, Router, Link
 from Core.Demands import VM
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import QPointF, QRect, QString, pyqtSignal
-from PyQt4.QtGui import QImage, QWidget, QPainter, QPainterPath, QColor, QCursor, QDialog, QIntValidator, QTableWidgetItem
+from PyQt4.QtGui import QImage, QWidget, QPainter, QPainterPath, QColor, QCursor, QDialog, QIntValidator, QTableWidgetItem, QFont
     
 class VisCanvas(QWidget):
     resources = None
@@ -49,6 +49,9 @@ class VisCanvas(QWidget):
         if not self.resources:
             return
         paint = QPainter(self)
+        font = QFont()
+        font.setPointSize(7)
+        paint.setFont(font)
         for e in self.resources.edges:
                 if e == self.selectedEdge:
                     paint.setPen(self.settings["selected"])
@@ -73,6 +76,7 @@ class VisCanvas(QWidget):
                 if self.settings["computer"]:
                     paint.setPen(self.settings["text"])
                     paint.drawText(self.vertices[v].x(), self.vertices[v].y()+self.size/2, str(int(v.getUsedSpeedPercent(self.time)))+"%")
+                    paint.drawText(self.vertices[v].x(), self.vertices[v].y()+self.size/2+10, str(int(v.getUsedRamPercent(self.time)))+"%")
             elif isinstance(v,Storage):
                 if self.selectedVertex != self.vertices[v]:
                     paint.drawImage(self.vertices[v], self.storageicon)

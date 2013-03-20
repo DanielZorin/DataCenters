@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>465</width>
+    <width>521</width>
     <height>359</height>
    </rect>
   </property>
@@ -38,7 +38,7 @@ QLabel, QSlider {
        <bool>true</bool>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -229,7 +229,17 @@ QLabel, QSlider {
                 </item>
                 <item>
                  <property name="text">
-                  <string>Computational nodes load</string>
+                  <string>Computational nodes load (CPU and RAM)</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>CPU load</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>RAM load</string>
                  </property>
                 </item>
                 <item>

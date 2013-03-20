@@ -57,6 +57,11 @@ QLabel, QSlider {
           <string>Cumulative Used Bandwidth</string>
          </property>
         </item>
+        <item>
+         <property name="text">
+          <string>Cumulative Used RAM Capacity</string>
+         </property>
+        </item>
        </widget>
       </item>
       <item>

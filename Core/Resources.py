@@ -4,8 +4,28 @@ from Core.Demands import DemandStorage, VM
 
 class State:
     def __init__(self):
-        self.usedResource = 0
         self.demands = {}
+
+class ComputerState(State):
+    def __init__(self):
+        State.__init__(self)
+        self.usedSpeed = 0
+        self.usedRam = 0
+
+class StorageState(State):
+    def __init__(self):
+        State.__init__(self)
+        self.usedVolume = 0
+
+class RouterState(State):
+    def __init__(self):
+        State.__init__(self)
+        self.usedCapacity = 0
+
+class LinkState(State):
+    def __init__(self):
+        State.__init__(self)
+        self.usedCapacity = 0
 
 class Storage(AbstractVertex):
     ''' Storage element
@@ -21,7 +41,7 @@ class Storage(AbstractVertex):
         self.intervals = {}
 
     def getUsedVolumePercent(self, t):
-        return 0 if self.volume == 0 or not t in self.intervals else self.intervals[t].usedResource*100.0/self.volume
+        return 0 if self.volume == 0 or not t in self.intervals else self.intervals[t].usedVolume * 100.0 / self.volume
 
 class Computer(AbstractVertex):
     ''' Computer element
@@ -37,7 +57,10 @@ class Computer(AbstractVertex):
         self.intervals = {}
 
     def getUsedSpeedPercent(self, t):
-        return 0 if self.speed == 0 or not t in self.intervals else self.intervals[t].usedResource*100.0/self.speed
+        return 0 if self.speed == 0 or not t in self.intervals else self.intervals[t].usedSpeed * 100.0 / self.speed
+
+    def getUsedRamPercent(self, t):
+        return 0 if self.ram == 0 or not t in self.intervals else self.intervals[t].usedRam * 100.0 / self.ram
 
 class Router(AbstractVertex):
     ''' Router/switch element
@@ -51,7 +74,7 @@ class Router(AbstractVertex):
         self.intervals = {}
 
     def getUsedCapacityPercent(self, t):
-        return 0 if self.capacity == 0 or not t in self.intervals else self.intervals[t].usedResource*100.0/self.capacity
+        return 0 if self.capacity == 0 or not t in self.intervals else self.intervals[t].usedCapacity * 100.0 / self.capacity
 
 class Link:
     ''' Channe;
@@ -67,7 +90,7 @@ class Link:
         self.intervals = {}
 
     def getUsedCapacityPercent(self,t):
-        return 0 if self.capacity == 0 or not t in self.intervals else self.intervals[t].usedResource*100.0/self.capacity
+        return 0 if self.capacity == 0 or not t in self.intervals else self.intervals[t].usedCapacity * 100.0 / self.capacity
 
 class ResourceGraph(AbstractGraph):
     ''' Graph of physical resources
@@ -100,17 +123,20 @@ class ResourceGraph(AbstractGraph):
                 tag = dom.createElement("computer")
                 tag.setAttribute("speed", str(v.speed))
                 tag.setAttribute("ramcapacity", str(v.ram))
+                tag.setAttribute("used", str(v.intervals[r].usedSpeed) if r != None else "0")
+                tag.setAttribute("usedram", str(v.intervals[r].usedRam) if r != None else "0")
             elif isinstance(v, Storage):
                 tag = dom.createElement("storage")
                 tag.setAttribute("volume", str(v.volume))
+                tag.setAttribute("used", str(v.intervals[r].usedVolume) if r != None else "0")
                 tag.setAttribute("type", str(v.type))
             elif isinstance(v, Router):
                 tag = dom.createElement("router")
                 tag.setAttribute("capacity", str(v.capacity))
+                tag.setAttribute("used", str(v.intervals[r].usedCapacity) if r != None else "0")
             if v.x:
                 tag.setAttribute("x", str(v.x))
                 tag.setAttribute("y", str(v.y))
-            tag.setAttribute("used", str(v.intervals[r].usedResource) if r != None else "0")
             tag.setAttribute("number", str(v.number))
             tag.setAttribute("name", str(v.id))
             root.appendChild(tag)
@@ -119,7 +145,7 @@ class ResourceGraph(AbstractGraph):
             tag.setAttribute("from", str(v.e1.number))
             tag.setAttribute("to", str(v.e2.number))
             tag.setAttribute("capacity", str(v.capacity))
-            tag.setAttribute("used", str(v.intervals[r].usedResource) if r != None else "0")
+            tag.setAttribute("used", str(v.intervals[r].usedCapacity) if r != None else "0")
             root.appendChild(tag)
         return root
 
@@ -221,9 +247,10 @@ class ResourceGraph(AbstractGraph):
     def GetAvailableVertices(self,v,time):
         availableVertices = set([])
         for v1 in self.vertices:
-            if isinstance(v, VM) and isinstance(v1, Computer) and (v.speed <= v1.speed - v1.intervals[time].usedResource):
+            if (isinstance(v, VM) and isinstance(v1, Computer)
+                and (v.speed <= v1.speed - v1.intervals[time].usedResource) and (v.ram <= v1.ram - v1.intervals[time].usedRam)):
                 availableVertices.add(v1)
-            if isinstance(v, DemandStorage) and isinstance(v1, Storage) and (v.type == v1.type) and (v.volume <= v1.volume - v1.intervals[time].usedResource):
+            if isinstance(v, DemandStorage) and isinstance(v1, Storage) and (v.type == v1.type) and (v.volume <= v1.volume - v1.intervals[time].usedVolume):
                 availableVertices.add(v1)
         return availableVertices
 
@@ -241,11 +268,11 @@ class ResourceGraph(AbstractGraph):
     def checkPath(self, path, link, time):
         for elem in path[1:len(path)-1]:
             if isinstance(elem, Router):
-                if (link.capacity > elem.capacity - elem.intervals[time].usedResource):
+                if link.capacity > elem.capacity - elem.intervals[time].usedCapacity:
                     return False
             else:
                 e = self.FindEdge(elem.e1, elem.e2)
-                if (link.capacity > e.capacity - e.intervals[time].usedResource):
+                if link.capacity > e.capacity - e.intervals[time].usedCapacity:
                     return False
         return True
 
@@ -262,9 +289,10 @@ class ResourceGraph(AbstractGraph):
             return
         for time in self.GetRanges(demand):
             if isinstance(v,VM):
-                v.resource.intervals[time].usedResource -= v.speed
+                v.resource.intervals[time].usedSpeed -= v.speed
+                v.resource.intervals[time].usedRam -= v.ram
             elif isinstance(v,DemandStorage):
-                v.resource.intervals[time].usedResource -= v.volume
+                v.resource.intervals[time].usedVolume -= v.volume
             v.resource.intervals[time].demands[demand.id].remove(v.number)
             if v.resource.intervals[time].demands[demand.id]==[]:
                 del v.resource.intervals[time].demands[demand.id]
@@ -277,13 +305,13 @@ class ResourceGraph(AbstractGraph):
         for elem in path[1:len(path)-1]:
             for time in self.GetRanges(demand):
                 if isinstance(elem, Router):
-                    elem.intervals[time].usedResource -= link.capacity
+                    elem.intervals[time].usedCapacity -= link.capacity
                     elem.intervals[time].demands[demand.id].remove((link.e1.number,link.e2.number))
                     if elem.intervals[time].demands[demand.id]==[]:
                         del elem.intervals[time].demands[demand.id]
                 else:
                     e = self.FindEdge(elem.e1, elem.e2)
-                    e.intervals[time].usedResource -= link.capacity
+                    e.intervals[time].usedCapacity -= link.capacity
                     e.intervals[time].demands[demand.id].remove((link.e1.number,link.e2.number))
                     if e.intervals[time].demands[demand.id]==[]:
                         del e.intervals[time].demands[demand.id]
@@ -312,26 +340,27 @@ class ResourceGraph(AbstractGraph):
             vresource.intervals[time].demands[demand.id] = []
         vresource.intervals[time].demands[demand.id].append(vdemand.number)
         if isinstance(vdemand, VM):
-            vresource.intervals[time].usedResource += vdemand.speed
+            vresource.intervals[time].usedSpeed += vdemand.speed
+            vresource.intervals[time].usedRam += vdemand.ram
         elif isinstance(vdemand, DemandStorage):
-            vresource.intervals[time].usedResource += vdemand.volume
+            vresource.intervals[time].usedVolume += vdemand.volume
 
     def AssignReplica(self, demand, replica, time):
-        replica.assignedto.intervals[time].usedResource += replica.replica.volume
+        replica.assignedto.intervals[time].usedVolume += replica.replica.volume
 
     def DropReplica(self, demand, replica):
         if replica.assignedto == None:
             return
         for time in self.GetRanges(demand):
-            replica.assignedto.intervals[time].usedResource -= replica.replica.volume
+            replica.assignedto.intervals[time].usedVolume -= replica.replica.volume
 
     def AssignReplicaLink(self, demand, link, path, time):
         for elem in path[1:len(path)-1]:
             if isinstance(elem, Router):
-                elem.intervals[time].usedResource += link.capacity
+                elem.intervals[time].usedCapacity += link.capacity
             else:
                 e = self.FindEdge(elem.e1, elem.e2)
-                e.intervals[time].usedResource += link.capacity
+                e.intervals[time].usedCapacity += link.capacity
 
     def DropReplicaLink(self,demand,link):
         if link.path == []:
@@ -340,10 +369,10 @@ class ResourceGraph(AbstractGraph):
         for elem in path[1:len(path)-1]:
             for time in self.GetRanges(demand):
                 if isinstance(elem, Router):
-                    elem.intervals[time].usedResource -= link.capacity    
+                    elem.intervals[time].usedCapacity -= link.capacity
                 else:
                     e = self.FindEdge(elem.e1, elem.e2)
-                    e.intervals[time].usedResource -= link.capacity
+                    e.intervals[time].usedCapacity -= link.capacity
         link.path = []
 
     def AssignLink(self, demand, link, path, time):
@@ -351,37 +380,51 @@ class ResourceGraph(AbstractGraph):
         self.assignedDemands.add(demand)
         for elem in path[1:len(path)-1]:
             if isinstance(elem, Router):
-                elem.intervals[time].usedResource += link.capacity
+                elem.intervals[time].usedCapacity += link.capacity
                 if not elem.intervals[time].demands.has_key(demand.id):
                     elem.intervals[time].demands[demand.id] = []
                 elem.intervals[time].demands[demand.id].append((link.e1.number, link.e2.number))
             else:
                 e = self.FindEdge(elem.e1, elem.e2)
-                e.intervals[time].usedResource += link.capacity
+                e.intervals[time].usedCapacity += link.capacity
                 if not e.intervals[time].demands.has_key(demand.id):
                     e.intervals[time].demands[demand.id] = []
                 e.intervals[time].demands[demand.id].append((link.e1.number, link.e2.number))
 
-    def AddTimePoint(self, intervals, point):
+    def AddTimePoint(self, r, point):
         points = []
-        for k in intervals.keys():
+        for k in r.intervals.keys():
             points.extend([k[0],k[1]])
         points = list(set(points))
         points.sort()        
         if points.count(point) != 0:
             return
         if point > max(points):
-            intervals[(max(points),point)] = State()
+            if isinstance(r, Computer):
+                r.intervals[(max(points),point)] = ComputerState()
+            elif isinstance(r, Storage):
+                r.intervals[(max(points),point)] = StorageState()
+            elif isinstance(r, Router):
+                r.intervals[(max(points),point)] = RouterState()
+            elif isinstance(r, Link):
+                r.intervals[(max(points),point)] = LinkState()
             return
         if point < min(points):
-            intervals[(point,min(points))] = State()
+            if isinstance(r, Computer):
+                r.intervals[(point,min(points))] = ComputerState()
+            elif isinstance(r, Storage):
+                r.intervals[(point,min(points))] = StorageState()
+            elif isinstance(r, Router):
+                r.intervals[(point,min(points))] = RouterState()
+            elif isinstance(r, Link):
+                r.intervals[(point,min(points))] = LinkState()
             return
         i = 1
         while points[i] < point:
             i+=1
-        intervals[(points[i-1],point)] = copy.deepcopy(intervals[(points[i-1],points[i])])
-        intervals[(point,points[i])] = copy.deepcopy(intervals[(points[i-1],points[i])])
-        del intervals[(points[i-1],points[i])]
+        r.intervals[(points[i-1],point)] = copy.deepcopy(r.intervals[(points[i-1],points[i])])
+        r.intervals[(point,points[i])] = copy.deepcopy(r.intervals[(points[i-1],points[i])])
+        del r.intervals[(points[i-1],points[i])]
 
     def GetCurrentTimePoints(self):
         l = set([])
@@ -418,29 +461,34 @@ class ResourceGraph(AbstractGraph):
     def PrepareIntervals(self, demand):
         for v in self.vertices:
             if v.intervals == {}:
-                v.intervals[(demand.startTime,demand.endTime)] = State()
+                if isinstance(v, Computer):
+                    v.intervals[(demand.startTime,demand.endTime)] = ComputerState()
+                elif isinstance(v, Storage):
+                    v.intervals[(demand.startTime,demand.endTime)] = StorageState()
+                elif isinstance(v, Router):
+                    v.intervals[(demand.startTime,demand.endTime)] = RouterState()
             else:
-                self.AddTimePoint(v.intervals, demand.startTime)
-                self.AddTimePoint(v.intervals, demand.endTime)
+                self.AddTimePoint(v, demand.startTime)
+                self.AddTimePoint(v, demand.endTime)
         for e in self.edges:
             if e.intervals == {}:
-                e.intervals[(demand.startTime,demand.endTime)] = State()
+                e.intervals[(demand.startTime,demand.endTime)] = LinkState()
             else:
-                self.AddTimePoint(e.intervals, demand.startTime)
-                self.AddTimePoint(e.intervals, demand.endTime)
+                self.AddTimePoint(e, demand.startTime)
+                self.AddTimePoint(e, demand.endTime)
 
     def LoadAssignedDemand(self, demand):
         self.PrepareIntervals(demand)
         ranges = self.GetRanges(demand)
         for time in ranges:
             for v in demand.vertices:
-                self.AssignVertex(demand,v,v.resource,time)
+                self.AssignVertex(demand, v, v.resource, time)
             for e in demand.edges:
                 if e.e1.resource == e.e2.resource:
                     continue
                 self.AssignLink(demand, e, e.path, time)
             for r in demand.replications:
-                self.AssignReplica(demand,replica,time)
+                self.AssignReplica(demand, r, time)
             for rl in demand.replicalinks:
                 self.AssignReplicaLink(demand, rl, rl.path, time)
 
@@ -458,11 +506,16 @@ class ResourceGraph(AbstractGraph):
         for v in self.vertices:
             v.intervals = {}
             for r in ranges:
-                v.intervals[r] = State()
+                if isinstance(v, Computer):
+                    v.intervals[r] = ComputerState()
+                elif isinstance(v, Storage):
+                    v.intervals[r] = StorageState()
+                elif isinstance(v, Router):
+                    v.intervals[r] = RouterState()
         for e in self.edges:
             e.intervals = {}
             for r in ranges:
-                e.intervals[r] = State()
+                e.intervals[r] = LinkState()
         for demand in demands:
             if demand.assigned:
                 r = self.GetRanges(demand)

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>721</width>
-    <height>513</height>
+    <width>746</width>
+    <height>582</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -226,7 +226,7 @@ QLabel, QSlider {
            <item>
             <widget class="QLabel" name="label">
              <property name="text">
-              <string>Average computational nodes load</string>
+              <string>Average computational nodes CPU load</string>
              </property>
             </widget>
            </item>
@@ -240,12 +240,40 @@ QLabel, QSlider {
            <item>
             <widget class="QLabel" name="label_3">
              <property name="text">
-              <string>Maximal computational nodes load</string>
+              <string>Maximal computational nodes CPU load</string>
              </property>
             </widget>
            </item>
            <item>
             <widget class="QLabel" name="vmmax">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_8">
+             <property name="text">
+              <string>Average computational nodes RAM load</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="ramavg">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_10">
+             <property name="text">
+              <string>Maximal computational nodes RAM load</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="rammax">
              <property name="text">
               <string>0</string>
              </property>
@@ -349,7 +377,7 @@ QLabel, QSlider {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>721</width>
+     <width>746</width>
      <height>21</height>
     </rect>
    </property>
