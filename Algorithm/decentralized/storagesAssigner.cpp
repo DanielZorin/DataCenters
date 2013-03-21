@@ -189,32 +189,35 @@ bool StoragesAssigner::recursiveExhaustiveSearch(Element * element, Assignment* 
         std::vector<Store *>::iterator it = curIt->second.begin();
         std::vector<Store *>::iterator itEnd = curIt->second.end();
 
-        std::vector<Storage*>vec = stsSetToAssign;
-        for ( ; it != itEnd; ++it )
+        if ( it != itEnd )
         {
-            vec.push_back(*it);
-            stAssignment[*it]->RemoveAssignment(*it);
-            curIt->first->RemoveAssignment(*it);
-        }
+            std::vector<Storage*>vec = stsSetToAssign;
+            for ( ; it != itEnd; ++it )
+            {
+                vec.push_back(*it);
+                stAssignment[*it]->RemoveAssignment(*it);
+                curIt->first->RemoveAssignment(*it);
+            }
 
-        if ( depth == 1 )
-        {
-            if ( tryToAssign(element, assignment, stAssignment, vec, curIt->first) )
-                return true;
-        } else {
-            std::map<Store*, std::vector<Store *> >::iterator nextIt = curIt;
-            ++nextIt;
-            if ( recursiveExhaustiveSearch(element, assignment, STsOnNode, stAssignment, nextIt, 
-                    vec, depth - 1) )
-                return true;
-        }
+            if ( depth == 1 )
+            {
+                if ( tryToAssign(element, assignment, stAssignment, vec, curIt->first) )
+                    return true;
+            } else {
+                std::map<Store*, std::vector<Store *> >::iterator nextIt = curIt;
+                ++nextIt;
+                if ( recursiveExhaustiveSearch(element, assignment, STsOnNode, stAssignment, nextIt, 
+                        vec, depth - 1) )
+                    return true;
+            }
 
-        // assign again
-        it = curIt->second.begin();
-        for ( ; it != itEnd; ++it )
-        {
-            stAssignment[*it]->AddAssignment(*it, curIt->first);
-            curIt->first->assign(*(*it));
+            // assign again
+            it = curIt->second.begin();
+            for ( ; it != itEnd; ++it )
+            {
+                stAssignment[*it]->AddAssignment(*it, curIt->first);
+                curIt->first->assign(*(*it));
+            }
         }
     }
     return false;

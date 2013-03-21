@@ -109,7 +109,7 @@ bool VirtualMachinesAssigner::assignOneVirtualMachine(Node * virtualMachine, Ass
 
     for ( unsigned index = 0; index < nodes.size(); ++index )
     {
-        if ( nodes[index]->getCapacity() >= virtualMachine->getCapacity() )
+        if ( nodes[index]->isAssignmentPossible(*virtualMachine) )
         {
             nodes[index]->assign(*virtualMachine);
             reqAssignment->AddAssignment(virtualMachine, nodes[index]);
@@ -163,32 +163,35 @@ bool VirtualMachinesAssigner::recursiveExhaustiveSearch(Element * element, Assig
         std::vector<Node *>::iterator it = curIt->second.begin();
         std::vector<Node *>::iterator itEnd = curIt->second.end();
 
-        std::vector<VirtualMachine*>vec = vmsSetToAssign;
-        for ( ; it != itEnd; ++it )
+        if ( it != itEnd )
         {
-            vec.push_back(*it);
-            vmAssignment[*it]->RemoveAssignment(*it);
-            curIt->first->RemoveAssignment(*it);
-        }
+            std::vector<VirtualMachine*>vec = vmsSetToAssign;
+            for ( ; it != itEnd; ++it )
+            {
+                vec.push_back(*it);
+                vmAssignment[*it]->RemoveAssignment(*it);
+                curIt->first->RemoveAssignment(*it);
+            }
 
-        if ( depth == 1 )
-        {
-            if ( tryToAssign(element, assignment, vmAssignment, vec, curIt->first) )
-                return true;
-        } else {
-            std::map<Node*, std::vector<Node *> >::iterator nextIt = curIt;
-            ++nextIt;
-            if ( recursiveExhaustiveSearch(element, assignment, VMsOnNode, vmAssignment, nextIt, 
-                    vec, depth - 1) )
-                return true;
-        }
+            if ( depth == 1 )
+            {
+                if ( tryToAssign(element, assignment, vmAssignment, vec, curIt->first) )
+                    return true;
+            } else {
+                std::map<Node*, std::vector<Node *> >::iterator nextIt = curIt;
+                ++nextIt;
+                if ( recursiveExhaustiveSearch(element, assignment, VMsOnNode, vmAssignment, nextIt, 
+                        vec, depth - 1) )
+                    return true;
+            }
 
-        // assign again
-        it = curIt->second.begin();
-        for ( ; it != itEnd; ++it )
-        {
-            vmAssignment[*it]->AddAssignment(*it, curIt->first);
-            curIt->first->assign(*(*it));
+            // assign again
+            it = curIt->second.begin();
+            for ( ; it != itEnd; ++it )
+            {
+                vmAssignment[*it]->AddAssignment(*it, curIt->first);
+                curIt->first->assign(*(*it));
+            }
         }
     }
     return false;
