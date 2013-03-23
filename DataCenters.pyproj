@@ -56,6 +56,7 @@
     <Compile Include="ExeBuild.py" />
     <Compile Include="Methods\RandomMethod.py" />
     <Compile Include="Methods\__init__.py" />
+    <Compile Include="plugins\TCGenerator.py" />
     <Compile Include="plugins\IdealGenerator.py" />
     <Compile Include="plugins\__init__.py" />
   </ItemGroup>

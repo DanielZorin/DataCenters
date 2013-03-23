@@ -2,9 +2,10 @@ import random
 from Core.Resources import ResourceGraph, Computer, Storage, Router
 from Core.Demands import *
 
-class IdealGenerator:
+class TCGenerator:
     storagePercent = 50
     compPercent = 50
+    netPercent = 50
     number = 10
 
     def __init__(self):
@@ -12,7 +13,7 @@ class IdealGenerator:
 
     @staticmethod
     def GetName():
-        return "Loosely coupled"
+        return "Tightly coupled"
 
     def Generate(self, resources):
         medianStorage = self.storagePercent / self.number
@@ -71,7 +72,8 @@ class IdealGenerator:
                 return [
                 [self.tr("Request count"), self.parent.number],
                 [self.tr("Storage"), self.parent.storagePercent],
-                [self.tr("Computers"), self.parent.compPercent]
+                [self.tr("Computers"), self.parent.compPercent],
+                [self.tr("Network"), self.parent.netPercent]
                         ]
         t = Translator(self)
         return t.getTranslatedSettings()
@@ -81,6 +83,7 @@ class IdealGenerator:
         self.number = dict[0][1]
         self.storagePercent = dict[1][1]
         self.compPercent = dict[2][1]
+        self.netPercent = dict[3][1]
 
 def pluginMain():
-    return IdealGenerator
+    return TCGenerator
