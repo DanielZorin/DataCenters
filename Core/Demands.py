@@ -2,7 +2,7 @@ import random, xml.dom.minidom, math
 from Core.AbstractGraph import AbstractGraph, AbstractVertex
 
 class VM(AbstractVertex):
-    def __init__(self, id, speed, ram):
+    def __init__(self, id, speed, ram=0):
         AbstractVertex.__init__(self, id)
         self.id = id
         self.speed = speed

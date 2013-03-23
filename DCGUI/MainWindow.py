@@ -427,6 +427,8 @@ class MainWindow(QMainWindow):
             # TODO: check all errors
             if s.endswith(".py"):
                 plugin = __import__(s[:-3])
+                if plugin == "__init__":
+                    continue
                 if "pluginMain" in dir(plugin):
                     pluginClass = plugin.pluginMain()
                     name = pluginClass.GetName()
