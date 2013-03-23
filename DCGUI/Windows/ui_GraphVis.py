@@ -4,16 +4,7 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    def _fromUtf8(s):
-        return s
-
-try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+    _fromUtf8 = lambda s: s
 
 class Ui_GraphVis(object):
     def setupUi(self, GraphVis):
@@ -92,12 +83,12 @@ class Ui_GraphVis(object):
         QtCore.QMetaObject.connectSlotsByName(GraphVis)
 
     def retranslateUi(self, GraphVis):
-        GraphVis.setWindowTitle(_translate("GraphVis", "Graph Plotter", None))
-        self.graphtype.setItemText(0, _translate("GraphVis", "Cumulative Used Performance", None))
-        self.graphtype.setItemText(1, _translate("GraphVis", "Cumulative Used Capacity", None))
-        self.graphtype.setItemText(2, _translate("GraphVis", "Cumulative Used Bandwidth", None))
-        self.graphtype.setItemText(3, _translate("GraphVis", "Cumulative Used RAM Capacity", None))
-        self.actionExit.setText(_translate("GraphVis", "Exit", None))
-        self.actionExit.setShortcut(_translate("GraphVis", "Ctrl+X", None))
+        GraphVis.setWindowTitle(QtGui.QApplication.translate("GraphVis", "Graph Plotter", None, QtGui.QApplication.UnicodeUTF8))
+        self.graphtype.setItemText(0, QtGui.QApplication.translate("GraphVis", "Cumulative Used Performance", None, QtGui.QApplication.UnicodeUTF8))
+        self.graphtype.setItemText(1, QtGui.QApplication.translate("GraphVis", "Cumulative Used Capacity", None, QtGui.QApplication.UnicodeUTF8))
+        self.graphtype.setItemText(2, QtGui.QApplication.translate("GraphVis", "Cumulative Used Bandwidth", None, QtGui.QApplication.UnicodeUTF8))
+        self.graphtype.setItemText(3, QtGui.QApplication.translate("GraphVis", "Cumulative Used RAM Capacity", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionExit.setText(QtGui.QApplication.translate("GraphVis", "Exit", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionExit.setShortcut(QtGui.QApplication.translate("GraphVis", "Ctrl+X", None, QtGui.QApplication.UnicodeUTF8))
 
 from . import resources_rc
