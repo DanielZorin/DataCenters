@@ -87,9 +87,9 @@ class TestsWindow(QMainWindow):
                     totalvolume += v.volume
                 elif isinstance(v, Computer):
                     totalspeed += v.speed
-            self.stats[name]["computersload"] = float(requiredspeed)/totalspeed
-            self.stats[name]["ramload"] = float(requiredram)/totalram
-            self.stats[name]["storesload"] = float(requiredvolume)/totalvolume
+            self.stats[name]["computersload"] = 0 if totalspeed == 0 else float(requiredspeed)/totalspeed
+            self.stats[name]["ramload"] = 0 if totalram == 0 else float(requiredram)/totalram
+            self.stats[name]["storesload"] = 0 if totalvolume == 0 else float(requiredvolume)/totalvolume
 
     def Paint(self):
         scene = QGraphicsScene()
