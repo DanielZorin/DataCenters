@@ -132,6 +132,8 @@ void GraphComponent::initValues(std::vector<unsigned long> & res, std::vector<un
             physArcs[i]->pher = 1;
 //            justHeurs[i] = initJustHeurs[i] = physArcs[i]->heur = cap[i]-res[i]+required;
             justHeurs[i] = initJustHeurs[i] = physArcs[i]->heur = res[i]-required;
+            if ((physArcs[i]->heur > 0 && physArcs[i]->heur < 0.01) || ZERO(physArcs[i]->heur))
+                justHeurs[i] = initJustHeurs[i] = physArcs[i]->heur = 0.01;
             if (physArcs[i]->heur > cap[i] || physArcs[i]->heur < 0) justHeurs[i] = initJustHeurs[i] = physArcs[i]->heur = 0;
             if (physArcs[i]->heur > maxHeur) maxHeur = physArcs[i]->heur;
         }
@@ -146,7 +148,7 @@ void GraphComponent::initValues(std::vector<unsigned long> & res, std::vector<un
 //            std::cerr << "physArcs[" << i << "] = " << physArcs[i]->heur << ' ';
         }
     }
-//    std::cerr << '\n';
+//    std::cerr << "\n\n";
 }
 
 void GraphComponent::updateHeuristic(unsigned int resNum, unsigned int resCur, unsigned int resCap)
@@ -545,7 +547,7 @@ bool InternalGraph::init(std::vector<unsigned long> & res, std::vector<unsigned 
             physStores[p] = ps[p];
         }
 
-        std::cerr << "Created graph, values: nodes = " << nodesNum << ", stores = " << storesNum << ", vms = " << vmNum << ", sts =  " << stNum << '\n';
+        std::cerr << "Created graph, values: nodes = " << nodesNum << ", stores = " << storesNum << ", vms = " << vmNum << ", sts = " << stNum << '\n';
 /*        std::cerr << "Resources:\n";
         for (int p = 0; p < nodesRes.size(); ++ p) std::cerr << nodesRes[p] << '(' << physNodes[p]->getCapacity() << ") ";
         std::cerr << '\n';
@@ -622,6 +624,7 @@ void InternalGraph::initValues(std::vector<unsigned long> & req, std::vector<uns
     // Init for each graph component
     for (int i = 0; i < vertices.size(); ++ i)
     {
+//        std::cerr << i << ":\n";
         if (vertices[i]->getType() == GraphComponent::VMACHINE) vertices[i]->initValues(nodesRes, nodesCap, types);
         else if (vertices[i]->getType() == GraphComponent::STORAGE) vertices[i]->initValues(storesRes, storesCap, types);
     }

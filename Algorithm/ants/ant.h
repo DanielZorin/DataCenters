@@ -48,7 +48,7 @@ struct AssignedChannel
 class AntAlgorithm: public Algorithm
 {
 public:
-    AntAlgorithm(Network * n, Requests const & r, unsigned int ants = 0, unsigned int iter = 50, double pd = 1, double hd = 2, double evap = 0.1);
+    AntAlgorithm(Network * n, Requests const & r, unsigned int ants = 0, unsigned int iter = 30, double pd = 1, double hd = 2, double evap = 0.1);
     ~AntAlgorithm();
 
     virtual Algorithm::Result schedule();
