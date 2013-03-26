@@ -33,6 +33,7 @@ class MainWindow(QMainWindow):
         self.settings = QSettings("LVK Inc", "DataCenters")   
         self.resourcesGraphEditor = ResourcesGraphEditor()
         self.demandGraphEditor = DemandGraphEditor()
+        self.randomDialog = RandomDemandDialog()
         self.Vis = Vis()
         self.graphvis = GraphVis(self)
         self.demands = {}
@@ -263,7 +264,7 @@ class MainWindow(QMainWindow):
         self.demandGraphEditor.show()
 
     def RandomDemand(self):
-        d = RandomDemandDialog()
+        d = self.randomDialog
         types = []
         for v in self.project.resources.vertices:
             if isinstance(v,Storage) and (types.count(v.type)==0):
