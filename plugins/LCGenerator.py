@@ -2,7 +2,7 @@ import random
 from Core.Resources import ResourceGraph, Computer, Storage, Router
 from Core.Demands import *
 
-class IdealGenerator:
+class LCGenerator:
     storagePercent = 50
     compPercent = 50
     number = 10
@@ -83,4 +83,4 @@ class IdealGenerator:
         self.compPercent = dict[2][1]
 
 def pluginMain():
-    return IdealGenerator
+    return LCGenerator

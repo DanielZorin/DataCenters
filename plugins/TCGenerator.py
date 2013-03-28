@@ -25,6 +25,9 @@ class TCGenerator:
                 comps += [v.speed]
             elif isinstance(v, Storage):
                 storages += [v.volume]
+        for e in resources.edges:
+            if isinstance(e.e1, Computer) or isinstance(e.e1, Storage) or isinstance(e.e2, Computer) or isinstance(e.e2, Storage):
+                totalLeafCapacity += e.capacity
         requests = []
         sumSt = 0
         sumComp = 0
