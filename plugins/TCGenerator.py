@@ -18,50 +18,111 @@ class TCGenerator:
     def Generate(self, resources):
         medianStorage = self.storagePercent / self.number
         medianComp = self.compPercent / self.number
-        comps = []
-        storages = []
+        medianNet = self.netPercent / self.number
+        comps = {}
+        storages = {}
         for v in resources.vertices:
             if isinstance(v, Computer):
-                comps += [v.speed]
+                comps[v] = [v.speed]
             elif isinstance(v, Storage):
-                storages += [v.volume]
+                storages[v] = [v.volume]
         for e in resources.edges:
-            if isinstance(e.e1, Computer) or isinstance(e.e1, Storage) or isinstance(e.e2, Computer) or isinstance(e.e2, Storage):
-                totalLeafCapacity += e.capacity
+            if isinstance(e.e1, Computer):
+                comps[e.e1].append(e.capacity)
+            elif isinstance(e.e1, Storage):
+                storages[e.e1].append(e.capacity)
+            elif isinstance(e.e2, Computer):
+                comps[e.e2].append(e.capacity)
+            elif isinstance(e.e2, Storage):
+                storages[e.e2].append(e.capacity)
         requests = []
-        sumSt = 0
-        sumComp = 0
-        compTotal = int(sum(comps) * float(self.compPercent) / 100.0)
-        stTotal = int(sum(storages) * float(self.storagePercent) / 100.0)
-        while (sumSt < stTotal) and (sumComp < compTotal):
-            st = int(max([0, random.gauss(medianStorage, 2)]) * sum(storages) / 100.0)
-            comp = int(max([0, random.gauss(medianComp, 2)]) * sum(comps) / 100.0)
-            sumSt += st
-            sumComp += comp
-            requests += [[st, comp]]
+        usedSt = 0
+        usedComp = 0
+        usedNet = 0
+        sumSt = sum([storages[v][0] for v in storages.keys()])
+        sumComp = sum([comps[v][0] for v in comps.keys()])
+        sumNet = sum([comps[v][1] for v in comps.keys()]) + \
+            sum([storages[v][1] for v in storages.keys()])
+        compTotal = int(sumComp * float(self.compPercent) / 100.0)
+        stTotal = int(sumSt * float(self.storagePercent) / 100.0)
+        netTotal = int(sumNet * float(self.netPercent) / 100.0)
+        while (usedSt < stTotal) or (usedComp < compTotal) or (usedNet < netTotal):
+            st = min([int(max([0, random.gauss(medianStorage, 2)]) * sumSt / 100.0), stTotal - usedSt])
+            comp = min([int(max([0, random.gauss(medianComp, 2)]) * sumComp / 100.0), compTotal - usedComp])
+            net = min([int(max([0, random.gauss(medianNet, 2)]) * sumNet / 100.0), netTotal - usedNet])
+            usedSt += st
+            usedComp += comp
+            usedNet += net
+            requests += [[st, comp, net]]
+        requests[0][0] += stTotal - usedSt
+        requests[0][1] += compTotal - usedComp
+        requests[0][2] += netTotal - usedNet
         res = []
         for r in requests:
             d = Demand("demand_" + str(r[0]) + "_" + str(r[1]))
-            sumSt = 0
-            while sumSt < r[0]:
-                st = min([max(storages), random.randint(1, r[0] / 3 + 1)])
-                for i in range(len(storages)):
-                    if storages[i] > st:
-                        storages[i] -= st
+            total = 0
+            st = 1
+            while total < r[0]:
+                maxst = max([storages[v][0] for v in storages.keys()])
+                if maxst == 0:
+                    maxst = 1
+                if st == 1:
+                    st = min([maxst, r[0] / 3 + 1, r[0] - total])
+                else:
+                    st -= 1
+                for v in storages.keys():
+                    if storages[v][0] >= st:
+                        storages[v][0] -= st
+                        elem = DemandStorage("storage", st, 0, 9000)
+                        storages[v].append([elem, d])
+                        d.AddVertex(elem)
+                        total += st
+                        st = 1
                         break
-                d.AddVertex(DemandStorage("storage", st, 0, 9000))
-                sumSt += st
-            sumComp = 0
-            while sumComp < r[1]:
-                st = min([max(comps), random.randint(1, r[1] / 3 + 1)])
-                for i in range(len(comps)):
-                    if comps[i] > st:
-                        comps[i] -= st
+                
+            total = 0
+            st = 1
+            while total < r[1]:
+                maxcmp = max([comps[v][0] for v in comps.keys()])
+                if maxcmp == 0:
+                    maxcmp = 1
+                if st == 1:
+                    st = min([maxcmp, r[1] / 3 + 1, r[1] - total])
+                else:
+                    st -= 1
+                for v in comps.keys():
+                    if comps[v][0] >= st:
+                        comps[v][0] -= st
+                        elem = VM("vm", st)
+                        comps[v].append([elem, d])
+                        d.AddVertex(elem)
+                        total += st
+                        st = 1
                         break
-                d.AddVertex(VM("vm", st))
-                sumComp += st
+                
             res.append(d)
 
+        total = 0
+        cmps = [v for v in comps.keys()]
+        it = 0
+        while total < netTotal:
+            it += 1
+            # TODO: Beedlowcode, but we have to ensure that the loop isn't endless
+            # Theoretically, this procesude is not guaranteed to be finite
+            if it > 9000:
+                break
+            r = random.randint(1, len(cmps) - 1)
+            c = cmps[r]
+            for elem in comps[c][2:]:
+                demand = elem[1]
+                vm = elem[0]
+                for v in storages.keys():
+                    for st in storages[v][2:]:
+                        if st[1] == demand:
+                            vs = st[0]
+                            bandwidth = min(comps[c][1], storages[v][1]) / max(len(comps[c]) - 2, len(storages[v]) - 2)
+                            demand.AddLink(DemandLink(vm, vs, bandwidth))
+                            total += bandwidth
         return res
 
     def GetSettings(self):

@@ -17,47 +17,77 @@ class LCGenerator:
     def Generate(self, resources):
         medianStorage = self.storagePercent / self.number
         medianComp = self.compPercent / self.number
-        comps = []
-        storages = []
+
+        comps = {}
+        storages = {}
         for v in resources.vertices:
             if isinstance(v, Computer):
-                comps += [v.speed]
+                comps[v] = [v.speed]
             elif isinstance(v, Storage):
-                storages += [v.volume]
+                storages[v] = [v.volume]
+
         requests = []
-        sumSt = 0
-        sumComp = 0
-        compTotal = int(sum(comps) * float(self.compPercent) / 100.0)
-        stTotal = int(sum(storages) * float(self.storagePercent) / 100.0)
-        while (sumSt < stTotal) and (sumComp < compTotal):
-            st = int(max([0, random.gauss(medianStorage, 2)]) * sum(storages) / 100.0)
-            comp = int(max([0, random.gauss(medianComp, 2)]) * sum(comps) / 100.0)
-            sumSt += st
-            sumComp += comp
+        usedSt = 0
+        usedComp = 0
+
+        sumSt = sum([storages[v][0] for v in storages.keys()])
+        sumComp = sum([comps[v][0] for v in comps.keys()])
+
+        compTotal = int(sumComp * float(self.compPercent) / 100.0)
+        stTotal = int(sumSt * float(self.storagePercent) / 100.0)
+
+        while (usedSt < stTotal) or (usedComp < compTotal):
+            st = min([int(max([0, random.gauss(medianStorage, 2)]) * sumSt / 100.0), stTotal - usedSt])
+            comp = min([int(max([0, random.gauss(medianComp, 2)]) * sumComp / 100.0), compTotal - usedComp])
+            usedSt += st
+            usedComp += comp
             requests += [[st, comp]]
+        requests[0][0] += stTotal - usedSt
+        requests[0][1] += compTotal - usedComp
+
         res = []
         for r in requests:
             d = Demand("demand_" + str(r[0]) + "_" + str(r[1]))
-            sumSt = 0
-            while sumSt < r[0]:
-                st = min([max(storages), random.randint(1, r[0] / 3 + 1)])
-                for i in range(len(storages)):
-                    if storages[i] > st:
-                        storages[i] -= st
+            total = 0
+            st = 1
+            while total < r[0]:
+                maxst = max([storages[v][0] for v in storages.keys()])
+                if maxst == 0:
+                    maxst = 1
+                if st == 1:
+                    st = min([maxst, r[0] / 3 + 1, r[0] - total])
+                else:
+                    st -= 1
+                for v in storages.keys():
+                    if storages[v][0] >= st:
+                        storages[v][0] -= st
+                        elem = DemandStorage("storage", st, 0, 9000)
+                        storages[v].append([elem, d])
+                        d.AddVertex(elem)
+                        total += st
+                        st = 1
                         break
-                d.AddVertex(DemandStorage("storage", st, 0, 9000))
-                sumSt += st
-            sumComp = 0
-            while sumComp < r[1]:
-                st = min([max(comps), random.randint(1, r[1] / 3 + 1)])
-                for i in range(len(comps)):
-                    if comps[i] > st:
-                        comps[i] -= st
+                
+            total = 0
+            st = 1
+            while total < r[1]:
+                maxcmp = max([comps[v][0] for v in comps.keys()])
+                if maxcmp == 0:
+                    maxcmp = 1
+                if st == 1:
+                    st = min([maxcmp, r[1] / 3 + 1, r[1] - total])
+                else:
+                    st -= 1
+                for v in comps.keys():
+                    if comps[v][0] >= st:
+                        comps[v][0] -= st
+                        elem = VM("vm", st)
+                        comps[v].append([elem, d])
+                        d.AddVertex(elem)
+                        total += st
+                        st = 1
                         break
-                d.AddVertex(VM("vm", st))
-                sumComp += st
             res.append(d)
-
         return res
 
     def GetSettings(self):
