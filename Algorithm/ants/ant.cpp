@@ -54,6 +54,7 @@ bool AntAlgorithm::init()
             stCount += (*i)->getStorages().size();
         }
         if (antNum == 0) antNum = (vmCount+stCount)/2;
+        if (antNum > 100) antNum = 100;
         const Nodes& nodes = network->getNodes();
         const Stores& stores = network->getStores();
         unsigned int cnodes = nodes.size(), cstores = stores.size();
@@ -177,6 +178,7 @@ const AssignedChannel * AntAlgorithm::findReplica(const std::map<Link *, Assigne
 Algorithm::Result AntAlgorithm::schedule()
 {
     std::cerr << "Algorithm parameters: antNum = " << antNum << ", iter = " << iterNum << ", pd = " << pherDeg << ", hd = " << heurDeg << ", evap = " << evapRate << '\n';
+    std::cout << '\n';
     unsigned int iMax = 0;
     std::map<Link *, AssignedChannel> channels;
     for (int i = 0; i < iterNum; ++ i)
@@ -208,7 +210,11 @@ Algorithm::Result AntAlgorithm::schedule()
             bestValue = objValues[iMax];
         }
         std::cerr << "bestValue = " << bestValue;
-        if (iMax < antNum) std::cerr << ", current best value = " << objValues[iMax] << '\n';
+        if (iMax < antNum)
+        {
+            std::cerr << ", current best value = " << objValues[iMax] << '\n';
+            std::cout << objValues[iMax] << '\n';
+        }
         else std::cerr << '\n';
 
         graph->updatePheromone(paths, objValues, evapRate, objValues[iMax]);

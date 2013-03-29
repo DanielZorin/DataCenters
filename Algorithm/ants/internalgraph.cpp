@@ -243,8 +243,8 @@ InternalGraph::InternalGraph(unsigned int nodes, unsigned int stores, unsigned i
 , heurDeg(0)
 , pherDeg(0)
 {
-//    srand((unsigned)time(NULL));
-    srand(1355151386);
+    srand((unsigned)time(NULL));
+//    srand(1355151386);
     if (!init(res, cap, req, reqTypes, pn, ps, virtElems)) success = false;
     else
     {
