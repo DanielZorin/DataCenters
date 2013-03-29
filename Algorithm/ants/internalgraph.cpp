@@ -145,7 +145,7 @@ void GraphComponent::initValues(std::vector<unsigned long> & res, std::vector<un
         {
             if (!(type == STORAGE && types[i] != storageType)) physArcs[i]->heur /= maxHeur;
             physHeurs[i] = physArcs[i]->heur;
-//            std::cerr << "physArcs[" << i << "] = " << physArcs[i]->heur << ' ';
+//            std::cerr << "justHeurs[" << i << "] = " << justHeurs[i] << ' ' << "initJustHeurs[" << i << "] = " << initJustHeurs[i] << ' ' << "physArcs[" << i << "] = " << physArcs[i]->heur << ' ' << "physHeurs[" << i << "] = " << physHeurs[i] << ' ';
         }
     }
 //    std::cerr << "\n\n";
@@ -157,8 +157,13 @@ void GraphComponent::updateHeuristic(unsigned int resNum, unsigned int resCur, u
     if (!(ZERO(physArcs[resNum]->heur+1)))
     {
 //        justHeurs[resNum] = resCap-resCur+required;
-        justHeurs[resNum] = resCur-required;
+//        std::cerr << "before justHeurs[" << resNum << "] = " << justHeurs[resNum] << ", resCur = " << resCur << ", required = " << required << ", after ";
+        justHeurs[resNum] = (double)resCur-required;
+//        std::cerr << "justHeurs[" << resNum << "] = " << justHeurs[resNum] << ", reduced to ";
+        if ((justHeurs[resNum] > 0 && justHeurs[resNum] < 0.01) || ZERO(justHeurs[resNum]))
+            justHeurs[resNum] = 0.01;
         if (justHeurs[resNum] > resCap || justHeurs[resNum] < 0) justHeurs[resNum] = 0;
+//        std::cerr << justHeurs[resNum] << '\n';
 
         for (int i = 0; i < physArcs.size(); ++ i)
             if (justHeurs[i] > maxHeur) maxHeur = justHeurs[i];
@@ -172,6 +177,7 @@ void GraphComponent::updateHeuristic(unsigned int resNum, unsigned int resCur, u
 //                std::cerr << "physArcs[" << i << "] = " << physArcs[i]->heur << ' ';
             }
         }
+        else physArcs[resNum]->heur = 0;
     }
 //    std::cerr << '\n';
 }
@@ -200,13 +206,12 @@ unsigned int GraphComponent::chooseResource(double pherDeg, double heurDeg)
     double value = 0, sum = 0;
     for (unsigned int i = 0; i < size; i ++)
     {
-        if (ZERO(physArcs[i]->heur+1)) value = 0;
+        if (ZERO(physArcs[i]->heur+1) || ZERO(physArcs[i]->heur) || physArcs[i]->heur < 0) value = 0;
         else value = pow(physArcs[i]->pher, pherDeg)*pow(physArcs[i]->heur, heurDeg);
         sum += value;
         roulette[i] = sum;
     }
     if (ZERO(sum)) return size+1;
-
 
     double choose = rand()/(double)RAND_MAX * sum;
 /*    std::cerr << "physArcs = ";
@@ -238,8 +243,8 @@ InternalGraph::InternalGraph(unsigned int nodes, unsigned int stores, unsigned i
 , heurDeg(0)
 , pherDeg(0)
 {
-    srand((unsigned)time(NULL));
-//    srand(1355151386);
+//    srand((unsigned)time(NULL));
+    srand(1355151386);
     if (!init(res, cap, req, reqTypes, pn, ps, virtElems)) success = false;
     else
     {
