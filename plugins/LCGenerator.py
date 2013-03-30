@@ -6,6 +6,7 @@ class LCGenerator:
     storagePercent = 50
     compPercent = 50
     number = 10
+    max_x = 400
 
     def __init__(self):
         pass
@@ -47,6 +48,8 @@ class LCGenerator:
 
         res = []
         for r in requests:
+            cur_x = 15
+            cur_y = 15
             d = Demand("demand_" + str(r[0]) + "_" + str(r[1]))
             total = 0
             st = 1
@@ -62,6 +65,13 @@ class LCGenerator:
                     if storages[v][0] >= st:
                         storages[v][0] -= st
                         elem = DemandStorage("storage", st, 0, 9000)
+                        elem.x = cur_x
+                        elem.y = cur_y
+                        if cur_x > self.max_x:
+                            cur_x = 15
+                            cur_y += 30
+                        else:
+                            cur_x += 30
                         storages[v].append([elem, d])
                         d.AddVertex(elem)
                         total += st
@@ -82,6 +92,13 @@ class LCGenerator:
                     if comps[v][0] >= st:
                         comps[v][0] -= st
                         elem = VM("vm", st)
+                        elem.x = cur_x
+                        elem.y = cur_y
+                        if cur_x > self.max_x:
+                            cur_x = 15
+                            cur_y += 30
+                        else:
+                            cur_x += 30
                         comps[v].append([elem, d])
                         d.AddVertex(elem)
                         total += st

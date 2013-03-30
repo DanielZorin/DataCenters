@@ -13,7 +13,6 @@
 		<router capacity="1000" name="id" number="10" used="281" x="154.5" y="57.5"/>
 		<router capacity="1000" name="id" number="11" used="153" x="243.5" y="115.5"/>
 		<link capacity="1000" from="3" to="2" used="242"/>
-		<link capacity="0" from="1" to="1" used="0"/>
 		<link capacity="1000" from="1" to="5" used="166"/>
 		<link capacity="1000" from="4" to="5" used="0"/>
 		<link capacity="1000" from="3" to="6" used="224"/>
