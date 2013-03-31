@@ -10,6 +10,12 @@ int main(int argc, char *argv[])
     Node * n1 = new Node("n0", 1);
     Node * n2 = new Node("n1", 2);
     Node * n3 = new Node("n2", 3);
+    n1->setRamCapacity(5);
+    n1->setMaxRamCapacity(5);
+    n2->setRamCapacity(5);
+    n2->setMaxRamCapacity(5);
+    n3->setRamCapacity(5);
+    n3->setMaxRamCapacity(5);
     Store * s1 = new Store("s0", 10);
     Store * s2 = new Store("s1", 20);
     Store * s3 = new Store("s2", 30);
@@ -55,7 +61,7 @@ int main(int argc, char *argv[])
     n.addSwitch(w1);
     n.addSwitch(w2);
     n.addSwitch(w3);
-    n.addLink(l1);
+/*    n.addLink(l1);
     n.addLink(l2);
     n.addLink(l3);
     n.addLink(l4);
@@ -68,7 +74,7 @@ int main(int argc, char *argv[])
     n.addLink(l11);
     n.addLink(l12);
 //    n.addLink(l13);
-    n.addLink(l14);
+    n.addLink(l14);*/
 
     Algorithm::Requests r;
     Request * req1 = new Request;
@@ -77,6 +83,10 @@ int main(int argc, char *argv[])
     Node * vm2 = new Node("", 1);
     Node * vm3 = new Node("", 2);
     Node * vm4 = new Node("", 2);
+    vm1->setRamCapacity(1);
+    vm2->setRamCapacity(1);
+    vm3->setRamCapacity(5);
+    vm4->setRamCapacity(1);
     Store * st1 = new Store("", 1);
     Store * st2 = new Store("", 1);
     Store * st3 = new Store("", 2);
@@ -115,14 +125,14 @@ int main(int argc, char *argv[])
     req2->addStorage(st3);
     req2->addStorage(st4);
 //    req2->addStorage(st5);
-    req1->addLink(ch1);
+/*    req1->addLink(ch1);
     req1->addLink(ch2);
     req1->addLink(ch3);
     req1->addLink(ch4);
     req2->addLink(ch5);
     req2->addLink(ch6);
     req2->addLink(ch7);
-    req2->addLink(ch8);
+    req2->addLink(ch8);*/
 //    req2->addLink(ch9);
     r.insert(req1);
     r.insert(req2);

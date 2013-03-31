@@ -34,7 +34,7 @@ class GraphComponent
 public:
     typedef enum {NOTYPE = 0, VMACHINE = 1, STORAGE = 2} RequestType;
 
-    GraphComponent(unsigned long req, int phys, Element * pr, RequestType t, unsigned int sType = 0);
+    GraphComponent(unsigned long req, int phys, Element * pr, RequestType t, unsigned int sType = 0, unsigned int ramReq = 0);
     ~GraphComponent();
 
     GraphComponent(const GraphComponent & gc);
@@ -42,7 +42,8 @@ public:
 
     unsigned int getResNum() const { return physArcs.size(); }
     RequestType getType() const { return type; }
-    unsigned long getRequired () const { return required; }
+    unsigned long getRequired() const { return required; }
+    unsigned long getRequiredRam() const { return ramRequired; }
     bool isCreated() const { return success; }
 
     Element * getPointer () { return request; }
@@ -56,7 +57,7 @@ public:
     // Update pheromone on the arc
     void updatePheromone(unsigned int res, double value);
     // Choose resource for the request
-    unsigned int chooseResource(double pherDeg, double heurDeg);
+    unsigned int chooseResource(std::vector<unsigned long> & ram, double pherDeg, double heurDeg);
 private:
     // initialize
     bool init(int num);
@@ -75,7 +76,9 @@ private:
     RequestType type;
     // requested resources
     unsigned long required;
-    // storage type
+    // requested memory (for virtual machine graph component)
+    unsigned long ramRequired;
+    // storage type (for storage graph component)
     unsigned int storageType;
     // pointer to corresponding request
     Element * request;
@@ -92,7 +95,10 @@ public:
     InternalGraph(unsigned int nodes, unsigned int stores, unsigned int vm, unsigned int st, // request set and network parameters
                   std::vector<unsigned long> & res, // current physical resources capacity
                   std::vector<unsigned long> & cap, // maximum physical resources capacity
-                  std::vector<unsigned long> & req, // resources demanded by requests
+                  std::vector<unsigned long> & ramRes, // current virtual machine memory capacity
+                  std::vector<unsigned long> & ramCap, // maximum virtual machine memory capacity
+                  std::vector<unsigned long> & ramReq, // amount of memory requested by virtual machines
+                  std::vector<unsigned long> & req, // amount of resources requested
                   std::vector<unsigned int> & types, // physical store types
                   std::vector<unsigned int> & reqTypes, // virtual storage types
                   std::vector<Element *> & pn, // pointers to physical nodes
@@ -122,9 +128,9 @@ public:
     void increaseCurStoresRes(int index, unsigned long cap) { curStoresRes[index] += cap; }
 private:
     // initialize
-    bool init(std::vector<unsigned long> & res, std::vector<unsigned long> & cap, std::vector<unsigned long> & req,
-              std::vector<unsigned int> & reqTypes, std::vector<Element *> & pn, std::vector<Element *> & ps,
-              std::vector<Element *> & virtElems);
+    bool init(std::vector<unsigned long> & res, std::vector<unsigned long> & cap, std::vector<unsigned long> & ramRes, std::vector<unsigned long> & ramCap,
+              std::vector<unsigned long> & req, std::vector<unsigned long> & ramReq, std::vector<unsigned int> & reqTypes, std::vector<Element *> & pn,
+              std::vector<Element *> & ps, std::vector<Element *> & virtElems);
     void clean(int i, int j, int k);
     // calculate heuristic for arcs
     void initValues(std::vector<unsigned long> & req, std::vector<unsigned int> & types);
@@ -135,15 +141,21 @@ private:
     std::vector< std::vector<Arc*> > arcs;
     // Current available physical resources for computational nodes (at the start)
     std::vector<unsigned long> nodesRes;
+    // Current available memory for computational nodes (at the start)
+    std::vector<unsigned long> nodesRam;
     // Current available physical resources for storages (at the start)
     std::vector<unsigned long> storesRes;
     // Current available physical resources for computational nodes (when the path is being built)
     std::vector<unsigned long> curNodesRes;
+    // Current available mempry for computational nodes (when the path is being built)
+    std::vector<unsigned long> curNodesRam;
     // Current available physical resources for storages (when the path is being built)
     std::vector<unsigned long> curStoresRes;
 
     // Maximum available physical resources for computational nodes
     std::vector<unsigned long> nodesCap;
+    // Maximum available mempry for computational nodes
+    std::vector<unsigned long> nodesCapRam;
     // Maximum available physical resources for storages
     std::vector<unsigned long> storesCap;
 

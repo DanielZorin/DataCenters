@@ -60,6 +60,8 @@ bool AntAlgorithm::init()
         unsigned int cnodes = nodes.size(), cstores = stores.size();
         std::vector<unsigned long> res(cnodes+cstores);
         std::vector<unsigned long> cap(cnodes+cstores);
+        std::vector<unsigned long> ramRes(cnodes);
+        std::vector<unsigned long> ramCap(cnodes);
         std::vector<unsigned int> types(cstores);
         std::vector<Element *> physNodes(cnodes);
         std::vector<Element *> physStores(cstores);
@@ -71,6 +73,8 @@ bool AntAlgorithm::init()
         {
             res[iVec] = (*i)->getCapacity();
             cap[iVec] = (*i)->getMaxCapacity();
+            ramRes[iVec] = (*i)->getRamCapacity();
+            ramCap[iVec] = (*i)->getMaxRamCapacity();
             physNodes[iVec] = (*i);
         }
         for (Stores::const_iterator i = stores.begin(); i != stores.end(); i ++, ++ iVec)
@@ -84,6 +88,7 @@ bool AntAlgorithm::init()
 
         // get requests' required current capacity
         std::vector<unsigned long> reqCapacity(vmCount+stCount);
+        std::vector<unsigned long> reqRamCapacity(vmCount);
         std::vector<Element *> virtElems(vmCount+stCount);
         std::vector<unsigned int> reqTypes(stCount);
         int iReq = 0;
@@ -94,6 +99,7 @@ bool AntAlgorithm::init()
             for (Request::VirtualMachines::const_iterator i = vms.begin(); i != vms.end(); i ++, ++ iReq)
             {
                 reqCapacity[iReq] = (*i)->getCapacity();
+                reqRamCapacity[iReq] = (*i)->getRamCapacity();
                 virtElems[iReq] = (*i);
             }
         }
@@ -109,7 +115,7 @@ bool AntAlgorithm::init()
             }
         }
 
-        graph = new InternalGraph(cnodes, cstores, vmCount, stCount, res, cap, reqCapacity, types, reqTypes, physNodes, physStores, virtElems);
+        graph = new InternalGraph(cnodes, cstores, vmCount, stCount, res, cap, ramRes, ramCap, reqRamCapacity, reqCapacity, types, reqTypes, physNodes, physStores, virtElems);
         if (graph->isCreated()) return true;
         return false;
     }
