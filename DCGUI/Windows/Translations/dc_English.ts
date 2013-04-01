@@ -279,7 +279,7 @@
         <translation>Exit</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="392"/>
+        <location filename="MainWindow.ui" line="20"/>
         <source>Data Centers GUI</source>
         <translation>Data Centers GUI</translation>
     </message>
@@ -504,47 +504,42 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="63"/>
+        <location filename="MainWindow.py" line="64"/>
         <source>Alt+</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="79"/>
+        <location filename="MainWindow.py" line="80"/>
         <source>Data centers projects (*.dcxml)</source>
         <translation>Data centers projects (*.dcxml)</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="91"/>
+        <location filename="MainWindow.py" line="92"/>
         <source>Untitled</source>
         <translation>Untitled</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="458"/>
+        <location filename="MainWindow.py" line="460"/>
         <source>No</source>
         <translation>No</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="458"/>
+        <location filename="MainWindow.py" line="460"/>
         <source>Yes</source>
         <translation>Yes</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="137"/>
+        <location filename="MainWindow.py" line="138"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="137"/>
+        <location filename="MainWindow.py" line="138"/>
         <source>Project not found</source>
         <translation>Project not found</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="225"/>
-        <source>New demand</source>
-        <translation>New demand</translation>
-    </message>
-    <message>
-        <location filename="MainWindow.py" line="345"/>
+        <location filename="MainWindow.py" line="346"/>
         <source>&amp;%1: %2</source>
         <translation></translation>
     </message>
@@ -627,134 +622,144 @@
 <context>
     <name>RandomDemandDialog</name>
     <message>
-        <location filename="RandomDemandDialog.ui" line="20"/>
+        <location filename="RandomDemandDialog.ui" line="23"/>
         <source>Create Random Request</source>
         <translation>Create Random Request</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="69"/>
+        <location filename="RandomDemandDialog.ui" line="75"/>
         <source>Number of requests</source>
         <translation>Number of requests</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="76"/>
+        <location filename="RandomDemandDialog.ui" line="82"/>
         <source>Number of VMs</source>
         <translation>Number of VMs</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="89"/>
+        <location filename="RandomDemandDialog.ui" line="95"/>
         <source>Mimimal performance</source>
         <translation>Mimimal performance</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="102"/>
+        <location filename="RandomDemandDialog.ui" line="108"/>
         <source>Maximal performance</source>
         <translation>Maximal performance</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="123"/>
+        <location filename="RandomDemandDialog.ui" line="129"/>
         <source>Number of storages</source>
         <translation>Number of storages</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="136"/>
+        <location filename="RandomDemandDialog.ui" line="142"/>
         <source>Minimal capacity</source>
         <translation>Minimal capacity</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="149"/>
+        <location filename="RandomDemandDialog.ui" line="155"/>
         <source>Maximal capacity</source>
         <translation>Maximal capacity</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="170"/>
+        <location filename="RandomDemandDialog.ui" line="176"/>
         <source>Mininal bandwidth</source>
         <translation>Mininal bandwidth</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="177"/>
+        <location filename="RandomDemandDialog.ui" line="183"/>
         <source>Maximal bandwidth</source>
         <translation>Maximal bandwidth</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="184"/>
+        <location filename="RandomDemandDialog.ui" line="190"/>
         <source>Starting time</source>
         <translation>Starting time</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="191"/>
+        <location filename="RandomDemandDialog.ui" line="197"/>
         <source>End time</source>
         <translation>End time</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="205"/>
+        <location filename="RandomDemandDialog.ui" line="211"/>
         <source>10</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="275"/>
+        <location filename="RandomDemandDialog.ui" line="281"/>
         <source>5</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="254"/>
+        <location filename="RandomDemandDialog.ui" line="260"/>
         <source>1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="289"/>
+        <location filename="RandomDemandDialog.ui" line="295"/>
         <source>15</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="282"/>
+        <location filename="RandomDemandDialog.ui" line="288"/>
         <source>11</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="296"/>
+        <location filename="RandomDemandDialog.ui" line="302"/>
         <source>0</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="303"/>
+        <location filename="RandomDemandDialog.ui" line="309"/>
         <source>100</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="316"/>
+        <location filename="RandomDemandDialog.ui" line="339"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="323"/>
+        <location filename="RandomDemandDialog.ui" line="346"/>
         <source>Cancel</source>
         <translation>Cancel</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="156"/>
+        <location filename="RandomDemandDialog.ui" line="162"/>
         <source>Minimal Consistency bandwidth</source>
         <translation>Minimal Consistency bandwidth</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="163"/>
+        <location filename="RandomDemandDialog.ui" line="169"/>
         <source>Maximal Consistency bandwidth</source>
         <translation>Maximal Consistency bandwidth</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="268"/>
+        <location filename="RandomDemandDialog.ui" line="274"/>
         <source>3</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="109"/>
+        <location filename="RandomDemandDialog.ui" line="115"/>
         <source>Minimal RAM capacity</source>
         <translation>Minimal RAM capacity</translation>
     </message>
     <message>
-        <location filename="RandomDemandDialog.ui" line="116"/>
+        <location filename="RandomDemandDialog.ui" line="122"/>
         <source>Maximal RAM capacity</source>
         <translation>Maximal RAM capacity</translation>
+    </message>
+    <message>
+        <location filename="RandomDemandDialog.ui" line="323"/>
+        <source>Allow &quot;VM-VM&quot; virtual links</source>
+        <translation>Allow &quot;VM-VM&quot; virtual links</translation>
+    </message>
+    <message>
+        <location filename="RandomDemandDialog.ui" line="330"/>
+        <source>Allow &quot;Storage-Storage&quot; virtual links</source>
+        <translation>Allow &quot;Storage-Storage&quot; virtual links</translation>
     </message>
 </context>
 <context>
@@ -1293,22 +1298,22 @@
 <context>
     <name>Translator</name>
     <message>
-        <location filename="TCGenerator.py" line="73"/>
+        <location filename="TCGenerator.py" line="154"/>
         <source>Request count</source>
         <translation>Request count</translation>
     </message>
     <message>
-        <location filename="TCGenerator.py" line="74"/>
+        <location filename="TCGenerator.py" line="155"/>
         <source>Storage</source>
         <translation>Storage</translation>
     </message>
     <message>
-        <location filename="TCGenerator.py" line="75"/>
+        <location filename="TCGenerator.py" line="156"/>
         <source>Computers</source>
         <translation>Computers</translation>
     </message>
     <message>
-        <location filename="TCGenerator.py" line="76"/>
+        <location filename="TCGenerator.py" line="157"/>
         <source>Network</source>
         <translation>Network</translation>
     </message>
@@ -1336,7 +1341,7 @@
         <translation>bandwidth:</translation>
     </message>
     <message>
-        <location filename="TreeDialog.py" line="16"/>
+        <location filename="TreeDialog.ui" line="465"/>
         <source>1st layer</source>
         <translation>1st layer</translation>
     </message>
@@ -1467,7 +1472,7 @@
         <translation>Time:</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="189"/>
+        <location filename="Vis.ui" line="91"/>
         <source>Assigned Requests</source>
         <translation>Assigned Requests</translation>
     </message>
@@ -1610,7 +1615,7 @@
 <context>
     <name>self.demandGraphEditor</name>
     <message>
-        <location filename="MainWindow.py" line="393"/>
+        <location filename="MainWindow.py" line="394"/>
         <source>Request Graph Editor</source>
         <translation>Request Graph Editor</translation>
     </message>
@@ -1618,7 +1623,7 @@
 <context>
     <name>self.resourcesGraphEditor</name>
     <message>
-        <location filename="MainWindow.py" line="394"/>
+        <location filename="MainWindow.py" line="395"/>
         <source>Resources Graph Editor</source>
         <translation>Resources Graph Editor</translation>
     </message>

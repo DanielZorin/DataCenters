@@ -397,6 +397,7 @@ class MainWindow(QMainWindow):
         self.settingsDialog.ui.retranslateUi(self.settingsDialog)
         self.demandGraphEditor.ui.retranslateUi(self.demandGraphEditor)
         self.resourcesGraphEditor.ui.retranslateUi(self.resourcesGraphEditor)
+        self.randomDialog.ui.retranslateUi(self.randomDialog)
         self.Vis.ui.retranslateUi(self.Vis)
         self.graphvis.ui.retranslateUi(self.graphvis)
         self.showStats()

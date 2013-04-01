@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>RandomDemandDialog</class>
  <widget class="QDialog" name="RandomDemandDialog">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -18,6 +21,9 @@
   </property>
   <property name="windowTitle">
    <string>Create Random Request</string>
+  </property>
+  <property name="statusTip">
+   <string/>
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget, QMenuBar::item {
@@ -310,6 +316,9 @@ QLabel, QSlider {
         </item>
         <item>
          <widget class="QCheckBox" name="vmvm">
+          <property name="whatsThis">
+           <string/>
+          </property>
           <property name="text">
            <string>Allow &quot;VM-VM&quot; virtual links</string>
           </property>

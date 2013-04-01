@@ -9,12 +9,14 @@ except AttributeError:
 class Ui_RandomDemandDialog(object):
     def setupUi(self, RandomDemandDialog):
         RandomDemandDialog.setObjectName(_fromUtf8("RandomDemandDialog"))
-        RandomDemandDialog.resize(377, 457)
+        RandomDemandDialog.setEnabled(True)
+        RandomDemandDialog.resize(377, 513)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(RandomDemandDialog.sizePolicy().hasHeightForWidth())
         RandomDemandDialog.setSizePolicy(sizePolicy)
+        RandomDemandDialog.setStatusTip(_fromUtf8(""))
         RandomDemandDialog.setStyleSheet(_fromUtf8("QWidget, QMenuBar::item {\n"
 "    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
 "                                      stop: 0 #c5d8ef, stop: 1 #89a5c3);\n"
@@ -166,6 +168,13 @@ class Ui_RandomDemandDialog(object):
         self.verticalLayout_2.addWidget(self.endtime)
         self.horizontalLayout_2.addLayout(self.verticalLayout_2)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
+        self.vmvm = QtGui.QCheckBox(self.centralwidget)
+        self.vmvm.setWhatsThis(_fromUtf8(""))
+        self.vmvm.setObjectName(_fromUtf8("vmvm"))
+        self.verticalLayout.addWidget(self.vmvm)
+        self.stst = QtGui.QCheckBox(self.centralwidget)
+        self.stst.setObjectName(_fromUtf8("stst"))
+        self.verticalLayout.addWidget(self.stst)
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
         self.OK = QtGui.QPushButton(self.centralwidget)
@@ -215,6 +224,8 @@ class Ui_RandomDemandDialog(object):
         self.c2.setText(QtGui.QApplication.translate("RandomDemandDialog", "15", None, QtGui.QApplication.UnicodeUTF8))
         self.starttime.setText(QtGui.QApplication.translate("RandomDemandDialog", "0", None, QtGui.QApplication.UnicodeUTF8))
         self.endtime.setText(QtGui.QApplication.translate("RandomDemandDialog", "100", None, QtGui.QApplication.UnicodeUTF8))
+        self.vmvm.setText(QtGui.QApplication.translate("RandomDemandDialog", "Allow \"VM-VM\" virtual links", None, QtGui.QApplication.UnicodeUTF8))
+        self.stst.setText(QtGui.QApplication.translate("RandomDemandDialog", "Allow \"Storage-Storage\" virtual links", None, QtGui.QApplication.UnicodeUTF8))
         self.OK.setText(QtGui.QApplication.translate("RandomDemandDialog", "OK", None, QtGui.QApplication.UnicodeUTF8))
         self.Cancel.setText(QtGui.QApplication.translate("RandomDemandDialog", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
 
