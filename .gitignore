@@ -38,3 +38,8 @@ Algorithm/Release/*
 
 # unix tmp files
 *.*~
+
+*.obj
+*.tlog
+*.pdb
+*.lastbuildstate
