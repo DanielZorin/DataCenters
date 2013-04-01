@@ -76,6 +76,10 @@ class Demand(AbstractGraph):
             for j in range(random.randint(1, 2)):
                 src = self.vertices[i]
                 dest = self.vertices[random.randint(i+1, len(self.vertices) - 1)]
+                if not params["vmvm"] and isinstance(src, VM) and isinstance(dest, VM):
+                    continue
+                if not params["stst"] and isinstance(src, DemandStorage) and isinstance(dest, DemandStorage):
+                    continue
                 capacity = random.randint(params["cap_min"], params["cap_max"])
                 e = DemandLink(src, dest, capacity)
                 if self.FindEdge(src, dest) == None:

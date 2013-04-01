@@ -223,7 +223,7 @@ class MainWindow(QMainWindow):
 
     def AddDemand(self):
         d = self.project.CreateDemand()
-        it = QTreeWidgetItem(self.ui.demands, QStringList([self.tr("New demand"), "0", "1", self.tr("No"), self.tr("No")]))
+        it = QTreeWidgetItem(self.ui.demands, QStringList(["New_demand", "0", "1", self.tr("No"), self.tr("No")]))
         cb = QComboBox()
         cb.addItems([self.tr("No"),self.tr("Yes")])
         self.ui.demands.setItemWidget(it,3,cb)

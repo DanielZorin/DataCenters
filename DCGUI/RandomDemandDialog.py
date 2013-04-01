@@ -23,5 +23,7 @@ class RandomDemandDialog(QDialog):
                 "cons_cap_min": int(self.ui.cc1.text()),
                 "cons_cap_max": int(self.ui.cc2.text()),
                 "start": int(self.ui.starttime.text()),
-                "end": int(self.ui.endtime.text())
+                "end": int(self.ui.endtime.text()),
+                "vmvm": self.ui.vmvm.isChecked(),
+                "stst": self.ui.stst.isChecked()
                 }

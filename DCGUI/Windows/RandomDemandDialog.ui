@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>377</width>
-    <height>457</height>
+    <height>513</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -307,6 +307,20 @@ QLabel, QSlider {
            </layout>
           </item>
          </layout>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="vmvm">
+          <property name="text">
+           <string>Allow &quot;VM-VM&quot; virtual links</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="stst">
+          <property name="text">
+           <string>Allow &quot;Storage-Storage&quot; virtual links</string>
+          </property>
+         </widget>
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
