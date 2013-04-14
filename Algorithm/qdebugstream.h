@@ -7,13 +7,14 @@
 #include <QtCore/QTextStream>
 
 #include <iostream>
+#include <fstream>
 #include <streambuf>
 #include <string>
 
 class QDebugStream : public std::basic_streambuf<char>
 {
 public:
- QDebugStream(std::ostream &stream, QTextEdit* text_edit) : m_stream(stream)
+ QDebugStream(std::ostream &stream, QTextEdit* text_edit, const char* logfile = "out.log") : m_stream(stream), fstream(logfile)
  {
   log_window = text_edit;
   m_old_buf = stream.rdbuf();
@@ -22,10 +23,13 @@ public:
  ~QDebugStream()
  {
   // output anything that is left
-  if (!m_string.empty())
+  if (!m_string.empty()) {
+   fstream << m_string << std::endl;
    log_window->append(m_string.c_str());
+  }
 
   m_stream.rdbuf(m_old_buf);
+  fstream.close();
  }
 
 protected:
@@ -33,6 +37,7 @@ protected:
  {
   if (v == '\n')
   {
+   fstream << m_string << std::endl;
    log_window->append(m_string.c_str());
    m_string.erase(m_string.begin(), m_string.end());
   }
@@ -53,6 +58,7 @@ protected:
    if (pos != std::string::npos)
    {
     std::string tmp(m_string.begin(), m_string.begin() + pos);
+    fstream << tmp << std::endl;
     log_window->append(tmp.c_str());
     m_string.erase(m_string.begin(), m_string.begin() + pos + 1);
    }
@@ -62,6 +68,7 @@ protected:
  }
 
 private:
+ std::ofstream fstream;
  std::ostream &m_stream;
  std::streambuf *m_old_buf;
  std::string m_string;
