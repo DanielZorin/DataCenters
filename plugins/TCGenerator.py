@@ -128,13 +128,15 @@ class TCGenerator:
             # Theoretically, this procesude is not guaranteed to be finite
             if it > 9000:
                 break
-            r = random.randint(1, len(cmps) - 1)
+            r = random.randint(0, len(cmps) - 1)
             c = cmps[r]
             for elem in comps[c][2:]:
                 demand = elem[1]
                 vm = elem[0]
                 for v in storages.keys():
-                    for st in storages[v][2:]:
+                    sts = [t for t in storages[v][2:]]
+                    random.shuffle(sts)		
+                    for st in sts:
                         if st[1] == demand:
                             vs = st[0]
                             bandwidth = min(comps[c][1], storages[v][1]) / max(len(comps[c]) - 2, len(storages[v]) - 2)
