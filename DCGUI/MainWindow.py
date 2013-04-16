@@ -177,9 +177,9 @@ class MainWindow(QMainWindow):
         else:
             alg = "d"
         if sys.platform.startswith("win"):
-            name = "Algolib.exe"
+            name = "Algorithm/Algolib.exe"
         else:
-            name = "./Algolib"
+            name = "Algorithm/Algolib"
         os.system(name + " \"" + os.path.relpath(self.projectFile) + "\" \"" + os.path.relpath(self.projectFile) + "\" " + alg)
         #self.project.Run()
         self.OpenProjectFromFile(self.projectFile)

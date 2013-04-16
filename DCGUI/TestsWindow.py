@@ -43,9 +43,9 @@ class TestsWindow(QMainWindow):
         else:
             alg = "d"
         if sys.platform.startswith("win"):
-            name = "Algolib.exe"
+            name = "Algorithm/Algolib.exe"
         else:
-            name = "./Algolib"
+            name = "Algorithm/Algolib"
         for p in self.projects.values():
             os.system(name + " \"" + os.path.relpath(p) + "\" \"" + os.path.relpath(p) + "\" " + alg)
         self.changed = True
