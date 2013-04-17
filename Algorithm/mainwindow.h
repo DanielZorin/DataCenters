@@ -11,6 +11,7 @@ using std::endl;
 #include <QtCore/QFile>
 #include <QtCore/QIODevice>
 #include <QtCore/QTextStream>
+#include <QtCore/QThread>
 
 #include <iostream>
 #include <streambuf>
@@ -26,6 +27,18 @@ using std::endl;
 #include <QtCore/QObject>
 #include <QtGui/QWidget>
 #include "qdebugstream.h"
+
+class MyThread : public QThread
+{
+	Q_OBJECT
+
+	Algorithm* algorithm;
+
+protected:
+	void run() {algorithm->schedule();}
+public:
+	MyThread(Algorithm* alg) {algorithm = alg;}
+};
 
 class OurMainWindow : public QMainWindow
 {
@@ -83,7 +96,13 @@ public:
 public slots:
 	void run()
 	{
-		algorithm->schedule();
+		MyThread* thread = new MyThread(algorithm);
+		QObject::connect(thread, SIGNAL(finished()), SLOT(finish()));
+		thread->start();
+	}
+
+	void finish()
+	{
 		Assignments assignments = algorithm->getAssignments();
 		converter->setAssignments(assignments);
 
@@ -97,6 +116,5 @@ public slots:
 		delete converter;
 		delete algorithm;
 		ok->setEnabled(true);
-
 	}
 };
