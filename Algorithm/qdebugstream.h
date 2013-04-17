@@ -5,6 +5,8 @@
 #include <QtCore/QFile>
 #include <QtCore/QIODevice>
 #include <QtCore/QTextStream>
+#include <QtGui/QTextCursor>
+#include <QtCore/QMetaType>
 
 #include <iostream>
 #include <fstream>
@@ -25,7 +27,7 @@ public:
   // output anything that is left
   if (!m_string.empty()) {
    fstream << m_string << std::endl;
-   log_window->append(m_string.c_str());
+   QMetaObject::invokeMethod(log_window, "append", Qt::QueuedConnection, Q_ARG(QString, m_string.c_str()));
   }
 
   m_stream.rdbuf(m_old_buf);
@@ -38,7 +40,7 @@ protected:
   if (v == '\n')
   {
    fstream << m_string << std::endl;
-   log_window->append(m_string.c_str());
+   QMetaObject::invokeMethod(log_window, "append", Qt::QueuedConnection, Q_ARG(QString, m_string.c_str()));
    m_string.erase(m_string.begin(), m_string.end());
   }
   else
@@ -59,7 +61,7 @@ protected:
    {
     std::string tmp(m_string.begin(), m_string.begin() + pos);
     fstream << tmp << std::endl;
-    log_window->append(tmp.c_str());
+    QMetaObject::invokeMethod(log_window, "append", Qt::QueuedConnection, Q_ARG(QString, tmp.c_str()));
     m_string.erase(m_string.begin(), m_string.begin() + pos + 1);
    }
   }
