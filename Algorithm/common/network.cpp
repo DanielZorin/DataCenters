@@ -11,7 +11,12 @@ Network::Network()
 Network::Network(const Network & n)
 {
     for (Nodes::const_iterator i = n.nodes.begin(); i != n.nodes.end(); i ++)
-        nodes.insert(new Node((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity()));
+    {
+        Node * tmpNode = new Node((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity());
+        tmpNode->setRamCapacity((*i)->getRamCapacity());
+        tmpNode->setMaxRamCapacity((*i)->getMaxRamCapacity());
+        nodes.insert(tmpNode);
+    }
 
     for (Stores::const_iterator i = n.stores.begin(); i != n.stores.end(); i ++)
         stores.insert(new Store((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity(), (*i)->getTypeOfStore()));
@@ -22,7 +27,7 @@ Network::Network(const Network & n)
     for (Links::const_iterator i = n.links.begin(); i != n.links.end(); i ++)
     {
         Link * tmp = new Link((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity());
-        tmp->bindElements((*i)->getFirst(), (*i)->getSecond());
+        tmp->bindElements((*i)->getFirst(), (*i)->getSecond()); // FIXME bind new elements, not old ones
         links.insert(tmp);
     }
 }
@@ -65,7 +70,12 @@ Network& Network::operator=(const Network & n)
 
     // add new items
     for (Nodes::const_iterator i = n.nodes.begin(); i != n.nodes.end(); i ++)
-        nodes.insert(new Node((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity()));
+    {
+        Node * tmpNode = new Node((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity());
+        tmpNode->setRamCapacity((*i)->getRamCapacity());
+        tmpNode->setMaxRamCapacity((*i)->getMaxRamCapacity());
+        nodes.insert(tmpNode);
+    }
 
     for (Stores::const_iterator i = n.stores.begin(); i != n.stores.end(); i ++)
         stores.insert(new Store((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity(), (*i)->getTypeOfStore()));
@@ -76,7 +86,7 @@ Network& Network::operator=(const Network & n)
     for (Links::const_iterator i = n.links.begin(); i != n.links.end(); i ++)
     {
         Link * tmp = new Link((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity());
-        tmp->bindElements((*i)->getFirst(), (*i)->getSecond());
+        tmp->bindElements((*i)->getFirst(), (*i)->getSecond()); // FIXME bind new elements, not old ones
         links.insert(tmp);
     }
 
@@ -92,6 +102,8 @@ Network & Network::assign (const Network & n)
     {
         (*i2)->setCapacity((*i1)->getCapacity());
         (*i2)->setMaxCapacity((*i1)->getMaxCapacity());
+        (*i2)->setRamCapacity((*i1)->getRamCapacity());
+        (*i2)->setMaxRamCapacity((*i1)->getMaxRamCapacity());
     }
 
     Stores::const_iterator j1 = n.stores.begin();
@@ -118,6 +130,7 @@ Network & Network::assign (const Network & n)
         (*p2)->setCapacity((*p1)->getCapacity());
         (*p2)->setMaxCapacity((*p1)->getMaxCapacity());
     }
+    return *this;
 }
 
 Node* Network::addNode(Node * node)

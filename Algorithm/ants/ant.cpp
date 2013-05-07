@@ -186,6 +186,7 @@ Algorithm::Result AntAlgorithm::schedule()
     std::cerr << "Algorithm parameters: antNum = " << antNum << ", iter = " << iterNum << ", pd = " << pherDeg << ", hd = " << heurDeg << ", evap = " << evapRate << '\n';
     std::cout << '\n';
     unsigned int iMax = 0;
+    unsigned int t1 = (unsigned)time(NULL);
     std::map<Link *, AssignedChannel> channels;
     for (int i = 0; i < iterNum; ++ i)
     {
@@ -233,7 +234,7 @@ Algorithm::Result AntAlgorithm::schedule()
         }
         if (ZERO(bestValue-1)) break;
     }
-
+    std::cout << (unsigned)time(NULL) - t1 << '\n';
     // generate assignments
     if (bestPath == NULL) return Algorithm::FAILURE;
     std::cerr << "generating answer...";
