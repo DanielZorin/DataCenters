@@ -214,6 +214,54 @@
     </message>
 </context>
 <context>
+    <name>FilesGenerator</name>
+    <message>
+        <location filename="FilesGenerator.ui" line="14"/>
+        <source>Generate Projects</source>
+        <translation>Generate Projects</translation>
+    </message>
+    <message>
+        <location filename="FilesGenerator.ui" line="44"/>
+        <source>Number of files:</source>
+        <translation>Number of files:</translation>
+    </message>
+    <message>
+        <location filename="FilesGenerator.ui" line="64"/>
+        <source>Topology:</source>
+        <translation>Topology:</translation>
+    </message>
+    <message>
+        <location filename="FilesGenerator.ui" line="72"/>
+        <source>Common DC Topology</source>
+        <translation>Common DC Topology</translation>
+    </message>
+    <message>
+        <location filename="FilesGenerator.ui" line="77"/>
+        <source>Tree-like (2 switch layers)</source>
+        <translation>Tree-like (2 switch layers)</translation>
+    </message>
+    <message>
+        <location filename="FilesGenerator.ui" line="82"/>
+        <source>Tree-like (3 switch layers)</source>
+        <translation>Tree-like (3 switch layers)</translation>
+    </message>
+    <message>
+        <location filename="FilesGenerator.ui" line="90"/>
+        <source>Generator:</source>
+        <translation>Requests type:</translation>
+    </message>
+    <message>
+        <location filename="FilesGenerator.ui" line="102"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <location filename="FilesGenerator.ui" line="109"/>
+        <source>Cancel</source>
+        <translation>Cancel</translation>
+    </message>
+</context>
+<context>
     <name>GraphVis</name>
     <message>
         <location filename="GraphVis.ui" line="17"/>
@@ -1112,149 +1160,154 @@
         <translation>Remove</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="152"/>
+        <location filename="TestsWindow.ui" line="163"/>
         <source>Run</source>
         <translation>Run</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="182"/>
+        <location filename="TestsWindow.ui" line="193"/>
         <source>Graphs</source>
         <translation>Graphs</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="194"/>
+        <location filename="TestsWindow.ui" line="205"/>
         <source>Vertical axis:</source>
         <translation>Vertical axis:</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="201"/>
+        <location filename="TestsWindow.ui" line="212"/>
         <source>Horizontal axis:</source>
         <translation>Horizontal axis:</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="213"/>
+        <location filename="TestsWindow.ui" line="224"/>
         <source>Number of assigned requests</source>
         <translation>Number of assigned requests</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="218"/>
+        <location filename="TestsWindow.ui" line="229"/>
         <source>Number of replications</source>
         <translation>Number of replications</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="227"/>
+        <location filename="TestsWindow.ui" line="238"/>
         <source>Computational nodes and data stores load</source>
         <translation>Computational nodes and data stores load</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="232"/>
+        <location filename="TestsWindow.ui" line="243"/>
         <source>Computational nodes load (CPU and RAM)</source>
         <translation>Computational nodes load (CPU and RAM)</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="237"/>
+        <location filename="TestsWindow.ui" line="248"/>
         <source>CPU load</source>
         <translation>CPU load</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="242"/>
+        <location filename="TestsWindow.ui" line="253"/>
         <source>RAM load</source>
         <translation>RAM load</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="247"/>
+        <location filename="TestsWindow.ui" line="258"/>
         <source>Data stores load</source>
         <translation>Data stores load</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="312"/>
+        <location filename="TestsWindow.ui" line="323"/>
         <source>Select</source>
         <translation>Select</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="315"/>
+        <location filename="TestsWindow.ui" line="326"/>
         <source>Alt+1</source>
         <translation>Alt+1</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="330"/>
+        <location filename="TestsWindow.ui" line="341"/>
         <source>Add VM</source>
         <translation>Add VM</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="333"/>
+        <location filename="TestsWindow.ui" line="344"/>
         <source>Alt+2</source>
         <translation>Alt+2</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="348"/>
+        <location filename="TestsWindow.ui" line="359"/>
         <source>Add Virtual Channel</source>
         <translation>Add Virtual Channel</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="351"/>
+        <location filename="TestsWindow.ui" line="362"/>
         <source>Alt+3</source>
         <translation>Alt+3</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="360"/>
+        <location filename="TestsWindow.ui" line="371"/>
         <source>New Graph</source>
         <translation>New Graph</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="363"/>
+        <location filename="TestsWindow.ui" line="374"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="372"/>
+        <location filename="TestsWindow.ui" line="383"/>
         <source>Open Graph</source>
         <translation>Open Graph</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="375"/>
+        <location filename="TestsWindow.ui" line="386"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="384"/>
+        <location filename="TestsWindow.ui" line="395"/>
         <source>Save Graph</source>
         <translation>Save Graph</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="387"/>
+        <location filename="TestsWindow.ui" line="398"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="392"/>
+        <location filename="TestsWindow.ui" line="403"/>
         <source>Save Graph As...</source>
         <translation>Save Graph As...</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="395"/>
+        <location filename="TestsWindow.ui" line="406"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="400"/>
+        <location filename="TestsWindow.ui" line="411"/>
         <source>Exit</source>
         <translation>Exit</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="403"/>
+        <location filename="TestsWindow.ui" line="414"/>
         <source>Ctrl+X</source>
         <translation>Ctrl+X</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="418"/>
+        <location filename="TestsWindow.ui" line="429"/>
         <source>Add Storage</source>
         <translation>Add Storage</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="421"/>
+        <location filename="TestsWindow.ui" line="432"/>
         <source>Alt+4</source>
         <translation>Alt+4</translation>
+    </message>
+    <message>
+        <location filename="TestsWindow.ui" line="152"/>
+        <source>Generate</source>
+        <translation>Generate</translation>
     </message>
 </context>
 <context>
@@ -1298,22 +1351,22 @@
 <context>
     <name>Translator</name>
     <message>
-        <location filename="TCGenerator.py" line="154"/>
+        <location filename="TCGenerator.py" line="156"/>
         <source>Request count</source>
         <translation>Request count</translation>
     </message>
     <message>
-        <location filename="TCGenerator.py" line="155"/>
+        <location filename="TCGenerator.py" line="157"/>
         <source>Storage</source>
         <translation>Storage</translation>
     </message>
     <message>
-        <location filename="TCGenerator.py" line="156"/>
+        <location filename="TCGenerator.py" line="158"/>
         <source>Computers</source>
         <translation>Computers</translation>
     </message>
     <message>
-        <location filename="TCGenerator.py" line="157"/>
+        <location filename="TCGenerator.py" line="159"/>
         <source>Network</source>
         <translation>Network</translation>
     </message>

@@ -186,7 +186,7 @@ class MainWindow(QMainWindow):
         self.showStats()
 
     def RunMultipleTests(self):
-        window = TestsWindow()
+        window = TestsWindow(self)
         window.show()
         while window.isVisible():
             qApp.processEvents()

@@ -1,20 +1,71 @@
 from PyQt4.QtCore import Qt
-from PyQt4.QtGui import QMainWindow, QFileDialog, QTreeWidgetItem, QGraphicsScene, QColor, QPen, QFont, QImage, QPainter
+from PyQt4.QtGui import QMainWindow, QDialog, QFileDialog, QTreeWidgetItem, QGraphicsScene, QColor, QPen, QFont, QImage, QPainter
 from DCGUI.Windows.ui_TestsWindow import Ui_TestsWindow
+from DCGUI.Windows.ui_FilesGenerator import Ui_FilesGenerator
 from DCGUI.Project import Project
+from DCGUI.TreeDialog import TreeDialog
+from DCGUI.ParamsDialog import ParamsDialog
 from Core.Demands import DemandStorage, VM
-from Core.Resources import Computer, Storage, Router
+from Core.Resources import Computer, Storage, Router, ResourceGraph
 import os, sys
+
+class FilesGenerator(QDialog):
+    def __init__(self):
+        QDialog.__init__(self)
+        self.ui = Ui_FilesGenerator()
+        self.ui.setupUi(self)
 
 class TestsWindow(QMainWindow):
     settings = {"axis": QColor(0, 0, 0),
               "graph": QColor(255, 0, 0)}
 
-    def __init__(self):
-        QMainWindow.__init__(self)
+    def __init__(self, parent):
+        QMainWindow.__init__(self, parent)
         self.ui = Ui_TestsWindow()
         self.ui.setupUi(self)
         self.projects = {}
+        self.changed = True
+
+    def Generate(self):
+        d = FilesGenerator()
+        for generator in self.parent().generators.values():
+            d.ui.generators.addItem(generator.GetName())
+        d.exec_()
+        if not d.result():
+            return
+        resources = ResourceGraph()
+        if not d.result():
+            return
+        if d.ui.topologies.currentIndex()==0:
+            d1 = TreeDialog(1)
+        elif d.ui.topologies.currentIndex()==1:
+            d1 = TreeDialog(2)
+        elif d.ui.topologies.currentIndex()==2:
+            d1 = TreeDialog(3)
+        d1.exec_()
+        if not d1.result():
+            return
+        dict = d1.GetResult()
+        if dict["type"]==1:
+            resources.GenerateCommonStructure(dict)
+        elif dict["type"]==2:
+            resources.GenerateTree2(dict)
+        elif dict["type"]==3:
+            resources.GenerateTree3(dict)
+        generator = self.parent().generators.values()[d.ui.generators.currentIndex()]
+        data = generator.GetSettings()
+        d2 = ParamsDialog(data, self)
+        d2.exec_()
+        if d2.result() == QDialog.Accepted:
+            generator.UpdateSettings(d2.data)
+        for i in range(int(d.ui.num.text())):
+            project = Project()
+            project.demands = generator.Generate(resources)
+            project.resources = resources
+            name = "Project" + str(i) + ".dcxml"
+            project.Save(name)
+            it = QTreeWidgetItem(self.ui.projects, [name])
+            self.projects[it] = name
         self.changed = True
 
     def Add(self):

@@ -43,3 +43,8 @@ Algorithm/Release/*
 *.tlog
 *.pdb
 *.lastbuildstate
+
+*.cxx
+*.a
+*.cmake
+*.idea

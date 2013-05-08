@@ -38,7 +38,7 @@ QLabel, QSlider {
        <bool>true</bool>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -143,6 +143,17 @@ QLabel, QSlider {
               <property name="icon">
                <iconset resource="resources.qrc">
                 <normaloff>:/pics/pics/delete.png</normaloff>:/pics/pics/delete.png</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton">
+              <property name="text">
+               <string>Generate</string>
+              </property>
+              <property name="icon">
+               <iconset resource="resources.qrc">
+                <normaloff>:/pics/pics/dice.png</normaloff>:/pics/pics/dice.png</iconset>
               </property>
              </widget>
             </item>
@@ -433,8 +444,8 @@ QLabel, QSlider {
    <slot>Add()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>366</x>
-     <y>157</y>
+     <x>506</x>
+     <y>161</y>
     </hint>
     <hint type="destinationlabel">
      <x>377</x>
@@ -449,8 +460,8 @@ QLabel, QSlider {
    <slot>Remove()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>366</x>
-     <y>187</y>
+     <x>506</x>
+     <y>188</y>
     </hint>
     <hint type="destinationlabel">
      <x>378</x>
@@ -465,8 +476,8 @@ QLabel, QSlider {
    <slot>Run()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>366</x>
-     <y>217</y>
+     <x>506</x>
+     <y>242</y>
     </hint>
     <hint type="destinationlabel">
      <x>380</x>
@@ -513,8 +524,8 @@ QLabel, QSlider {
    <slot>Save()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>361</x>
-     <y>65</y>
+     <x>444</x>
+     <y>74</y>
     </hint>
     <hint type="destinationlabel">
      <x>362</x>
@@ -529,8 +540,8 @@ QLabel, QSlider {
    <slot>ScaleDown()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>391</x>
-     <y>65</y>
+     <x>475</x>
+     <y>74</y>
     </hint>
     <hint type="destinationlabel">
      <x>388</x>
@@ -545,8 +556,8 @@ QLabel, QSlider {
    <slot>ScaleUp()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>426</x>
-     <y>63</y>
+     <x>506</x>
+     <y>74</y>
     </hint>
     <hint type="destinationlabel">
      <x>426</x>
@@ -570,6 +581,22 @@ QLabel, QSlider {
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>TestsWindow</receiver>
+   <slot>Generate()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>458</x>
+     <y>205</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>532</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>toggleSelect()</slot>
@@ -585,5 +612,6 @@ QLabel, QSlider {
   <slot>ScaleUp()</slot>
   <slot>ScaleDown()</slot>
   <slot>ChangeTab()</slot>
+  <slot>Generate()</slot>
  </slots>
 </ui>

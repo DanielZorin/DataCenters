@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="en_US" sourcelanguage="">
+<!DOCTYPE TS><TS version="1.1" language="en_US">
 <context>
     <name>ComputerDialog</name>
     <message>
@@ -210,6 +210,54 @@
         <location filename="EdgeDialog.ui" line="14"/>
         <source>Edit Channel</source>
         <translation>Редактирование канала</translation>
+    </message>
+</context>
+<context>
+    <name>FilesGenerator</name>
+    <message>
+        <location filename="FilesGenerator.ui" line="14"/>
+        <source>Generate Projects</source>
+        <translation>Генерация проектов</translation>
+    </message>
+    <message>
+        <location filename="FilesGenerator.ui" line="44"/>
+        <source>Number of files:</source>
+        <translation>Количество файлов:</translation>
+    </message>
+    <message>
+        <location filename="FilesGenerator.ui" line="64"/>
+        <source>Topology:</source>
+        <translation>Топология:</translation>
+    </message>
+    <message>
+        <location filename="FilesGenerator.ui" line="72"/>
+        <source>Common DC Topology</source>
+        <translation>Стандартная топология ЦОД</translation>
+    </message>
+    <message>
+        <location filename="FilesGenerator.ui" line="77"/>
+        <source>Tree-like (2 switch layers)</source>
+        <translation>Древовидная (два уровня коммутаторов)</translation>
+    </message>
+    <message>
+        <location filename="FilesGenerator.ui" line="82"/>
+        <source>Tree-like (3 switch layers)</source>
+        <translation>Древовидная (три уровня коммутаторов)</translation>
+    </message>
+    <message>
+        <location filename="FilesGenerator.ui" line="90"/>
+        <source>Generator:</source>
+        <translation>Тип запросов:</translation>
+    </message>
+    <message>
+        <location filename="FilesGenerator.ui" line="102"/>
+        <source>OK</source>
+        <translation>ОК</translation>
+    </message>
+    <message>
+        <location filename="FilesGenerator.ui" line="109"/>
+        <source>Cancel</source>
+        <translation>Отмена</translation>
     </message>
 </context>
 <context>
@@ -1111,149 +1159,154 @@
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="152"/>
+        <location filename="TestsWindow.ui" line="163"/>
         <source>Run</source>
         <translation>Запуск</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="182"/>
+        <location filename="TestsWindow.ui" line="193"/>
         <source>Graphs</source>
         <translation>Графики</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="194"/>
+        <location filename="TestsWindow.ui" line="205"/>
         <source>Vertical axis:</source>
         <translation>Вертикальная ось:</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="201"/>
+        <location filename="TestsWindow.ui" line="212"/>
         <source>Horizontal axis:</source>
         <translation>Горизонтальная ось:</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="213"/>
+        <location filename="TestsWindow.ui" line="224"/>
         <source>Number of assigned requests</source>
         <translation>Количество запланированных запросов</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="218"/>
+        <location filename="TestsWindow.ui" line="229"/>
         <source>Number of replications</source>
         <translation>Количество репликаций</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="227"/>
+        <location filename="TestsWindow.ui" line="238"/>
         <source>Computational nodes and data stores load</source>
         <translation>Загрузка вычислителей и хранилищ данных</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="232"/>
+        <location filename="TestsWindow.ui" line="243"/>
         <source>Computational nodes load (CPU and RAM)</source>
         <translation>Загрузка вычислителей (CPU и RAM)</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="237"/>
+        <location filename="TestsWindow.ui" line="248"/>
         <source>CPU load</source>
         <translation>Загрузка CPU</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="242"/>
+        <location filename="TestsWindow.ui" line="253"/>
         <source>RAM load</source>
         <translation>Загрузка RAM</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="247"/>
+        <location filename="TestsWindow.ui" line="258"/>
         <source>Data stores load</source>
         <translation>Загрузка хранилищ данных</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="312"/>
+        <location filename="TestsWindow.ui" line="323"/>
         <source>Select</source>
         <translation>Выбор</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="315"/>
+        <location filename="TestsWindow.ui" line="326"/>
         <source>Alt+1</source>
         <translation>Alt+1</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="330"/>
+        <location filename="TestsWindow.ui" line="341"/>
         <source>Add VM</source>
         <translation>Добавить виртуальную машину</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="333"/>
+        <location filename="TestsWindow.ui" line="344"/>
         <source>Alt+2</source>
         <translation>Alt+2</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="348"/>
+        <location filename="TestsWindow.ui" line="359"/>
         <source>Add Virtual Channel</source>
         <translation>Добавить виртуальный канал</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="351"/>
+        <location filename="TestsWindow.ui" line="362"/>
         <source>Alt+3</source>
         <translation>Alt+3</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="360"/>
+        <location filename="TestsWindow.ui" line="371"/>
         <source>New Graph</source>
         <translation>Новый граф</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="363"/>
+        <location filename="TestsWindow.ui" line="374"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="372"/>
+        <location filename="TestsWindow.ui" line="383"/>
         <source>Open Graph</source>
         <translation>Открыть граф</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="375"/>
+        <location filename="TestsWindow.ui" line="386"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="384"/>
+        <location filename="TestsWindow.ui" line="395"/>
         <source>Save Graph</source>
         <translation>Сохранить граф</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="387"/>
+        <location filename="TestsWindow.ui" line="398"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="392"/>
+        <location filename="TestsWindow.ui" line="403"/>
         <source>Save Graph As...</source>
         <translation>Сохранить граф как...</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="395"/>
+        <location filename="TestsWindow.ui" line="406"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="400"/>
+        <location filename="TestsWindow.ui" line="411"/>
         <source>Exit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="403"/>
+        <location filename="TestsWindow.ui" line="414"/>
         <source>Ctrl+X</source>
         <translation>Ctrl+X</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="418"/>
+        <location filename="TestsWindow.ui" line="429"/>
         <source>Add Storage</source>
         <translation>Добавить storage-элемент</translation>
     </message>
     <message>
-        <location filename="TestsWindow.ui" line="421"/>
+        <location filename="TestsWindow.ui" line="432"/>
         <source>Alt+4</source>
         <translation>Alt+4</translation>
+    </message>
+    <message>
+        <location filename="TestsWindow.ui" line="152"/>
+        <source>Generate</source>
+        <translation>Генерация</translation>
     </message>
 </context>
 <context>
@@ -1297,22 +1350,22 @@
 <context>
     <name>Translator</name>
     <message>
-        <location filename="TCGenerator.py" line="154"/>
+        <location filename="TCGenerator.py" line="156"/>
         <source>Request count</source>
         <translation>Количество запросов</translation>
     </message>
     <message>
-        <location filename="TCGenerator.py" line="155"/>
+        <location filename="TCGenerator.py" line="157"/>
         <source>Storage</source>
         <translation>Хранилища</translation>
     </message>
     <message>
-        <location filename="TCGenerator.py" line="156"/>
+        <location filename="TCGenerator.py" line="158"/>
         <source>Computers</source>
         <translation>Вычислительные узлы</translation>
     </message>
     <message>
-        <location filename="TCGenerator.py" line="157"/>
+        <location filename="TCGenerator.py" line="159"/>
         <source>Network</source>
         <translation>Сеть</translation>
     </message>
