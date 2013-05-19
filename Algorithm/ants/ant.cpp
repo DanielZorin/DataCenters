@@ -45,7 +45,8 @@ bool AntAlgorithm::init()
 {
     try
     {
-        copyNetwork = new Network(*network);
+        copyNetwork = new Network;
+        (*copyNetwork) = (*network);
 
         // how many VMs and storages we have
         for (Requests::iterator i = requests.begin(); i != requests.end(); i ++)
@@ -193,7 +194,7 @@ Algorithm::Result AntAlgorithm::schedule()
         std::cerr << "Iteration " << i << '\n';
         for (int ant = 0; ant < antNum; ++ ant)
         {
-            std::cerr << "Ant " << ant << '/' << antNum << '\r';
+//            std::cerr << "Ant " << ant << '/' << antNum << '\r';
 //            std::cerr << "Ant " << ant << '/' << antNum;
             channels.clear();
             graph->nextPath();
@@ -234,7 +235,6 @@ Algorithm::Result AntAlgorithm::schedule()
         }
         if (ZERO(bestValue-1)) break;
     }
-    std::cout << (unsigned)time(NULL) - t1 << '\n';
     // generate assignments
     if (bestPath == NULL) return Algorithm::FAILURE;
     std::cerr << "generating answer...";
@@ -547,9 +547,10 @@ void AntAlgorithm::buildLink(unsigned int ant, std::map<Link *, AssignedChannel>
                     }
                     if (!repSuccess)
                     {
-//                        std::cerr << "There is no virtual channel\n";
+//                        std::cerr << "There is no virtual channel, firstVertex = " << firstVertex << ", firstType = " << firstType << ", ant = " << ant << ", ";
                         // replication failed, removing first is enough
                         removeRequestElements(firstVertex, paths[ant], emptySet, emptySet, firstType);
+//                        std::cerr << "removed elements, path length is now " << paths[ant]->getLength()-2 << '\n';
                         // remove assigned links and replications
                         for (Request::VirtualLinks::iterator iter = links.begin(); iter != links.end(); iter ++)
                         {
@@ -636,4 +637,5 @@ void AntAlgorithm::buildLink(unsigned int ant, std::map<Link *, AssignedChannel>
     }
     // restore network
     if (restore) network->assign(*copyNetwork);
+
 }

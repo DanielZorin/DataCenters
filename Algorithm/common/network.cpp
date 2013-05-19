@@ -3,6 +3,39 @@
 #include "store.h"
 #include "switch.h"
 #include "link.h"
+#include <assert.h>
+
+Node * Network::nodesIDLookup(const long num)
+{
+    for (Nodes::iterator i = nodes.begin(); i != nodes.end(); i ++)
+        if ((*i)->getID() == num) return *i;
+
+    return NULL;
+}
+
+Store * Network::storesIDLookup(const long num)
+{
+    for (Stores::iterator i = stores.begin(); i != stores.end(); i ++)
+        if ((*i)->getID() == num) return *i;
+
+    return NULL;
+}
+
+Switch * Network::switchesIDLookup(const long num)
+{
+    for (Switches::iterator i = switches.begin(); i != switches.end(); i ++)
+        if ((*i)->getID() == num) return *i;
+
+    return NULL;
+}
+
+Link * Network::linksIDLookup(const long num)
+{
+    for (Links::iterator i = links.begin(); i != links.end(); i ++)
+        if ((*i)->getID() == num) return *i;
+
+    return NULL;
+}
 
 Network::Network()
 {
@@ -15,20 +48,50 @@ Network::Network(const Network & n)
         Node * tmpNode = new Node((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity());
         tmpNode->setRamCapacity((*i)->getRamCapacity());
         tmpNode->setMaxRamCapacity((*i)->getMaxRamCapacity());
+        tmpNode->setID((*i)->getID());
         nodes.insert(tmpNode);
     }
 
     for (Stores::const_iterator i = n.stores.begin(); i != n.stores.end(); i ++)
-        stores.insert(new Store((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity(), (*i)->getTypeOfStore()));
+    {
+        Store * tmpStore = new Store((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity(), (*i)->getTypeOfStore());
+        tmpStore->setID((*i)->getID());
+        stores.insert(tmpStore);
+    }
 
     for (Switches::const_iterator i = n.switches.begin(); i != n.switches.end(); i ++)
-        switches.insert(new Switch((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity()));
+    {
+        Switch * tmpSwitch = new Switch((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity());
+        tmpSwitch->setID((*i)->getID());
+        switches.insert(tmpSwitch);
+    }
 
+    long firstID = 0, secondID = 0;
+    Element * bindFirst = NULL, * bindSecond = NULL;
     for (Links::const_iterator i = n.links.begin(); i != n.links.end(); i ++)
     {
-        Link * tmp = new Link((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity());
-        tmp->bindElements((*i)->getFirst(), (*i)->getSecond()); // FIXME bind new elements, not old ones
-        links.insert(tmp);
+        Link * tmpLink = new Link((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity());
+        tmpLink->setID((*i)->getID());
+        // now find new elements and link them
+        firstID = (*i)->getFirst()->getID();
+        secondID = (*i)->getSecond()->getID();
+        bindFirst = NULL;
+        bindSecond = NULL;
+        // first
+        if ((*i)->getFirst()->isNode()) bindFirst = nodesIDLookup(firstID);
+        else if ((*i)->getFirst()->isStore()) bindFirst = storesIDLookup(firstID);
+        else if ((*i)->getFirst()->isSwitch()) bindFirst = switchesIDLookup(firstID);
+        else assert(false);
+        assert(bindFirst);
+        // second
+        if ((*i)->getSecond()->isNode()) bindSecond = nodesIDLookup(secondID);
+        else if ((*i)->getSecond()->isStore()) bindSecond = storesIDLookup(secondID);
+        else if ((*i)->getSecond()->isSwitch()) bindSecond = switchesIDLookup(secondID);
+        else assert(false);
+        assert(bindSecond);
+        // link and add
+        tmpLink->bindElements(bindFirst, bindSecond);
+        links.insert(tmpLink);
     }
 }
 
@@ -74,20 +137,54 @@ Network& Network::operator=(const Network & n)
         Node * tmpNode = new Node((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity());
         tmpNode->setRamCapacity((*i)->getRamCapacity());
         tmpNode->setMaxRamCapacity((*i)->getMaxRamCapacity());
+        tmpNode->setID((*i)->getID());
+        assert(tmpNode->isNode());
         nodes.insert(tmpNode);
     }
 
     for (Stores::const_iterator i = n.stores.begin(); i != n.stores.end(); i ++)
-        stores.insert(new Store((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity(), (*i)->getTypeOfStore()));
+    {
+        Store * tmpStore = new Store((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity(), (*i)->getTypeOfStore());
+        tmpStore->setID((*i)->getID());
+        assert(tmpStore->isStore());
+        stores.insert(tmpStore);
+    }
 
     for (Switches::const_iterator i = n.switches.begin(); i != n.switches.end(); i ++)
-        switches.insert(new Switch((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity()));
+    {
+        Switch * tmpSwitch = new Switch((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity());
+        tmpSwitch->setID((*i)->getID());
+        assert(tmpSwitch->isSwitch());
+        switches.insert(tmpSwitch);
+    }
 
+    long firstID = 0, secondID = 0;
+    Element * bindFirst = NULL, * bindSecond = NULL;
     for (Links::const_iterator i = n.links.begin(); i != n.links.end(); i ++)
     {
-        Link * tmp = new Link((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity());
-        tmp->bindElements((*i)->getFirst(), (*i)->getSecond()); // FIXME bind new elements, not old ones
-        links.insert(tmp);
+        Link * tmpLink = new Link((*i)->getName(), (*i)->getCapacity(), (*i)->getMaxCapacity());
+        tmpLink->setID((*i)->getID());
+        assert(tmpLink->isLink());
+        // now find new elements and link them
+        firstID = (*i)->getFirst()->getID();
+        secondID = (*i)->getSecond()->getID();
+        bindFirst = NULL;
+        bindSecond = NULL;
+        // first
+        if ((*i)->getFirst()->isNode()) bindFirst = nodesIDLookup(firstID);
+        else if ((*i)->getFirst()->isStore()) bindFirst = storesIDLookup(firstID);
+        else if ((*i)->getFirst()->isSwitch()) bindFirst = switchesIDLookup(firstID);
+        else assert(false);
+        assert(bindFirst);
+        // second
+        if ((*i)->getSecond()->isNode()) bindSecond = nodesIDLookup(secondID);
+        else if ((*i)->getSecond()->isStore()) bindSecond = storesIDLookup(secondID);
+        else if ((*i)->getSecond()->isSwitch()) bindSecond = switchesIDLookup(secondID);
+        else assert(false);
+        assert(bindSecond);
+        // link and add
+        tmpLink->bindElements(bindFirst, bindSecond);
+        links.insert(tmpLink);
     }
 
     return *this;
@@ -96,63 +193,67 @@ Network& Network::operator=(const Network & n)
 Network & Network::assign (const Network & n)
 {
     if (&n == this) return *this;
-    Nodes::const_iterator i1 = n.nodes.begin();
-    Nodes::const_iterator i2 = nodes.begin();
-    for (; i1 != n.nodes.end() && i2 != nodes.end(); i1 ++, i2 ++)
+    for (Nodes::const_iterator i = n.nodes.begin(); i != n.nodes.end(); i ++)
     {
-        (*i2)->setCapacity((*i1)->getCapacity());
-        (*i2)->setMaxCapacity((*i1)->getMaxCapacity());
-        (*i2)->setRamCapacity((*i1)->getRamCapacity());
-        (*i2)->setMaxRamCapacity((*i1)->getMaxRamCapacity());
+        Node * ptr = nodesIDLookup((*i)->getID());
+        assert(ptr);
+        ptr->setCapacity((*i)->getCapacity());
+        ptr->setMaxCapacity((*i)->getMaxCapacity());
+        ptr->setRamCapacity((*i)->getRamCapacity());
+        ptr->setMaxRamCapacity((*i)->getMaxRamCapacity());
     }
 
-    Stores::const_iterator j1 = n.stores.begin();
-    Stores::const_iterator j2 = stores.begin();
-    for (; j1 != n.stores.end() && j2 != stores.end(); j1 ++, j2 ++)
+    for (Stores::const_iterator i = n.stores.begin(); i != n.stores.end(); i ++)
     {
-        (*j2)->setCapacity((*j1)->getCapacity());
-        (*j2)->setMaxCapacity((*j1)->getMaxCapacity());
-        (*j2)->setTypeOfStore((*j1)->getTypeOfStore());
+        Store * ptr = storesIDLookup((*i)->getID());
+        assert(ptr);
+        ptr->setCapacity((*i)->getCapacity());
+        ptr->setMaxCapacity((*i)->getMaxCapacity());
+        ptr->setTypeOfStore((*i)->getTypeOfStore());
     }
 
-    Switches::const_iterator k1 = n.switches.begin();
-    Switches::const_iterator k2 = switches.begin();
-    for (; k1 != n.switches.end() && k2 != switches.end(); k1 ++, k2 ++)
+    for (Switches::const_iterator i = n.switches.begin(); i != n.switches.end(); i ++)
     {
-        (*k2)->setCapacity((*k1)->getCapacity());
-        (*k2)->setMaxCapacity((*k1)->getMaxCapacity());
+        Switch * ptr = switchesIDLookup((*i)->getID());
+        assert(ptr);
+        ptr->setCapacity((*i)->getCapacity());
+        ptr->setMaxCapacity((*i)->getMaxCapacity());
     }
 
-    Links::const_iterator p1 = n.links.begin();
-    Links::const_iterator p2 = links.begin();
-    for (; p1 != n.links.end() && p2 != links.end(); p1 ++, p2 ++)
+    for (Links::const_iterator i = n.links.begin(); i != n.links.end(); i ++)
     {
-        (*p2)->setCapacity((*p1)->getCapacity());
-        (*p2)->setMaxCapacity((*p1)->getMaxCapacity());
+        Link * ptr = linksIDLookup((*i)->getID());
+        assert(ptr);
+        ptr->setCapacity((*i)->getCapacity());
+        ptr->setMaxCapacity((*i)->getMaxCapacity());
     }
     return *this;
 }
 
 Node* Network::addNode(Node * node)
 {
+    node->setID(nodes.size());
     nodes.insert(node);
     return node;
 }
 
 Store* Network::addStore(Store * store)
 {
+    store->setID(stores.size());
     stores.insert(store);
     return store;
 }
 
-Switch* Network::addSwitch(Switch* sw)
+Switch* Network::addSwitch(Switch * sw)
 {
+    sw->setID(switches.size());
     switches.insert(sw);
     return sw;
 }
 
 Link* Network::addLink(Link * link)
 {
+    link->setID(links.size());
     links.insert(link);
     return link;
 }
