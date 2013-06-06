@@ -55,14 +55,27 @@ class TestsWindow(QMainWindow):
         generator = self.parent().generators.values()[d.ui.generators.currentIndex()]
         data = generator.GetSettings()
         d2 = ParamsDialog(data, self)
+        d2.setWindowTitle("Demand Params Lower Bound")
         d2.exec_()
-        if d2.result() == QDialog.Accepted:
-            generator.UpdateSettings(d2.data)
-        for i in range(int(d.ui.num.text())):
+        if d2.result() != QDialog.Accepted:
+            return
+        lower = d2.data
+        d3 = ParamsDialog(data, self)
+        d3.setWindowTitle("Demand Params Upper Bound")
+        d3.exec_()
+        if d3.result() != QDialog.Accepted:
+            return
+        upper = d3.data   
+        count = int(d.ui.num.text())         
+        for j in range(count):
+            params = [v for v in lower]
+            for i in range(len(params)):
+                params[i][1] = lower[i][1] + (upper[i][1] - lower[i][1]) / count
+            generator.UpdateSettings(params)
             project = Project()
             project.demands = generator.Generate(resources)
             project.resources = resources
-            name = "Project" + str(i) + ".dcxml"
+            name = "Project" + str(j) + ".dcxml"
             project.Save(name)
             it = QTreeWidgetItem(self.ui.projects, [name])
             self.projects[it] = name

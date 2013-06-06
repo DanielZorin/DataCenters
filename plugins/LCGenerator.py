@@ -121,7 +121,6 @@ class LCGenerator:
                 [self.tr("Request count"), self.parent.number],
                 [self.tr("Total Storage Load (%)"), self.parent.storagePercent],
                 [self.tr("Total Computers Load (%)"), self.parent.compPercent],
-                [self.tr("Total Network Load (%)"), self.parent.netPercent],
                 [self.tr("Storage Variance"), self.parent.storageVar],
                 [self.tr("Computers Variance"), self.parent.compVar]
                         ]
@@ -133,9 +132,8 @@ class LCGenerator:
         self.number = dict[0][1]
         self.storagePercent = dict[1][1]
         self.compPercent = dict[2][1]
-        self.netPercent = dict[3][1]
-        self.storageVar = dict[4][1]
-        self.compVar = dict[5][1]
+        self.storageVar = dict[3][1]
+        self.compVar = dict[4][1]
 
 def pluginMain():
     return LCGenerator
