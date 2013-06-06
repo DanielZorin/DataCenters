@@ -6,6 +6,8 @@ class LCGenerator:
     storagePercent = 50
     compPercent = 50
     number = 10
+    storageVar = 2
+    compVar = 2
     max_x = 400
 
     def __init__(self):
@@ -38,8 +40,8 @@ class LCGenerator:
         stTotal = int(sumSt * float(self.storagePercent) / 100.0)
 
         while (usedSt < stTotal) or (usedComp < compTotal):
-            st = min([int(max([0, random.gauss(medianStorage, 2)]) * sumSt / 100.0), stTotal - usedSt])
-            comp = min([int(max([0, random.gauss(medianComp, 2)]) * sumComp / 100.0), compTotal - usedComp])
+            st = min([int(max([0, random.gauss(medianStorage, self.storageVar)]) * sumSt / 100.0), stTotal - usedSt])
+            comp = min([int(max([0, random.gauss(medianComp, self.compVar)]) * sumComp / 100.0), compTotal - usedComp])
             usedSt += st
             usedComp += comp
             requests += [[st, comp]]
@@ -117,8 +119,11 @@ class LCGenerator:
             def getTranslatedSettings(self):
                 return [
                 [self.tr("Request count"), self.parent.number],
-                [self.tr("Storage"), self.parent.storagePercent],
-                [self.tr("Computers"), self.parent.compPercent]
+                [self.tr("Total Storage Load (%)"), self.parent.storagePercent],
+                [self.tr("Total Computers Load (%)"), self.parent.compPercent],
+                [self.tr("Total Network Load (%)"), self.parent.netPercent],
+                [self.tr("Storage Variance"), self.parent.storageVar],
+                [self.tr("Computers Variance"), self.parent.compVar]
                         ]
         t = Translator(self)
         return t.getTranslatedSettings()
@@ -128,6 +133,9 @@ class LCGenerator:
         self.number = dict[0][1]
         self.storagePercent = dict[1][1]
         self.compPercent = dict[2][1]
+        self.netPercent = dict[3][1]
+        self.storageVar = dict[4][1]
+        self.compVar = dict[5][1]
 
 def pluginMain():
     return LCGenerator
