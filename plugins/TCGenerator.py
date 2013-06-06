@@ -6,6 +6,9 @@ class TCGenerator:
     storagePercent = 50
     compPercent = 50
     netPercent = 50
+    storageVar = 2
+    compVar = 2
+    netVar = 2
     number = 10
     max_x = 400
 
@@ -48,9 +51,9 @@ class TCGenerator:
         stTotal = int(sumSt * float(self.storagePercent) / 100.0)
         netTotal = int(sumNet * float(self.netPercent) / 100.0)
         while (usedSt < stTotal) or (usedComp < compTotal) or (usedNet < netTotal):
-            st = min([int(max([0, random.gauss(medianStorage, 2)]) * sumSt / 100.0), stTotal - usedSt])
-            comp = min([int(max([0, random.gauss(medianComp, 2)]) * sumComp / 100.0), compTotal - usedComp])
-            net = min([int(max([0, random.gauss(medianNet, 2)]) * sumNet / 100.0), netTotal - usedNet])
+            st = min([int(max([0, random.gauss(medianStorage, self.storageVar)]) * sumSt / 100.0), stTotal - usedSt])
+            comp = min([int(max([0, random.gauss(medianComp, self.compVar)]) * sumComp / 100.0), compTotal - usedComp])
+            net = min([int(max([0, random.gauss(medianNet, self.netVar)]) * sumNet / 100.0), netTotal - usedNet])
             usedSt += st
             usedComp += comp
             usedNet += net
@@ -154,9 +157,12 @@ class TCGenerator:
             def getTranslatedSettings(self):
                 return [
                 [self.tr("Request count"), self.parent.number],
-                [self.tr("Storage"), self.parent.storagePercent],
-                [self.tr("Computers"), self.parent.compPercent],
-                [self.tr("Network"), self.parent.netPercent]
+                [self.tr("Total Storage Load (%)"), self.parent.storagePercent],
+                [self.tr("Total Computers Load (%)"), self.parent.compPercent],
+                [self.tr("Total Network Load (%)"), self.parent.netPercent],
+                [self.tr("Storage Variance"), self.parent.storageVar],
+                [self.tr("Computers Variance"), self.parent.compVar],
+                [self.tr("Network Variance"), self.parent.netVar]
                         ]
         t = Translator(self)
         return t.getTranslatedSettings()
@@ -167,6 +173,9 @@ class TCGenerator:
         self.storagePercent = dict[1][1]
         self.compPercent = dict[2][1]
         self.netPercent = dict[3][1]
+        self.storageVar = dict[4][1]
+        self.compVar = dict[5][1]
+        self.netVar = dict[6][1]
 
 def pluginMain():
     return TCGenerator
