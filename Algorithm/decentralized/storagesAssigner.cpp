@@ -72,8 +72,6 @@ Requests StoragesAssigner::PerformAssignment(Requests& requests)
 
 bool StoragesAssigner::assignOneRequest(Request::Storages * storages, Assignment* reqAssignment)
 {
-    requestsAssignedStores.clear();
-
     // form the vector from the set to have an ability to sort it
     std::vector<Store * > storagesVec(storages->begin(), storages->end());
     std::sort(storagesVec.begin(), storagesVec.end(), storagesCompare);
@@ -102,20 +100,6 @@ bool StoragesAssigner::assignOneRequest(Request::Storages * storages, Assignment
 
 bool StoragesAssigner::assignOneStorage(Store * storage, Assignment* reqAssignment)
 {
-    /*
-    // trying to assign to the nodes with already assigned vms
-    for ( unsigned index = 0; index < requestsAssignedStores.size(); ++index )
-    {
-        if ( requestsAssignedStores[index]->getTypeOfStore() == storage->getTypeOfStore() 
-             && requestsAssignedStores[index]->getCapacity() >= storage->getCapacity() )
-        {
-            requestsAssignedStores[index]->assign(*storage);
-            reqAssignment->AddAssignment(storage, requestsAssignedStores[index]);
-            return true;
-        }
-    }
-    */
-
     // assignment failed, trying other storages
     // form the vector from the set to have an ability to sort it
     // !! getting the set of stores of the appropriate type
@@ -137,8 +121,6 @@ bool StoragesAssigner::assignOneStorage(Store * storage, Assignment* reqAssignme
         {
             stores[index]->assign(*storage);
             reqAssignment->AddAssignment(storage, stores[index]);
-            requestsAssignedStores.push_back(stores[index]);
-            std::sort(requestsAssignedStores.begin(), requestsAssignedStores.end(), storesCompare);
             return true;
         }
     }

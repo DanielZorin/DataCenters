@@ -61,12 +61,6 @@ private:
     bool tryToAssign(Element * element, Assignment* assignment,
                       std::map<Store*, Assignment* >& stAssignment,
                       std::vector<Storage*>& stsSetToAssign, Store* storeToAssign);
-
-private:
-    // Useful variables used during the algorithm
-
-    // Stores with already assigned storages of currently parsed request.
-    std::vector<Store* > requestsAssignedStores;
 };
 
 #endif

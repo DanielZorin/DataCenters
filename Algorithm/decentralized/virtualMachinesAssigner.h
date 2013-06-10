@@ -61,12 +61,6 @@ private:
     bool tryToAssign(Element * element, Assignment* assignment,
                       std::map<Node*, Assignment* >& vmAssignment,
                       std::vector<VirtualMachine*>& vmsSetToAssign, Node* nodeToAssign);
-
-private:
-    // Useful variables used during the algorithm
-
-    // Nodes with already assigned virtual machines of currently parsed request.
-    std::vector<Node* > requestsAssignedNodes;
 };
 
 #endif
