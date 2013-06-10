@@ -27,6 +27,12 @@ public:
     Assignment(Request * r) { request = r; }
     string getName();
 
+    // Get request
+    Request* getRequest() const
+    {
+       return request;
+    }
+
     ~Assignment(); // deleting only replications
 
     void AddAssignment(Node * w, Node * p)

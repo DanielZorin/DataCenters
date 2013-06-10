@@ -28,7 +28,7 @@ private:
     void parseNetwork(QDomElement &);
     void parseRequests(QDomNodeList &);
 
-    RequestOverseer * getOverseerByRequestName(QString &);
+    RequestOverseer * getOverseerByRequest(const Request *);
 
 private:
     NetworkOverseer* networkOverseer;

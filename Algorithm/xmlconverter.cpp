@@ -468,12 +468,12 @@ void XMLConverter::parseRequests(QDomNodeList & requests)
     }
 }
 
-RequestOverseer * XMLConverter::getOverseerByRequestName(QString & requestName)
+RequestOverseer * XMLConverter::getOverseerByRequest(const Request* request)
 {
     for (uint i = 0; i < requestOverseers.length(); i++)
     {
         RequestOverseer * overseer = requestOverseers[i];
-        if ( overseer->getName() == requestName )
+        if ( overseer->getRequest() == request )
             return overseer;
     }
     return 0;
@@ -485,8 +485,7 @@ void XMLConverter::setAssignments(Assignments & assignments)
             i != e; i++)
     {
         Assignment * assignment = *i;
-        QString assignmentName(assignment->getName().c_str());
-        RequestOverseer * overseer = getOverseerByRequestName(assignmentName);
+        RequestOverseer * overseer = getOverseerByRequest(assignment->getRequest());
         overseer->assign(assignment, *networkOverseer);
     }
 }
