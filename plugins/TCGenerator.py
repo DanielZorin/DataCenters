@@ -10,6 +10,7 @@ class TCGenerator:
     compVar = 2
     netVar = 2
     number = 10
+    coupling = 0.5
     max_x = 400
 
     def __init__(self):
@@ -20,9 +21,6 @@ class TCGenerator:
         return "Tightly coupled"
 
     def Generate(self, resources):
-        medianStorage = self.storagePercent / self.number
-        medianComp = self.compPercent / self.number
-        medianNet = self.netPercent / self.number
         comps = {}
         storages = {}
         for v in resources.vertices:
@@ -50,17 +48,39 @@ class TCGenerator:
         compTotal = int(sumComp * float(self.compPercent) / 100.0)
         stTotal = int(sumSt * float(self.storagePercent) / 100.0)
         netTotal = int(sumNet * float(self.netPercent) / 100.0)
-        while (usedSt < stTotal) or (usedComp < compTotal) or (usedNet < netTotal):
-            st = min([int(max([0, random.gauss(medianStorage, self.storageVar)]) * sumSt / 100.0), stTotal - usedSt])
-            comp = min([int(max([0, random.gauss(medianComp, self.compVar)]) * sumComp / 100.0), compTotal - usedComp])
-            net = min([int(max([0, random.gauss(medianNet, self.netVar)]) * sumNet / 100.0), netTotal - usedNet])
+        for i in range(self.number):
+            medianStorage = float(stTotal - usedSt)/(self.number-i)
+            medianComp = float(compTotal - usedComp)/(self.number-i)
+            medianNet = float(netTotal - usedNet)/(self.number-i)
+            if stTotal != usedSt:
+                st = int(random.gauss(medianStorage, self.storageVar*medianStorage/100))
+                while st<=0:
+                    st = int(random.gauss(medianStorage, self.storageVar*medianStorage/100))
+            else:
+                st = 0
+            st = min(st, stTotal - usedSt)
             usedSt += st
+            if compTotal != usedComp:
+                comp = int(random.gauss(medianComp, self.compVar*medianComp/100))
+                while comp<=0:
+                    comp = int(random.gauss(medianComp, self.compVar*medianComp/100))
+            else:
+                comp = 0
+            comp = min(comp, compTotal - usedComp)
             usedComp += comp
+            if netTotal != usedNet:
+                net = int(random.gauss(medianNet, self.netVar*medianNet/100))
+                while comp<=0:
+                    net = int(random.gauss(medianNet, self.netVar*medianNet/100))
+            else:
+                net = 0
+            net = min(net, netTotal - usedNet)
             usedNet += net
             requests += [[st, comp, net]]
         requests[0][0] += stTotal - usedSt
         requests[0][1] += compTotal - usedComp
         requests[0][2] += netTotal - usedNet
+
         res = []
         for r in requests:
             cur_x = 15
@@ -68,18 +88,22 @@ class TCGenerator:
             d = Demand("demand_" + str(r[0]) + "_" + str(r[1]))
             total = 0
             st = 1
+
+            strgs = [v for v in storages.keys()]
             while total < r[0]:
                 maxst = max([storages[v][0] for v in storages.keys()])
                 if maxst == 0:
                     maxst = 1
                 if st == 1:
                     st = min([maxst, r[0] / 3 + 1, r[0] - total])
+                    st = random.randint(1, st)
                 else:
                     st -= 1
-                for v in storages.keys():
+                random.shuffle(strgs)
+                for v in strgs:
                     if storages[v][0] >= st:
                         storages[v][0] -= st
-                        elem = DemandStorage("storage", st, 0, 9000)
+                        elem = DemandStorage("storage", st, 1, 10)
                         elem.x = cur_x
                         elem.y = cur_y
                         if cur_x > self.max_x:
@@ -95,15 +119,18 @@ class TCGenerator:
                 
             total = 0
             st = 1
+            cmps = [v for v in comps.keys()]
             while total < r[1]:
                 maxcmp = max([comps[v][0] for v in comps.keys()])
                 if maxcmp == 0:
                     maxcmp = 1
                 if st == 1:
                     st = min([maxcmp, r[1] / 3 + 1, r[1] - total])
+                    st = random.randint(1, st)
                 else:
                     st -= 1
-                for v in comps.keys():
+                random.shuffle(cmps)
+                for v in cmps:
                     if comps[v][0] >= st:
                         comps[v][0] -= st
                         elem = VM("vm", st)
@@ -122,10 +149,10 @@ class TCGenerator:
                 
             res.append(d)
 
-        total = 0
+        '''total = 0
         cmps = [v for v in comps.keys()]
         it = 0
-        while total < netTotal:
+        while total < netTotal/2:
             it += 1
             # TODO: Beedlowcode, but we have to ensure that the loop isn't endless
             # Theoretically, this procesude is not guaranteed to be finite
@@ -138,13 +165,54 @@ class TCGenerator:
                 vm = elem[0]
                 for v in storages.keys():
                     sts = [t for t in storages[v][2:]]
-                    random.shuffle(sts)		
-                    for st in sts:
+                    if not len(sts):
+                        continue
+                    random.shuffle(sts)
+                    n = random.randint(0,len(sts)-1)
+                    for st in sts[:n]:
                         if st[1] == demand:
                             vs = st[0]
                             bandwidth = min(comps[c][1], storages[v][1]) / max(len(comps[c]) - 2, len(storages[v]) - 2)
                             demand.AddLink(DemandLink(vm, vs, bandwidth))
-                            total += bandwidth
+                            total += bandwidth'''
+
+        #TODO: we can't guarantee that all requests can be assigned
+        maxNet = min(max([comps[v][1] for v in comps.keys()]),
+            max([storages[v][1] for v in storages.keys()]))
+        for r,d in zip(res,requests):
+            numEdges = int(len(r.vertices)*self.coupling)
+            bandwidth = min(int(d[2]/2/numEdges), maxNet/(self.coupling*2))
+            dstrgs = [v for v in r.vertices if isinstance(v, DemandStorage)]
+            vms = [v for v in r.vertices if isinstance(v, VM)]
+            for i in range(numEdges):
+                e = None
+                iter = 0
+                while not e:
+                    st = random.choice(dstrgs)
+                    edges = r.FindAllEdges(st)
+                    if iter>1000:
+                        bandwidth /= 2
+                    #to distribute edges uniformly
+                    if len(edges) > self.coupling*2+1:
+                        iter+=1
+                        continue
+                    net = sum(e.capacity for e in edges)
+                    if net+bandwidth>maxNet:
+                        iter+=1
+                        continue
+                    vm = random.choice(vms)
+                    edges = r.FindAllEdges(vm)
+                    if len(edges) > self.coupling*2+1:
+                        iter+=1
+                        continue
+                    net = sum(e.capacity for e in edges)
+                    if net+bandwidth>maxNet:
+                        iter+=1
+                        continue
+                    e = DemandLink(st, vm, bandwidth)
+                    iter = 0
+                r.AddLink(e)
+
         return res
 
     def GetSettings(self):
@@ -162,7 +230,8 @@ class TCGenerator:
                 [self.tr("Total Network Load (%)"), self.parent.netPercent],
                 [self.tr("Storage Variance"), self.parent.storageVar],
                 [self.tr("Computers Variance"), self.parent.compVar],
-                [self.tr("Network Variance"), self.parent.netVar]
+                [self.tr("Network Variance"), self.parent.netVar],
+                [self.tr("Coupling"), self.parent.coupling]
                         ]
         t = Translator(self)
         return t.getTranslatedSettings()
@@ -176,6 +245,7 @@ class TCGenerator:
         self.storageVar = dict[4][1]
         self.compVar = dict[5][1]
         self.netVar = dict[6][1]
+        self.coupling = dict[7][1]
 
 def pluginMain():
     return TCGenerator

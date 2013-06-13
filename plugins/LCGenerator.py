@@ -18,9 +18,6 @@ class LCGenerator:
         return "Loosely coupled"
 
     def Generate(self, resources):
-        medianStorage = self.storagePercent / self.number
-        medianComp = self.compPercent / self.number
-
         comps = {}
         storages = {}
         for v in resources.vertices:
@@ -39,10 +36,24 @@ class LCGenerator:
         compTotal = int(sumComp * float(self.compPercent) / 100.0)
         stTotal = int(sumSt * float(self.storagePercent) / 100.0)
 
-        while (usedSt < stTotal) or (usedComp < compTotal):
-            st = min([int(max([0, random.gauss(medianStorage, self.storageVar)]) * sumSt / 100.0), stTotal - usedSt])
-            comp = min([int(max([0, random.gauss(medianComp, self.compVar)]) * sumComp / 100.0), compTotal - usedComp])
+        for i in range(self.number):
+            medianStorage = float(stTotal - usedSt)/(self.number-i)
+            medianComp = float(compTotal - usedComp)/(self.number-i)
+            if stTotal != usedSt:
+                st = int(random.gauss(medianStorage, self.storageVar*medianStorage/100))
+                while st<=0:
+                    st = int(random.gauss(medianStorage, self.storageVar*medianStorage/100))
+            else:
+                st = 0
+            st = min(st, stTotal - usedSt)
             usedSt += st
+            if compTotal != usedComp:
+                comp = int(random.gauss(medianComp, self.compVar*medianComp/100))
+                while comp<=0:
+                    comp = int(random.gauss(medianComp, self.compVar*medianComp/100))
+            else:
+                comp = 0
+            comp = min(comp, compTotal - usedComp)
             usedComp += comp
             requests += [[st, comp]]
         requests[0][0] += stTotal - usedSt
@@ -61,6 +72,7 @@ class LCGenerator:
                     maxst = 1
                 if st == 1:
                     st = min([maxst, r[0] / 3 + 1, r[0] - total])
+                    st = random.randint(1, st)
                 else:
                     st -= 1
                 for v in storages.keys():
@@ -88,6 +100,7 @@ class LCGenerator:
                     maxcmp = 1
                 if st == 1:
                     st = min([maxcmp, r[1] / 3 + 1, r[1] - total])
+                    st = random.randint(1, st)
                 else:
                     st -= 1
                 for v in comps.keys():
