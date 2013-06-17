@@ -103,7 +103,8 @@ class TCGenerator:
                 for v in strgs:
                     if storages[v][0] >= st:
                         storages[v][0] -= st
-                        elem = DemandStorage("storage", st, 1, 10)
+                        type = 1 if self.replication_allowed else 0
+                        elem = DemandStorage("storage", st, type, 10)
                         elem.x = cur_x
                         elem.y = cur_y
                         if cur_x > self.max_x:
@@ -246,6 +247,7 @@ class TCGenerator:
         self.compVar = dict[5][1]
         self.netVar = dict[6][1]
         self.coupling = dict[7][1]
+        self.replication_allowed = True if dict[8][1]=="True" else False
 
 def pluginMain():
     return TCGenerator

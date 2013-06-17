@@ -446,7 +446,7 @@ class MainWindow(QMainWindow):
     def GenerateRequests(self):
         generator = self.generators[self.sender()]
         data = generator.GetSettings()
-        d = ParamsDialog(data, self)
+        d = ParamsDialog(data, self, generator.GetName()=="Tightly coupled")
         d.exec_()
         if d.result() == QDialog.Accepted:
             generator.UpdateSettings(d.data)

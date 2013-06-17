@@ -1,4 +1,4 @@
-from PyQt4.QtGui import QDialog, QVBoxLayout, QHBoxLayout, QGroupBox, QLabel, QLineEdit, QScrollArea, QWidget, QPushButton, QIntValidator, QDoubleValidator, QComboBox
+from PyQt4.QtGui import QDialog, QVBoxLayout, QHBoxLayout, QGroupBox, QLabel, QLineEdit, QScrollArea, QWidget, QPushButton, QIntValidator, QDoubleValidator, QComboBox, QCheckBox
 from PyQt4.QtCore import Qt, QObject, SIGNAL
      
 class ParamsDialog(QDialog):
@@ -6,7 +6,7 @@ class ParamsDialog(QDialog):
     data = {}
     ui = {}
     
-    def __init__(self, config, parent):
+    def __init__(self, config, parent, replication_checkbox=False):
         QDialog.__init__(self)
         self.setStyleSheet(parent.styleSheet())
         self.setWindowTitle("Method Settings")
@@ -20,6 +20,9 @@ class ParamsDialog(QDialog):
         self.area.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.layout = QVBoxLayout()
         self.layout.addWidget(self.area)
+        if replication_checkbox:
+            self.replication_checkbox = QCheckBox(self.tr("Allow replication"))
+            self.layout.addWidget(self.replication_checkbox)
         self.buttons = QHBoxLayout()
         self.ok = QPushButton("OK")
         self.cancel = QPushButton("Cancel")
@@ -171,6 +174,8 @@ class ParamsDialog(QDialog):
                 res.append([k[0], [lst, cur]])
             elif t == type(dict()):
                 res.append([k[0], self._getDict(k[1], ui[k[0]])])
+        if self.replication_checkbox:
+            res.append(["replication_allowed", str(self.replication_checkbox.isChecked())])
         return res
     
     def OK(self):
