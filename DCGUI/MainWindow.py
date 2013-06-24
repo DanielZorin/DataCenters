@@ -296,7 +296,7 @@ class MainWindow(QMainWindow):
         pass
 
     def Exit(self):
-        pass
+        sys.exit(0)
 
     def EditName(self):
         self.lineedit = QLineEdit(self.ui.projectname.parentWidget())
