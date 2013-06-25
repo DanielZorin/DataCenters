@@ -2,6 +2,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
+#include <assert.h>
 #include <vector>
 #include "internalgraph.h"
 #include "../common/publicdefs.h"
@@ -419,6 +420,7 @@ unsigned int InternalGraph::selectVertex(AntPath* pt, unsigned int cur, std::set
     unsigned int vertex = 0;
     unsigned int size = available.size();
     std::vector<double> roulette(size);
+    std::vector<unsigned int> rouletteIndex(size);
     double value = 0, sum = 0;
     unsigned int index = 0;
     for (std::set<unsigned int>::iterator i = available.begin(); i != available.end(); i ++, index ++)
@@ -426,6 +428,7 @@ unsigned int InternalGraph::selectVertex(AntPath* pt, unsigned int cur, std::set
         value = pow(arcs[cur][*i]->pher, pherDeg)*pow(arcs[cur][*i]->heur, heurDeg);
         sum += value;
         roulette[index] = sum;
+        rouletteIndex[index] = *i;
     }
 
     double choose = rand()/(double)RAND_MAX * sum;
@@ -448,17 +451,15 @@ unsigned int InternalGraph::selectVertex(AntPath* pt, unsigned int cur, std::set
         {
             if (choose < roulette[i])
             {
-                std::set<unsigned int>::iterator sel = available.begin();
-                // set don't have += for iterators
-                for (unsigned int j = i; j > 0; -- j) sel ++;
-                vertex = *sel;
-                available.erase(sel);
+                vertex = rouletteIndex[i];
+                unsigned int res = available.erase(rouletteIndex[i]);
+                assert(res == 1);
                 break;
             }
         }
     }
 
-    // choose resource
+// choose resource
     GraphComponent * gc = vertices[vertex-1];
     unsigned int res = gc->chooseResource(curNodesRam, pherDeg, heurDeg);
 //    std::cerr << "cur = " << cur << ", vertex = " << vertex << ", resource = " << res << "...";
