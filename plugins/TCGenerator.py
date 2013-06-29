@@ -11,6 +11,7 @@ class TCGenerator:
     netVar = 2
     number = 10
     coupling = 0.5
+    replicationCapacityRatio = 0.1
     max_x = 380
 
     def __init__(self):
@@ -104,7 +105,7 @@ class TCGenerator:
                     if storages[v][0] >= st:
                         storages[v][0] -= st
                         type = 1 if self.replication_allowed else 0
-                        elem = DemandStorage("storage", st, type, 10)
+                        elem = DemandStorage("storage", st, type, 0)
                         elem.x = cur_x
                         elem.y = cur_y
                         if cur_x > self.max_x:
@@ -180,6 +181,8 @@ class TCGenerator:
         #TODO: we can't guarantee that all requests can be assigned
         maxNet = min(max([comps[v][1] for v in comps.keys()]),
             max([storages[v][1] for v in storages.keys()]))
+        linksNum = 0
+        totalBandwidth = 0
         for r,d in zip(res,requests):
             numEdges = int(len(r.vertices)*self.coupling)
             bandwidth = min(int(d[2]/2/numEdges), maxNet/(self.coupling*2))
@@ -211,9 +214,15 @@ class TCGenerator:
                         iter+=1
                         continue
                     e = DemandLink(st, vm, bandwidth)
+                    linksNum += 1
+                    totalBandwidth += bandwidth
                     iter = 0
                 r.AddLink(e)
-
+        avgBandwidth = totalBandwidth/linksNum
+        for d in res:
+            for v in d.vertices:
+                if isinstance(v, DemandStorage):
+                    v.replicationCapacity = int(self.replicationCapacityRatio * avgBandwidth)
         return res
 
     def GetSettings(self):
@@ -232,7 +241,8 @@ class TCGenerator:
                 [self.tr("Storage Variance"), self.parent.storageVar],
                 [self.tr("Computers Variance"), self.parent.compVar],
                 [self.tr("Network Variance"), self.parent.netVar],
-                [self.tr("Coupling"), self.parent.coupling]
+                [self.tr("Coupling"), self.parent.coupling],
+                [self.tr("Consist.link bandwidth/Virt.link bandwidth"), self.parent.replicationCapacityRatio]
                         ]
         t = Translator(self)
         return t.getTranslatedSettings()
@@ -247,7 +257,8 @@ class TCGenerator:
         self.compVar = dict[5][1]
         self.netVar = dict[6][1]
         self.coupling = dict[7][1]
-        self.replication_allowed = True if dict[8][1]=="True" else False
+        self.replication_allowed = True if dict[9][1]=="True" else False
+        self.replicationCapacityRatio = dict[8][1]
 
 def pluginMain():
     return TCGenerator

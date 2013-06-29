@@ -78,7 +78,7 @@ class LCGenerator:
                 for v in storages.keys():
                     if storages[v][0] >= st:
                         storages[v][0] -= st
-                        elem = DemandStorage("storage", st, 0, 9000)
+                        elem = DemandStorage("storage", st, 0, 0)
                         elem.x = cur_x
                         elem.y = cur_y
                         if cur_x > self.max_x:
