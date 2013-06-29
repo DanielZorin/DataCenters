@@ -8,7 +8,7 @@ class LCGenerator:
     number = 10
     storageVar = 2
     compVar = 2
-    max_x = 400
+    max_x = 380
 
     def __init__(self):
         pass
@@ -83,9 +83,9 @@ class LCGenerator:
                         elem.y = cur_y
                         if cur_x > self.max_x:
                             cur_x = 15
-                            cur_y += 30
+                            cur_y += 35
                         else:
-                            cur_x += 30
+                            cur_x += 35
                         storages[v].append([elem, d])
                         d.AddVertex(elem)
                         total += st
@@ -111,9 +111,9 @@ class LCGenerator:
                         elem.y = cur_y
                         if cur_x > self.max_x:
                             cur_x = 15
-                            cur_y += 30
+                            cur_y += 35
                         else:
-                            cur_x += 30
+                            cur_x += 35
                         comps[v].append([elem, d])
                         d.AddVertex(elem)
                         total += st

@@ -216,7 +216,7 @@ class DemandGraphCanvas(QWidget):
                     ac = math.sqrt((a.x() - c.x())**2 + (a.y() - c.y())**2)
                     p = (ab + bc + ac) / 2.0
                     area = math.sqrt(p * (p - ab) * (p - ac) * (p - bc))
-                    if area < 100:
+                    if area < ab:
                         self.selectedEdge = ed
                         self.selectedVertex = None
                         self.repaint()

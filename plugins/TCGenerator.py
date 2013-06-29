@@ -11,7 +11,7 @@ class TCGenerator:
     netVar = 2
     number = 10
     coupling = 0.5
-    max_x = 400
+    max_x = 380
 
     def __init__(self):
         pass
@@ -109,9 +109,9 @@ class TCGenerator:
                         elem.y = cur_y
                         if cur_x > self.max_x:
                             cur_x = 15
-                            cur_y += 30
+                            cur_y += 35
                         else:
-                            cur_x += 30
+                            cur_x += 35
                         storages[v].append([elem, d])
                         d.AddVertex(elem)
                         total += st
@@ -139,9 +139,9 @@ class TCGenerator:
                         elem.y = cur_y
                         if cur_x > self.max_x:
                             cur_x = 15
-                            cur_y += 30
+                            cur_y += 35
                         else:
-                            cur_x += 30
+                            cur_x += 35
                         comps[v].append([elem, d])
                         d.AddVertex(elem)
                         total += st
