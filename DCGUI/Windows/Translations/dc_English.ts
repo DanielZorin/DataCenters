@@ -205,7 +205,7 @@
     <message>
         <location filename="EdgeDialog.ui" line="74"/>
         <source>Cancel</source>
-        <translation>OK</translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <location filename="EdgeDialog.ui" line="14"/>
