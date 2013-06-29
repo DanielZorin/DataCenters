@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>481</width>
-    <height>532</height>
+    <width>598</width>
+    <height>586</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -106,7 +106,7 @@ QLabel, QSlider {
              <number>1</number>
             </property>
             <property name="maximum">
-             <number>99999</number>
+             <number>9999999</number>
             </property>
            </widget>
           </item>
@@ -164,7 +164,7 @@ QLabel, QSlider {
              <number>1</number>
             </property>
             <property name="maximum">
-             <number>99999</number>
+             <number>9999999</number>
             </property>
            </widget>
           </item>
@@ -222,7 +222,7 @@ QLabel, QSlider {
              <number>1</number>
             </property>
             <property name="maximum">
-             <number>99999</number>
+             <number>9999999</number>
             </property>
            </widget>
           </item>
@@ -313,7 +313,7 @@ QLabel, QSlider {
              <number>1</number>
             </property>
             <property name="maximum">
-             <number>99999</number>
+             <number>9999999</number>
             </property>
            </widget>
           </item>
@@ -371,7 +371,7 @@ QLabel, QSlider {
              <number>1</number>
             </property>
             <property name="maximum">
-             <number>99999</number>
+             <number>9999999</number>
             </property>
            </widget>
           </item>
@@ -429,7 +429,7 @@ QLabel, QSlider {
              <number>1</number>
             </property>
             <property name="maximum">
-             <number>99999</number>
+             <number>9999999</number>
             </property>
            </widget>
           </item>
@@ -489,7 +489,7 @@ QLabel, QSlider {
              <number>1</number>
             </property>
             <property name="maximum">
-             <number>99999</number>
+             <number>9999999</number>
             </property>
            </widget>
           </item>
@@ -670,7 +670,7 @@ QLabel, QSlider {
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>99999</number>
+            <number>9999999</number>
            </property>
           </widget>
          </item>
@@ -680,7 +680,7 @@ QLabel, QSlider {
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>99999</number>
+            <number>9999999</number>
            </property>
           </widget>
          </item>
@@ -690,7 +690,7 @@ QLabel, QSlider {
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>99999</number>
+            <number>9999999</number>
            </property>
           </widget>
          </item>
@@ -700,7 +700,7 @@ QLabel, QSlider {
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>99999</number>
+            <number>9999999</number>
            </property>
           </widget>
          </item>
@@ -752,7 +752,7 @@ QLabel, QSlider {
               <number>1</number>
              </property>
              <property name="maximum">
-              <number>99999</number>
+              <number>9999999</number>
              </property>
             </widget>
            </item>
@@ -762,7 +762,7 @@ QLabel, QSlider {
               <number>1</number>
              </property>
              <property name="maximum">
-              <number>99999</number>
+              <number>9999999</number>
              </property>
             </widget>
            </item>
@@ -772,7 +772,7 @@ QLabel, QSlider {
               <number>1</number>
              </property>
              <property name="maximum">
-              <number>99999</number>
+              <number>9999999</number>
              </property>
             </widget>
            </item>
@@ -782,7 +782,7 @@ QLabel, QSlider {
               <number>1</number>
              </property>
              <property name="maximum">
-              <number>99999</number>
+              <number>9999999</number>
              </property>
             </widget>
            </item>
