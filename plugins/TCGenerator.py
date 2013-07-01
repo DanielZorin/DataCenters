@@ -151,10 +151,10 @@ class TCGenerator:
                 
             res.append(d)
 
-        '''total = 0
+        total = 0
         cmps = [v for v in comps.keys()]
         it = 0
-        while total < netTotal/2:
+        '''while total < netTotal/2:
             it += 1
             # TODO: Beedlowcode, but we have to ensure that the loop isn't endless
             # Theoretically, this procesude is not guaranteed to be finite
@@ -183,6 +183,10 @@ class TCGenerator:
             max([storages[v][1] for v in storages.keys()]))
         linksNum = 0
         totalBandwidth = 0
+        for s in storages.keys():
+            storages[s].append(storages[s][1])
+        for c in comps.keys():
+            comps[c].append(comps[c][1])
         for r,d in zip(res,requests):
             numEdges = int(len(r.vertices)*self.coupling)
             bandwidth = min(int(d[2]/2/numEdges), maxNet/(self.coupling*2))
@@ -213,6 +217,31 @@ class TCGenerator:
                     if net+bandwidth>maxNet:
                         iter+=1
                         continue
+                    s1 = None
+                    for s in storages.keys():
+                        for elem in storages[s][2:-1]:
+                            if elem[0] == st:
+                                if storages[s][-1] >= net:
+                                    s1 = s
+                                    break
+                        if s1:
+                            break
+                    c1 = None
+                    for c in comps.keys():
+                        for elem in comps[c][2:-1]:
+                            if elem[0] == vm:
+                                if comps[c][-1] >= net:
+                                    c1 = c
+                                    break
+                        if c1:
+                            break
+
+                    if not s1 or not c1:
+                        continue
+
+                    comps[c1][-1] -= net
+                    storages[s1][-1] -= net
+
                     e = DemandLink(st, vm, bandwidth)
                     linksNum += 1
                     totalBandwidth += bandwidth
