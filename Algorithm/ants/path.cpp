@@ -1,6 +1,6 @@
 #include "path.h"
 // To add NULL constant definition independently
-#include <cstddef> 
+#include <cstddef>
 
 PathElement::PathElement(const PathElement & p)
 {
@@ -8,6 +8,7 @@ PathElement::PathElement(const PathElement & p)
     requestPointer = p.requestPointer;
     resource = p.resource;
     resourcePointer = p.resourcePointer;
+    chan = p.chan; // it is ok to copy a pointer, because these pointers were created in AntAlgorithm and exist until it is destroyed
 }
 
 PathElement& PathElement::operator=(const PathElement & p)
@@ -17,6 +18,7 @@ PathElement& PathElement::operator=(const PathElement & p)
     requestPointer = p.requestPointer;
     resource = p.resource;
     resourcePointer = p.resourcePointer;
+    chan = p.chan; // it is ok to copy a pointer, because these pointers were created in AntAlgorithm and exist until it is destroyed
     return *this;
 }
 

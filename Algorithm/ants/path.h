@@ -2,33 +2,41 @@
 #define PATH_H
 
 #include <vector>
+#include <set>
 #include "../common/element.h"
+#include "../common/link.h"
 
 // Class representing a single vertex in the path
 struct PathElement
 {
-    // what request the vertex corresponds to
+    // what request element this object corresponds to
     unsigned int request;
-    // pointer to that request
+    // pointer to that request element
     Element * requestPointer;
-    // what resource the vertex is connected to
+    // what resource the request element is connected to
     unsigned int resource;
     // pointer to that resource
     Element * resourcePointer;
+    // a list of virtual channels involving the request element
+    std::set<Link *> * chan;
 
-    PathElement(int req, Element * preq, int res, Element * pres)
+    PathElement(int req, Element * preq, int res, Element * pres, std::set<Link *> * ch = NULL)
     : request(req)
     , requestPointer(preq)
     , resource(res)
     , resourcePointer(pres)
-    {}
+    , chan(ch) // it is ok to copy a pointer, because these pointers were created in AntAlgorithm and exist until it is destroyed
+    {
+    }
 
     PathElement()
     : request(0)
     , requestPointer(NULL)
     , resource(0)
     , resourcePointer(NULL)
-    {}
+    , chan(NULL)
+    {
+    }
 
     ~PathElement() {}
 

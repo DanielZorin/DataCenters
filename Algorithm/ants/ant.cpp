@@ -39,6 +39,7 @@ AntAlgorithm::~AntAlgorithm()
         if (paths[i]) delete paths[i];
         if (originPaths[i]) delete originPaths[i];
     }
+    delete [] numberToPointer;
 }
 
 bool AntAlgorithm::init()
@@ -48,7 +49,7 @@ bool AntAlgorithm::init()
         copyNetwork = new Network;
         (*copyNetwork) = (*network);
 
-        // how many VMs and storages we have
+        // basic ant algorithm params initialization
         for (Requests::iterator i = requests.begin(); i != requests.end(); i ++)
         {
             vmCount += (*i)->getVirtualMachines().size();
@@ -56,6 +57,39 @@ bool AntAlgorithm::init()
         }
         if (antNum == 0) antNum = (vmCount+stCount)/2;
         if (antNum > 100) antNum = 100;
+
+        // fill numberToPointer array
+        numberToPointer = new Request *[vmCount+stCount];
+        Requests::iterator reqIter = requests.begin();
+        int stop = (*reqIter)->getVirtualMachines().size();
+        Request * curPtr = *reqIter;
+        for (int i = 0; i < vmCount; ++ i)
+        {
+            if (i >= stop)
+            {
+                reqIter ++;
+                while ((*reqIter)->getVirtualMachines().size() == 0) reqIter ++;
+                stop += (*reqIter)->getVirtualMachines().size();
+                curPtr = *reqIter;
+            }
+            numberToPointer[i] = curPtr;
+        }
+        reqIter = requests.begin();
+        stop = vmCount+(*reqIter)->getStorages().size();
+        curPtr = *reqIter;
+        for (int i = vmCount; i < vmCount+stCount; ++ i)
+        {
+            if (i >= stop)
+            {
+                reqIter ++;
+                while ((*reqIter)->getStorages().size() == 0) reqIter ++;
+                stop += (*reqIter)->getStorages().size();
+                curPtr = *reqIter;
+            }
+            numberToPointer[i] = curPtr;
+        }
+
+        // for InternalGraph
         const Nodes& nodes = network->getNodes();
         const Stores& stores = network->getStores();
         unsigned int cnodes = nodes.size(), cstores = stores.size();
@@ -67,6 +101,36 @@ bool AntAlgorithm::init()
         std::vector<Element *> physNodes(cnodes);
         std::vector<Element *> physStores(cstores);
 
+        // virtChan initialization
+        std::map< Element *, std::set<Link *> >::iterator elemPlace = virtChan.end();
+        for (Requests::iterator i = requests.begin(); i != requests.end(); i ++)
+        {
+            Request::VirtualLinks& links = (*i)->getVirtualLinks();
+            for (Request::VirtualLinks::iterator lk = links.begin(); lk != links.end(); lk ++)
+            {
+                if ((elemPlace = virtChan.find((*lk)->getFirst())) != virtChan.end())
+                {
+                    elemPlace->second.insert(*lk);
+                }
+                else
+                {
+                    std::set<Link *> linkSet;
+                    linkSet.insert(*lk);
+                    virtChan.insert(std::pair<Element *, std::set<Link *> >((*lk)->getFirst(), linkSet));
+                }
+            }
+        }
+/*
+        for (elemPlace = virtChan.begin(); elemPlace != virtChan.end(); elemPlace ++)
+        {
+            std::cerr << "Elem " << elemPlace->first->getName() << ":\n";
+            for (std::set<Link *>::iterator i = elemPlace->second.begin(); i != elemPlace->second.end(); i ++)
+            {
+                std::cerr << (*i)->getName() << ", ";
+            }
+            std::cerr << "\n";
+        }
+*/
         // get physical resources' current capacity and max capacity
         int iVec = 0;
         int iTypes = 0;
@@ -395,14 +459,14 @@ bool AntAlgorithm::buildPath(unsigned int ant)
     pt->addElement(new PathElement(0, NULL, 0, NULL));
     while (!availableNodes.empty())
     {
-        vertex = graph->selectVertex(pt, 0, availableNodes, s);
+        vertex = graph->selectVertex(pt, 0, availableNodes, s, virtChan);
         if (!s) removeRequestElements(vertex, pt, availableNodes, availableStores, GraphComponent::VMACHINE);
         else break;
     }
     oldVertex = vertex;
     while(!availableNodes.empty())
     {
-        vertex = graph->selectVertex(pt, oldVertex, availableNodes, s);
+        vertex = graph->selectVertex(pt, oldVertex, availableNodes, s, virtChan);
         if (!s)
         {
             removeRequestElements(vertex, pt, availableNodes, availableStores, GraphComponent::VMACHINE);
@@ -416,14 +480,14 @@ bool AntAlgorithm::buildPath(unsigned int ant)
     pt->addElement(new PathElement(0, NULL, 0, NULL));
     while (!availableStores.empty())
     {
-        vertex = graph->selectVertex(pt, 0, availableStores, s);
+        vertex = graph->selectVertex(pt, 0, availableStores, s, virtChan);
         if (!s) removeRequestElements(vertex, pt, availableNodes, availableStores, GraphComponent::STORAGE);
         else break;
     }
     oldVertex = vertex;
     while (!availableStores.empty())
     {
-        vertex = graph->selectVertex(pt, vertex, availableStores, s);
+        vertex = graph->selectVertex(pt, vertex, availableStores, s, virtChan);
         if (!s)
         {
             removeRequestElements(vertex, pt, availableNodes, availableStores, GraphComponent::STORAGE);
@@ -449,6 +513,12 @@ void AntAlgorithm::buildLink(unsigned int ant, std::map<Link *, AssignedChannel>
         Request::VirtualLinks& links = (*i)->getVirtualLinks();
         for (Request::VirtualLinks::iterator lk = links.begin(); lk != links.end(); lk ++)
         {
+/*    const std::vector<PathElement *> curPath = paths[ant]->getPath();
+    for (unsigned int i = 0; i < curPath.size(); ++ i)
+    {
+        if (curPath[i]->chan == NULL) continue;
+        for (std::set<Link *>::iterator lk = curPath[i]->chan->begin(); lk != curPath[i]->chan->end(); lk ++)
+        {*/
             if ((*lk)->getFirst() == (*lk)->getSecond()) continue;
             firstRes = paths[ant]->findPointer((*lk)->getFirst(), firstVertex);
             secondRes = paths[ant]->findPointer((*lk)->getSecond(), secondVertex);
@@ -552,6 +622,8 @@ void AntAlgorithm::buildLink(unsigned int ant, std::map<Link *, AssignedChannel>
                         removeRequestElements(firstVertex, paths[ant], emptySet, emptySet, firstType);
 //                        std::cerr << "removed elements, path length is now " << paths[ant]->getLength()-2 << '\n';
                         // remove assigned links and replications
+                        // Get the pointer to the request firstVertex belongs to and loop through it's links
+                        //Request::VirtualLinks& links = numberToPointer[firstVertex-1]->getVirtualLinks();
                         for (Request::VirtualLinks::iterator iter = links.begin(); iter != links.end(); iter ++)
                         {
                             std::map<Link *, AssignedChannel>::iterator place = channels.find(*iter);

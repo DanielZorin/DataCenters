@@ -4,6 +4,7 @@
 #include <time.h>
 #include <assert.h>
 #include <vector>
+#include <map>
 #include "internalgraph.h"
 #include "../common/publicdefs.h"
 
@@ -253,7 +254,7 @@ InternalGraph::InternalGraph(unsigned int nodes, unsigned int stores, unsigned i
 , pherDeg(0)
 {
 //    srand((unsigned)time(NULL));
-    srand(1355151386);
+    srand(2);
     if (!init(res, cap, ramRes, ramCap, req, ramReq, reqTypes, pn, ps, virtElems)) success = false;
     else
     {
@@ -414,7 +415,7 @@ void InternalGraph::updateInternalHeuristic(unsigned int resNum, GraphComponent:
     }
 }
 
-unsigned int InternalGraph::selectVertex(AntPath* pt, unsigned int cur, std::set<unsigned int> & available, bool& s)
+unsigned int InternalGraph::selectVertex(AntPath* pt, unsigned int cur, std::set<unsigned int> & available, bool& s, std::map<Element *, std::set<Link *> >& chan)
 {
     // choose request
     unsigned int vertex = 0;
@@ -478,14 +479,18 @@ unsigned int InternalGraph::selectVertex(AntPath* pt, unsigned int cur, std::set
         curNodesRes[res] -= gc->getRequired();
         curNodesRam[res] -= gc->getRequiredRam();
         updateInternalHeuristic(res, GraphComponent::VMACHINE);
-        pt->addElement(new PathElement(vertex, gc->getPointer(), res, physNodes[res]));
+        std::map<Element *, std::set<Link *> >::iterator iter = chan.find(gc->getPointer());
+        std::set<Link *> * chanPtr = (iter != chan.end()) ? &(iter->second) : NULL;
+        pt->addElement(new PathElement(vertex, gc->getPointer(), res, physNodes[res], chanPtr));
     }
     else if (gc->getType() == GraphComponent::STORAGE)
     {
 //        std::cerr << "cur = " << cur << '\n';
         curStoresRes[res] -= gc->getRequired();
         updateInternalHeuristic(res, GraphComponent::STORAGE);
-        pt->addElement(new PathElement(vertex, gc->getPointer(), res, physStores[res]));
+        std::map<Element *, std::set<Link *> >::iterator iter = chan.find(gc->getPointer());
+        std::set<Link *> * chanPtr = (iter != chan.end()) ? &(iter->second) : NULL;
+        pt->addElement(new PathElement(vertex, gc->getPointer(), res, physStores[res], chanPtr));
     }
 
     s = true;

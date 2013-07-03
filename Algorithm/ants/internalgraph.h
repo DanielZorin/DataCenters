@@ -80,7 +80,7 @@ private:
     unsigned long ramRequired;
     // storage type (for storage graph component)
     unsigned int storageType;
-    // pointer to corresponding request
+    // pointer to corresponding request element
     Element * request;
 
     // No default constructor
@@ -117,7 +117,7 @@ public:
     // Update heuristic for every graph component
     void updateInternalHeuristic(unsigned int resNum, GraphComponent::RequestType t);
     // From vertex cur, select a new vertex (one of the set members)
-    unsigned int selectVertex(AntPath* pt, unsigned int cur, std::set<unsigned int> & available, bool& s);
+    unsigned int selectVertex(AntPath* pt, unsigned int cur, std::set<unsigned int> & available, bool& s, std::map< Element *, std::set<Link *> >& chan);
     // Set heuristic degree and pheromone degree
     void setHeurDeg(double deg) { heurDeg = deg; }
     void setPherDeg(double deg) { pherDeg = deg; }

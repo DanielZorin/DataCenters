@@ -48,9 +48,10 @@ struct AssignedChannel
 class AntAlgorithm: public Algorithm
 {
 public:
-    AntAlgorithm(Network * n, Requests const & r, unsigned int ants = 70, unsigned int iter = 50, double pd = 1.5, double hd = 2, double evap = 0.15);
+    AntAlgorithm(Network * n, Requests const & r, unsigned int ants = 1, unsigned int iter = 1, double pd = 1.5, double hd = 2, double evap = 0.15);
     ~AntAlgorithm();
 
+    // Main function
     virtual Algorithm::Result schedule();
 
     bool isCreated() const { return success; }
@@ -70,6 +71,12 @@ private:
     std::vector<double> objValues;
     // copy network
     Network * copyNetwork;
+    // A set of virtual channels for each request element that should be assigned when this request element is processed in BuildLink
+    // Poiner to the set needed is copied to PathElement when it is created
+    std::map< Element *, std::set<Link *> > virtChan;
+    // Which global request does the request element with a certain internal number corresponds to
+    // Represented as an array of pointers to requests, usage: numberToPointer[request element number] = pointer to the global request
+    Request ** numberToPointer;
 
     // parameters
     unsigned int antNum;
@@ -80,10 +87,13 @@ private:
 
     // private functions
     bool init();
+    // Main ant algorithm functions
     bool buildPath(unsigned int ant);
     void buildLink(unsigned int ant, std::map<Link *, AssignedChannel> & channels, bool restore = true);
     unsigned int objFunctions();
+    // When a request element is removed from the path, remove all other request elements corresponding to the same request
     void removeRequestElements(unsigned int vertex, AntPath* pt, std::set<unsigned int> & availableVM, std::set<unsigned int> & availableST, GraphComponent::RequestType t);
+    // Replica processing functions
     bool lastReplica(const std::map<Link *, AssignedChannel> & channels, Link * link, Element * rep);
     bool replicaExists(const std::map<Link *, AssignedChannel> & channels, Element * replicating, Element * st);
     const AssignedChannel * findReplica(const std::map<Link *, AssignedChannel> & channels, Element * replicating);
