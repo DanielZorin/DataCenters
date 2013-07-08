@@ -82,6 +82,14 @@ class TCGenerator:
         requests[0][1] += compTotal - usedComp
         requests[0][2] += netTotal - usedNet
 
+        # calculating max capacity of phys elements according to coupling
+        maxNet = min(max([comps[v][1] for v in comps.keys()]),
+            max([storages[v][1] for v in storages.keys()]))
+        # 2 - both for sts and for vms
+        maxElemsCount = netTotal / (self.coupling * maxNet) 
+        capacityBoundSt = int(stTotal / maxElemsCount)
+        capacityBoundComp = int(compTotal / maxElemsCount)
+        
         res = []
         for r in requests:
             cur_x = 15
@@ -96,7 +104,7 @@ class TCGenerator:
                 if maxst == 0:
                     maxst = 1
                 if st == 1:
-                    st = min([maxst, r[0] / 3 + 1, r[0] - total])
+                    st = min([maxst, r[0] / 3 + 1, r[0] - total, capacityBoundSt])
                     st = random.randint(1, st)
                 else:
                     st -= 1
@@ -115,6 +123,10 @@ class TCGenerator:
                             cur_x += 35
                         storages[v].append([elem, d])
                         d.AddVertex(elem)
+                        resources.PrepareIntervals(d)
+                        resources.AssignVertex(d, elem, v, (0, 1))
+                        if v.intervals[(0, 1)].usedVolume > v.volume:
+                            raise Exception("Used speed is more then available!")
                         total += st
                         st = 1
                         break
@@ -127,7 +139,7 @@ class TCGenerator:
                 if maxcmp == 0:
                     maxcmp = 1
                 if st == 1:
-                    st = min([maxcmp, r[1] / 3 + 1, r[1] - total])
+                    st = min([maxcmp, r[1] / 3 + 1, r[1] - total, capacityBoundComp])
                     st = random.randint(1, st)
                 else:
                     st -= 1
@@ -145,6 +157,10 @@ class TCGenerator:
                             cur_x += 35
                         comps[v].append([elem, d])
                         d.AddVertex(elem)
+                        resources.PrepareIntervals(d)
+                        resources.AssignVertex(d, elem, v, (0, 1))
+                        if v.intervals[(0, 1)].usedSpeed > v.speed:
+                            raise Exception("Used speed is more then available!")
                         total += st
                         st = 1
                         break
@@ -179,10 +195,10 @@ class TCGenerator:
                             total += bandwidth'''
 
         #TODO: we can't guarantee that all requests can be assigned
-        maxNet = min(max([comps[v][1] for v in comps.keys()]),
-            max([storages[v][1] for v in storages.keys()]))
+        
         linksNum = 0
         totalBandwidth = 0
+        assignedLinks = []
         for s in storages.keys():
             storages[s].append(storages[s][1])
         for c in comps.keys():
@@ -192,30 +208,36 @@ class TCGenerator:
             bandwidth = min(int(d[2]/2/numEdges), maxNet/(self.coupling*2))
             dstrgs = [v for v in r.vertices if isinstance(v, DemandStorage)]
             vms = [v for v in r.vertices if isinstance(v, VM)]
+            requestBandwidth = 0
             for i in range(numEdges):
+            # Number of links may be more then expected by coupling,
+            # but total bandwidth is garantied to be exactly as expected
+            #while requestBandwidth < (d[2]/2): 
                 e = None
+                path = None
                 iter = 0
-                while not e:
+                while not e and bandwidth > 0:
                     st = random.choice(dstrgs)
                     edges = r.FindAllEdges(st)
-                    if iter>1000:
+                    if iter>50:
+                        iter = 0
                         bandwidth /= 2
                     #to distribute edges uniformly
                     if len(edges) > self.coupling*2+1:
-                        iter+=1
+                        #iter+=1
                         continue
                     net = sum(e.capacity for e in edges)
                     if net+bandwidth>maxNet:
-                        iter+=1
+                        #iter+=1
                         continue
                     vm = random.choice(vms)
                     edges = r.FindAllEdges(vm)
                     if len(edges) > self.coupling*2+1:
-                        iter+=1
+                        #iter+=1
                         continue
                     net = sum(e.capacity for e in edges)
                     if net+bandwidth>maxNet:
-                        iter+=1
+                        #iter+=1
                         continue
                     s1 = None
                     for s in storages.keys():
@@ -239,19 +261,80 @@ class TCGenerator:
                     if not s1 or not c1:
                         continue
 
-                    comps[c1][-1] -= net
-                    storages[s1][-1] -= net
+                    iter+=1
+                    
 
                     e = DemandLink(st, vm, bandwidth)
-                    linksNum += 1
-                    totalBandwidth += bandwidth
-                    iter = 0
-                r.AddLink(e)
+                    paths = resources.FindPath(st.resource, vm.resource)
+#                    path = paths.next()
+#                    while path != None and path != []:
+                    path = paths.next()
+
+                    if not resources.checkPath(path, e, (0, 1)):
+                         e = None
+                    else:
+                         r.AddLink(e)
+                         resources.AssignLink(r, e, path, (0, 1))
+                         linksNum += 1
+                         requestBandwidth += bandwidth
+                         totalBandwidth += bandwidth
+                         iter = 0
+                         assignedLinks.append((e, r))
+                         comps[c1][-1] -= net
+                         storages[s1][-1] -= net
+
+                #if bandwidth == 0:
+                #    raise Exception("Failed to generate test")
+
+        # "trying to increase bandwidth of already assigned links (if capacity is not enough"
+        
+        for assignedLinkDemand in assignedLinks:
+            assignedLink = assignedLinkDemand[0]
+            assignedDemand = assignedLinkDemand[1]
+            if (2 * totalBandwidth) >= netTotal:
+                break
+            
+            bandwidth = assignedLink.capacity
+            path = assignedLink.path
+            
+            # calculating the bandwidth to increase
+            link1 = path[1]
+            bwth1 = link1.capacity - link1.intervals[(0, 1)].usedCapacity
+            
+            link2 = path[len(path)-2]
+            bwth2 = link2.capacity - link2.intervals[(0, 1)].usedCapacity
+            
+            #print "band1 = " + str(bwth1) + "; band2 = " + str(bwth2)
+            bwth = min(min(bwth1, bwth2), netTotal - 2 * totalBandwidth)
+            
+            if bwth > 0:
+                elem1 = assignedLink.e1
+                elem2 = assignedLink.e2
+                resources.DropLink(assignedDemand, assignedLink)
+                e = DemandLink(elem1, elem2, bandwidth + bwth)
+
+                if not resources.checkPath(path, e, (0, 1)):
+                     resources.AssignLink(assignedDemand, assignedLink, path, (0, 1))
+                else:
+                     assignedDemand.DeleteEdge(assignedLink)
+                     assignedDemand.AddLink(e)
+                     resources.AssignLink(assignedDemand, e, path, (0, 1))
+                     totalBandwidth += bwth
+        print "   Requests generated. Network load gained: " + str((float)(2*totalBandwidth) / (float)(sumNet) )
+
         avgBandwidth = totalBandwidth/linksNum
         for d in res:
             for v in d.vertices:
                 if isinstance(v, DemandStorage):
                     v.replicationCapacity = int(self.replicationCapacityRatio * avgBandwidth)
+        # Reseting demands
+        for d in res:
+            try:
+                resources.DropDemand(d)
+                resources.RemoveIntervals(d)
+            except:
+                pass   
+
         return res
 
     def GetSettings(self):
