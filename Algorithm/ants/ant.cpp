@@ -386,7 +386,7 @@ Algorithm::Result AntAlgorithm::schedule()
 }
 
 void AntAlgorithm::removeRequestElements(unsigned int vertex, AntPath* pt, std::set<unsigned int> & availableVM, std::set<unsigned int> & availableST,
-                                         GraphComponent::RequestType t)
+                                         GraphComponent::RequestType t, bool update)
 {
     int erased;
     if (t == GraphComponent::VMACHINE)
@@ -401,12 +401,12 @@ void AntAlgorithm::removeRequestElements(unsigned int vertex, AntPath* pt, std::
             {
                 for (int req = oldSum+1; req <= sum; ++ req)
                 {
-                    if ((erased = pt->eraseRequest(req)) != -1) graph->requestErased(erased, req, GraphComponent::VMACHINE);
+                    if ((erased = pt->eraseRequest(req)) != -1) graph->requestErased(erased, req, GraphComponent::VMACHINE, update);
                     availableVM.erase(req);
                 }
                 for (int req = oldStoresSum+1; req <= storesSum; ++ req)
                 {
-                    if ((erased = pt->eraseRequest(req)) != -1) graph->requestErased(erased, req, GraphComponent::STORAGE);
+                    if ((erased = pt->eraseRequest(req)) != -1) graph->requestErased(erased, req, GraphComponent::STORAGE, update);
                     availableST.erase(req);
                 }
                 break;
@@ -427,12 +427,12 @@ void AntAlgorithm::removeRequestElements(unsigned int vertex, AntPath* pt, std::
             {
                 for (int req = oldSum+1; req <= sum; ++ req)
                 {
-                    if ((erased = pt->eraseRequest(req)) != -1) graph->requestErased(erased, req, GraphComponent::STORAGE);
+                    if ((erased = pt->eraseRequest(req)) != -1) graph->requestErased(erased, req, GraphComponent::STORAGE, update);
                     availableST.erase(req);
                 }
                 for (int req = oldNodesSum+1; req <= nodesSum; ++ req)
                 {
-                    if ((erased = pt->eraseRequest(req)) != -1) graph->requestErased(erased, req, GraphComponent::VMACHINE);
+                    if ((erased = pt->eraseRequest(req)) != -1) graph->requestErased(erased, req, GraphComponent::VMACHINE, update);
                     availableVM.erase(req);
                 }
                 break;
@@ -460,7 +460,7 @@ bool AntAlgorithm::buildPath(unsigned int ant)
     while (!availableNodes.empty())
     {
         vertex = graph->selectVertex(pt, 0, availableNodes, s, virtChan);
-        if (!s) removeRequestElements(vertex, pt, availableNodes, availableStores, GraphComponent::VMACHINE);
+        if (!s) removeRequestElements(vertex, pt, availableNodes, availableStores, GraphComponent::VMACHINE, true);
         else break;
     }
     oldVertex = vertex;
@@ -469,7 +469,7 @@ bool AntAlgorithm::buildPath(unsigned int ant)
         vertex = graph->selectVertex(pt, oldVertex, availableNodes, s, virtChan);
         if (!s)
         {
-            removeRequestElements(vertex, pt, availableNodes, availableStores, GraphComponent::VMACHINE);
+            removeRequestElements(vertex, pt, availableNodes, availableStores, GraphComponent::VMACHINE, true);
             vertex = oldVertex;
         }
         else oldVertex = vertex;
@@ -481,7 +481,7 @@ bool AntAlgorithm::buildPath(unsigned int ant)
     while (!availableStores.empty())
     {
         vertex = graph->selectVertex(pt, 0, availableStores, s, virtChan);
-        if (!s) removeRequestElements(vertex, pt, availableNodes, availableStores, GraphComponent::STORAGE);
+        if (!s) removeRequestElements(vertex, pt, availableNodes, availableStores, GraphComponent::STORAGE, true);
         else break;
     }
     oldVertex = vertex;
@@ -490,7 +490,7 @@ bool AntAlgorithm::buildPath(unsigned int ant)
         vertex = graph->selectVertex(pt, vertex, availableStores, s, virtChan);
         if (!s)
         {
-            removeRequestElements(vertex, pt, availableNodes, availableStores, GraphComponent::STORAGE);
+            removeRequestElements(vertex, pt, availableNodes, availableStores, GraphComponent::STORAGE, true);
             vertex = oldVertex;
         }
         else oldVertex = vertex;
@@ -619,7 +619,7 @@ void AntAlgorithm::buildLink(unsigned int ant, std::map<Link *, AssignedChannel>
                     {
 //                        std::cerr << "There is no virtual channel, firstVertex = " << firstVertex << ", firstType = " << firstType << ", ant = " << ant << ", ";
                         // replication failed, removing first is enough
-                        removeRequestElements(firstVertex, paths[ant], emptySet, emptySet, firstType);
+                        removeRequestElements(firstVertex, paths[ant], emptySet, emptySet, firstType, false);
 //                        std::cerr << "removed elements, path length is now " << paths[ant]->getLength()-2 << '\n';
                         // remove assigned links and replications
                         // Get the pointer to the request firstVertex belongs to and loop through it's links

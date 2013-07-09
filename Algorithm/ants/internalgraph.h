@@ -122,7 +122,8 @@ public:
     void setHeurDeg(double deg) { heurDeg = deg; }
     void setPherDeg(double deg) { pherDeg = deg; }
     // Request erased from path, add the resources back
-    void requestErased(int resource, unsigned int request, GraphComponent::RequestType t);
+    void requestErased(int resource, unsigned int request, GraphComponent::RequestType t, bool update);
+
     std::vector<unsigned long> getCurStoresRes() { return curStoresRes; }
     void decreaseCurStoresRes(int index, unsigned long cap) { curStoresRes[index] -= cap; }
     void increaseCurStoresRes(int index, unsigned long cap) { curStoresRes[index] += cap; }

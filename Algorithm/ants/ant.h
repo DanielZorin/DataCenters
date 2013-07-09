@@ -92,7 +92,8 @@ private:
     void buildLink(unsigned int ant, std::map<Link *, AssignedChannel> & channels, bool restore = true);
     unsigned int objFunctions();
     // When a request element is removed from the path, remove all other request elements corresponding to the same request
-    void removeRequestElements(unsigned int vertex, AntPath* pt, std::set<unsigned int> & availableVM, std::set<unsigned int> & availableST, GraphComponent::RequestType t);
+    void removeRequestElements(unsigned int vertex, AntPath* pt, std::set<unsigned int> & availableVM, std::set<unsigned int> & availableST,
+                               GraphComponent::RequestType t, bool update = true);
     // Replica processing functions
     bool lastReplica(const std::map<Link *, AssignedChannel> & channels, Link * link, Element * rep);
     bool replicaExists(const std::map<Link *, AssignedChannel> & channels, Element * replicating, Element * st);

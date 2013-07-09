@@ -253,8 +253,8 @@ InternalGraph::InternalGraph(unsigned int nodes, unsigned int stores, unsigned i
 , heurDeg(0)
 , pherDeg(0)
 {
-//    srand((unsigned)time(NULL));
-    srand(2);
+    srand((unsigned)time(NULL));
+//    srand(2);
     if (!init(res, cap, ramRes, ramCap, req, ramReq, reqTypes, pn, ps, virtElems)) success = false;
     else
     {
@@ -263,14 +263,14 @@ InternalGraph::InternalGraph(unsigned int nodes, unsigned int stores, unsigned i
     }
 }
 
-void InternalGraph::requestErased(int resource, unsigned int request, GraphComponent::RequestType t)
+void InternalGraph::requestErased(int resource, unsigned int request, GraphComponent::RequestType t, bool update)
 {
     if (t == GraphComponent::VMACHINE)
     {
 //        std::cerr << "deleting = " << request << ", curNodesRes[" << resource << "] = " << curNodesRes[resource] << '\n';
         curNodesRes[resource] += vertices[request-1]->getRequired();
         curNodesRam[resource] += vertices[request-1]->getRequiredRam();
-        updateInternalHeuristic(resource, GraphComponent::VMACHINE);
+        if (update) updateInternalHeuristic(resource, GraphComponent::VMACHINE);
 //        std::cerr << "After: curNodesRes[" << resource << "] = " << curNodesRes[resource] << '\n';
     }
 
@@ -278,7 +278,7 @@ void InternalGraph::requestErased(int resource, unsigned int request, GraphCompo
     {
 //        std::cerr << "deleting = " << request << ", curStoresRes[" << resource << "] = " << curStoresRes[resource] << '\n';
         curStoresRes[resource] += vertices[request-1]->getRequired();
-        updateInternalHeuristic(resource, GraphComponent::STORAGE);
+        if (update) updateInternalHeuristic(resource, GraphComponent::STORAGE);
 //        std::cerr << "After: curStoresRes[" << resource << "] = " << curStoresRes[resource] << '\n';
     }
 
