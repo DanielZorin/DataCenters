@@ -127,6 +127,11 @@ QLabel, QSlider {
             <string>Decentralized</string>
            </property>
           </item>
+          <item>
+           <property name="text">
+            <string>FirstFit</string>
+           </property>
+          </item>
          </widget>
         </item>
         <item>

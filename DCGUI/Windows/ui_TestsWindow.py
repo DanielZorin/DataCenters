@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'TestsWindow.ui'
+#
+# Created: Thu Jul 11 15:46:33 2013
+#      by: PyQt4 UI code generator 4.10.1
+#
+# WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
 
@@ -54,6 +62,7 @@ class Ui_TestsWindow(object):
         self.algorithm = QtGui.QComboBox(self.tab)
         self.algorithm.setMinimumSize(QtCore.QSize(100, 0))
         self.algorithm.setObjectName(_fromUtf8("algorithm"))
+        self.algorithm.addItem(_fromUtf8(""))
         self.algorithm.addItem(_fromUtf8(""))
         self.algorithm.addItem(_fromUtf8(""))
         self.algorithm.addItem(_fromUtf8(""))
@@ -223,6 +232,7 @@ class Ui_TestsWindow(object):
         self.algorithm.setItemText(0, _translate("TestsWindow", "Ant Colony", None))
         self.algorithm.setItemText(1, _translate("TestsWindow", "Centralized", None))
         self.algorithm.setItemText(2, _translate("TestsWindow", "Decentralized", None))
+        self.algorithm.setItemText(3, _translate("TestsWindow", "FirstFit", None))
         self.projects.headerItem().setText(0, _translate("TestsWindow", "Projects", None))
         self.add.setText(_translate("TestsWindow", "Add", None))
         self.remove.setText(_translate("TestsWindow", "Remove", None))
@@ -261,4 +271,4 @@ class Ui_TestsWindow(object):
         self.actionDemandStorage.setToolTip(_translate("TestsWindow", "Add Storage", None))
         self.actionDemandStorage.setShortcut(_translate("TestsWindow", "Alt+4", None))
 
-from . import resources_rc
+import resources_rc

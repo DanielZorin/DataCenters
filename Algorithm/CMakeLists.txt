@@ -12,6 +12,7 @@ ADD_DEFINITIONS(${QT_DEFINITIONS})
 
 INCLUDE_DIRECTORIES(
         ${CMAKE_CURRENT_BINARY_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}
         ${QT_INCLUDE_DIR}
         ${QT_QTCORE_INCLUDE_DIR}
         ${QT_QTGUI_INCLUDE_DIR}
@@ -23,6 +24,7 @@ SET ( COMPONENTS
     decentralized
     ants
     common
+    firstfit
       )
 
 FOREACH(COMPONENT ${COMPONENTS})

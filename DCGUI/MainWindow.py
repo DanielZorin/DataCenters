@@ -174,8 +174,10 @@ class MainWindow(QMainWindow):
             alg = "a"
         elif self.ui.algorithm.currentIndex() == 1:
             alg = "c"
-        else:
+        elif self.ui.algorithm.currentIndex() == 2:
             alg = "d"
+        else:
+            alg = "f"
         if sys.platform.startswith("win"):
             name = "Algorithm/Algolib.exe"
         else:

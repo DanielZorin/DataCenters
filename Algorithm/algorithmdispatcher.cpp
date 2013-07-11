@@ -3,18 +3,21 @@
 #include "centralized/centralizedalgorithm.h"
 #include "decentralized/decentralizedAlgorithm.h"
 #include "ants/ant.h"
+#include "firstfit/ffalgorithm.h"
 
 Algorithm * AlgorithmDispatcher::Dispatch(QString & type, Network * network, Requests requests)
 {
-    Algorithm * algorithm = 0;
     if ( type == QString("c") )
-        algorithm = new CentralizedAlgorithm(network, requests);
+        return new CentralizedAlgorithm(network, requests);
 
     if ( type == QString("d") )
-        algorithm = new DecentralizedAlgorithm(network, requests);
+        return new DecentralizedAlgorithm(network, requests);
 
     if ( type == QString("a") )
-        algorithm = new AntAlgorithm(network, requests);
+        return new AntAlgorithm(network, requests);
 
-    return algorithm;
+    if ( type == QString("f") )
+        return new FirstFitAlgorithm(network, requests);
+
+    return 0;
 }
