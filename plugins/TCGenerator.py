@@ -326,7 +326,13 @@ class TCGenerator:
         for d in res:
             for v in d.vertices:
                 if isinstance(v, DemandStorage):
-                    v.replicationCapacity = int(self.replicationCapacityRatio * avgBandwidth)
+                    sumLinksCapacity = 0
+                    for link in d.FindAllEdges(v):
+                        sumLinksCapacity += link.capacity
+                    v.replicationCapacity = int(self.replicationCapacityRatio * sumLinksCapacity)
+
+                    #v.replicationCapacity = int(self.replicationCapacityRatio * avgBandwidth)
+                    
         # Reseting demands
         for d in res:
             try:
