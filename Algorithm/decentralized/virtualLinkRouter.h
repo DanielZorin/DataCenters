@@ -2,6 +2,7 @@
 #define VIRTUAL_LINK_ROUTER_H_
 
 #include "publicdefs.h"
+#include <vector>
 
 // Class VirtualLinkRouter, which provides the algorithms of routing the
 // virtual link in the resource network.
@@ -18,7 +19,8 @@ public:
     {
         NONE = 0,
         DEJKSTRA,
-        K_SHORTEST_PATHS
+        K_SHORTEST_PATHS,
+        K_SHORTEST_PATHS_ALL
     };
 
 private:
@@ -32,7 +34,7 @@ public:
     // the virtual link in the network.
     // Returns the fact that the route is found.
     //
-    static NetPath route(VirtualLink * virtualLink, Network * network, SearchPathAlgorithm algorithm);
+    static NetPath route(VirtualLink * virtualLink, Network * network, SearchPathAlgorithm algorithm, std::vector<NetPath> * pathStorage = NULL);
 
 //private:
 public:
@@ -45,6 +47,9 @@ public:
     // Routing algorithm based on k shortest path search.
     // If there is no path, returns the empty NetPath var.
     static NetPath routeKShortestPaths(VirtualLink * virtualLink, Network * network);
+
+    // Same as previous one, but storages all the paths found
+    static NetPath routeKShortestPathsALL(VirtualLink * virtualLink, Network * network, std::vector<NetPath> * pathStorage);
 
     // Routing algorithm based on modified dejkstra algorithm.
     // If there is no path, returns the empty NetPath var.

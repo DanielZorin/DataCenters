@@ -25,6 +25,7 @@ SET ( COMPONENTS
     ants
     common
     firstfit
+    randomalg
       )
 
 FOREACH(COMPONENT ${COMPONENTS})

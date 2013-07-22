@@ -8,13 +8,17 @@
 #include "network.h"
 #include "criteria.h"
 
-NetPath VirtualLinkRouter::route(VirtualLink * virtualLink, Network * network, SearchPathAlgorithm algorithm)
+NetPath VirtualLinkRouter::route(VirtualLink * virtualLink, Network * network, SearchPathAlgorithm algorithm, std::vector<NetPath> * pathStorage)
 {
     if ( algorithm == K_SHORTEST_PATHS )
         return routeKShortestPaths(virtualLink, network);
 
     if ( algorithm == DEJKSTRA )
         return routeDejkstra(virtualLink, network);
+
+    // for random algorithm
+    if ( algorithm == K_SHORTEST_PATHS_ALL )
+        return routeKShortestPathsALL(virtualLink, network, pathStorage);
 
     return NetPath();
 }
@@ -173,6 +177,86 @@ NetPath VirtualLinkRouter::routeKShortestPaths(VirtualLink * virtualLink, Networ
                 if ( newPath.size() == shortest.size() )
                 {
                     isNewPathFound = true;
+                    ++pathsFound;
+                    long weight = calculateKShortestPathWeight(newPath);
+                    if ( weight > pathWeight )
+                    {
+                        isNewCandidateFound = true;
+                        linkToRemove = static_cast<Link*>(*it);
+                        pathWeight = weight;
+                        candidate = newPath;
+                        if ( pathsFound == Criteria::kShortestPathDepth() )
+                            break;
+                    }
+                    if ( linkToRemove == NULL )
+                        linkToRemove = static_cast<Link*>(*it); // to avoid the situation with removing NULL-link
+                }
+                links.insert(static_cast<Link*>(*it)); // inserting link again
+            }
+        }
+
+        if ( isNewCandidateFound )
+            shortest = candidate;
+
+        if ( isNewPathFound && pathsFound != Criteria::kShortestPathDepth() )
+        {
+            // restoring the capacity of link being removed
+            linkToRemove->RemoveAssignment(virtualLink);
+            links.erase(links.find(linkToRemove));
+            removedLinks.insert(linkToRemove);
+        }
+    }
+
+    // restoring removed capacities
+    restoreCapacities(virtualLink, network, &removedLinks, &removedSwitches);
+
+    return shortest;
+}
+
+NetPath VirtualLinkRouter::routeKShortestPathsALL(VirtualLink * virtualLink, Network * network, std::vector<NetPath> * pathStorage)
+{   
+    // links and switches that would be removed from the network,
+    // they should be restored after algorithm's finish
+    Links removedLinks;
+    Switches removedSwitches;
+
+    // first, create the graph with decreased capacities
+    decreaseCapacities(virtualLink, network, &removedLinks, &removedSwitches);
+
+    // Yen's algorithm
+    NetPath shortest = searchPathDejkstra(virtualLink, network, K_SHORTEST_PATHS);
+    if ( shortest.size() == 0 )
+    {
+        restoreCapacities(virtualLink, network, &removedLinks, &removedSwitches);
+        return NetPath(); // no path found!
+    }
+    pathStorage->push_back(shortest);
+
+    Links& links = network->getLinks();
+
+    unsigned pathsFound = 1;
+    long pathWeight = calculateKShortestPathWeight(shortest);
+    bool isNewPathFound = true;
+    while ( isNewPathFound && pathsFound < Criteria::kShortestPathDepth() )
+    {
+        NetPath candidate = shortest;
+        NetPath::iterator it = shortest.begin();
+        NetPath::iterator itEnd = shortest.end();
+        isNewPathFound = false;
+        bool isNewCandidateFound = false;
+
+        Link * linkToRemove = NULL;
+        for ( ; it != itEnd; ++it )
+        {
+            if ( (*it)->isLink() && links.find(static_cast<Link*>(*it)) != links.end() )
+            {
+                // removing link and trying dejkstra
+                links.erase(links.find(static_cast<Link*>(*it)));
+                NetPath newPath = searchPathDejkstra(virtualLink, network, K_SHORTEST_PATHS);
+                if ( newPath.size() == shortest.size() )
+                {
+                    isNewPathFound = true;
+                    pathStorage->push_back(newPath);
                     ++pathsFound;
                     long weight = calculateKShortestPathWeight(newPath);
                     if ( weight > pathWeight )

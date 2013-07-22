@@ -4,6 +4,7 @@
 #include "decentralized/decentralizedAlgorithm.h"
 #include "ants/ant.h"
 #include "firstfit/ffalgorithm.h"
+#include "randomalg/randomalg.h"
 
 Algorithm * AlgorithmDispatcher::Dispatch(QString & type, Network * network, Requests requests)
 {
@@ -18,6 +19,9 @@ Algorithm * AlgorithmDispatcher::Dispatch(QString & type, Network * network, Req
 
     if ( type == QString("f") )
         return new FirstFitAlgorithm(network, requests);
+
+    if ( type == QString("r") )
+        return new RandomAlgorithm(network, requests);
 
     return 0;
 }
