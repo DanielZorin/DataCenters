@@ -705,6 +705,7 @@ void AntAlgorithm::buildLink(unsigned int ant, std::map<Link *, AssignedChannel>
                     channels.insert(iter, std::pair<Link *, AssignedChannel>(*lk, ach));
                 }
             }
+            else /* !firstRes || !secondRes */ break;
         }
     }
     // restore network
