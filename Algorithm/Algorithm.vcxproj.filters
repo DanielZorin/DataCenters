@@ -96,6 +96,12 @@
     <ClCompile Include="GeneratedFiles\Release\moc_mainwindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="firstfit\ffalgorithm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="randomalg\randomalg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="algorithmdispatcher.h">
@@ -186,6 +192,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="qdebugstream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="firstfit\ffalgorithm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="randomalg\randomalg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

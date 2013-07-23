@@ -107,7 +107,7 @@ class TestsWindow(QMainWindow):
         else:
             alg = "d"
         if sys.platform.startswith("win"):
-            name = "Algorithm/Algolib.exe"
+            name = "algorithm.exe"
         else:
             name = "Algorithm/Algolib"
         for p in self.projects.values():

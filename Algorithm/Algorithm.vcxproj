@@ -97,6 +97,7 @@
     <ClCompile Include="decentralized\virtualLinkRouter.cpp" />
     <ClCompile Include="decentralized\virtualLinksAssigner.cpp" />
     <ClCompile Include="decentralized\virtualMachinesAssigner.cpp" />
+    <ClCompile Include="firstfit\ffalgorithm.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_mainwindow.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -104,6 +105,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="randomalg\randomalg.cpp" />
     <ClCompile Include="xmlconverter.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -145,7 +147,9 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I.\common" "-I.\centralized" "-I.\decentralized" "-I.\ants" "-IC:\Qt\4.8.4\include"</Command>
     </CustomBuild>
+    <ClInclude Include="firstfit\ffalgorithm.h" />
     <ClInclude Include="qdebugstream.h" />
+    <ClInclude Include="randomalg\randomalg.h" />
     <ClInclude Include="xmlconverter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
