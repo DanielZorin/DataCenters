@@ -6,10 +6,11 @@
 #include <iostream>
 #include <map>
 
-RandomAlgorithm::RandomAlgorithm(Network * n, Requests const & r, unsigned long tr)
+RandomAlgorithm::RandomAlgorithm(Network * n, Requests const & r, unsigned long tr, unsigned int N)
 : Algorithm(n, r)
 , copyNetwork(NULL)
 , tries(tr)
+, NRes(N)
 {
     copyNetwork = new Network();
     *copyNetwork = *network;
@@ -19,8 +20,8 @@ RandomAlgorithm::RandomAlgorithm(Network * n, Requests const & r, unsigned long 
         stCount += (*i)->getStorages().size();
     }
 
-//    srand(time(NULL));
-    srand(1);
+    srand(time(NULL));
+//    srand(1);
 
     bestSequence.reserve(vmCount+stCount);
     bestReq.reserve(requests.size());
@@ -55,29 +56,49 @@ Algorithm::Result RandomAlgorithm::schedule()
     choosePath.reserve((*requests.begin())->getVirtualLinks().size());
     Nodes& physNodes = network->getNodes();
     Stores& physStores = network->getStores();
+
+    std::vector<CritValue> crit;
+    crit.reserve(vmCount);
     unsigned int roll = 0;
-    bool fail = false;
+    unsigned int critMax = 0, iMax = 0;
+    bool fail = false, found = false;
     for (int iter = 0; iter < tries; ++ iter)
     {
         std::cerr << "Try #" << iter << '\n';
         for (Requests::iterator ri = requests.begin(); ri != requests.end(); ri ++)
         {
-            //std::cerr << "request " << *ri << '\n';
             unsigned int curSize = curSeq.size();
             // assign virtual machines
             const Request::VirtualMachines& vms = (*ri)->getVirtualMachines();
             for (Request::VirtualMachines::const_iterator vmi = vms.begin(); vmi != vms.end(); vmi ++)
             {
-                // choose nodes which the VM can be assigned to
+                // calculate criterion values
                 for (Nodes::iterator ni = physNodes.begin(); ni != physNodes.end(); ni ++)
-                    if ((*ni)->isAssignmentPossible(**vmi)) chooseNode.push_back(*ni);
-                //std::cerr << "# of available nodes: " << chooseNode.size() << '\n';
+                {
+                    crit.push_back(CritValue((*ni)->getCapacity(), *ni));
+                }
+                // choose N best nodes
+                for (unsigned int N = 0; N < NRes; ++ N)
+                {
+                    found = false;
+                    critMax = 0;
+                    for (unsigned int index = 0; index < crit.size(); ++ index)
+                        if (crit[index].value > critMax && dynamic_cast<Node *>(crit[index].resource)->isAssignmentPossible(**vmi))
+                        {
+                            critMax = crit[index].value;
+                            iMax = index;
+                            found = true;
+                        }
+                    if (found) { chooseNode.push_back(crit[iMax].resource); crit.erase(crit.begin()+iMax); }
+                    else break;
+                }
                 if (chooseNode.size() == 0) { fail = true; break; }
                 // randomly choose from those nodes
                 roll = (int)(((double)rand())/(RAND_MAX+1.0)*chooseNode.size());
                 curSeq.push_back(new SequenceElement(*vmi, chooseNode[roll]));
                 chooseNode[roll]->assign(**vmi);
                 chooseNode.clear();
+                crit.clear();
             }
             if (fail)
             {
@@ -94,16 +115,34 @@ Algorithm::Result RandomAlgorithm::schedule()
             const Request::Storages& sts = (*ri)->getStorages();
             for (Request::Storages::const_iterator sti = sts.begin(); sti != sts.end(); sti ++)
             {
-                // choose stores which the storage can be assigned to
-                for (Stores::iterator phsi = physStores.begin(); phsi != physStores.end(); phsi ++)
-                    if ((*phsi)->isAssignmentPossible(**sti) && (*phsi)->getTypeOfStore() == (*sti)->getTypeOfStore()) chooseStore.push_back(*phsi);
-                //std::cerr << "# of available stores: " << chooseStore.size() << '\n';
-                if (chooseStore.size() == 0) { fail = true; break; }
+                // calculate criterion values
+                for (Stores::iterator si = physStores.begin(); si != physStores.end(); si ++)
+                {
+                    crit.push_back(CritValue((*si)->getCapacity(), *si));
+                }
+                // choose N best stores
+                for (unsigned int N = 0; N < NRes; ++ N)
+                {
+                    found = false;
+                    critMax = 0;
+                    for (unsigned int index = 0; index < crit.size(); ++ index)
+                        if (crit[index].value > critMax && dynamic_cast<Store *>(crit[index].resource)->isAssignmentPossible(**sti) &&
+                            dynamic_cast<Store *>(crit[index].resource)->getTypeOfStore() == (*sti)->getTypeOfStore())
+                        {
+                            critMax = crit[index].value;
+                            iMax = index;
+                            found = true;
+                        }
+                    if (found) { chooseStore.push_back(crit[iMax].resource); crit.erase(crit.begin()+iMax); }
+                    else break;
+                }
+                if (chooseStore.size() == 0) { fail = true; std::cerr << "\n\n\n\nfailstore\n\n\n\n"; break; }
                 // randomly choose from those stores
                 roll = (int)(((double)rand())/(RAND_MAX+1.0)*chooseStore.size());
                 curSeq.push_back(new SequenceElement(*sti, chooseStore[roll]));
                 chooseStore[roll]->assign(**sti);
                 chooseStore.clear();
+                crit.clear();
             }
             if (fail)
             {
@@ -117,7 +156,7 @@ Algorithm::Result RandomAlgorithm::schedule()
                 continue;
             }
             // route links
-            const Request::VirtualLinks& links = (*ri)->getVirtualLinks();
+/*            const Request::VirtualLinks& links = (*ri)->getVirtualLinks();
             Element * firstRes, * secondRes;
             for (Request::VirtualLinks::const_iterator lki = links.begin(); lki != links.end(); lki ++)
             {
@@ -127,7 +166,6 @@ Algorithm::Result RandomAlgorithm::schedule()
                 assert(firstRes && secondRes);
                 Link toRoute("", (*lki)->getCapacity());
                 toRoute.bindElements(firstRes, secondRes);
-                //std::cerr << "link = " << *lki << ", capacity = " << (*lki)->getCapacity() << ", getFirst = " << (*lki)->getFirst() << ", getSecond = " << (*lki)->getSecond() << ", firstRes = " << firstRes << ", secondRes = " << secondRes << ", toRoute.getFirst = " << toRoute.getFirst() << ", toRoute.getSecond = " << toRoute.getSecond() << ", toRoute.capacity = " << toRoute.getCapacity() << '\n';
                 // build some paths
                 VirtualLinkRouter::route(&toRoute, network, VirtualLinkRouter::K_SHORTEST_PATHS_ALL, &choosePath);
                 if (choosePath.size() == 0) { fail = true; break; }
@@ -145,6 +183,7 @@ Algorithm::Result RandomAlgorithm::schedule()
                 while (curSeq.size() > curSize)
                 {
                     curSeq[curSeq.size()-1]->resource->RemoveAssignment(curSeq[curSeq.size()-1]->request);
+//                    std::cerr << "removed " << curSeq[curSeq.size()-1]->request->getCapacity() << " of " << curSeq[curSeq.size()-1]->request->getName().c_str() << ", now capacity = " << curSeq[curSeq.size()-1]->resource->getCapacity() << " on " << curSeq[curSeq.size()-1]->resource->getName() << '\n';
                     curSeq.pop_back();
                 }
                 fail = false;
@@ -160,7 +199,7 @@ Algorithm::Result RandomAlgorithm::schedule()
                     }
                 }
                 continue;
-            }
+            }*/
             // if we are here, everything is ok
             curReq.push_back(*ri);
         }
@@ -171,9 +210,11 @@ Algorithm::Result RandomAlgorithm::schedule()
             bestSequence.swap(curSeq);
             bestChan.swap(channels);
         }
+        if (iter == tries - 1) break;
         curSeq.clear();
         curReq.clear();
         channels.clear();
+        if (bestReq.size() == requests.size()) break;
         network->assign(*copyNetwork);
     }
     // create assignments
@@ -183,18 +224,19 @@ Algorithm::Result RandomAlgorithm::schedule()
     unsigned int oldIndex = index;
     std::map<Link *, NetPath>::iterator place;
     Request * curPtr = NULL;
+    assignments.clear();
     for (unsigned int ireq = 0; ireq < bestReq.size(); ++ ireq)
     {
         curPtr = bestReq[ireq];
         asg = new Assignment(curPtr);
-        const Request::VirtualLinks& bestLinks = curPtr->getVirtualLinks();
+/*        const Request::VirtualLinks& bestLinks = curPtr->getVirtualLinks();
         for (Request::VirtualLinks::const_iterator lk = bestLinks.begin(); lk != bestLinks.end(); lk ++)
         {
             if ((*lk)->getFirst() == (*lk)->getSecond()) continue;
             place = bestChan.find(*lk);
             assert(place != bestChan.end());
             asg->AddAssignment(*lk, place->second);
-        }
+        }*/
 
         oldIndex = index;
         for (;index < oldIndex+curPtr->getVirtualMachines().size(); ++ index)

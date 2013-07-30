@@ -12,6 +12,8 @@
 #include "../common/link.h"
 #include <vector>
 
+// utility structs
+
 struct SequenceElement
 {
     Element * request;
@@ -30,12 +32,30 @@ struct SequenceElement
     }
 };
 
+struct CritValue
+{
+    double value;
+    Element * resource;
+
+    CritValue(double v, Element * r)
+    : value(v)
+    , resource(r)
+    {
+    }
+
+    CritValue()
+    : value(0)
+    , resource(NULL)
+    {
+    }
+};
+
 // algorithm that assign requests into a node randomly chosen from a set of fitting nodes
-// links are assigned randomly as well
+// netPath for a link is chosen randomly from a few first paths found by k shortest paths algorithm
 class RandomAlgorithm: public Algorithm
 {
     public:
-    RandomAlgorithm(Network * n, Requests const & r, unsigned long tr = 50);
+    RandomAlgorithm(Network * n, Requests const & r, unsigned long tr = 1, unsigned int N = 2);
     ~RandomAlgorithm();
 
     virtual Algorithm::Result schedule();
@@ -52,6 +72,8 @@ class RandomAlgorithm: public Algorithm
     std::map<Link *, NetPath> bestChan;
     // amount of vms and storages
     unsigned int vmCount, stCount;
+    // amount of fitting physical resources to consider when choosing the place for the request
+    unsigned int NRes;
 };
 
 #endif
