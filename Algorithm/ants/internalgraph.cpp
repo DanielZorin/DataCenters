@@ -90,8 +90,6 @@ bool GraphComponent::init(int num)
 
         physArcs.resize(num);
         physHeurs.resize(num);
-        justHeurs.resize(num);
-        initJustHeurs.resize(num);
         for (i = 0; i < num; ++ i)
             physArcs[i] = new Arc;
 
@@ -121,31 +119,17 @@ void GraphComponent::nextPath()
 {
     for (int i = 0; i < physArcs.size(); ++ i)
         physArcs[i]->heur = physHeurs[i];
-
-    for (int i = 0; i < physArcs.size(); ++ i)
-        justHeurs[i] = initJustHeurs[i];
 }
 
 void GraphComponent::initValues(std::vector<unsigned long> & res, std::vector<unsigned long> & cap, std::vector<unsigned int> & types)
 {
-    double maxHeur = 0;
     for (int i = 0; i < physArcs.size(); ++ i)
     {
-        if (type == STORAGE && types[i] != storageType) justHeurs [i] = initJustHeurs[i] = physArcs[i]->heur = -1;
+        if (type == STORAGE && types[i] != storageType) physHeurs[i] = physArcs[i]->heur = -1;
         else
         {
             physArcs[i]->pher = 1;
-            justHeurs[i] = initJustHeurs[i] = physArcs[i]->heur = heurCalc->calculate(res[i], required, cap[i]);
-            if (physArcs[i]->heur > maxHeur) maxHeur = physArcs[i]->heur;
-        }
-    }
-
-    if (!ZERO(maxHeur))
-    {
-        for (int i = 0; i < physArcs.size(); ++ i)
-        {
-            if (!(type == STORAGE && types[i] != storageType)) physArcs[i]->heur /= maxHeur;
-            physHeurs[i] = physArcs[i]->heur;
+            physHeurs[i] = physArcs[i]->heur = heurCalc->calculate(res[i], required, cap[i]);
         }
     }
 }
@@ -154,25 +138,7 @@ void GraphComponent::updateHeuristic(unsigned int resNum, unsigned int resCur, u
 {
     double maxHeur = 0;
     if (!(ZERO(physArcs[resNum]->heur+1)))
-    {
-//        std::cerr << "before justHeurs[" << resNum << "] = " << justHeurs[resNum] << ", resCur = " << resCur << ", required = " << required << ", after ";
-        justHeurs[resNum] = heurCalc->calculate(resCur, required, resCap);
-
-        for (int i = 0; i < physArcs.size(); ++ i)
-            if (justHeurs[i] > maxHeur) maxHeur = justHeurs[i];
-
-//        std::cerr << "Updated with resNum = " << resNum << ", resCur = " << resCur << ", resCap = " << resCap << ", maxHeur = " << maxHeur << '\n';
-        if (!ZERO(maxHeur))
-        {
-            for (int i = 0; i < physArcs.size(); ++ i)
-            {
-                if (!(ZERO(physArcs[i]->heur+1))) physArcs[i]->heur = justHeurs[i]/maxHeur;
-//                std::cerr << "physArcs[" << i << "] = " << physArcs[i]->heur << ' ';
-            }
-        }
-        else physArcs[resNum]->heur = 0;
-    }
-//    std::cerr << '\n';
+        physArcs[resNum]->heur = heurCalc->calculate(resCur, required, resCap);
 }
 
 void GraphComponent::updatePheromone(unsigned int res, double value)
@@ -190,11 +156,13 @@ unsigned int GraphComponent::chooseResource(std::vector<unsigned long> & ram, do
     unsigned int size = physArcs.size();
     std::vector<double> roulette(size);
     double value = 0, sum = 0;
+    double maxHeur = heurCalc->getMax();
     for (unsigned int i = 0; i < size; i ++)
     {
         if (ZERO(physArcs[i]->heur+1) || ZERO(physArcs[i]->heur) || physArcs[i]->heur < 0 ||
            (type == VMACHINE && ram[i] < ramRequired)) value = 0;
-        else value = pow(physArcs[i]->pher, pherDeg)*pow(physArcs[i]->heur, heurDeg);
+        else value = pow(physArcs[i]->pher, pherDeg)*pow(physArcs[i]->heur/maxHeur, heurDeg);
+//        std::cerr << "resulting heur was " << physArcs[i]->heur/maxHeur << '\n';
         sum += value;
         roulette[i] = sum;
     }
@@ -202,10 +170,7 @@ unsigned int GraphComponent::chooseResource(std::vector<unsigned long> & ram, do
 
     double choose = rand()/(double)RAND_MAX * sum;
 /*    std::cerr << "physArcs = ";
-    for (int q = 0; q < physArcs.size(); ++ q) std::cerr << physArcs[q]->heur << ' ';
-    std::cerr << ", roulette = ";
-    for (int q = 0; q < roulette.size(); ++ q) std::cerr << roulette[q] << ' ';
-    std::cerr << ", sum = " << sum << ", choose = " << choose << '\n';*/
+    for (int q = 0; q < physArcs.size(); ++ q) std::cerr << physArcs[q]->heur << ' ';*/
     for (unsigned int i = 0; i < size; ++ i)
         if (choose < roulette[i]) return i;
     return size+1;
@@ -234,8 +199,8 @@ InternalGraph::InternalGraph(unsigned int nodes, unsigned int stores, unsigned i
 , heurDeg(0)
 , pherDeg(0)
 {
-//    srand((unsigned)time(NULL));
-    srand(2);
+    srand((unsigned)time(NULL));
+//    srand(2);
 
     GraphComponent::heurCalc = new MoreResourceFirst(0);
     if (!init(res, cap, ramRes, ramCap, req, ramReq, reqTypes, pn, ps, virtElems)) success = false;
@@ -377,20 +342,14 @@ void InternalGraph::updateInternalHeuristic(unsigned int resNum, GraphComponent:
     {
         for (int i = 0; i < vertices.size(); ++ i)
             if (vertices[i]->getType() == GraphComponent::VMACHINE)
-            {
-//                std::cerr << i << ":\n";
                 vertices[i]->updateHeuristic(resNum, curNodesRes[resNum], nodesCap[resNum]);
-            }
     }
 
     else if (t == GraphComponent::STORAGE)
     {
         for (int i = 0; i < vertices.size(); ++ i)
             if (vertices[i]->getType() == GraphComponent::STORAGE)
-            {
-//                std::cerr << i << ":\n";
                 vertices[i]->updateHeuristic(resNum, curStoresRes[resNum], storesCap[resNum]);
-            }
     }
 }
 
@@ -412,13 +371,6 @@ unsigned int InternalGraph::selectVertex(AntPath* pt, unsigned int cur, std::set
     }
 
     double choose = rand()/(double)RAND_MAX * sum;
-/*
-    std::cerr << "arcs [cur][q] = ";
-    for (int q = 0; q < arcs[cur].size(); ++ q) std::cerr << arcs[cur][q]->pher << ' ';
-    std::cerr << ", roulette = ";
-    for (int q = 0; q < roulette.size(); ++ q) std::cerr << roulette[q] << ' ';
-    std::cerr << ", sum = " << sum << ", choose = " << choose << '\n';
-*/
     if (ZERO(sum))
     {
         std::set<unsigned int>::iterator sel = available.begin();
@@ -442,19 +394,15 @@ unsigned int InternalGraph::selectVertex(AntPath* pt, unsigned int cur, std::set
 // choose resource
     GraphComponent * gc = vertices[vertex-1];
     unsigned int res = gc->chooseResource(curNodesRam, pherDeg, heurDeg);
-//    std::cerr << "cur = " << cur << ", vertex = " << vertex << ", resource = " << res << "...";
     if (res >= gc->getResNum())
     {
         // failed to choose a resource
         s = false;
-//        std::cerr << "no\n";
         return vertex;
     }
-//    std::cerr << "ok\n";
 
     if (gc->getType() == GraphComponent::VMACHINE)
     {
-//        std::cerr << "cur = " << cur << '\n';
         curNodesRes[res] -= gc->getRequired();
         curNodesRam[res] -= gc->getRequiredRam();
         updateInternalHeuristic(res, GraphComponent::VMACHINE);
@@ -464,7 +412,6 @@ unsigned int InternalGraph::selectVertex(AntPath* pt, unsigned int cur, std::set
     }
     else if (gc->getType() == GraphComponent::STORAGE)
     {
-//        std::cerr << "cur = " << cur << '\n';
         curStoresRes[res] -= gc->getRequired();
         updateInternalHeuristic(res, GraphComponent::STORAGE);
         std::map<Element *, std::set<Link *> >::iterator iter = chan.find(gc->getPointer());

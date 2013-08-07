@@ -70,10 +70,7 @@ private:
     std::vector<Arc*> physArcs;
     // Initial heuristic values
     std::vector<double> physHeurs;
-    // Non-normalized heuristic values
-    std::vector<double> justHeurs;
-    // Non-normalized initial heuristic values
-    std::vector<double> initJustHeurs;
+
     // was init() successful?
     bool success;
     // request type

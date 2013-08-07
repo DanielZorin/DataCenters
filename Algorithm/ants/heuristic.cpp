@@ -1,4 +1,5 @@
 #include "heuristic.h"
+#include <iostream>
 
 // param1 = current physical resources
 // param2 = required resources
