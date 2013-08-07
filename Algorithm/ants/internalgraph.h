@@ -5,6 +5,7 @@
 #include <set>
 #include "../common/element.h"
 #include "path.h"
+#include "heuristic.h"
 
 // Class representing a single arc in the graph
 struct Arc
@@ -58,6 +59,9 @@ public:
     void updatePheromone(unsigned int res, double value);
     // Choose resource for the request
     unsigned int chooseResource(std::vector<unsigned long> & ram, double pherDeg, double heurDeg);
+
+    // heuristic used. Initialized by InternalGraph
+    static Heuristic * heurCalc;
 private:
     // initialize
     bool init(int num);
@@ -177,6 +181,9 @@ private:
 
     // was init() successful?
     bool success;
+
+    // heuristic used
+    Heuristic * requestHeur;
 
     // No default constructor, copy constructor and operator=
     InternalGraph();
