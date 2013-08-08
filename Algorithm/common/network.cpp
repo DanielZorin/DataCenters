@@ -193,7 +193,8 @@ Network& Network::operator=(const Network & n)
 Network & Network::assign (const Network & n)
 {
     if (&n == this) return *this;
-    for (Nodes::const_iterator i = n.nodes.begin(); i != n.nodes.end(); i ++)
+    Nodes::const_iterator nodesEnd = n.nodes.end();
+    for (Nodes::const_iterator i = n.nodes.begin(); i != nodesEnd; i ++)
     {
         Node * ptr = nodesIDLookup((*i)->getID());
         assert(ptr);
@@ -203,7 +204,8 @@ Network & Network::assign (const Network & n)
         ptr->setMaxRamCapacity((*i)->getMaxRamCapacity());
     }
 
-    for (Stores::const_iterator i = n.stores.begin(); i != n.stores.end(); i ++)
+    Stores::const_iterator storesEnd = n.stores.end();
+    for (Stores::const_iterator i = n.stores.begin(); i != storesEnd; i ++)
     {
         Store * ptr = storesIDLookup((*i)->getID());
         assert(ptr);
@@ -212,7 +214,8 @@ Network & Network::assign (const Network & n)
         ptr->setTypeOfStore((*i)->getTypeOfStore());
     }
 
-    for (Switches::const_iterator i = n.switches.begin(); i != n.switches.end(); i ++)
+    Switches::const_iterator switchesEnd = n.switches.end();
+    for (Switches::const_iterator i = n.switches.begin(); i != switchesEnd; i ++)
     {
         Switch * ptr = switchesIDLookup((*i)->getID());
         assert(ptr);
@@ -220,7 +223,8 @@ Network & Network::assign (const Network & n)
         ptr->setMaxCapacity((*i)->getMaxCapacity());
     }
 
-    for (Links::const_iterator i = n.links.begin(); i != n.links.end(); i ++)
+    Links::const_iterator linksEnd = n.links.end();
+    for (Links::const_iterator i = n.links.begin(); i != linksEnd; i ++)
     {
         Link * ptr = linksIDLookup((*i)->getID());
         assert(ptr);

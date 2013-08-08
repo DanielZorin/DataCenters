@@ -117,7 +117,8 @@ bool GraphComponent::init(int num)
 
 void GraphComponent::nextPath()
 {
-    for (int i = 0; i < physArcs.size(); ++ i)
+    unsigned int sz = physArcs.size();
+    for (int i = 0; i < sz; ++ i)
         physArcs[i]->heur = physHeurs[i];
 }
 
@@ -146,8 +147,9 @@ void GraphComponent::updatePheromone(unsigned int res, double value)
     double maxPher = 0;
     maxPher = (physArcs[res]->pher += value);
     // Normalize if needed
+    unsigned int sz = physArcs.size();
     if (maxPher > 1)
-        for (int i = 0; i < physArcs.size(); ++ i)
+        for (int i = 0; i < sz; ++ i)
             physArcs[i]->pher /= maxPher;
 }
 
@@ -277,19 +279,27 @@ void InternalGraph::updatePheromone(std::vector<AntPath*> & paths, std::vector<d
         std::cerr << '\n';
     }
 */
-    for (int i = 0; i < arcs.size(); ++ i)
-        for (int j = 0; j < arcs[i].size(); ++ j)
+    unsigned int szArc = arcs.size();
+    unsigned int szArci = 0;
+    for (int i = 0; i < szArc; ++ i)
+    {
+        szArci = arcs[i].size();
+        for (int j = 0; j < szArci; ++ j)
             arcs[i][j]->pher *= 1-evapRate;
+    }
 
     unsigned int from, to, tmp;
     double tmpMax = 0, maxPherST = 0, maxPherVM = 0;
 //    std::cerr << "Updating.\n";
-    for (int i = 0; i < paths.size(); ++ i)
+    unsigned int szPath = paths.size();
+    unsigned int szPathi = 0;
+    for (int i = 0; i < szPath; ++ i)
     {
         if (objValues[i] < max) continue;
         const std::vector<PathElement *> & path = paths[i]->getPath();
+        szPathi = path.size();
 //        std::cerr << i << ":\n";
-        for (int j = 0; j < path.size()-1; ++ j)
+        for (int j = 0; j < szPathi-1; ++ j)
         {
             to = path[j+1]->request;
             if (to == 0)
@@ -340,14 +350,16 @@ void InternalGraph::updateInternalHeuristic(unsigned int resNum, GraphComponent:
 {
     if (t == GraphComponent::VMACHINE)
     {
-        for (int i = 0; i < vertices.size(); ++ i)
+        unsigned int sz = vertices.size();
+        for (int i = 0; i < sz; ++ i)
             if (vertices[i]->getType() == GraphComponent::VMACHINE)
                 vertices[i]->updateHeuristic(resNum, curNodesRes[resNum], nodesCap[resNum]);
     }
 
     else if (t == GraphComponent::STORAGE)
     {
-        for (int i = 0; i < vertices.size(); ++ i)
+        unsigned int sz = vertices.size();
+        for (int i = 0; i < sz; ++ i)
             if (vertices[i]->getType() == GraphComponent::STORAGE)
                 vertices[i]->updateHeuristic(resNum, curStoresRes[resNum], storesCap[resNum]);
     }
@@ -362,7 +374,8 @@ unsigned int InternalGraph::selectVertex(AntPath* pt, unsigned int cur, std::set
     std::vector<unsigned int> rouletteIndex(size);
     double value = 0, sum = 0;
     unsigned int index = 0;
-    for (std::set<unsigned int>::iterator i = available.begin(); i != available.end(); i ++, index ++)
+    std::set<unsigned int>::iterator itEnd = available.end();
+    for (std::set<unsigned int>::iterator i = available.begin(); i != itEnd; i ++, index ++)
     {
         value = pow(arcs[cur][*i]->pher, pherDeg)*pow(arcs[cur][*i]->heur, heurDeg);
         sum += value;

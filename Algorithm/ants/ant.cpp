@@ -218,7 +218,8 @@ bool AntAlgorithm::lastReplica(const std::map<Link *, AssignedChannel> & channel
     Element * st = (link->getFirst()->isStore()) ? link->getFirst() : link->getSecond();
     bool found;
     int num = 0;
-    for (std::map<Link *, AssignedChannel>::const_iterator i = channels.begin(); i != channels.end(); i ++)
+    std::map<Link *, AssignedChannel>::const_iterator itEnd = channels.end();
+    for (std::map<Link *, AssignedChannel>::const_iterator i = channels.begin(); i != itEnd; i ++)
     {
         if ((i->first->getFirst() == st) || (i->first->getSecond() == st))
             if (i->second.replica == rep) num ++;
@@ -230,7 +231,8 @@ bool AntAlgorithm::lastReplica(const std::map<Link *, AssignedChannel> & channel
 
 bool AntAlgorithm::replicaExists(const std::map<Link *, AssignedChannel> & channels, Element * replicating, Element * st)
 {
-    for (std::map<Link *, AssignedChannel>::const_iterator i = channels.begin(); i != channels.end(); i ++)
+    std::map<Link *, AssignedChannel>::const_iterator itEnd = channels.end();
+    for (std::map<Link *, AssignedChannel>::const_iterator i = channels.begin(); i != itEnd; i ++)
     {
         if ((i->first->getFirst() == replicating) || (i->first->getSecond() == replicating))
             if (i->second.replica == st) return true;
@@ -240,7 +242,8 @@ bool AntAlgorithm::replicaExists(const std::map<Link *, AssignedChannel> & chann
 
 const AssignedChannel * AntAlgorithm::findReplica(const std::map<Link *, AssignedChannel> & channels, Element * replicating)
 {
-    for (std::map<Link *, AssignedChannel>::const_iterator i = channels.begin(); i != channels.end(); i ++)
+    std::map<Link *, AssignedChannel>::const_iterator itEnd = channels.end();
+    for (std::map<Link *, AssignedChannel>::const_iterator i = channels.begin(); i != itEnd; i ++)
         if ((i->first->getFirst() == replicating) || (i->first->getSecond() == replicating))
             if (i->second.replica && i->second.repChannel) return &(i->second);
     return NULL;
@@ -253,6 +256,7 @@ Algorithm::Result AntAlgorithm::schedule()
     unsigned int iMax = 0;
     unsigned int t1 = (unsigned)time(NULL);
     std::map<Link *, AssignedChannel> channels;
+    std::map<Link *, AssignedChannel>::const_iterator itEnd = channels.end();
     for (int i = 0; i < iterNum; ++ i)
     {
         std::cerr << "Iteration " << i << '\n';
@@ -266,7 +270,8 @@ Algorithm::Result AntAlgorithm::schedule()
 //            std::cerr << ", path length before = " << paths[ant]->getLength()-2;
             buildLink(ant, channels, true);
 //            std::cerr << ", path length after = " << paths[ant]->getLength()-2 << '\n';
-            for (std::map<Link *, AssignedChannel>::iterator iter = channels.begin(); iter != channels.end(); iter ++)
+            itEnd = channels.end();
+            for (std::map<Link *, AssignedChannel>::iterator iter = channels.begin(); iter != itEnd; iter ++)
             {
                 if (iter->second.dataChannel) delete iter->second.dataChannel;
                 if (iter->second.repChannel) delete iter->second.repChannel;
@@ -508,10 +513,12 @@ void AntAlgorithm::buildLink(unsigned int ant, std::map<Link *, AssignedChannel>
     int firstVertex, secondVertex;
     GraphComponent::RequestType firstType;
     const Stores& storesPtr = network->getStores();
+    Request::VirtualLinks::iterator itEnd;
     for(Requests::iterator i = requests.begin(); i != requests.end(); i ++)
     {
         Request::VirtualLinks& links = (*i)->getVirtualLinks();
-        for (Request::VirtualLinks::iterator lk = links.begin(); lk != links.end(); lk ++)
+        itEnd = links.end();
+        for (Request::VirtualLinks::iterator lk = links.begin(); lk != itEnd; lk ++)
         {
 /*    const std::vector<PathElement *> curPath = paths[ant]->getPath();
     for (unsigned int i = 0; i < curPath.size(); ++ i)
@@ -624,7 +631,8 @@ void AntAlgorithm::buildLink(unsigned int ant, std::map<Link *, AssignedChannel>
                         // remove assigned links and replications
                         // Get the pointer to the request firstVertex belongs to and loop through it's links
                         //Request::VirtualLinks& links = numberToPointer[firstVertex-1]->getVirtualLinks();
-                        for (Request::VirtualLinks::iterator iter = links.begin(); iter != links.end(); iter ++)
+                        Request::VirtualLinks::iterator linksEnd = links.end();
+                        for (Request::VirtualLinks::iterator iter = links.begin(); iter != linksEnd; iter ++)
                         {
                             std::map<Link *, AssignedChannel>::iterator place = channels.find(*iter);
                             if (place != channels.end())
@@ -643,7 +651,8 @@ void AntAlgorithm::buildLink(unsigned int ant, std::map<Link *, AssignedChannel>
 //                                    std::cerr << "Restored capacity on the consistency channel: ";
                                     Element * repElem = (place->first->getFirst()->isStore()) ? place->first->getFirst() : place->first->getSecond();
                                     Link tmp("", static_cast<Store *>(repElem)->getReplicationCapacity());
-                                    for (int index = 0; index < ach.repChannel->size(); ++ index)
+                                    unsigned int szRep = ach.repChannel->size();
+                                    for (int index = 0; index < szRep; ++ index)
                                     {
                                         (*(ach.repChannel))[index]->RemoveAssignment(&tmp);
 //                                        std::cerr << (*(ach.repChannel))[index]->getName() << '(' << (*(ach.repChannel))[index]->getCapacity() << ")-";
@@ -652,7 +661,8 @@ void AntAlgorithm::buildLink(unsigned int ant, std::map<Link *, AssignedChannel>
                                 }
                                 // restore capacity on the data channel
 //                                std::cerr << "Restored capacity on the data channel: ";
-                                for (int index = 0; index < ach.dataChannel->size(); ++ index)
+                                unsigned int szData = ach.dataChannel->size();
+                                for (int index = 0; index < szData; ++ index)
                                 {
                                     (*(ach.dataChannel))[index]->RemoveAssignment(place->first);
 //                                    std::cerr << (*(ach.dataChannel))[index]->getName() << '(' << (*(ach.dataChannel))[index]->getCapacity() << ")-";
@@ -668,14 +678,16 @@ void AntAlgorithm::buildLink(unsigned int ant, std::map<Link *, AssignedChannel>
 //                        std::cerr << "Replication successful, minIndex = " << minIndex << ", paths: " << '\n';
                         if (repChannel)
                         {
-                            for (int index = 0; index < repChannel->size(); ++ index)
+                            unsigned int szRep = repChannel->size();
+                            for (int index = 0; index < szRep; ++ index)
                             {
                             (*repChannel)[index]->assign(repLink);
 //                               std::cerr << (*repChannel)[index]->getName() << '(' << (*repChannel)[index]->getCapacity() << ")-";
                             }
                         }
 //                        std::cerr << '\n';
-                        for (int index = 0; index < dataChannel->size(); ++ index)
+                        unsigned int szData = dataChannel->size();
+                        for (int index = 0; index < szData; ++ index)
                         {
                            (*dataChannel)[index]->assign(dataLink);
 //                           std::cerr << (*dataChannel)[index]->getName() << '(' << (*dataChannel)[index]->getCapacity() << ")-";
@@ -694,7 +706,8 @@ void AntAlgorithm::buildLink(unsigned int ant, std::map<Link *, AssignedChannel>
                 else // !channel.empty()
                 {
 //                    std::cerr << "Found channel: ";
-                    for (int index = 0; index < channel->size(); ++ index)
+                    unsigned int szChan = channel->size();
+                    for (int index = 0; index < szChan; ++ index)
                     {
                         (*channel)[index]->assign(linkToBuild);
 //                        std::cerr << (*channel)[index]->getName() << '(' << (*channel)[index]->getCapacity() << ")-";
