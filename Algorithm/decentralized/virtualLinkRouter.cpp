@@ -8,6 +8,10 @@
 #include "network.h"
 #include "criteria.h"
 
+// number of links per element, used when building elementLinks is dijkstra algorithm.
+// actual amount of links can be greater but it will cause vector reallocation
+const unsigned int NLinks = 10;
+
 NetPath VirtualLinkRouter::route(VirtualLink * virtualLink, Network * network, SearchPathAlgorithm algorithm, std::vector<NetPath> * pathStorage)
 {
     if ( algorithm == K_SHORTEST_PATHS )
@@ -48,18 +52,23 @@ NetPath VirtualLinkRouter::searchPathDejkstra(VirtualLink * virtualLink, Network
     // local variables
     std::map<Element * , long> elementWeight;
     std::map<Element * , Link*> incomingEdge;
-    std::map<Element * , Links> elementLinks;
+    std::map<Element * , std::vector<Link *> > elementLinks;
     std::set<Element *> elementsToParse;
 
     // initializing parameters
     Links::iterator it = network->getLinks().begin();
     Links::iterator itEnd = network->getLinks().end();
+    std::vector<Link *> * vecLinks = NULL;
     for ( ; it != itEnd; ++it )
     {
         elementWeight[(*it)->getFirst()] = LONG_MAX; // equal to inf
         elementWeight[(*it)->getSecond()] = LONG_MAX;
-        elementLinks[(*it)->getFirst()].insert(*it);
-        elementLinks[(*it)->getSecond()].insert(*it);
+        vecLinks = &elementLinks[(*it)->getFirst()];
+        if (vecLinks->capacity() < NLinks) vecLinks->reserve(NLinks);
+        vecLinks->push_back(*it);
+        vecLinks = &elementLinks[(*it)->getSecond()];
+        if (vecLinks->capacity() < NLinks) vecLinks->reserve(NLinks);
+        vecLinks->push_back(*it);
 
         // can go only to the switch, not to node or store
         if ( (*it)->getFirst()->isSwitch() )
@@ -75,6 +84,7 @@ NetPath VirtualLinkRouter::searchPathDejkstra(VirtualLink * virtualLink, Network
     elementWeight[virtualLink->getSecond()] = LONG_MAX;
     Element * currentElement = virtualLink->getFirst();
 
+    Link edge("dijkstra edge", 0);
     // algorithm itself
     while ( currentElement != NULL && currentElement != virtualLink->getSecond() )
     {
@@ -88,15 +98,19 @@ NetPath VirtualLinkRouter::searchPathDejkstra(VirtualLink * virtualLink, Network
             return NetPath(); // No links assosiated with element
         }
 
-        it = elementLinks[currentElement].begin();
-        itEnd = elementLinks[currentElement].end();
-        for ( ; it != itEnd; ++it )
+//        it = elementLinks[currentElement].begin();
+//        itEnd = elementLinks[currentElement].end();
+        std::vector<Link *>& curLinks = elementLinks[currentElement];
+        unsigned int sz = curLinks.size();
+//        for ( ; it != itEnd; ++it )
+        for(unsigned int index = 0; index < sz; ++ index)
         {
-            Element * other = (*it)->getFirst() == currentElement ? 
-                (*it)->getSecond() : (*it)->getFirst();
+            Link * cur = curLinks[index];
+            Element * other = cur->getFirst() == currentElement ? 
+                cur->getSecond() : cur->getFirst();
             if ( elementsToParse.find(other) != elementsToParse.end() )
             {
-                Link edge("dijkstra_edge", (*it)->getCapacity());
+                edge.setCapacity(cur->getCapacity());
                 edge.bindElements(currentElement, other);
 
                 // weight of reaching the next element from current element
@@ -104,7 +118,7 @@ NetPath VirtualLinkRouter::searchPathDejkstra(VirtualLink * virtualLink, Network
                 if ( weight < elementWeight[other] )
                 {
                     elementWeight[other] = weight;
-                    incomingEdge[other] = (*it);
+                    incomingEdge[other] = cur;
                 }
             }
         }
