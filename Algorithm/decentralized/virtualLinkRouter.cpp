@@ -69,13 +69,18 @@ NetPath VirtualLinkRouter::searchPathDejkstra(VirtualLink * virtualLink, Network
         vecLinks = &elementLinks[(*it)->getSecond()];
         if (vecLinks->capacity() < NLinks) vecLinks->reserve(NLinks);
         vecLinks->push_back(*it);
-
+/*
         // can go only to the switch, not to node or store
         if ( (*it)->getFirst()->isSwitch() )
             elementsToParse.insert((*it)->getFirst());
         if ( (*it)->getSecond()->isSwitch() )
-            elementsToParse.insert((*it)->getSecond());
+            elementsToParse.insert((*it)->getSecond());*/
     }
+
+    Switches& switches = network->getSwitches();
+    Switches::iterator swEnd = switches.end();
+    for (Switches::iterator swi = switches.begin(); swi != swEnd; swi ++)
+        elementsToParse.insert(*swi);
 
     elementsToParse.insert(virtualLink->getFirst());
     elementsToParse.insert(virtualLink->getSecond());
