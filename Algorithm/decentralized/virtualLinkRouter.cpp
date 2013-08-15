@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <limits.h>
 #include <stdio.h>
+#include <assert.h>
+#include <iostream>
 #include "link.h"
 #include "switch.h"
 #include "network.h"
@@ -28,7 +30,7 @@ NetPath VirtualLinkRouter::route(VirtualLink * virtualLink, Network * network, S
 }
 
 // choose the next element to parse during the dejkstra algorithm
-Element* chooseNext(std::map<Element * , long>& elementWeight, std::set<Element *>& elementsToParse) {
+Element * chooseNext(std::map<Element * , long>& elementWeight, std::set<Element *>& elementsToParse) {
     Element* nextElement = NULL;
     long minWeight = LONG_MAX;
     std::set<Element *>::iterator it = elementsToParse.begin();
@@ -48,12 +50,11 @@ NetPath VirtualLinkRouter::searchPathDejkstra(VirtualLink * virtualLink, Network
 {
     if ( virtualLink->getFirst() == virtualLink->getSecond() )
         return NetPath();
-    
+
     // local variables
-    std::map<Element * , long> elementWeight;
+    std::set<ElementWeight, WeightCompare> elementsToParse;
     std::map<Element * , Link*> incomingEdge;
     std::map<Element * , std::vector<Link *> > elementLinks;
-    std::set<Element *> elementsToParse;
 
     // initializing parameters
     Links::iterator it = network->getLinks().begin();
@@ -61,40 +62,34 @@ NetPath VirtualLinkRouter::searchPathDejkstra(VirtualLink * virtualLink, Network
     std::vector<Link *> * vecLinks = NULL;
     for ( ; it != itEnd; ++it )
     {
-        elementWeight[(*it)->getFirst()] = LONG_MAX; // equal to inf
-        elementWeight[(*it)->getSecond()] = LONG_MAX;
+        if ((*it)->getFirst() != virtualLink->getFirst()) elementsToParse.insert(ElementWeight((*it)->getFirst(), LONG_MAX)); // LONG_MAX equals to inf
+        if ((*it)->getSecond() != virtualLink->getFirst()) elementsToParse.insert(ElementWeight((*it)->getSecond(), LONG_MAX));
+
         vecLinks = &elementLinks[(*it)->getFirst()];
         if (vecLinks->capacity() < NLinks) vecLinks->reserve(NLinks);
         vecLinks->push_back(*it);
         vecLinks = &elementLinks[(*it)->getSecond()];
         if (vecLinks->capacity() < NLinks) vecLinks->reserve(NLinks);
         vecLinks->push_back(*it);
-/*
-        // can go only to the switch, not to node or store
-        if ( (*it)->getFirst()->isSwitch() )
-            elementsToParse.insert((*it)->getFirst());
-        if ( (*it)->getSecond()->isSwitch() )
-            elementsToParse.insert((*it)->getSecond());*/
     }
-
-    Switches& switches = network->getSwitches();
-    Switches::iterator swEnd = switches.end();
-    for (Switches::iterator swi = switches.begin(); swi != swEnd; swi ++)
-        elementsToParse.insert(*swi);
-
-    elementsToParse.insert(virtualLink->getFirst());
-    elementsToParse.insert(virtualLink->getSecond());
-
-    elementWeight[virtualLink->getFirst()] = 0l;
-    elementWeight[virtualLink->getSecond()] = LONG_MAX;
+    elementsToParse.insert(ElementWeight(virtualLink->getFirst(), 0));
+    elementsToParse.insert(ElementWeight(virtualLink->getSecond(), LONG_MAX));
     Element * currentElement = virtualLink->getFirst();
 
     Link edge("dijkstra edge", 0);
+    ElementWeight temp(NULL, -LONG_MAX);
+    std::set<ElementWeight, WeightCompare>::iterator tempIter;
+    long curWeight = 0;
     // algorithm itself
     while ( currentElement != NULL && currentElement != virtualLink->getSecond() )
     {
-        elementsToParse.erase(currentElement);
-        
+        temp.element = currentElement;
+        tempIter = elementsToParse.find(temp);
+        assert(tempIter != elementsToParse.end());
+        curWeight = tempIter->weight;
+//        std::cerr << "currentElement = " << currentElement << ", tempIter->element = " << tempIter->element << ", weight = " << tempIter->weight << '\n';
+        elementsToParse.erase(tempIter);
+
         // going through all neighbors of current element,
         // parsing their weight and choosing the element with the
         // lowest weight
@@ -103,32 +98,38 @@ NetPath VirtualLinkRouter::searchPathDejkstra(VirtualLink * virtualLink, Network
             return NetPath(); // No links assosiated with element
         }
 
-//        it = elementLinks[currentElement].begin();
-//        itEnd = elementLinks[currentElement].end();
         std::vector<Link *>& curLinks = elementLinks[currentElement];
         unsigned int sz = curLinks.size();
-//        for ( ; it != itEnd; ++it )
         for(unsigned int index = 0; index < sz; ++ index)
         {
             Link * cur = curLinks[index];
-            Element * other = cur->getFirst() == currentElement ? 
+            Element * other = cur->getFirst() == currentElement ?
                 cur->getSecond() : cur->getFirst();
-            if ( elementsToParse.find(other) != elementsToParse.end() )
+            temp.element = other;
+            temp.weight = LONG_MAX;
+            tempIter = elementsToParse.find(temp);
+            if ( tempIter != elementsToParse.end() )
             {
                 edge.setCapacity(cur->getCapacity());
                 edge.bindElements(currentElement, other);
 
                 // weight of reaching the next element from current element
-                long weight = getEdgeWeigth(edge, network, algorithm) + elementWeight[currentElement];
-                if ( weight < elementWeight[other] )
+                long weight = getEdgeWeigth(edge, network, algorithm) + curWeight;
+                if ( weight < tempIter->weight )
                 {
-                    elementWeight[other] = weight;
+                    // have to erase and reinsert because weight is a part of the key
+                    temp.element = other;
+                    temp.weight = weight;
+                    elementsToParse.erase(tempIter);
+                    elementsToParse.insert(temp);
                     incomingEdge[other] = cur;
                 }
             }
+            temp.weight = -LONG_MAX;
         }
-        
-        currentElement = chooseNext(elementWeight, elementsToParse);
+
+        if (elementsToParse.begin()->weight != LONG_MAX) currentElement = elementsToParse.begin()->element;
+        else return NetPath(); // if an infinite weight is the minimum, it is a fail
     }
 
     if ( currentElement != virtualLink->getSecond() )

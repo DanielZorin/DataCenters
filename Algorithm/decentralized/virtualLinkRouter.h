@@ -2,7 +2,42 @@
 #define VIRTUAL_LINK_ROUTER_H_
 
 #include "publicdefs.h"
+#include <iostream>
 #include <vector>
+
+// struct containing an element and its weight in terms of dijkstra's algorithm
+struct ElementWeight
+{
+public:
+    Element * element;
+    long weight;
+
+    ElementWeight(Element * e, long w)
+    : element(e)
+    , weight(w)
+    {
+    }
+
+    ElementWeight()
+    : element(NULL)
+    , weight(0)
+    {
+    }
+
+    bool operator==(const ElementWeight& e2) const { return element == e2.element; }
+};
+
+struct WeightCompare
+{
+    bool operator() (const ElementWeight& e1, const ElementWeight& e2) const
+    {
+        if (e1.element == e2.element)
+            return false;
+        if (e1.weight == e2.weight)
+            return e1.element < e2.element;
+        return e1.weight < e2.weight;
+    }
+};
 
 // Class VirtualLinkRouter, which provides the algorithms of routing the
 // virtual link in the resource network.
