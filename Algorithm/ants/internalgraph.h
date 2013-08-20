@@ -59,6 +59,8 @@ public:
     void updatePheromone(unsigned int res, double value);
     // Choose resource for the request
     unsigned int chooseResource(std::vector<unsigned long> & ram, double pherDeg, double heurDeg);
+    // Evaporate pheromone
+    void evaporatePheromone(double evap);
 
     // heuristic used. Initialized by InternalGraph
     static Heuristic * heurCalc;

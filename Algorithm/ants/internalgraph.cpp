@@ -142,6 +142,13 @@ void GraphComponent::updateHeuristic(unsigned int resNum, unsigned int resCur, u
         physArcs[resNum]->heur = heurCalc->calculate(resCur, required, resCap);
 }
 
+void GraphComponent::evaporatePheromone(double evap)
+{
+    unsigned int sz = physArcs.size();
+    for (unsigned int i = 0; i < sz; ++ i)
+        physArcs[i]->pher *= 1-evap;
+}
+
 void GraphComponent::updatePheromone(unsigned int res, double value)
 {
     double maxPher = 0;
@@ -279,6 +286,9 @@ void InternalGraph::updatePheromone(std::vector<AntPath*> & paths, std::vector<d
         std::cerr << '\n';
     }
 */
+    unsigned int szGC = vertices.size();
+    for (int i = 0; i < szGC; ++ i) vertices[i]->evaporatePheromone(evapRate);
+
     unsigned int szArc = arcs.size();
     unsigned int szArci = 0;
     for (int i = 0; i < szArc; ++ i)
