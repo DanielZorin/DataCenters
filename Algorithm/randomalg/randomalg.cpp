@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <assert.h>
+#include <limits.h>
 #include <iostream>
 #include <map>
 
@@ -62,6 +63,7 @@ Algorithm::Result RandomAlgorithm::schedule()
     crit.reserve(vmCount);
     unsigned int roll = 0;
     unsigned int critMax = 0, iMax = 0;
+    long tempCrit = LONG_MAX;
     bool fail = false, found = false;
     for (int iter = 0; iter < tries; ++ iter)
     {
@@ -76,7 +78,8 @@ Algorithm::Result RandomAlgorithm::schedule()
                 // calculate criterion values
                 for (Nodes::iterator ni = physNodes.begin(); ni != physNodes.end(); ni ++)
                 {
-                    crit.push_back(CritValue((*ni)->getCapacity(), *ni));
+                    //crit.push_back(CritValue((*ni)->getCapacity(), *ni));
+                    crit.push_back(CritValue(tempCrit-(*ni)->getID(), *ni));
                 }
                 // choose N best nodes
                 for (unsigned int N = 0; N < NRes && N < physNodes.size(); ++ N)
@@ -100,6 +103,7 @@ Algorithm::Result RandomAlgorithm::schedule()
                 chooseNode[roll]->assign(**vmi);
                 chooseNode.clear();
                 crit.clear();
+                tempCrit = LONG_MAX;
             }
             if (fail)
             {
@@ -113,13 +117,15 @@ Algorithm::Result RandomAlgorithm::schedule()
                 continue;
             }
             // assign storages
+            tempCrit = LONG_MAX;
             const Request::Storages& sts = (*ri)->getStorages();
             for (Request::Storages::const_iterator sti = sts.begin(); sti != sts.end(); sti ++)
             {
                 // calculate criterion values
                 for (Stores::iterator si = physStores.begin(); si != physStores.end(); si ++)
                 {
-                    crit.push_back(CritValue((*si)->getCapacity(), *si));
+                    //crit.push_back(CritValue((*si)->getCapacity(), *si));
+                    crit.push_back(CritValue(tempCrit - (*si)->getID(), *si));
                 }
                 // choose N best stores
                 for (unsigned int N = 0; N < NRes && N < physStores.size(); ++ N)
@@ -144,6 +150,7 @@ Algorithm::Result RandomAlgorithm::schedule()
                 chooseStore[roll]->assign(**sti);
                 chooseStore.clear();
                 crit.clear();
+                tempCrit = LONG_MAX;
             }
             if (fail)
             {
