@@ -13,6 +13,9 @@ public:
 
     virtual ~FirstFitAlgorithm() {}
     virtual Algorithm::Result schedule();
+private:
+    Link * createDummyLink(Link * virtualLink, Assignment * assignment);
+    Element * getCastedAssignment(Element * element, Assignment * assignment);
 };
 
 #endif // ALGORITHM_H
