@@ -552,7 +552,7 @@ void AntAlgorithm::buildLink(unsigned int ant, std::map<Link *, AssignedChannel>
                     Link dataLink("", (*lk)->getCapacity());
                     bool repSuccess = false;
                     std::vector<unsigned long> curStoresRes = graph->getCurStoresRes();
-                    unsigned int minRes = curStoresRes[0], minIndex = 0;
+                    unsigned int minRes = LONG_MAX, minIndex = curStoresRes.size();
                     if (static_cast<Store *>(replicating)->getTypeOfStore() != 0 && replicating->isStore())
                     {
                         // try existing replication
