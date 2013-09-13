@@ -123,11 +123,17 @@ class TCGenerator:
             # generating segments first
             res = []
             attachedResources = set()
+            fullNumber = self.number
+            self.number = int(self.number / self.numberOfSegments)
             for i in range(self.numberOfSegments):
+                if i == (self.numberOfSegments - 1):
+                    # last attempt, need to correct number of requests
+                    self.number = fullNumber - self.number * (self.numberOfSegments - 1)
                 for v in resources.vertices:
                     if isinstance(v, Computer) and not v in attachedResources:
                         segment = self.FindSegment(resources, v, attachedResources)
                         segment._buildPaths()
+                        
                         demands = self.Generate(segment, True)
                         self.RemoveResources(segment)
                         for d in demands:
