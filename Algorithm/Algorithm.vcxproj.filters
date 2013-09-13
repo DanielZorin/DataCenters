@@ -102,6 +102,9 @@
     <ClCompile Include="randomalg\randomalg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ants\heuristic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="algorithmdispatcher.h">
@@ -198,6 +201,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="randomalg\randomalg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ants\heuristic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

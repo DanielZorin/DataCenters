@@ -254,7 +254,7 @@ Algorithm::Result AntAlgorithm::schedule()
     std::cerr << "Algorithm parameters: antNum = " << antNum << ", iter = " << iterNum << ", pd = " << pherDeg << ", hd = " << heurDeg << ", evap = " << evapRate << '\n';
     std::cout << '\n';
     unsigned int iMax = 0;
-    unsigned int t1 = (unsigned)time(NULL);
+    unsigned int t1 = 0;//(unsigned)time(NULL);
     std::map<Link *, AssignedChannel> channels;
     std::map<Link *, AssignedChannel>::const_iterator itEnd = channels.end();
     for (int i = 0; i < iterNum; ++ i)

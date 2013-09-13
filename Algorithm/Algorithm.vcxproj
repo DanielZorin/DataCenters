@@ -78,6 +78,7 @@
   <ItemGroup>
     <ClCompile Include="algorithmdispatcher.cpp" />
     <ClCompile Include="ants\ant.cpp" />
+    <ClCompile Include="ants\heuristic.cpp" />
     <ClCompile Include="ants\internalgraph.cpp" />
     <ClCompile Include="ants\path.cpp" />
     <ClCompile Include="centralized\centralizedalgorithm.cpp" />
@@ -111,6 +112,7 @@
   <ItemGroup>
     <ClInclude Include="algorithmdispatcher.h" />
     <ClInclude Include="ants\ant.h" />
+    <ClInclude Include="ants\heuristic.h" />
     <ClInclude Include="ants\internalgraph.h" />
     <ClInclude Include="ants\path.h" />
     <ClInclude Include="centralized\centralizedalgorithm.h" />
