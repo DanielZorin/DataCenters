@@ -1,5 +1,5 @@
 import random
-from Core.Resources import ResourceGraph, Computer, Storage, Router
+from Core.Resources import ResourceGraph, Computer, Storage, Router, Link
 from Core.Demands import *
 
 class TCGenerator:
@@ -13,7 +13,9 @@ class TCGenerator:
     coupling = 0.5
     replicationCapacityRatio = 0.1
     max_x = 380
-
+    assignInSegments = False
+    numberOfSegments = 1
+    
     def __init__(self):
         pass
 
@@ -21,9 +23,119 @@ class TCGenerator:
     def GetName():
         return "Tightly coupled"
 
-    def Generate(self, resources):
+    def AddElemToSegment(self, segment, elem):
+        number = elem.number
+        segment.AddVertex(elem)
+        elem.number = number
+        
+    # Given first lvl router, find all second lvl routers
+    # and attach vertexes to segmetn
+    def ParseFirstLvlRouter(self, resources, firstLvlRouter, segment, attachedResources):
+        secondLvlRouters = []
+        edgesOfRouter = resources.FindAllEdges(firstLvlRouter)
+        for edge in edgesOfRouter:
+            if not (edge in attachedResources):
+                attachedResources.add(edge)
+                segment.AddLink(edge)
+                
+                if edge.e1 != firstLvlRouter:
+                    if isinstance(edge.e1, Router):
+                        secondLvlRouters.append(edge.e1)
+                    if not (edge.e1 in attachedResources): 
+                        attachedResources.add(edge.e1)
+                        self.AddElemToSegment(segment, edge.e1)
+                else:
+                    if isinstance(edge.e2, Router):
+                        secondLvlRouters.append(edge.e2)
+                    if not (edge.e2 in attachedResources): 
+                        attachedResources.add(edge.e2)
+                        self.AddElemToSegment(segment, edge.e2)
+        return secondLvlRouters
+    
+    def CheckFirstLvl(self, resources, vToParse):
+        edgesOfRouter = resources.FindAllEdges(vToParse)
+        for edge in edgesOfRouter:
+            if isinstance(edge.e1, Computer) or isinstance(edge.e2, Computer) or isinstance(edge.e1, Storage) or isinstance(edge.e2, Storage):
+                return True
+        return False
+    
+    # Given first lvl router, find all second lvl routers
+    # and attach vertexes to segmetn
+    def ParseSecondLvlRouter(self, resources, secondLvlRouter, segment, attachedResources):
+        edgesOfRouter = resources.FindAllEdges(secondLvlRouter)
+        for edge in edgesOfRouter:
+            if ( edge in attachedResources ):
+                continue
+            
+            vToParse = edge.e1 if edge.e1 != secondLvlRouter else edge.e2
+            # first, check that the edge is going to the lower level
+            if self.CheckFirstLvl(resources, vToParse) and not (vToParse in attachedResources): 
+                attachedResources.add(vToParse)
+                self.AddElemToSegment(segment, vToParse)
+                attachedResources.add(edge)
+                segment.AddLink(edge)
+                self.ParseFirstLvlRouter(resources, vToParse, segment, attachedResources)
+                    
+                    
+        
+    # given one vm, select a segment containing this vm
+    # Todo: generate several segments
+    def FindSegment(self, resources, vm, attachedResources):
+        segment = ResourceGraph()
+        attachedResources.add(vm)
+        self.AddElemToSegment(segment, vm)
+        edgesOfVm = resources.FindAllEdges(vm)
+        firstLvlRouter = None
+        for edge in edgesOfVm:
+            if ( isinstance(edge.e1, Router) ):
+                firstLvlRouter = edge.e1
+                attachedResources.add(edge)
+                segment.AddLink(edge)
+                break
+            elif ( isinstance(edge.e2, Router) ):
+                firstLvlRouter = edge.e2
+                attachedResources.add(edge)
+                segment.AddLink(edge)
+                break
+                
+        if ( firstLvlRouter == None ):
+            raise Exception("Can't find attached router!")
+            
+        self.AddElemToSegment(segment, firstLvlRouter)
+        attachedResources.add(firstLvlRouter)
+        
+        secondLvlRouters = self.ParseFirstLvlRouter(resources, firstLvlRouter, segment, attachedResources)
+        
+        for secondLvlRouter in secondLvlRouters:
+            self.ParseSecondLvlRouter(resources, secondLvlRouter, segment, attachedResources)
+        
+        return segment
+   
+    def RemoveResources(self, segment):
+        segment.vertices = []
+        segment.edges = []
+    
+    def Generate(self, resources, segmentGeneration = False):
         comps = {}
         storages = {}
+        
+        if not segmentGeneration and self.assignInSegments:
+            # generating segments first
+            res = []
+            attachedResources = set()
+            for i in range(self.numberOfSegments):
+                for v in resources.vertices:
+                    if isinstance(v, Computer) and not v in attachedResources:
+                        segment = self.FindSegment(resources, v, attachedResources)
+                        segment._buildPaths()
+                        demands = self.Generate(segment, True)
+                        self.RemoveResources(segment)
+                        for d in demands:
+                            res.append(d)
+                        break
+            return res
+        
+                        
         for v in resources.vertices:
             if isinstance(v, Computer):
                 comps[v] = [v.speed]
@@ -360,7 +472,8 @@ class TCGenerator:
                 [self.tr("Computers Variance"), self.parent.compVar],
                 [self.tr("Network Variance"), self.parent.netVar],
                 [self.tr("Coupling"), self.parent.coupling],
-                [self.tr("Consist.link bandwidth/Virt.link bandwidth"), self.parent.replicationCapacityRatio]
+                [self.tr("Consist.link bandwidth/Virt.link bandwidth"), self.parent.replicationCapacityRatio],
+                [self.tr("Number of segments to guarantee assignment"), self.parent.numberOfSegments]
                         ]
         t = Translator(self)
         return t.getTranslatedSettings()
@@ -375,8 +488,10 @@ class TCGenerator:
         self.compVar = dict[5][1]
         self.netVar = dict[6][1]
         self.coupling = dict[7][1]
-        self.replication_allowed = True if dict[9][1]=="True" else False
+        self.replication_allowed = True if dict[10][1]=="True" else False
         self.replicationCapacityRatio = dict[8][1]
+        self.assignInSegments = True if dict[11][1]=="True" else False
+        self.numberOfSegments = dict[9][1]
 
 def pluginMain():
     return TCGenerator

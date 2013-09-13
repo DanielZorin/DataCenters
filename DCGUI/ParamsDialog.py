@@ -6,7 +6,7 @@ class ParamsDialog(QDialog):
     data = {}
     ui = {}
     
-    def __init__(self, config, parent, replication_checkbox=False):
+    def __init__(self, config, parent, replication_checkbox=False, segmentation_checkbox=False):
         QDialog.__init__(self)
         self.setStyleSheet(parent.styleSheet())
         self.setWindowTitle("Method Settings")
@@ -23,6 +23,9 @@ class ParamsDialog(QDialog):
         if replication_checkbox:
             self.replication_checkbox = QCheckBox(self.tr("Allow replication"))
             self.layout.addWidget(self.replication_checkbox)
+        if segmentation_checkbox:
+            self.segmentation_checkbox = QCheckBox(self.tr("Generate assegnments in segments"))
+            self.layout.addWidget(self.segmentation_checkbox)
         self.buttons = QHBoxLayout()
         self.ok = QPushButton("OK")
         self.cancel = QPushButton("Cancel")
@@ -176,6 +179,8 @@ class ParamsDialog(QDialog):
                 res.append([k[0], self._getDict(k[1], ui[k[0]])])
         if self.replication_checkbox:
             res.append(["replication_allowed", str(self.replication_checkbox.isChecked())])
+        if self.segmentation_checkbox:
+            res.append(["assignInSegments", str(self.segmentation_checkbox.isChecked())])
         return res
     
     def OK(self):
