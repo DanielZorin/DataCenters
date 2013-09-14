@@ -2,8 +2,8 @@
 
 # Form implementation generated from reading ui file 'TestsWindow.ui'
 #
-# Created: Thu Jul 11 15:46:33 2013
-#      by: PyQt4 UI code generator 4.10.1
+# Created: Sat Sep 14 13:33:33 2013
+#      by: PyQt4 UI code generator 4.9.5
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -12,16 +12,7 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    def _fromUtf8(s):
-        return s
-
-try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+    _fromUtf8 = lambda s: s
 
 class Ui_TestsWindow(object):
     def setupUi(self, TestsWindow):
@@ -62,6 +53,7 @@ class Ui_TestsWindow(object):
         self.algorithm = QtGui.QComboBox(self.tab)
         self.algorithm.setMinimumSize(QtCore.QSize(100, 0))
         self.algorithm.setObjectName(_fromUtf8("algorithm"))
+        self.algorithm.addItem(_fromUtf8(""))
         self.algorithm.addItem(_fromUtf8(""))
         self.algorithm.addItem(_fromUtf8(""))
         self.algorithm.addItem(_fromUtf8(""))
@@ -227,48 +219,49 @@ class Ui_TestsWindow(object):
         QtCore.QMetaObject.connectSlotsByName(TestsWindow)
 
     def retranslateUi(self, TestsWindow):
-        TestsWindow.setWindowTitle(_translate("TestsWindow", "Run Multiple Tests", None))
-        self.label_2.setText(_translate("TestsWindow", "Algorithm:", None))
-        self.algorithm.setItemText(0, _translate("TestsWindow", "Ant Colony", None))
-        self.algorithm.setItemText(1, _translate("TestsWindow", "Centralized", None))
-        self.algorithm.setItemText(2, _translate("TestsWindow", "Decentralized", None))
-        self.algorithm.setItemText(3, _translate("TestsWindow", "FirstFit", None))
-        self.projects.headerItem().setText(0, _translate("TestsWindow", "Projects", None))
-        self.add.setText(_translate("TestsWindow", "Add", None))
-        self.remove.setText(_translate("TestsWindow", "Remove", None))
-        self.pushButton.setText(_translate("TestsWindow", "Generate", None))
-        self.run.setText(_translate("TestsWindow", "Run", None))
-        self.tests_tabs.setTabText(self.tests_tabs.indexOf(self.tab), _translate("TestsWindow", "Tests", None))
-        self.label.setText(_translate("TestsWindow", "Vertical axis:", None))
-        self.label_3.setText(_translate("TestsWindow", "Horizontal axis:", None))
-        self.vertical.setItemText(0, _translate("TestsWindow", "Number of assigned requests", None))
-        self.vertical.setItemText(1, _translate("TestsWindow", "Number of replications", None))
-        self.horizontal.setItemText(0, _translate("TestsWindow", "Computational nodes and data stores load", None))
-        self.horizontal.setItemText(1, _translate("TestsWindow", "Computational nodes load (CPU and RAM)", None))
-        self.horizontal.setItemText(2, _translate("TestsWindow", "CPU load", None))
-        self.horizontal.setItemText(3, _translate("TestsWindow", "RAM load", None))
-        self.horizontal.setItemText(4, _translate("TestsWindow", "Data stores load", None))
-        self.tests_tabs.setTabText(self.tests_tabs.indexOf(self.Graphs), _translate("TestsWindow", "Graphs", None))
-        self.actionSelect.setText(_translate("TestsWindow", "Select", None))
-        self.actionSelect.setShortcut(_translate("TestsWindow", "Alt+1", None))
-        self.actionVM.setText(_translate("TestsWindow", "Add VM", None))
-        self.actionVM.setToolTip(_translate("TestsWindow", "Add VM", None))
-        self.actionVM.setShortcut(_translate("TestsWindow", "Alt+2", None))
-        self.actionEdge.setText(_translate("TestsWindow", "Add Virtual Channel", None))
-        self.actionEdge.setToolTip(_translate("TestsWindow", "Add Virtual Channel", None))
-        self.actionEdge.setShortcut(_translate("TestsWindow", "Alt+3", None))
-        self.actionNew_System.setText(_translate("TestsWindow", "New Graph", None))
-        self.actionNew_System.setShortcut(_translate("TestsWindow", "Ctrl+N", None))
-        self.actionOpen_System.setText(_translate("TestsWindow", "Open Graph", None))
-        self.actionOpen_System.setShortcut(_translate("TestsWindow", "Ctrl+O", None))
-        self.actionSave_System.setText(_translate("TestsWindow", "Save Graph", None))
-        self.actionSave_System.setShortcut(_translate("TestsWindow", "Ctrl+S", None))
-        self.actionSave_System_As.setText(_translate("TestsWindow", "Save Graph As...", None))
-        self.actionSave_System_As.setShortcut(_translate("TestsWindow", "Ctrl+Shift+S", None))
-        self.actionExit.setText(_translate("TestsWindow", "Exit", None))
-        self.actionExit.setShortcut(_translate("TestsWindow", "Ctrl+X", None))
-        self.actionDemandStorage.setText(_translate("TestsWindow", "Add Storage", None))
-        self.actionDemandStorage.setToolTip(_translate("TestsWindow", "Add Storage", None))
-        self.actionDemandStorage.setShortcut(_translate("TestsWindow", "Alt+4", None))
+        TestsWindow.setWindowTitle(QtGui.QApplication.translate("TestsWindow", "Run Multiple Tests", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_2.setText(QtGui.QApplication.translate("TestsWindow", "Algorithm:", None, QtGui.QApplication.UnicodeUTF8))
+        self.algorithm.setItemText(0, QtGui.QApplication.translate("TestsWindow", "Ant Colony", None, QtGui.QApplication.UnicodeUTF8))
+        self.algorithm.setItemText(1, QtGui.QApplication.translate("TestsWindow", "Centralized", None, QtGui.QApplication.UnicodeUTF8))
+        self.algorithm.setItemText(2, QtGui.QApplication.translate("TestsWindow", "Decentralized", None, QtGui.QApplication.UnicodeUTF8))
+        self.algorithm.setItemText(3, QtGui.QApplication.translate("TestsWindow", "FirstFit", None, QtGui.QApplication.UnicodeUTF8))
+        self.algorithm.setItemText(4, QtGui.QApplication.translate("TestsWindow", "RandomFit", None, QtGui.QApplication.UnicodeUTF8))
+        self.projects.headerItem().setText(0, QtGui.QApplication.translate("TestsWindow", "Projects", None, QtGui.QApplication.UnicodeUTF8))
+        self.add.setText(QtGui.QApplication.translate("TestsWindow", "Add", None, QtGui.QApplication.UnicodeUTF8))
+        self.remove.setText(QtGui.QApplication.translate("TestsWindow", "Remove", None, QtGui.QApplication.UnicodeUTF8))
+        self.pushButton.setText(QtGui.QApplication.translate("TestsWindow", "Generate", None, QtGui.QApplication.UnicodeUTF8))
+        self.run.setText(QtGui.QApplication.translate("TestsWindow", "Run", None, QtGui.QApplication.UnicodeUTF8))
+        self.tests_tabs.setTabText(self.tests_tabs.indexOf(self.tab), QtGui.QApplication.translate("TestsWindow", "Tests", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setText(QtGui.QApplication.translate("TestsWindow", "Vertical axis:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_3.setText(QtGui.QApplication.translate("TestsWindow", "Horizontal axis:", None, QtGui.QApplication.UnicodeUTF8))
+        self.vertical.setItemText(0, QtGui.QApplication.translate("TestsWindow", "Number of assigned requests", None, QtGui.QApplication.UnicodeUTF8))
+        self.vertical.setItemText(1, QtGui.QApplication.translate("TestsWindow", "Number of replications", None, QtGui.QApplication.UnicodeUTF8))
+        self.horizontal.setItemText(0, QtGui.QApplication.translate("TestsWindow", "Computational nodes and data stores load", None, QtGui.QApplication.UnicodeUTF8))
+        self.horizontal.setItemText(1, QtGui.QApplication.translate("TestsWindow", "Computational nodes load (CPU and RAM)", None, QtGui.QApplication.UnicodeUTF8))
+        self.horizontal.setItemText(2, QtGui.QApplication.translate("TestsWindow", "CPU load", None, QtGui.QApplication.UnicodeUTF8))
+        self.horizontal.setItemText(3, QtGui.QApplication.translate("TestsWindow", "RAM load", None, QtGui.QApplication.UnicodeUTF8))
+        self.horizontal.setItemText(4, QtGui.QApplication.translate("TestsWindow", "Data stores load", None, QtGui.QApplication.UnicodeUTF8))
+        self.tests_tabs.setTabText(self.tests_tabs.indexOf(self.Graphs), QtGui.QApplication.translate("TestsWindow", "Graphs", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSelect.setText(QtGui.QApplication.translate("TestsWindow", "Select", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSelect.setShortcut(QtGui.QApplication.translate("TestsWindow", "Alt+1", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionVM.setText(QtGui.QApplication.translate("TestsWindow", "Add VM", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionVM.setToolTip(QtGui.QApplication.translate("TestsWindow", "Add VM", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionVM.setShortcut(QtGui.QApplication.translate("TestsWindow", "Alt+2", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionEdge.setText(QtGui.QApplication.translate("TestsWindow", "Add Virtual Channel", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionEdge.setToolTip(QtGui.QApplication.translate("TestsWindow", "Add Virtual Channel", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionEdge.setShortcut(QtGui.QApplication.translate("TestsWindow", "Alt+3", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionNew_System.setText(QtGui.QApplication.translate("TestsWindow", "New Graph", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionNew_System.setShortcut(QtGui.QApplication.translate("TestsWindow", "Ctrl+N", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionOpen_System.setText(QtGui.QApplication.translate("TestsWindow", "Open Graph", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionOpen_System.setShortcut(QtGui.QApplication.translate("TestsWindow", "Ctrl+O", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSave_System.setText(QtGui.QApplication.translate("TestsWindow", "Save Graph", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSave_System.setShortcut(QtGui.QApplication.translate("TestsWindow", "Ctrl+S", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSave_System_As.setText(QtGui.QApplication.translate("TestsWindow", "Save Graph As...", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSave_System_As.setShortcut(QtGui.QApplication.translate("TestsWindow", "Ctrl+Shift+S", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionExit.setText(QtGui.QApplication.translate("TestsWindow", "Exit", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionExit.setShortcut(QtGui.QApplication.translate("TestsWindow", "Ctrl+X", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionDemandStorage.setText(QtGui.QApplication.translate("TestsWindow", "Add Storage", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionDemandStorage.setToolTip(QtGui.QApplication.translate("TestsWindow", "Add Storage", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionDemandStorage.setShortcut(QtGui.QApplication.translate("TestsWindow", "Alt+4", None, QtGui.QApplication.UnicodeUTF8))
 
 import resources_rc

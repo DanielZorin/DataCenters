@@ -176,8 +176,10 @@ class MainWindow(QMainWindow):
             alg = "c"
         elif self.ui.algorithm.currentIndex() == 2:
             alg = "d"
-        else:
+        elif self.ui.algorithm.currentIndex() == 3:
             alg = "f"
+        else:
+            alg = "r"
         if sys.platform.startswith("win"):
             name = "Algorithm\\main.exe"
         else:

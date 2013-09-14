@@ -13,6 +13,7 @@ RandomAlgorithm::RandomAlgorithm(Network * n, Requests const & r, unsigned long 
 , tries(tr)
 , NRes(N)
 {
+    vmCount = 0, stCount = 0;
     copyNetwork = new Network();
     *copyNetwork = *network;
     for (Requests::iterator i = requests.begin(); i != requests.end(); i ++)
