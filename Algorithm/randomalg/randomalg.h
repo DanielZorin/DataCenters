@@ -55,7 +55,7 @@ struct CritValue
 class RandomAlgorithm: public Algorithm
 {
     public:
-    RandomAlgorithm(Network * n, Requests const & r, unsigned long tr = 1, unsigned int N = 10);
+    RandomAlgorithm(Network * n, Requests const & r, unsigned long tr = 1, unsigned int N = 0);
     ~RandomAlgorithm();
 
     virtual Algorithm::Result schedule();
