@@ -7,6 +7,7 @@ class NodeManager
 {
 public:
     NodeManager(Nodes &);
+    Nodes getVMAssignmentCandidates(Node * vm);
 private:
     Nodes nodes;
 };

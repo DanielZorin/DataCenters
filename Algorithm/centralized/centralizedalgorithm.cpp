@@ -3,46 +3,69 @@
 #include "assignment.h"
 
 #include "network.h"
+#include "criteria.h"
+#include "node.h"
+#include "store.h"
+#include "link.h"
+
+#include <algorithm>
+#include <iostream>
+using std::cerr;
+using std::endl;
+using std::set;
+using std::vector;
+
 
 CentralizedAlgorithm::CentralizedAlgorithm(Network * n, Requests const& r)
 : 
     Algorithm(n, r),
     nodeManager(getNetwork().getNodes()),
     storeManager(getNetwork().getStores()),
-    networkManager(getNetwork().getLinks(), getNetwork().getSwitches())
+    networkManager(getNetwork())
 {
-        
+    cerr << "Constructed centralized algorithm to assign " << r.size() << " requests." << endl; 
 }
 
 Algorithm::Result CentralizedAlgorithm::schedule()
 {
-    std::vector<Request *> prioritizedRequests = prioritizeRequests();     
+    vector<Request *> prioritizedRequests = prioritize<Request>(requests);     
 
-    for (std::vector<Request *>::iterator i = prioritizedRequests.begin(),
+    for (vector<Request *>::iterator i = prioritizedRequests.begin(),
             e = prioritizedRequests.end();
             i != e ; i++ )
     {
         Request * request = *i;
         currentAssignment = new Assignment(request); 
 
+        cerr << "[CA] Building assignment" << endl;
+
         Result assignmentResult;
+
+        cerr << "[CA]\tAssigning virtual machines" << endl;
         assignmentResult = buildVMAssignment(request);
         if ( assignmentResult != SUCCESS )
         {
             delete currentAssignment;
+            cerr << "[CA]\tAssigning failed" << endl;
             continue;
         }
+        cerr << "[CA]\tAssigning succeeded" << endl;
 
         assignmentResult = buildStorageAssignment(request);
+        cerr << "[CA]\tAssigning storages" << endl;
         if ( assignmentResult != SUCCESS )
         {
             delete currentAssignment;
+            cerr << "[CA]\tAssigning failed" << endl;
             continue;
         }
+        cerr << "[CA]\tAssigning succeeded" << endl;
 
         assignments.insert(currentAssignment);
-        
+
     }
+
+    cerr << "Scheduled " << assignments.size() << " of " << requests.size() << " requests" << endl;
 
     if ( assignments.size() == requests.size() )
         return SUCCESS;
@@ -52,37 +75,230 @@ Algorithm::Result CentralizedAlgorithm::schedule()
         return FAILURE;
 }
 
-std::vector<Request *> CentralizedAlgorithm::prioritizeRequests()
+struct Comparator
 {
-    return std::vector<Request *>();
-}
+    bool operator() (Request * i, Request * j) 
+    {
+        return Criteria::weight(i) > Criteria::weight(j);   
+    }
 
-std::vector<Node *> CentralizedAlgorithm::prioritizeVms(Request::VirtualMachines & vms)
-{
-    return std::vector<Node *>();
-}
+    bool operator() (Node * i, Node * j)
+    {
+        return Criteria::weight(i) > Criteria::weight(j);
+    }
 
-std::vector<Node *> CentralizedAlgorithm::getVMAssignmentCandidates(Node * wm)
+    bool operator() (Store * i, Store * j)
+    {
+        return Criteria::weight(i) > Criteria::weight(j);
+    }
+} comparator; 
+
+
+template <class T> vector<T *> CentralizedAlgorithm::prioritize(set<T *> & input)
 {
-    return std::vector<Node *>();
+    vector<T*> result;
+    for (typename set<T *>::iterator i = input.begin(); i != input.end(); i++)
+    {
+        result.push_back(*i);
+    }
+
+    std::sort(result.begin(), result.end(), comparator);
+    return result;
 }
 
 Algorithm::Result CentralizedAlgorithm::buildVMAssignment(Request * request)
 {
     Request::VirtualMachines & vms = request->getVirtualMachines(); 
-    std::vector<Node *> prioritizedVms = prioritizeVms(vms);
+    vector<Node *> prioritizedVms = prioritize<Node>(vms);
 
-    for (std::vector<Node *>::iterator i = prioritizedVms.begin(), e = prioritizedVms.end();
-            i != e; i++)
+    for (vector<Node *>::iterator i = prioritizedVms.begin(); i != prioritizedVms.end(); i++)
     {
         Node * w = *i;
-        std::vector<Node *> assignmentCandidates = getVMAssignmentCandidates(w);
+        Nodes assignedLinkedNodes = getAssignedLinkedNodes(w, request);
+        Nodes assignmentCandidates;
+        if ( assignedLinkedNodes.empty() )
+        {
+            assignmentCandidates = nodeManager.getVMAssignmentCandidates(w);
+            vector<Node *> prioritizedNodes = prioritize<Node>(assignmentCandidates);
+            vector<Node *>::iterator n = prioritizedNodes.begin();
+            for ( ; n != prioritizedNodes.end(); n++ )
+            {
+                if ( tryToAssignVM(w, *n) == SUCCESS )
+                    break;
+            }
+            if ( i == prioritizedNodes.end() )
+                return FAILURE;
+        }
+        else
+        {
+            networkManager.setSearchSpace(assignedLinkedNodes);
+            Node * candidate = 0;
+            assignmentCandidates = networkManager.getNodeCandidates();
+            while ( !assignmentCandidates.empty() )
+            {
+                vector<Node *> prioritizedNodes = prioritize<Node>(assignmentCandidates);
+                vector<Node *>::iterator n = prioritizedNodes.begin();
+
+                Links vlinks = getConnectedVirtualLinks(w, request);
+
+                for ( ; n != prioritizedNodes.end(); n++ )
+                {
+                    if ( tryToAssignPathes(w, *n, vlinks) == SUCCESS )
+                        break;
+                }
+
+                if ( n != prioritizedNodes.end() )
+                {
+                    candidate = *n;
+                    break;
+                }
+
+                assignmentCandidates = networkManager.getNodeCandidates();
+            }
+
+            if ( assignmentCandidates.empty() )
+                return FAILURE;
+
+            if ( candidate == 0 )
+                return FAILURE;
+
+            if ( tryToAssignVM(w, candidate) == FAILURE )
+                return FAILURE;
+
+        }
+
+
     }
     
     return SUCCESS;
 }
 
+Links CentralizedAlgorithm::getConnectedVirtualLinks(Element * element, Request * request)
+{
+   Links result;
+   Links & links = request->getVirtualLinks();
+   for ( Links::iterator i = links.begin(); i != links.end(); i++)
+   {
+      Link * link = *i;
+      if ( link->connectsElement(element) )
+         result.insert(link);
+   }
+   return result;
+}
+
+
+
+Nodes CentralizedAlgorithm::getAssignedLinkedNodes(Element * e, Request * request)
+{
+   Nodes result;
+   Links links = getConnectedVirtualLinks(e, request);
+   for (Links::iterator i = links.begin(); i != links.end(); i++)
+   {
+      Link * link = *i;
+      Element * element = link->getAdjacentElement(e);
+
+      if ( element == 0 )
+          continue;
+
+      if ( !element->isNode() )
+         continue;
+
+      Node * connectedVM = (Node *)element;
+      Node * host = currentAssignment->GetAssignment(connectedVM);
+      if ( host == 0 )
+         continue;
+
+      result.insert(host);
+      
+   }
+   return result;
+}
+
+Algorithm::Result CentralizedAlgorithm::tryToAssignVM(Node * vm, Node * node)
+{
+    if ( ! node->isAssignmentPossible(*vm) )
+        return FAILURE;
+
+    node->assign(*vm);
+    currentAssignment->AddAssignment(vm, node);
+    return SUCCESS;
+}
+
 Algorithm::Result CentralizedAlgorithm::buildStorageAssignment(Request * request)
 {
+    Request::Storages & stores = request->getStorages();
+    vector<Store *> prioritizedStores = prioritize<Store>(stores);
+
+    for (vector<Store *>::iterator i = prioritizedStores.begin(); i != prioritizedStores.end(); i++)
+    {
+        Store * s = *i;
+        Nodes assignedLinkedNodes = getAssignedLinkedNodes(s, request);
+        Store * candidate = 0;
+        networkManager.setSearchSpace(assignedLinkedNodes);
+        Stores assignmentCandidates = networkManager.getStoreCandidates();
+        while ( !assignmentCandidates.empty() )
+        {
+            vector<Store *> prioritizedStores = prioritize<Store>(assignmentCandidates);
+            vector<Store *>::iterator store = prioritizedStores.begin();
+
+            Links vlinks = getConnectedVirtualLinks(s, request);
+            for ( ; store != prioritizedStores.end(); store++ )
+            {
+                if ( tryToAssignPathes(s, *store, vlinks) == SUCCESS )
+                    break;
+            }
+
+            if ( store != prioritizedStores.end() )
+            {
+                candidate = *store;
+                break;
+            }
+
+            assignmentCandidates = networkManager.getStoreCandidates();
+        }
+
+        if ( assignmentCandidates.empty() )
+            return FAILURE;
+
+        if ( candidate == 0 )
+            return FAILURE;
+
+        if ( tryToAssignStorage(s, candidate) == FAILURE )
+            return FAILURE;
+    }
+
+    return SUCCESS;
+}
+
+Algorithm::Result CentralizedAlgorithm::tryToAssignStorage(Store * storage, Store * store)
+{
+    if ( ! store->isAssignmentPossible(*storage) )
+        return FAILURE;
+
+    store->assign(*storage);
+    currentAssignment->AddAssignment(storage, store);
+    return SUCCESS;
+}
+
+Algorithm::Result CentralizedAlgorithm::tryToAssignPathes(Element * assignee, Element * target, Links & links)
+{
+    for ( Links::iterator l = links.begin(); l != links.end(); l++ )
+    {
+        Link * vlink = *l;
+        Element * assigned = vlink->getAdjacentElement(assignee);
+
+        if ( assigned == 0 )
+        {
+            networkManager.cleanUpLinks(links, currentAssignment);
+            return FAILURE;
+        }
+
+        if ( networkManager.buildPath(target, assigned, vlink, currentAssignment) == FAILURE )
+        {
+            networkManager.cleanUpLinks(links, currentAssignment);
+            return FAILURE;
+        }
+          
+    }
     return SUCCESS;
 }

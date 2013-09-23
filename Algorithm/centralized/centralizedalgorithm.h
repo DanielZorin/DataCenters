@@ -18,16 +18,18 @@ private:
 public:
     CentralizedAlgorithm(Network * n, Requests const & r);
 private:
-    std::vector<Request *> prioritizeRequests();
-    std::vector<Node *> prioritizeVms(Request::VirtualMachines &);
-
-    std::vector<Node *> getVMAssignmentCandidates(Node *);
+    template <class T> std::vector<T*> prioritize(std::set<T*> &);
 
     Result buildVMAssignment(Request *);
     Result buildStorageAssignment(Request *);
+    Result tryToAssignVM(Node *, Node *);
+    Result tryToAssignStorage(Store *, Store *);
+    Result tryToAssignPathes(Element * assignee, Element * target, Links & links);
 
+    Nodes getAssignedLinkedNodes(Element * node, Request * request);
+    Links getConnectedVirtualLinks(Element * node, Request * request);
 public:
-    virtual Algorithm::Result schedule();
+    virtual Result schedule();
 private:
     Assignment * currentAssignment;
 

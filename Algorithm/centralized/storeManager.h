@@ -7,6 +7,7 @@ class StoreManager
 {
 public:
     StoreManager(Stores &);
+    std::vector<Store *> getStoreAssignmentCandidates(Store *); 
 private:
     Stores stores;
 };

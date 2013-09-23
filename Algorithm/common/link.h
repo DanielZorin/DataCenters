@@ -32,6 +32,18 @@ public:
             return second;
     }
 
+    bool connectsElement(const Element * e)
+    {
+        return ( e == first) || ( e == second );
+    }
+
+    Element * getAdjacentElement(const Element * e)
+    {
+        if ( e == first ) return second;
+        if ( e == second ) return first;
+        return 0; 
+    }
+
 private:
     Element * first;
     Element * second;

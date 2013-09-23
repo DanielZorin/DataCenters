@@ -17,6 +17,7 @@ class Replication;
 
 #include <set>
 
+typedef std::set<Element *> Elements;
 typedef std::set<Node *> Nodes;
 typedef std::set<Store *> Stores;
 typedef std::set<Switch *> Switches;

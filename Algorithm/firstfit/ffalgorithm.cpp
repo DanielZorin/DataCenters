@@ -91,6 +91,10 @@ Algorithm::Result FirstFitAlgorithm::schedule()
                 break;
             } 
 
+            for ( NetPath::iterator i = netPath.begin(); i != netPath.end(); i++)
+            {
+               (*i)->assign(**l);
+            }
             assignment->AddAssignment(*l, netPath);
         }
 

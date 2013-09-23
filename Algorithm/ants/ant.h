@@ -48,7 +48,7 @@ struct AssignedChannel
 class AntAlgorithm: public Algorithm
 {
 public:
-    AntAlgorithm(Network * n, Requests const & r, unsigned int ants = 1, unsigned int iter = 1, double pd = 1.5, double hd = 2, double evap = 0.15);
+    AntAlgorithm(Network * n, Requests const & r, unsigned int ants = 20, unsigned int iter = 50, double pd = 1.5, double hd = 2, double evap = 0.15);
     ~AntAlgorithm();
 
     // Main function
