@@ -6,17 +6,24 @@
 
 AntAlgorithm::AntAlgorithm(Network * n, Requests const & r, unsigned int ants, unsigned int iter, double pd, double hd, double evap)
 : Algorithm(n, r)
+, graph(NULL)
 , vmCount(0)
 , stCount(0)
 , bestPath(NULL)
 , bestValue(0)
+, numberToPointer(NULL)
 , antNum(ants)
 , iterNum(iter)
 , pherDeg(pd)
 , heurDeg(hd)
 , evapRate(evap)
 {
-    if (!init()) success = false;
+    if (requests.size() == 0)
+    {
+        std::cerr << "There are no requests.\n";
+        success = false;
+    }
+    else if (!init()) success = false;
     else
     {
         success = true;
@@ -32,14 +39,14 @@ AntAlgorithm::AntAlgorithm(Network * n, Requests const & r, unsigned int ants, u
 
 AntAlgorithm::~AntAlgorithm()
 {
-    delete graph;
+    if (graph) delete graph;
     if (bestPath) delete bestPath;
     for (int i = 0; i < paths.size(); ++ i)
     {
         if (paths[i]) delete paths[i];
         if (originPaths[i]) delete originPaths[i];
     }
-    delete [] numberToPointer;
+    if (numberToPointer) delete [] numberToPointer;
 }
 
 bool AntAlgorithm::init()
@@ -251,6 +258,7 @@ const AssignedChannel * AntAlgorithm::findReplica(const std::map<Link *, Assigne
 
 Algorithm::Result AntAlgorithm::schedule()
 {
+    if (!success) return Algorithm::FAILURE;
     std::cerr << "Algorithm parameters: antNum = " << antNum << ", iter = " << iterNum << ", pd = " << pherDeg << ", hd = " << heurDeg << ", evap = " << evapRate << '\n';
     std::cout << '\n';
     unsigned int iMax = 0;
@@ -290,7 +298,7 @@ Algorithm::Result AntAlgorithm::schedule()
         if (iMax < antNum)
         {
             std::cerr << ", current best value = " << objValues[iMax] << '\n';
-            std::cout << objValues[iMax] << '\n';
+//            std::cout << objValues[iMax] << '\n';
         }
         else std::cerr << '\n';
 
@@ -380,10 +388,10 @@ Algorithm::Result AntAlgorithm::schedule()
         added = false;
     }
     std::cerr << "ok\n";
-    std::cout << assignments.size() << ' ';
+    std::cout << "Assigned " << assignments.size() << '/' << requests.size() << " requests using ";
     int repSum = 0;
     for (Assignments::iterator i = assignments.begin(); i != assignments.end(); i ++) repSum += (*i)->getReplications().size();
-    std::cout << repSum << '\n';
+    std::cout << repSum << " replications." << '\n';
 
     paths[0] = NULL;
     if (ZERO(bestValue-1)) return Algorithm::SUCCESS;

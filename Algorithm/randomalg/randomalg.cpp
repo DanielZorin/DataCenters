@@ -44,6 +44,11 @@ Element * RandomAlgorithm::findResource(Element * request, std::vector<SequenceE
 
 Algorithm::Result RandomAlgorithm::schedule()
 {
+    if (requests.size() == 0)
+    {
+        std::cerr << "There are no requests.\n";
+        return Algorithm::FAILURE;
+    }
     // current sequence of elements, a list of assigned requests and a map with assigned channels
     std::map<Link *, NetPath> channels;
     std::vector<SequenceElement *> curSeq;
