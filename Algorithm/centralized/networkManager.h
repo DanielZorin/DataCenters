@@ -9,6 +9,7 @@
 using std::set;
 
 class Assignment;
+class Element;
 
 class NetworkManager
 {

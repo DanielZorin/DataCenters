@@ -51,8 +51,8 @@ Algorithm::Result CentralizedAlgorithm::schedule()
         }
         cerr << "[CA]\tAssigning succeeded" << endl;
 
-        assignmentResult = buildStorageAssignment(request);
         cerr << "[CA]\tAssigning storages" << endl;
+        assignmentResult = buildStorageAssignment(request);
         if ( assignmentResult != SUCCESS )
         {
             delete currentAssignment;
@@ -286,6 +286,7 @@ Algorithm::Result CentralizedAlgorithm::tryToAssignPathes(Element * assignee, El
     {
         Link * vlink = *l;
         Element * assigned = vlink->getAdjacentElement(assignee);
+        Element * source = currentAssignment->GetAssignment(assigned);
 
         if ( assigned == 0 )
         {
@@ -293,7 +294,7 @@ Algorithm::Result CentralizedAlgorithm::tryToAssignPathes(Element * assignee, El
             return FAILURE;
         }
 
-        if ( networkManager.buildPath(target, assigned, vlink, currentAssignment) == FAILURE )
+        if ( networkManager.buildPath(source, target, vlink, currentAssignment) == FAILURE )
         {
             networkManager.cleanUpLinks(links, currentAssignment);
             return FAILURE;

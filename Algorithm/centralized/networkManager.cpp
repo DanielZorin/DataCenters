@@ -1,5 +1,6 @@
 #include "networkManager.h"
 
+#include "element.h"
 #include "network.h"
 #include "node.h"
 #include "store.h"
@@ -172,7 +173,9 @@ Algorithm::Result NetworkManager::buildPath(Element * from, Element * to, Link *
     if ( from == to )
         return Algorithm::SUCCESS;
 
+    cerr << "[NM]\tBuilding path" << endl;
     Link * dummy = new Link("dummy", vlink->getCapacity(), vlink->getMaxCapacity());
+    dummy->bindElements(from, to);
     NetPath path = VirtualLinkRouter::routeDejkstra(dummy, &network);
     delete dummy;
 
@@ -181,6 +184,7 @@ Algorithm::Result NetworkManager::buildPath(Element * from, Element * to, Link *
 
     addAssignment(vlink, path);
     assignment->AddAssignment(vlink, path);
+    cerr << "[NM]\tPath building succedeed" << endl;
     return Algorithm::SUCCESS;
 }
 

@@ -1,4 +1,7 @@
 #include "assignment.h"
+#include "element.h"
+#include "node.h"
+#include "store.h"
 
 #include "request.h"
 #include <stdio.h>
@@ -16,6 +19,17 @@ Assignment::~Assignment()
 string Assignment::getName()
 {
     return request->getName();
+}
+
+Element * Assignment::GetAssignment(Element * virtualResource)
+{
+   if ( virtualResource->isNode() )
+      return GetAssignment((Node *)(virtualResource));
+
+   if ( virtualResource->isStore() )
+      return GetAssignment((Store *)(virtualResource));
+
+   return 0;
 }
 
 Node * Assignment::GetAssignment(Node * virtualMachine)

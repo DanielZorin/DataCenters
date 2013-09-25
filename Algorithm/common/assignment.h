@@ -15,6 +15,7 @@ public:
     typedef std::map<Link *, NetPath> LinkAssignments;
     typedef std::set<Replication *> Replications;
 public:
+    Element * GetAssignment(Element *);
     Node * GetAssignment(Node *);
     Nodes GetAssigned(Node *);
     Store * GetAssignment(Store *);
