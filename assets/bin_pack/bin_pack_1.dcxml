@@ -1,0 +1,104 @@
+<?xml version='1.0'?>
+<dcxml name="test project">
+    <resources time="0">
+        <computer speed="1000" x="26.5" y="55.5" number="1" name="id1" used="1000"/>
+        <computer speed="1000" x="82.5" y="54.5" number="2" name="id2" used="1000"/>
+        <computer speed="1000" x="142.5" y="50.5" number="3" name="id3" used="1000"/>
+        <computer speed="1000" x="194.5" y="46.5" number="4" name="id4" used="1000"/>
+        <computer speed="1000" x="242.5" y="50.5" number="5" name="id5" used="1000"/>
+        <computer speed="1000" x="275.5" y="50.5" number="6" name="id6" used="1000"/>
+        <computer speed="1000" x="338.5" y="52.5" number="7" name="id7" used="1000"/>
+        <computer speed="1000" x="104.5" y="126.5" number="8" name="id8" used="1000"/>
+        <computer speed="1000" x="174.5" y="126.5" number="9" name="id9" used="1000"/>
+    </resources>
+    <demand critical="True" assigned="True" end="1" id="New demand1" start="0">
+        <vm speed="501" x="136.5" y="136.5" assignedto="2" number="1" name="id1"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand2" start="0">
+        <vm speed="501" x="136.5" y="136.5" assignedto="3" number="1" name="id2"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand3" start="0">
+        <vm speed="501" x="136.5" y="136.5" assignedto="5" number="1" name="id3"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand4" start="0">
+        <vm speed="501" x="136.5" y="136.5" assignedto="6" number="1" name="id4"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand5" start="0">
+        <vm speed="501" x="136.5" y="136.5" assignedto="8" number="1" name="id5"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand6" start="0">
+        <vm speed="501" x="136.5" y="136.5" assignedto="1" number="1" name="id6"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand7" start="0">
+        <vm speed="252" x="136.5" y="136.5" assignedto="9" number="1" name="id7"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand8" start="0">
+        <vm speed="252" x="136.5" y="136.5" assignedto="9" number="1" name="id8"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand9" start="0">
+        <vm speed="252" x="136.5" y="136.5" assignedto="4" number="1" name="id9"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand10" start="0">
+        <vm speed="252" x="136.5" y="136.5" assignedto="4" number="1" name="id10"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand11" start="0">
+        <vm speed="252" x="136.5" y="136.5" assignedto="7" number="1" name="id11"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand12" start="0">
+        <vm speed="252" x="136.5" y="136.5" assignedto="7" number="1" name="id12"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand13" start="0">
+        <vm speed="251" x="136.5" y="136.5" assignedto="8" number="1" name="id13"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand14" start="0">
+        <vm speed="251" x="136.5" y="136.5" assignedto="1" number="1" name="id14"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand15" start="0">
+        <vm speed="251" x="136.5" y="136.5" assignedto="2" number="1" name="id15"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand16" start="0">
+        <vm speed="251" x="136.5" y="136.5" assignedto="3" number="1" name="id16"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand17" start="0">
+        <vm speed="251" x="136.5" y="136.5" assignedto="5" number="1" name="id17"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand18" start="0">
+        <vm speed="251" x="136.5" y="136.5" assignedto="6" number="1" name="id18"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand19" start="0">
+        <vm speed="248" x="136.5" y="136.5" assignedto="9" number="1" name="id19"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand20" start="0">
+        <vm speed="248" x="136.5" y="136.5" assignedto="7" number="1" name="id20"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand21" start="0">
+        <vm speed="248" x="136.5" y="136.5" assignedto="4" number="1" name="id21"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand22" start="0">
+        <vm speed="248" x="136.5" y="136.5" assignedto="4" number="1" name="id22"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand23" start="0">
+        <vm speed="248" x="136.5" y="136.5" assignedto="3" number="1" name="id23"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand24" start="0">
+        <vm speed="248" x="136.5" y="136.5" assignedto="5" number="1" name="id24"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand25" start="0">
+        <vm speed="248" x="136.5" y="136.5" assignedto="6" number="1" name="id25"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand26" start="0">
+        <vm speed="248" x="136.5" y="136.5" assignedto="9" number="1" name="id26"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand27" start="0">
+        <vm speed="248" x="136.5" y="136.5" assignedto="7" number="1" name="id27"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand28" start="0">
+        <vm speed="248" x="136.5" y="136.5" assignedto="8" number="1" name="id28"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand29" start="0">
+        <vm speed="248" x="136.5" y="136.5" assignedto="1" number="1" name="id29"/>
+    </demand>
+    <demand critical="True" assigned="True" end="1" id="New demand30" start="0">
+        <vm speed="248" x="136.5" y="136.5" assignedto="2" number="1" name="id30"/>
+    </demand>
+</dcxml>
