@@ -30,6 +30,9 @@ Algorithm::Result CentralizedAlgorithm::schedule()
 {
     vector<Request *> prioritizedRequests = prioritize<Request>(requests);     
 
+    int assignedRequests = 0;
+    int assigningTries = 0;
+
     for (vector<Request *>::iterator i = prioritizedRequests.begin(),
             e = prioritizedRequests.end();
             i != e ; i++ )
@@ -38,6 +41,7 @@ Algorithm::Result CentralizedAlgorithm::schedule()
         currentAssignment = new Assignment(request); 
 
         cerr << "[CA] Building assignment" << endl;
+        assigningTries++;
 
         Result assignmentResult;
 
@@ -47,6 +51,7 @@ Algorithm::Result CentralizedAlgorithm::schedule()
         {
             delete currentAssignment;
             cerr << "[CA]\tAssigning failed" << endl;
+            cerr << "[CA]Assigned " << assignedRequests << " from " << assigningTries << endl;
             continue;
         }
         cerr << "[CA]\tAssigning succeeded" << endl;
@@ -57,9 +62,12 @@ Algorithm::Result CentralizedAlgorithm::schedule()
         {
             delete currentAssignment;
             cerr << "[CA]\tAssigning failed" << endl;
+            cerr << "[CA]Assigned " << assignedRequests << " from " << assigningTries << endl;
             continue;
         }
         cerr << "[CA]\tAssigning succeeded" << endl;
+        assignedRequests++;
+        cerr << "[CA]Assigned " << assignedRequests << " from " << assigningTries << endl;
 
         assignments.insert(currentAssignment);
 
