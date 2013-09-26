@@ -1,0 +1,149 @@
+<?xml version='1.0'?>
+<dcxml name="test project">
+	<resources>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="1" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="2" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="3" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="4" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="5" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="6" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="7" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="8" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="9" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="10" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="11" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="12" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="13" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="14" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="15" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="16" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="17" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="18" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="19" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="20" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="21" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="22" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="23" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="24" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="25" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="26" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="27" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="28" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="29" name="id" used="0" usedram="0"/>
+		<computer speed="1000000" x="29.5" ramcapacity="0" y="64.5" number="30" name="id" used="0" usedram="0"/>
+	</resources>
+	<demand critical="True" assigned="False" end="1" id="Demand1" start="0">
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="2" name="id"/>
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="3" name="id"/>
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="4" name="id"/>
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="5" name="id"/>
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="6" name="id"/>
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="7" name="id"/>
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="8" name="id"/>
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="9" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand2" start="0">
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="2" name="id"/>
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="3" name="id"/>
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="4" name="id"/>
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="5" name="id"/>
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="6" name="id"/>
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="7" name="id"/>
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="8" name="id"/>
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="9" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand3" start="0">
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="2" name="id"/>
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="3" name="id"/>
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="4" name="id"/>
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="5" name="id"/>
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="6" name="id"/>
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="7" name="id"/>
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="8" name="id"/>
+		<vm speed="111111" x="31.5" ramcapacity="0" y="49.5" number="9" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand4" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand5" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand6" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand7" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand8" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand9" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand10" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand11" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand12" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand13" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand14" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand15" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand16" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand17" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand18" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand19" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand20" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand21" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand22" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand23" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand24" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand25" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand26" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand27" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand28" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand29" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+	<demand critical="True" assigned="False" end="1" id="Demand30" start="0">
+		<vm speed="1000000" x="31.5" ramcapacity="0" y="49.5" number="1" name="id"/>
+	</demand>
+</dcxml>
