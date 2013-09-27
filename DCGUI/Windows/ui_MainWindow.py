@@ -1,11 +1,3 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'MainWindow.ui'
-#
-# Created: Sat Sep 14 13:33:23 2013
-#      by: PyQt4 UI code generator 4.9.5
-#
-# WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
 
@@ -414,4 +406,4 @@ class Ui_MainWindow(object):
         self.actionRunMultiple.setToolTip(QtGui.QApplication.translate("MainWindow", "Run Multiple Tests", None, QtGui.QApplication.UnicodeUTF8))
         self.actionFds.setText(QtGui.QApplication.translate("MainWindow", "fds", None, QtGui.QApplication.UnicodeUTF8))
 
-import resources_rc
+from . import resources_rc

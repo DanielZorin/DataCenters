@@ -4,16 +4,7 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    def _fromUtf8(s):
-        return s
-
-try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+    _fromUtf8 = lambda s: s
 
 class Ui_TreeDialog(object):
     def setupUi(self, TreeDialog):
@@ -399,40 +390,40 @@ class Ui_TreeDialog(object):
         QtCore.QMetaObject.connectSlotsByName(TreeDialog)
 
     def retranslateUi(self, TreeDialog):
-        TreeDialog.setWindowTitle(_translate("TreeDialog", "Tree parameters", None))
-        self.label.setText(_translate("TreeDialog", "Number of core switches:", None))
-        self.rootLevel.setTitle(_translate("TreeDialog", "Core layer", None))
-        self.label_2.setText(_translate("TreeDialog", "Switches", None))
-        self.label_9.setText(_translate("TreeDialog", "bandwidth: ", None))
-        self.label1.setText(_translate("TreeDialog", "Number of outgoing", None))
-        self.label2.setText(_translate("TreeDialog", "channels per switch:", None))
-        self.label_19.setText(_translate("TreeDialog", "Outgoing channels    ", None))
-        self.label_10.setText(_translate("TreeDialog", "bandwidth:", None))
-        self.numRouters1Lab.setText(_translate("TreeDialog", "Number of 2nd layer switches:", None))
-        self.level1.setTitle(_translate("TreeDialog", "2nd layer", None))
-        self.label_5.setText(_translate("TreeDialog", "Switches", None))
-        self.label_12.setText(_translate("TreeDialog", "bandwidth: ", None))
-        self.label_6.setText(_translate("TreeDialog", "Number of outgoing", None))
-        self.label_15.setText(_translate("TreeDialog", "channels per switch:", None))
-        self.label_11.setText(_translate("TreeDialog", "Outgoing channels    ", None))
-        self.label_3.setText(_translate("TreeDialog", "bandwidth:", None))
-        self.level2.setTitle(_translate("TreeDialog", "1st layer", None))
-        self.label_17.setText(_translate("TreeDialog", "Switches", None))
-        self.label_16.setText(_translate("TreeDialog", "bandwidth: ", None))
-        self.label_27.setText(_translate("TreeDialog", "Number of switches to", None))
-        self.label_28.setText(_translate("TreeDialog", "connect computers:", None))
-        self.label_23.setText(_translate("TreeDialog", "Number of switches to", None))
-        self.label_24.setText(_translate("TreeDialog", "connect data stores:", None))
-        self.label_13.setText(_translate("TreeDialog", "Number of data stores per switch:", None))
-        self.label_29.setText(_translate("TreeDialog", "Data store channels bandwidth:", None))
-        self.label_8.setText(_translate("TreeDialog", "Data store capacity:", None))
-        self.label_7.setText(_translate("TreeDialog", "Number of data store types:", None))
-        self.label_26.setText(_translate("TreeDialog", "Number of computers per switch:", None))
-        self.label_14.setText(_translate("TreeDialog", "Computer channels bandwidth:", None))
-        self.label_30.setText(_translate("TreeDialog", "Computer performance:", None))
-        self.label_18.setText(_translate("TreeDialog", "Computer RAM capacity:", None))
-        self.label_4.setText(_translate("TreeDialog", "Number of high-level switches replicas (per switch):", None))
-        self.OK.setText(_translate("TreeDialog", "OK", None))
-        self.Cancel.setText(_translate("TreeDialog", "Cancel", None))
+        TreeDialog.setWindowTitle(QtGui.QApplication.translate("TreeDialog", "Tree parameters", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setText(QtGui.QApplication.translate("TreeDialog", "Number of core switches:", None, QtGui.QApplication.UnicodeUTF8))
+        self.rootLevel.setTitle(QtGui.QApplication.translate("TreeDialog", "Core layer", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_2.setText(QtGui.QApplication.translate("TreeDialog", "Switches", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_9.setText(QtGui.QApplication.translate("TreeDialog", "bandwidth: ", None, QtGui.QApplication.UnicodeUTF8))
+        self.label1.setText(QtGui.QApplication.translate("TreeDialog", "Number of outgoing", None, QtGui.QApplication.UnicodeUTF8))
+        self.label2.setText(QtGui.QApplication.translate("TreeDialog", "channels per switch:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_19.setText(QtGui.QApplication.translate("TreeDialog", "Outgoing channels    ", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_10.setText(QtGui.QApplication.translate("TreeDialog", "bandwidth:", None, QtGui.QApplication.UnicodeUTF8))
+        self.numRouters1Lab.setText(QtGui.QApplication.translate("TreeDialog", "Number of 2nd layer switches:", None, QtGui.QApplication.UnicodeUTF8))
+        self.level1.setTitle(QtGui.QApplication.translate("TreeDialog", "2nd layer", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_5.setText(QtGui.QApplication.translate("TreeDialog", "Switches", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_12.setText(QtGui.QApplication.translate("TreeDialog", "bandwidth: ", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_6.setText(QtGui.QApplication.translate("TreeDialog", "Number of outgoing", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_15.setText(QtGui.QApplication.translate("TreeDialog", "channels per switch:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_11.setText(QtGui.QApplication.translate("TreeDialog", "Outgoing channels    ", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_3.setText(QtGui.QApplication.translate("TreeDialog", "bandwidth:", None, QtGui.QApplication.UnicodeUTF8))
+        self.level2.setTitle(QtGui.QApplication.translate("TreeDialog", "1st layer", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_17.setText(QtGui.QApplication.translate("TreeDialog", "Switches", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_16.setText(QtGui.QApplication.translate("TreeDialog", "bandwidth: ", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_27.setText(QtGui.QApplication.translate("TreeDialog", "Number of switches to", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_28.setText(QtGui.QApplication.translate("TreeDialog", "connect computers:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_23.setText(QtGui.QApplication.translate("TreeDialog", "Number of switches to", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_24.setText(QtGui.QApplication.translate("TreeDialog", "connect data stores:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_13.setText(QtGui.QApplication.translate("TreeDialog", "Number of data stores per switch:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_29.setText(QtGui.QApplication.translate("TreeDialog", "Data store channels bandwidth:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_8.setText(QtGui.QApplication.translate("TreeDialog", "Data store capacity:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_7.setText(QtGui.QApplication.translate("TreeDialog", "Number of data store types:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_26.setText(QtGui.QApplication.translate("TreeDialog", "Number of computers per switch:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_14.setText(QtGui.QApplication.translate("TreeDialog", "Computer channels bandwidth:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_30.setText(QtGui.QApplication.translate("TreeDialog", "Computer performance:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_18.setText(QtGui.QApplication.translate("TreeDialog", "Computer RAM capacity:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_4.setText(QtGui.QApplication.translate("TreeDialog", "Number of high-level switches replicas (per switch):", None, QtGui.QApplication.UnicodeUTF8))
+        self.OK.setText(QtGui.QApplication.translate("TreeDialog", "OK", None, QtGui.QApplication.UnicodeUTF8))
+        self.Cancel.setText(QtGui.QApplication.translate("TreeDialog", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
 
 from . import resources_rc

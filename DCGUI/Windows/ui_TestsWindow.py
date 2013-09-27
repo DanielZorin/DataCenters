@@ -1,11 +1,3 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'TestsWindow.ui'
-#
-# Created: Sat Sep 14 13:33:33 2013
-#      by: PyQt4 UI code generator 4.9.5
-#
-# WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
 
@@ -264,4 +256,4 @@ class Ui_TestsWindow(object):
         self.actionDemandStorage.setToolTip(QtGui.QApplication.translate("TestsWindow", "Add Storage", None, QtGui.QApplication.UnicodeUTF8))
         self.actionDemandStorage.setShortcut(QtGui.QApplication.translate("TestsWindow", "Alt+4", None, QtGui.QApplication.UnicodeUTF8))
 
-import resources_rc
+from . import resources_rc
