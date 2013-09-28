@@ -1,19 +1,61 @@
-from PyQt4.QtCore import Qt
-from PyQt4.QtGui import QMainWindow, QDialog, QFileDialog, QTreeWidgetItem, QGraphicsScene, QColor, QPen, QFont, QImage, QPainter
+from PyQt4.QtCore import Qt, QObject, SIGNAL, QTimer
+from PyQt4.QtGui import QMainWindow, QDialog, QFileDialog, QTreeWidgetItem, QGraphicsScene, QColor, QPen, QFont, QImage, QPainter, QVBoxLayout, QLabel, QPushButton
 from DCGUI.Windows.ui_TestsWindow import Ui_TestsWindow
 from DCGUI.Windows.ui_FilesGenerator import Ui_FilesGenerator
 from DCGUI.Project import Project
 from DCGUI.TreeDialog import TreeDialog
 from DCGUI.ParamsDialog import ParamsDialog
 from Core.Demands import DemandStorage, VM
-from Core.Resources import Computer, Storage, Router, ResourceGraph
-import os, sys
+from Core.Resources import Computer, Storage, ResourceGraph
+import os, sys, subprocess
 
 class FilesGenerator(QDialog):
     def __init__(self):
         QDialog.__init__(self)
         self.ui = Ui_FilesGenerator()
         self.ui.setupUi(self)
+
+class Runner(QDialog):
+    def __init__(self, parent):
+        QDialog.__init__(self, parent)
+        self.layout = QVBoxLayout()
+        self.label = QLabel("Running experiment 0 / 0")
+        self.setWindowTitle("Running experiments")
+        button = QPushButton("Break experiments")
+        self.layout.addWidget(self.label)
+        self.layout.addWidget(button)
+        self.setLayout(self.layout)
+        self.timer = QTimer(self)
+        self.timer.setSingleShot(False)
+        QObject.connect(button, SIGNAL("clicked()"), self.Break)
+        QObject.connect(self.timer, SIGNAL("timeout()"), self.CheckTimer)
+
+    def CheckTimer(self):
+        self.proc.poll()
+        if self.proc.returncode is not None:
+            self.i += 1
+            if self.i == self.count:
+                self.timer.stop()
+                self.hide()
+                return
+            self.label.setText("Running experiment " + str(self.i) + " / " + str(self.count))
+            self.proc = subprocess.Popen([self.name, os.path.relpath(self.proj[self.i]), os.path.relpath(self.proj[self.i]), self.alg])
+
+    def Run(self, name, alg, proj):
+        self.show()
+        self.proj = [p for p in proj.values()]
+        self.count = len([k for k in self.proj])
+        self.name = name
+        self.alg = alg
+        self.i = 0
+        self.label.setText("Running experiment " + str(self.i) + " / " + str(self.count))
+        self.proc = subprocess.Popen([self.name, os.path.relpath(self.proj[0]), os.path.relpath(self.proj[0]), self.alg])
+        self.timer.start(1000) 
+
+    def Break(self):
+        self.timer.stop()
+        self.proc.terminate()
+        self.hide()
 
 class TestsWindow(QMainWindow):
     settings = {"axis": QColor(0, 0, 0),
@@ -110,8 +152,8 @@ class TestsWindow(QMainWindow):
             name = "algorithm.exe"
         else:
             name = "Algorithm/Algolib"
-        for p in self.projects.values():
-            os.system(name + " \"" + os.path.relpath(p) + "\" \"" + os.path.relpath(p) + "\" " + alg)
+        r = Runner(self)
+        r.Run(name, alg, self.projects)
         self.changed = True
 
     def ChangeTab(self):
