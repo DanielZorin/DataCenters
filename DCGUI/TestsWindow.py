@@ -149,7 +149,7 @@ class TestsWindow(QMainWindow):
         else:
             alg = "d"
         if sys.platform.startswith("win"):
-            name = "algorithm.exe"
+            name = "Algorithm\\algorithm.exe"
         else:
             name = "Algorithm/Algolib"
         r = Runner(self)

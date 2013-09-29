@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>746</width>
-    <height>582</height>
+    <height>589</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -142,25 +142,11 @@ QLabel, QSlider {
         <item>
          <widget class="QPushButton" name="runall">
           <property name="text">
-           <string>Schedule all</string>
+           <string>Schedule</string>
           </property>
           <property name="icon">
            <iconset resource="resources.qrc">
             <normaloff>:/pics/pics/play.png</normaloff>:/pics/pics/play.png</iconset>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="runsel">
-          <property name="text">
-           <string>Schedule selected</string>
-          </property>
-          <property name="icon">
-           <iconset resource="resources.qrc">
-            <normaloff>:/pics/pics/fast_forward.png</normaloff>:/pics/pics/fast_forward.png</iconset>
           </property>
           <property name="flat">
            <bool>true</bool>
@@ -669,7 +655,7 @@ QLabel, QSlider {
      <normaloff>:/pics/pics/fast_forward.png</normaloff>:/pics/pics/fast_forward.png</iconset>
    </property>
    <property name="text">
-    <string>Schedule selected</string>
+    <string>Run All Algorithms</string>
    </property>
    <property name="shortcut">
     <string>F6, Ctrl+S</string>
@@ -950,22 +936,6 @@ QLabel, QSlider {
     <hint type="destinationlabel">
      <x>288</x>
      <y>186</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>runsel</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>RunSelected()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>318</x>
-     <y>112</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>288</x>
-     <y>218</y>
     </hint>
    </hints>
   </connection>

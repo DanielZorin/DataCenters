@@ -79,8 +79,6 @@ class MainWindow(QMainWindow):
         self.Translate(str(self.settings.value("language", "English").toString()))
         self.projFilter = self.tr("Data centers projects (*.dcxml)")
         self.setWindowTitle(self.tr("Untitled") + " - " + self.basename)
-        self.ui.actionSchedule_selected.setVisible(False)
-        self.ui.runsel.setHidden(True)
         self.loadPlugins()
 
     def NewProject(self):
@@ -181,7 +179,7 @@ class MainWindow(QMainWindow):
         else:
             alg = "r"
         if sys.platform.startswith("win"):
-            name = "Algorithm\\main.exe"
+            name = "Algorithm\\algorithm.exe"
         else:
             name = "Algorithm/Algolib"
         os.system(name + " \"" + os.path.relpath(self.projectFile) + "\" \"" + os.path.relpath(self.projectFile) + "\" " + alg)
@@ -196,13 +194,24 @@ class MainWindow(QMainWindow):
             qApp.processEvents()
 
     def RunSelected(self):
-        self.InitProject()
-        if self.ui.demands.selectedItems()==[]:
-            return
-        id = self.ui.demands.selectedItems()[0].text(0)
-        d = self.project.FindDemand(id)
-        self.project.method.AssignDemand(d)
-        self.showStats()
+        fname = QFileDialog.getSaveFileName(directory="results.txt")
+        result = ""
+        for alg in "acdfr":
+            self.Reset()
+            self.project.Save(self.projectFile)
+            if sys.platform.startswith("win"):
+                name = "Algorithm\\algorithm.exe"
+            else:
+                name = "Algorithm/Algolib"
+            os.system(name + " \"" + os.path.relpath(self.projectFile) + "\" \"" + os.path.relpath(self.projectFile) + "\" " + alg)
+            self.OpenProjectFromFile(self.projectFile)
+            stats = self.project.GetStats()
+            result += "Algorithm " + alg + "\n"
+            for k in stats.keys():
+                result += k + " " + str(stats[k]) + "\n"
+        f = open(fname, "w")
+        f.write(result)
+        f.close()
 
     def showStats(self):
         if self.project.resources.vertices == []:
