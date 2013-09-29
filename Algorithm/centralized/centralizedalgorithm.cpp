@@ -3,7 +3,7 @@
 #include "assignment.h"
 
 #include "network.h"
-#include "criteria.h"
+#include "criteria_cen.h"
 #include "node.h"
 #include "store.h"
 #include "link.h"
@@ -87,17 +87,17 @@ struct Comparator
 {
     bool operator() (Request * i, Request * j) 
     {
-        return Criteria::weight(i) > Criteria::weight(j);   
+        return CriteriaCen::weight(i) > CriteriaCen::weight(j);   
     }
 
     bool operator() (Node * i, Node * j)
     {
-        return Criteria::weight(i) > Criteria::weight(j);
+        return CriteriaCen::weight(i) > CriteriaCen::weight(j);
     }
 
     bool operator() (Store * i, Store * j)
     {
-        return Criteria::weight(i) > Criteria::weight(j);
+        return CriteriaCen::weight(i) > CriteriaCen::weight(j);
     }
 } comparator; 
 

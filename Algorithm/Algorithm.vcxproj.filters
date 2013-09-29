@@ -45,9 +45,6 @@
     <ClCompile Include="common\request.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="decentralized\criteria.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="decentralized\decentralizedAlgorithm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -105,6 +102,12 @@
     <ClCompile Include="ants\heuristic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="centralized\criteria_cen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="decentralized\criteria.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="algorithmdispatcher.h">
@@ -150,9 +153,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="common\switch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="decentralized\criteria.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="decentralized\decentralizedAlgorithm.h">
@@ -204,6 +204,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ants\heuristic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="centralized\criteria_cen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="decentralized\criteria.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

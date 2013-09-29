@@ -3,7 +3,7 @@
 
 #include "publicdefs.h"
 
-class Criteria
+class CriteriaCen
 {
 public:
    static unsigned long weight(Element *);

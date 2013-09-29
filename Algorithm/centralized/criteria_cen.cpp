@@ -1,16 +1,16 @@
-#include "criteria.h"
+#include "criteria_cen.h"
 
 #include "node.h"
 #include "store.h"
 #include "link.h"
 #include "request.h"
 
-unsigned long Criteria::weight(Element * element)
+unsigned long CriteriaCen::weight(Element * element)
 {
    return element->getCapacity();
 }
 
-unsigned long Criteria::weight(Request * request)
+unsigned long CriteriaCen::weight(Request * request)
 {
    unsigned long result = 0;
    Nodes & vms = request->getVirtualMachines();
