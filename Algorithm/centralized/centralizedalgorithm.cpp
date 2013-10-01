@@ -87,7 +87,8 @@ struct Comparator
 {
     bool operator() (Request * i, Request * j) 
     {
-        return CriteriaCen::weight(i) > CriteriaCen::weight(j);   
+        return (CriteriaCen::weight(i) > CriteriaCen::weight(j))
+            || (CriteriaCen::computationalCount(i) < CriteriaCen::computationalCount(j));   
     }
 
     bool operator() (Node * i, Node * j)
@@ -122,6 +123,7 @@ Algorithm::Result CentralizedAlgorithm::buildVMAssignment(Request * request)
     for (vector<Node *>::iterator i = prioritizedVms.begin(); i != prioritizedVms.end(); i++)
     {
         Node * w = *i;
+        cerr << "[CA]\tCurrent wm weight is " << CriteriaCen::weight(w) << endl; 
         Nodes assignedLinkedNodes = getAssignedLinkedNodes(w, request);
         Nodes assignmentCandidates;
         if ( assignedLinkedNodes.empty() )
@@ -131,10 +133,11 @@ Algorithm::Result CentralizedAlgorithm::buildVMAssignment(Request * request)
             vector<Node *>::iterator n = prioritizedNodes.begin();
             for ( ; n != prioritizedNodes.end(); n++ )
             {
+                cerr << "[CA]\t\tCurrent node weight is " << CriteriaCen::weight(*n) << endl; 
                 if ( tryToAssignVM(w, *n) == SUCCESS )
                     break;
             }
-            if ( i == prioritizedNodes.end() )
+            if ( n == prioritizedNodes.end() )
                 return FAILURE;
         }
         else

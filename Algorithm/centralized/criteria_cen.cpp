@@ -27,5 +27,11 @@ unsigned long CriteriaCen::weight(Request * request)
       result += (*i)->getCapacity();
 
    return result;
-
 }
+
+unsigned long CriteriaCen::computationalCount(Request * request)
+{
+   return request->getVirtualMachines().size() + request->getStorages().size();
+}
+
+

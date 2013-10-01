@@ -8,6 +8,7 @@ class CriteriaCen
 public:
    static unsigned long weight(Element *);
    static unsigned long weight(Request *);
+   static unsigned long computationalCount(Request *);
 };
 
 #endif // CRITERIA_H
