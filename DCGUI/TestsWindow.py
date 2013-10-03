@@ -146,8 +146,12 @@ class TestsWindow(QMainWindow):
             alg = "a"
         elif self.ui.algorithm.currentIndex() == 1:
             alg = "c"
-        else:
+        elif self.ui.algorithm.currentIndex() == 2:
             alg = "d"
+        elif self.ui.algorithm.currentIndex() == 3:
+            alg = "f"
+        else:
+            alg = "r"
         if sys.platform.startswith("win"):
             name = "Algorithm\\algorithm.exe"
         else:
