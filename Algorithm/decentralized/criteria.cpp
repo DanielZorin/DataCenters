@@ -119,13 +119,24 @@ void Criteria::identifyPackMode(Requests* requests, Network* network)
     // network link capacities for link coming from nodes or stores
     // is more then some border value (0.1 in our chosen).
     long networkCapacity = 0l;
-    long requestsCapacity = 0l;
+    long nodesCapacity = 0l;
+    long storesCapacity = 0l;
+    long reqNetworkCapacity = 0l;
+    long reqVmsCapacity = 0l;
+    long reqStCapacity = 0l;
     Links::const_iterator it = network->getLinks().begin();
     Links::const_iterator itEnd = network->getLinks().end();
     for ( ; it != itEnd; ++it )
     {
         if ( (*it)->getFirst()->isComputational() || (*it)->getSecond()->isComputational() )
+        {
             networkCapacity += (*it)->getCapacity();
+            Element* elem = (*it)->getFirst()->isComputational() ? (*it)->getFirst() : (*it)->getSecond();
+            if ( elem->isNode() )
+                nodesCapacity += elem->getCapacity();
+            else
+                storesCapacity += elem->getCapacity();        
+        }
     }
 
     Requests::const_iterator reqIt = requests->begin();
@@ -135,10 +146,21 @@ void Criteria::identifyPackMode(Requests* requests, Network* network)
         it = (*reqIt)->getVirtualLinks().begin();
         itEnd = (*reqIt)->getVirtualLinks().end();
         for ( ; it != itEnd; ++it )
-            requestsCapacity += (*it)->getCapacity();
+        {
+            reqNetworkCapacity += (*it)->getCapacity();
+            Element* elem = (*it)->getFirst()->isComputational() ? (*it)->getFirst() : (*it)->getSecond();
+            if ( elem->isNode() )
+                reqVmsCapacity += elem->getCapacity();
+            else
+                reqStCapacity += elem->getCapacity();        
+        }
     }
 
-    if ( networkCapacity != 0l && ((double)requestsCapacity) / networkCapacity > NETWORK_CRITICAL_BORDER )
+    double netLoad = networkCapacity != 0l ? ((double)reqNetworkCapacity) / networkCapacity: 0.0;
+    double vmsLoad = nodesCapacity != 0l ? ((double)reqVmsCapacity) / nodesCapacity : 0.0;
+    double stLoad = storesCapacity != 0l ? ((double)reqStCapacity) / storesCapacity : 0.0;
+
+    if ( netLoad > NETWORK_CRITICAL_BORDER || netLoad > vmsLoad && netLoad > stLoad )
         packMode = Criteria::NETWORK_CRITICAL;
     // otherwise default value is used
 }

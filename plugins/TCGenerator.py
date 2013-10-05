@@ -209,12 +209,14 @@ class TCGenerator:
         capacityBoundComp = int(compTotal / maxElemsCount)
         
         res = []
+        index = 0
         for r in requests:
             cur_x = 15
             cur_y = 15
-            d = Demand("demand_" + str(r[0]) + "_" + str(r[1]))
+            d = Demand("demand_" + str(index) + "_" + str(r[0]) + "_" + str(r[1]))
             total = 0
             st = 1
+            index += 1
 
             strgs = [v for v in storages.keys()]
             while total < r[0]:
