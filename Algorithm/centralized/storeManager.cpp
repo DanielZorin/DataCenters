@@ -6,9 +6,9 @@ StoreManager::StoreManager(Stores & s)
     stores(s)
 {}
 
-std::vector<Store *> StoreManager::getStoreAssignmentCandidates(Store * s)
+Stores StoreManager::getStoreAssignmentCandidates(Store * s)
 {
-    std::vector<Store *> result;
+    Stores result;
     unsigned long requestedCapacity = s->getCapacity();
     unsigned requestedTypeOfStore = s->getTypeOfStore();
 
@@ -17,7 +17,7 @@ std::vector<Store *> StoreManager::getStoreAssignmentCandidates(Store * s)
         Store * candidate = *store;
         if ( candidate->getCapacity() >= requestedCapacity 
                 && candidate->getTypeOfStore() == requestedTypeOfStore )
-            result.push_back(candidate);
+            result.insert(candidate);
     } 
 
     return result;

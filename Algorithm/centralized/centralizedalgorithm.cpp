@@ -123,7 +123,6 @@ Algorithm::Result CentralizedAlgorithm::buildVMAssignment(Request * request)
     for (vector<Node *>::iterator i = prioritizedVms.begin(); i != prioritizedVms.end(); i++)
     {
         Node * w = *i;
-        cerr << "[CA]\tCurrent wm weight is " << CriteriaCen::weight(w) << endl; 
         Nodes assignedLinkedNodes = getAssignedLinkedNodes(w, request);
         Nodes assignmentCandidates;
         if ( assignedLinkedNodes.empty() )
@@ -133,7 +132,6 @@ Algorithm::Result CentralizedAlgorithm::buildVMAssignment(Request * request)
             vector<Node *>::iterator n = prioritizedNodes.begin();
             for ( ; n != prioritizedNodes.end(); n++ )
             {
-                cerr << "[CA]\t\tCurrent node weight is " << CriteriaCen::weight(*n) << endl; 
                 if ( tryToAssignVM(w, *n) == SUCCESS )
                     break;
             }
@@ -244,38 +242,57 @@ Algorithm::Result CentralizedAlgorithm::buildStorageAssignment(Request * request
     {
         Store * s = *i;
         Nodes assignedLinkedNodes = getAssignedLinkedNodes(s, request);
-        Store * candidate = 0;
-        networkManager.setSearchSpace(assignedLinkedNodes);
-        Stores assignmentCandidates = networkManager.getStoreCandidates();
-        while ( !assignmentCandidates.empty() )
+        Stores assignmentCandidates;
+        if ( assignedLinkedNodes.empty() )
         {
+            assignmentCandidates = storeManager.getStoreAssignmentCandidates(s);
             vector<Store *> prioritizedStores = prioritize<Store>(assignmentCandidates);
-            vector<Store *>::iterator store = prioritizedStores.begin();
-
-            Links vlinks = getConnectedVirtualLinks(s, request);
-            for ( ; store != prioritizedStores.end(); store++ )
+            vector<Store *>::iterator st = prioritizedStores.begin();
+            for ( ; st != prioritizedStores.end(); st++ )
             {
-                if ( tryToAssignPathes(s, *store, vlinks) == SUCCESS )
+                if ( tryToAssignStorage(s, *st) == SUCCESS )
                     break;
-            }
+            } 
 
-            if ( store != prioritizedStores.end() )
-            {
-                candidate = *store;
-                break;
-            }
-
-            assignmentCandidates = networkManager.getStoreCandidates();
+            if ( st == prioritizedStores.end() )
+                return FAILURE;
         }
+        else
+        {
+            networkManager.setSearchSpace(assignedLinkedNodes);
+            Store * candidate = 0;
+            assignmentCandidates = networkManager.getStoreCandidates();
+            while ( !assignmentCandidates.empty() )
+            {
+                vector<Store *> prioritizedStores = prioritize<Store>(assignmentCandidates);
+                vector<Store *>::iterator store = prioritizedStores.begin();
 
-        if ( assignmentCandidates.empty() )
-            return FAILURE;
+                Links vlinks = getConnectedVirtualLinks(s, request);
+                for ( ; store != prioritizedStores.end(); store++ )
+                {
+                    if ( tryToAssignPathes(s, *store, vlinks) == SUCCESS )
+                        break;
+                }
 
-        if ( candidate == 0 )
-            return FAILURE;
+                if ( store != prioritizedStores.end() )
+                {
+                    candidate = *store;
+                    break;
+                }
 
-        if ( tryToAssignStorage(s, candidate) == FAILURE )
-            return FAILURE;
+                assignmentCandidates = networkManager.getStoreCandidates();
+            }
+
+
+            if ( assignmentCandidates.empty() )
+                return FAILURE;
+
+            if ( candidate == 0 )
+                return FAILURE;
+
+            if ( tryToAssignStorage(s, candidate) == FAILURE )
+                return FAILURE;
+        }
     }
 
     return SUCCESS;
