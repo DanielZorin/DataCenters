@@ -22,6 +22,7 @@ private:
     Network & network;
     AdjacentElements adjacentElements;
     AdjacentElements::iterator lastIncreased;
+    AdjacentElements::iterator currentElement;
     bool hasBeenModified;
 };
 

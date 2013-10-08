@@ -15,6 +15,9 @@ using std::endl;
 using std::set;
 using std::vector;
 
+#include <queue>
+using std::queue;
+
 
 CentralizedAlgorithm::CentralizedAlgorithm(Network * n, Requests const& r, Version v)
 : 
@@ -102,7 +105,61 @@ Assignment * CentralizedAlgorithm::assignRequestPlain(Request * request)
 
 Assignment * CentralizedAlgorithm::assignRequestNet(Request * request)
 {
-    return 0;
+    currentAssignment = new Assignment(request);
+
+    cerr << "[CA] Building assignment" << endl;
+    queue<Element *> assignmentQueue;
+    Elements elementsToAssign;
+    Nodes & vms = request->getVirtualMachines();
+    Stores & storages = request->getStorages();
+    elementsToAssign.insert(vms.begin(), vms.end());
+    elementsToAssign.insert(storages.begin(), storages.end());
+    cerr << "[CA]\tTotal of " << elementsToAssign.size() << " elements to assign" << endl;
+    vector<Node *> prioritizedVms = prioritize<Node>(vms);
+    vector<Store *> prioritizedStorages = prioritize<Store>(storages);
+    if ( !prioritizedVms.empty() )
+        assignmentQueue.push(*prioritizedVms.begin());
+    else if ( !prioritizedStorages.empty() )
+        assignmentQueue.push(*prioritizedStorages.begin());
+
+    while ( true )
+    {
+        if ( assignmentQueue.empty() )
+        {
+            if ( !elementsToAssign.empty() )
+                assignmentQueue.push(*elementsToAssign.begin());
+            else 
+                break;
+        }
+
+        Element * element = assignmentQueue.front();
+        assignmentQueue.pop();
+        if ( elementsToAssign.find(element) == elementsToAssign.end() )
+            continue;
+
+        Result assignmentResult = FAILURE;
+        if ( element->isNode() )
+            assignmentResult = assignVM((Node *)element, request);
+        else if ( element->isStore() )
+            assignmentResult = assignStorage((Store *)element, request);
+
+        if ( assignmentResult == FAILURE )
+        {
+            cerr << "[CA] Assigning failed" << endl;
+            cleanUpAssignment(currentAssignment);
+            return 0;
+        }
+
+        Elements linkedElements = getChanneledVirtualResources(element, request);
+        for (Elements::iterator i = linkedElements.begin(); i != linkedElements.end(); i++)
+            assignmentQueue.push(*i);
+        elementsToAssign.erase(element);
+        cerr << "[CA]\tAssigned element, " << elementsToAssign.size() 
+            << " more to assign"  << endl;
+    }
+
+    cerr << "[CA] Assigning succedeed" << endl;
+    return currentAssignment;
 }
 
 void CentralizedAlgorithm::cleanUpAssignment(Assignment * assignment)
@@ -356,13 +413,15 @@ Algorithm::Result CentralizedAlgorithm::tryToAssignPathes(Element * assignee, El
     {
         Link * vlink = *l;
         Element * assigned = vlink->getAdjacentElement(assignee);
-        Element * source = currentAssignment->GetAssignment(assigned);
-
         if ( assigned == 0 )
         {
             networkManager.cleanUpLinks(links, currentAssignment);
             return FAILURE;
         }
+
+        Element * source = currentAssignment->GetAssignment(assigned);
+        if ( source == 0 )
+            continue;
 
         if ( networkManager.buildPath(source, target, vlink, currentAssignment) == FAILURE )
         {
@@ -372,4 +431,18 @@ Algorithm::Result CentralizedAlgorithm::tryToAssignPathes(Element * assignee, El
           
     }
     return SUCCESS;
+}
+
+Elements CentralizedAlgorithm::getChanneledVirtualResources(Element * element, Request * request)
+{
+    Elements result;
+    Links & links = request->getVirtualLinks();
+    for (Links::iterator i = links.begin(); i != links.end(); i++)
+    {
+        Link * link = *i;
+        Element * connected = link->getAdjacentElement(element);
+        if ( connected != 0 )
+          result.insert(connected);  
+    }
+    return result;
 }

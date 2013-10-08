@@ -21,7 +21,8 @@ DepthSearcher::DepthSearcher(Network & n, const Elements & elements)
     }
 
     lastIncreased = adjacentElements.end();
-    hasBeenModified = true;
+    currentElement = adjacentElements.begin();
+    hasBeenModified = false;
 
     cerr << "[DS] constructed search environment to look for " 
         << adjacentElements.size() << " elements connection" << endl;
@@ -41,32 +42,31 @@ void DepthSearcher::increaseSearchSpace()
     if ( isExhausted() )
         return;
 
-    if ( lastIncreased != adjacentElements.end() )
-        lastIncreased++;
-    else
-    {
-        lastIncreased = adjacentElements.begin();
-        hasBeenModified = false;
-    }
+    if ( currentElement == adjacentElements.end() )
+        currentElement = adjacentElements.begin();
 
-    Elements * elements = lastIncreased->second;
-    Elements * newElements = new Elements();
+    Elements * elements = currentElement->second;
     int size = elements->size();
-    for ( Elements::iterator i = elements->begin(); i != elements->end(); i++)
+    Elements copy = *elements;
+    for ( Elements::iterator i = copy.begin(); i != copy.end(); i++)
     {
         Elements adjacent = getAdjacentElements(*i);
-        newElements->insert(adjacent.begin(), adjacent.end());
+        elements->insert(adjacent.begin(), adjacent.end());
     }
-    adjacentElements[lastIncreased->first] = newElements;
-    delete elements;
-    int newSize = newElements->size();
+    int newSize = elements->size();
+
     if ( newSize > size )
+    {
         hasBeenModified = true;
+        cerr << "[DS]\tElements has been modified" << endl;
+    }
+
+    currentElement++;
 }
 
 bool DepthSearcher::isExhausted()
 {
-    return !hasBeenModified && lastIncreased == adjacentElements.end();
+    return !hasBeenModified && currentElement == adjacentElements.end();
 }
 
 Elements DepthSearcher::getAdjacentElements(Element * element)

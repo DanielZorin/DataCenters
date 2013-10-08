@@ -40,8 +40,8 @@ Nodes NetworkManager::getNodeCandidates()
 
     while ( !depthSearcher->isExhausted() )
     {
-        depthSearcher->increaseSearchSpace();
         Elements elements = depthSearcher->getElementCandidates();
+        cerr << "[NM]\tDepth search returned " << elements.size() << endl;
 
         for ( Elements::iterator i = elements.begin(); i != elements.end(); i++ )
         {
@@ -55,6 +55,8 @@ Nodes NetworkManager::getNodeCandidates()
 
             result.insert(node);
         }
+
+        depthSearcher->increaseSearchSpace();
 
         if ( !result.empty() )
             break;
@@ -71,8 +73,8 @@ Stores NetworkManager::getStoreCandidates()
 
     while( !depthSearcher->isExhausted() )
     {
-        depthSearcher->increaseSearchSpace();
         Elements elements = depthSearcher->getElementCandidates();
+        cerr << "[NM]\tDepth search returned " << elements.size() << endl;
 
         for ( Elements::iterator i = elements.begin(); i != elements.end(); i++ )
         {
@@ -87,6 +89,8 @@ Stores NetworkManager::getStoreCandidates()
             
             result.insert(store);
         }
+
+        depthSearcher->increaseSearchSpace();
 
         if ( !result.empty()  )
             break;

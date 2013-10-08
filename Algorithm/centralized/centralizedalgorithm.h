@@ -21,7 +21,7 @@ public:
         NEUTRAL_PACK,
         NET_PACK
     };
-    CentralizedAlgorithm(Network * n, Requests const & r, Version v = NEUTRAL_PACK);
+    CentralizedAlgorithm(Network * n, Requests const & r, Version v = NET_PACK);
 private:
     template <class T> std::vector<T*> prioritize(std::set<T*> &);
 
@@ -40,6 +40,7 @@ private:
 
     Nodes getAssignedLinkedNodes(Element * node, Request * request);
     Links getConnectedVirtualLinks(Element * node, Request * request);
+    Elements getChanneledVirtualResources(Element * element, Request * request);
 public:
     virtual Result schedule();
 private:
