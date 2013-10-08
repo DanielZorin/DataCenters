@@ -537,1475 +537,775 @@
 		<link capacity="1000" from="203" to="204" used="0"/>
 		<link capacity="1000" from="203" to="205" used="0"/>
 	</resources>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template1" start="0">
-		<vm name="vm1" number="1" ramcapacity="0" speed="60" x="72.5" y="119.5"/>
-		<vm name="vm2" number="2" ramcapacity="0" speed="120" x="118.5" y="117.5"/>
-		<vm name="vm3" number="3" ramcapacity="0" speed="20" x="172.5" y="113.5"/>
-		<vm name="vm4" number="4" ramcapacity="0" speed="75" x="220.5" y="112.5"/>
-		<vm name="vm5" number="5" ramcapacity="0" speed="25" x="264.5" y="116.5"/>
-		<storage name="s1" number="6" replicationcapacity="5" type="0" volume="112" x="100.5" y="17.5"/>
-		<storage name="s2" number="7" replicationcapacity="5" type="0" volume="100" x="167.5" y="17.5"/>
-		<storage name="s3" number="8" replicationcapacity="5" type="0" volume="50" x="241.5" y="20.5"/>
-		<storage name="s4" number="9" replicationcapacity="5" type="0" volume="38" x="300.5" y="17.5"/>
-		<storage name="s5" number="10" replicationcapacity="5" type="0" volume="150" x="358.5" y="16.5"/>
-		<vm name="vm6" number="11" ramcapacity="0" speed="112" x="313.5" y="110.5"/>
-		<vm name="vm7" number="12" ramcapacity="0" speed="38" x="384.5" y="108.5"/>
-		<link capacity="35" from="6" to="1"/>
-		<link capacity="40" from="7" to="2"/>
-		<link capacity="70" from="7" to="4"/>
-		<link capacity="35" from="7" to="1"/>
-		<link capacity="45" from="7" to="3"/>
-		<link capacity="25" from="8" to="5"/>
-		<link capacity="30" from="9" to="11"/>
-		<link capacity="60" from="9" to="4"/>
-		<link capacity="40" from="9" to="12"/>
-		<link capacity="30" from="10" to="12"/>
-		<link capacity="30" from="10" to="11"/>
-	</demand>
-	<demand assigned="False" critical="True" end="1" id="template2" start="0">
-		<storage name="id" number="1" replicationcapacity="10" type="0" volume="120" x="93.5" y="184.5"/>
-		<storage name="id" number="2" replicationcapacity="10" type="0" volume="330" x="155.5" y="183.5"/>
-		<vm name="id" number="3" ramcapacity="0" speed="90" x="45.5" y="29.5"/>
-		<vm name="id" number="4" ramcapacity="0" speed="90" x="100.5" y="31.5"/>
-		<vm name="id" number="5" ramcapacity="0" speed="90" x="167.5" y="31.5"/>
-		<vm name="id" number="6" ramcapacity="0" speed="90" x="221.5" y="31.5"/>
-		<vm name="id" number="7" ramcapacity="0" speed="90" x="267.5" y="31.5"/>
-		<link capacity="80" from="2" to="3"/>
-		<link capacity="70" from="2" to="4"/>
-		<link capacity="60" from="2" to="6"/>
-		<link capacity="40" from="1" to="5"/>
-		<link capacity="70" from="1" to="4"/>
-		<link capacity="40" from="1" to="6"/>
-		<link capacity="40" from="2" to="7"/>
-		<link capacity="50" from="1" to="7"/>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template4" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="200" x="84.5" y="64.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="100" x="153.5" y="60.5"/>
+		<vm name="id" number="3" ramcapacity="0" speed="150" x="218.5" y="57.5"/>
+		<storage name="id" number="4" replicationcapacity="15" type="0" volume="300" x="117.5" y="143.5"/>
+		<storage name="id" number="5" replicationcapacity="15" type="0" volume="150" x="181.5" y="142.5"/>
+		<link capacity="50" from="1" to="4"/>
+		<link capacity="100" from="1" to="5"/>
+		<link capacity="120" from="3" to="4"/>
+		<link capacity="80" from="2" to="4"/>
 	</demand>
 	<demand assigned="False" critical="True" end="1" id="template3" start="0">
 		<vm name="id" number="1" ramcapacity="0" speed="250" x="115.5" y="62.5"/>
