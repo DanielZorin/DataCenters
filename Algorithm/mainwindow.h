@@ -63,8 +63,6 @@ public:
 		layout->addWidget(ok);
 		setCentralWidget(new QWidget());
 		centralWidget()->setLayout(layout);
-		qout = new QDebugStream(std::cout, myTextEdit);
-		qout2 = new QDebugStream(std::cerr, myTextEdit);
 
 		std::cout << "Starting algorithm" << endl;
 		QString inputName = QString(argv[1]);
@@ -88,6 +86,9 @@ public:
 		algorithm = AlgorithmDispatcher::Dispatch(algorithmType, network, requests); 
 		if (windowed == "-w")
 		{
+                        qout = new QDebugStream(std::cout, myTextEdit);
+                        qout2 = new QDebugStream(std::cerr, myTextEdit);
+
 			QTimer* timer = new QTimer();
 			timer->setInterval(1000);
 			timer->setSingleShot(true);
