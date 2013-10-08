@@ -187,7 +187,6 @@ struct Comparator
     }
 } comparator; 
 
-
 template <class T> vector<T *> CentralizedAlgorithm::prioritize(set<T *> & input)
 {
     vector<T*> result;
@@ -236,12 +235,12 @@ Algorithm::Result CentralizedAlgorithm::assignVM(Node * vm, Request * request)
         networkManager.setSearchSpace(assignedLinkedNodes);
         Node * candidate = 0;
         assignmentCandidates = networkManager.getNodeCandidates();
+        Links vlinks = getConnectedVirtualLinks(vm, request);
+
         while ( !assignmentCandidates.empty() )
         {
             vector<Node *> prioritizedNodes = prioritize<Node>(assignmentCandidates);
             vector<Node *>::iterator n = prioritizedNodes.begin();
-
-            Links vlinks = getConnectedVirtualLinks(vm, request);
 
             for ( ; n != prioritizedNodes.end(); n++ )
             {
@@ -265,7 +264,10 @@ Algorithm::Result CentralizedAlgorithm::assignVM(Node * vm, Request * request)
             return FAILURE;
 
         if ( tryToAssignVM(vm, candidate) == FAILURE )
+        {
+            networkManager.cleanUpLinks(vlinks, currentAssignment);
             return FAILURE;
+        }
 
     }
     
@@ -361,12 +363,12 @@ Algorithm::Result CentralizedAlgorithm::assignStorage(Store * storage, Request *
         networkManager.setSearchSpace(assignedLinkedNodes);
         Store * candidate = 0;
         assignmentCandidates = networkManager.getStoreCandidates();
+        Links vlinks = getConnectedVirtualLinks(storage, request);
         while ( !assignmentCandidates.empty() )
         {
             vector<Store *> prioritizedStores = prioritize<Store>(assignmentCandidates);
             vector<Store *>::iterator store = prioritizedStores.begin();
 
-            Links vlinks = getConnectedVirtualLinks(storage, request);
             for ( ; store != prioritizedStores.end(); store++ )
             {
                 if ( tryToAssignPathes(storage, *store, vlinks) == SUCCESS )
@@ -390,7 +392,10 @@ Algorithm::Result CentralizedAlgorithm::assignStorage(Store * storage, Request *
             return FAILURE;
 
         if ( tryToAssignStorage(storage, candidate) == FAILURE )
+        {
+            networkManager.cleanUpLinks(vlinks, currentAssignment);
             return FAILURE;
+        }
     }
 
     return SUCCESS;
