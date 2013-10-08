@@ -198,7 +198,7 @@ class Ui_TestsWindow(object):
         self.actionDemandStorage.setObjectName(_fromUtf8("actionDemandStorage"))
 
         self.retranslateUi(TestsWindow)
-        self.tests_tabs.setCurrentIndex(1)
+        self.tests_tabs.setCurrentIndex(0)
         QtCore.QObject.connect(self.add, QtCore.SIGNAL(_fromUtf8("clicked()")), TestsWindow.Add)
         QtCore.QObject.connect(self.remove, QtCore.SIGNAL(_fromUtf8("clicked()")), TestsWindow.Remove)
         QtCore.QObject.connect(self.run, QtCore.SIGNAL(_fromUtf8("clicked()")), TestsWindow.Run)

@@ -49,7 +49,7 @@ class Runner(QDialog):
         self.alg = alg
         self.i = 0
         self.label.setText("Running experiment " + str(self.i) + " / " + str(self.count))
-        self.proc = subprocess.Popen([self.name, os.path.relpath(self.proj[0]), os.path.relpath(self.proj[0]), self.alg])
+        self.proc = subprocess.Popen([self.name, os.path.relpath(self.proj[0]), "-c",  os.path.relpath(self.proj[0]), self.alg])
         self.timer.start(1000) 
 
     def Break(self):

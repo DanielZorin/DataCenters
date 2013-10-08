@@ -26,6 +26,7 @@ using std::endl;
 #include <QtCore/QTimer>
 #include <QtCore/QObject>
 #include <QtGui/QWidget>
+#include <QApplication>
 #include "qdebugstream.h"
 
 class MyThread : public QThread
@@ -67,8 +68,9 @@ public:
 
 		std::cout << "Starting algorithm" << endl;
 		QString inputName = QString(argv[1]);
-		outputName = argc > 2 ? QString(argv[2]) : inputName;
-		QString algorithmType = argc > 3 ? QString(argv[3]) : QString("d");
+		QString windowed = QString(argv[2]);
+		outputName = argc > 3 ? QString(argv[3]) : inputName;
+		QString algorithmType = argc > 4 ? QString(argv[4]) : QString("d");
     
 		QString input;
 		{
@@ -84,13 +86,26 @@ public:
 		Requests requests = converter->getRequests();
 
 		algorithm = AlgorithmDispatcher::Dispatch(algorithmType, network, requests); 
-		QTimer* timer = new QTimer();
-		timer->setInterval(1000);
-		timer->setSingleShot(true);
-		timer->start();
-		QObject::connect(timer, SIGNAL(timeout()), SLOT(run()));
-		QObject::connect(ok, SIGNAL(clicked()), SLOT(close()));
-		show();
+		if (windowed == "-w")
+		{
+			QTimer* timer = new QTimer();
+			timer->setInterval(1000);
+			timer->setSingleShot(true);
+			timer->start();
+			QObject::connect(timer, SIGNAL(timeout()), SLOT(run()));
+			QObject::connect(ok, SIGNAL(clicked()), SLOT(close()));
+			show();
+		}
+		else
+		{
+			algorithm->schedule();
+			finish();
+			QTimer* timer = new QTimer();
+			timer->setInterval(1000);
+			timer->setSingleShot(true);
+			timer->start();
+			QObject::connect(timer, SIGNAL(timeout()), SLOT(close()));
+		}
 	}
 
 public slots:

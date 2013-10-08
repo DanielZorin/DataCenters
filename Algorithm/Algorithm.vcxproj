@@ -83,6 +83,7 @@
     <ClCompile Include="ants\path.cpp" />
     <ClCompile Include="centralized\centralizedalgorithm.cpp" />
     <ClCompile Include="centralized\criteria_cen.cpp" />
+    <ClCompile Include="centralized\depthSearcher.cpp" />
     <ClCompile Include="centralized\networkManager.cpp" />
     <ClCompile Include="centralized\nodeManager.cpp" />
     <ClCompile Include="centralized\storeManager.cpp" />
@@ -118,6 +119,7 @@
     <ClInclude Include="ants\path.h" />
     <ClInclude Include="centralized\centralizedalgorithm.h" />
     <ClInclude Include="centralized\criteria_cen.h" />
+    <ClInclude Include="centralized\depthSearcher.h" />
     <ClInclude Include="centralized\networkManager.h" />
     <ClInclude Include="centralized\nodeManager.h" />
     <ClInclude Include="centralized\storeManager.h" />

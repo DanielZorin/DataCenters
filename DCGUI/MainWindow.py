@@ -182,7 +182,7 @@ class MainWindow(QMainWindow):
             name = "Algorithm\\algorithm.exe"
         else:
             name = "Algorithm/Algolib"
-        os.system(name + " \"" + os.path.relpath(self.projectFile) + "\" \"" + os.path.relpath(self.projectFile) + "\" " + alg)
+        os.system(name + " \"" + os.path.relpath(self.projectFile) + "\" -w \"" + os.path.relpath(self.projectFile) + "\" " + alg)
         #self.project.Run()
         self.OpenProjectFromFile(self.projectFile)
         self.showStats()
@@ -203,7 +203,7 @@ class MainWindow(QMainWindow):
                 name = "Algorithm\\algorithm.exe"
             else:
                 name = "Algorithm/Algolib"
-            os.system(name + " \"" + os.path.relpath(self.projectFile) + "\" \"" + os.path.relpath(self.projectFile) + "\" " + alg)
+            os.system(name + " \"" + os.path.relpath(self.projectFile) + "\" -c \"" + os.path.relpath(self.projectFile) + "\" " + alg)
             self.OpenProjectFromFile(self.projectFile)
             stats = self.project.GetStats()
             result += "Algorithm " + alg + "\n"

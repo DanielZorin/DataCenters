@@ -108,6 +108,9 @@
     <ClCompile Include="decentralized\criteria.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="centralized\depthSearcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="algorithmdispatcher.h">
@@ -210,6 +213,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="decentralized\criteria.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="centralized\depthSearcher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
