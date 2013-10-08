@@ -16,9 +16,21 @@ class CentralizedAlgorithm : public Algorithm
 private:
     CentralizedAlgorithm();
 public:
-    CentralizedAlgorithm(Network * n, Requests const & r);
+    enum Version
+    {
+        NEUTRAL_PACK,
+        NET_PACK
+    };
+    CentralizedAlgorithm(Network * n, Requests const & r, Version v = NEUTRAL_PACK);
 private:
     template <class T> std::vector<T*> prioritize(std::set<T*> &);
+
+    Assignment * assignRequestNet(Request * request);
+    Assignment * assignRequestPlain(Request * request);
+    void cleanUpAssignment(Assignment * assignment);
+
+    Result assignVM(Node * vm, Request * request);
+    Result assignStorage(Store * storage, Request * request);
 
     Result buildVMAssignment(Request *);
     Result buildStorageAssignment(Request *);
@@ -32,6 +44,7 @@ public:
     virtual Result schedule();
 private:
     Assignment * currentAssignment;
+    Version version;
 
     NodeManager nodeManager;
     StoreManager storeManager;

@@ -1,5 +1,6 @@
 #include "assignment.h"
 #include "element.h"
+#include "link.h"
 #include "node.h"
 #include "store.h"
 
@@ -126,4 +127,27 @@ bool Assignment::checkReplicaOnStore(Storage * storage, Store * store)
          return true;
       }
    return false;
+}
+
+void Assignment::forcedCleanup()
+{
+   for(NodeAssignments::iterator i = nodeAssignments.begin(); i != nodeAssignments.end(); i++)
+      (i->second)->RemoveAssignment(i->first);
+   for(StoreAssignments::iterator i = storeAssignments.begin(); i != storeAssignments.end(); i++)
+      (i->second)->RemoveAssignment(i->first);
+   for(LinkAssignments::iterator i = linkAssignments.begin(); i != linkAssignments.end(); i++)
+   {
+      NetPath & path = i->second;
+      Link * link = i->first;
+      for(NetPath::iterator n = path.begin(); n != path.end(); n++)
+      {
+         NetworkingElement * ne = *n;
+         ne->RemoveAssignment(link);
+      }
+   }
+
+   nodeAssignments.clear();
+   storeAssignments.clear();
+   linkAssignments.clear();
+
 }

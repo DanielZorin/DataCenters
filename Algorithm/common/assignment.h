@@ -90,6 +90,8 @@ public:
        this->replications = replications;
     }
 
+    void forcedCleanup();
+
     Replications& getReplications() { return replications; }
 private:
     NodeAssignments nodeAssignments;
