@@ -195,7 +195,7 @@ class MainWindow(QMainWindow):
 
     def RunSelected(self):
         fname = QFileDialog.getSaveFileName(directory="results.txt")
-        result = ""
+        results = []
         for alg in "acdfr":
             self.Reset()
             self.project.Save(self.projectFile)
@@ -206,11 +206,18 @@ class MainWindow(QMainWindow):
             os.system(name + " \"" + os.path.relpath(self.projectFile) + "\" -c \"" + os.path.relpath(self.projectFile) + "\" " + alg)
             self.OpenProjectFromFile(self.projectFile)
             stats = self.project.GetStats()
-            result += "Algorithm " + alg + "\n"
+            stats["algorithm"] = alg
+            results.append(stats)
+        text = ""
+        for k in stats.keys():
+            text += k + "\t"
+        text += "\n"
+        for r in results:
             for k in stats.keys():
-                result += k + " " + str(stats[k]) + "\n"
+                text += str(r[k]) + "\t"
+            text += "\n"
         f = open(fname, "w")
-        f.write(result)
+        f.write(text)
         f.close()
 
     def showStats(self):
