@@ -90,6 +90,7 @@ class Project:
         for d in self.demands:
             if d.assigned:  
                 stats["demands"] += 1
+        stats["ratio"] = float(stats["demands"]) / float(len(self.demands)) * 100
         ranges = self.resources.vertices[0].intervals.keys()
         totalSpeed = 0.0
         totalVolume = 0.0

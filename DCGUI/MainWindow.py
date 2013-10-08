@@ -218,6 +218,7 @@ class MainWindow(QMainWindow):
             return
         stats = self.project.GetStats()
         self.ui.demandcount.setText(str(stats["demands"]))
+        self.ui.ratio.setText(str(stats["ratio"])+"%")
         self.ui.vmavg.setText(str(stats["vmavg"])+"%")
         self.ui.ramavg.setText(str(stats["ramavg"])+"%")
         self.ui.stavg.setText(str(stats["stavg"])+"%")

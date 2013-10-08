@@ -38,7 +38,7 @@ QLabel, QSlider {
        <bool>true</bool>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -232,6 +232,11 @@ QLabel, QSlider {
                 <item>
                  <property name="text">
                   <string>Number of assigned requests</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Assignment ratio</string>
                  </property>
                 </item>
                 <item>

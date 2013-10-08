@@ -220,6 +220,20 @@ QLabel, QSlider {
             </widget>
            </item>
            <item>
+            <widget class="QLabel" name="label_12">
+             <property name="text">
+              <string>Assignment ratio</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="ratio">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QLabel" name="label">
              <property name="text">
               <string>Average computational nodes CPU load</string>

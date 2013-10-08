@@ -172,7 +172,8 @@ class TestsWindow(QMainWindow):
             self.stats[name] = {"assigned":0,
                                 "replicas":0,
                                 "computersload":0,
-                                "storesload":0}
+                                "storesload":0,
+                                "ratio":0}
             p = Project()
             p.Load(name,light=True)
             self.stats[name]["assigned"] = 0
@@ -200,6 +201,7 @@ class TestsWindow(QMainWindow):
             self.stats[name]["computersload"] = 0 if totalspeed == 0 else float(requiredspeed)/totalspeed
             self.stats[name]["ramload"] = 0 if totalram == 0 else float(requiredram)/totalram
             self.stats[name]["storesload"] = 0 if totalvolume == 0 else float(requiredvolume)/totalvolume
+            self.stats[name]["ratio"] = float(self.stats[name]["assigned"]) / (len(p.demands)) * 100.0
 
     def Paint(self):
         scene = QGraphicsScene()
@@ -224,6 +226,8 @@ class TestsWindow(QMainWindow):
             if vert == 0:
                 v.append(proj["assigned"])
             elif vert == 1:
+                v.append(proj["ratio"])
+            elif vert == 2:
                 v.append(proj["replicas"])
             if hor == 0:
                 h.append(1.0 / 3.0 * (proj["computersload"] + proj["storesload"] + proj["ramload"]))
