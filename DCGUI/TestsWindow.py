@@ -39,7 +39,7 @@ class Runner(QDialog):
                 self.hide()
                 return
             self.label.setText("Running experiment " + str(self.i) + " / " + str(self.count))
-            self.proc = subprocess.Popen([self.name, os.path.relpath(self.proj[self.i]), os.path.relpath(self.proj[self.i]), self.alg])
+            self.proc = subprocess.Popen([self.name, os.path.relpath(self.proj[self.i]), "-c", os.path.relpath(self.proj[self.i].replace(".dcxml","_out.dcxml")), self.alg])
 
     def Run(self, name, alg, proj):
         self.show()
@@ -49,7 +49,7 @@ class Runner(QDialog):
         self.alg = alg
         self.i = 0
         self.label.setText("Running experiment " + str(self.i) + " / " + str(self.count))
-        self.proc = subprocess.Popen([self.name, os.path.relpath(self.proj[0]), "-c",  os.path.relpath(self.proj[0]), self.alg])
+        self.proc = subprocess.Popen([self.name, os.path.relpath(self.proj[0]), "-c",  os.path.relpath(self.proj[0].replace(".dcxml","_out.dcxml")), self.alg])
         self.timer.start(1000) 
 
     def Break(self):
@@ -175,7 +175,7 @@ class TestsWindow(QMainWindow):
                                 "storesload":0,
                                 "ratio":0}
             p = Project()
-            p.Load(name,light=True)
+            p.Load(name.replace(".dcxml","_out.dcxml"),light=True)
             self.stats[name]["assigned"] = 0
             requiredspeed = 0
             requiredvolume = 0

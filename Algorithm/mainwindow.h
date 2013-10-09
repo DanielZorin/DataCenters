@@ -67,8 +67,8 @@ public:
 		std::cout << "Starting algorithm" << endl;
 		QString inputName = QString(argv[1]);
 		QString windowed = QString(argv[2]);
-		outputName = argc > 3 ? QString(argv[3]) : inputName;
-		QString algorithmType = argc > 4 ? QString(argv[4]) : QString("d");
+                outputName = argc > 3 ? QString(argv[3]) : inputName;
+                QString algorithmType = argc > 4 ? QString(argv[4]) : QString("d");
     
 		QString input;
 		{

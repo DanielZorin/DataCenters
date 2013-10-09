@@ -31,9 +31,19 @@ CentralizedAlgorithm::CentralizedAlgorithm(Network * n, Requests const& r, Versi
     cerr << "[CA] packing mode is " << (version == NET_PACK ? "net essential" : "net ignorant")<< endl;
 }
 
+static bool compareRequests(Request * i, Request * j)
+{
+    return (CriteriaCen::weight(i) > CriteriaCen::weight(j))
+        || (CriteriaCen::computationalCount(i) < CriteriaCen::computationalCount(j));   
+}
+
 Algorithm::Result CentralizedAlgorithm::schedule()
 {
-    vector<Request *> prioritizedRequests = prioritize<Request>(requests);     
+    vector<Request *> prioritizedRequests(requests.begin(), requests.end());     
+    /*
+    vector<Request *> prioritizedRequests(requests.begin(), requests.end());
+    std::sort(prioritizedRequests.begin(), prioritizedRequests.end(), compareRequests);
+    */
 
     int assignTries = 0;
     int assignSuccesses = 0;
@@ -187,14 +197,18 @@ struct Comparator
     }
 } comparator; 
 
+struct Printer
+{
+    void operator()(void * i)
+    {
+        cerr << (unsigned long long)i << endl;
+    }
+} printer;
+
+
 template <class T> vector<T *> CentralizedAlgorithm::prioritize(set<T *> & input)
 {
-    vector<T*> result;
-    for (typename set<T *>::iterator i = input.begin(); i != input.end(); i++)
-    {
-        result.push_back(*i);
-    }
-
+    vector<T*> result(input.begin(), input.end());
     std::sort(result.begin(), result.end(), comparator);
     return result;
 }
