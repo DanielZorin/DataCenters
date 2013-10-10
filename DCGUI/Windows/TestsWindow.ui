@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>521</width>
-    <height>359</height>
+    <height>456</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -50,63 +50,52 @@ QLabel, QSlider {
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout">
-              <item>
-               <widget class="QLabel" name="label_2">
-                <property name="text">
-                 <string>Algorithm:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="algorithm">
-                <property name="minimumSize">
-                 <size>
-                  <width>100</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <item>
-                 <property name="text">
-                  <string>Ant Colony</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Centralized</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Decentralized</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>FirstFit</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>RandomFit</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
+             <widget class="QLabel" name="label_2">
+              <property name="text">
+               <string>Algorithm:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="ant">
+              <property name="text">
+               <string>Ant Colony</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="cen">
+              <property name="text">
+               <string>Centralized</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="decen">
+              <property name="text">
+               <string>Decentralized</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="ff">
+              <property name="text">
+               <string>FirstFit</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="rf">
+              <property name="text">
+               <string>RandomFit</string>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QTreeWidget" name="projects">
@@ -121,19 +110,6 @@ QLabel, QSlider {
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout">
-            <item>
-             <spacer name="verticalSpacer">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
             <item>
              <widget class="QPushButton" name="add">
               <property name="text">

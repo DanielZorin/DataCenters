@@ -68,7 +68,7 @@ class Ui_SettingsDialog(object):
         self.label_7.setObjectName(_fromUtf8("label_7"))
         self.horizontalLayout_3.addWidget(self.label_7)
         self.interval = QtGui.QSpinBox(self.tab_3)
-        self.interval.setProperty("value", 60)
+        self.interval.setProperty(_fromUtf8("value"), 60)
         self.interval.setObjectName(_fromUtf8("interval"))
         self.horizontalLayout_3.addWidget(self.interval)
         self.label_8 = QtGui.QLabel(self.tab_3)

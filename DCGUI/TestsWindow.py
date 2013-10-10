@@ -39,7 +39,7 @@ class Runner(QDialog):
                 self.hide()
                 return
             self.label.setText("Running experiment " + str(self.i) + " / " + str(self.count))
-            self.proc = subprocess.Popen([self.name, os.path.relpath(self.proj[self.i]), "-c", os.path.relpath(self.proj[self.i].replace(".dcxml","_out.dcxml")), self.alg])
+            self.proc = subprocess.Popen([self.name, os.path.relpath(self.proj[self.i]), "-c", os.path.relpath(self.proj[self.i].replace(".dcxml","_"+self.alg+".dcxml")), self.alg])
 
     def Run(self, name, alg, proj):
         self.show()
@@ -49,7 +49,7 @@ class Runner(QDialog):
         self.alg = alg
         self.i = 0
         self.label.setText("Running experiment " + str(self.i) + " / " + str(self.count))
-        self.proc = subprocess.Popen([self.name, os.path.relpath(self.proj[0]), "-c",  os.path.relpath(self.proj[0].replace(".dcxml","_out.dcxml")), self.alg])
+        self.proc = subprocess.Popen([self.name, os.path.relpath(self.proj[0]), "-c",  os.path.relpath(self.proj[0].replace(".dcxml","_"+self.alg+".dcxml")), self.alg])
         self.timer.start(1000) 
 
     def Break(self):
@@ -142,22 +142,25 @@ class TestsWindow(QMainWindow):
         self.changed = True
 
     def Run(self):
-        if self.ui.algorithm.currentIndex() == 0:
-            alg = "a"
-        elif self.ui.algorithm.currentIndex() == 1:
-            alg = "c"
-        elif self.ui.algorithm.currentIndex() == 2:
-            alg = "d"
-        elif self.ui.algorithm.currentIndex() == 3:
-            alg = "f"
-        else:
-            alg = "r"
+        algs = ""
+        if self.ui.ant.isChecked():
+            algs += "a"
+        if self.ui.cen.isChecked():
+            algs += "c"
+        if self.ui.decen.isChecked():
+            algs += "d"
+        if self.ui.ff.isChecked():
+            algs += "f"
+        if self.ui.rf.isChecked():
+            algs += "r"
         if sys.platform.startswith("win"):
             name = "Algorithm\\algorithm.exe"
         else:
             name = "Algorithm/Algolib"
-        r = Runner(self)
-        r.Run(name, alg, self.projects)
+        self.algs = algs
+        for alg in algs:
+            r = Runner(self)
+            r.Run(name, alg, self.projects)
         self.changed = True
 
     def ChangeTab(self):
@@ -168,79 +171,82 @@ class TestsWindow(QMainWindow):
 
     def getStatistics(self):
         self.stats = {}
-        for name in self.projects.values():
-            self.stats[name] = {"assigned":0,
-                                "replicas":0,
-                                "computersload":0,
-                                "storesload":0,
-                                "ratio":0}
-            p = Project()
-            p.Load(name.replace(".dcxml","_out.dcxml"),light=True)
-            self.stats[name]["assigned"] = 0
-            requiredspeed = 0
-            requiredvolume = 0
-            requiredram = 0
-            totalspeed = 0
-            totalvolume = 0
-            totalram = 0
-            for d in p.demands:
-                if d.assigned:
-                    self.stats[name]["assigned"] += 1
-                    self.stats[name]["replicas"] += len(d.replications)
-                for v in d.vertices:
-                    if isinstance(v, DemandStorage):
-                        requiredvolume += v.volume
-                    elif isinstance(v, VM):
-                        requiredspeed += v.speed
-                        requiredram += v.ram
-            for v in p.resources.vertices:
-                if isinstance(v, Storage):
-                    totalvolume += v.volume
-                elif isinstance(v, Computer):
-                    totalspeed += v.speed
-            self.stats[name]["computersload"] = 0 if totalspeed == 0 else float(requiredspeed)/totalspeed
-            self.stats[name]["ramload"] = 0 if totalram == 0 else float(requiredram)/totalram
-            self.stats[name]["storesload"] = 0 if totalvolume == 0 else float(requiredvolume)/totalvolume
-            self.stats[name]["ratio"] = float(self.stats[name]["assigned"]) / (len(p.demands)) * 100.0
+        for alg in self.algs:
+            self.stats[alg] = {}
+            for name in self.projects.values():
+                self.stats[alg][name] = {"assigned":0,
+                                    "replicas":0,
+                                    "computersload":0,
+                                    "storesload":0,
+                                    "ratio":0}
+                p = Project()
+                p.Load(name.replace(".dcxml","_"+alg+".dcxml"),light=True)
+                self.stats[alg][name]["assigned"] = 0
+                requiredspeed = 0
+                requiredvolume = 0
+                requiredram = 0
+                totalspeed = 0
+                totalvolume = 0
+                totalram = 0
+                for d in p.demands:
+                    if d.assigned:
+                        self.stats[alg][name]["assigned"] += 1
+                        self.stats[alg][name]["replicas"] += len(d.replications)
+                    for v in d.vertices:
+                        if isinstance(v, DemandStorage):
+                            requiredvolume += v.volume
+                        elif isinstance(v, VM):
+                            requiredspeed += v.speed
+                            requiredram += v.ram
+                for v in p.resources.vertices:
+                    if isinstance(v, Storage):
+                        totalvolume += v.volume
+                    elif isinstance(v, Computer):
+                        totalspeed += v.speed
+                self.stats[alg][name]["computersload"] = 0 if totalspeed == 0 else float(requiredspeed)/totalspeed
+                self.stats[alg][name]["ramload"] = 0 if totalram == 0 else float(requiredram)/totalram
+                self.stats[alg][name]["storesload"] = 0 if totalvolume == 0 else float(requiredvolume)/totalvolume
+                self.stats[alg][name]["ratio"] = float(self.stats[alg][name]["assigned"]) / (len(p.demands)) * 100.0
 
     def Paint(self):
         scene = QGraphicsScene()
         hor = self.ui.horizontal.currentIndex()
         vert = self.ui.vertical.currentIndex()
-        v = []
-        h = []
-        projects = []
-        if hor == 0:
-            projects = sorted(self.stats.values(),key=lambda x: 1.0 / 3.0 * (x["computersload"] + x["storesload"] + x["ramload"]))
-        elif hor == 1:
-            projects = sorted(self.stats.values(),key=lambda x: 0.5*(x["computersload"]+x["ramload"]))
-        elif hor == 2:
-            projects = sorted(self.stats.values(),key=lambda x: x["computersload"])
-        elif hor == 3:
-            projects = sorted(self.stats.values(),key=lambda x: x["ramload"])
-        elif hor == 4:
-            projects = sorted(self.stats.values(),key=lambda x: x["storesload"])
-        if projects == []:
-            return
-        for proj in projects:
-            if vert == 0:
-                v.append(proj["assigned"])
-            elif vert == 1:
-                v.append(proj["ratio"])
-            elif vert == 2:
-                v.append(proj["replicas"])
+        v = {"a": [], "d": [], "c": [], "r": [], "f": []}
+        h = {"a": [], "d": [], "c": [], "r": [], "f": []}
+        for alg in self.algs:
+            projects = []
             if hor == 0:
-                h.append(1.0 / 3.0 * (proj["computersload"] + proj["storesload"] + proj["ramload"]))
+                projects = sorted(self.stats[alg].values(),key=lambda x: 1.0 / 3.0 * (x["computersload"] + x["storesload"] + x["ramload"]))
             elif hor == 1:
-                h.append(0.5 * (proj["computersload"] + proj["ramload"]))
+                projects = sorted(self.stats[alg].values(),key=lambda x: 0.5*(x["computersload"]+x["ramload"]))
             elif hor == 2:
-                h.append(proj["computersload"])
+                projects = sorted(self.stats[alg].values(),key=lambda x: x["computersload"])
             elif hor == 3:
-                h.append(proj["ramload"])
+                projects = sorted(self.stats[alg].values(),key=lambda x: x["ramload"])
             elif hor == 4:
-                h.append(proj["storesload"])
+                projects = sorted(self.stats[alg].values(),key=lambda x: x["storesload"])
+            if projects == []:
+                return
+            for proj in projects:
+                if vert == 0:
+                    v[alg].append(proj["assigned"])
+                elif vert == 1:
+                    v[alg].append(proj["ratio"])
+                elif vert == 2:
+                    v[alg].append(proj["replicas"])
+                if hor == 0:
+                    h[alg].append(1.0 / 3.0 * (proj["computersload"] + proj["storesload"] + proj["ramload"]))
+                elif hor == 1:
+                    h[alg].append(0.5 * (proj["computersload"] + proj["ramload"]))
+                elif hor == 2:
+                    h[alg].append(proj["computersload"])
+                elif hor == 3:
+                    h[alg].append(proj["ramload"])
+                elif hor == 4:
+                    h[alg].append(proj["storesload"])
 
-        maxnum = max(max(v), 1)
+        maxnum = max([max(v[i]) for i in self.algs] + [1])
         scene.addLine(5, 5, 5, 213, QPen(self.settings["axis"]))
         scene.addLine(2, 210, 210, 210, QPen(self.settings["axis"]))
         for i in range(10):
@@ -254,14 +260,15 @@ class TestsWindow(QMainWindow):
                 t2 = scene.addText(str(int(0.1*maxnum*(i + 1))), font)
                 t2.setPos(-10, 200 - (i + 1) * 20)
 
-        x0 = h[0]
-        y0 = v[0]
-        for x,y in zip(h,v):
-            scene.addLine(5 + x0 * 200, 210 - float(y0)/maxnum * 200, 5 + x * 200, 210 - float(y)/maxnum * 200, QPen(self.settings["graph"]))
-            scene.addLine(5 + x * 200 - 2, 210 - float(y)/maxnum * 200 - 2 , 5 + x * 200 + 2, 210 - float(y)/maxnum * 200 + 2, QPen(self.settings["graph"]))
-            scene.addLine(5 + x * 200 + 2, 210 - float(y)/maxnum * 200 - 2, 5 + x * 200 - 2, 210 - float(y)/maxnum * 200 + 2, QPen(self.settings["graph"]))
-            x0 = x
-            y0 = y
+        for alg in self.algs:
+            x0 = h[alg][0]
+            y0 = v[alg][0]
+            for x,y in zip(h[alg],v[alg]):
+                scene.addLine(5 + x0 * 200, 210 - float(y0)/maxnum * 200, 5 + x * 200, 210 - float(y)/maxnum * 200, QPen(self.settings["graph"]))
+                scene.addLine(5 + x * 200 - 2, 210 - float(y)/maxnum * 200 - 2 , 5 + x * 200 + 2, 210 - float(y)/maxnum * 200 + 2, QPen(self.settings["graph"]))
+                scene.addLine(5 + x * 200 + 2, 210 - float(y)/maxnum * 200 - 2, 5 + x * 200 - 2, 210 - float(y)/maxnum * 200 + 2, QPen(self.settings["graph"]))
+                x0 = x
+                y0 = y
         self.ui.graph.setScene(scene)
 
     def ScaleUp(self):
