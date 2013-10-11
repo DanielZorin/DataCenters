@@ -1,5 +1,5 @@
 from PyQt4.QtCore import Qt, QObject, SIGNAL, QTimer
-from PyQt4.QtGui import QMainWindow, QDialog, QFileDialog, QTreeWidgetItem, QGraphicsScene, QColor, QPen, QFont, QImage, QPainter, QVBoxLayout, QLabel, QPushButton
+from PyQt4.QtGui import QMainWindow, QDialog, QFileDialog, QTreeWidgetItem, QGraphicsScene, QColor, QBrush, QPen, QFont, QImage, QPainter, QVBoxLayout, QLabel, QPushButton
 from DCGUI.Windows.ui_TestsWindow import Ui_TestsWindow
 from DCGUI.Windows.ui_FilesGenerator import Ui_FilesGenerator
 from DCGUI.Project import Project
@@ -7,7 +7,9 @@ from DCGUI.TreeDialog import TreeDialog
 from DCGUI.ParamsDialog import ParamsDialog
 from Core.Demands import DemandStorage, VM
 from Core.Resources import Computer, Storage, ResourceGraph
-import os, sys, subprocess
+import os, sys, subprocess, random
+
+algnames = {"a":"Ant Colony", "d":"Decentralized", "c":"Centralized", "r":"RandomFit", "f":"FirstFit"}
 
 class FilesGenerator(QDialog):
     def __init__(self):
@@ -38,7 +40,7 @@ class Runner(QDialog):
                 self.timer.stop()
                 self.hide()
                 return
-            self.label.setText("Running experiment " + str(self.i) + " / " + str(self.count))
+            self.label.setText("Running algorithm " + algnames[self.alg] + " " + str(self.i + 1) + " / " + str(self.count))
             self.proc = subprocess.Popen([self.name, os.path.relpath(self.proj[self.i]), "-c", os.path.relpath(self.proj[self.i].replace(".dcxml","_"+self.alg+".dcxml")), self.alg])
 
     def Run(self, name, alg, proj):
@@ -48,7 +50,7 @@ class Runner(QDialog):
         self.name = name
         self.alg = alg
         self.i = 0
-        self.label.setText("Running experiment " + str(self.i) + " / " + str(self.count))
+        self.label.setText("Running algorithm " + algnames[self.alg] + " " + str(self.i + 1) + " / " + str(self.count))
         self.proc = subprocess.Popen([self.name, os.path.relpath(self.proj[0]), "-c",  os.path.relpath(self.proj[0].replace(".dcxml","_"+self.alg+".dcxml")), self.alg])
         self.timer.start(1000) 
 
@@ -67,6 +69,7 @@ class TestsWindow(QMainWindow):
         self.ui.setupUi(self)
         self.projects = {}
         self.changed = True
+        self.algs = "acdrf"
 
     def Generate(self):
         d = FilesGenerator()
@@ -260,15 +263,23 @@ class TestsWindow(QMainWindow):
                 t2 = scene.addText(str(int(0.1*maxnum*(i + 1))), font)
                 t2.setPos(-10, 200 - (i + 1) * 20)
 
+        legendy = 10
         for alg in self.algs:
             x0 = h[alg][0]
             y0 = v[alg][0]
+            color = QColor(random.randint(1, 255), random.randint(1, 255), random.randint(1, 255))
+            brush = QBrush(color)
+            color = QPen(color)
             for x,y in zip(h[alg],v[alg]):
-                scene.addLine(5 + x0 * 200, 210 - float(y0)/maxnum * 200, 5 + x * 200, 210 - float(y)/maxnum * 200, QPen(self.settings["graph"]))
-                scene.addLine(5 + x * 200 - 2, 210 - float(y)/maxnum * 200 - 2 , 5 + x * 200 + 2, 210 - float(y)/maxnum * 200 + 2, QPen(self.settings["graph"]))
-                scene.addLine(5 + x * 200 + 2, 210 - float(y)/maxnum * 200 - 2, 5 + x * 200 - 2, 210 - float(y)/maxnum * 200 + 2, QPen(self.settings["graph"]))
+                scene.addLine(5 + x0 * 200, 210 - float(y0)/maxnum * 200, 5 + x * 200, 210 - float(y)/maxnum * 200, color)
+                scene.addLine(5 + x * 200 - 2, 210 - float(y)/maxnum * 200 - 2 , 5 + x * 200 + 2, 210 - float(y)/maxnum * 200 + 2, color)
+                scene.addLine(5 + x * 200 + 2, 210 - float(y)/maxnum * 200 - 2, 5 + x * 200 - 2, 210 - float(y)/maxnum * 200 + 2, color)
                 x0 = x
                 y0 = y
+            scene.addRect(220, legendy, 5, 5, color, brush)
+            t = scene.addText(algnames[alg], font)
+            t.setPos(230, legendy-5)
+            legendy += 10
         self.ui.graph.setScene(scene)
 
     def ScaleUp(self):
