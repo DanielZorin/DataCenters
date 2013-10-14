@@ -1502,4 +1502,39 @@
 		<link capacity="600" from="3" to="1"/>
 		<link capacity="300" from="3" to="2"/>
 	</demand>
+	<demand assigned="False" critical="True" end="1" id="template3" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="250" x="115.5" y="62.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="200" x="185.5" y="64.5"/>
+		<storage name="id" number="3" replicationcapacity="20" type="0" volume="450" x="143.5" y="150.5"/>
+		<link capacity="600" from="3" to="1"/>
+		<link capacity="300" from="3" to="2"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template3" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="250" x="115.5" y="62.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="200" x="185.5" y="64.5"/>
+		<storage name="id" number="3" replicationcapacity="20" type="0" volume="450" x="143.5" y="150.5"/>
+		<link capacity="600" from="3" to="1"/>
+		<link capacity="300" from="3" to="2"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template3" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="250" x="115.5" y="62.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="200" x="185.5" y="64.5"/>
+		<storage name="id" number="3" replicationcapacity="20" type="0" volume="450" x="143.5" y="150.5"/>
+		<link capacity="600" from="3" to="1"/>
+		<link capacity="300" from="3" to="2"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template3" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="250" x="115.5" y="62.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="200" x="185.5" y="64.5"/>
+		<storage name="id" number="3" replicationcapacity="20" type="0" volume="450" x="143.5" y="150.5"/>
+		<link capacity="600" from="3" to="1"/>
+		<link capacity="300" from="3" to="2"/>
+	</demand>
+	<demand assigned="False" critical="True" end="1" id="template3" start="0">
+		<vm name="id" number="1" ramcapacity="0" speed="250" x="115.5" y="62.5"/>
+		<vm name="id" number="2" ramcapacity="0" speed="200" x="185.5" y="64.5"/>
+		<storage name="id" number="3" replicationcapacity="20" type="0" volume="450" x="143.5" y="150.5"/>
+		<link capacity="600" from="3" to="1"/>
+		<link capacity="300" from="3" to="2"/>
+	</demand>
 </dcxml>

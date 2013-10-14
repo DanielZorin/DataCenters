@@ -260,7 +260,6 @@ Algorithm::Result AntAlgorithm::schedule()
 {
     if (!success) return Algorithm::FAILURE;
     std::cerr << "Algorithm parameters: antNum = " << antNum << ", iter = " << iterNum << ", pd = " << pherDeg << ", hd = " << heurDeg << ", evap = " << evapRate << '\n';
-    std::cout << '\n';
     unsigned int iMax = 0;
     unsigned int t1 = 0;//(unsigned)time(NULL);
     std::map<Link *, AssignedChannel> channels;
@@ -298,7 +297,7 @@ Algorithm::Result AntAlgorithm::schedule()
         if (iMax < antNum)
         {
             std::cerr << ", current best value = " << objValues[iMax] << '\n';
-//            std::cout << objValues[iMax] << '\n';
+            std::cout << objValues[iMax] << '\n';
         }
         else std::cerr << '\n';
 
