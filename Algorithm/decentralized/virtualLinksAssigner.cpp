@@ -393,6 +393,10 @@ bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assig
     if ( virtualLink->getFirst()->isStore() )
     {
         storage = static_cast<Storage *>(virtualLink->getFirst());
+        
+        if ( storage->getTypeOfStore() == 0 )
+           return false; // type 0 is not permitted for replication
+
         if ( !virtualLink->getSecond()->isNode() )
             return false; // not parsing wrong variants
         virtualMachine = static_cast<VirtualMachine *>(virtualLink->getSecond());
@@ -403,6 +407,9 @@ bool VirtualLinksAssigner::replicate(VirtualLink* virtualLink, Assignment* assig
             return false; // not parsing wrong variants
         virtualMachine = static_cast<VirtualMachine *>(virtualLink->getFirst());
         storage = static_cast<Storage *>(virtualLink->getSecond());
+        
+        if ( storage->getTypeOfStore() == 0 )
+           return false; // type 0 is not permitted for replication
     }
     else
         return false; // no storage in the link
