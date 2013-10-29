@@ -23,12 +23,8 @@ private:
     Algorithm();
 
 public:
-    Algorithm(Network * n, Requests const & r)
-        : network(n)
-        , requests(r)
-    {}
-
-    virtual ~Algorithm() {}
+    Algorithm(Network * n, Requests const & r);
+    virtual ~Algorithm();
 public:
     virtual Assignments getAssignments() { return assignments; }
     Network & getNetwork() { return *network; }

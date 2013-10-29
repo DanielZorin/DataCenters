@@ -69,6 +69,11 @@ public:
 		QString windowed = QString(argv[2]);
                 outputName = argc > 3 ? QString(argv[3]) : inputName;
                 QString algorithmType = argc > 4 ? QString(argv[4]) : QString("d");
+                if ( windowed == "-w")
+                {
+                    qout = new QDebugStream(std::cout, myTextEdit);
+                    qout2 = new QDebugStream(std::cerr, myTextEdit);
+                }
     
 		QString input;
 		{
@@ -86,9 +91,6 @@ public:
 		algorithm = AlgorithmDispatcher::Dispatch(algorithmType, network, requests); 
 		if (windowed == "-w")
 		{
-                        qout = new QDebugStream(std::cout, myTextEdit);
-                        qout2 = new QDebugStream(std::cerr, myTextEdit);
-
 			QTimer* timer = new QTimer();
 			timer->setInterval(1000);
 			timer->setSingleShot(true);

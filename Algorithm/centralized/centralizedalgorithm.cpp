@@ -39,11 +39,9 @@ static bool compareRequests(Request * i, Request * j)
 
 Algorithm::Result CentralizedAlgorithm::schedule()
 {
-    vector<Request *> prioritizedRequests(requests.begin(), requests.end());     
-    /*
+    // vector<Request *> prioritizedRequests(requests.begin(), requests.end());     
     vector<Request *> prioritizedRequests(requests.begin(), requests.end());
     std::sort(prioritizedRequests.begin(), prioritizedRequests.end(), compareRequests);
-    */
 
     int assignTries = 0;
     int assignSuccesses = 0;
