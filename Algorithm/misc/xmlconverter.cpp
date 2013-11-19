@@ -402,10 +402,47 @@ private:
     QDomDocument* document; // to create codes
 };
 
+class TunnelOverseer : public Overseer
+{
+public:
+    TunnelOverseer()
+    {
+        vlink = 0;
+    }
+
+    virtual ~TunnelOverseer()
+    {
+        delete vlink;
+    }
+
+    virtual void parse(QDomElement & tunnel)
+    {
+        this->tunnel = tunnel;
+        QDomNodeList links = tunnel.elementsByTagName("link");
+        parseLinks(links);
+    }
+
+    virtual void addLink(uint idFrom, uint idTo, Link * link)
+    {
+        Overseer::addLink(idFrom, idTo, link);
+        vlink = link;
+    }
+
+    virtual void assign(std::set<NetPath> & path, NetworkOverseer const& network)
+    {
+    
+    }
+
+    Link * getLink() { return vlink; }
+private:
+    Link * vlink;
+    QDomElement tunnel;
+};
+
 // XMLConverter implementation
 
 XMLConverter::XMLConverter(QString & contents)
-:
+    :
     document("XMLConversion")
 {
     document.setContent(contents);
@@ -417,6 +454,7 @@ XMLConverter::~XMLConverter()
     delete networkOverseer;
     for( uint i = 0; i < requestOverseers.length(); i++)
         delete requestOverseers[i];
+    delete tunnelOverseer;
 }
 
 QString XMLConverter::getMixdownContent()
@@ -428,6 +466,11 @@ QString XMLConverter::getMixdownContent()
 Network* XMLConverter::getNetwork()
 {
     return networkOverseer->getNetwork();
+}
+
+Link * XMLConverter::getTunnel()
+{
+    return tunnelOverseer->getLink();
 }
 
 Requests XMLConverter::getRequests()
@@ -449,6 +492,12 @@ void XMLConverter::parseContents()
     parseNetwork(resources);
     QDomNodeList requests = root.elementsByTagName("demand");
     parseRequests(requests);
+    QDomNodeList tunnels = root.elementsByTagName("tunnel");
+    if ( !tunnels.isEmpty() )
+    {
+        QDomElement tunnel = tunnels.item(0).toElement();
+        parseTunnel(tunnel);
+    }
 }
 
 void XMLConverter::parseNetwork(QDomElement & resources)
@@ -466,6 +515,11 @@ void XMLConverter::parseRequests(QDomNodeList & requests)
         requestOverseer->parse(request);
         requestOverseers.append(requestOverseer);
     }
+}
+
+void XMLConverter::parseTunnel(QDomElement & tunnel)
+{
+
 }
 
 RequestOverseer * XMLConverter::getOverseerByRequest(const Request* request)
@@ -488,4 +542,9 @@ void XMLConverter::setAssignments(Assignments & assignments)
         RequestOverseer * overseer = getOverseerByRequest(assignment->getRequest());
         overseer->assign(assignment, *networkOverseer);
     }
+}
+
+void XMLConverter::setTunnelAssignment(std::set<NetPath> & pathes)
+{
+    tunnelOverseer->assign(pathes, *networkOverseer);
 }

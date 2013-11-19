@@ -1,7 +1,7 @@
+#include "runner.h"
 #include <iostream>
 using std::cerr;
 using std::endl;
-#include "mainwindow.h"
 
 int main(int argc, char ** argv)
 {
@@ -11,7 +11,6 @@ int main(int argc, char ** argv)
         return 1;
     }
 
-	QApplication app(argc, argv);
-	OurMainWindow* mw = new OurMainWindow(argc, argv);
-	return app.exec();
+    return runQtShell(argc, argv);
+
 }

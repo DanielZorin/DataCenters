@@ -10,9 +10,9 @@
 
 class NetworkOverseer;
 class RequestOverseer;
+class TunnelOverseer;
 
 class XMLConverter {
-public:
 public:
     XMLConverter(QString &);
     ~XMLConverter();
@@ -21,18 +21,22 @@ public:
 
     Requests getRequests();
     Network * getNetwork();
+    Link * getTunnel();
 
     void setAssignments(Assignments &);
+    void setTunnelAssignment(std::set<NetPath> & pathes);
 private:
     void parseContents();
     void parseNetwork(QDomElement &);
     void parseRequests(QDomNodeList &);
+    void parseTunnel(QDomElement &);
 
     RequestOverseer * getOverseerByRequest(const Request *);
 
 private:
     NetworkOverseer* networkOverseer;
     QList<RequestOverseer *> requestOverseers;
+    TunnelOverseer* tunnelOverseer;
     QDomDocument document;
 };
 
