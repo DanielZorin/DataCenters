@@ -1,4 +1,4 @@
-#include "xmlconverter.h"
+#include "misc/xmlconverter.h"
 
 #include <iostream>
 using std::cerr;
@@ -8,6 +8,8 @@ using std::endl;
 #include <QtCore/QFile>
 #include <QtCore/QIODevice>
 #include <QtCore/QTextStream>
+
+#include "routing/testrouter.h"
 
 int main(int argc, char ** argv)
 {
@@ -32,6 +34,9 @@ int main(int argc, char ** argv)
     Network * network = converter->getNetwork();
     Link * tunnel = converter->getTunnel();
 
+    Router * router = new TestRouter(tunnel, network);
+    if ( router->route() )
+       cerr << "[RT] route succeeded" << endl;
 
     delete converter;
     return 0;

@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<dcxml name="test project">
+	<resources>
+		<router capacity="200" name="router_0_0" number="1" used="0" x="89.5" y="14.5"/>
+		<router capacity="100" name="router_1_0" number="2" used="0" x="27.5" y="64.5"/>
+		<computer name="computer0" number="3" ramcapacity="1" speed="1" used="0" usedram="0" x="27.5" y="114.5"/>
+		<router capacity="100" name="router_1_1" number="4" used="0" x="52.5" y="64.5"/>
+		<computer name="computer1" number="5" ramcapacity="1" speed="1" used="0" usedram="0" x="52.5" y="114.5"/>
+		<router capacity="100" name="router_1_2" number="6" used="0" x="77.5" y="64.5"/>
+		<computer name="computer2" number="7" ramcapacity="1" speed="1" used="0" usedram="0" x="77.5" y="114.5"/>
+		<router capacity="100" name="router_1_3" number="8" used="0" x="102.5" y="64.5"/>
+		<storage name="storage3" number="9" type="0" used="0" volume="1" x="102.5" y="114.5"/>
+		<router capacity="100" name="router_1_4" number="10" used="0" x="127.5" y="64.5"/>
+		<storage name="storage4" number="11" type="0" used="0" volume="1" x="127.5" y="114.5"/>
+		<router capacity="100" name="router_1_5" number="12" used="0" x="152.5" y="64.5"/>
+		<storage name="storage5" number="13" type="0" used="0" volume="1" x="152.5" y="114.5"/>
+		<link capacity="1" from="2" to="1" used="0"/>
+		<link capacity="1" from="2" to="3" used="0"/>
+		<link capacity="1" from="4" to="1" used="0"/>
+		<link capacity="1" from="4" to="5" used="0"/>
+		<link capacity="1" from="6" to="1" used="0"/>
+		<link capacity="1" from="6" to="7" used="0"/>
+		<link capacity="1" from="8" to="1" used="0"/>
+		<link capacity="1" from="8" to="9" used="0"/>
+		<link capacity="1" from="10" to="1" used="0"/>
+		<link capacity="1" from="10" to="11" used="0"/>
+		<link capacity="1" from="12" to="1" used="0"/>
+		<link capacity="1" from="12" to="13" used="0"/>
+	</resources>
+        <tunnel>
+                <link name="tunnel" capacity="1" from="3" to="11">
+        <tunnel>
+</dcxml>
