@@ -6,7 +6,7 @@
 #include "common/store.h"
 #include "common/link.h"
 #include "common/assignment.h"
-#include "decentralized/virtualLinkRouter.h"
+#include "routing/dijkstrarouter.h"
 
 #include <iostream>
 
@@ -109,12 +109,16 @@ Algorithm::Result NetworkManager::buildPath(Element * from, Element * to, Link *
     cerr << "[NM]\tBuilding path" << endl;
     Link * dummy = new Link("dummy", vlink->getCapacity(), vlink->getMaxCapacity());
     dummy->bindElements(from, to);
-    NetPath path = VirtualLinkRouter::routeDejkstra(dummy, &network);
+
+    DijkstraRouter router(dummy, &network);
+    bool result = router.route();
+    // NetPath path = VirtualLinkRouter::routeDejkstra(dummy, &network);
     delete dummy;
 
-    if ( path.empty() )
+    if ( !result )
         return Algorithm::FAILURE;
 
+    NetPath path = router.getPath();
     addAssignment(vlink, path);
     assignment->AddAssignment(vlink, path);
     cerr << "[NM]\tPath building succedeed" << endl;
