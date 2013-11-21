@@ -1,15 +1,15 @@
 #ifndef RANDOMALG_H
 #define RANDOMALG_H
 
-#include "../common/algorithm.h"
-#include "../common/element.h"
-#include "../common/network.h"
-#include "../common/request.h"
-#include "../common/publicdefs.h"
-#include "../common/node.h"
-#include "../common/store.h"
-#include "../common/assignment.h"
-#include "../common/link.h"
+#include "common/algorithm.h"
+#include "common/element.h"
+#include "common/network.h"
+#include "common/request.h"
+#include "common/publicdefs.h"
+#include "common/node.h"
+#include "common/store.h"
+#include "common/assignment.h"
+#include "common/link.h"
 #include <vector>
 
 // utility structs

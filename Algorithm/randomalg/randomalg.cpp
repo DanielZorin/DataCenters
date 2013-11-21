@@ -1,5 +1,5 @@
 #include "randomalg.h"
-#include "../decentralized/virtualLinkRouter.h"
+#include "decentralized/virtualLinkRouter.h"
 #include <stdlib.h>
 #include <time.h>
 #include <assert.h>
