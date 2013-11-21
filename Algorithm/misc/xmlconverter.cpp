@@ -446,8 +446,10 @@ private:
 // XMLConverter implementation
 
 XMLConverter::XMLConverter(QString & contents)
-    :
-    document("XMLConversion")
+:
+    document("XMLConversion"),
+    networkOverseer(0),
+    tunnelOverseer(0)
 {
     document.setContent(contents);
     parseContents();
@@ -469,11 +471,17 @@ QString XMLConverter::getMixdownContent()
 
 Network* XMLConverter::getNetwork()
 {
+    if ( networkOverseer == 0 )
+        return 0;
+
     return networkOverseer->getNetwork();
 }
 
 Link * XMLConverter::getTunnel()
 {
+    if ( tunnelOverseer == 0 )
+        return 0;
+      
     return tunnelOverseer->getLink();
 }
 
