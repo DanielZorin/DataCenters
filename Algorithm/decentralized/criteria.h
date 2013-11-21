@@ -1,7 +1,7 @@
 #ifndef CRITERIA_H_
 #define CRITERIA_H_
 
-#include "request.h"
+#include "common/request.h"
 
 // Class Criteria, which keeps criterias of greedy procedures of the algorithm.
 // No object of these class can be created, all methods are static.

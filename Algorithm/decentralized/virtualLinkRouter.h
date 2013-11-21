@@ -1,7 +1,7 @@
 #ifndef VIRTUAL_LINK_ROUTER_H_
 #define VIRTUAL_LINK_ROUTER_H_
 
-#include "publicdefs.h"
+#include "common/publicdefs.h"
 #include <iostream>
 #include <vector>
 

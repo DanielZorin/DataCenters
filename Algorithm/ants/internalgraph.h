@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <set>
-#include "../common/element.h"
+#include "common/element.h"
 #include "path.h"
 #include "heuristic.h"
 

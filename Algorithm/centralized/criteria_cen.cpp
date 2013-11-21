@@ -1,9 +1,9 @@
 #include "criteria_cen.h"
 
-#include "node.h"
-#include "store.h"
-#include "link.h"
-#include "request.h"
+#include "common/node.h"
+#include "common/store.h"
+#include "common/link.h"
+#include "common/request.h"
 
 unsigned long CriteriaCen::weight(Element * element)
 {

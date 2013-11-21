@@ -1,5 +1,5 @@
 #include "elementsAssigner.h"
-#include "assignment.h"
+#include "common/assignment.h"
 
 ElementsAssigner::~ElementsAssigner()
 {

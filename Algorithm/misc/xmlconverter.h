@@ -1,7 +1,7 @@
 #ifndef XMLCONVERTER_H
 #define XMLCONVERTER_H
 
-#include "publicdefs.h"
+#include "common/publicdefs.h"
 
 #include <string>
 

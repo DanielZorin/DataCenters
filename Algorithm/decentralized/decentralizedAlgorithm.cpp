@@ -2,7 +2,7 @@
 #include "virtualMachinesAssigner.h"
 #include "storagesAssigner.h"
 #include "virtualLinksAssigner.h"
-#include "assignment.h"
+#include "common/assignment.h"
 #include "criteria.h"
 
 #include <iostream>

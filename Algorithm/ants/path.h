@@ -3,8 +3,8 @@
 
 #include <vector>
 #include <set>
-#include "../common/element.h"
-#include "../common/link.h"
+#include "common/element.h"
+#include "common/link.h"
 
 // Class representing a single vertex in the path
 struct PathElement

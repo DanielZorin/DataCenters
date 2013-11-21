@@ -2,7 +2,7 @@
 #include <limits.h>
 #include <assert.h>
 #include "ant.h"
-#include "../decentralized/virtualLinkRouter.h"
+#include "decentralized/virtualLinkRouter.h"
 
 AntAlgorithm::AntAlgorithm(Network * n, Requests const & r, unsigned int ants, unsigned int iter, double pd, double hd, double evap)
 : Algorithm(n, r)

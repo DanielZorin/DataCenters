@@ -1,10 +1,10 @@
 #include "criteria.h"
-#include "node.h"
-#include "store.h"
-#include "link.h"
-#include "replication.h"
+#include "common/node.h"
+#include "common/store.h"
+#include "common/link.h"
+#include "common/replication.h"
 #include "virtualLinkRouter.h"
-#include "network.h"
+#include "common/network.h"
 
 Criteria::PackMode Criteria::packMode = Criteria::BFD; // default value
 

@@ -1,12 +1,12 @@
 #include "centralizedalgorithm.h"
-#include "request.h"
-#include "assignment.h"
+#include "common/request.h"
+#include "common/assignment.h"
 
-#include "network.h"
+#include "common/network.h"
 #include "criteria_cen.h"
-#include "node.h"
-#include "store.h"
-#include "link.h"
+#include "common/node.h"
+#include "common/store.h"
+#include "common/link.h"
 
 #include <algorithm>
 #include <iostream>

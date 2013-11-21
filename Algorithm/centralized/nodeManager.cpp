@@ -1,5 +1,5 @@
 #include "nodeManager.h"
-#include <node.h>
+#include "common/node.h"
 
 NodeManager::NodeManager(Nodes & n)
 :

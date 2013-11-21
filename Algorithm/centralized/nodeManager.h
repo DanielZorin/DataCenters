@@ -1,7 +1,7 @@
 #ifndef NODEMANAGER_H
 #define NODEMANAGER_H
 
-#include "publicdefs.h"
+#include "common/publicdefs.h"
 
 class NodeManager
 {

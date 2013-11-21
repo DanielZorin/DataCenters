@@ -5,9 +5,9 @@
 #include <stdio.h>
 #include <assert.h>
 #include <iostream>
-#include "link.h"
-#include "switch.h"
-#include "network.h"
+#include "common/link.h"
+#include "common/switch.h"
+#include "common/network.h"
 #include "criteria.h"
 
 // number of links per element, used when building elementLinks is dijkstra algorithm.

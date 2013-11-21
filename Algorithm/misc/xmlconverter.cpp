@@ -1,14 +1,14 @@
 #include "xmlconverter.h"
 
-#include "network.h"
+#include "common/network.h"
 
-#include "element.h"
-#include "request.h"
-#include "link.h"
-#include "switch.h"
-#include "node.h"
-#include "store.h"
-#include "assignment.h"
+#include "common/element.h"
+#include "common/request.h"
+#include "common/link.h"
+#include "common/switch.h"
+#include "common/node.h"
+#include "common/store.h"
+#include "common/assignment.h"
 
 #include <QtXml/QDomNode>
 #include <QtXml/QDomElement>
@@ -405,10 +405,11 @@ private:
 class TunnelOverseer : public Overseer
 {
 public:
-    TunnelOverseer()
-    {
-        vlink = 0;
-    }
+    TunnelOverseer(NetworkOverseer * net)
+    :
+        network(net),
+        vlink(0)
+    {}
 
     virtual ~TunnelOverseer()
     {
@@ -424,8 +425,10 @@ public:
 
     virtual void addLink(uint idFrom, uint idTo, Link * link)
     {
-        Overseer::addLink(idFrom, idTo, link);
+        Element * from = network->getElementByID(idFrom);
+        Element * to = network->getElementByID(idTo);
         vlink = link;
+        vlink->bindElements(from, to);
     }
 
     virtual void assign(std::set<NetPath> & path, NetworkOverseer const& network)
@@ -435,6 +438,7 @@ public:
 
     Link * getLink() { return vlink; }
 private:
+    NetworkOverseer * network;
     Link * vlink;
     QDomElement tunnel;
 };
@@ -519,7 +523,8 @@ void XMLConverter::parseRequests(QDomNodeList & requests)
 
 void XMLConverter::parseTunnel(QDomElement & tunnel)
 {
-
+    tunnelOverseer = new TunnelOverseer(networkOverseer);
+    tunnelOverseer->parse(tunnel); 
 }
 
 RequestOverseer * XMLConverter::getOverseerByRequest(const Request* request)

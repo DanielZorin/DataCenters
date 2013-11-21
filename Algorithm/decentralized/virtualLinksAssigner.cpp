@@ -1,10 +1,10 @@
 #include "virtualLinksAssigner.h"
 
-#include "algorithm.h"
+#include "common/algorithm.h"
 #include "criteria.h"
-#include "network.h"
-#include "node.h"
-#include "store.h"
+#include "common/network.h"
+#include "common/node.h"
+#include "common/store.h"
 #include "virtualLinkRouter.h"
 
 #include <vector>

@@ -1,11 +1,11 @@
 #include "depthSearcher.h"
 
-#include "node.h"
-#include "network.h"
-#include "store.h"
-#include "link.h"
+#include "common/node.h"
+#include "common/network.h"
+#include "common/store.h"
+#include "common/link.h"
 
-#include "iostream"
+#include <iostream>
 using std::cerr;
 using std::endl;
 

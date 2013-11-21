@@ -1,7 +1,7 @@
 #ifndef HEURISTIC_H
 #define HEURISTIC_H
 
-#include "publicdefs.h"
+#include "common/publicdefs.h"
 
 // base class for heuristic calculation objects
 class Heuristic

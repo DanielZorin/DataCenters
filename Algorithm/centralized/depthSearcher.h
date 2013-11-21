@@ -1,7 +1,7 @@
 #ifndef DEPTHSEARCHER_H
 #define DEPTHSEARCHER_H
 
-#include "publicdefs.h"
+#include "common/publicdefs.h"
 
 #include <map>
 using std::map;

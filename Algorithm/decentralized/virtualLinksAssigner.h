@@ -1,11 +1,11 @@
 #ifndef VIRTUAL_LINKS_ASSIGNER_H_
 #define VIRTUAL_LINKS_ASSIGNER_H_
 
-#include "algorithm.h"
-#include "link.h"
+#include "common/algorithm.h"
+#include "common/link.h"
 #include "elementsAssigner.h"
-#include "request.h"
-#include "assignment.h"
+#include "common/request.h"
+#include "common/assignment.h"
 
 class VirtualLinksAssigner : public ElementsAssigner
 {

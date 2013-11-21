@@ -6,7 +6,7 @@
 #include <vector>
 #include <map>
 #include "internalgraph.h"
-#include "../common/publicdefs.h"
+#include "common/publicdefs.h"
 
 Heuristic * GraphComponent::heurCalc = NULL;
 

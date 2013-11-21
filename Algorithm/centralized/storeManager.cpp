@@ -1,5 +1,5 @@
 #include "storeManager.h"
-#include <store.h>
+#include "common/store.h"
 
 StoreManager::StoreManager(Stores & s)
 :

@@ -1,8 +1,8 @@
 #ifndef ALGORITHMDISPATCHER_H
 #define ALGORITHMDISPATCHER_H
 
-#include "publicdefs.h"
-#include "algorithm.h"
+#include "common/publicdefs.h"
+#include "common/algorithm.h"
 #include <QtCore/QString>
 
 class AlgorithmDispatcher

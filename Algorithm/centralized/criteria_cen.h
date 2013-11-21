@@ -1,7 +1,7 @@
 #ifndef CRITERIA_H
 #define CRITERIA_H
 
-#include "publicdefs.h"
+#include "common/publicdefs.h"
 
 class CriteriaCen
 {

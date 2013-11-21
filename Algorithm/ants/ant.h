@@ -1,15 +1,15 @@
 #ifndef ANT_H
 #define ANT_H
 
-#include "../common/node.h"
-#include "../common/store.h"
-#include "../common/link.h"
-#include "../common/switch.h"
-#include "../common/network.h"
-#include "../common/request.h"
-#include "../common/assignment.h"
-#include "../common/replication.h"
-#include "../common/algorithm.h"
+#include "common/node.h"
+#include "common/store.h"
+#include "common/link.h"
+#include "common/switch.h"
+#include "common/network.h"
+#include "common/request.h"
+#include "common/assignment.h"
+#include "common/replication.h"
+#include "common/algorithm.h"
 #include "internalgraph.h"
 #include "path.h"
 

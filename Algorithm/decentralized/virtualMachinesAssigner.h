@@ -1,9 +1,9 @@
 #ifndef VIRTUAL_MACHINES_ASSIGNER_H_
 #define VIRTUAL_MACHINES_ASSIGNER_H_
 
-#include "node.h"
+#include "common/node.h"
 #include "elementsAssigner.h"
-#include "request.h"
+#include "common/request.h"
 
 class VirtualMachinesAssigner : public ElementsAssigner
 {

@@ -1,7 +1,7 @@
 #include "xmlconverter.h"
 #include "algorithmdispatcher.h"
 
-#include "algorithm.h"
+#include "common/algorithm.h"
 
 #include <iostream>
 using std::cerr;

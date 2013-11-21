@@ -1,9 +1,9 @@
 #ifndef CENTRALIZEDALGORITHM_H
 #define CENTRALIZEDALGORITHM_H
 
-#include "publicdefs.h"
-#include "algorithm.h"
-#include "request.h"
+#include "common/publicdefs.h"
+#include "common/algorithm.h"
+#include "common/request.h"
 
 #include "nodeManager.h"
 #include "storeManager.h"

@@ -1,8 +1,8 @@
 #ifndef NETWORKMANAGER_H
 #define NETWORKMANAGER_H
 
-#include "publicdefs.h"
-#include "algorithm.h"
+#include "common/publicdefs.h"
+#include "common/algorithm.h"
 #include "depthSearcher.h"
 
 #include <set>

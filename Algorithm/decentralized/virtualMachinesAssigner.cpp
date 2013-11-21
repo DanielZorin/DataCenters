@@ -1,9 +1,9 @@
 #include "virtualMachinesAssigner.h"
 
-#include "algorithm.h"
-#include "assignment.h"
+#include "common/algorithm.h"
+#include "common/assignment.h"
 #include "criteria.h"
-#include "network.h"
+#include "common/network.h"
 
 #include <vector>
 #include <algorithm>

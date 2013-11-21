@@ -1,8 +1,8 @@
 #ifndef DECENTRALIZED_ALGORITHM_H
 #define DECENTRALIZED_ALGORITHM_H
 
-#include "algorithm.h"
-#include "request.h"
+#include "common/algorithm.h"
+#include "common/request.h"
 
 // The algorithm of scheduling in data-center with different
 // resource pools schedulers. Three main stages are performed:

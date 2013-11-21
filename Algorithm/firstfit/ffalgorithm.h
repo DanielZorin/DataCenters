@@ -1,8 +1,8 @@
 #ifndef FFALGORITHM_H
 #define FFALGORITHM_H
 
-#include "publicdefs.h"
-#include "algorithm.h"
+#include "common/publicdefs.h"
+#include "common/algorithm.h"
 
 class FirstFitAlgorithm : public Algorithm
 {

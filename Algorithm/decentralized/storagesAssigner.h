@@ -1,9 +1,9 @@
 #ifndef STORAGES_ASSIGNER_H_
 #define STORAGES_ASSIGNER_H_
 
-#include "store.h"
+#include "common/store.h"
 #include "elementsAssigner.h"
-#include "request.h"
+#include "common/request.h"
 
 class StoragesAssigner : public ElementsAssigner
 {

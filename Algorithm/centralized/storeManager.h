@@ -1,7 +1,7 @@
 #ifndef STOREMANAGER_H
 #define STOREMANAGER_H
 
-#include "publicdefs.h"
+#include "common/publicdefs.h"
 
 class StoreManager
 {
