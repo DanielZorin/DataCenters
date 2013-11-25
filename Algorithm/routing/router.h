@@ -58,6 +58,7 @@ public:
 
     virtual bool route() = 0;
     virtual NetPath search() = 0;
+    virtual void print() const = 0;
 
     bool validateInput() const
     {

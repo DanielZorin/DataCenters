@@ -13,9 +13,10 @@ public:
 
     virtual bool route();
     virtual NetPath search();
-    virtual long getEdgeWeight(Link *) const { return 1; }
+    virtual void print() const;
 protected:
     long pathWeight(NetPath & path) const;
+    virtual long getEdgeWeight(Link *) const { return 1; }
 private:
     int depth;
     std::vector<NetPath> pathSet;

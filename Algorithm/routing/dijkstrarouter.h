@@ -15,8 +15,10 @@ public:
 
     virtual bool route();
     virtual NetPath search();
+    virtual void print() const;
 protected:
     virtual long getEdgeWeight(Link * link) const;
+    void printPath(const NetPath & path) const; 
 };
 
 #endif // DIJKSTRAROUTER_H

@@ -39,15 +39,14 @@ int main(int argc, char ** argv)
     DijkstraRouter dRouter(tunnel, network);
 
     if ( dRouter.route() )
-        cerr << "Dijkstra route build succeedeed, got path of length " << dRouter.getPath().size() << endl; 
+       dRouter.print();
     else
         cerr << "Dijkstra route failed" << endl;
 
     KSPRouter kRouter(tunnel, network);
 
     if ( kRouter.route() )
-        cerr << "KShortestPathes succedeed, got path of length " << kRouter.getPath().size() << 
-            " and totally " << kRouter.getAllPathes().size() << " pathes" << endl;
+       kRouter.print();
     else 
         cerr << "KShortestPathes route failed" << endl;
 

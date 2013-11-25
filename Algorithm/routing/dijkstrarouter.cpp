@@ -10,10 +10,10 @@
 
 bool DijkstraRouter::route()
 {
-   decrease();
-   path = search();
-   restore();
-   return !path.empty() && pathCompliesPolicies(path);
+    decrease();
+    path = search();
+    restore();
+    return !path.empty() && pathCompliesPolicies(path);
 }
 
 NetPath DijkstraRouter::search()
@@ -102,7 +102,7 @@ NetPath DijkstraRouter::search()
     Element * other = currentElement;
     NetPath result;
     while ( incomingEdge[currentElement]->getFirst() != link->getFirst() 
-        && incomingEdge[currentElement]->getSecond() != link->getFirst() )
+            && incomingEdge[currentElement]->getSecond() != link->getFirst() )
     {
         result.push_back(incomingEdge[currentElement]);
         other = incomingEdge[currentElement]->getFirst() == currentElement ?
@@ -116,10 +116,35 @@ NetPath DijkstraRouter::search()
     return result;
 }
 
+void DijkstraRouter::print() const
+{
+    printf("Constructed dijkstra path of length %d for link %s between %s and %s as follows:\n",
+            path.size(),
+            link->getName().c_str(),
+            link->getFirst()->getName().c_str(),
+            link->getSecond()->getName().c_str());
+    printPath(path);
+}
+
 long DijkstraRouter::getEdgeWeight(Link * link) const
 {
     if ( link->getSecond()->isSwitch() )
         return link->getMaxCapacity() - link->getCapacity() + 
             link->getSecond()->getMaxCapacity() - link->getSecond()->getCapacity();
     return link->getMaxCapacity() - link->getCapacity();
+}
+
+void DijkstraRouter::printPath(const NetPath & path) const
+{
+    if ( path.empty() )
+        return;
+
+    for ( NetPath::const_iterator i = path.begin(); i != path.end(); i++)
+    {
+        Element * element = *i;
+        printf("%s:%lu", element->getName().c_str(), element->getID());
+        if ( i + 1 != path.end() )
+            printf(" -> ");
+    }
+    printf("\n");
 }

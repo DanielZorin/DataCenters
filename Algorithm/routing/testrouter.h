@@ -15,6 +15,7 @@ public:
 
     virtual bool route();
     virtual NetPath search() { return NetPath(); }
+    virtual void print() const;
 };
 
 #endif //TESTROUTER_H

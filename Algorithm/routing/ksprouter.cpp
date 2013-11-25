@@ -3,6 +3,8 @@
 #include "common/network.h"
 #include "common/link.h"
 
+#include <stdio.h>
+
 KSPRouter::KSPRouter(Link * vl, Network * net, int d)
 :
     DijkstraRouter(vl, net),
@@ -28,8 +30,6 @@ bool KSPRouter::route()
     pathSet = compliedPathSet;
 
     return !path.empty() && pathCompliesPolicies(path);
-
-
 }
 
 NetPath KSPRouter::search()
@@ -96,6 +96,23 @@ NetPath KSPRouter::search()
     }
 
     return shortest;
+}
+
+void KSPRouter::print() const
+{
+    printf("Constructed shortest path of length %d for link %s between %s and %s as follows:\n",
+            path.size(),
+            link->getName().c_str(),
+            link->getFirst()->getName().c_str(),
+            link->getSecond()->getName().c_str());
+    printPath(path);
+
+    if ( pathSet.size() == 1 )
+        return;
+
+    printf("All %d pathes of same length:\n", pathSet.size());
+    for(std::vector<NetPath>::const_iterator i = pathSet.begin(); i != pathSet.end(); i++)
+        printPath(*i);
 }
 
 long KSPRouter::pathWeight(NetPath & path) const
