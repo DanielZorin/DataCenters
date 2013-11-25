@@ -12,6 +12,7 @@ public:
     std::vector<NetPath> getAllPathes() const { return pathSet; }
 
     virtual bool route();
+    virtual NetPath search();
     virtual long getEdgeWeight(Link *) const { return 1; }
 protected:
     long pathWeight(NetPath & path) const;

@@ -14,7 +14,7 @@ public:
     }
 
     virtual bool route();
-    NetPath search();
+    virtual NetPath search();
 protected:
     virtual long getEdgeWeight(Link * link) const;
 };

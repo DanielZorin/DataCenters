@@ -54,9 +54,11 @@ public:
         network(net)
     {}
 
-    virtual ~Router() 
-    {}
+    virtual ~Router() {}
+
     virtual bool route() = 0;
+    virtual NetPath search() = 0;
+
     bool validateInput() const
     {
         return link != 0 && network != 0; 

@@ -17,12 +17,27 @@ bool KSPRouter::route()
         return false;
 
     decrease();
+    path = search();
+    restore();
 
-    NetPath shortest = search();
+    std::vector<NetPath> compliedPathSet;
+    for ( std::vector<NetPath>::iterator i = pathSet.begin(); i != pathSet.end(); i++)
+        if ( pathCompliesPolicies(*i) )
+            compliedPathSet.push_back(*i);
+
+    pathSet = compliedPathSet;
+
+    return !path.empty() && pathCompliesPolicies(path);
+
+
+}
+
+NetPath KSPRouter::search()
+{
+    NetPath shortest = DijkstraRouter::search();
     if ( shortest.empty() )
     {
-        restore();
-        false;
+        return NetPath();
     }
 
     pathSet.push_back(shortest);
@@ -46,7 +61,7 @@ bool KSPRouter::route()
             {
                 Link * l = (Link *)e;
                 links.erase(l);
-                NetPath newPath = search();
+                NetPath newPath = DijkstraRouter::search();
                 if ( newPath.size() == shortest.size() )
                 {
                     isNewPathFound = true;
@@ -80,11 +95,7 @@ bool KSPRouter::route()
         }
     }
 
-    restore();
-
-    path = shortest;
-
-    return pathCompliesPolicies(path);
+    return shortest;
 }
 
 long KSPRouter::pathWeight(NetPath & path) const
