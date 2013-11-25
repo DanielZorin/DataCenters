@@ -84,7 +84,7 @@ bool KSPRouter::route()
 
     path = shortest;
 
-    return true;
+    return pathCompliesPolicies(path);
 }
 
 long KSPRouter::pathWeight(NetPath & path) const

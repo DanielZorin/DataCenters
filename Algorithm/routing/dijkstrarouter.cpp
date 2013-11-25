@@ -13,7 +13,7 @@ bool DijkstraRouter::route()
    decrease();
    path = search();
    restore();
-   return !path.empty();
+   return !path.empty() && pathCompliesPolicies(path);
 }
 
 NetPath DijkstraRouter::search()
@@ -28,7 +28,7 @@ NetPath DijkstraRouter::search()
         return NetPath();
 
     std::set<ElementWeight, WeightCompare> elementsToParse;
-    std::map<Element * , Link*> incomingEdge;
+    std::map<Element * , Link *> incomingEdge;
     std::map<Element * , std::vector<Link *> > elementLinks;
 
     Links & links = network->getLinks();
@@ -47,11 +47,11 @@ NetPath DijkstraRouter::search()
     elementsToParse.insert(ElementWeight(link->getSecond(), LONG_MAX));
     Element * currentElement = link->getFirst();
 
-    Link edge("dijkstra edge", 0);
-    ElementWeight temp(NULL, -LONG_MAX);
+    Link edge("dijkstraedge", 0);
+    ElementWeight temp(0, -LONG_MAX);
     std::set<ElementWeight, WeightCompare>::iterator tempIter;
     long curWeight = 0;
-    while ( currentElement != NULL && currentElement != link->getSecond() )
+    while ( currentElement != 0 && currentElement != link->getSecond() )
     {
         temp.element = currentElement;
         tempIter = elementsToParse.find(temp);
@@ -63,8 +63,8 @@ NetPath DijkstraRouter::search()
             return NetPath();
 
         std::vector<Link *>& curLinks = elementLinks[currentElement];
-        unsigned int sz = curLinks.size();
-        for(unsigned int index = 0; index < sz; ++ index)
+        unsigned int size = curLinks.size();
+        for(unsigned int index = 0; index < size; index++)
         {
             Link * cur = curLinks[index];
             Element * other = cur->getFirst() == currentElement ?
@@ -107,7 +107,7 @@ NetPath DijkstraRouter::search()
         result.push_back(incomingEdge[currentElement]);
         other = incomingEdge[currentElement]->getFirst() == currentElement ?
             incomingEdge[currentElement]->getSecond() : incomingEdge[currentElement]->getFirst();
-        result.push_back(static_cast<NetworkingElement *>(other));
+        result.push_back((NetworkingElement *)other);
         currentElement = other;
     }
     result.push_back(incomingEdge[other]);
