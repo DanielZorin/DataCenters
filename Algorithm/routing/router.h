@@ -64,6 +64,7 @@ public:
 
     virtual NetPath getPath() const { return path; }
     SearchAlgorithm algorithm() const { return type; }
+    virtual bool pathCompliesPolicies(NetPath & path) const { return true; }
 
 protected:
     void decrease();
