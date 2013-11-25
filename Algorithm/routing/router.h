@@ -54,19 +54,28 @@ public:
         network(net)
     {}
 
-    virtual ~Router() {}
-    virtual bool route()
+    virtual ~Router() 
+    {}
+    virtual bool route() = 0;
+    bool validateInput() const
     {
-        return link != 0 && network != 0;
+        return link != 0 && network != 0; 
     }
 
     virtual NetPath getPath() const { return path; }
     SearchAlgorithm algorithm() const { return type; }
+
+protected:
+    void decrease();
+    void restore();
+
 protected:
     SearchAlgorithm type;
     Link * link;
     Network * network;
     NetPath path;
+    Links omittedLinks;
+    Switches omittedSwitches;
 };
 
 #endif // ROUTER_H

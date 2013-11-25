@@ -6,7 +6,7 @@
 
 bool TestRouter::route()
 {
-    if ( !Router::route() )
+    if ( !validateInput() )
         return false;
 
     printf("[test] Requested to route link %s from node %s to node %s\n",

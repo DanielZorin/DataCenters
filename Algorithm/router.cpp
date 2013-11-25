@@ -10,6 +10,8 @@ using std::endl;
 #include <QtCore/QTextStream>
 
 #include "routing/testrouter.h"
+#include "routing/dijkstrarouter.h"
+#include "routing/ksprouter.h"
 
 int main(int argc, char ** argv)
 {
@@ -34,9 +36,20 @@ int main(int argc, char ** argv)
     Network * network = converter->getNetwork();
     Link * tunnel = converter->getTunnel();
 
-    Router * router = new TestRouter(tunnel, network);
-    if ( router->route() )
-       cerr << "[RT] route succeeded" << endl;
+    DijkstraRouter dRouter(tunnel, network);
+
+    if ( dRouter.route() )
+        cerr << "Dijkstra route build succeedeed, got path of length " << dRouter.getPath().size() << endl; 
+    else
+        cerr << "Dijkstra route failed" << endl;
+
+    KSPRouter kRouter(tunnel, network);
+
+    if ( kRouter.route() )
+        cerr << "KShortestPathes succedeed, got path of length " << kRouter.getPath().size() << 
+            " and totally " << kRouter.getAllPathes().size() << " pathes" << endl;
+    else 
+        cerr << "KShortestPathes route failed" << endl;
 
     delete converter;
     return 0;

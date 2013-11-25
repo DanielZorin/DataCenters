@@ -10,33 +10,38 @@
 
 bool DijkstraRouter::route()
 {
-    if ( !Router::route() )
+   decrease();
+   path = search();
+   restore();
+   return !path.empty();
+}
+
+NetPath DijkstraRouter::search()
+{
+    if ( !validateInput() )
     {
         printf("[RD]Wrong input\n");
-        return false;
+        return NetPath();
     }
 
     if ( link->getFirst() == link->getSecond() )
-        return false;
+        return NetPath();
 
     std::set<ElementWeight, WeightCompare> elementsToParse;
     std::map<Element * , Link*> incomingEdge;
     std::map<Element * , std::vector<Link *> > elementLinks;
 
-    Links::iterator it = network->getLinks().begin();
-    Links::iterator itEnd = network->getLinks().end();
-    std::vector<Link *> * vecLinks = NULL;
-    for ( ; it != itEnd; ++it )
+    Links & links = network->getLinks();
+    for ( Links::iterator i = links.begin(); i != links.end(); i++ )
     {
-        if ((*it)->getFirst() != link->getFirst())
-            elementsToParse.insert(ElementWeight((*it)->getFirst(), LONG_MAX)); 
-        if ((*it)->getSecond() != link->getFirst())
-            elementsToParse.insert(ElementWeight((*it)->getSecond(), LONG_MAX));
+        Link * l = *i;
+        if ( l->getFirst() != link->getFirst() )
+            elementsToParse.insert(ElementWeight(l->getFirst(), LONG_MAX)); 
+        if ( l->getSecond() != link->getFirst() )
+            elementsToParse.insert(ElementWeight(l->getSecond(), LONG_MAX));
 
-        vecLinks = &elementLinks[(*it)->getFirst()];
-        vecLinks->push_back(*it);
-        vecLinks = &elementLinks[(*it)->getSecond()];
-        vecLinks->push_back(*it);
+        elementLinks[l->getFirst()].push_back(l);
+        elementLinks[l->getSecond()].push_back(l);
     }
     elementsToParse.insert(ElementWeight(link->getFirst(), 0));
     elementsToParse.insert(ElementWeight(link->getSecond(), LONG_MAX));
@@ -55,7 +60,7 @@ bool DijkstraRouter::route()
         elementsToParse.erase(tempIter);
 
         if ( elementLinks.find(currentElement) == elementLinks.end() )
-            return false;
+            return NetPath();
 
         std::vector<Link *>& curLinks = elementLinks[currentElement];
         unsigned int sz = curLinks.size();
@@ -88,26 +93,27 @@ bool DijkstraRouter::route()
         if (elementsToParse.begin()->weight != LONG_MAX) 
             currentElement = elementsToParse.begin()->element;
         else
-            return false;
+            return NetPath();
     }
 
     if ( currentElement != link->getSecond() )
-        return false;
+        return NetPath();
 
     Element * other = currentElement;
+    NetPath result;
     while ( incomingEdge[currentElement]->getFirst() != link->getFirst() 
         && incomingEdge[currentElement]->getSecond() != link->getFirst() )
     {
-        path.push_back(incomingEdge[currentElement]);
+        result.push_back(incomingEdge[currentElement]);
         other = incomingEdge[currentElement]->getFirst() == currentElement ?
             incomingEdge[currentElement]->getSecond() : incomingEdge[currentElement]->getFirst();
-        path.push_back(static_cast<NetworkingElement *>(other));
+        result.push_back(static_cast<NetworkingElement *>(other));
         currentElement = other;
     }
-    path.push_back(incomingEdge[other]);
+    result.push_back(incomingEdge[other]);
     
-    std::reverse(path.begin(), path.end());
-    return true;
+    std::reverse(result.begin(), result.end());
+    return result;
 }
 
 long DijkstraRouter::getEdgeWeight(Link * link) const

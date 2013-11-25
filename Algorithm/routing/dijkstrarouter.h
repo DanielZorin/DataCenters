@@ -14,8 +14,9 @@ public:
     }
 
     virtual bool route();
-private:
-    long getEdgeWeight(Link * link) const;
+    NetPath search();
+protected:
+    virtual long getEdgeWeight(Link * link) const;
 };
 
 #endif // DIJKSTRAROUTER_H
