@@ -1,10 +1,8 @@
 #ifndef ELEMENTFACTORY_H
 #define ELEMENTFACTORY_H
 
-class Computer;
-class Store;
-class Switch;
-class Link;
+#include "common/defs.h"
+
 class QDomElement;
 
 class ElementXMLFactory
