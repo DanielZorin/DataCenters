@@ -86,6 +86,12 @@ public:
     inline bool isAvailable() const { return isPhysical() && available; }
     inline bool isAssigned() const { return isVirtual() && assigned; }
 
+    inline Node * toNode() const {
+        if ( !isNode() )
+           return 0;
+        return (Node *)this; 
+    }
+
     inline Computer * toComputer() const {
         if ( !isComputer() )
            return 0;
@@ -102,6 +108,12 @@ public:
         if ( !isSwitch() )
             return 0;
         return (Switch *)this;
+    }
+
+    inline Edge * toEdge() const {
+        if ( !isEdge() )
+            return 0;
+        return (Edge *)this;
     }
 
     inline Link * toLink() const {

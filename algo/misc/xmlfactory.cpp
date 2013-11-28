@@ -4,6 +4,8 @@
 #include "store.h"
 #include "link.h"
 #include "switch.h"
+#include "network.h"
+#include "request.h"
 
 #include <QtXml/QDomElement>
 

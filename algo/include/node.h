@@ -10,16 +10,11 @@ public:
         return edges;
     }
 
-    void addEdge(Element * edge) {
+    bool addEdge(Element * edge) {
         if ( !edge->isEdge() )
-            return;
+            return false;
         edges.insert(edge);
-    }
-
-    void removeEdge(Element * edge) {
-        if ( !edge->isEdge() )
-            return;
-        edges.erase(edge);
+        return true;
     }
 
 private:
