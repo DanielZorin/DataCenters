@@ -1,11 +1,10 @@
-#ifndef ELEMENTFACTORY_H
-#define ELEMENTFACTORY_H
+#pragma once
 
-#include "common/defs.h"
+#include "defs.h"
 
 class QDomElement;
 
-class ElementXMLFactory
+class XMLFactory
 {
 public:
     static Computer * createComputer(const QDomElement & element);
@@ -13,5 +12,3 @@ public:
     static Switch * createSwitch(const QDomElement & element);
     static Link * createLink(const QDomElement & element);
 };
-
-#endif // ELEMENTFACTORY_H

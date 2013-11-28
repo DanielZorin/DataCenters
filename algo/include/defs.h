@@ -1,6 +1,4 @@
-#ifndef DEFS_H
-#define DEFS_H
-
+#pragma once
 
 #include <set>
 
@@ -19,15 +17,13 @@ typedef std::set<Store *> Stores;
 class Switch;
 typedef std::set<Switch *> Switches;
 
+class Edge;
+typedef std::set<Edge *> Edges;
+
 class Link;
 typedef std::set<Link *> Links;
 
-class Assignment;
-typedef std::set<Assignment *> Assignments;
-
+class Graph;
+class Network;
 class Request;
 typedef std::set<Request *> Requests;
-
-class Network;
-
-#endif // DEFS_H
