@@ -6,6 +6,7 @@
 #include "switch.h"
 #include "network.h"
 #include "request.h"
+#include "operation.h"
 
 #include <QtXml/QDomElement>
 

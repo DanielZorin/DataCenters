@@ -15,7 +15,7 @@ private:
     }
 
     virtual bool typeCheck(const Element * other) const {
-        return other->isComputer();
+        return isComputer(other);
     }
 
     virtual bool attributeCheck(const Element * other) const {

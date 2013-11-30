@@ -1,46 +1,32 @@
 #pragma once
 
 #include "graph.h"
+#include "element.h"
+#include "operation.h"
 
 class Network : public Graph {
 public:
-    const Computers & getComputers() const {
-        return computers;
+    Network(const Elements & e) {
+        elements = Operation::filter(e, Element::isPhysical);
     }
 
-    const Stores & getStores() const {
-        return stores;
+    inline Elements availableElements() const {
+        return Operation::filter(getElements(), Element::isAvailable);
     }
 
-    const Switches & getSwitches() const {
-        return switches;
+    inline Elements getComputers() const {
+        return Operation::filter(getElements(), Element::isComputer);
     }
 
-    const Links & getLinks() const {
-        return links;
+    inline Elements getStores() const {
+        return Operation::filter(getElements(), Element::isStore);
     }
 
-    virtual Nodes & getNodes() {
-        if ( nodes.empty() ) {
-            for (Computers::iterator i = computers.begin(); i != computers.end(); i++)
-                nodes.insert(*i);
-            for (Stores::iterator i = stores.begin(); i != stores.end(); i++)
-                nodes.insert(*i);
-            for (Switches::iterator i = switches.begin(); i != switches.end(); i++)
-                nodes.insert(*i);
-        }
-        return nodes;
+    inline Elements getSwitches() const {
+        return Operation::filter(getElements(), Element::isSwitch);
     }
 
-    virtual Edges & getEdges() {
-        if ( edges.empty() )
-            for( Links::iterator i = links.begin(); i != links.end(); i++)
-                edges.insert(*i);
-        return edges;
+    inline Elements getLinks() const {
+        return Operation::filter(getElements(), Element::isLink);
     }
-private:
-    Computers computers;
-    Stores stores;
-    Switches switches;
-    Links links;
 };

@@ -11,7 +11,7 @@ private:
     }
 
     virtual bool typeCheck(const Element * other) const {
-        return other->isLink();
+        return Element::isLink(other);
     }
 
     virtual bool attributeCheck(const Element * other) const {

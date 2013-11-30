@@ -1,25 +1,22 @@
 #pragma once
 
 #include "defs.h"
+#include "operation.h"
 
 class Graph {
 public:
-    virtual Nodes & getNodes() = 0;
-    virtual Edges & getEdges() = 0;
-    const Elements & getElements() {
-        if ( elements.empty() ) {
-            getNodes();
-            getEdges();
-            for (Nodes::iterator i = nodes.begin(); i != nodes.end(); i++)
-                elements.insert(*i);
-            for (Edges::iterator i = edges.begin(); i != edges.end(); i++)
-                elements.insert(*i);
-        }
+    inline const Elements & getElements() const {
         return elements;
     }
+
+    inline Elements getNodes() const {
+        return Operation::filter(getElements(), Element::isNode);
+    }
+    
+    inline Elements getEdges() const {
+        return Operation::filter(getElements(), Element::isEdge);
+    }
+
 protected:
-    Nodes nodes;
-    Edges edges;
-private:
     Elements elements;
 };

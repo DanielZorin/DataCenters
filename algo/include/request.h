@@ -1,77 +1,32 @@
 #pragma once
 
 #include "graph.h"
+#include "element.h"
+#include "operation.h"
 
 class Request : public Graph {
 public:
-    const Computers & getMachines() const {
-        return machines;
+    Request(const Elements & e) {
+        elements = Operation::filter(e, Element::isVirtual);
+    }
+    inline Elements assignedElements() const {
+        return Operation::filter(getElements(), Element::isAssigned);
     }
 
-    const Stores & getStorages() const {
-        return storages;
+    inline Elements elementsToAssign() const {
+        Elements assigned = assignedElements();
+        return Operation::minus(getElements(), assigned);
     }
 
-    const Links & getTunnels() const {
-        return tunnels;
+    inline Elements getMachines() const {
+        return Operation::filter(getElements(), Element::isComputer);
     }
 
-    virtual Nodes & getNodes() {
-        if ( nodes.empty() ) {
-            for (Computers::iterator i = machines.begin(); i != machines.end(); i++)
-                nodes.insert(*i);
-            for (Stores::iterator i = storages.begin(); i != storages.end(); i++)
-                nodes.insert(*i);
-        }
-        return nodes;
+    inline Elements getStorages() const {
+        return Operation::filter(getElements(), Element::isStore);
     }
 
-    virtual Edges & getEdges() {
-        if ( edges.empty() )
-            for (Links::iterator i = tunnels.begin(); i != tunnels.end(); i++)
-                edges.insert(*i);
-        return edges;
+    inline Elements getTunnels() const {
+        return Operation::filter(getElements(), Element::isLink);
     }
-
-    bool addMachine(Element * element) {
-        if ( !element->isVirtual() )
-            return false;
-
-        if ( !element->isComputer() )
-            return false;
-
-        Computer * machine = element->toComputer();
-        machines.insert(machine);
-    }
-
-    bool addStorage(Element * element) {
-        if ( !element->isVirtual() )
-            return false;
-
-        if ( !element->isStore() )
-            return false;
-
-        Store * storage = element->toStore();
-        storages.insert(storage);
-    }
-
-    bool addLink(Element * element) {
-        if ( !element->isVirtual() )
-            return false;
-
-        if ( !element->isLink() )
-            return false;
-
-        Link * link = element->toLink();
-        Nodes & nodes = getNodes();
-        if ( nodes.find(link->getFirst()) == nodes.end() ) return false;
-        if ( nodes.find(link->getSecond()) == nodes.end() ) return false;
-
-        tunnels.insert(link);
-    }
-
-private:
-    Computers machines;
-    Stores storages;
-    Links tunnels;
 };

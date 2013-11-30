@@ -31,10 +31,10 @@ public:
     } 
     
     bool canHostAssignment(const Element * other ) const {
-        if ( isVirtual() ) return false;
-        if ( !other->isVirtual() ) return false;
+        if ( Element::isVirtual(this) ) return false;
+        if ( !Element::isVirtual(other) ) return false;
 
-        if ( !isAvailable() ) return false;
+        if ( !Element::isAvailable(this) ) return false;
         
         if ( !typeCheck(other) ) return false;
         if ( !attributeCheck(other) ) return false;
@@ -58,6 +58,7 @@ public:
         decreaseResources(other);
         
         other->assignee = this;
+        other->assigned = true;
         assignments.insert(other);
         return true;
     }
@@ -70,57 +71,96 @@ public:
         restoreResources(other);
 
         other->assignee = 0;
+        other->assigned = false;
         assignments.erase(a);
     }
+
 public:
-    inline bool isComputer() const { return type & COMPUTER; }
-    inline bool isStore() const { return type & STORE;}
-    inline bool isSwitch() const { return type & SWITCH; }
-    inline bool isLink() const { return type & LINK; }
-    inline bool isComputational() const { return type & COMPUTATIONAL; }
-    inline bool isNetwork() const { return type & NETWORK; }
-    inline bool isNode() const { return type & NODE; }
-    inline bool isEdge() const { return isLink(); }
-    inline bool isPhysical() const { return physical; }
-    inline bool isVirtual() const { return !physical; }
-    inline bool isAvailable() const { return isPhysical() && available; }
-    inline bool isAssigned() const { return isVirtual() && assigned; }
+    inline static bool isComputer(const Element * e) { 
+        return e->type & COMPUTER; 
+    }
+
+    inline static bool isStore(const Element * e) {
+        return e->type & STORE;
+    }
+
+    inline static bool isSwitch(const Element * e) { 
+        return e->type & SWITCH;
+    }
+
+    inline static bool isLink(const Element * e) { 
+        return e->type & LINK;
+    }
+
+    inline static bool isComputational(const Element * e) {
+        return e->type & COMPUTATIONAL;
+    }
+
+    inline static bool isNetwork(const Element * e) {
+        return e->type & NETWORK;
+    }
+
+    inline static bool isNode(const Element * e) {
+        return e->type & NODE;
+    }
+
+    inline static bool isEdge(const Element * e) {
+        return isLink(e);
+    }
+
+    inline static bool isPhysical(const Element * e) {
+        return e->physical;
+    }
+
+    inline static bool isVirtual(const Element * e) {
+        return !e->physical;
+    }
+
+    inline static bool isAvailable(const Element * e) {
+        return isPhysical(e) && e->available;
+    }
+
+    inline static bool isAssigned(const Element * e) {
+        return isVirtual(e) && e->assigned;
+    }
 
     inline Node * toNode() const {
-        if ( !isNode() )
+        if ( !isNode(this) )
            return 0;
         return (Node *)this; 
     }
 
     inline Computer * toComputer() const {
-        if ( !isComputer() )
+        if ( !isComputer(this) )
            return 0;
         return (Computer *)this; 
     }
 
     inline Store * toStore() const {
-        if ( !isStore() )
+        if ( !isStore(this) )
             return 0;
         return (Store *)this;
     }
 
     inline Switch * toSwitch() const {
-        if ( !isSwitch() )
+        if ( !isSwitch(this) )
             return 0;
         return (Switch *)this;
     }
 
     inline Edge * toEdge() const {
-        if ( !isEdge() )
+        if ( !isEdge(this) )
             return 0;
         return (Edge *)this;
     }
 
     inline Link * toLink() const {
-        if ( !isLink() )
-            return 0;
+        if ( !isLink(this) )
+           return 0;
         return (Link *)this;
     }
+
+
 protected:
     Type type;
     bool physical;

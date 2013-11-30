@@ -15,7 +15,7 @@ private:
     }
 
     virtual bool typeCheck(const Element * other) const {
-        return other->isStore();
+        return Element::isStore(other);
     }
 
     virtual bool attributeCheck(const Element * other) const {

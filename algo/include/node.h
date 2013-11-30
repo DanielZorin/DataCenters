@@ -10,10 +10,10 @@ public:
         return edges;
     }
 
-    bool addEdge(Element * edge) {
-        if ( !edge->isEdge() )
+    bool addEdge(Element * element) {
+        if ( Element::isEdge(element) )
             return false;
-        edges.insert(edge);
+        edges.insert(element);
         return true;
     }
 
