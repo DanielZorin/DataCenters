@@ -9,6 +9,7 @@ public:
     Request(const Elements & e) {
         elements = Operation::filter(e, Element::isVirtual);
     }
+
     inline Elements assignedElements() const {
         return Operation::filter(getElements(), Element::isAssigned);
     }
@@ -28,5 +29,9 @@ public:
 
     inline Elements getTunnels() const {
         return Operation::filter(getElements(), Element::isLink);
+    }
+
+    inline bool isAssigned() const {
+        return elementsToAssign().empty(); 
     }
 };

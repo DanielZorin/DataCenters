@@ -17,6 +17,11 @@ public:
         return true;
     }
 
+    bool hasEdge(Element * element) {
+        if ( !Element::isEdge(element) ) return false;
+        return edges.find(element) != edges.end(); 
+    }
+
 private:
     Elements edges;
 };

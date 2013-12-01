@@ -7,6 +7,7 @@
 #include "network.h"
 #include "request.h"
 #include "operation.h"
+#include "path.h"
 
 #include <QtXml/QDomElement>
 
