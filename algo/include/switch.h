@@ -2,6 +2,7 @@
 
 #include "node.h"
 #include "link.h"
+#include "criteria.h"
 
 class Switch : public Node {
     friend class XMLFactory;
@@ -11,13 +12,8 @@ private:
     }
 
     virtual bool typeCheck(const Element * other) const {
-        return Element::isLink(other);
+        return Criteria::isLink(other);
     }
-
-    virtual bool attributeCheck(const Element * other) const {
-        Link * link = other->toLink();
-        return (attributes & link->attributes) == link->attributes;
-    } 
 
     virtual bool physicalCheck(const Element * other) const {
         Link * link = other->toLink();
@@ -36,6 +32,5 @@ private:
     }
 
 private:
-    Link::Attributes attributes;
     long throughput;
 };

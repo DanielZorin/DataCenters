@@ -3,6 +3,8 @@
 #include "defs.h"
 
 class Element {
+    friend class XMLFactory;
+    friend class Criteria;
 public:
     enum Type {
         NONE            = 0x0,
@@ -19,10 +21,14 @@ protected:
 
     virtual bool typeCheck(const Element * other) const = 0;
     virtual bool physicalCheck(const Element * other) const = 0;
-    virtual bool attributeCheck(const Element * other) const = 0;
+    virtual bool attributeCheck(const Element * other) const {
+        return ( attributes & other->attributes) == other->attributes;
+    }
 
     virtual void decreaseResources(const Element * other) = 0;
     virtual void restoreResources(const Element * other) = 0;
+    
+    virtual unsigned long weight() const { return 0; }
 public:
     virtual ~Element() {}
 
@@ -31,10 +37,10 @@ public:
     } 
     
     bool canHostAssignment(const Element * other ) const {
-        if ( Element::isVirtual(this) ) return false;
-        if ( !Element::isVirtual(other) ) return false;
+        if ( isVirtual() ) return false;
+        if ( !other->isVirtual() ) return false;
 
-        if ( !Element::isAvailable(this) ) return false;
+        if ( !isAvailable() ) return false;
         
         if ( !typeCheck(other) ) return false;
         if ( !attributeCheck(other) ) return false;
@@ -58,7 +64,6 @@ public:
         decreaseResources(other);
         
         other->assignee = this;
-        other->assigned = true;
         assignments.insert(other);
         return true;
     }
@@ -71,91 +76,90 @@ public:
         restoreResources(other);
 
         other->assignee = 0;
-        other->assigned = false;
         assignments.erase(a);
     }
 
 public:
-    inline static bool isComputer(const Element * e) { 
-        return e->type & COMPUTER; 
+    inline bool isComputer() const { 
+        return type & COMPUTER; 
     }
 
-    inline static bool isStore(const Element * e) {
-        return e->type & STORE;
+    inline bool isStore() const {
+        return type & STORE;
     }
 
-    inline static bool isSwitch(const Element * e) { 
-        return e->type & SWITCH;
+    inline bool isSwitch() const { 
+        return type & SWITCH;
     }
 
-    inline static bool isLink(const Element * e) { 
-        return e->type & LINK;
+    inline bool isLink() const { 
+        return type & LINK;
     }
 
-    inline static bool isComputational(const Element * e) {
-        return e->type & COMPUTATIONAL;
+    inline  bool isComputational() const {
+        return type & COMPUTATIONAL;
     }
 
-    inline static bool isNetwork(const Element * e) {
-        return e->type & NETWORK;
+    inline  bool isNetwork() const {
+        return type & NETWORK;
     }
 
-    inline static bool isNode(const Element * e) {
-        return e->type & NODE;
+    inline  bool isNode() const {
+        return type & NODE;
     }
 
-    inline static bool isEdge(const Element * e) {
-        return isLink(e);
+    inline  bool isEdge() const {
+        return isLink();
     }
 
-    inline static bool isPhysical(const Element * e) {
-        return e->physical;
+    inline  bool isPhysical() const {
+        return physical;
     }
 
-    inline static bool isVirtual(const Element * e) {
-        return !e->physical;
+    inline  bool isVirtual() const {
+        return !physical;
     }
 
-    inline static bool isAvailable(const Element * e) {
-        return isPhysical(e) && e->available;
+    inline  bool isAvailable() const {
+        return isPhysical() && available;
     }
 
-    inline static bool isAssigned(const Element * e) {
-        return isVirtual(e) && e->assigned;
+    inline  bool isAssigned() const {
+        return isVirtual() && assignee != 0;
     }
 
     inline Node * toNode() const {
-        if ( !isNode(this) )
+        if ( !isNode() )
            return 0;
         return (Node *)this; 
     }
 
     inline Computer * toComputer() const {
-        if ( !isComputer(this) )
+        if ( !isComputer() )
            return 0;
         return (Computer *)this; 
     }
 
     inline Store * toStore() const {
-        if ( !isStore(this) )
+        if ( !isStore() )
             return 0;
         return (Store *)this;
     }
 
     inline Switch * toSwitch() const {
-        if ( !isSwitch(this) )
+        if ( !isSwitch() )
             return 0;
         return (Switch *)this;
     }
 
     inline Edge * toEdge() const {
-        if ( !isEdge(this) )
+        if ( !isEdge() )
             return 0;
         return (Edge *)this;
     }
 
     inline Link * toLink() const {
-        if ( !isLink(this) )
+        if ( !isLink() )
            return 0;
         return (Link *)this;
     }
@@ -165,7 +169,7 @@ protected:
     Type type;
     bool physical;
     bool available;
-    bool assigned;
+    int attributes;
     Element * assignee;
     Elements assignments;
 };

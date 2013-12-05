@@ -3,15 +3,16 @@
 #include "graph.h"
 #include "element.h"
 #include "operation.h"
+#include "criteria.h"
 
 class Request : public Graph {
 public:
     Request(const Elements & e) {
-        elements = Operation::filter(e, Element::isVirtual);
+        elements = Operation::filter(e, Criteria::isVirtual);
     }
 
     inline Elements assignedElements() const {
-        return Operation::filter(getElements(), Element::isAssigned);
+        return Operation::filter(getElements(), Criteria::isAssigned);
     }
 
     inline Elements elementsToAssign() const {
@@ -20,15 +21,15 @@ public:
     }
 
     inline Elements getMachines() const {
-        return Operation::filter(getElements(), Element::isComputer);
+        return Operation::filter(getElements(), Criteria::isComputer);
     }
 
     inline Elements getStorages() const {
-        return Operation::filter(getElements(), Element::isStore);
+        return Operation::filter(getElements(), Criteria::isStore);
     }
 
     inline Elements getTunnels() const {
-        return Operation::filter(getElements(), Element::isLink);
+        return Operation::filter(getElements(), Criteria::isLink);
     }
 
     inline bool isAssigned() const {

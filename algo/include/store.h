@@ -1,6 +1,7 @@
 #pragma once
 
 #include "node.h"
+#include "criteria.h"
 
 class Store : public Node {
     friend class XMLFactory;
@@ -15,12 +16,7 @@ private:
     }
 
     virtual bool typeCheck(const Element * other) const {
-        return Element::isStore(other);
-    }
-
-    virtual bool attributeCheck(const Element * other) const {
-        Store * storage = other->toStore();
-        return (attributes & storage->attributes) == storage->attributes;
+        return Criteria::isStore(other);
     }
 
     virtual bool physicalCheck(const Element * other) const {
@@ -45,7 +41,6 @@ private:
         writerate += writerate;
     }
 private:
-    Attributes attributes;
     long capacity;
     long readrate;
     long writerate;

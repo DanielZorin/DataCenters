@@ -15,12 +15,7 @@ private:
     }
 
     virtual bool typeCheck(const Element * other) const {
-        return isComputer(other);
-    }
-
-    virtual bool attributeCheck(const Element * other) const {
-        Computer * vm = other->toComputer();
-        return (attributes & vm->attributes) == vm->attributes; 
+        return other->isComputer();
     }
 
     virtual bool physicalCheck(const Element * other) const {
@@ -45,5 +40,4 @@ private:
 private:
     int cores;
     long ram;
-    Attributes attributes;
 };

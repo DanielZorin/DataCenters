@@ -1,6 +1,7 @@
 #pragma once
 
 #include "element.h"
+#include "criteria.h"
 
 class Node : public Element {
 protected:
@@ -11,14 +12,14 @@ public:
     }
 
     bool addEdge(Element * element) {
-        if ( Element::isEdge(element) )
+        if ( Criteria::isEdge(element) )
             return false;
         edges.insert(element);
         return true;
     }
 
     bool hasEdge(Element * element) {
-        if ( !Element::isEdge(element) ) return false;
+        if ( !Criteria::isEdge(element) ) return false;
         return edges.find(element) != edges.end(); 
     }
 

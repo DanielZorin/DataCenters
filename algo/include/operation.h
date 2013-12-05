@@ -16,6 +16,16 @@ namespace Operation {
         return result;
     } 
 
+    Elements filter(const Elements & elements, const Element * target, bool (*criterion)(const Element *, const Element *)) {
+        Elements result;
+        for ( Elements::iterator e = elements.begin(); e != elements.end(); e++) {
+            Element * element = *e;
+            if ( criterion(element, target) )
+                result.insert(element);
+        }
+        return result;
+    }
+
     Elements intersect(const Elements & first, const Elements & second) {
         Elements result;
         if ( first.empty() ) return result;

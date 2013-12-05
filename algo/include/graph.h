@@ -2,6 +2,7 @@
 
 #include "defs.h"
 #include "operation.h"
+#include "criteria.h"
 
 class Graph {
 public:
@@ -10,11 +11,11 @@ public:
     }
 
     inline Elements getNodes() const {
-        return Operation::filter(getElements(), Element::isNode);
+        return Operation::filter(getElements(), Criteria::isNode);
     }
     
     inline Elements getEdges() const {
-        return Operation::filter(getElements(), Element::isEdge);
+        return Operation::filter(getElements(), Criteria::isEdge);
     }
 
 protected:

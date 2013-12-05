@@ -3,30 +3,31 @@
 #include "graph.h"
 #include "element.h"
 #include "operation.h"
+#include "criteria.h"
 
 class Network : public Graph {
 public:
     Network(const Elements & e) {
-        elements = Operation::filter(e, Element::isPhysical);
+        elements = Operation::filter(e, Criteria::isPhysical);
     }
 
     inline Elements availableElements() const {
-        return Operation::filter(getElements(), Element::isAvailable);
+        return Operation::filter(getElements(), Criteria::isAvailable);
     }
 
     inline Elements getComputers() const {
-        return Operation::filter(getElements(), Element::isComputer);
+        return Operation::filter(getElements(), Criteria::isComputer);
     }
 
     inline Elements getStores() const {
-        return Operation::filter(getElements(), Element::isStore);
+        return Operation::filter(getElements(), Criteria::isStore);
     }
 
     inline Elements getSwitches() const {
-        return Operation::filter(getElements(), Element::isSwitch);
+        return Operation::filter(getElements(), Criteria::isSwitch);
     }
 
     inline Elements getLinks() const {
-        return Operation::filter(getElements(), Element::isLink);
+        return Operation::filter(getElements(), Criteria::isLink);
     }
 };
