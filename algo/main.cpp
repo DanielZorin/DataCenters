@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "computer.h"
-#include "misc/xmlfactory.h"
 
 
 int main(int argc, char ** argv)

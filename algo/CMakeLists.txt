@@ -10,7 +10,7 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}
       include/
       )
 SET ( COMPONENTS
-      misc
+      interface
       )
 
 FOREACH(COMPONENT ${COMPONENTS})

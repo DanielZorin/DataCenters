@@ -10,6 +10,14 @@
 #include <QtXml/QDomElement>
 #include <QtXml/QDomNodeList>
 
+XMLFactory::XMLFactory(const QString & contents)
+:
+    Factory(),
+    document(contents)
+{
+
+}
+
 Computer * XMLFactory::createComputer(const QDomElement & element) {
     Computer * computer = new Computer();
     elementsXML.insert(computer, element);

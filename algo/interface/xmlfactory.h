@@ -1,18 +1,17 @@
 #pragma once
 
-#include "defs.h"
+#include "factory.h"
 
 #include <QMap>
 #include <QtXml/QDomDocument>
 
 class QDomElement;
 
-class XMLFactory
+class XMLFactory : public Factory
 {
+public:
     XMLFactory(const QString & contents);
-    QString getXML() const;
-    Network * getNetwork() const { return network; }
-    Requests getRequests() const { return requests; }
+    virtual QString getResult() const { return getXML(); }
 private:
     Computer * createComputer(const QDomElement & element);
     Store * createStore(const QDomElement & element);
@@ -20,10 +19,10 @@ private:
     Link * createLink(const QDomElement & element);
     Request * createRequest(const QDomElement & element);
     Network * createNetwork(const QDomElement & element);
+
+    QString getXML() const;
 private:
     QDomDocument document;
-    Network * network;
-    Requests requests;
     QMap<Element *, QDomElement> elementsXML;
     QMap<Request *, QDomElement> requestsXML;
 };
