@@ -6,15 +6,6 @@
 #include "criteria.h"
 
 #include <iostream>
-DecentralizedAlgorithm::~DecentralizedAlgorithm()
-{
-    Assignments::iterator it = assignments.begin();
-    Assignments::iterator itEnd = assignments.end();
-    for ( ; it != itEnd; ++it )
-        delete (*it);
-    assignments.clear();
-}
-
 Algorithm::Result DecentralizedAlgorithm::schedule()
 {
     Criteria::identifyPackMode(&requests, network);
