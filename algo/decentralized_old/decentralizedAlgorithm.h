@@ -30,8 +30,6 @@ public:
     {
     }
 
-    ~DecentralizedAlgorithm();
-
     // Schedule requests:
     virtual Result schedule();
 
