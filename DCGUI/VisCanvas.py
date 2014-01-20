@@ -79,8 +79,10 @@ class VisCanvas(QWidget):
                     paint.setPen(Qt.red)
                 elif n > 65:
                     paint.setPen(Qt.yellow)
-                else:
+                elif n > 0.5:
                     paint.setPen(Qt.green)
+                else:
+                    paint.setPen(Qt.blue)
                 paint.drawRect(self.vertices[v])
                 paint.setPen(pen)
                 if self.settings["computer"]:
@@ -98,8 +100,10 @@ class VisCanvas(QWidget):
                     paint.setPen(Qt.red)
                 elif n > 65:
                     paint.setPen(Qt.yellow)
-                else:
+                elif n > 0.5:
                     paint.setPen(Qt.green)
+                else:
+                    paint.setPen(Qt.blue)
                 paint.drawRect(self.vertices[v])
                 paint.setPen(pen)
                 if self.settings["storage"]:
