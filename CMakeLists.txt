@@ -32,5 +32,6 @@ foreach(DIR ${GUI_COPY_DIRS})
    ${CMAKE_CURRENT_BINARY_DIR}/${DIR})
 endforeach(DIR)
 configure_file(DCGUI.py ${CMAKE_CURRENT_BINARY_DIR}/DCGUI.py COPYONLY)
+configure_file(gui ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 
 ADD_SUBDIRECTORY(algo)
