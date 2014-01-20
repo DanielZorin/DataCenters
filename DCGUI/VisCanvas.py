@@ -2,7 +2,7 @@ import math
 from Core.Resources import Computer, Storage, Router, Link
 from Core.Demands import VM
 from PyQt4 import QtGui, QtCore
-from PyQt4.QtCore import QPointF, QRect, QString, pyqtSignal
+from PyQt4.QtCore import QPointF, QRect, QString, pyqtSignal, Qt
 from PyQt4.QtGui import QImage, QWidget, QPainter, QPainterPath, QColor, QCursor, QDialog, QIntValidator, QTableWidgetItem, QFont
     
 class VisCanvas(QWidget):
@@ -73,6 +73,16 @@ class VisCanvas(QWidget):
                     paint.drawImage(self.vertices[v], self.computericon)
                 else:
                     paint.drawImage(self.vertices[v], self.computerselectedicon)
+                n = v.getUsedSpeedPercent(self.time)
+                pen = paint.pen()
+                if n > 90:
+                    paint.setPen(Qt.red)
+                elif n > 65:
+                    paint.setPen(Qt.yellow)
+                else:
+                    paint.setPen(Qt.green)
+                paint.drawRect(self.vertices[v])
+                paint.setPen(pen)
                 if self.settings["computer"]:
                     paint.setPen(self.settings["text"])
                     paint.drawText(self.vertices[v].x(), self.vertices[v].y()+self.size/2, str(int(v.getUsedSpeedPercent(self.time)))+"%")
@@ -82,6 +92,16 @@ class VisCanvas(QWidget):
                     paint.drawImage(self.vertices[v], self.storageicon)
                 else:
                     paint.drawImage(self.vertices[v], self.storageselectedicon)
+                n = v.getUsedVolumePercent(self.time)
+                pen = paint.pen()
+                if n > 90:
+                    paint.setPen(Qt.red)
+                elif n > 65:
+                    paint.setPen(Qt.yellow)
+                else:
+                    paint.setPen(Qt.green)
+                paint.drawRect(self.vertices[v])
+                paint.setPen(pen)
                 if self.settings["storage"]:
                     paint.setPen(self.settings["text"])
                     paint.drawText(self.vertices[v].x(), self.vertices[v].y() + self.size/2, str(int(v.getUsedVolumePercent(self.time)))+"%")
