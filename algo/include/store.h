@@ -7,7 +7,8 @@ class Store : public Node {
     friend class XMLFactory;
 public:
     enum Attributes {
-        NONE = 0
+        NONE = 0,
+        REPLICABLE = 1
     };
 
 private:

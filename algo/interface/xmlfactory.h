@@ -11,6 +11,7 @@ class XMLFactory : public Factory
 {
 public:
     XMLFactory(const QString & contents);
+    virtual const Element * getElementById(uint id) const;
     virtual QString getResult() const { return getXML(); }
 private:
     Computer * createComputer(const QDomElement & element);
@@ -20,6 +21,7 @@ private:
     Request * createRequest(const QDomElement & element);
     Network * createNetwork(const QDomElement & element);
 
+    void insertElement(Element *, const QDomElement & element);
     QString getXML() const;
 private:
     QDomDocument document;

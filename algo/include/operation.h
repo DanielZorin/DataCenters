@@ -5,7 +5,7 @@
 
 namespace Operation {
 
-    Elements filter(const Elements & elements, bool (*criterion)(const Element *)) {
+    inline Elements filter(const Elements & elements, bool (*criterion)(const Element *)) {
         Elements result;
         for ( Elements::iterator e = elements.begin(); e != elements.end(); e++) {
             Element * element = *e;
@@ -16,7 +16,7 @@ namespace Operation {
         return result;
     } 
 
-    Elements filter(const Elements & elements, const Element * target, bool (*criterion)(const Element *, const Element *)) {
+    inline Elements filter(const Elements & elements, const Element * target, bool (*criterion)(const Element *, const Element *)) {
         Elements result;
         for ( Elements::iterator e = elements.begin(); e != elements.end(); e++) {
             Element * element = *e;
@@ -26,7 +26,7 @@ namespace Operation {
         return result;
     }
 
-    Elements intersect(const Elements & first, const Elements & second) {
+    inline Elements intersect(const Elements & first, const Elements & second) {
         Elements result;
         if ( first.empty() ) return result;
         if ( second.empty() ) return result;
@@ -38,7 +38,7 @@ namespace Operation {
         return result;
     }
 
-    Elements join(const Elements & first, const Elements & second) {
+    inline Elements join(const Elements & first, const Elements & second) {
         if ( first.empty() ) return second;
         if ( second.empty() ) return first;
         Elements result(first);
@@ -46,7 +46,7 @@ namespace Operation {
         return result;
     }
 
-    Elements minus(const Elements & first, const Elements & second) {
+    inline Elements minus(const Elements & first, const Elements & second) {
         if ( first.empty() ) return first;
         if ( second.empty() ) return first;
         Elements result(first);

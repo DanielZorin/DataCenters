@@ -3,7 +3,7 @@
 #include "defs.h"
 
 class Element {
-    friend class XMLFactory;
+    friend class ElementFactory;
     friend class Criteria;
 public:
     enum Type {
@@ -17,7 +17,6 @@ public:
         NODE            = COMPUTATIONAL | SWITCH
     };
 protected:    
-    Element() : type(NONE), assignee(0) {}
 
     virtual bool typeCheck(const Element * other) const = 0;
     virtual bool physicalCheck(const Element * other) const = 0;
@@ -30,6 +29,9 @@ protected:
     
     virtual unsigned long weight() const { return 0; }
 public:
+    Element() : type(NONE), physical(false),
+        available(false), attributes(0), assignee(0) {}
+
     virtual ~Element() {}
 
     void setAvailable(bool available = true) {
