@@ -28,6 +28,10 @@ public:
         return Operation::filter(getElements(), Criteria::isStore);
     }
 
+    inline Elements getVSwitches() const {
+        return Operation::filter(getElements(), Criteria::isSwitch);
+    } 
+
     inline Elements getTunnels() const {
         return Operation::filter(getElements(), Criteria::isLink);
     }

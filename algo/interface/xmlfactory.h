@@ -10,9 +10,11 @@ class QDomElement;
 class XMLFactory : public Factory
 {
 public:
+    typedef QMap<uint, Element *> IDS;
+
     XMLFactory(const QString & contents);
-    virtual const Element * getElementById(uint id) const;
-    virtual QString getResult() const { return getXML(); }
+    virtual Element * getElementById(uint id) const;
+    virtual QString getResult() { return getXML(); }
 private:
     Computer * createComputer(const QDomElement & element);
     Store * createStore(const QDomElement & element);
@@ -22,9 +24,13 @@ private:
     Network * createNetwork(const QDomElement & element);
 
     void insertElement(Element *, const QDomElement & element);
-    QString getXML() const;
+    void wireLinks(Elements & links, const IDS & ids);
+    IDS populateIds(Elements & nodes ) const;
+    void pushAssignments();
+    QString getXML();
 private:
     QDomDocument document;
     QMap<Element *, QDomElement> elementsXML;
     QMap<Request *, QDomElement> requestsXML;
+    IDS networkIds;
 };
