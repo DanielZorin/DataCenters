@@ -4,18 +4,18 @@
 #include "criteria.h"
 
 class Store : public Node {
-    friend class XMLFactory;
+    friend class ElementFactory;
 public:
     enum Attributes {
         NONE = 0,
         REPLICABLE = 1
     };
 
-private:
     Store() : Node() {
         type = STORE;
     }
 
+private:
     virtual bool typeCheck(const Element * other) const {
         return Criteria::isStore(other);
     }
@@ -42,7 +42,7 @@ private:
         writerate += writerate;
     }
 private:
-    long capacity;
-    long readrate;
-    long writerate;
+    unsigned capacity;
+    unsigned readrate;
+    unsigned writerate;
 };

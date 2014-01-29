@@ -27,7 +27,11 @@ private:
     void wireLinks(Elements & links, const IDS & ids);
     IDS populateIds(Elements & nodes ) const;
     void pushAssignments();
+    void pushNodeAssignments(Elements & nodes);
+    void pushEdgeAssignments(Elements & edges);
     QString getXML();
+
+    uint getUidByElement(Element * element) const;
 private:
     QDomDocument document;
     QMap<Element *, QDomElement> elementsXML;

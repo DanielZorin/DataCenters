@@ -10,4 +10,5 @@ public:
        Algorithm(network, requests)
     {}
     virtual void schedule();
+    void assignRequest(Request * r);
 };

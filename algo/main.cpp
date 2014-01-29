@@ -21,6 +21,12 @@ int main(int argc, char ** argv)
     Network * network = factory->getNetwork();
     Algorithm * algorithm = new TestAlgorithm(network, factory->getRequests());
     algorithm->schedule();
+
+    QFile output("out.dcxml");
+    output.open(QIODevice::WriteOnly | QIODevice::Text);
+    QTextStream outStream(&output);
+    outStream << factory->getResult();  
+
     delete algorithm;
     delete factory;
 

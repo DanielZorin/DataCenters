@@ -26,6 +26,24 @@ void TestAlgorithm::schedule() {
                 r->getStorages().size(),
                 r->getVSwitches().size(),
                 r->getTunnels().size());
-        
+
+        assignRequest(r);
+    }
+}
+
+void TestAlgorithm::assignRequest(Request * r) {
+    Elements nodes = r->getNodes();
+    Elements networkNodes = network->getNodes();
+
+    for(Elements::iterator i = nodes.begin(); i != nodes.end(); i++) {
+        Element * node = *i;
+        for ( Elements::iterator j = networkNodes.begin(); j != networkNodes.end(); j++) {
+            Element * candidate = *j;
+            if ( candidate->assign(node) )
+            {
+                printf("[TA] assignment succeeded!\n");
+                break; 
+            }
+        }
     }
 }

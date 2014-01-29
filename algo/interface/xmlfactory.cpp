@@ -143,7 +143,7 @@ Network * XMLFactory::createNetwork(const QDomElement & element) {
 }
 
 Element * XMLFactory::getElementById(uint id) const {
-    
+    return networkIds[id]; 
 }
 
 void XMLFactory::insertElement(Element * e, const QDomElement & element) {
@@ -152,7 +152,7 @@ void XMLFactory::insertElement(Element * e, const QDomElement & element) {
 
 QString XMLFactory::getXML() {
     pushAssignments();
-    document.toString(4);
+    return document.toString(4);
 }
 
 void XMLFactory::wireLinks(Elements & links, const IDS & ids) {
@@ -180,7 +180,36 @@ XMLFactory::IDS XMLFactory::populateIds(Elements & nodes) const {
     return ids;
 }
 
-void XMLFactory::pushAssignments()
-{
+void XMLFactory::pushAssignments() {
+    for( Requests::iterator i = requests.begin(); i != requests.end(); i++) {
+        Request * r = *i;
+        if ( !r->isAssigned() )
+            continue;
+
+        Elements nodes = r->getNodes();
+        pushNodeAssignments(nodes);
+        Elements edges = r->getEdges();
+        pushEdgeAssignments(edges);
+
+        QDomElement & requestElement = requestsXML[r];
+        requestElement.setAttribute("assigned", "true");
+    }
+
+}
+
+void XMLFactory::pushNodeAssignments(Elements & nodes) {
+    for ( Elements::iterator i = nodes.begin(); i != nodes.end(); i++) {
+        Element * e = *i;
+        Element * assignee = e->getAssignee();
+        QDomElement & elementDom = elementsXML[e];
+        elementDom.setAttribute("assignee", getUidByElement(assignee));
+    }
+}
+
+uint XMLFactory::getUidByElement(Element * element) const {
+    return networkIds.key(element);
+}
+
+void XMLFactory::pushEdgeAssignments(Elements & edges) {
 
 }

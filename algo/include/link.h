@@ -4,18 +4,18 @@
 #include "criteria.h"
 
 class Link : public Edge {
-    friend class XMLFactory;
+    friend class ElementFactory;
     friend class Switch;
 public:
     enum Attributes {
         NONE = 0
     };
 
-private:
     Link() : Edge() {
         type = LINK;
     } 
 
+private:
     virtual bool typeCheck(const Element * other) const {
         return Criteria::isLink(other);
     }
@@ -37,5 +37,5 @@ private:
     }
 
 private:
-    long throughput;
+    unsigned throughput;
 };

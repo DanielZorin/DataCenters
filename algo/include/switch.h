@@ -5,11 +5,12 @@
 #include "criteria.h"
 
 class Switch : public Node {
-    friend class XMLFactory;
-private:
+    friend class ElementFactory;
+public:
     Switch() : Node() {
         type = SWITCH;
     }
+private:
 
     virtual bool typeCheck(const Element * other) const {
         return Criteria::isLink(other);
@@ -32,5 +33,5 @@ private:
     }
 
 private:
-    long throughput;
+    unsigned throughput;
 };
