@@ -20,6 +20,9 @@ XMLFactory::XMLFactory(const QString & contents)
 {
     document.setContent(contents);
     QDomElement root = document.documentElement();
+    QDomNodeList resourceTypes = root.elementsByTagName("resourceTypes");
+    parseResourceTypes(resourceTypes.item(0).toElement());
+
     QDomNodeList resourceList = root.elementsByTagName("resources");
     QDomElement resources = resourceList.item(0).toElement();
     network = createNetwork(resources);
@@ -29,24 +32,46 @@ XMLFactory::XMLFactory(const QString & contents)
         requests.insert(createRequest(requestList.item(i).toElement()));
 }
 
+XMLFactory::~XMLFactory() {
+    clearResourceTypes(computerTypes);
+    clearResourceTypes(storeTypes);
+}
+
 Computer * XMLFactory::createComputer(const QDomElement & element) {
+    /*
     QMap<QString, QVariant> properties;
     properties["cores"] = element.attribute("cores", "0");
     properties["ram"] = element.attribute("ram", "0");
+    */
+    Computer * computer = new Computer();
+    ResourceTypes::const_iterator it = computerTypes.constBegin();
+    for ( ; it != computerTypes.constEnd(); ++it ) {
+        QVariant value = element.attribute(it.key(), "0");
+        computer->setResourceValue(it.value(), value.toUInt());
+    }
 
-    Computer * computer = ElementFactory::populate(new Computer(), properties);
+    // Computer * computer = ElementFactory::populate(new Computer(), properties);
     insertElement(computer, element);
     return computer;
 }
 
 Store * XMLFactory::createStore(const QDomElement & element) {
+    /*
     QMap<QString, QVariant> properties;
     properties["capacity"] = element.attribute("capacity", "0");
     properties["readrate"] = element.attribute("readrate", "0");
     properties["writerate"] = element.attribute("writerate", "0");
     properties["replicable"] = element.attribute("replicable", "false");
+    */
 
-    Store * store = ElementFactory::populate(new Store(), properties);
+    Store * store= new Store();
+    ResourceTypes::const_iterator it = storeTypes.constBegin();
+    for ( ; it != storeTypes.constEnd(); ++it ) {
+        QVariant value = element.attribute(it.key(), "0");
+        store->setResourceValue(it.value(), value.toUInt());
+    }
+
+    // Store * store = ElementFactory::populate(new Store(), properties);
     insertElement(store, element);
     return store;
 }
@@ -212,4 +237,41 @@ uint XMLFactory::getUidByElement(Element * element) const {
 
 void XMLFactory::pushEdgeAssignments(Elements & edges) {
 
+}
+
+void XMLFactory::parseResourceTypes(const QDomElement & resourceTypesXML) {
+    QDomElement computerTypesXML = resourceTypesXML.elementsByTagName("computers").item(0).toElement();
+    parseResourceTypes(computerTypes, computerTypesXML);
+
+    QDomElement storeTypesXML = resourceTypesXML.elementsByTagName("stores").item(0).toElement();
+    parseResourceTypes(storeTypes, storeTypesXML);
+}
+
+void XMLFactory::parseResourceTypes(ResourceTypes& resourceTypes, const QDomElement & resourceTypeXML) {
+    QDomNodeList resourceTypeXml= resourceTypeXML.elementsByTagName("resourceType");
+
+    for ( uint i = 0; i < resourceTypeXml.length(); i++ ) {
+        QString name = resourceTypeXml.at(i).toElement().attribute("name"),
+                restriction = resourceTypeXml.at(i).toElement().attribute("restriction");
+        ResourceType::ResourceRestriction resourceRestriction;
+
+        if (restriction == "lessOrEqaul")
+            resourceRestriction = ResourceType::SHOULD_BE_LESS_OR_EQUAL;
+        else if (restriction == "greaterOrEqual")
+            resourceRestriction = ResourceType::SHOULD_BE_GREATER_OR_EQUAL;
+        else if (restriction == "equal")
+            resourceRestriction = ResourceType::SHOULD_BE_EQUAL;
+        else
+            resourceRestriction = ResourceType::ADDITIVE;
+
+        resourceTypes[name] = new ResourceType(resourceRestriction);
+    }
+}
+
+void XMLFactory::clearResourceTypes(ResourceTypes& resourcetypes) {
+    ResourceTypes::iterator it = resourcetypes.begin();
+    for ( ; it != resourcetypes.end(); ++it ) {
+        delete it.value();
+    }
+    resourcetypes.clear();
 }

@@ -5,6 +5,7 @@
 #include "switch.h"
 #include "link.h"
 
+/*
 Computer * ElementFactory::populate(Computer * element, const QVariant & properties)
 {
     const QMap<QString, QVariant> & p = properties.toMap();
@@ -22,7 +23,7 @@ Store * ElementFactory::populate(Store * element, const QVariant & properties)
     if ( p["replicable"].toBool() )
         element->attributes |= Store::REPLICABLE;
     return element;
-}
+}*/
 
 Switch * ElementFactory::populate(Switch * element, const QVariant & properties)
 {

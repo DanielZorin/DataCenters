@@ -1,6 +1,7 @@
 #pragma once
 
 #include "defs.h"
+#include "resourceType.h"
 
 class Element {
     friend class ElementFactory;
@@ -19,13 +20,39 @@ public:
 protected:    
 
     virtual bool typeCheck(const Element * other) const = 0;
-    virtual bool physicalCheck(const Element * other) const = 0;
+
+    virtual bool physicalCheck(const Element * other) const {
+        ResourceVector::const_iterator it = resourceVector.begin();
+        for ( ; it != resourceVector.end(); ++it ) {
+            ResourceType* type = it->first;
+            if ( other->resourceVector.find(type) != other->resourceVector.end() &&
+                 !type->isAssignmentPossible(other->getResourceValue(type), it->second) )
+                return false;
+        }
+        return true;
+    }
     virtual bool attributeCheck(const Element * other) const {
         return ( attributes & other->attributes) == other->attributes;
     }
 
-    virtual void decreaseResources(const Element * other) = 0;
-    virtual void restoreResources(const Element * other) = 0;
+    virtual void decreaseResources(const Element * other) {
+        ResourceVector::iterator it = resourceVector.begin();
+        for ( ; it != resourceVector.end(); ++it ) {
+            ResourceType* type = it->first;
+            if ( other->resourceVector.find(type) != other->resourceVector.end() &&
+                 !type->isCountable() )
+                it->second -= other->getResourceValue(type);
+        }
+    }
+
+    virtual void restoreResources(const Element * other)  {
+        ResourceVector::iterator it = resourceVector.begin();
+        for ( ; it != resourceVector.end(); ++it ) {
+            ResourceType* type = it->first;
+            if ( !type->isCountable() )
+                it->second += other->getResourceValue(type);
+        }
+    }
     
     virtual unsigned long weight() const { return 0; }
 public:
@@ -49,6 +76,14 @@ public:
         if ( !physicalCheck(other) ) return false;
 
         return true;
+    }
+
+    inline unsigned getResourceValue(ResourceType* type) const {
+        return resourceVector.at(type);
+    }
+
+    inline void setResourceValue(ResourceType* type, unsigned value) {
+        resourceVector[type] = value;
     }
 
     Element * getAssignee() const {
@@ -174,4 +209,7 @@ protected:
     int attributes;
     Element * assignee;
     Elements assignments;
+
+    // Resource values of element
+    ResourceVector resourceVector;
 };
