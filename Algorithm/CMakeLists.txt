@@ -16,6 +16,7 @@ SET ( COMPONENTS
     firstfit
     randomalg
     routing
+    annealing
       )
 
 FOREACH(COMPONENT ${COMPONENTS})

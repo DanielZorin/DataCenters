@@ -5,6 +5,7 @@
 #include "ants/ant.h"
 #include "firstfit/ffalgorithm.h"
 #include "randomalg/randomalg.h"
+#include "annealing/annealing.h"
 
 Algorithm * AlgorithmDispatcher::Dispatch(QString & type, Network * network, Requests requests)
 {
@@ -22,6 +23,9 @@ Algorithm * AlgorithmDispatcher::Dispatch(QString & type, Network * network, Req
 
     if ( type == QString("r") )
         return new RandomAlgorithm(network, requests);
+        
+    if ( type == QString("annealing") )
+        return new Annealing(network, requests);
 
     return 0;
 }
