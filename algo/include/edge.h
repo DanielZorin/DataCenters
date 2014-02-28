@@ -8,11 +8,11 @@ protected:
     Edge() : Element(), first(0), second(0) {}
 public:
     Element * getFirst() const {
-        return first->toNode();
+        return first;
     }
 
     Element * getSecond() const {
-        return second->toNode();
+        return second;
     }
 
     bool connect(Element * first, Element * second) {
@@ -36,6 +36,12 @@ public:
         return 0;
     }
 
+    virtual Elements adjacent() const {
+        Elements result;
+        result.insert(first);
+        result.insert(second);
+        return result; 
+    }
 protected:
     Element * first;
     Element * second;

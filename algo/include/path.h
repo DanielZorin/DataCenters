@@ -3,12 +3,15 @@
 #include "defs.h"
 #include "link.h"
 #include "node.h"
-#include "critertia.h"
+#include "switch.h"
+#include "criteria.h"
 
 #include <vector>
+#include <algorithm>
 
 class Path {
 public:
+    Path() : from(0), to(0) {}
     Path(Element * begin, Element * end) {
         if ( !Criteria::isPhysical(begin) ) throw;
         if ( !Criteria::isNode(begin) ) throw;
@@ -24,6 +27,7 @@ public:
     }
 
     inline bool isValid() const {
+        if ( from == 0 || to == 0 ) return false;
         if ( isZeroPath() ) return true;
         if ( path.empty() ) return false;
         Element * last = path.back();
@@ -52,6 +56,16 @@ public:
         }
         path.push_back(element);
         return true;
+    }
+
+    inline void revert() {
+        if ( !isValid() )
+            return;
+
+        Element * tmp = from;
+        from = to;
+        to = from;
+        std::reverse(path.begin(), path.end()); 
     }
 
     const std::vector<Element *> getPath() const { 

@@ -22,3 +22,5 @@ class Request;
 class ResourceType;
 typedef std::map<ResourceType *, unsigned> ResourceVector;
 typedef std::set<Request *> Requests;
+
+class Path;

@@ -116,6 +116,8 @@ public:
         assignments.erase(a);
     }
 
+    virtual Elements adjacent() const = 0;
+
 public:
     inline bool isComputer() const { 
         return type & COMPUTER; 

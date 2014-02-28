@@ -23,6 +23,10 @@ public:
         return edges.find(element) != edges.end(); 
     }
 
+    virtual Elements adjacent() const {
+        return edges;
+    }
+
 private:
     Elements edges;
 };
