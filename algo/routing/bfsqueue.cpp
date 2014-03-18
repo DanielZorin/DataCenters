@@ -2,12 +2,12 @@
 
 #include "element.h"
 
-BFSQueue::BFSQueue(Element * s, Element * m) 
+BFSQueue::BFSQueue(Element * s, Element * t) 
 : 
     start(s)
 {
-    if ( !m->isLink() ) throw;
-    mask = m;
+    if ( !t->isLink() ) throw;
+    tunnel = t;
 
     unvisited.push(s);
     ancestors[s] = 0;
@@ -26,7 +26,7 @@ Element * BFSQueue::processNextItem() {
             continue;
 
         if ( a->isNetwork() )
-            if ( !a->canHostAssignment(mask) )
+            if ( !a->canHostAssignment(tunnel) )
                 continue;
 
         unvisited.push(a);

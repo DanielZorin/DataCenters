@@ -51,4 +51,8 @@ public:
     inline static bool isAssigned(const Element * e) {
         return e->isAssigned();
     }
+
+    inline static bool isAdjacent(const Element * t, const Element * e) {
+        return e->isAdjacent(t); 
+    }
 };

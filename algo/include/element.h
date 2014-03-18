@@ -61,11 +61,11 @@ public:
 
     virtual ~Element() {}
 
-    void setAvailable(bool available = true) {
+    inline void setAvailable(bool available = true) {
         this->available = available; 
     } 
     
-    bool canHostAssignment(const Element * other ) const {
+    inline bool canHostAssignment(const Element * other ) const {
         if ( isVirtual() ) return false;
         if ( !other->isVirtual() ) return false;
 
@@ -119,6 +119,12 @@ public:
     virtual Elements adjacent() const = 0;
 
 public:
+    inline bool isAdjacent(const Element * other) const {
+        Elements adj = adjacent();
+        Element * f = const_cast<Element *>(other);
+        return adj.find(f) != adj.end();
+    }
+
     inline bool isComputer() const { 
         return type & COMPUTER; 
     }

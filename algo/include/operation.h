@@ -54,4 +54,9 @@ namespace Operation {
             result.erase(*e);
         return result;
     }
+
+    inline bool isIn(const Element * element, const Elements & elements) {
+        Element * cmp = const_cast<Element *>(element);
+        return elements.find(cmp) != elements.end(); 
+    }
 };
