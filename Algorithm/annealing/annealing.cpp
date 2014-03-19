@@ -48,22 +48,26 @@ void Annealing::cleanUpAssignment(Assignment * assignment)
     delete assignment;
 }
 
-Algorithm::Result Annealing::generateVMAssignment(Request *request)
+Algorithm::Result Annealing::generateVMAssignment(Request *request, Network *cnetwork)
 {
-	//cout << "		generate VM assignment" << endl;
 	Nodes &vm = request->getVirtualMachines();
-	Nodes &nodes = Algorithm::network->getNodes();
+	Nodes &nodes = cnetwork->getNodes();
 	vector<Node *> vectorNodes(nodes.begin(), nodes.end());
+	if (vm.size() < 1) {
+		return SUCCESS;
+	}
 	for (Nodes::iterator iter = vm.begin(); iter != vm.end(); ++iter) {
 		Result res = FAILURE;
 		int counter = 0;
 		Node * vm = *iter;
-		while (res == FAILURE && counter < 10000) {
-			int i = rand() % nodes.size();
+		while (res == FAILURE && counter < 10) {
+			int i = (rand() % (nodes.size() + 1)) - 1;
+            if (i == -1) {
+				return FAILURE;
+			}
 		    res = tryToAssignVM(vm, vectorNodes[i]);
 		    ++counter;
 		}
-		//cout << "		counter: " << counter << endl;
 		if (res == FAILURE) {
 			return FAILURE;
 		}
@@ -71,43 +75,117 @@ Algorithm::Result Annealing::generateVMAssignment(Request *request)
 	return SUCCESS;
 }
 
-Algorithm::Result Annealing::generateStorageAssignment(Request *request)
+Algorithm::Result 
+Annealing::changeAssignments(Network *cnetwork)
 {
-	//cout << "		generate storage assignment" << endl;
+	currentAssignment = new Assignment();
+	int i = 0, k = 0;
+	if (curAssignments.size() > 0) {
+		i = rand() % (curAssignments.size());
+		for (Assignments::iterator iter = curAssignments.begin(); iter != curAssignments.end(); ++iter) {
+			if (k < i) {
+				++k;
+				continue;
+			}
+			if (k == i) {
+				currentAssignment = *iter;
+				curAssignments.erase(*iter);
+				break;
+			}
+		}
+	} else {
+		return FAILURE;
+	}
+	//every assignment has an appropriate request. That's why we will randomly choose one of the assignments (one of the requests) and try to change it (to assign this request to other resource)
+	//chosen assignment is to be cleared and the request is to be reassigned
+	//extract the needed request
+	//clear network
+		
+	Request *request = currentAssignment->getRequest();
+	Stores &storages = request->getStorages();
+	Nodes &vm = request->getVirtualMachines();
+	for (Stores::iterator i = storages.begin(); i != storages.end(); ++i) {
+		Store *store = currentAssignment->GetAssignment(*i);
+		(*i)->RemoveAssignment(store);
+	}
+	for (Nodes::iterator i = vm.begin(); i != vm.end(); ++i) {
+		Node *node = currentAssignment->GetAssignment(*i);
+		(*i)->RemoveAssignment(node);
+	}
+	Result res = generateAssignment(request, cnetwork);
+    if (res == SUCCESS) {
+		curAssignments.insert(currentAssignment);
+	}
+	return res;
+}
+
+Algorithm::Result 
+Annealing::tryToInsertNewAssignment(Network *cnetwork) {
+	//one of assignments chosen randomly is moved
+	//now look for not assigned requests and try to assign it
+	//need to provide random
+	int flag = 0;
+	Request *request;
+	for (Requests::iterator i = requests.begin(); i != requests.end(); i++) {
+		flag = 0;
+		for (Assignments::iterator iter = curAssignments.begin(); iter != curAssignments.end(); ++iter) {
+            currentAssignment = new Assignment;
+            currentAssignment = *iter;
+			if (currentAssignment->getRequest() == *i) {
+				flag = 1;
+				continue;
+			}
+		}
+		if (flag == 0) {
+			request = *i;
+			break;
+		}
+	}
+	//request is not assigned
+	
+	Result res = generateAssignment(request, cnetwork);
+    if (res == SUCCESS) {
+		curAssignments.insert(currentAssignment);
+	}
+	return res;
+}			
+
+Algorithm::Result 
+Annealing::generateStorageAssignment(Request *request, Network *cnetwork)
+{
 	Stores & storages = request->getStorages();
-	Stores & stores = Algorithm::network->getStores();
+	Stores & stores = cnetwork->getStores();
 	vector<Store *> vectorStores(stores.begin(), stores.end());
-	//if (storages.size() < 1) {
-		//cout << "storages.size() = 0" << endl;
-	//}
+	if (storages.size() < 1) {
+		return SUCCESS;
+	}
 	for (Stores::iterator iter = storages.begin(); iter != storages.end(); ++iter) {
-		cout << "cycle..." << endl;
 		Result res = FAILURE;
 		int counter = 0;
 		Store * st = *iter;
-		while (res == FAILURE && counter < 10000) {
-			cout << "..." << endl;
-			int i = rand() % stores.size();
+		while (res == FAILURE && counter < 10) {
+			int i = (rand() % (stores.size() + 1)) - 1;
+            if (i == -1) {
+				return FAILURE;
+			}
 		    res = tryToAssignStorage(st, vectorStores[i]);
 		    ++counter;
 		}
 		if (res == FAILURE) {
-			//cout << "		fail" << endl;
 			return FAILURE;
 		}
-		//cout << "		counter: " << counter << endl;
 	}
 	return SUCCESS;
 }
 
-Algorithm::Result Annealing::generateAssignment(Request *request)
+Algorithm::Result 
+Annealing::generateAssignment(Request *request, Network *cnetwork)
 {
 	currentAssignment = new Assignment(request);
-	if (generateVMAssignment(request) == FAILURE) {
-		//cout << "	failed to genVM" << endl;
+	if (generateVMAssignment(request, cnetwork) == FAILURE) {
 		return FAILURE;
 	}
-	if (generateStorageAssignment(request) == FAILURE) {
+	if (generateStorageAssignment(request, cnetwork) == FAILURE) {
 		return FAILURE;
 	}	
 	return SUCCESS;	
@@ -115,27 +193,37 @@ Algorithm::Result Annealing::generateAssignment(Request *request)
 
 Algorithm::Result Annealing::generateCurAssignments()
 {
+	curNetwork = new Network;
+	(*curNetwork) = (*network); 
 	curAssignments.clear();
     for (Requests::iterator i = requests.begin(); i != requests.end(); i++)
     {
-		//cout << "===================="<< endl;
         Request *request = *i;
-        if (generateAssignment(request) == SUCCESS) {
+        if (generateAssignment(request, curNetwork) == SUCCESS) {
 			curAssignments.insert(currentAssignment);
 		}
 	}
 	return SUCCESS;
-} 
-     
+}     
+
+Algorithm::Result Annealing::changeCurAssignments()
+{
+	curNetwork = prevNetwork; 
+	//curAssignments.clear();
+    changeAssignments(curNetwork);
+    tryToInsertNewAssignment(curNetwork);
+	return SUCCESS;
+}       
 
 Algorithm::Result Annealing::generatePrevAssignments()
 {
-    prevAssignments.clear();
+	prevNetwork = new Network;
+	(*prevNetwork) = (*network); 
+	prevAssignments.clear();
     for (Requests::iterator i = requests.begin(); i != requests.end(); i++)
     {
-		//cout << "	===================="<< endl;
         Request *request = *i;
-        if (generateAssignment(request) == SUCCESS) {
+        if (generateAssignment(request, prevNetwork) == SUCCESS) {
 			prevAssignments.insert(currentAssignment);
 		}
 	}
@@ -146,28 +234,35 @@ Algorithm::Result Annealing::schedule()
 {
     Result result = generatePrevAssignments();
     assignments = prevAssignments;
-	cout << "Requests: " << requests.size() << endl;
 	double delta = 0, temperature, start_temperature = 50;
 	double p = 1; 
-	int step = 0;
+	int step = 2;
+	//cout << prevAssignments.size() << endl;
 	do {
-		std::cout << "step " << step << std::endl;
 		temperature = start_temperature / log(1 + step);
+		//cout << endl << "step " << step <<  ";         temperature = " << temperature << ";" << endl;
 		for (int i = 0; i < 10; ++i) {
-			result = generateCurAssignments();
+			result = changeCurAssignments();
+			//result = generateCurAssignments();
+			//cout << "cur:  " << curAssignments.size() << endl;
 			delta = prevAssignments.size() - curAssignments.size(); 
 			double h = (double)rand() / RAND_MAX;
 			p = exp(-delta / temperature);
-			if (delta <= 0 || h > p) { // cтало лучше
+			if (delta <= 0 || h > p) {
 			    prevAssignments = curAssignments;
+			    (*prevNetwork) = (*curNetwork); 
 			}
 			if (prevAssignments.size() > assignments.size()) {
 				assignments = prevAssignments;
 			}
+			//cout << "assignments:  " << assignments.size() << " ";
 		}
 		++step;
-	} while (temperature > 7 && assignments.size() != requests.size() && step < 5);
-	
+	} while (temperature > 7 && assignments.size() != requests.size());
+	if (temperature <= 7) {
+		cout << "Temperature is low to continue" << endl;
+	}
+	(*network) = (*prevNetwork);
     printf("Assigned total of %d from %d requests", assignments.size(), requests.size());
     if ( assignments.size() == requests.size() )
         return SUCCESS;

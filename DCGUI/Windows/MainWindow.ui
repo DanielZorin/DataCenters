@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>746</width>
-    <height>589</height>
+    <height>752</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -112,6 +112,11 @@ QLabel, QSlider {
             <height>0</height>
            </size>
           </property>
+          <item>
+           <property name="text">
+            <string>Simulated Annealing</string>
+           </property>
+          </item>
           <item>
            <property name="text">
             <string>Ant Colony</string>
@@ -388,7 +393,7 @@ QLabel, QSlider {
      <x>0</x>
      <y>0</y>
      <width>746</width>
-     <height>21</height>
+     <height>27</height>
     </rect>
    </property>
    <property name="styleSheet">

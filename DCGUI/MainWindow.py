@@ -169,12 +169,14 @@ class MainWindow(QMainWindow):
         self.Reset()
         self.project.Save(self.projectFile)
         if self.ui.algorithm.currentIndex() == 0:
-            alg = "a"
+            alg = "annealing"
         elif self.ui.algorithm.currentIndex() == 1:
-            alg = "c"
+            alg = "a"
         elif self.ui.algorithm.currentIndex() == 2:
-            alg = "d"
+            alg = "c"
         elif self.ui.algorithm.currentIndex() == 3:
+            alg = "d"
+        elif self.ui.algorithm.currentIndex() == 4:
             alg = "f"
         else:
             alg = "r"
