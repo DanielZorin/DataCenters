@@ -24,7 +24,7 @@ Algorithm * AlgorithmDispatcher::Dispatch(QString & type, Network * network, Req
     if ( type == QString("r") )
         return new RandomAlgorithm(network, requests);
         
-    if ( type == QString("annealing") )
+    if ( type == QString("s") )
         return new Annealing(network, requests);
 
     return 0;
