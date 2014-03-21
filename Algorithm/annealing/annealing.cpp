@@ -239,7 +239,7 @@ Algorithm::Result Annealing::schedule()
 	int step = 2;
 	//cout << prevAssignments.size() << endl;
 	do {
-		temperature = start_temperature / log(1 + step);
+		temperature = start_temperature / log((double)(1.0 + step));
 		//cout << endl << "step " << step <<  ";         temperature = " << temperature << ";" << endl;
 		for (int i = 0; i < 10; ++i) {
 			result = changeCurAssignments();

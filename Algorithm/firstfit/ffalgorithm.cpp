@@ -10,10 +10,6 @@
 #include "decentralized/virtualLinkRouter.h"
 #include <stdio.h>
 
-FirstFitAlgorithm::FirstFitAlgorithm(Network * n, Requests const & r)
-:
-    Algorithm(n, r)
-{}
 
 Algorithm::Result FirstFitAlgorithm::schedule()
 {

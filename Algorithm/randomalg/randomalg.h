@@ -11,6 +11,7 @@
 #include "common/assignment.h"
 #include "common/link.h"
 #include <vector>
+#include <time.h>
 
 // utility structs
 
@@ -55,7 +56,24 @@ struct CritValue
 class RandomAlgorithm: public Algorithm
 {
     public:
-    RandomAlgorithm(Network * n, Requests const & r, unsigned long tr = 1, unsigned int N = 0);
+    RandomAlgorithm(Network * n, Requests const & r, unsigned long tr = 1, unsigned int N = 0) : Algorithm(n, r), copyNetwork(NULL), tries(tr), NRes(N)
+	{
+		vmCount = 0, stCount = 0;
+		copyNetwork = new Network();
+		*copyNetwork = *network;
+		for (Requests::iterator i = requests.begin(); i != requests.end(); i ++)
+		{
+			vmCount += (*i)->getVirtualMachines().size();
+			stCount += (*i)->getStorages().size();
+		}
+		if (NRes == 0) NRes = (network->getStores().size() > network->getNodes().size()) ? network->getStores().size() : network->getNodes().size();
+
+		srand(time(NULL));
+	//    srand(1);
+
+		bestSequence.reserve(vmCount+stCount);
+		bestReq.reserve(requests.size());
+	}
     ~RandomAlgorithm();
 
     virtual Algorithm::Result schedule();

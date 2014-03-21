@@ -9,7 +9,7 @@ class FirstFitAlgorithm : public Algorithm
 private:
     FirstFitAlgorithm();
 public:
-    FirstFitAlgorithm(Network * n, Requests const & r);
+	FirstFitAlgorithm(Network * n, Requests const & r) : Algorithm(n, r) {}
 
     virtual ~FirstFitAlgorithm() {}
     virtual Algorithm::Result schedule();

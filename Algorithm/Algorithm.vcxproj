@@ -10,6 +10,102 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="annealing\annealing.cpp" />
+    <ClCompile Include="ants\ant.cpp" />
+    <ClCompile Include="ants\anttest\main.cpp" />
+    <ClCompile Include="ants\heuristic.cpp" />
+    <ClCompile Include="ants\internalgraph.cpp" />
+    <ClCompile Include="ants\path.cpp" />
+    <ClCompile Include="centralized\centralizedalgorithm.cpp" />
+    <ClCompile Include="centralized\criteria_cen.cpp" />
+    <ClCompile Include="centralized\depthSearcher.cpp" />
+    <ClCompile Include="centralized\networkManager.cpp" />
+    <ClCompile Include="centralized\nodeManager.cpp" />
+    <ClCompile Include="centralized\storeManager.cpp" />
+    <ClCompile Include="common\algorithm.cpp" />
+    <ClCompile Include="common\assignment.cpp" />
+    <ClCompile Include="common\link.cpp" />
+    <ClCompile Include="common\network.cpp" />
+    <ClCompile Include="common\node.cpp" />
+    <ClCompile Include="common\replication.cpp" />
+    <ClCompile Include="common\request.cpp" />
+    <ClCompile Include="decentralized\criteria.cpp" />
+    <ClCompile Include="decentralized\decentralizedAlgorithm.cpp" />
+    <ClCompile Include="decentralized\elementsAssigner.cpp" />
+    <ClCompile Include="decentralized\storagesAssigner.cpp" />
+    <ClCompile Include="decentralized\virtualLinkRouter.cpp" />
+    <ClCompile Include="decentralized\virtualLinksAssigner.cpp" />
+    <ClCompile Include="decentralized\virtualMachinesAssigner.cpp" />
+    <ClCompile Include="firstfit\ffalgorithm.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_mainwindow.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_mainwindow.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="misc\algorithmdispatcher.cpp" />
+    <ClCompile Include="misc\runner.cpp" />
+    <ClCompile Include="misc\xmlconverter.cpp" />
+    <ClCompile Include="randomalg\randomalg.cpp" />
+    <ClCompile Include="routing\dijkstrarouter.cpp" />
+    <ClCompile Include="routing\ksprouter.cpp" />
+    <ClCompile Include="routing\router.cpp" />
+    <ClCompile Include="routing\testrouter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="annealing\annealing.h" />
+    <ClInclude Include="ants\ant.h" />
+    <ClInclude Include="ants\heuristic.h" />
+    <ClInclude Include="ants\internalgraph.h" />
+    <ClInclude Include="ants\path.h" />
+    <ClInclude Include="centralized\centralizedalgorithm.h" />
+    <ClInclude Include="centralized\criteria_cen.h" />
+    <ClInclude Include="centralized\depthSearcher.h" />
+    <ClInclude Include="centralized\networkManager.h" />
+    <ClInclude Include="centralized\nodeManager.h" />
+    <ClInclude Include="centralized\storeManager.h" />
+    <ClInclude Include="common\algorithm.h" />
+    <ClInclude Include="common\assignment.h" />
+    <ClInclude Include="common\computationalElement.h" />
+    <ClInclude Include="common\element.h" />
+    <ClInclude Include="common\link.h" />
+    <ClInclude Include="common\network.h" />
+    <ClInclude Include="common\networkingElement.h" />
+    <ClInclude Include="common\node.h" />
+    <ClInclude Include="common\publicdefs.h" />
+    <ClInclude Include="common\replication.h" />
+    <ClInclude Include="common\request.h" />
+    <ClInclude Include="common\store.h" />
+    <ClInclude Include="common\switch.h" />
+    <ClInclude Include="decentralized\criteria.h" />
+    <ClInclude Include="decentralized\decentralizedAlgorithm.h" />
+    <ClInclude Include="decentralized\elementsAssigner.h" />
+    <ClInclude Include="decentralized\storagesAssigner.h" />
+    <ClInclude Include="decentralized\virtualLinkRouter.h" />
+    <ClInclude Include="decentralized\virtualLinksAssigner.h" />
+    <ClInclude Include="decentralized\virtualMachinesAssigner.h" />
+    <ClInclude Include="firstfit\ffalgorithm.h" />
+    <ClInclude Include="misc\algorithmdispatcher.h" />
+    <CustomBuild Include="misc\mainwindow.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing mainwindow.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I.\common" "-I.\centralized" "-I.\decentralized" "-I.\ants" "-IC:\Qt\4.8.4\include"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing mainwindow.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I.\common" "-I.\centralized" "-I.\decentralized" "-I.\ants" "-IC:\Qt\4.8.4\include"</Command>
+    </CustomBuild>
+    <ClInclude Include="misc\qdebugstream.h" />
+    <ClInclude Include="misc\runner.h" />
+    <ClInclude Include="misc\xmlconverter.h" />
+    <ClInclude Include="randomalg\randomalg.h" />
+    <ClInclude Include="routing\dijkstrarouter.h" />
+    <ClInclude Include="routing\ksprouter.h" />
+    <ClInclude Include="routing\router.h" />
+    <ClInclude Include="routing\testrouter.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DF5EAE9F-D583-4E59-A621-CCB99FEED3E0}</ProjectGuid>
     <Keyword>Qt4VSv1.0</Keyword>
@@ -72,92 +168,12 @@
       <AdditionalDependencies>qtmain.lib;QtCore4.lib;QtGui4.lib;QtXml4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>C:\Qt\4.8.4\bin\moc.exe -o mainwindow_moc.h mainwindow.h</Command>
+      <Command>C:\Qt\4.8.4\bin\moc.exe -o mainwindow_moc.h misc\mainwindow.h</Command>
     </PreBuildEvent>
+    <CustomBuildStep>
+      <Command>C:\Qt\4.8.4\moc.exe misc\mainwindow.h -o moc_mainwindow.cpp</Command>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="algorithmdispatcher.cpp" />
-    <ClCompile Include="ants\ant.cpp" />
-    <ClCompile Include="ants\heuristic.cpp" />
-    <ClCompile Include="ants\internalgraph.cpp" />
-    <ClCompile Include="ants\path.cpp" />
-    <ClCompile Include="centralized\centralizedalgorithm.cpp" />
-    <ClCompile Include="centralized\criteria_cen.cpp" />
-    <ClCompile Include="centralized\depthSearcher.cpp" />
-    <ClCompile Include="centralized\networkManager.cpp" />
-    <ClCompile Include="centralized\nodeManager.cpp" />
-    <ClCompile Include="centralized\storeManager.cpp" />
-    <ClCompile Include="common\assignment.cpp" />
-    <ClCompile Include="common\link.cpp" />
-    <ClCompile Include="common\network.cpp" />
-    <ClCompile Include="common\node.cpp" />
-    <ClCompile Include="common\replication.cpp" />
-    <ClCompile Include="common\request.cpp" />
-    <ClCompile Include="decentralized\criteria.cpp" />
-    <ClCompile Include="decentralized\decentralizedAlgorithm.cpp" />
-    <ClCompile Include="decentralized\elementsAssigner.cpp" />
-    <ClCompile Include="decentralized\storagesAssigner.cpp" />
-    <ClCompile Include="decentralized\virtualLinkRouter.cpp" />
-    <ClCompile Include="decentralized\virtualLinksAssigner.cpp" />
-    <ClCompile Include="decentralized\virtualMachinesAssigner.cpp" />
-    <ClCompile Include="firstfit\ffalgorithm.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_mainwindow.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_mainwindow.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="randomalg\randomalg.cpp" />
-    <ClCompile Include="xmlconverter.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="algorithmdispatcher.h" />
-    <ClInclude Include="ants\ant.h" />
-    <ClInclude Include="ants\heuristic.h" />
-    <ClInclude Include="ants\internalgraph.h" />
-    <ClInclude Include="ants\path.h" />
-    <ClInclude Include="centralized\centralizedalgorithm.h" />
-    <ClInclude Include="centralized\criteria_cen.h" />
-    <ClInclude Include="centralized\depthSearcher.h" />
-    <ClInclude Include="centralized\networkManager.h" />
-    <ClInclude Include="centralized\nodeManager.h" />
-    <ClInclude Include="centralized\storeManager.h" />
-    <ClInclude Include="common\algorithm.h" />
-    <ClInclude Include="common\assignment.h" />
-    <ClInclude Include="common\computationalElement.h" />
-    <ClInclude Include="common\element.h" />
-    <ClInclude Include="common\link.h" />
-    <ClInclude Include="common\network.h" />
-    <ClInclude Include="common\networkingElement.h" />
-    <ClInclude Include="common\node.h" />
-    <ClInclude Include="common\publicdefs.h" />
-    <ClInclude Include="common\replication.h" />
-    <ClInclude Include="common\request.h" />
-    <ClInclude Include="common\store.h" />
-    <ClInclude Include="common\switch.h" />
-    <ClInclude Include="decentralized\criteria.h" />
-    <ClInclude Include="decentralized\decentralizedAlgorithm.h" />
-    <ClInclude Include="decentralized\elementsAssigner.h" />
-    <ClInclude Include="decentralized\storagesAssigner.h" />
-    <ClInclude Include="decentralized\virtualLinkRouter.h" />
-    <ClInclude Include="decentralized\virtualLinksAssigner.h" />
-    <ClInclude Include="decentralized\virtualMachinesAssigner.h" />
-    <CustomBuild Include="mainwindow.h">
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing mainwindow.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I.\common" "-I.\centralized" "-I.\decentralized" "-I.\ants" "-IC:\Qt\4.8.4\include"</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing mainwindow.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_XML_LIB "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtXml" "-I.\common" "-I.\centralized" "-I.\decentralized" "-I.\ants" "-IC:\Qt\4.8.4\include"</Command>
-    </CustomBuild>
-    <ClInclude Include="firstfit\ffalgorithm.h" />
-    <ClInclude Include="qdebugstream.h" />
-    <ClInclude Include="randomalg\randomalg.h" />
-    <ClInclude Include="xmlconverter.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
