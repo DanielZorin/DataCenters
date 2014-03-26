@@ -4,16 +4,7 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    def _fromUtf8(s):
-        return s
-
-try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+    _fromUtf8 = lambda s: s
 
 class Ui_RouterDialog(object):
     def setupUi(self, RouterDialog):
@@ -75,10 +66,10 @@ class Ui_RouterDialog(object):
         QtCore.QMetaObject.connectSlotsByName(RouterDialog)
 
     def retranslateUi(self, RouterDialog):
-        RouterDialog.setWindowTitle(_translate("RouterDialog", "Edit Commutation Element", None))
-        self.namelabel.setText(_translate("RouterDialog", "Name:", None))
-        self.label.setText(_translate("RouterDialog", "Bandwidth:", None))
-        self.OK.setText(_translate("RouterDialog", "OK", None))
-        self.Cancel.setText(_translate("RouterDialog", "Cancel", None))
+        RouterDialog.setWindowTitle(QtGui.QApplication.translate("RouterDialog", "Edit Commutation Element", None, QtGui.QApplication.UnicodeUTF8))
+        self.namelabel.setText(QtGui.QApplication.translate("RouterDialog", "Name:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setText(QtGui.QApplication.translate("RouterDialog", "Bandwidth:", None, QtGui.QApplication.UnicodeUTF8))
+        self.OK.setText(QtGui.QApplication.translate("RouterDialog", "OK", None, QtGui.QApplication.UnicodeUTF8))
+        self.Cancel.setText(QtGui.QApplication.translate("RouterDialog", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
 
 from . import resources_rc

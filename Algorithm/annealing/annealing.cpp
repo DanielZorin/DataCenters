@@ -60,13 +60,15 @@ Algorithm::Result Annealing::generateVMAssignment(Request *request, Network *cne
 		Result res = FAILURE;
 		int counter = 0;
 		Node * vm = *iter;
-		while (res == FAILURE && counter < 10) {
+		while (res == FAILURE) {
 			int i = (rand() % (nodes.size() + 1)) - 1;
             if (i == -1) {
 				return FAILURE;
 			}
 		    res = tryToAssignVM(vm, vectorNodes[i]);
 		    ++counter;
+		    if (counter > 10) 
+				break;
 		}
 		if (res == FAILURE) {
 			return FAILURE;
@@ -78,6 +80,7 @@ Algorithm::Result Annealing::generateVMAssignment(Request *request, Network *cne
 Algorithm::Result 
 Annealing::changeAssignments(Network *cnetwork)
 {
+	cout << "Try to change assignments..." << endl;
 	currentAssignment = new Assignment();
 	int i = 0, k = 0;
 	if (curAssignments.size() > 0) {
@@ -88,13 +91,15 @@ Annealing::changeAssignments(Network *cnetwork)
 				continue;
 			}
 			if (k == i) {
+				cout << "Needed request found" << endl;
 				currentAssignment = *iter;
 				curAssignments.erase(*iter);
 				break;
 			}
 		}
 	} else {
-		return FAILURE;
+		cout << "curAssignments size = 0" << endl;
+		return SUCCESS;
 	}
 	//every assignment has an appropriate request. That's why we will randomly choose one of the assignments (one of the requests) and try to change it (to assign this request to other resource)
 	//chosen assignment is to be cleared and the request is to be reassigned
@@ -105,12 +110,14 @@ Annealing::changeAssignments(Network *cnetwork)
 	Stores &storages = request->getStorages();
 	Nodes &vm = request->getVirtualMachines();
 	for (Stores::iterator i = storages.begin(); i != storages.end(); ++i) {
+		cout << "Removing store assignments" << endl; 
 		Store *store = currentAssignment->GetAssignment(*i);
-		(*i)->RemoveAssignment(store);
+		(store)->RemoveAssignment(*i);
 	}
 	for (Nodes::iterator i = vm.begin(); i != vm.end(); ++i) {
+		cout << "Removing node assignments" << endl; 
 		Node *node = currentAssignment->GetAssignment(*i);
-		(*i)->RemoveAssignment(node);
+		(node)->RemoveAssignment(*i);
 	}
 	Result res = generateAssignment(request, cnetwork);
     if (res == SUCCESS) {
@@ -163,13 +170,16 @@ Annealing::generateStorageAssignment(Request *request, Network *cnetwork)
 		Result res = FAILURE;
 		int counter = 0;
 		Store * st = *iter;
-		while (res == FAILURE && counter < 10) {
+		while (res == FAILURE) {
 			int i = (rand() % (stores.size() + 1)) - 1;
             if (i == -1) {
 				return FAILURE;
 			}
 		    res = tryToAssignStorage(st, vectorStores[i]);
 		    ++counter;
+		    if (counter > 10) {
+				break;
+			}
 		}
 		if (res == FAILURE) {
 			return FAILURE;
@@ -208,7 +218,8 @@ Algorithm::Result Annealing::generateCurAssignments()
 
 Algorithm::Result Annealing::changeCurAssignments()
 {
-	curNetwork = prevNetwork; 
+	curNetwork = new Network;
+	(*curNetwork) = (*prevNetwork); 
 	//curAssignments.clear();
     changeAssignments(curNetwork);
     tryToInsertNewAssignment(curNetwork);
@@ -237,14 +248,17 @@ Algorithm::Result Annealing::schedule()
 	double delta = 0, temperature, start_temperature = 50;
 	double p = 1; 
 	int step = 2;
-	//cout << prevAssignments.size() << endl;
+	cout << "prevAssignments size: generated: " << prevAssignments.size() << endl;
+	curAssignments = prevAssignments;
 	do {
-		temperature = start_temperature / log((double)(1.0 + step));
-		//cout << endl << "step " << step <<  ";         temperature = " << temperature << ";" << endl;
+		temperature = start_temperature / log(1 + step);
+		cout << "=================================" << endl;
+		cout << "step " << step <<  ";         temperature = " << temperature << ";" << endl;
 		for (int i = 0; i < 10; ++i) {
+			cout << "=================================" << endl;
 			result = changeCurAssignments();
 			//result = generateCurAssignments();
-			//cout << "cur:  " << curAssignments.size() << endl;
+			cout << "cur:  " << curAssignments.size() << endl;
 			delta = prevAssignments.size() - curAssignments.size(); 
 			double h = (double)rand() / RAND_MAX;
 			p = exp(-delta / temperature);
@@ -258,12 +272,12 @@ Algorithm::Result Annealing::schedule()
 			//cout << "assignments:  " << assignments.size() << " ";
 		}
 		++step;
-	} while (temperature > 7 && assignments.size() != requests.size());
+	} while (temperature > /*7*/ 35 && assignments.size() != requests.size());
 	if (temperature <= 7) {
 		cout << "Temperature is low to continue" << endl;
 	}
 	(*network) = (*prevNetwork);
-    printf("Assigned total of %d from %d requests", assignments.size(), requests.size());
+    printf("Assigned total of %d from %d requests\n", assignments.size(), requests.size());
     if ( assignments.size() == requests.size() )
         return SUCCESS;
     else if ( assignments.size() != 0 )

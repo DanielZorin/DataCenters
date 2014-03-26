@@ -52,9 +52,6 @@
     <ClCompile Include="ants\ant.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ants\anttest\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ants\heuristic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -141,6 +138,9 @@
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_mainwindow.cpp">
       <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

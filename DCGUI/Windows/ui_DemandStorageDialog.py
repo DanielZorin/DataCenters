@@ -4,16 +4,7 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    def _fromUtf8(s):
-        return s
-
-try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+    _fromUtf8 = lambda s: s
 
 class Ui_DemandStorageDialog(object):
     def setupUi(self, DemandStorageDialog):
@@ -95,12 +86,12 @@ class Ui_DemandStorageDialog(object):
         QtCore.QMetaObject.connectSlotsByName(DemandStorageDialog)
 
     def retranslateUi(self, DemandStorageDialog):
-        DemandStorageDialog.setWindowTitle(_translate("DemandStorageDialog", "Edit Storage", None))
-        self.namelabel.setText(_translate("DemandStorageDialog", "Name:", None))
-        self.volumelabel.setText(_translate("DemandStorageDialog", "Capacity:", None))
-        self.typelabel.setText(_translate("DemandStorageDialog", "Type:", None))
-        self.label.setText(_translate("DemandStorageDialog", "Consistency link bandwidth:", None))
-        self.OK.setText(_translate("DemandStorageDialog", "OK", None))
-        self.Cancel.setText(_translate("DemandStorageDialog", "Cancel", None))
+        DemandStorageDialog.setWindowTitle(QtGui.QApplication.translate("DemandStorageDialog", "Edit Storage", None, QtGui.QApplication.UnicodeUTF8))
+        self.namelabel.setText(QtGui.QApplication.translate("DemandStorageDialog", "Name:", None, QtGui.QApplication.UnicodeUTF8))
+        self.volumelabel.setText(QtGui.QApplication.translate("DemandStorageDialog", "Capacity:", None, QtGui.QApplication.UnicodeUTF8))
+        self.typelabel.setText(QtGui.QApplication.translate("DemandStorageDialog", "Type:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setText(QtGui.QApplication.translate("DemandStorageDialog", "Consistency link bandwidth:", None, QtGui.QApplication.UnicodeUTF8))
+        self.OK.setText(QtGui.QApplication.translate("DemandStorageDialog", "OK", None, QtGui.QApplication.UnicodeUTF8))
+        self.Cancel.setText(QtGui.QApplication.translate("DemandStorageDialog", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
 
 from . import resources_rc

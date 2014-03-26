@@ -13,7 +13,6 @@
   <ItemGroup>
     <ClCompile Include="annealing\annealing.cpp" />
     <ClCompile Include="ants\ant.cpp" />
-    <ClCompile Include="ants\anttest\main.cpp" />
     <ClCompile Include="ants\heuristic.cpp" />
     <ClCompile Include="ants\internalgraph.cpp" />
     <ClCompile Include="ants\path.cpp" />
@@ -44,6 +43,7 @@
     <ClCompile Include="GeneratedFiles\Release\moc_mainwindow.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="misc\algorithmdispatcher.cpp" />
     <ClCompile Include="misc\runner.cpp" />
     <ClCompile Include="misc\xmlconverter.cpp" />
