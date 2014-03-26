@@ -78,7 +78,7 @@ Algorithm::Result Annealing::generateVMAssignment(Request *request, Network *cne
 }
 
 Algorithm::Result 
-Annealing::changeAssignments(Network *cnetwork)
+Annealing::changeAssignments()
 {
 	cout << "Try to change assignments..." << endl;
 	currentAssignment = new Assignment();
@@ -91,7 +91,7 @@ Annealing::changeAssignments(Network *cnetwork)
 				continue;
 			}
 			if (k == i) {
-				cout << "Needed request found" << endl;
+				cout << "1.Needed request found" << endl;
 				currentAssignment = *iter;
 				curAssignments.erase(*iter);
 				break;
@@ -109,28 +109,47 @@ Annealing::changeAssignments(Network *cnetwork)
 	Request *request = currentAssignment->getRequest();
 	Stores &storages = request->getStorages();
 	Nodes &vm = request->getVirtualMachines();
+	int flag = 0;
 	for (Stores::iterator i = storages.begin(); i != storages.end(); ++i) {
-		cout << "Removing store assignments" << endl; 
+		//cout << "Removing store assignments" << endl; 
+		flag = 1;
+//is curNetwork be changed?
 		Store *store = currentAssignment->GetAssignment(*i);
 		(store)->RemoveAssignment(*i);
 	}
 	for (Nodes::iterator i = vm.begin(); i != vm.end(); ++i) {
-		cout << "Removing node assignments" << endl; 
+		flag = 1;
+		//cout << "Removing node assignments" << endl; 
 		Node *node = currentAssignment->GetAssignment(*i);
 		(node)->RemoveAssignment(*i);
 	}
-	Result res = generateAssignment(request, cnetwork);
-    if (res == SUCCESS) {
-		curAssignments.insert(currentAssignment);
+	if (flag) {
+		cout << "2.removed assignment" << endl;
+	}
+
+	Result res = FAILURE;
+	int counter = 0;
+    while (res == FAILURE) {
+		res = generateAssignment(request, curNetwork);
+		if (res == SUCCESS) { 
+			cout << "3.request reassigned" << endl;
+			curAssignments.insert(currentAssignment);
+			break;
+		}
+		++counter;
+		if (counter > 100) {
+			break;
+		}
 	}
 	return res;
 }
 
 Algorithm::Result 
-Annealing::tryToInsertNewAssignment(Network *cnetwork) {
-	//one of assignments chosen randomly is moved
+Annealing::tryToInsertNewAssignment() {
+	//one of assignments chosen randomly was moved
 	//now look for not assigned requests and try to assign it
 	//need to provide random
+	cout << endl << "Try to assign some else request..." << endl;
 	int flag = 0;
 	Request *request;
 	for (Requests::iterator i = requests.begin(); i != requests.end(); i++) {
@@ -140,19 +159,30 @@ Annealing::tryToInsertNewAssignment(Network *cnetwork) {
             currentAssignment = *iter;
 			if (currentAssignment->getRequest() == *i) {
 				flag = 1;
-				continue;
+				break;
 			}
 		}
 		if (flag == 0) {
+			cout << "1. not assigned request found" << endl;
 			request = *i;
 			break;
 		}
 	}
 	//request is not assigned
 	
-	Result res = generateAssignment(request, cnetwork);
-    if (res == SUCCESS) {
-		curAssignments.insert(currentAssignment);
+	Result res = FAILURE;
+	int counter = 0;
+    while (res == FAILURE) {
+		res = generateAssignment(request, curNetwork);
+		if (res == SUCCESS) { 
+			cout << "2. not assigned request now assigned" << endl;
+			curAssignments.insert(currentAssignment);
+			break;
+		}
+		++counter;
+		if (counter > 100) {
+			break;
+		}
 	}
 	return res;
 }			
@@ -220,9 +250,8 @@ Algorithm::Result Annealing::changeCurAssignments()
 {
 	curNetwork = new Network;
 	(*curNetwork) = (*prevNetwork); 
-	//curAssignments.clear();
-    changeAssignments(curNetwork);
-    tryToInsertNewAssignment(curNetwork);
+    changeAssignments();
+    tryToInsertNewAssignment();
 	return SUCCESS;
 }       
 
@@ -268,11 +297,12 @@ Algorithm::Result Annealing::schedule()
 			}
 			if (prevAssignments.size() > assignments.size()) {
 				assignments = prevAssignments;
+				(*network) = (*prevNetwork);
 			}
 			//cout << "assignments:  " << assignments.size() << " ";
 		}
 		++step;
-	} while (temperature > /*7*/ 35 && assignments.size() != requests.size());
+	} while (temperature > /*7*/ 20 && assignments.size() != requests.size());
 	if (temperature <= 7) {
 		cout << "Temperature is low to continue" << endl;
 	}

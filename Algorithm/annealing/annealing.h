@@ -22,8 +22,8 @@ private:
     Result generateCurAssignments();
     Result generatePrevAssignments();
     
-    Result tryToInsertNewAssignment(Network *cnetwork);
-    Result changeAssignments(Network *cnetwork);
+    Result tryToInsertNewAssignment();
+    Result changeAssignments();
     Result changeCurAssignments();
     
 public:
