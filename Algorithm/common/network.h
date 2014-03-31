@@ -37,6 +37,8 @@ public:
    Store* addStore(Store * store);
    Switch* addSwitch(Switch* sw);
    Link* addLink(Link * link);
+   
+   void printNetwork();
 protected:
    // look for element with the given ID and return it's pointer
    Node * nodesIDLookup(const long num);

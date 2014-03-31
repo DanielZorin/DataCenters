@@ -4,9 +4,10 @@
 #include "publicdefs.h"
 #include "replication.h"
 
+#include <iostream>
 #include <string>
 using std::string;
-
+class Node;
 class Assignment
 {
 public:
@@ -91,6 +92,8 @@ public:
     }
 
     void forcedCleanup();
+    
+    void printAssignment() ;
 
     Replications& getReplications() { return replications; }
 private:

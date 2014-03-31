@@ -4,6 +4,13 @@
 #include "switch.h"
 #include "link.h"
 #include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+
+using namespace std;
+
+class Node;
 
 Node * Network::nodesIDLookup(const long num)
 {
@@ -189,6 +196,24 @@ Network& Network::operator=(const Network & n)
 
     return *this;
 }
+
+void Network::printNetwork()
+{
+	cout << "======================PrintNetwork===================" << endl;
+	if (nodes.begin() != nodes.end()) {
+		cout << "Nodes:" << endl;
+	}
+	for (Nodes::const_iterator i = nodes.begin(); i != nodes.end(); ++i) {
+		printf("%ld %ld\n", (*i)->getCapacity(), (*i)->getMaxCapacity());
+	}
+	if (stores.begin() != stores.end()) {
+		cout << "Stores: " << endl;
+	}
+	for (Stores::const_iterator i = stores.begin(); i != stores.end(); ++i) {
+		printf("%ld %ld\n", (*i)->getCapacity(), (*i)->getMaxCapacity());
+	}
+}
+		
 
 Network & Network::assign (const Network & n)
 {

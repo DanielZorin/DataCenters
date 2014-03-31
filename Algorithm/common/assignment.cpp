@@ -17,6 +17,19 @@ Assignment::~Assignment()
     replications.clear();
 }
 
+void Assignment::printAssignment() 
+    {
+		std::cout << "======================" << std::endl;
+		for (NodeAssignments::iterator i = nodeAssignments.begin(); i != nodeAssignments.end(); ++i) {
+			NodeAssignment p = *i;
+			std::cout << "node" <<  (p.first)->getID() << " " << (p.second)->getID() << std::endl;
+		}
+		for (StoreAssignments::iterator i = storeAssignments.begin(); i != storeAssignments.end(); ++i) {
+			StoreAssignment p = *i;
+			std::cout << "store" << (p.first)->getID() << " " << (p.second)->getID() << std::endl;
+		}
+	}
+
 string Assignment::getName()
 {
     return request->getName();

@@ -33,6 +33,8 @@ public:
     VirtualMachines& getVirtualMachines();
     Storages& getStorages();
     VirtualLinks& getVirtualLinks();
+    
+    void printRequest();
 
     inline string getName() { return name; }
     inline void setName(string n) { name = n; }

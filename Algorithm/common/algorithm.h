@@ -27,7 +27,7 @@ public:
     virtual ~Algorithm();
 public:
     virtual Assignments getAssignments() { return assignments; }
-    Network & getNetwork() { return *network; }
+    virtual Network & getNetwork() { return *network; }
 public:
     virtual Result schedule() = 0;
 protected:

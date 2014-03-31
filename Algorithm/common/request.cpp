@@ -2,6 +2,11 @@
 #include "node.h"
 #include "link.h"
 #include "store.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+
+using namespace std;
 
 Request::Request(string n)
 {
@@ -68,6 +73,23 @@ Request& Request::operator=(const Request & r)
     }
 
     return *this;
+}
+
+void Request::printRequest()
+{
+	cout << "======================PrintRequest===================" << endl;
+	if (virtualMachines.begin() != virtualMachines.end()) {
+		cout << "virtualMachines:" << endl;
+	}
+	for (VirtualMachines::const_iterator i = virtualMachines.begin(); i != virtualMachines.end(); ++i) {
+		printf("%ld %ld\n", (*i)->getCapacity(), (*i)->getMaxCapacity());
+	}
+	if (storages.begin() != storages.end()) {
+		cout << "storages: " << endl;
+	}
+	for (Storages::const_iterator i = storages.begin(); i != storages.end(); ++i) {
+		printf("%ld %ld\n", (*i)->getCapacity(), (*i)->getMaxCapacity());
+	}
 }
 
 Node* Request::addVirtualMachine(Node * node)

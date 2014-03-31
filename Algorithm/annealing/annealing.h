@@ -3,6 +3,7 @@
 
 #include "common/publicdefs.h"
 #include "common/algorithm.h"
+#include "common/network.h"
 
 class Annealing : public Algorithm
 {
@@ -14,10 +15,14 @@ private:
     
     void cleanUpAssignment(Assignment * assignment);
     
-    Result generateVMAssignment(Request *request, Network *cnetwork);
-    Result generateStorageAssignment(Request *request, Network *cnetwork);
+    Result generateVMAssignmentCurNetwork(Request *request);
+    Result generateStorageAssignmentCurNetwork(Request *request);
     
-    Result generateAssignment(Request *request, Network *cnetwork);
+    Result generateVMAssignmentPrevNetwork(Request *request);
+    Result generateStorageAssignmentPrevNetwork(Request *request);
+    
+    Result generateAssignmentCurNetwork(Request *request);
+    Result generateAssignmentPrevNetwork(Request *request);
     
     Result generateCurAssignments();
     Result generatePrevAssignments();
@@ -25,6 +30,8 @@ private:
     Result tryToInsertNewAssignment();
     Result changeAssignments();
     Result changeCurAssignments();
+        //virtual Assignments getAssignments() { return prevAssignments; }
+       // virtual Network & getNetwork() { return *network; }
     
 public:
     Annealing(Network * n, Requests const & r);
@@ -36,8 +43,8 @@ public:
     Assignments curAssignments;
 	Assignments prevAssignments;
 	
-	Network *curNetwork;
-	Network *prevNetwork;
+	Network curNetwork;
+	Network prevNetwork;
 };
 
 #endif
