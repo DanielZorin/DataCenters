@@ -4,6 +4,9 @@
 #include "common/publicdefs.h"
 #include "common/algorithm.h"
 #include "common/network.h"
+#include "common/assignment.h"
+
+class Assignment;
 
 class Annealing : public Algorithm
 {
@@ -30,9 +33,19 @@ private:
     Result tryToInsertNewAssignment();
     Result changeAssignments();
     Result changeCurAssignments();
-        //virtual Assignments getAssignments() { return prevAssignments; }
-       // virtual Network & getNetwork() { return *network; }
     
+    void printAssignments(Assignments a);
+    void printRequests(void);
+    //virtual Assignments getAssignments() { return prevAssignments; }
+    virtual Network & getNetwork() { return bestNetwork; }
+    
+    void copyPrevAssignmentsToCur();
+    void copyPrevAssignmentsToBest();
+    void copyCurAssignmentsToBest();
+    void copyCurAssignmentsToPrev();
+    
+    
+     
 public:
     Annealing(Network * n, Requests const & r);
 
@@ -45,6 +58,7 @@ public:
 	
 	Network curNetwork;
 	Network prevNetwork;
+	Network bestNetwork;
 };
 
 #endif

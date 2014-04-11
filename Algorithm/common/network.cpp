@@ -199,19 +199,34 @@ Network& Network::operator=(const Network & n)
 
 void Network::printNetwork()
 {
+	getchar();
 	cout << "======================PrintNetwork===================" << endl;
 	if (nodes.begin() != nodes.end()) {
 		cout << "Nodes:" << endl;
 	}
+	map<int, int> orderedNodes;
+	int nodes_counter = 0;
 	for (Nodes::const_iterator i = nodes.begin(); i != nodes.end(); ++i) {
-		printf("%ld %ld\n", (*i)->getCapacity(), (*i)->getMaxCapacity());
+		++nodes_counter;
+		orderedNodes.insert(pair<int, int>((*i)->getID(), (*i)->getCapacity()));
 	}
+	for (map<int, int>::iterator i = orderedNodes.begin(); i != orderedNodes.end(); ++i) {
+		printf("%ld %ld\n", (*i).first, (*i).second);
+	}
+    printf("Total of %d nodes\n", nodes_counter);
 	if (stores.begin() != stores.end()) {
 		cout << "Stores: " << endl;
 	}
+	map<int, int> orderedStores;
+	int stores_counter = 0;
 	for (Stores::const_iterator i = stores.begin(); i != stores.end(); ++i) {
-		printf("%ld %ld\n", (*i)->getCapacity(), (*i)->getMaxCapacity());
+		++stores_counter;
+		orderedStores.insert(pair<int, int>((*i)->getID(), (*i)->getCapacity()));
 	}
+	for (map<int, int>::iterator i = orderedStores.begin(); i != orderedStores.end(); ++i) {
+		printf("%ld %ld\n", (*i).first, (*i).second);
+	}
+	printf("Total of %d stores\n", stores_counter);
 }
 		
 

@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <string>
+#include <map>
 using std::string;
 class Node;
 class Assignment
@@ -93,10 +94,10 @@ public:
 
     void forcedCleanup();
     
-    void printAssignment() ;
+    std::map<int, int> printAssignment() ;
 
     Replications& getReplications() { return replications; }
-private:
+//private:
     NodeAssignments nodeAssignments;
     StoreAssignments storeAssignments;
     LinkAssignments linkAssignments;

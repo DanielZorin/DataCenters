@@ -78,28 +78,37 @@ Request& Request::operator=(const Request & r)
 void Request::printRequest()
 {
 	cout << "======================PrintRequest===================" << endl;
+	cout << "Name: " << name << endl;
 	if (virtualMachines.begin() != virtualMachines.end()) {
 		cout << "virtualMachines:" << endl;
 	}
+	int vms_counter = 0;
 	for (VirtualMachines::const_iterator i = virtualMachines.begin(); i != virtualMachines.end(); ++i) {
-		printf("%ld %ld\n", (*i)->getCapacity(), (*i)->getMaxCapacity());
+		++vms_counter;
+		printf("%ld %ld %ld\n", (*i)->getID(), (*i)->getCapacity(), (*i)->getMaxCapacity());
 	}
+	printf("Total of %d virtual machines\n", vms_counter);
 	if (storages.begin() != storages.end()) {
 		cout << "storages: " << endl;
 	}
+	int storages_counter = 0;
 	for (Storages::const_iterator i = storages.begin(); i != storages.end(); ++i) {
-		printf("%ld %ld\n", (*i)->getCapacity(), (*i)->getMaxCapacity());
+		++storages_counter;
+		printf("%ld %ld %ld\n", (*i)->getID(), (*i)->getCapacity(), (*i)->getMaxCapacity());
 	}
+	printf("Total of %d storages\n", storages_counter);
 }
 
 Node* Request::addVirtualMachine(Node * node)
 {
+	//node->setID(virtualMachines.size());
     virtualMachines.insert(node);
     return node;
 }
 
 Store* Request::addStorage(Store * store)
 {
+	//store->setID(storages.size());
     storages.insert(store);
     return store;
 }

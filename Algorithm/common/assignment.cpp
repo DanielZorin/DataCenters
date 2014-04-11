@@ -17,17 +17,38 @@ Assignment::~Assignment()
     replications.clear();
 }
 
-void Assignment::printAssignment() 
+using namespace std;
+
+map<int, int> Assignment::printAssignment() 
     {
-		std::cout << "======================" << std::endl;
+		//getchar();
+		map<int, int> result;
+		cout << "======================" << endl;
+		//cout << " L0 " << endl;
+		string nameRequest = request->getName(); 
+		cout << "assignment of request " << nameRequest << endl;
+		long numRequest = nameRequest[nameRequest.size() - 1] - '0';
+		//cout << " L1 ";
 		for (NodeAssignments::iterator i = nodeAssignments.begin(); i != nodeAssignments.end(); ++i) {
+			//cout << " L2 ";
 			NodeAssignment p = *i;
-			std::cout << "node" <<  (p.first)->getID() << " " << (p.second)->getID() << std::endl;
+			//cout << " L3 ";
+			long numNode = (p.second)->getID();
+			result.insert(pair<int, int>(numNode, numRequest));
+			cout << endl << "nodes to: " << numNode << " ";
+			
+			//cout << "          " << (p.first)->getCapacity() << " " << (p.second)->getCapacity();
 		}
+		//cout << " L4 ";
+		cout << endl;
 		for (StoreAssignments::iterator i = storeAssignments.begin(); i != storeAssignments.end(); ++i) {
+			//cout << " L5 ";
 			StoreAssignment p = *i;
-			std::cout << "store" << (p.first)->getID() << " " << (p.second)->getID() << std::endl;
+			cout << endl << "stores to: " << (p.second)->getID() <<" ";
+			//cout << "          " << (p.first)->getCapacity() << " " << (p.second)->getCapacity();
 		}
+		cout << endl;
+		return result;
 	}
 
 string Assignment::getName()

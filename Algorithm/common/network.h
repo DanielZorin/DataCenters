@@ -39,7 +39,7 @@ public:
    Link* addLink(Link * link);
    
    void printNetwork();
-protected:
+//protected:
    // look for element with the given ID and return it's pointer
    Node * nodesIDLookup(const long num);
    Store * storesIDLookup(const long num);
