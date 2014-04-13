@@ -2,27 +2,31 @@
 
 #include "element.h"
 #include "criteria.h"
+#include "port.h"
 
 class Edge : public Element {
 protected:
     Edge() : Element(), first(0), second(0) {}
 public:
-    Element * getFirst() const {
+    Port * getFirst() const {
         return first;
     }
 
-    Element * getSecond() const {
+    Port * getSecond() const {
         return second;
     }
 
-    bool connect(Element * first, Element * second) {
+    bool connect(Port * first, Port * second) {
+    	/*
         if ( Criteria::isPhysical(this) != Criteria::isPhysical(first)) return false;
         if ( Criteria::isPhysical(this) != Criteria::isPhysical(second)) return false;
         if ( !Criteria::isNode(first) ) return false;
-        if ( !Criteria::isNode(second) ) return false;
+        if ( !Criteria::isNode(second) ) return false; */
 
         this->first = first;
+        first->connect(this, second);
         this->second = second;
+        second->connect(this, first);
         return true;
     }
 
@@ -31,18 +35,18 @@ public:
     }
 
     Element * getAdjacent(const Element * node) const {
-        if ( first == node ) return second;
-        if ( second == node ) return first;
+        if ( first->getParentNode() == node ) return second->getParentNode();
+        if ( second->getParentNode() == node ) return first->getParentNode();
         return 0;
     }
 
     virtual Elements adjacent() const {
         Elements result;
-        result.insert(first);
-        result.insert(second);
+        result.insert(first->getParentNode());
+        result.insert(second->getParentNode());
         return result; 
     }
 protected:
-    Element * first;
-    Element * second;
+    Port * first;
+    Port * second;
 };

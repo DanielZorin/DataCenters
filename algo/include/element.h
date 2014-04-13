@@ -1,7 +1,7 @@
 #pragma once
 
 #include "defs.h"
-#include "resourceType.h"
+#include "parameter.h"
 
 class Element {
     friend class ElementFactory;
@@ -22,11 +22,12 @@ protected:
     virtual bool typeCheck(const Element * other) const = 0;
 
     virtual bool physicalCheck(const Element * other) const {
-        ResourceVector::const_iterator it = resourceVector.begin();
-        for ( ; it != resourceVector.end(); ++it ) {
-            ResourceType* type = it->first;
-            if ( other->resourceVector.find(type) != other->resourceVector.end() &&
-                 !type->isAssignmentPossible(other->getResourceValue(type), it->second) )
+        Parameters::const_iterator it = parameters.begin();
+        for ( ; it != parameters.end(); ++it ) {
+        	Parameter* type = it->first;
+        	ParameterValue* value = it->second;
+        	if (other->parameters.find(type) != other->parameters.end() &&
+        		!value->compare(other->parameters.at(type)) )
                 return false;
         }
         return true;
@@ -36,22 +37,25 @@ protected:
     }
 
     virtual void decreaseResources(const Element * other) {
-        ResourceVector::iterator it = resourceVector.begin();
-        for ( ; it != resourceVector.end(); ++it ) {
-            ResourceType* type = it->first;
-            if ( other->resourceVector.find(type) != other->resourceVector.end() &&
-                 !type->isCountable() )
-                it->second -= other->getResourceValue(type);
+    	Parameters::iterator it = parameters.begin();
+        for ( ; it != parameters.end(); ++it ) {
+        	Parameter* type = it->first;
+			ParameterValue* value = it->second;
+			if (other->parameters.find(type) != other->parameters.end()) {
+				value->decrease(other->parameters.at(type));
+			}
         }
     }
 
     virtual void restoreResources(const Element * other)  {
-        ResourceVector::iterator it = resourceVector.begin();
-        for ( ; it != resourceVector.end(); ++it ) {
-            ResourceType* type = it->first;
-            if ( !type->isCountable() )
-                it->second += other->getResourceValue(type);
-        }
+    	Parameters::iterator it = parameters.begin();
+		for ( ; it != parameters.end(); ++it ) {
+			Parameter* type = it->first;
+			ParameterValue* value = it->second;
+			if (other->parameters.find(type) != other->parameters.end()) {
+				value->increase(other->parameters.at(type));
+			}
+		}
     }
     
     virtual unsigned long weight() const { return 0; }
@@ -59,7 +63,11 @@ public:
     Element() : type(NONE), physical(false),
         available(false), attributes(0), assignee(0) {}
 
-    virtual ~Element() {}
+    virtual ~Element() {
+    	for ( Parameters::iterator it = parameters.begin(); it != parameters.end(); ++it ) {
+    		delete it->second;
+    	}
+    }
 
     inline void setAvailable(bool available = true) {
         this->available = available; 
@@ -78,12 +86,12 @@ public:
         return true;
     }
 
-    inline unsigned getResourceValue(ResourceType* type) const {
-        return resourceVector.at(type);
+    inline ParameterValue* getParameterValue(Parameter* type) const {
+        return parameters.at(type);
     }
 
-    inline void setResourceValue(ResourceType* type, unsigned value) {
-        resourceVector[type] = value;
+    inline void setParameterValue(Parameter* type, ParameterValue* value) {
+    	parameters[type] = value;
     }
 
     Element * getAssignee() const {
@@ -124,6 +132,19 @@ public:
         Element * f = const_cast<Element *>(other);
         return adj.find(f) != adj.end();
     }
+
+    // Vnf is in fact virtual machine
+    virtual bool isVnf() const {
+    	return false;
+    }
+
+	virtual bool isServiceAsProvider() const {
+		return false;
+	}
+
+	virtual bool isServiceAsUser() const {
+		return false;
+	}
 
     inline bool isComputer() const { 
         return type & COMPUTER; 
@@ -219,5 +240,5 @@ protected:
     Elements assignments;
 
     // Resource values of element
-    ResourceVector resourceVector;
+    Parameters parameters;
 };

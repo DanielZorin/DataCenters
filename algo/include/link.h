@@ -13,7 +13,11 @@ public:
 
     Link() : Edge() {
         type = LINK;
-    } 
+    }
+
+    void setThroughput(unsigned throughput) {
+		this->throughput = throughput;
+	}
 
 private:
     virtual bool typeCheck(const Element * other) const {
@@ -38,4 +42,5 @@ private:
 
 private:
     unsigned throughput;
+    unsigned latency; // TODO: do not know how to check this yet, this might be a constant value maybe
 };
