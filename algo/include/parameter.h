@@ -177,7 +177,7 @@ public:
 	}
 
 	void increase(const ParameterValue* value) {
-		realValue -= value->realValue;
+		realValue += value->realValue;
 	}
 };
 

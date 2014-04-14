@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "interface/xmlfactory.h"
+#include "interface/tenantxmlfactory.h"
 #include "test/testalgorithm.h"
 
 #include <QString>
@@ -14,21 +14,9 @@ int main(int argc, char ** argv)
         return 1;
     }
 
-    QFile input(argv[1]);
-    input.open(QIODevice::ReadOnly | QIODevice::Text);
-    QTextStream inputStream(&input);
-    Factory * factory = new XMLFactory(inputStream.readAll());
-    Network * network = factory->getNetwork();
-    Algorithm * algorithm = new TestAlgorithm(network, factory->getRequests());
-    algorithm->schedule();
+    TenantXMLFactory sampleFactory = TenantXMLFactory(QDomElement());
+    Request * request = sampleFactory.getRequest();
 
-    QFile output("out.dcxml");
-    output.open(QIODevice::WriteOnly | QIODevice::Text);
-    QTextStream outStream(&output);
-    outStream << factory->getResult();  
-
-    delete algorithm;
-    delete factory;
 
     return 0;
 }

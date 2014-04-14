@@ -59,4 +59,10 @@ namespace Operation {
         Element * cmp = const_cast<Element *>(element);
         return elements.find(cmp) != elements.end(); 
     }
+
+    inline Elements unite(const Elements & first, const Elements & second) {
+        Elements result(first);
+        result.insert(second.begin(), second.end());
+        return result;
+    }
 };
