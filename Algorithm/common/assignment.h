@@ -94,7 +94,8 @@ public:
 
     void forcedCleanup();
     
-    std::map<int, int> printAssignment() ;
+    std::multimap<int, int> printAssignmentNodes() ;
+    std::multimap<int, int> printAssignmentStores();
 
     Replications& getReplications() { return replications; }
 //private:

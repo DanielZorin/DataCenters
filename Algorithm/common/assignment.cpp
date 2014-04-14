@@ -18,38 +18,49 @@ Assignment::~Assignment()
 }
 
 using namespace std;
+#include <stdlib.h>
 
-map<int, int> Assignment::printAssignment() 
-    {
-		//getchar();
-		map<int, int> result;
-		cout << "======================" << endl;
-		//cout << " L0 " << endl;
-		string nameRequest = request->getName(); 
-		cout << "assignment of request " << nameRequest << endl;
-		long numRequest = nameRequest[nameRequest.size() - 1] - '0';
-		//cout << " L1 ";
-		for (NodeAssignments::iterator i = nodeAssignments.begin(); i != nodeAssignments.end(); ++i) {
-			//cout << " L2 ";
-			NodeAssignment p = *i;
-			//cout << " L3 ";
-			long numNode = (p.second)->getID();
-			result.insert(pair<int, int>(numNode, numRequest));
-			cout << endl << "nodes to: " << numNode << " ";
-			
-			//cout << "          " << (p.first)->getCapacity() << " " << (p.second)->getCapacity();
+multimap<int, int> Assignment::printAssignmentNodes() 
+{
+	multimap<int, int> result;
+	string nameRequest = request->getName(); 
+	string tmp;
+	for (string::reverse_iterator iter = nameRequest.rbegin(); iter != nameRequest.rend(); ++iter) {
+		char c = *iter;
+		if (c < '0' || c > '9') {
+			break;
 		}
-		//cout << " L4 ";
-		cout << endl;
-		for (StoreAssignments::iterator i = storeAssignments.begin(); i != storeAssignments.end(); ++i) {
-			//cout << " L5 ";
-			StoreAssignment p = *i;
-			cout << endl << "stores to: " << (p.second)->getID() <<" ";
-			//cout << "          " << (p.first)->getCapacity() << " " << (p.second)->getCapacity();
-		}
-		cout << endl;
-		return result;
+		   tmp = c + tmp;
 	}
+	long numRequest = atoi(tmp.c_str());
+	for (NodeAssignments::iterator i = nodeAssignments.begin(); i != nodeAssignments.end(); ++i) {
+		NodeAssignment p = *i;
+		long numNode = (p.second)->getID();
+		result.insert(pair<int, int>(numNode, numRequest));
+	}
+	return result;
+}
+multimap<int, int> Assignment::printAssignmentStores() 
+{	
+	multimap<int, int> result;
+	string nameRequest = request->getName(); 
+	string tmp;
+	for (string::reverse_iterator iter = nameRequest.rbegin(); iter != nameRequest.rend(); ++iter) {
+		char c = *iter;
+		if (c < '0' || c > '9') {
+			break;
+		}
+		   tmp = c + tmp;
+	}
+	long numRequest = atoi(tmp.c_str());
+	for (StoreAssignments::iterator i = storeAssignments.begin(); i != storeAssignments.end(); ++i) {
+		//cout << " L5 ";
+		StoreAssignment p = *i;
+		long numStore = (p.second)->getID();
+		result.insert(pair<int, int>(numStore, numRequest));
+	}
+	return result;
+}
 
 string Assignment::getName()
 {

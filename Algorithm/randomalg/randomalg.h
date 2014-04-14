@@ -68,7 +68,7 @@ class RandomAlgorithm: public Algorithm
 		}
 		if (NRes == 0) NRes = (network->getStores().size() > network->getNodes().size()) ? network->getStores().size() : network->getNodes().size();
 
-		srand(time(NULL));
+//		srand(time(NULL));
 	//    srand(1);
 
 		bestSequence.reserve(vmCount+stCount);

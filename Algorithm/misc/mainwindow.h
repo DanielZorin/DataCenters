@@ -17,6 +17,8 @@ using std::endl;
 #include <streambuf>
 #include <string>
 
+#include <ctime>
+
 #include <QtGui/QTextEdit>
 #include <QtGui/QApplication>
 #include <QtGui/QMainWindow>
@@ -101,7 +103,10 @@ public:
 		}
 		else
 		{
+			unsigned int start = clock();
 			algorithm->schedule();
+			unsigned int end = clock();
+            std::cout << "time = " << end - start << std::endl;
 			finish();
 			QTimer* timer = new QTimer();
 			timer->setInterval(1000);

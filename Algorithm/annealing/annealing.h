@@ -48,7 +48,7 @@ private:
      
 public:
     Annealing(Network * n, Requests const & r);
-
+    int kol;
     virtual ~Annealing() {}
     virtual Algorithm::Result schedule();
 
