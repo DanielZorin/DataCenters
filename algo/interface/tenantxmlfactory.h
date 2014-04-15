@@ -12,7 +12,7 @@ class NetworkXMLFactory;
 class TenantXMLFactory {
 public:
     typedef QMap<QString, Element *> IDS;
-    typedef QMap<QString, QVariant> parameters;
+    typedef QMap<QString, QVariant> Properties;
 
     TenantXMLFactory(const QDomElement & element);
     virtual ~TenantXMLFactory();
@@ -22,7 +22,11 @@ private:
     Elements getElementsByType(const class QStringList &, const QDomElement &);
     Elements createElementsFromNodeList(class QDomNodeList &);
     Element * createElementFromXML(const QDomElement & element);
+    Properties getAttributesFromXML(const class QDomNamedNodeMap &) const;
+    Properties getParametersFromXML(const class QDomNodeList &) const;
 
+    Link * createLink(const QDomElement & element) const;
+    Element * createNode(const QDomElement & element) const;
 private:
     Request * request;
     QDomElement tenant;
