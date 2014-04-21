@@ -18,11 +18,12 @@ TenantXMLFactory::TenantXMLFactory(const QDomElement & element)
 {
     QStringList elementTypes;
     elementTypes << "vm" << "st" << "netelement" << "vnf" << "domain" << "link";
-    Elements nodeElements = getElementsByType(elementTypes, tenant);
+    Elements elements = getElementsByType(elementTypes, tenant);
+
+    request = new Request(elements);
 }
 
 TenantXMLFactory::~TenantXMLFactory() {
-
 }
 
 Request * TenantXMLFactory::getRequest() const {
@@ -106,13 +107,13 @@ Element * TenantXMLFactory::createNode(const QDomElement & e) const {
 
     if ( type == "vm" || type == "vnf" ) {
         Computer * vm = new Computer();
-        node = ElementFactory::populate(vm, properties);
+        node = ElementFactory::populate(vm, properties, this);
     } else if ( type == "st" ) {
         Store * st = new Store();
-        node = ElementFactory::populate(st, properties);
+        node = ElementFactory::populate(st, properties, this);
     } else if ( type == "netelement" ) {
         Switch * sw = new Switch();
-        node = ElementFactory::populate(sw, properties);
+        node = ElementFactory::populate(sw, properties, this);
     }
 
     return node;
