@@ -12,12 +12,8 @@ class AbstractVertex:
 
     number = -1
 
-    def __init__(self, id, created="", updated="", deleted="", deleteFlag=False, service=False):
+    def __init__(self, id, service=False):
         self.id = id
-        self.created = created
-        self.updated = updated
-        self.deleted = deleted
-        self.deleteFlag = deleteFlag
         self.service = service
         self.params = []
         self.ports = []

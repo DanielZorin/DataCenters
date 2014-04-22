@@ -25,21 +25,13 @@ class Vis(QMainWindow):
         self.project = project
         self.canvas.Clear()
         r = self.project.resources.GetTimeBounds()
-        self.time = r[0]
-        self.ui.timeSpinBox.setValue(r[0])
-        self.ui.timeSpinBox.setMinimum(r[0])
-        self.ui.timeSpinBox.setMaximum(r[1])
-        self.ui.timeSlider.setValue(r[0])
-        self.ui.timeSlider.setMinimum(r[0])
-        self.ui.timeSlider.setMaximum(r[1])
         self.ui.info.setText("")
-        timeInt = self.project.resources.GetTimeInterval(self.time)
         self.ui.assignedDemands.clear()
         for d in self.project.demands:
             if d.assigned and (d.startTime <= self.time) and (d.endTime >= self.time):
                 it = QTreeWidgetItem(self.ui.assignedDemands, [d.id])
                 it.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
-        self.canvas.Visualize(self.project.resources, timeInt)
+        self.canvas.Visualize(self.project.resources)
         
     def resizeEvent(self, e):
         super(QMainWindow, self).resizeEvent(e)
@@ -219,10 +211,6 @@ class Vis(QMainWindow):
         self.ui.timeSpinBox.setValue(value)
         self.Update()        
 
-    def UpdateTimeFromSpinBox(self,value):
-        self.time = value
-        self.ui.timeSlider.setValue(value)
-        self.Update()
 
     def Update(self):
         timeInt = self.project.resources.GetTimeInterval(self.time)

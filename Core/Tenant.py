@@ -77,10 +77,6 @@ class Link:
         self.port1 = e1.addPort()
         self.port2 = e2.addPort()
         self.capacity = capacity
-        self.created = ""
-        self.updated = ""
-        self.deleted = ""
-        self.deleteFlag = False
         self.service = False
         
 class Tenant(AbstractGraph):
@@ -91,11 +87,8 @@ class Tenant(AbstractGraph):
         AbstractGraph.__init__(self)
         self.name = ""
         self.type = ""
-        self.created = ""
-        self.updated = ""
-        self.deleted = ""
-        self.deleteFlag = False
         self.expiration = ""
+        self.assigned = False
 
     def ExportToXml(self):
         '''
@@ -294,7 +287,7 @@ class Tenant(AbstractGraph):
         self.vertices = []
         self.edges = []
         for node in dom.childNodes:
-            if node.tagName == "resources":
+            if node.tagName == "tenant":
                 self.LoadFromXmlNode(node)
         f.close()
 

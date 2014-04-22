@@ -1,10 +1,10 @@
 import xml.dom.minidom, copy, random
 from Core.AbstractGraph import AbstractGraph, AbstractVertex
-from Core.Demands import DemandStorage, VM
+from Core.Tenants import TenantStorage, VM
 
 class State:
     def __init__(self):
-        self.demands = {}
+        self.tenants = {}
 
 class ComputerState(State):
     def __init__(self):
@@ -95,7 +95,7 @@ class Link:
 class ResourceGraph(AbstractGraph):
     ''' Graph of physical resources
     '''
-    assignedDemands = set([])
+    assignedTenants = set([])
 
     def __init__(self):
         AbstractGraph.__init__(self)
@@ -250,7 +250,7 @@ class ResourceGraph(AbstractGraph):
             if (isinstance(v, VM) and isinstance(v1, Computer)
                 and (v.speed <= v1.speed - v1.intervals[time].usedResource) and (v.ram <= v1.ram - v1.intervals[time].usedRam)):
                 availableVertices.add(v1)
-            if isinstance(v, DemandStorage) and isinstance(v1, Storage) and (v.type == v1.type) and (v.volume <= v1.volume - v1.intervals[time].usedVolume):
+            if isinstance(v, TenantStorage) and isinstance(v1, Storage) and (v.type == v1.type) and (v.volume <= v1.volume - v1.intervals[time].usedVolume):
                 availableVertices.add(v1)
         return availableVertices
 
@@ -276,274 +276,92 @@ class ResourceGraph(AbstractGraph):
                     return False
         return True
 
-    def GetRanges(self, demand):
-        v = self.vertices[0]
-        ranges = []
-        for t in v.intervals.keys():
-            if (t[0] >= demand.startTime) and (t[1] <= demand.endTime):
-                ranges.append(t)
-        return ranges
-
-    def DropVertex(self,demand,v):
+    def DropVertex(self,tenant,v):
         if v.resource == None:
             return
-        for time in self.GetRanges(demand):
+        for time in self.GetRanges(tenant):
             if isinstance(v,VM):
                 v.resource.intervals[time].usedSpeed -= v.speed
                 v.resource.intervals[time].usedRam -= v.ram
-            elif isinstance(v,DemandStorage):
+            elif isinstance(v,TenantStorage):
                 v.resource.intervals[time].usedVolume -= v.volume
-            v.resource.intervals[time].demands[demand.id].remove(v.number)
-            if v.resource.intervals[time].demands[demand.id]==[]:
-                del v.resource.intervals[time].demands[demand.id]
+            v.resource.intervals[time].tenants[tenant.id].remove(v.number)
+            if v.resource.intervals[time].tenants[tenant.id]==[]:
+                del v.resource.intervals[time].tenants[tenant.id]
         v.resource = None
 
-    def DropLink(self,demand,link):
+    def DropLink(self,tenant,link):
         if link.path == []:
             return
         path = link.path
         for elem in path[1:len(path)-1]:
-            for time in self.GetRanges(demand):
+            for time in self.GetRanges(tenant):
                 if isinstance(elem, Router):
                     elem.intervals[time].usedCapacity -= link.capacity
-                    elem.intervals[time].demands[demand.id].remove((link.e1.number,link.e2.number))
-                    if elem.intervals[time].demands[demand.id]==[]:
-                        del elem.intervals[time].demands[demand.id]
+                    elem.intervals[time].tenants[tenant.id].remove((link.e1.number,link.e2.number))
+                    if elem.intervals[time].tenants[tenant.id]==[]:
+                        del elem.intervals[time].tenants[tenant.id]
                 else:
                     e = self.FindEdge(elem.e1, elem.e2)
                     e.intervals[time].usedCapacity -= link.capacity
-                    e.intervals[time].demands[demand.id].remove((link.e1.number,link.e2.number))
-                    if e.intervals[time].demands[demand.id]==[]:
-                        del e.intervals[time].demands[demand.id]
+                    e.intervals[time].tenants[tenant.id].remove((link.e1.number,link.e2.number))
+                    if e.intervals[time].tenants[tenant.id]==[]:
+                        del e.intervals[time].tenants[tenant.id]
         link.path = []
 
-    def DropDemand(self,demand):
-        demand.assigned = False
-        for r in demand.replications:
-            self.DropReplica(demand,r)
-        for rl in demand.replicalinks:
-            self.DropReplicaLink(demand,rl)
-        demand.replications = []
-        demand.replicalinks = []
-        for v in demand.vertices:
-            self.DropVertex(demand,v)
-        for e in demand.edges:
-            self.DropLink(demand,e)
-        if demand in self.assignedDemands:
-            self.assignedDemands.remove(demand) 
-        #self.RemoveIntervals(demand)
+    def DropTenant(self,tenant):
+        tenant.assigned = False
+        for r in tenant.replications:
+            self.DropReplica(tenant,r)
+        for rl in tenant.replicalinks:
+            self.DropReplicaLink(tenant,rl)
+        tenant.replications = []
+        tenant.replicalinks = []
+        for v in tenant.vertices:
+            self.DropVertex(tenant,v)
+        for e in tenant.edges:
+            self.DropLink(tenant,e)
+        if tenant in self.assignedTenants:
+            self.assignedTenants.remove(tenant) 
+        #self.RemoveIntervals(tenant)
 
-    def AssignVertex(self, demand, vdemand, vresource, time):
-        vdemand.resource = vresource
-        self.assignedDemands.add(demand)
-        if not vresource.intervals[time].demands.has_key(demand.id):
-            vresource.intervals[time].demands[demand.id] = []
-        vresource.intervals[time].demands[demand.id].append(vdemand.number)
-        if isinstance(vdemand, VM):
-            vresource.intervals[time].usedSpeed += vdemand.speed
-            vresource.intervals[time].usedRam += vdemand.ram
-        elif isinstance(vdemand, DemandStorage):
-            vresource.intervals[time].usedVolume += vdemand.volume
+    def AssignVertex(self, tenant, vtenant, vresource, time):
+        vtenant.resource = vresource
+        self.assignedTenants.add(tenant)
+        if not vresource.intervals[time].tenants.has_key(tenant.id):
+            vresource.intervals[time].tenants[tenant.id] = []
+        vresource.intervals[time].tenants[tenant.id].append(vtenant.number)
+        if isinstance(vtenant, VM):
+            vresource.intervals[time].usedSpeed += vtenant.speed
+            vresource.intervals[time].usedRam += vtenant.ram
+        elif isinstance(vtenant, TenantStorage):
+            vresource.intervals[time].usedVolume += vtenant.volume
 
-    def AssignReplica(self, demand, replica, time):
-        replica.assignedto.intervals[time].usedVolume += replica.replica.volume
-
-    def DropReplica(self, demand, replica):
-        if replica.assignedto == None:
-            return
-        for time in self.GetRanges(demand):
-            replica.assignedto.intervals[time].usedVolume -= replica.replica.volume
-
-    def AssignReplicaLink(self, demand, link, path, time):
-        for elem in path[1:len(path)-1]:
-            if isinstance(elem, Router):
-                elem.intervals[time].usedCapacity += link.capacity
-            else:
-                e = self.FindEdge(elem.e1, elem.e2)
-                e.intervals[time].usedCapacity += link.capacity
-
-    def DropReplicaLink(self,demand,link):
-        if link.path == []:
-            return
-        path = link.path
-        for elem in path[1:len(path)-1]:
-            for time in self.GetRanges(demand):
-                if isinstance(elem, Router):
-                    elem.intervals[time].usedCapacity -= link.capacity
-                else:
-                    e = self.FindEdge(elem.e1, elem.e2)
-                    e.intervals[time].usedCapacity -= link.capacity
-        link.path = []
-
-    def AssignLink(self, demand, link, path, time):
+    def AssignLink(self, tenant, link, path, time):
         link.path = path
-        self.assignedDemands.add(demand)
+        self.assignedTenants.add(tenant)
         for elem in path[1:len(path)-1]:
             if isinstance(elem, Router):
                 elem.intervals[time].usedCapacity += link.capacity
-                if not elem.intervals[time].demands.has_key(demand.id):
-                    elem.intervals[time].demands[demand.id] = []
-                elem.intervals[time].demands[demand.id].append((link.e1.number, link.e2.number))
+                if not elem.intervals[time].tenants.has_key(tenant.id):
+                    elem.intervals[time].tenants[tenant.id] = []
+                elem.intervals[time].tenants[tenant.id].append((link.e1.number, link.e2.number))
             else:
                 e = self.FindEdge(elem.e1, elem.e2)
                 e.intervals[time].usedCapacity += link.capacity
-                if not e.intervals[time].demands.has_key(demand.id):
-                    e.intervals[time].demands[demand.id] = []
-                e.intervals[time].demands[demand.id].append((link.e1.number, link.e2.number))
+                if not e.intervals[time].tenants.has_key(tenant.id):
+                    e.intervals[time].tenants[tenant.id] = []
+                e.intervals[time].tenants[tenant.id].append((link.e1.number, link.e2.number))
 
-    def AddTimePoint(self, r, point):
-        points = []
-        for k in r.intervals.keys():
-            points.extend([k[0],k[1]])
-        points = list(set(points))
-        points.sort()        
-        if points.count(point) != 0:
-            return
-        if point > max(points):
-            if isinstance(r, Computer):
-                r.intervals[(max(points),point)] = ComputerState()
-            elif isinstance(r, Storage):
-                r.intervals[(max(points),point)] = StorageState()
-            elif isinstance(r, Router):
-                r.intervals[(max(points),point)] = RouterState()
-            elif isinstance(r, Link):
-                r.intervals[(max(points),point)] = LinkState()
-            return
-        if point < min(points):
-            if isinstance(r, Computer):
-                r.intervals[(point,min(points))] = ComputerState()
-            elif isinstance(r, Storage):
-                r.intervals[(point,min(points))] = StorageState()
-            elif isinstance(r, Router):
-                r.intervals[(point,min(points))] = RouterState()
-            elif isinstance(r, Link):
-                r.intervals[(point,min(points))] = LinkState()
-            return
-        i = 1
-        while points[i] < point:
-            i+=1
-        r.intervals[(points[i-1],point)] = copy.deepcopy(r.intervals[(points[i-1],points[i])])
-        r.intervals[(point,points[i])] = copy.deepcopy(r.intervals[(points[i-1],points[i])])
-        del r.intervals[(points[i-1],points[i])]
-
-    def GetCurrentTimePoints(self):
-        l = set([])
-        for d in self.assignedDemands:
-            l.add(d.startTime)
-            l.add(d.endTime)
-        l = list(l)
-        l.sort()
-        return l
-
-    def RemoveTimePoint(self, intervals, point):
-        points = self.GetCurrentTimePoints()
-        if points.count(point) != 0:
-            return
-        points = []
-        for k in intervals.keys():
-            points.extend([k[0],k[1]])
-        points = list(set(points))
-        points.remove(point)
-        points.sort()
-        if point > max(points):
-            del intervals[(max(points),point)]
-            return
-        if point < min(points):
-            del intervals[(point,min(points))]
-            return
-        i = 1
-        while points[i] < point:
-            i+=1
-        intervals[(points[i-1],points[i])] = copy.deepcopy(intervals[(points[i-1],point)])
-        del intervals[(points[i-1],point)]
-        del intervals[(point,points[i])]
-
-    def PrepareIntervals(self, demand):
-        for v in self.vertices:
-            if v.intervals == {}:
-                if isinstance(v, Computer):
-                    v.intervals[(demand.startTime,demand.endTime)] = ComputerState()
-                elif isinstance(v, Storage):
-                    v.intervals[(demand.startTime,demand.endTime)] = StorageState()
-                elif isinstance(v, Router):
-                    v.intervals[(demand.startTime,demand.endTime)] = RouterState()
-            else:
-                self.AddTimePoint(v, demand.startTime)
-                self.AddTimePoint(v, demand.endTime)
-        for e in self.edges:
-            if e.intervals == {}:
-                e.intervals[(demand.startTime,demand.endTime)] = LinkState()
-            else:
-                self.AddTimePoint(e, demand.startTime)
-                self.AddTimePoint(e, demand.endTime)
-
-    def LoadAssignedDemand(self, demand):
-        self.PrepareIntervals(demand)
-        ranges = self.GetRanges(demand)
-        for time in ranges:
-            for v in demand.vertices:
-                self.AssignVertex(demand, v, v.resource, time)
-            for e in demand.edges:
-                if e.e1.resource == e.e2.resource:
-                    continue
-                self.AssignLink(demand, e, e.path, time)
-            for r in demand.replications:
-                self.AssignReplica(demand, r, time)
-            for rl in demand.replicalinks:
-                self.AssignReplicaLink(demand, rl, rl.path, time)
-
-    def LoadAllDemands(self, demands):
-        points = set([])
-        for demand in demands:
-            if demand.assigned:
-                points.add(demand.startTime)
-                points.add(demand.endTime)
-        points = list(points)
-        points.sort()
-        ranges = []
-        for i in range(0,len(points)-1):
-            ranges.append((points[i],points[i+1]))
-        for v in self.vertices:
-            v.intervals = {}
-            for r in ranges:
-                if isinstance(v, Computer):
-                    v.intervals[r] = ComputerState()
-                elif isinstance(v, Storage):
-                    v.intervals[r] = StorageState()
-                elif isinstance(v, Router):
-                    v.intervals[r] = RouterState()
-        for e in self.edges:
-            e.intervals = {}
-            for r in ranges:
-                e.intervals[r] = LinkState()
-        for demand in demands:
-            if demand.assigned:
-                r = self.GetRanges(demand)
-                for t in r:
-                    for v in demand.vertices:
-                        self.AssignVertex(demand,v,v.resource,t)
-                    for e in demand.edges:
-                        if e.e1.resource == e.e2.resource:
-                            continue
-                        self.AssignLink(demand, e, e.path, t)
-                    for r in demand.replications:
-                        self.AssignReplica(demand,r,t)
-                    for rl in demand.replicalinks:
-                        self.AssignReplicaLink(demand, rl, rl.path, t)
-
-    def RemoveIntervals(self, demand):
-        for v in self.vertices:
-            if len(v.intervals.keys())==1:
-                del v.intervals[(demand.startTime,demand.endTime)]
-            else:
-                self.RemoveTimePoint(v.intervals, demand.startTime)
-                self.RemoveTimePoint(v.intervals, demand.endTime)
-        for e in self.edges:
-            if len(e.intervals.keys())==1:
-                del e.intervals[(demand.startTime,demand.endTime)]
-            else:
-                self.RemoveTimePoint(e.intervals, demand.startTime)
-                self.RemoveTimePoint(e.intervals, demand.endTime)
+    def LoadAllTenants(self, tenants):
+        for tenant in tenants:
+            if tenant.assigned:
+                for v in tenant.vertices:
+                    self.AssignVertex(tenant,v,v.resource,t)
+                for e in tenant.edges:
+                    if e.e1.resource == e.e2.resource:
+                        continue
+                    self.AssignLink(tenant, e, e.path, t)
 
     def GenerateTree3(self, params):
         copyNum=params["copyNum"] + 1
