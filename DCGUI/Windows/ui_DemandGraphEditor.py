@@ -4,7 +4,16 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    _fromUtf8 = lambda s: s
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_DemandGraphEditor(object):
     def setupUi(self, DemandGraphEditor):
@@ -135,31 +144,31 @@ class Ui_DemandGraphEditor(object):
         DemandGraphEditor.setTabOrder(self.startTime, self.endTime)
 
     def retranslateUi(self, DemandGraphEditor):
-        DemandGraphEditor.setWindowTitle(QtGui.QApplication.translate("DemandGraphEditor", "Request Graph Editor", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("DemandGraphEditor", "Starting Time:", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_2.setText(QtGui.QApplication.translate("DemandGraphEditor", "End Time:", None, QtGui.QApplication.UnicodeUTF8))
-        self.menuFile.setTitle(QtGui.QApplication.translate("DemandGraphEditor", "File", None, QtGui.QApplication.UnicodeUTF8))
-        self.toolBar.setWindowTitle(QtGui.QApplication.translate("DemandGraphEditor", "toolBar", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSelect.setText(QtGui.QApplication.translate("DemandGraphEditor", "Select", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSelect.setShortcut(QtGui.QApplication.translate("DemandGraphEditor", "Alt+1", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionVM.setText(QtGui.QApplication.translate("DemandGraphEditor", "Add VM", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionVM.setToolTip(QtGui.QApplication.translate("DemandGraphEditor", "Add VM", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionVM.setShortcut(QtGui.QApplication.translate("DemandGraphEditor", "Alt+2", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionEdge.setText(QtGui.QApplication.translate("DemandGraphEditor", "Add Virtual Channel", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionEdge.setToolTip(QtGui.QApplication.translate("DemandGraphEditor", "Add Virtual Channel", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionEdge.setShortcut(QtGui.QApplication.translate("DemandGraphEditor", "Alt+3", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionNew_System.setText(QtGui.QApplication.translate("DemandGraphEditor", "New Graph", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionNew_System.setShortcut(QtGui.QApplication.translate("DemandGraphEditor", "Ctrl+N", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionOpen_System.setText(QtGui.QApplication.translate("DemandGraphEditor", "Open Graph", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionOpen_System.setShortcut(QtGui.QApplication.translate("DemandGraphEditor", "Ctrl+O", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSave_System.setText(QtGui.QApplication.translate("DemandGraphEditor", "Save Graph", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSave_System.setShortcut(QtGui.QApplication.translate("DemandGraphEditor", "Ctrl+S", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSave_System_As.setText(QtGui.QApplication.translate("DemandGraphEditor", "Save Graph As...", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSave_System_As.setShortcut(QtGui.QApplication.translate("DemandGraphEditor", "Ctrl+Shift+S", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionExit.setText(QtGui.QApplication.translate("DemandGraphEditor", "Exit", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionExit.setShortcut(QtGui.QApplication.translate("DemandGraphEditor", "Ctrl+X", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionDemandStorage.setText(QtGui.QApplication.translate("DemandGraphEditor", "Add Storage", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionDemandStorage.setToolTip(QtGui.QApplication.translate("DemandGraphEditor", "Add Storage", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionDemandStorage.setShortcut(QtGui.QApplication.translate("DemandGraphEditor", "Alt+4", None, QtGui.QApplication.UnicodeUTF8))
+        DemandGraphEditor.setWindowTitle(_translate("DemandGraphEditor", "Request Graph Editor", None))
+        self.label.setText(_translate("DemandGraphEditor", "Starting Time:", None))
+        self.label_2.setText(_translate("DemandGraphEditor", "End Time:", None))
+        self.menuFile.setTitle(_translate("DemandGraphEditor", "File", None))
+        self.toolBar.setWindowTitle(_translate("DemandGraphEditor", "toolBar", None))
+        self.actionSelect.setText(_translate("DemandGraphEditor", "Select", None))
+        self.actionSelect.setShortcut(_translate("DemandGraphEditor", "Alt+1", None))
+        self.actionVM.setText(_translate("DemandGraphEditor", "Add VM", None))
+        self.actionVM.setToolTip(_translate("DemandGraphEditor", "Add VM", None))
+        self.actionVM.setShortcut(_translate("DemandGraphEditor", "Alt+2", None))
+        self.actionEdge.setText(_translate("DemandGraphEditor", "Add Virtual Channel", None))
+        self.actionEdge.setToolTip(_translate("DemandGraphEditor", "Add Virtual Channel", None))
+        self.actionEdge.setShortcut(_translate("DemandGraphEditor", "Alt+3", None))
+        self.actionNew_System.setText(_translate("DemandGraphEditor", "New Graph", None))
+        self.actionNew_System.setShortcut(_translate("DemandGraphEditor", "Ctrl+N", None))
+        self.actionOpen_System.setText(_translate("DemandGraphEditor", "Open Graph", None))
+        self.actionOpen_System.setShortcut(_translate("DemandGraphEditor", "Ctrl+O", None))
+        self.actionSave_System.setText(_translate("DemandGraphEditor", "Save Graph", None))
+        self.actionSave_System.setShortcut(_translate("DemandGraphEditor", "Ctrl+S", None))
+        self.actionSave_System_As.setText(_translate("DemandGraphEditor", "Save Graph As...", None))
+        self.actionSave_System_As.setShortcut(_translate("DemandGraphEditor", "Ctrl+Shift+S", None))
+        self.actionExit.setText(_translate("DemandGraphEditor", "Exit", None))
+        self.actionExit.setShortcut(_translate("DemandGraphEditor", "Ctrl+X", None))
+        self.actionDemandStorage.setText(_translate("DemandGraphEditor", "Add Storage", None))
+        self.actionDemandStorage.setToolTip(_translate("DemandGraphEditor", "Add Storage", None))
+        self.actionDemandStorage.setShortcut(_translate("DemandGraphEditor", "Alt+4", None))
 
 from . import resources_rc

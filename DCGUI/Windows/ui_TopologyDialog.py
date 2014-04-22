@@ -4,7 +4,16 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    _fromUtf8 = lambda s: s
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_TopologyDialog(object):
     def setupUi(self, TopologyDialog):
@@ -56,12 +65,12 @@ class Ui_TopologyDialog(object):
         QtCore.QMetaObject.connectSlotsByName(TopologyDialog)
 
     def retranslateUi(self, TopologyDialog):
-        TopologyDialog.setWindowTitle(QtGui.QApplication.translate("TopologyDialog", "Choose Topology", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("TopologyDialog", "Choose topology:", None, QtGui.QApplication.UnicodeUTF8))
-        self.common.setText(QtGui.QApplication.translate("TopologyDialog", "Common DC topology", None, QtGui.QApplication.UnicodeUTF8))
-        self.tree2.setText(QtGui.QApplication.translate("TopologyDialog", "Tree-like (2 switch layers)", None, QtGui.QApplication.UnicodeUTF8))
-        self.tree3.setText(QtGui.QApplication.translate("TopologyDialog", "Tree-like (3 switch layers)", None, QtGui.QApplication.UnicodeUTF8))
-        self.OK.setText(QtGui.QApplication.translate("TopologyDialog", "OK", None, QtGui.QApplication.UnicodeUTF8))
-        self.Cancel.setText(QtGui.QApplication.translate("TopologyDialog", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
+        TopologyDialog.setWindowTitle(_translate("TopologyDialog", "Choose Topology", None))
+        self.label.setText(_translate("TopologyDialog", "Choose topology:", None))
+        self.common.setText(_translate("TopologyDialog", "Common DC topology", None))
+        self.tree2.setText(_translate("TopologyDialog", "Tree-like (2 switch layers)", None))
+        self.tree3.setText(_translate("TopologyDialog", "Tree-like (3 switch layers)", None))
+        self.OK.setText(_translate("TopologyDialog", "OK", None))
+        self.Cancel.setText(_translate("TopologyDialog", "Cancel", None))
 
 from . import resources_rc

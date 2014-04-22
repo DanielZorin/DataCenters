@@ -4,7 +4,16 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    _fromUtf8 = lambda s: s
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_StorageDialog(object):
     def setupUi(self, StorageDialog):
@@ -79,11 +88,11 @@ class Ui_StorageDialog(object):
         QtCore.QMetaObject.connectSlotsByName(StorageDialog)
 
     def retranslateUi(self, StorageDialog):
-        StorageDialog.setWindowTitle(QtGui.QApplication.translate("StorageDialog", "Edit Storage", None, QtGui.QApplication.UnicodeUTF8))
-        self.namelabel.setText(QtGui.QApplication.translate("StorageDialog", "Name:", None, QtGui.QApplication.UnicodeUTF8))
-        self.volumelabel.setText(QtGui.QApplication.translate("StorageDialog", "Capacity:", None, QtGui.QApplication.UnicodeUTF8))
-        self.typelabel.setText(QtGui.QApplication.translate("StorageDialog", "Type:", None, QtGui.QApplication.UnicodeUTF8))
-        self.OK.setText(QtGui.QApplication.translate("StorageDialog", "OK", None, QtGui.QApplication.UnicodeUTF8))
-        self.Cancel.setText(QtGui.QApplication.translate("StorageDialog", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
+        StorageDialog.setWindowTitle(_translate("StorageDialog", "Edit Storage", None))
+        self.namelabel.setText(_translate("StorageDialog", "Name:", None))
+        self.volumelabel.setText(_translate("StorageDialog", "Capacity:", None))
+        self.typelabel.setText(_translate("StorageDialog", "Type:", None))
+        self.OK.setText(_translate("StorageDialog", "OK", None))
+        self.Cancel.setText(_translate("StorageDialog", "Cancel", None))
 
 from . import resources_rc

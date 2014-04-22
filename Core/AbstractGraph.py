@@ -12,9 +12,27 @@ class AbstractVertex:
 
     number = -1
 
-    def __init__(self, id):
+    def __init__(self, id, created="", updated="", deleted="", deleteFlag=False, service=False):
         self.id = id
+        self.created = created
+        self.updated = updated
+        self.deleted = deleted
+        self.deleteFlag = deleteFlag
+        self.service = service
+        self.params = []
+        self.ports = []
 
+    def addPort(self):
+        s = self.id + "_port_" + str(len(self.ports))
+        self.ports.append(s)
+        return s
+
+class Param:
+    def __init__(self, name, type, value):
+        self.name = name
+        self.type = type
+        self.value = value
+        
 class AbstractGraph:
     ''' Represents a graph with vertices and edges'''
     def __init__(self):
