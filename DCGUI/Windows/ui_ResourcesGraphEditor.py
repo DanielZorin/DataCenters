@@ -4,7 +4,16 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    _fromUtf8 = lambda s: s
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_ResourcesGraphEditor(object):
     def setupUi(self, ResourcesGraphEditor):
@@ -135,34 +144,34 @@ class Ui_ResourcesGraphEditor(object):
         QtCore.QMetaObject.connectSlotsByName(ResourcesGraphEditor)
 
     def retranslateUi(self, ResourcesGraphEditor):
-        ResourcesGraphEditor.setWindowTitle(QtGui.QApplication.translate("ResourcesGraphEditor", "Resources Graph Editor", None, QtGui.QApplication.UnicodeUTF8))
-        self.menuFile.setTitle(QtGui.QApplication.translate("ResourcesGraphEditor", "File", None, QtGui.QApplication.UnicodeUTF8))
-        self.toolBar.setWindowTitle(QtGui.QApplication.translate("ResourcesGraphEditor", "toolBar", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSelect.setText(QtGui.QApplication.translate("ResourcesGraphEditor", "Select", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSelect.setShortcut(QtGui.QApplication.translate("ResourcesGraphEditor", "Alt+1", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionComputer.setText(QtGui.QApplication.translate("ResourcesGraphEditor", "Add Computational Node", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionComputer.setToolTip(QtGui.QApplication.translate("ResourcesGraphEditor", "Add Computational Node", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionComputer.setShortcut(QtGui.QApplication.translate("ResourcesGraphEditor", "Alt+2", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionEdge.setText(QtGui.QApplication.translate("ResourcesGraphEditor", "Add Channel", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionEdge.setToolTip(QtGui.QApplication.translate("ResourcesGraphEditor", "Add Channel", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionEdge.setShortcut(QtGui.QApplication.translate("ResourcesGraphEditor", "Alt+3", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionNew_System.setText(QtGui.QApplication.translate("ResourcesGraphEditor", "New Graph", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionNew_System.setShortcut(QtGui.QApplication.translate("ResourcesGraphEditor", "Ctrl+N", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionOpen_System.setText(QtGui.QApplication.translate("ResourcesGraphEditor", "Open Graph", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionOpen_System.setShortcut(QtGui.QApplication.translate("ResourcesGraphEditor", "Ctrl+O", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSave_System.setText(QtGui.QApplication.translate("ResourcesGraphEditor", "Save Graph", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSave_System.setShortcut(QtGui.QApplication.translate("ResourcesGraphEditor", "Ctrl+S", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSave_System_As.setText(QtGui.QApplication.translate("ResourcesGraphEditor", "Save Graph As...", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSave_System_As.setShortcut(QtGui.QApplication.translate("ResourcesGraphEditor", "Ctrl+Shift+S", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionExit.setText(QtGui.QApplication.translate("ResourcesGraphEditor", "Exit", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionExit.setShortcut(QtGui.QApplication.translate("ResourcesGraphEditor", "Ctrl+X", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionStorage.setText(QtGui.QApplication.translate("ResourcesGraphEditor", "Add Data Store", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionStorage.setToolTip(QtGui.QApplication.translate("ResourcesGraphEditor", "Add Data Store", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionStorage.setShortcut(QtGui.QApplication.translate("ResourcesGraphEditor", "Alt+4", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionRouter.setText(QtGui.QApplication.translate("ResourcesGraphEditor", "Add Commutation Element", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionRouter.setToolTip(QtGui.QApplication.translate("ResourcesGraphEditor", "Add Commutation Element", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionRouter.setShortcut(QtGui.QApplication.translate("ResourcesGraphEditor", "Alt+5", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionTopology.setText(QtGui.QApplication.translate("ResourcesGraphEditor", "Generate Standart Topology", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionTopology.setToolTip(QtGui.QApplication.translate("ResourcesGraphEditor", "Generate Standart Topology", None, QtGui.QApplication.UnicodeUTF8))
+        ResourcesGraphEditor.setWindowTitle(_translate("ResourcesGraphEditor", "Resources Graph Editor", None))
+        self.menuFile.setTitle(_translate("ResourcesGraphEditor", "File", None))
+        self.toolBar.setWindowTitle(_translate("ResourcesGraphEditor", "toolBar", None))
+        self.actionSelect.setText(_translate("ResourcesGraphEditor", "Select", None))
+        self.actionSelect.setShortcut(_translate("ResourcesGraphEditor", "Alt+1", None))
+        self.actionComputer.setText(_translate("ResourcesGraphEditor", "Add Computational Node", None))
+        self.actionComputer.setToolTip(_translate("ResourcesGraphEditor", "Add Computational Node", None))
+        self.actionComputer.setShortcut(_translate("ResourcesGraphEditor", "Alt+2", None))
+        self.actionEdge.setText(_translate("ResourcesGraphEditor", "Add Channel", None))
+        self.actionEdge.setToolTip(_translate("ResourcesGraphEditor", "Add Channel", None))
+        self.actionEdge.setShortcut(_translate("ResourcesGraphEditor", "Alt+3", None))
+        self.actionNew_System.setText(_translate("ResourcesGraphEditor", "New Graph", None))
+        self.actionNew_System.setShortcut(_translate("ResourcesGraphEditor", "Ctrl+N", None))
+        self.actionOpen_System.setText(_translate("ResourcesGraphEditor", "Open Graph", None))
+        self.actionOpen_System.setShortcut(_translate("ResourcesGraphEditor", "Ctrl+O", None))
+        self.actionSave_System.setText(_translate("ResourcesGraphEditor", "Save Graph", None))
+        self.actionSave_System.setShortcut(_translate("ResourcesGraphEditor", "Ctrl+S", None))
+        self.actionSave_System_As.setText(_translate("ResourcesGraphEditor", "Save Graph As...", None))
+        self.actionSave_System_As.setShortcut(_translate("ResourcesGraphEditor", "Ctrl+Shift+S", None))
+        self.actionExit.setText(_translate("ResourcesGraphEditor", "Exit", None))
+        self.actionExit.setShortcut(_translate("ResourcesGraphEditor", "Ctrl+X", None))
+        self.actionStorage.setText(_translate("ResourcesGraphEditor", "Add Data Store", None))
+        self.actionStorage.setToolTip(_translate("ResourcesGraphEditor", "Add Data Store", None))
+        self.actionStorage.setShortcut(_translate("ResourcesGraphEditor", "Alt+4", None))
+        self.actionRouter.setText(_translate("ResourcesGraphEditor", "Add Commutation Element", None))
+        self.actionRouter.setToolTip(_translate("ResourcesGraphEditor", "Add Commutation Element", None))
+        self.actionRouter.setShortcut(_translate("ResourcesGraphEditor", "Alt+5", None))
+        self.actionTopology.setText(_translate("ResourcesGraphEditor", "Generate Standart Topology", None))
+        self.actionTopology.setToolTip(_translate("ResourcesGraphEditor", "Generate Standart Topology", None))
 
 from . import resources_rc

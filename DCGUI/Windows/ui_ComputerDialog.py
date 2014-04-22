@@ -4,7 +4,16 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    _fromUtf8 = lambda s: s
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_ComputerDialog(object):
     def setupUi(self, ComputerDialog):
@@ -79,11 +88,11 @@ class Ui_ComputerDialog(object):
         QtCore.QMetaObject.connectSlotsByName(ComputerDialog)
 
     def retranslateUi(self, ComputerDialog):
-        ComputerDialog.setWindowTitle(QtGui.QApplication.translate("ComputerDialog", "Edit Computational Node", None, QtGui.QApplication.UnicodeUTF8))
-        self.namelabel.setText(QtGui.QApplication.translate("ComputerDialog", "Name:", None, QtGui.QApplication.UnicodeUTF8))
-        self.timelabel.setText(QtGui.QApplication.translate("ComputerDialog", "Performance:", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("ComputerDialog", "RAM capacity:", None, QtGui.QApplication.UnicodeUTF8))
-        self.OK.setText(QtGui.QApplication.translate("ComputerDialog", "OK", None, QtGui.QApplication.UnicodeUTF8))
-        self.Cancel.setText(QtGui.QApplication.translate("ComputerDialog", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
+        ComputerDialog.setWindowTitle(_translate("ComputerDialog", "Edit Computational Node", None))
+        self.namelabel.setText(_translate("ComputerDialog", "Name:", None))
+        self.timelabel.setText(_translate("ComputerDialog", "Performance:", None))
+        self.label.setText(_translate("ComputerDialog", "RAM capacity:", None))
+        self.OK.setText(_translate("ComputerDialog", "OK", None))
+        self.Cancel.setText(_translate("ComputerDialog", "Cancel", None))
 
 from . import resources_rc

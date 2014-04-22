@@ -4,7 +4,16 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    _fromUtf8 = lambda s: s
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_RandomDemandDialog(object):
     def setupUi(self, RandomDemandDialog):
@@ -193,39 +202,39 @@ class Ui_RandomDemandDialog(object):
         QtCore.QMetaObject.connectSlotsByName(RandomDemandDialog)
 
     def retranslateUi(self, RandomDemandDialog):
-        RandomDemandDialog.setWindowTitle(QtGui.QApplication.translate("RandomDemandDialog", "Create Random Request", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("RandomDemandDialog", "Number of requests", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_6.setText(QtGui.QApplication.translate("RandomDemandDialog", "Number of VMs", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_3.setText(QtGui.QApplication.translate("RandomDemandDialog", "Mimimal performance", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_2.setText(QtGui.QApplication.translate("RandomDemandDialog", "Maximal performance", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_14.setText(QtGui.QApplication.translate("RandomDemandDialog", "Minimal RAM capacity", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_15.setText(QtGui.QApplication.translate("RandomDemandDialog", "Maximal RAM capacity", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_7.setText(QtGui.QApplication.translate("RandomDemandDialog", "Number of storages", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_5.setText(QtGui.QApplication.translate("RandomDemandDialog", "Minimal capacity", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_4.setText(QtGui.QApplication.translate("RandomDemandDialog", "Maximal capacity", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_13.setText(QtGui.QApplication.translate("RandomDemandDialog", "Minimal Consistency bandwidth", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_12.setText(QtGui.QApplication.translate("RandomDemandDialog", "Maximal Consistency bandwidth", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_9.setText(QtGui.QApplication.translate("RandomDemandDialog", "Mininal bandwidth", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_10.setText(QtGui.QApplication.translate("RandomDemandDialog", "Maximal bandwidth", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_8.setText(QtGui.QApplication.translate("RandomDemandDialog", "Starting time", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_11.setText(QtGui.QApplication.translate("RandomDemandDialog", "End time", None, QtGui.QApplication.UnicodeUTF8))
-        self.n.setText(QtGui.QApplication.translate("RandomDemandDialog", "10", None, QtGui.QApplication.UnicodeUTF8))
-        self.vms.setText(QtGui.QApplication.translate("RandomDemandDialog", "5", None, QtGui.QApplication.UnicodeUTF8))
-        self.t1.setText(QtGui.QApplication.translate("RandomDemandDialog", "1", None, QtGui.QApplication.UnicodeUTF8))
-        self.t2.setText(QtGui.QApplication.translate("RandomDemandDialog", "15", None, QtGui.QApplication.UnicodeUTF8))
-        self.r1.setText(QtGui.QApplication.translate("RandomDemandDialog", "1", None, QtGui.QApplication.UnicodeUTF8))
-        self.r2.setText(QtGui.QApplication.translate("RandomDemandDialog", "5", None, QtGui.QApplication.UnicodeUTF8))
-        self.storages.setText(QtGui.QApplication.translate("RandomDemandDialog", "5", None, QtGui.QApplication.UnicodeUTF8))
-        self.v1.setText(QtGui.QApplication.translate("RandomDemandDialog", "1", None, QtGui.QApplication.UnicodeUTF8))
-        self.v2.setText(QtGui.QApplication.translate("RandomDemandDialog", "5", None, QtGui.QApplication.UnicodeUTF8))
-        self.cc1.setText(QtGui.QApplication.translate("RandomDemandDialog", "3", None, QtGui.QApplication.UnicodeUTF8))
-        self.cc2.setText(QtGui.QApplication.translate("RandomDemandDialog", "5", None, QtGui.QApplication.UnicodeUTF8))
-        self.c1.setText(QtGui.QApplication.translate("RandomDemandDialog", "11", None, QtGui.QApplication.UnicodeUTF8))
-        self.c2.setText(QtGui.QApplication.translate("RandomDemandDialog", "15", None, QtGui.QApplication.UnicodeUTF8))
-        self.starttime.setText(QtGui.QApplication.translate("RandomDemandDialog", "0", None, QtGui.QApplication.UnicodeUTF8))
-        self.endtime.setText(QtGui.QApplication.translate("RandomDemandDialog", "100", None, QtGui.QApplication.UnicodeUTF8))
-        self.vmvm.setText(QtGui.QApplication.translate("RandomDemandDialog", "Allow \"VM-VM\" virtual links", None, QtGui.QApplication.UnicodeUTF8))
-        self.stst.setText(QtGui.QApplication.translate("RandomDemandDialog", "Allow \"Storage-Storage\" virtual links", None, QtGui.QApplication.UnicodeUTF8))
-        self.OK.setText(QtGui.QApplication.translate("RandomDemandDialog", "OK", None, QtGui.QApplication.UnicodeUTF8))
-        self.Cancel.setText(QtGui.QApplication.translate("RandomDemandDialog", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
+        RandomDemandDialog.setWindowTitle(_translate("RandomDemandDialog", "Create Random Request", None))
+        self.label.setText(_translate("RandomDemandDialog", "Number of requests", None))
+        self.label_6.setText(_translate("RandomDemandDialog", "Number of VMs", None))
+        self.label_3.setText(_translate("RandomDemandDialog", "Mimimal performance", None))
+        self.label_2.setText(_translate("RandomDemandDialog", "Maximal performance", None))
+        self.label_14.setText(_translate("RandomDemandDialog", "Minimal RAM capacity", None))
+        self.label_15.setText(_translate("RandomDemandDialog", "Maximal RAM capacity", None))
+        self.label_7.setText(_translate("RandomDemandDialog", "Number of storages", None))
+        self.label_5.setText(_translate("RandomDemandDialog", "Minimal capacity", None))
+        self.label_4.setText(_translate("RandomDemandDialog", "Maximal capacity", None))
+        self.label_13.setText(_translate("RandomDemandDialog", "Minimal Consistency bandwidth", None))
+        self.label_12.setText(_translate("RandomDemandDialog", "Maximal Consistency bandwidth", None))
+        self.label_9.setText(_translate("RandomDemandDialog", "Mininal bandwidth", None))
+        self.label_10.setText(_translate("RandomDemandDialog", "Maximal bandwidth", None))
+        self.label_8.setText(_translate("RandomDemandDialog", "Starting time", None))
+        self.label_11.setText(_translate("RandomDemandDialog", "End time", None))
+        self.n.setText(_translate("RandomDemandDialog", "10", None))
+        self.vms.setText(_translate("RandomDemandDialog", "5", None))
+        self.t1.setText(_translate("RandomDemandDialog", "1", None))
+        self.t2.setText(_translate("RandomDemandDialog", "15", None))
+        self.r1.setText(_translate("RandomDemandDialog", "1", None))
+        self.r2.setText(_translate("RandomDemandDialog", "5", None))
+        self.storages.setText(_translate("RandomDemandDialog", "5", None))
+        self.v1.setText(_translate("RandomDemandDialog", "1", None))
+        self.v2.setText(_translate("RandomDemandDialog", "5", None))
+        self.cc1.setText(_translate("RandomDemandDialog", "3", None))
+        self.cc2.setText(_translate("RandomDemandDialog", "5", None))
+        self.c1.setText(_translate("RandomDemandDialog", "11", None))
+        self.c2.setText(_translate("RandomDemandDialog", "15", None))
+        self.starttime.setText(_translate("RandomDemandDialog", "0", None))
+        self.endtime.setText(_translate("RandomDemandDialog", "100", None))
+        self.vmvm.setText(_translate("RandomDemandDialog", "Allow \"VM-VM\" virtual links", None))
+        self.stst.setText(_translate("RandomDemandDialog", "Allow \"Storage-Storage\" virtual links", None))
+        self.OK.setText(_translate("RandomDemandDialog", "OK", None))
+        self.Cancel.setText(_translate("RandomDemandDialog", "Cancel", None))
 
