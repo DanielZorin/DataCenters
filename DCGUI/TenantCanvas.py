@@ -21,10 +21,6 @@ class VertexDialog(QDialog):
 
     def LoadCommon(self, v):
         self.ui.name.setText(v.id)
-        self.ui.created.setText(v.created)
-        self.ui.updated.setText(v.updated)
-        self.ui.deleted.setText(v.deleted)
-        self.ui.delbox.setChecked(v.deleteFlag)
         self.ui.service.setChecked(v.service)
         for p in v.params:
             self.ui.params.insertRow(0)
@@ -48,10 +44,6 @@ class VertexDialog(QDialog):
 
     def SetResultCommon(self, v):
         v.id = str(self.ui.name.text())
-        v.created = str(self.ui.created.text())
-        v.updated = str(self.ui.updated.text())
-        v.deleted = str(self.ui.deleted.text())
-        v.deleteFlag = self.ui.delbox.isChecked()
         v.service = self.ui.service.isChecked()
         v.params = []
         for i in range(self.ui.params.rowCount()):
@@ -109,6 +101,7 @@ class SwitchDialog(VertexDialog):
         v.type = str(self.ui.type.currentText())
         v.router = self.ui.router.isChecked()
         v.ip = str(self.ui.ip.text())
+
 class ServiceDialog(VertexDialog):
     def __init__(self):
         VertexDialog.__init__(self, Ui_TenantVnf())
@@ -196,18 +189,10 @@ class EdgeDialog(QDialog):
 
     def Load(self, e):
         self.ui.capacity.setText(str(e.capacity))
-        self.ui.created.setText(e.created)
-        self.ui.updated.setText(e.updated)
-        self.ui.deleted.setText(e.deleted)
-        self.ui.delbox.setChecked(e.deleteFlag)
         self.ui.service.setChecked(e.service)
 
     def SetResult(self, e):
         e.capacity = int(self.ui.capacity.text())
-        e.created = str(self.ui.created.text())
-        e.updated = str(self.ui.updated.text())
-        e.deleted = str(self.ui.deleted.text())
-        e.deleteFlag = self.ui.delbox.isChecked()
         e.service = self.ui.service.isChecked()
 
 class State:
@@ -244,7 +229,7 @@ class TenantCanvas(QWidget):
         self.computericon = QImage(":/pics/pics/computer.png")
         self.storageicon = QImage(":/pics/pics/storage.png")
         self.routericon = QImage(":/pics/pics/router.png")
-        self.serviceicon = QImage(":/pics/pics/calculator.png")
+        self.serviceicon = QImage(":/pics/pics/vnf.png")
         self.domainicon = QImage(":/pics/pics/topology.png")
       
     def paintEvent(self, event):
@@ -288,22 +273,23 @@ class TenantCanvas(QWidget):
         self.ResizeCanvas()
         self.repaint()
 
+    def Delete(self):
+        if self.selectedVertex != None:
+            v = next(v for v in self.vertices.keys() if self.vertices[v] == self.selectedVertex)
+            del self.vertices[v]
+            self.tenant.DeleteVertex(v)
+            del self.selectedVertex
+            self.selectedVertex = None
+            self.changed = True
+            self.repaint()
+        elif self.selectedEdge != None:
+            self.tenant.DeleteEdge(self.selectedEdge)
+            self.selectedEdge = None
+            self.changed = True
+            self.repaint()
+
     def keyPressEvent(self, e):
-        if e.key() == QtCore.Qt.Key_Delete:
-            if self.selectedVertex != None:
-                v = next(v for v in self.vertices.keys() if self.vertices[v] == self.selectedVertex)
-                del self.vertices[v]
-                self.tenant.DeleteVertex(v)
-                del self.selectedVertex
-                self.selectedVertex = None
-                self.changed = True
-                self.repaint()
-            elif self.selectedEdge != None:
-                self.tenant.DeleteEdge(self.selectedEdge)
-                self.selectedEdge = None
-                self.changed = True
-                self.repaint()
-        elif e.key() == QtCore.Qt.Key_Return:
+        if e.key() == QtCore.Qt.Key_Return:
             if self.selectedVertex != None:
                 v = next(v for v in self.vertices.keys() if self.vertices[v] == self.selectedVertex)
                 self.EditVertex(v)

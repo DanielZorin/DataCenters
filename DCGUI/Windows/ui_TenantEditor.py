@@ -117,11 +117,16 @@ class Ui_TenantEditor(object):
         self.actionService = QtGui.QAction(TenantEditor)
         self.actionService.setCheckable(True)
         icon10 = QtGui.QIcon()
-        icon10.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/calculator.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon10.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/vnf.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionService.setIcon(icon10)
         self.actionService.setObjectName(_fromUtf8("actionService"))
         self.actionSettings = QtGui.QAction(TenantEditor)
         self.actionSettings.setObjectName(_fromUtf8("actionSettings"))
+        self.actionDelete = QtGui.QAction(TenantEditor)
+        icon11 = QtGui.QIcon()
+        icon11.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/delete.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionDelete.setIcon(icon11)
+        self.actionDelete.setObjectName(_fromUtf8("actionDelete"))
         self.menuFile.addAction(self.actionNew_System)
         self.menuFile.addAction(self.actionOpen_System)
         self.menuFile.addAction(self.actionSave_System)
@@ -142,6 +147,7 @@ class Ui_TenantEditor(object):
         self.toolBar.addAction(self.actionDomain)
         self.toolBar.addAction(self.actionEdge)
         self.toolBar.addSeparator()
+        self.toolBar.addAction(self.actionDelete)
 
         self.retranslateUi(TenantEditor)
         QtCore.QObject.connect(self.actionSelect, QtCore.SIGNAL(_fromUtf8("triggered()")), TenantEditor.toggleSelect)
@@ -157,6 +163,7 @@ class Ui_TenantEditor(object):
         QtCore.QObject.connect(self.actionDomain, QtCore.SIGNAL(_fromUtf8("triggered()")), TenantEditor.toggleDomain)
         QtCore.QObject.connect(self.actionService, QtCore.SIGNAL(_fromUtf8("triggered()")), TenantEditor.toggleService)
         QtCore.QObject.connect(self.actionSettings, QtCore.SIGNAL(_fromUtf8("triggered()")), TenantEditor.Settings)
+        QtCore.QObject.connect(self.actionDelete, QtCore.SIGNAL(_fromUtf8("triggered()")), TenantEditor.Delete)
         QtCore.QMetaObject.connectSlotsByName(TenantEditor)
 
     def retranslateUi(self, TenantEditor):
@@ -195,5 +202,8 @@ class Ui_TenantEditor(object):
         self.actionService.setToolTip(_translate("TenantEditor", "Add Net Service", None))
         self.actionService.setShortcut(_translate("TenantEditor", "Alt+6", None))
         self.actionSettings.setText(_translate("TenantEditor", "Settings", None))
+        self.actionDelete.setText(_translate("TenantEditor", "Delete", None))
+        self.actionDelete.setToolTip(_translate("TenantEditor", "Delete Node or Edge", None))
+        self.actionDelete.setShortcut(_translate("TenantEditor", "Del", None))
 
 from . import resources_rc

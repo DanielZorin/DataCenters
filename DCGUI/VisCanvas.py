@@ -132,9 +132,9 @@ class VisCanvas(QWidget):
                 paint.drawText((x1+x2)/2, (y1+y2)/2, str(int(e.getUsedCapacityPercent(self.time)))+"%")
         paint.end()
 
-    def Visualize(self, r, time):
+    def Visualize(self, r):
         self.resources = r
-        self.time = time
+        self.time = 0
         for v in self.resources.vertices:
             rect = QtCore.QRect(v.x - self.size / 2, v.y - self.size / 2, self.size, self.size)
             self.vertices[v] = rect

@@ -1,3 +1,4 @@
+from PyQt4.QtCore import QObject, pyqtSignal
 from PyQt4.QtGui import QMainWindow, QFileDialog, QDialog
 from DCGUI.Windows.ui_TenantEditor import Ui_TenantEditor
 from DCGUI.Windows.ui_TenantSettings import Ui_TenantSettings
@@ -32,6 +33,7 @@ class TenantSettingsDialog(QDialog):
 
 class TenantEditor(QMainWindow):
     xmlfile = None
+    tenant_changed = pyqtSignal()
 
     def __init__(self):
         QMainWindow.__init__(self)
@@ -171,5 +173,9 @@ class TenantEditor(QMainWindow):
             output.close()
             self.setWindowTitle(str(self.xmlfile).split('/').pop().split('.')[0] + " - " + self.basename)
 
+    def Delete(self):
+        self.canvas.Delete()
+
     def closeEvent(self, e):
         self.canvas.updatePos()
+        self.tenant_changed.emit()

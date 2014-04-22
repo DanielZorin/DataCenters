@@ -2,10 +2,8 @@ from PyQt4.QtGui import QMainWindow, qApp, QTreeWidgetItem, QDialog, QFileDialog
 from PyQt4.QtCore import Qt, QObject, SIGNAL, QSettings, QStringList, QTimer, QTranslator, QDir
 from DCGUI.Windows.ui_MainWindow import Ui_MainWindow
 from DCGUI.ResourcesGraphEditor import ResourcesGraphEditor
-from DCGUI.DemandGraphEditor import DemandGraphEditor
-from DCGUI.RandomDemandDialog import RandomDemandDialog
+from DCGUI.TenantEditor import TenantEditor
 from DCGUI.Vis import Vis
-from DCGUI.GraphVis import GraphVis
 from DCGUI.Project import Project
 from DCGUI.SettingsDialog import SettingsDialog
 from DCGUI.ParamsDialog import ParamsDialog
@@ -16,7 +14,7 @@ import os, re, sys
 class MainWindow(QMainWindow):
     project = None
     projectFile = None
-    demands = {}
+    tenants = {}
     generators = {}
 
     MaxRecentFiles = 10
@@ -32,11 +30,9 @@ class MainWindow(QMainWindow):
         self.loadTranslations()
         self.settings = QSettings("LVK Inc", "DataCenters")   
         self.resourcesGraphEditor = ResourcesGraphEditor()
-        self.demandGraphEditor = DemandGraphEditor()
-        self.randomDialog = RandomDemandDialog()
+        self.tenantEditor = TenantEditor()
         self.Vis = Vis()
-        self.graphvis = GraphVis(self)
-        self.demands = {}
+        self.tenants = {}
         self.project = Project()
         # TODO: Captain, we have a problem!
         # For some reason, in Python 2.7 QSettings converts dicts to QVariant
@@ -45,7 +41,7 @@ class MainWindow(QMainWindow):
         #if self.settings.value("vis"):
             #self.Vis.canvas.settings = self.settings.value("vis")
         #self.graphvis.settings = self.settings.value("graphVis")
-        self.settingsDialog = SettingsDialog(self.Vis.canvas.settings, self.graphvis.settings)
+        self.settingsDialog = SettingsDialog(self.Vis.canvas.settings)
         self.settingsDialog.ui.backup.setChecked(self.settings.value("backup").toBool())
         self.settingsDialog.ui.autosave.setChecked(self.settings.value("autosave").toBool())
         self.settingsDialog.ui.interval.setValue(self.settings.value("interval").toInt()[0])
@@ -67,7 +63,7 @@ class MainWindow(QMainWindow):
             self.recentFileActions.append(a)
         self.UpdateRecentFileActions()
         self.basename = self.windowTitle()
-        self.demandGraphEditor.demand_changed.connect(self.demandChanged)
+        self.tenantEditor.tenant_changed.connect(self.tenantChanged)
         self.backupTimer = QTimer()
         self.backupTimer.setInterval(60000)
         self.backupTimer.setSingleShot(False)
@@ -85,8 +81,8 @@ class MainWindow(QMainWindow):
         self.project = Project()
         self.resourcesGraphEditor.setData(self.project.resources)
         self.projectFile = None
-        self.demands = {}
-        self.ui.demands.clear()
+        self.tenants = {}
+        self.ui.tenants.clear()
         self.setWindowTitle(self.tr("Untitled") + " - " + self.basename)
         self.backupTimer.start()
         self.autosaveTimer.start()
@@ -98,7 +94,7 @@ class MainWindow(QMainWindow):
         self.OpenProjectFromFile(name)
         
     def OpenProjectFromFile(self, name):
-        self.demands = {}
+        self.tenants = {}
         self.project = Project()
         
         #try:
@@ -109,16 +105,16 @@ class MainWindow(QMainWindow):
         #    return
         self.projectFile = name
         self.resourcesGraphEditor.setData(self.project.resources)
-        self.ui.demands.clear()
-        for d in self.project.demands:
-            it = QTreeWidgetItem(self.ui.demands, QStringList([d.id, str(d.startTime), str(d.endTime), self.tr("No") if d.critical else self.tr("Yes"), self.tr("Yes") if d.assigned else self.tr("No")]))
+        self.ui.tenants.clear()
+        for d in self.project.tenants:
+            it = QTreeWidgetItem(self.ui.tenants, QStringList([d.id, str(d.startTime), str(d.endTime), self.tr("No") if d.critical else self.tr("Yes"), self.tr("Yes") if d.assigned else self.tr("No")]))
             cb = QComboBox()
             cb.addItems([self.tr("No"),self.tr("Yes")])
             cb.setCurrentIndex(0 if d.critical else 1)
             QObject.connect(cb, SIGNAL("currentIndexChanged(int)"), it.emitDataChanged)
-            self.ui.demands.setItemWidget(it,3,cb)
+            self.ui.tenants.setItemWidget(it,3,cb)
             it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
-            self.demands[it] = d
+            self.tenants[it] = d
         self.UpdateRecentFiles()
         self.setWindowTitle(self.project.name + " - " + self.basename)
         self.ui.projectname.setText(self.project.name)
@@ -160,7 +156,7 @@ class MainWindow(QMainWindow):
 
     def InitProject(self):
         self.project.resources._buildPaths()
-        self.project.method.demand_assigned.connect(self.demandAssigned)
+        self.project.method.tenant_assigned.connect(self.tenantAssigned)
 
     def Run(self):
         self.Reset()
@@ -224,7 +220,7 @@ class MainWindow(QMainWindow):
         if self.project.resources.vertices == []:
             return
         stats = self.project.GetStats()
-        self.ui.demandcount.setText(str(stats["demands"]))
+        self.ui.tenantcount.setText(str(stats["tenants"]))
         self.ui.ratio.setText(str(stats["ratio"])+"%")
         self.ui.vmavg.setText(str(stats["vmavg"])+"%")
         self.ui.ramavg.setText(str(stats["ramavg"])+"%")
@@ -242,49 +238,46 @@ class MainWindow(QMainWindow):
         while self.resourcesGraphEditor.isVisible():
             qApp.processEvents()
 
-    def AddDemand(self):
-        d = self.project.CreateDemand()
-        it = QTreeWidgetItem(self.ui.demands, QStringList(["New_demand", "0", "1", self.tr("No"), self.tr("No")]))
+    def AddTenant(self):
+        d = self.project.CreateTenant()
+        it = QTreeWidgetItem(self.ui.tenants, QStringList(["New_tenant", "0", "1", self.tr("No"), self.tr("No")]))
         cb = QComboBox()
         cb.addItems([self.tr("No"),self.tr("Yes")])
-        self.ui.demands.setItemWidget(it,3,cb)
+        self.ui.tenants.setItemWidget(it,3,cb)
         QObject.connect(cb, SIGNAL("currentIndexChanged(int)"), it.emitDataChanged)
         it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
-        self.demands[it] = d
-        self.ui.demands.editItem(it)
-        self.demands[it].id = unicode(it.text(0))
-        self.demands[it].startTime = int(it.text(1))
-        self.demands[it].endTime = int(it.text(2))
-        self.demands[it].critical = False if self.ui.demands.itemWidget(it,3).currentText() == self.tr("Yes") else True
+        self.tenants[it] = d
+        self.ui.tenants.editItem(it)
+        self.tenants[it].id = unicode(it.text(0))
+        self.tenants[it].startTime = int(it.text(1))
+        self.tenants[it].endTime = int(it.text(2))
+        self.tenants[it].critical = False if self.ui.tenants.itemWidget(it,3).currentText() == self.tr("Yes") else True
     
-    def DeleteDemand(self):
-        item = self.ui.demands.currentItem()
+    def DeleteTenant(self):
+        item = self.ui.tenants.currentItem()
         if (item == None):
             return
-        self.project.RemoveDemand(self.demands[item])
-        del self.demands[item]
-        self.ui.demands.takeTopLevelItem(self.ui.demands.indexOfTopLevelItem(item))
+        self.project.RemoveTenant(self.tenants[item])
+        del self.tenants[item]
+        self.ui.tenants.takeTopLevelItem(self.ui.tenants.indexOfTopLevelItem(item))
         del item
 
-    def UpdateDemand(self, item):
-        if item in self.demands:
-            self.demands[item].id = unicode(item.text(0))
-            self.demands[item].startTime = int(item.text(1))
-            self.demands[item].endTime = int(item.text(2))
-            self.demands[item].critical = False if self.ui.demands.itemWidget(item,3).currentText() == self.tr("Yes") else True
-
-    def EditDemand(self):
-        if (self.demands == {}) or (self.ui.demands.currentItem() == None):
+    def UpdateTenant(self, item):
+        if item in self.tenants:
+            self.tenants[item].id = unicode(item.text(0))
+            
+    def EditTenant(self):
+        if (self.tenants == {}) or (self.ui.tenants.currentItem() == None):
             return
-        d = self.demands[self.ui.demands.currentItem()]
+        d = self.tenants[self.ui.tenants.currentItem()]
         if d.assigned:
-            self.project.resources.DropDemand(d)
+            self.project.resources.DropTenant(d)
             
             #self.project.method.UpdateIntervals(d)
-        self.demandGraphEditor.setData(d)
-        self.demandGraphEditor.show()
+        self.tenantEditor.setData(d)
+        self.tenantEditor.show()
 
-    def RandomDemand(self):
+    def RandomTenant(self):
         d = self.randomDialog
         types = []
         for v in self.project.resources.vertices:
@@ -298,18 +291,18 @@ class MainWindow(QMainWindow):
             dict = d.GetResult()
             dict["types"] = types
             for i in range(dict["n"]):
-                demand = self.project.CreateRandomDemand(dict)
-                it = QTreeWidgetItem(self.ui.demands, QStringList([demand.id, str(demand.startTime), str(demand.endTime), self.tr("No"), self.tr("No")]))
+                tenant = self.project.CreateRandomTenant(dict)
+                it = QTreeWidgetItem(self.ui.tenants, QStringList([tenant.id, str(tenant.startTime), str(tenant.endTime), self.tr("No"), self.tr("No")]))
                 cb = QComboBox()
                 cb.addItems([self.tr("No"),self.tr("Yes")])
-                self.ui.demands.setItemWidget(it,3,cb)
+                self.ui.tenants.setItemWidget(it,3,cb)
                 QObject.connect(cb, SIGNAL("currentIndexChanged(int)"), it.emitDataChanged)
                 it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
-                self.demands[it] = demand
+                self.tenants[it] = tenant
 
     def Reset(self):
         self.project.Reset()
-        for k in self.demands.keys():
+        for k in self.tenants.keys():
             k.setText(4, self.tr("No"))
         self.showStats()
 
@@ -373,12 +366,9 @@ class MainWindow(QMainWindow):
                 self.recentFileActions[i].setVisible(False)
                 self.recentFileActions[i].setEnabled(False)
 
-    def demandChanged(self):
-        it = self.ui.demands.currentItem()
-        it.setText(0, self.demands[it].id)
-        it.setText(1, str(self.demands[it].startTime))
-        it.setText(2, str(self.demands[it].endTime))
-        it.setText(4, self.tr("No"))
+    def tenantChanged(self):
+        it = self.ui.tenants.currentItem()
+        it.setText(0, self.tenants[it].id)
         self.showStats()
 
     def ShowResults(self):
@@ -389,8 +379,8 @@ class MainWindow(QMainWindow):
         self.graphvis.setData(self.project)
         self.graphvis.show()
 
-    def demandAssigned(self, id):
-        item = self.ui.demands.findItems(id, Qt.MatchExactly)[0]
+    def tenantAssigned(self, id):
+        item = self.ui.tenants.findItems(id, Qt.MatchExactly)[0]
         item.setText(4, "Yes")
 
     def Settings(self):
@@ -412,23 +402,21 @@ class MainWindow(QMainWindow):
         translator.load(":Translations/dc_" + lang + ".qm")
         qApp.installTranslator(translator)
         self.basename = self.tr("Data Centers GUI")
-        self.demandGraphEditor.basename = self.demandGraphEditor.tr("Request Graph Editor")
+        self.tenantEditor.basename = self.tenantEditor.tr("Tenant Editor")
         self.resourcesGraphEditor.basename = self.resourcesGraphEditor.tr("Resources Graph Editor")
         self.ui.retranslateUi(self)
         self.settingsDialog.ui.retranslateUi(self.settingsDialog)
-        self.demandGraphEditor.ui.retranslateUi(self.demandGraphEditor)
+        self.tenantEditor.ui.retranslateUi(self.tenantEditor)
         self.resourcesGraphEditor.ui.retranslateUi(self.resourcesGraphEditor)
-        self.randomDialog.ui.retranslateUi(self.randomDialog)
         self.Vis.ui.retranslateUi(self.Vis)
-        self.graphvis.ui.retranslateUi(self.graphvis)
         self.showStats()
-        for k in self.demands.keys():
+        for k in self.tenants.keys():
             cb = QComboBox()
             cb.addItems([self.tr("No"),self.tr("Yes")])
-            cb.setCurrentIndex(0 if self.demands[k].critical else 1)
+            cb.setCurrentIndex(0 if self.tenants[k].critical else 1)
             QObject.connect(cb, SIGNAL("currentIndexChanged(int)"), k.emitDataChanged)
-            self.ui.demands.setItemWidget(k,3,cb)
-            if self.demands[k].assigned:
+            self.ui.tenants.setItemWidget(k,3,cb)
+            if self.tenants[k].assigned:
                 k.setText(4, self.tr("Yes"))
             else:
                 k.setText(4, self.tr("No"))
@@ -471,15 +459,15 @@ class MainWindow(QMainWindow):
         d.exec_()
         if d.result() == QDialog.Accepted:
             generator.UpdateSettings(d.data)
-            #TODO: populate the table with new demands
-            self.project.demands = generator.Generate(self.project.resources)
-            self.ui.demands.clear()
-            self.demands = {}
-            for demand in self.project.demands:
-                it = QTreeWidgetItem(self.ui.demands, QStringList([demand.id, str(demand.startTime), str(demand.endTime), self.tr("No"), self.tr("No")]))
+            #TODO: populate the table with new tenants
+            self.project.tenants = generator.Generate(self.project.resources)
+            self.ui.tenants.clear()
+            self.tenants = {}
+            for tenant in self.project.tenants:
+                it = QTreeWidgetItem(self.ui.tenants, QStringList([tenant.id, str(tenant.startTime), str(tenant.endTime), self.tr("No"), self.tr("No")]))
                 cb = QComboBox()
                 cb.addItems([self.tr("No"),self.tr("Yes")])
-                self.ui.demands.setItemWidget(it,3,cb)
+                self.ui.tenants.setItemWidget(it,3,cb)
                 QObject.connect(cb, SIGNAL("currentIndexChanged(int)"), it.emitDataChanged)
                 it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
-                self.demands[it] = demand
+                self.tenants[it] = tenant

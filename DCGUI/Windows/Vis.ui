@@ -21,12 +21,12 @@
     <normaloff>:/pics/pics/line_chart.png</normaloff>:/pics/pics/line_chart.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget, QMenuBar::item {
+   <string notr="true">QWidget, QMenuBar::item, QHeaderView::section {
 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                      stop: 0 #c5d8ef, stop: 1 #89a5c3);
+                                      stop: 0 #a0a0a0, stop: 1 #f0f0f0);
 }
 
-QLabel, QSlider {
+QLabel, QSlider, QCheckBox {
 	background-color: transparent;
 }</string>
   </property>
@@ -39,34 +39,6 @@ QLabel, QSlider {
       </property>
       <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
-          <item>
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>Time:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSlider" name="timeSlider">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSpinBox" name="timeSpinBox">
-            <property name="minimum">
-             <number>0</number>
-            </property>
-            <property name="maximum">
-             <number>99</number>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
@@ -88,7 +60,7 @@ QLabel, QSlider {
             </property>
             <column>
              <property name="text">
-              <string>Assigned Requests</string>
+              <string>Assigned Tenants</string>
              </property>
             </column>
            </widget>
@@ -145,38 +117,6 @@ QLabel, QSlider {
     <hint type="destinationlabel">
      <x>209</x>
      <y>165</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>timeSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>Vis</receiver>
-   <slot>UpdateTimeFromSlider(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>149</x>
-     <y>31</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>552</x>
-     <y>370</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>timeSpinBox</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>Vis</receiver>
-   <slot>UpdateTimeFromSpinBox(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>529</x>
-     <y>29</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>44</x>
-     <y>397</y>
     </hint>
    </hints>
   </connection>

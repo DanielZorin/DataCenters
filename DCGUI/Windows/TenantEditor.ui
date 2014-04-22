@@ -105,6 +105,7 @@ QLabel, QSlider, QCheckBox {
    <addaction name="actionDomain"/>
    <addaction name="actionEdge"/>
    <addaction name="separator"/>
+   <addaction name="actionDelete"/>
   </widget>
   <action name="actionSelect">
    <property name="checkable">
@@ -272,7 +273,7 @@ QLabel, QSlider, QCheckBox {
    </property>
    <property name="icon">
     <iconset resource="resources.qrc">
-     <normaloff>:/pics/pics/calculator.png</normaloff>:/pics/pics/calculator.png</iconset>
+     <normaloff>:/pics/pics/vnf.png</normaloff>:/pics/pics/vnf.png</iconset>
    </property>
    <property name="text">
     <string>Add Net Service</string>
@@ -287,6 +288,21 @@ QLabel, QSlider, QCheckBox {
   <action name="actionSettings">
    <property name="text">
     <string>Settings</string>
+   </property>
+  </action>
+  <action name="actionDelete">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/pics/pics/delete.png</normaloff>:/pics/pics/delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete</string>
+   </property>
+   <property name="toolTip">
+    <string>Delete Node or Edge</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
    </property>
   </action>
  </widget>
@@ -502,6 +518,22 @@ QLabel, QSlider, QCheckBox {
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionDelete</sender>
+   <signal>triggered()</signal>
+   <receiver>TenantEditor</receiver>
+   <slot>Delete()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>213</x>
+     <y>155</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>toggleSelect()</slot>
@@ -516,5 +548,6 @@ QLabel, QSlider, QCheckBox {
   <slot>toggleDomain()</slot>
   <slot>toggleService()</slot>
   <slot>Settings()</slot>
+  <slot>Delete()</slot>
  </slots>
 </ui>

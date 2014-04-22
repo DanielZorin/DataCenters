@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{a265c8e3-1b84-4fef-9c2e-f10cae54b066}</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>LaunchTE.py</StartupFile>
+    <StartupFile>DCGUI.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -34,16 +34,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\AbstractGraph.py" />
-    <Compile Include="Core\Demands.py" />
     <Compile Include="Core\Resources.py" />
     <Compile Include="Core\Tenant.py" />
     <Compile Include="Core\__init__.py" />
     <Compile Include="DCGUI.py" />
-    <Compile Include="DCGUI\Demonstrator.py" />
-    <Compile Include="DCGUI\GraphVis.py" />
     <Compile Include="DCGUI\MainWindow.py" />
-    <Compile Include="DCGUI\DemandGraphEditor.py" />
-    <Compile Include="DCGUI\DemandGraphCanvas.py" />
     <Compile Include="DCGUI\ParamsDialog.py" />
     <Compile Include="DCGUI\TenantCanvas.py" />
     <Compile Include="DCGUI\TenantEditor.py" />
