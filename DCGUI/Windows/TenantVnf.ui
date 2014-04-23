@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>324</width>
-    <height>825</height>
+    <height>451</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,6 +37,16 @@ QLabel, QSlider, QCheckBox, QRadioButton {
        <property name="fieldGrowthPolicy">
         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
        </property>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Name:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="name"/>
+       </item>
        <item row="1" column="1">
         <widget class="QCheckBox" name="service">
          <property name="text">
@@ -44,244 +54,64 @@ QLabel, QSlider, QCheckBox, QRadioButton {
          </property>
         </widget>
        </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="type"/>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="profile"/>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLineEdit" name="servicename"/>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>Exported connection set:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QLineEdit" name="set"/>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>User name:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QLineEdit" name="username"/>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Service Name:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_12">
+         <property name="text">
+          <string>Profile Type:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>Type:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QCheckBox" name="serviceasprovider">
+         <property name="text">
+          <string>Service as Provider</string>
+         </property>
+        </widget>
+       </item>
       </layout>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="normalbutton">
-       <property name="text">
-        <string>Normal</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-       <attribute name="buttonGroup">
-        <string notr="true">buttons</string>
-       </attribute>
-      </widget>
-     </item>
-     <item>
-      <widget class="QGroupBox" name="normal">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>0</height>
-        </size>
-       </property>
-       <layout class="QFormLayout" name="formLayout_3">
-        <property name="fieldGrowthPolicy">
-         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-        </property>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_4">
-          <property name="text">
-           <string>Name:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="name"/>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_5">
-          <property name="text">
-           <string>Type:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>Profile type:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLineEdit" name="normaltype"/>
-        </item>
-        <item row="3" column="1">
-         <widget class="QLineEdit" name="normalprofile"/>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="providerbutton">
-       <property name="text">
-        <string>Service as provider</string>
-       </property>
-       <property name="checked">
-        <bool>false</bool>
-       </property>
-       <attribute name="buttonGroup">
-        <string notr="true">buttons</string>
-       </attribute>
-      </widget>
-     </item>
-     <item>
-      <widget class="QGroupBox" name="provider">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="title">
-        <string/>
-       </property>
-       <layout class="QFormLayout" name="formLayout_4">
-        <property name="fieldGrowthPolicy">
-         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-        </property>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_7">
-          <property name="text">
-           <string>VNF name:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_8">
-          <property name="text">
-           <string>VNF type:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_9">
-          <property name="text">
-           <string>VNF profile type:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_10">
-          <property name="text">
-           <string>User name:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="label_11">
-          <property name="text">
-           <string>Exported connection set:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_12">
-          <property name="text">
-           <string>Service name:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="providervnfname"/>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="providervnftype"/>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLineEdit" name="providervnfprofile"/>
-        </item>
-        <item row="3" column="1">
-         <widget class="QLineEdit" name="providerusername"/>
-        </item>
-        <item row="4" column="1">
-         <widget class="QLineEdit" name="providerservicename"/>
-        </item>
-        <item row="5" column="1">
-         <widget class="QLineEdit" name="providerset"/>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="userbutton">
-       <property name="text">
-        <string>Service as user</string>
-       </property>
-       <attribute name="buttonGroup">
-        <string notr="true">buttons</string>
-       </attribute>
-      </widget>
-     </item>
-     <item>
-      <widget class="QGroupBox" name="user">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="title">
-        <string/>
-       </property>
-       <layout class="QFormLayout" name="formLayout_5">
-        <property name="fieldGrowthPolicy">
-         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-        </property>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_18">
-          <property name="text">
-           <string>Netelement name:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="username"/>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_17">
-          <property name="text">
-           <string>Netelement type:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="usertype"/>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_16">
-          <property name="text">
-           <string>Provider name:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLineEdit" name="userprovider"/>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_14">
-          <property name="text">
-           <string>Service name:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QLineEdit" name="userservice"/>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_15">
-          <property name="text">
-           <string>Imported connection set:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <widget class="QLineEdit" name="userset"/>
-        </item>
-        <item row="5" column="0">
-         <widget class="QCheckBox" name="userrouter">
-          <property name="text">
-           <string>Router           IP:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="1">
-         <widget class="QLineEdit" name="userip"/>
-        </item>
-       </layout>
-      </widget>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -469,50 +299,18 @@ QLabel, QSlider, QCheckBox, QRadioButton {
    </hints>
   </connection>
   <connection>
-   <sender>normalbutton</sender>
+   <sender>serviceasprovider</sender>
    <signal>clicked()</signal>
    <receiver>TenantVnf</receiver>
-   <slot>RadioClick()</slot>
+   <slot>ServiceChecked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>161</x>
-     <y>125</y>
+     <x>236</x>
+     <y>118</y>
     </hint>
     <hint type="destinationlabel">
      <x>161</x>
-     <y>426</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>providerbutton</sender>
-   <signal>clicked()</signal>
-   <receiver>TenantVnf</receiver>
-   <slot>RadioClick()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>161</x>
-     <y>251</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>161</x>
-     <y>426</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>userbutton</sender>
-   <signal>clicked()</signal>
-   <receiver>TenantVnf</receiver>
-   <slot>RadioClick()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>161</x>
-     <y>449</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>161</x>
-     <y>426</y>
+     <y>225</y>
     </hint>
    </hints>
   </connection>
@@ -520,7 +318,7 @@ QLabel, QSlider, QCheckBox, QRadioButton {
  <slots>
   <slot>AddParam()</slot>
   <slot>RemoveParam()</slot>
-  <slot>RadioClick()</slot>
+  <slot>ServiceChecked()</slot>
  </slots>
  <buttongroups>
   <buttongroup name="buttons"/>
