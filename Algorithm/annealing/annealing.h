@@ -30,13 +30,15 @@ private:
     Result generateCurAssignments();
     Result generatePrevAssignments();
     
-    Result tryToInsertNewAssignment();
     Result changeAssignments();
     Result changeCurAssignments();
     
     void printAssignments(Assignments a);
     void printRequests(void);
-    //virtual Assignments getAssignments() { return prevAssignments; }
+    void printAssignment(Assignment *a);
+    void printUnassignedRequests();
+    
+    //virtual Assignments getAssignments() { return Annealing::bestAssignments; }
     virtual Network & getNetwork() { return bestNetwork; }
     
     void copyPrevAssignmentsToCur();
@@ -44,7 +46,13 @@ private:
     void copyCurAssignmentsToBest();
     void copyCurAssignmentsToPrev();
     
+    Result deleteAssignmentFromCur();
+    Result tryToInsertNewAssignment();
+    Result reassignRandRequest();
     
+    void mutation();
+    
+    Assignment *copyAssignmentToCurrent(Assignment *a);
      
 public:
     Annealing(Network * n, Requests const & r);
@@ -55,6 +63,10 @@ public:
     Assignment *currentAssignment;
     Assignments curAssignments;
 	Assignments prevAssignments;
+	//Assignments bestAssignments;
+	
+    int state; //1, 2, or 3
+	int counterFail;
 	
 	Network curNetwork;
 	Network prevNetwork;
