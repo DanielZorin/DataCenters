@@ -22,24 +22,15 @@ class VM(AbstractVertex):
         AbstractVertex.__init__(self, id)
         self.image = ""
 
-class VnfClass:
-    Normal = 0
-    ServiceAsProvider = 1
-    ServiceAsUser = 2
-
-class NetService(AbstractVertex):
+class Vnf(AbstractVertex):
     def __init__(self):
         AbstractVertex.__init__(self, "")
-        self.vnfclass = VnfClass.Normal
-        self.name = ""
         self.type = ""
         self.profile = ""
+        self.isservice = False
         self.servicename = ""
-        self.provider = ""
-        self.user = ""
+        self.username = ""
         self.connectionset = []
-        self.router = False
-        self.ip = ""
 
 class Domain(AbstractVertex):
     ''' Computer element
@@ -63,6 +54,10 @@ class NetElement(AbstractVertex):
         self.type = type
         self.ip = ""
         self.router = False
+        self.isservice = False
+        self.servicename = ""
+        self.providername = ""
+        self.port = ""
 
 class Link:
     ''' Channel;
@@ -101,155 +96,67 @@ class Tenant(AbstractGraph):
 
     def CreateXml(self, dom):
         root = dom.createElement("tenant")
-        root.setAttribute("created_at", self.created)
-        root.setAttribute("updated_at", self.updated)
-        root.setAttribute("deleted_at", self.deleted)
         root.setAttribute("expiration_time", self.expiration)
-        root.setAttribute("deleted", "1" if self.deleteFlag else "0")
         nodes = dom.createElement("list_of_nodes")
         for v in self.vertices:
             if isinstance(v, VM):
                 tag = dom.createElement("vm")
-                name = dom.createElement("vm_name")
-                nd = dom.createTextNode(v.id)
-                name.appendChild(nd)
-                tag.appendChild(name)
-                name = dom.createElement("image_id")
-                nd = dom.createTextNode(v.image)
-                name.appendChild(nd)
-                tag.appendChild(name)
+                tag.setAttribute("vm_name", v.id)
+                tag.setAttribute("image_id", v.image)
             elif isinstance(v, Storage):
                 tag = dom.createElement("st")
-                name = dom.createElement("st_name")
-                nd = dom.createTextNode(v.id)
-                name.appendChild(nd)
-                tag.appendChild(name)
+                tag.setAttribute("st_name", v.id)
             elif isinstance(v, NetElement):
                 tag = dom.createElement("netelement")
-                name = dom.createElement("netelement_name")
-                nd = dom.createTextNode(v.id)
-                name.appendChild(nd)
-                tag.appendChild(name)
-                name = dom.createElement("netelement_type")
-                nd = dom.createTextNode(v.type)
-                name.appendChild(nd)
-                tag.appendChild(name)
-                name = dom.createElement("router")
-                name.setAttribute("ip", v.ip)
-                name.setAttribute("flag", "1" if v.router else "0")
+                tag.setAttribute("netelement_name", v.id)
+                tag.setAttribute("netelement_type", v.type)
+                tag.setAttribute("ip", v.ip)
+                tag.setAttribute("is_router", "1" if v.router else "0")
+                tag.setAttribute("is_service", "1" if v.isservice else "0")
+                tag.setAttribute("service_name", v.servicename)
+                tag.setAttribute("provider_name", v.provider)
+                tag.setAttribute("external_port", v.port)
                 tag.appendChild(name)
             elif isinstance(v, Domain):
                 tag = dom.createElement("domain")
-                name = dom.createElement("domain_name")
-                nd = dom.createTextNode(v.id)
-                name.appendChild(nd)
-                tag.appendChild(name)
-                name = dom.createElement("commutation_type")
-                nd = dom.createTextNode(v.type)
-                name.appendChild(nd)
-                tag.appendChild(name)
+                tag.setAttribute("domain_name", v.id)
+                tag.setAttribute("commutation_type", v.type)
             elif isinstance(v, NetService):
-                if v.vnfclass == VnfClass.Normal:
-                    tag = dom.createElement("vnf")
-                    name = dom.createElement("vnf_name")
-                    nd = dom.createTextNode(v.name)
-                    name.appendChild(nd)
-                    tag.appendChild(name)
-                    name = dom.createElement("vnf_type")
-                    nd = dom.createTextNode(v.type)
-                    name.appendChild(nd)
-                    tag.appendChild(name)
-                    name = dom.createElement("vnf_profile")
-                    nd = dom.createTextNode(v.profile)
-                    name.appendChild(nd)
-                    tag.appendChild(name)
-                elif v.vnfclass == VnfClass.ServiceAsProvider:
-                    tag = dom.createElement("service_as_provider")
-                    tag.setAttribute("service_name", v.servicename)
-                    user = dom.createElement("user_name")
-                    nd = dom.createTextNode(v.user)
-                    user.appendChild(nd)
-                    tag.appendChild(user)
-                    conset = dom.createElement("exported_connection_set")
-                    conset.setAttribute("number_of_ports", str(len(v.connectionset)))
-                    for s in v.connectionset:
-                        port = dom.createElement("port_name")
-                        nd = dom.createTextNode(s)
-                        port.appendChild(nd)
-                        conset.appendChild(port)
-                    tag.appendChild(conset)
-                    ctag = dom.createElement("vnf")
-                    name = dom.createElement("vnf_name")
-                    nd = dom.createTextNode(v.name)
-                    name.appendChild(nd)
-                    ctag.appendChild(name)
-                    name = dom.createElement("vnf_type")
-                    nd = dom.createTextNode(v.type)
-                    name.appendChild(nd)
-                    ctag.appendChild(name)
-                    name = dom.createElement("vnf_profile")
-                    nd = dom.createTextNode(v.profile)
-                    name.appendChild(nd)
-                    ctag.appendChild(name)
-                    tag.appendChild(ctag)
-                else:
-                    tag = dom.createElement("service_as_user")
-                    user = dom.createElement("provider_name")
-                    user.setAttribute("service_name", v.servicename)               
-                    nd = dom.createTextNode(v.provider)
-                    user.appendChild(nd)
-                    tag.appendChild(user)
-                    conset = dom.createElement("imported_connection_set")
-                    conset.setAttribute("number_of_ports", str(len(v.connectionset)))
-                    for s in v.connectionset:
-                        port = dom.createElement("port_name")
-                        nd = dom.createTextNode(s)
-                        port.appendChild(nd)
-                        conset.appendChild(port)
-                    tag.appendChild(conset)
-                    ctag = dom.createElement("netelement")
-                    name = dom.createElement("netelement_name")
-                    nd = dom.createTextNode(v.name)
-                    name.appendChild(nd)
-                    ctag.appendChild(name)
-                    name = dom.createElement("netelement_type")
-                    nd = dom.createTextNode(v.type)
-                    name.appendChild(nd)
-                    ctag.appendChild(name)
-                    name = dom.createElement("router")
-                    name.setAttribute("ip", v.ip)
-                    name.setAttribute("flag", "1" if v.router else "0")
-                    ctag.appendChild(name)
-                    tag.appendChild(ctag)
+                tag = dom.createElement("vnf")
+                tag.setAttribute("vnf_name", v.id)
+                tag.setAttribute("vnf_type", v.type)
+                tag.setAttribute("profile_type", v.profile)
+                tag.setAttribute("is_service", "1" if v.isservice else "0")
+                tag.setAttribute("service_name", v.servicename)
+                tag.setAttribute("user_name", v.provider)
+                tag.setAttribute("external_port", v.port)
+                conset = dom.createElement("exported_connection_set")
+                conset.setAttribute("number_of_ports", str(len(v.connectionset)))
+                for s in v.connectionset:
+                    port = dom.createElement("port")
+                    port.setAttribute("port_name", s)
+                    conset.appendChild(port)
+                tag.appendChild(conset)
             if v.x:
                 tag.setAttribute("x", str(v.x))
                 tag.setAttribute("y", str(v.y))
-            if not isinstance(v, NetService) or v.vnfclass == VnfClass.Normal:
-                ctag = tag
-            ctag.setAttribute("created_at", v.created)
-            ctag.setAttribute("updated_at", v.updated)
-            ctag.setAttribute("deleted_at", v.deleted)
-            ctag.setAttribute("deleted", "1" if v.deleteFlag else "0")
-            ctag.setAttribute("service", "1" if v.service else "0")
+
+            tag.setAttribute("service", "1" if v.service else "0")
             conset = dom.createElement("connection_set")
             conset.setAttribute("number_of_ports", str(len(v.ports)))
             for s in v.ports:
-                port = dom.createElement("port_name")
-                nd = dom.createTextNode(s)
-                port.appendChild(nd)
+                port = dom.createElement("port")
+                port.setAttribute("port_name", s)
                 conset.appendChild(port)
-            ctag.appendChild(conset)
+            tag.appendChild(conset)
             pset = dom.createElement("parameter_set")
             for p in v.params:
                 param = dom.createElement("parameter")
                 param.setAttribute("parameter_name", p.name)
                 param.setAttribute("parameter_type", p.type)
-                val = dom.createElement("value_user")
-                nd = dom.createTextNode(p.value)
-                val.appendChild(nd)
-                param.appendChild(val)
+                param.setAttribute("value_user", p.value)
                 pset.appendChild(param)
-            ctag.appendChild(pset)
+            tag.appendChild(pset)
             nodes.appendChild(tag)
         root.appendChild(nodes)
         for v in self.edges:

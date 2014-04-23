@@ -95,89 +95,46 @@ class SwitchDialog(VertexDialog):
         self.ui.type.setCurrentIndex(0 if v.type == "Switch" else 1)
         self.ui.ip.setText(v.ip)
         self.ui.router.setChecked(v.router)
+        self.ui.serviceasuser.setChecked(v.isservice)
+        
 
     def SetResult(self, v):
         self.SetResultCommon(v)
         v.type = str(self.ui.type.currentText())
         v.router = self.ui.router.isChecked()
         v.ip = str(self.ui.ip.text())
+        v.servicename = str(self.ui.servicename.currentText())
+        v.provider = str(self.ui.provider.currentText())
+        v.port = str(self.ui.port.currentText())
+        v.isService = self.ui.serviceasuser.isChecked()
 
-class ServiceDialog(VertexDialog):
+    def ServiceChecked(self):
+        pass
+
+class VnfDialog(VertexDialog):
     def __init__(self):
         VertexDialog.__init__(self, Ui_TenantVnf())
-        self.ui.normal.show()
-        self.ui.provider.hide()
-        self.ui.user.hide()
 
     def Load(self, v):
-        self.LoadCommon(v)
-        if v.vnfclass == VnfClass.Normal:
-            self.ui.normal.show()
-            self.ui.provider.hide()
-            self.ui.user.hide()
-            self.ui.normalbutton.setChecked(True)
-            self.ui.name.setText(v.name)
-            self.ui.normaltype.setText(v.type)
-            self.ui.normalprofile.setText(v.profile)
-        elif v.vnfclass == VnfClass.ServiceAsProvider:
-            self.ui.normal.hide()
-            self.ui.provider.show()
-            self.ui.user.hide()
-            self.ui.providerbutton.setChecked(True)
-            self.ui.providervnfname.setText(v.name)
-            self.ui.providervnftype.setText(v.type)
-            self.ui.providervnfprofile.setText(v.profile)
-            self.ui.providerusername.setText(v.user)
-            self.ui.providerservicename.setText(v.servicename)
-            self.ui.providerset.setText(','.join(v.connectionset))
-        else:
-            self.ui.normal.hide()
-            self.ui.provider.hide()
-            self.ui.user.show()
-            self.ui.userbutton.setChecked(True)
-            self.ui.username.setText(v.name)
-            self.ui.usertype.setText(v.type)
-            self.ui.userprovider.setText(v.provider)
-            self.ui.userservice.setText(v.servicename)
-            self.ui.userset.setText(','.join(v.connectionset))
+        self.LoadCommon(v)        
+        self.ui.type.setText(v.type)
+        self.ui.profile.setText(v.profile)
+        self.ui.serviceasprovider.setChecked(v.isservice)
+        self.ui.servicename.setText(v.servicename)
+        self.ui.username.setText(v.username)
+        self.ui.set.setText(','.join(v.connectionset))
 
     def SetResult(self, v):
         self.SetResultCommon(v)
-        if self.ui.normalbutton.isChecked():
-            v.vnfclass = VnfClass.Normal
-            v.name = str(self.ui.name.text())
-            v.type = str(self.ui.normaltype.text())
-            v.profile = str(self.ui.normalprofile.text())
-        elif self.ui.providerbutton.isChecked():
-            v.vnfclass = VnfClass.ServiceAsProvider
-            v.name = str(self.ui.providervnfname.text())
-            v.type = str(self.ui.providervnftype.text())
-            v.profile = str(self.ui.providervnfprofile.text())
-            v.user = str(self.ui.providerusername.text())
-            v.servicename = str(self.ui.providerservicename.text())
-            v.connectionset = str(self.ui.providerset.text()).split(",")
-        else:
-            v.vnfclass = VnfClass.ServiceAsUser
-            v.name = str(self.ui.username.text())
-            v.type = str(self.ui.usertype.text())
-            v.servicename = str(self.ui.userservice.text())
-            v.provider = str(self.ui.userprovider.text())
-            v.connectionset = str(self.ui.userset.text()).split(",")
-            v.router = self.ui.userrouter.isChecked()
-            v.ip = str(self.ui.userip.text())
-    def RadioClick(self):
-        if self.ui.normalbutton.isChecked():
-            self.ui.normal.show()
-            self.ui.provider.hide()
-            self.ui.user.hide()
-        elif self.ui.providerbutton.isChecked():
-            self.ui.normal.hide()
-            self.ui.provider.show()
-            self.ui.user.hide()
-        else:
-            self.ui.normal.hide()
-            self.ui.provider.hide()
-            self.ui.user.show()
+        v.type = str(self.ui.type.text())
+        v.profile = str(self.ui.profile.text())
+        v.isService = self.ui.serviceasprovider.isChecked()
+        v.username = str(self.ui.username.text())
+        v.servicename = str(self.ui.servicename.text())
+        v.connectionset = str(self.ui.set.text()).split(",")
+        
+    def ServiceChecked(self):
+        pass
 
 class EdgeDialog(QDialog):
     def __init__(self):
@@ -254,7 +211,7 @@ class TenantCanvas(QWidget):
                 paint.drawImage(self.vertices[v], self.storageicon)
             elif isinstance(v, NetElement):
                 paint.drawImage(self.vertices[v], self.routericon)
-            elif isinstance(v, NetService):
+            elif isinstance(v, Vnf):
                 paint.drawImage(self.vertices[v], self.serviceicon)
             elif isinstance(v, Domain):
                 paint.drawImage(self.vertices[v], self.domainicon)
@@ -394,7 +351,7 @@ class TenantCanvas(QWidget):
             self.repaint()
         elif self.state == State.Vnf:
             rect = QtCore.QRect(e.x() - self.size / 2, e.y() - self.size / 2, self.size, self.size)
-            vnf = NetService()
+            vnf = Vnf()
             self.vertices[vnf] = rect
             self.tenant.AddVertex(vnf)
             self.changed = True
@@ -457,8 +414,8 @@ class TenantCanvas(QWidget):
             d = StorageDialog()
         elif isinstance(v, NetElement):
             d = SwitchDialog()
-        elif isinstance(v, NetService):
-            d = ServiceDialog()
+        elif isinstance(v, Vnf):
+            d = VnfDialog()
         elif isinstance(v, Domain):
             d = DomainDialog()
         d.Load(v)

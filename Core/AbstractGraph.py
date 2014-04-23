@@ -12,7 +12,7 @@ class AbstractVertex:
 
     number = -1
 
-    def __init__(self, id, service=False):
+    def __init__(self, id, service=True):
         self.id = id
         self.service = service
         self.params = []

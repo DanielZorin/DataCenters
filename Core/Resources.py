@@ -1,6 +1,6 @@
 import xml.dom.minidom, copy, random
 from Core.AbstractGraph import AbstractGraph, AbstractVertex
-from Core.Tenants import TenantStorage, VM
+from Core.Tenant import Storage, VM
 
 class State:
     def __init__(self):
