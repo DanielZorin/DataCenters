@@ -38,11 +38,16 @@ class Project:
 
     def Save(self, filename):
         dom = xml.dom.minidom.Document()
+        dcxml = dom.createElement("dcxml")
+        dcxml.setAttribute("name", self.name)
         resgraph = self.resources.CreateXml(dom)
-        dom.appendChild(resgraph)
+        dcxml.appendChild(resgraph)
+        tenants = dom.createElement("tenants")
         for d in self.tenants:
             dem = d.CreateXml(dom)
-            dom.appendChild(dem)
+            tenants.appendChild(dem)
+        dcxml.appendChild(tenants)
+        dom.appendChild(dcxml)
         f = open(filename, "w")
         f.write(dom.toprettyxml())
         f.close()

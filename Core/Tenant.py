@@ -56,7 +56,7 @@ class NetElement(AbstractVertex):
         self.router = False
         self.isservice = False
         self.servicename = ""
-        self.providername = ""
+        self.provider = ""
         self.port = ""
 
 class Link:
@@ -116,20 +116,18 @@ class Tenant(AbstractGraph):
                 tag.setAttribute("service_name", v.servicename)
                 tag.setAttribute("provider_name", v.provider)
                 tag.setAttribute("external_port", v.port)
-                tag.appendChild(name)
             elif isinstance(v, Domain):
                 tag = dom.createElement("domain")
                 tag.setAttribute("domain_name", v.id)
                 tag.setAttribute("commutation_type", v.type)
-            elif isinstance(v, NetService):
+            elif isinstance(v, Vnf):
                 tag = dom.createElement("vnf")
                 tag.setAttribute("vnf_name", v.id)
                 tag.setAttribute("vnf_type", v.type)
                 tag.setAttribute("profile_type", v.profile)
                 tag.setAttribute("is_service", "1" if v.isservice else "0")
                 tag.setAttribute("service_name", v.servicename)
-                tag.setAttribute("user_name", v.provider)
-                tag.setAttribute("external_port", v.port)
+                tag.setAttribute("user_name", v.username)
                 conset = dom.createElement("exported_connection_set")
                 conset.setAttribute("number_of_ports", str(len(v.connectionset)))
                 for s in v.connectionset:
@@ -159,30 +157,22 @@ class Tenant(AbstractGraph):
             tag.appendChild(pset)
             nodes.appendChild(tag)
         root.appendChild(nodes)
+        links = dom.createElement("list_of_links")
         for v in self.edges:
             tag = dom.createElement("link")
-            tag.setAttribute("created_at", v.created)
-            tag.setAttribute("updated_at", v.updated)
-            tag.setAttribute("deleted_at", v.deleted)
-            tag.setAttribute("deleted", "1" if v.deleteFlag else "0")
             tag.setAttribute("service", "1" if v.service else "0")
-            lnk = dom.createElement("link_name")
-            nd = dom.createElement("node_name")
-            nd.setAttribute("port_name", v.e1[1])
-            val = dom.createTextNode(str(self.vertices.index(v.e1[0])))
-            nd.appendChild(val)
-            lnk.appendChild(nd)
-            nd = dom.createElement("node_name")
-            nd.setAttribute("port_name", v.e2[1])
-            val = dom.createTextNode(str(self.vertices.index(v.e2[0])))
-            nd.appendChild(val)
-            lnk.appendChild(nd)
-            tag.appendChild(lnk)
-            name = dom.createElement("channel_capacity")
-            nd = dom.createTextNode(str(v.capacity))
-            name.appendChild(nd)
-            tag.appendChild(name)
-            root.appendChild(tag)
+            tag.setAttribute("channel_capacity", str(v.capacity))
+            nd = dom.createElement("node1")
+            nd.setAttribute("node_name", v.e1.id)
+            nd.setAttribute("port_name", v.port1)
+            tag.appendChild(nd)
+            nd = dom.createElement("node2")
+            nd.setAttribute("node_name", v.e2.id)
+            nd.setAttribute("port_name", v.port2)
+            tag.appendChild(nd)
+            tag.appendChild(nd)
+            links.appendChild(tag)
+        root.appendChild(links)
         return root
 
     def LoadFromXML(self, filename):
@@ -198,38 +188,37 @@ class Tenant(AbstractGraph):
                 self.LoadFromXmlNode(node)
         f.close()
 
-    def LoadFromXmlNode(self, node):
-        #Parse vertices
-        for vertex in node.childNodes:
-            if isinstance(vertex, xml.dom.minidom.Text):
-                continue
-            if vertex.nodeName == "link":
-                continue
-            name = vertex.getAttribute("name")
-            number = int(vertex.getAttribute("number"))
-            if vertex.nodeName == "computer":
-                speed = int(vertex.getAttribute("speed"))
-                ram = int(vertex.getAttribute("ramcapacity")) if vertex.hasAttribute("ramcapacity") else 0
-                v = Computer(name, speed, ram)
-            elif vertex.nodeName == "storage":
-                volume = int(vertex.getAttribute("volume"))
-                type = int(vertex.getAttribute("type"))
-                v = Storage(name, volume, type)
-            elif vertex.nodeName == "router":
-                capacity = int(vertex.getAttribute("capacity"))
-                v = Router(name,capacity)
+    def ParseNodes(root):
+        for vertex in root.childNodes:
+            service = True if vertex.getAttribute("service") == "1" else False
+            ports = []
+            params = []
+            for v in vertex.childNodes:
+                if v.nodeName == "connection_set":
+                    for port in v.childNodes:
+                        s = port.getAttribute("port_name")
+                        ports.append(p)
+                if v.nodeName == "parameter_set":
+                    pass
+            if vertex.nodeName == "vm":
+                pass
+            elif vertex.nodeName == "st":
+                pass
+            elif vertex.nodeName == "netelement":
+                pass
+            elif vertex.nodeName == "vnf":
+                pass
+            elif vertex.nodeName == "domain":
+                pass
             x = vertex.getAttribute("x")
             y = vertex.getAttribute("y")
             if x != '':
                 v.x = float(x)
             if y != '':
                 v.y = float(y)
-            v.number = number
             self.vertices.append(v)
 
-        self.vertices.sort(key=lambda x: x.number)
-                    
-        #Parse edges
+    def ParseLinks(root):
         for edge in node.childNodes:
             if edge.nodeName == "link":
                 source = int(edge.getAttribute("from"))
@@ -237,6 +226,21 @@ class Tenant(AbstractGraph):
                 cap = int(edge.getAttribute("capacity"))
                 e = Link(self.vertices[source-1], self.vertices[destination-1], cap)
                 self.edges.append(e)
+
+    def LoadFromXmlNode(self, node):
+        #Parse vertices
+        for vertex in node.childNodes:
+            if isinstance(vertex, xml.dom.minidom.Text):
+                continue
+            if vertex.nodeName == "list_of_links":
+                continue
+            if vertex.nodeName == "list_of_nodes":
+                self.ParseNodes(vertex)
+        for vertex in node.childNodes:
+            if isinstance(vertex, xml.dom.minidom.Text):
+                continue
+            if vertex.nodeName == "list_of_links":
+                self.ParseLinks(vertex)
 
         self._buildPaths()
 

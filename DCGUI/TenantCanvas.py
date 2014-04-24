@@ -96,6 +96,9 @@ class SwitchDialog(VertexDialog):
         self.ui.ip.setText(v.ip)
         self.ui.router.setChecked(v.router)
         self.ui.serviceasuser.setChecked(v.isservice)
+        self.ui.provider.setText(v.provider)
+        self.ui.servicename.setText(v.servicename)
+        self.ui.port.setText(v.port)
         
 
     def SetResult(self, v):
