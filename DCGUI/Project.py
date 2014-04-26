@@ -56,19 +56,24 @@ class Project:
         f = open(filename, "r")
         dom = xml.dom.minidom.parse(f)
         self.tenants = []
-        for node in dom.childNodes:
-            if isinstance(node, xml.dom.minidom.Text):
-                continue
-            if node.tagName == "resources":
-                self.resources.LoadFromXmlNode(node)
-        for node in dom.childNodes:
-            if isinstance(node, xml.dom.minidom.Text):
-                continue
-            elif node.tagName == "tenants":
-                for t in node.childNodes:
-                    if t.tagName == "tenant":
-                        d = self.CreateTenant()
-                        d.LoadFromXmlNode(t, self.resources)
+        for root in dom.childNodes:
+            if root.tagName == "dcxml":
+                self.name = root.getAttribute("name")
+            for node in root.childNodes:
+                if isinstance(node, xml.dom.minidom.Text):
+                    continue
+                if node.tagName == "resources":
+                    self.resources.LoadFromXmlNode(node)
+            for node in root.childNodes:
+                if isinstance(node, xml.dom.minidom.Text):
+                    continue
+                elif node.tagName == "tenants":
+                    for t in node.childNodes:
+                        if isinstance(t, xml.dom.minidom.Text):
+                            continue
+                        if t.tagName == "tenant":
+                            d = self.CreateTenant()
+                            d.LoadFromXmlNode(t, self.resources)
         if not light:
             #get time intervals and assigne tenants
             self.resources.LoadAllTenants(self.tenants)

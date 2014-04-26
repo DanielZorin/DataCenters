@@ -107,7 +107,7 @@ class MainWindow(QMainWindow):
         self.resourcesGraphEditor.setData(self.project.resources)
         self.ui.tenants.clear()
         for d in self.project.tenants:
-            it = QTreeWidgetItem(self.ui.tenants, QStringList([d.id, str(d.startTime), str(d.endTime), self.tr("No") if d.critical else self.tr("Yes"), self.tr("Yes") if d.assigned else self.tr("No")]))
+            it = QTreeWidgetItem(self.ui.tenants, QStringList([d.name, "0", "0", self.tr("No") if d.critical else self.tr("Yes"), self.tr("Yes") if d.assigned else self.tr("No")]))
             cb = QComboBox()
             cb.addItems([self.tr("No"),self.tr("Yes")])
             cb.setCurrentIndex(0 if d.critical else 1)
@@ -368,7 +368,7 @@ class MainWindow(QMainWindow):
 
     def tenantChanged(self):
         it = self.ui.tenants.currentItem()
-        it.setText(0, self.tenants[it].id)
+        it.setText(0, self.tenants[it].name)
         self.showStats()
 
     def ShowResults(self):
