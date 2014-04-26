@@ -23,8 +23,8 @@ class VM(AbstractVertex):
         self.image = ""
 
 class Vnf(AbstractVertex):
-    def __init__(self):
-        AbstractVertex.__init__(self, "")
+    def __init__(self, id=""):
+        AbstractVertex.__init__(self, id)
         self.type = ""
         self.profile = ""
         self.isservice = False

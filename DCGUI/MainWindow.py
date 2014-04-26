@@ -264,7 +264,7 @@ class MainWindow(QMainWindow):
 
     def UpdateTenant(self, item):
         if item in self.tenants:
-            self.tenants[item].id = unicode(item.text(0))
+            self.tenants[item].name = unicode(item.text(0))
             
     def EditTenant(self):
         if (self.tenants == {}) or (self.ui.tenants.currentItem() == None):
