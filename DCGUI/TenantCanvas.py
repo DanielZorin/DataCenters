@@ -1,4 +1,4 @@
-import math
+import math, time
 from Core.Tenant import *
 from Core.AbstractGraph import Param
 from PyQt4 import QtGui, QtCore
@@ -20,7 +20,14 @@ class VertexDialog(QDialog):
         self.ui.params.horizontalHeader().setStretchLastSection(True)
 
     def LoadCommon(self, v):
-        self.ui.name.setText(v.id)
+        ind = v.id.find("!")
+        if ind != -1:
+            self.hash = v.id[ind:]
+            id = v.id[:ind]
+        else:
+            self.hash = ''
+            id = v.id
+        self.ui.name.setText(id)
         self.ui.service.setChecked(v.service)
         for p in v.params:
             self.ui.params.insertRow(0)
@@ -43,7 +50,7 @@ class VertexDialog(QDialog):
         self.ui.params.removeRow(self.ui.params.currentRow())
 
     def SetResultCommon(self, v):
-        v.id = str(self.ui.name.text())
+        v.id = str(self.ui.name.text() + self.hash)
         v.service = self.ui.service.isChecked()
         v.params = []
         for i in range(self.ui.params.rowCount()):
@@ -322,7 +329,7 @@ class TenantCanvas(QWidget):
             return
         elif self.state == State.VM:
             rect = QtCore.QRect(e.x() - self.size / 2, e.y() - self.size / 2, self.size, self.size)
-            computer = VM("id")
+            computer = VM(self.genId())
             self.vertices[computer] = rect
             self.tenant.AddVertex(computer)
             self.changed = True
@@ -330,7 +337,7 @@ class TenantCanvas(QWidget):
             self.repaint()
         elif self.state == State.Storage:
             rect = QtCore.QRect(e.x() - self.size / 2, e.y() - self.size / 2, self.size, self.size)
-            storage = Storage("id")
+            storage = Storage(self.genId())
             self.vertices[storage] = rect
             self.tenant.AddVertex(storage)
             self.changed = True
@@ -338,7 +345,7 @@ class TenantCanvas(QWidget):
             self.repaint()
         elif self.state == State.Switch:
             rect = QtCore.QRect(e.x() - self.size / 2, e.y() - self.size / 2, self.size, self.size)
-            router = NetElement("id", "Switch")
+            router = NetElement(self.genId(), "Switch")
             self.vertices[router] = rect
             self.tenant.AddVertex(router)
             self.changed = True
@@ -346,7 +353,7 @@ class TenantCanvas(QWidget):
             self.repaint()
         elif self.state == State.Domain:
             rect = QtCore.QRect(e.x() - self.size / 2, e.y() - self.size / 2, self.size, self.size)
-            router = Domain("id", "")
+            router = Domain(self.genId(), "")
             self.vertices[router] = rect
             self.tenant.AddVertex(router)
             self.changed = True
@@ -354,7 +361,7 @@ class TenantCanvas(QWidget):
             self.repaint()
         elif self.state == State.Vnf:
             rect = QtCore.QRect(e.x() - self.size / 2, e.y() - self.size / 2, self.size, self.size)
-            vnf = Vnf()
+            vnf = Vnf(self.genId())
             self.vertices[vnf] = rect
             self.tenant.AddVertex(vnf)
             self.changed = True
@@ -368,6 +375,9 @@ class TenantCanvas(QWidget):
                     self.curEdge.append(self.vertices[v])
                     self.curEdge.append(v)
                     self.repaint()
+
+    def genId(self):
+        return "id!" + str(time.time())
 
     def mouseMoveEvent(self, e):
         if self.state == State.Select:
