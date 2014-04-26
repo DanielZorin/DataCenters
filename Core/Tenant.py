@@ -39,7 +39,7 @@ class Domain(AbstractVertex):
     :param speed: computer performance
     :param ram: RAM capacity
     '''
-    def __init__(self, id, type):
+    def __init__(self, id, type=""):
         AbstractVertex.__init__(self, id)
         self.type = type
 
@@ -49,7 +49,7 @@ class NetElement(AbstractVertex):
     :param id: name
     :param capcity: total channel bandwidth
     '''
-    def __init__(self, id, type):
+    def __init__(self, id, type=""):
         AbstractVertex.__init__(self, id)
         self.type = type
         self.ip = ""
@@ -84,7 +84,7 @@ class Tenant(AbstractGraph):
         self.type = ""
         self.expiration = ""
         self.assigned = False
-
+        self.critical = False
     def ExportToXml(self):
         '''
         :returns: string with XML representation
@@ -97,6 +97,8 @@ class Tenant(AbstractGraph):
     def CreateXml(self, dom):
         root = dom.createElement("tenant")
         root.setAttribute("expiration_time", self.expiration)
+        root.setAttribute("tenant_type", self.type)
+        root.setAttribute("tenant_name", self.name)
         nodes = dom.createElement("list_of_nodes")
         for v in self.vertices:
             if isinstance(v, VM):
@@ -188,46 +190,103 @@ class Tenant(AbstractGraph):
                 self.LoadFromXmlNode(node)
         f.close()
 
-    def ParseNodes(root):
+    def ParseNodes(self, root):
         for vertex in root.childNodes:
+            if isinstance(vertex, xml.dom.minidom.Text):
+                continue
             service = True if vertex.getAttribute("service") == "1" else False
             ports = []
             params = []
+            conset = []
             for v in vertex.childNodes:
+                if isinstance(v, xml.dom.minidom.Text):
+                    continue
                 if v.nodeName == "connection_set":
                     for port in v.childNodes:
+                        if isinstance(port, xml.dom.minidom.Text):
+                            continue
                         s = port.getAttribute("port_name")
-                        ports.append(p)
+                        ports.append(s)
+                if v.nodeName == "exported_connection_set":
+                    for port in v.childNodes:
+                        if isinstance(port, xml.dom.minidom.Text):
+                            continue
+                        s = port.getAttribute("port_name")
+                        conset.append(s)
                 if v.nodeName == "parameter_set":
-                    pass
+                    for param in v.childNodes:
+                        if isinstance(param, xml.dom.minidom.Text):
+                            continue
+                        name = param.getAttribute("parameter_name")
+                        type = param.getAttribute("parameter_type")
+                        value = param.getAttribute("value_user")
+                        params.append(Param(name, type, value))
             if vertex.nodeName == "vm":
-                pass
+                v = VM(vertex.getAttribute("vm_name"))
+                v.image = vertex.getAttribute("image_id")
             elif vertex.nodeName == "st":
-                pass
+                v = Storage(vertex.getAttribute("st_name"))
             elif vertex.nodeName == "netelement":
-                pass
+                tag = vertex
+                v = NetElement(tag.getAttribute("netelement_name"))              
+                v.type = tag.getAttribute("netelement_type")
+                v.ip = tag.getAttribute("ip")
+                v.router = tag.getAttribute("is_router") == 1
+                v.isservice = tag.getAttribute("is_service") == 1
+                v.servicename = tag.getAttribute("service_name")
+                v.provider = tag.getAttribute("provider_name")
+                v.port = tag.getAttribute("external_port")
             elif vertex.nodeName == "vnf":
-                pass
+                v = Vnf()
+                tag = vertex
+                v.id = tag.getAttribute("vnf_name")
+                v.type = tag.getAttribute("vnf_type")
+                v.profile = tag.getAttribute("profile_type")
+                v.isservice = tag.getAttribute("is_service") == "1"
+                v.servicename = tag.getAttribute("service_name")
+                v.username = tag.getAttribute("user_name")
+                v.connectionset = conset
             elif vertex.nodeName == "domain":
-                pass
+                v = Domain(vertex.getAttribute("domain_name"))
+                v.type = vertex.getAttribute("commutation_type")
             x = vertex.getAttribute("x")
             y = vertex.getAttribute("y")
             if x != '':
                 v.x = float(x)
             if y != '':
                 v.y = float(y)
+            v.service = service
+            v.params = params
+            v.ports = ports
             self.vertices.append(v)
 
-    def ParseLinks(root):
-        for edge in node.childNodes:
+    def ParseLinks(self, root):
+        for edge in root.childNodes:
             if edge.nodeName == "link":
-                source = int(edge.getAttribute("from"))
-                destination = int(edge.getAttribute("to"))
-                cap = int(edge.getAttribute("capacity"))
-                e = Link(self.vertices[source-1], self.vertices[destination-1], cap)
+                for v in edge.childNodes:
+                    if isinstance(v, xml.dom.minidom.Text):
+                        continue
+                    if v.tagName == "node1":
+                        src = v.getAttribute("node_name")
+                        port1 = v.getAttribute("port_name")
+                    if v.tagName == "node2":
+                        dst = v.getAttribute("node_name")
+                        port2 = v.getAttribute("port_name")
+                cap = edge.getAttribute("channel_capacity")
+                service = edge.getAttribute("service") == "1"
+                # TODO: error handling
+                srcv = [v for v in self.vertices if v.id == src][0]
+                dstv = [v for v in self.vertices if v.id == dst][0]
+                e = Link(srcv, dstv, cap)
+                e.port1 = port1
+                e.port2 = port2
+                e.service = service
                 self.edges.append(e)
 
-    def LoadFromXmlNode(self, node):
+    def LoadFromXmlNode(self, node, resources=None):
+        self.expiration = node.getAttribute("expiration_time")
+        self.type = node.getAttribute("tenant_type")
+        self.name = node.getAttribute("tenant_name")
         #Parse vertices
         for vertex in node.childNodes:
             if isinstance(vertex, xml.dom.minidom.Text):
