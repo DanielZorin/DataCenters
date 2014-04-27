@@ -45,6 +45,7 @@ private:
     void copyPrevAssignmentsToBest();
     void copyCurAssignmentsToBest();
     void copyCurAssignmentsToPrev();
+    void copyBestAssignmentsToCur();
     
     Result deleteAssignmentFromCur();
     Result tryToInsertNewAssignment();
@@ -52,7 +53,9 @@ private:
     
     void mutation();
     
-    Assignment *copyAssignmentToCurrent(Assignment *a);
+    Result assignLinks();
+    Link * createDummyLink(Link * virtualLink, Assignment * assignment);
+    Element * getCastedAssignment(Element * element, Assignment * assignment);
      
 public:
     Annealing(Network * n, Requests const & r);

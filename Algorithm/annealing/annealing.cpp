@@ -631,18 +631,10 @@ Annealing::tryToInsertNewAssignment()
 		return SUCCESS;
 	}
 	if (i == requests.end()) {
-		cout << "All possible requests are already assigned, they must be mixed to assign new one" << endl;
+		//cout << "All possible requests are already assigned, they must be mixed to assign new one" << endl;
 		return FAILURE;
 	}
 	return SUCCESS;
-	//request is not assigned
-	
-	
-	
-	//cout << endl<< endl << "Printing curNetwork after assigning free request" << endl;
-	//curNetwork.printNetwork();
-	//cout << "printing cur_assignments after assigning free request" << endl;
-	//printAssignments(curAssignments);
 }	
 
 void 
@@ -752,6 +744,35 @@ Annealing::copyPrevAssignmentsToCur()
 	}	
 }
 
+void 
+Annealing::copyBestAssignmentsToCur()
+{
+	curNetwork = bestNetwork;
+	//prevAssignments are not empty. They are connected to PrevNetwork
+	//this function is to full curAssignments connected to CurNetwork. 
+	//Requests must be assigned to those resources as in prevAssignments
+	curAssignments.clear();
+	for (Assignments::iterator iter = assignments.begin(); iter != assignments.end(); ++iter) {
+		Assignment *a = *iter;
+		Request *req = a->getRequest();
+		Assignment *tmp = new Assignment(req);
+		for (Assignment::NodeAssignments::iterator nodeAssIter = a->nodeAssignments.begin(); nodeAssIter != a->nodeAssignments.end(); ++nodeAssIter) {
+			NodeAssignment pairOfNodes = *nodeAssIter;
+			Node *nodeFromRequest = pairOfNodes.first;
+			Node *nodeFromBestNetwork = pairOfNodes.second;
+			Node *nodeFromCurNetwork = curNetwork.nodesIDLookup(nodeFromBestNetwork->getID());
+			tmp->AddAssignment(nodeFromRequest, nodeFromCurNetwork);
+		}
+		for (Assignment::StoreAssignments::iterator storeAssIter = a->storeAssignments.begin(); storeAssIter != a->storeAssignments.end(); ++storeAssIter) {
+			StoreAssignment pairOfStores = *storeAssIter;
+			Store *storeFromRequest = pairOfStores.first;
+			Store *storeFromBestNetwork = pairOfStores.second;
+			tmp->AddAssignment(storeFromRequest, curNetwork.storesIDLookup(storeFromBestNetwork->getID()));
+		}
+        curAssignments.insert(tmp);
+	}	
+}
+
 Algorithm::Result
 Annealing::deleteAssignmentFromCur()
 {
@@ -814,38 +835,6 @@ Annealing::deleteAssignmentFromCur()
 	}
 	
 }
-	
-Assignment *
-Annealing::copyAssignmentToCurrent(Assignment *a)
-{
-	cout << endl << "copy function, step 1" << endl;
-    curNetwork.printNetwork();
-    cout <<  endl <<"copy function, step 1" << endl;
-    printAssignments(curAssignments);
-    
-	currentAssignment->forcedCleanup();
-	currentAssignment = new Assignment(a->getRequest());
-	for (Assignment::NodeAssignments::iterator nodeAssIter = a->nodeAssignments.begin(); nodeAssIter != a->nodeAssignments.end(); ++nodeAssIter) {
-		NodeAssignment pairOfNodes = *nodeAssIter;
-		Node *nodeFromRequest = pairOfNodes.first;
-		Node *nodeFromAssignment = pairOfNodes.second;
-		Node *nodeFromCurNetwork = curNetwork.nodesIDLookup(nodeFromAssignment->getID());
-		currentAssignment->AddAssignment(nodeFromRequest, nodeFromCurNetwork);
-	}
-	for (Assignment::StoreAssignments::iterator storeAssIter = a->storeAssignments.begin(); storeAssIter != a->storeAssignments.end(); ++storeAssIter) {
-		StoreAssignment pairOfStores = *storeAssIter;
-		Store *storeFromRequest = pairOfStores.first;
-		Store *storeFromAssignment = pairOfStores.second;
-		Store *storeFromCurNetwork = curNetwork.storesIDLookup(storeFromAssignment->getID());
-		currentAssignment->AddAssignment(storeFromRequest, storeFromCurNetwork);
-	}
-		cout << endl << "copy function, step 2" << endl;
-    curNetwork.printNetwork();
-    cout <<  endl <<"copy function, step 2" << endl;
-    printAssignments(curAssignments);
-	return currentAssignment;
-}
-
 
 void 
 Annealing::printUnassignedRequests()
@@ -872,6 +861,77 @@ Annealing::printUnassignedRequests()
 		}
 	}
 }
+
+Algorithm::Result
+Annealing::assignLinks()
+{
+	Result result = FAILURE;
+	currentAssignment = new Assignment();
+	copyBestAssignmentsToCur();
+	for (Assignments::iterator iter = curAssignments.begin(); iter != curAssignments.end(); ++iter) {
+		currentAssignment = *iter;
+		Request *request = currentAssignment->getRequest();
+		Links & vlinks = request->getVirtualLinks();
+        for (Links::iterator l = vlinks.begin(); l != vlinks.end(); l++)
+        {
+            Link * dummy = createDummyLink(*l, currentAssignment);
+
+            if ( dummy == 0 )
+            {
+                result = FAILURE;
+                break;
+            }
+
+            NetPath netPath = VirtualLinkRouter::routeDejkstra(dummy, network);
+            delete dummy;
+
+            if ( netPath.size() == 0 )
+            {
+                result = FAILURE;
+                break;
+            } 
+
+            for ( NetPath::iterator i = netPath.begin(); i != netPath.end(); i++)
+            {
+               (*i)->assign(**l);
+            }
+            currentAssignment->AddAssignment(*l, netPath);
+        }
+
+        if ( result == FAILURE ) {
+           delete currentAssignment;
+	   } else {
+            assignments.insert(currentAssignment);
+		}
+	}
+	return result;
+}
+
+Link * Annealing::createDummyLink(Link * virtualLink, Assignment * assignment)
+{
+    if ( virtualLink == 0 )
+        return 0;
+
+    Element * first = getCastedAssignment(virtualLink->getFirst(), assignment);
+    Element * second = getCastedAssignment(virtualLink->getSecond(), assignment);
+
+    if ( first == 0 || second == 0 )
+        return 0;
+
+    Link * dummyLink = new Link("dummy_link", virtualLink->getCapacity(), virtualLink->getMaxCapacity());
+    dummyLink->bindElements(first, second);
+    return dummyLink;
+}
+
+Element * Annealing::getCastedAssignment(Element * element, Assignment * assignment)
+{
+    if ( element->isNode() )
+        return assignment->GetAssignment((Node *)element);
+    if ( element->isStore() )
+        return assignment->GetAssignment((Store *)element);
+    return 0;
+}
+
 	
 
 Algorithm::Result Annealing::schedule()
@@ -922,7 +982,7 @@ Algorithm::Result Annealing::schedule()
 				copyCurAssignmentsToBest();
 				break;
 			}
-			//cout << "cur:  " << curAssignments.size() << ", prev: " << prevAssignments.size() << endl;
+			//acout << "cur:  " << curAssignments.size() << ", prev: " << prevAssignments.size() << endl;
 			delta = prevAssignments.size() - curAssignments.size(); 
 			double h = (double)rand() / RAND_MAX;
 			
@@ -944,6 +1004,11 @@ Algorithm::Result Annealing::schedule()
 	if (temperature <= 12) {
 		cout << "Temperature is low to continue" << endl;
 	}
+	printf("Nodes and stores assigned\n");
+	(*network) = bestNetwork;
+	network->printNetwork();
+	assignLinks();
+	
 	printf("Assigned total of %d from %d requests\n", assignments.size(), requests.size());
 	cout << endl << endl << endl;
 	//printAssignments(assignments);
