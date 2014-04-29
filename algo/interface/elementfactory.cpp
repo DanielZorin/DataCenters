@@ -8,8 +8,7 @@
 #include "parameter.h"
 #include "interface/tenantxmlfactory.h"
 
-Element * ElementFactory::populate(Element * element, const QVariant & properties, 
-        const TenantXMLFactory * factory)
+Element * ElementFactory::populate(Element * element, const QVariant & properties)
 {
     element->physical = false;
 

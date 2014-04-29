@@ -9,7 +9,6 @@
 class ElementFactory
 {
 public:
-    static Element * populate(Element * element, const QVariant & properties, 
-            const class TenantXMLFactory *);
+    static Element * populate(Element * element, const QVariant & properties);
     static Parameters parametersFromProperties(const QMap<QString, QVariant> &);
 };

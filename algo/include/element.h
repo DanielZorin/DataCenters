@@ -5,6 +5,8 @@
 
 class Element {
     friend class ElementFactory;
+    friend class TenantXMLFactory;
+    friend class ResourcesXMLFactory;
     friend class Criteria;
 public:
     enum Type {
