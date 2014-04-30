@@ -173,6 +173,6 @@ class Project:
 
     def FindTenant(self, id):
         for d in self.tenants:
-            if d.id == id:
+            if d.name == id:
                 return d
                

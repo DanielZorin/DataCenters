@@ -45,12 +45,12 @@ class Ui_Vis(object):
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
-        self.assignedDemands = QtGui.QTreeWidget(self.layoutWidget)
-        self.assignedDemands.setMinimumSize(QtCore.QSize(0, 0))
-        self.assignedDemands.setMaximumSize(QtCore.QSize(111, 9999))
-        self.assignedDemands.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)
-        self.assignedDemands.setObjectName(_fromUtf8("assignedDemands"))
-        self.horizontalLayout.addWidget(self.assignedDemands)
+        self.assignedTenants = QtGui.QTreeWidget(self.layoutWidget)
+        self.assignedTenants.setMinimumSize(QtCore.QSize(0, 0))
+        self.assignedTenants.setMaximumSize(QtCore.QSize(111, 9999))
+        self.assignedTenants.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)
+        self.assignedTenants.setObjectName(_fromUtf8("assignedTenants"))
+        self.horizontalLayout.addWidget(self.assignedTenants)
         self.graphArea = QtGui.QScrollArea(self.layoutWidget)
         self.graphArea.setWidgetResizable(False)
         self.graphArea.setObjectName(_fromUtf8("graphArea"))
@@ -69,12 +69,12 @@ class Ui_Vis(object):
 
         self.retranslateUi(Vis)
         QtCore.QObject.connect(self.actionExit, QtCore.SIGNAL(_fromUtf8("triggered()")), Vis.close)
-        QtCore.QObject.connect(self.assignedDemands, QtCore.SIGNAL(_fromUtf8("itemSelectionChanged()")), Vis.demandSelected)
+        QtCore.QObject.connect(self.assignedTenants, QtCore.SIGNAL(_fromUtf8("itemSelectionChanged()")), Vis.tenantSelected)
         QtCore.QMetaObject.connectSlotsByName(Vis)
 
     def retranslateUi(self, Vis):
         Vis.setWindowTitle(_translate("Vis", "Results Visualizer", None))
-        self.assignedDemands.headerItem().setText(0, _translate("Vis", "Assigned Tenants", None))
+        self.assignedTenants.headerItem().setText(0, _translate("Vis", "Assigned Tenants", None))
         self.actionExit.setText(_translate("Vis", "Exit", None))
         self.actionExit.setShortcut(_translate("Vis", "Ctrl+X", None))
 

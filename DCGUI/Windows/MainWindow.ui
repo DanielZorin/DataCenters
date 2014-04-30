@@ -213,7 +213,7 @@ QLabel, QSlider, QCheckBox {
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="demandcount">
+            <widget class="QLabel" name="tenantcount">
              <property name="text">
               <string>0</string>
              </property>

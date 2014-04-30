@@ -17,6 +17,8 @@ class AbstractVertex:
         self.service = service
         self.params = []
         self.ports = []
+        self.assigned = None
+        self.assignments = []
 
     def addPort(self):
         s = self.id + "_port_" + str(len(self.ports))

@@ -42,7 +42,7 @@ QLabel, QSlider, QCheckBox {
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <widget class="QTreeWidget" name="assignedDemands">
+           <widget class="QTreeWidget" name="assignedTenants">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -121,10 +121,10 @@ QLabel, QSlider, QCheckBox {
    </hints>
   </connection>
   <connection>
-   <sender>assignedDemands</sender>
+   <sender>assignedTenants</sender>
    <signal>itemSelectionChanged()</signal>
    <receiver>Vis</receiver>
-   <slot>demandSelected()</slot>
+   <slot>tenantSelected()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>36</x>
@@ -138,8 +138,6 @@ QLabel, QSlider, QCheckBox {
   </connection>
  </connections>
  <slots>
-  <slot>UpdateTimeFromSlider(int)</slot>
-  <slot>UpdateTimeFromSpinBox(int)</slot>
-  <slot>demandSelected()</slot>
+  <slot>tenantSelected()</slot>
  </slots>
 </ui>
