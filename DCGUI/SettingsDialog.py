@@ -16,7 +16,7 @@ class SettingsDialog(QDialog):
         self.ui.setupUi(self)
         self.vis = vi
         self.ui.selection.setStyleSheet("background-color: " + self.vis["selected"].name())
-        self.ui.highlight.setStyleSheet("background-color: " + self.vis["selected_demand"].name())
+        self.ui.highlight.setStyleSheet("background-color: " + self.vis["selected_tenant"].name())
         self.ui.names.setChecked(self.vis["node"])
         self.ui.computer.setChecked(self.vis["computer"])
         self.ui.storage.setChecked(self.vis["storage"])
@@ -33,7 +33,7 @@ class SettingsDialog(QDialog):
         color = QColorDialog.getColor()
         if (color.isValid()):
             self.ui.highlight.setStyleSheet("background-color: " + color.name())
-            self.vis["selected_demand"] = color
+            self.vis["selected_tenant"] = color
                 
     def exec_(self):
         self.Backup()  

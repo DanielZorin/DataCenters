@@ -85,6 +85,15 @@ class Tenant(AbstractGraph):
         self.expiration = ""
         self.assigned = False
         self.critical = False
+
+    def Assign(self, vt, id, resources):
+        if not resources:
+            return
+        # TODO: error handling
+        node = [v for v in resources.vertices if v.id == id][0]
+        vt.assigned = node
+        node.assignments.append([vt, self])
+
     def ExportToXml(self):
         '''
         :returns: string with XML representation
@@ -105,6 +114,8 @@ class Tenant(AbstractGraph):
                 tag = dom.createElement("vm")
                 tag.setAttribute("vm_name", v.id)
                 tag.setAttribute("image_id", v.image)
+                if v.assigned:
+                    tag.setAttribute("server_name", v.assigned.id)
             elif isinstance(v, Storage):
                 tag = dom.createElement("st")
                 tag.setAttribute("st_name", v.id)
@@ -190,7 +201,7 @@ class Tenant(AbstractGraph):
                 self.LoadFromXmlNode(node)
         f.close()
 
-    def ParseNodes(self, root):
+    def ParseNodes(self, root, resources):
         for vertex in root.childNodes:
             if isinstance(vertex, xml.dom.minidom.Text):
                 continue
@@ -224,6 +235,9 @@ class Tenant(AbstractGraph):
             if vertex.nodeName == "vm":
                 v = VM(vertex.getAttribute("vm_name"))
                 v.image = vertex.getAttribute("image_id")
+                srv = vertex.getAttribute("server_name")
+                if srv:
+                    self.Assign(v, srv, resources)
             elif vertex.nodeName == "st":
                 v = Storage(vertex.getAttribute("st_name"))
             elif vertex.nodeName == "netelement":
@@ -294,7 +308,7 @@ class Tenant(AbstractGraph):
             if vertex.nodeName == "list_of_links":
                 continue
             if vertex.nodeName == "list_of_nodes":
-                self.ParseNodes(vertex)
+                self.ParseNodes(vertex, resources)
         for vertex in node.childNodes:
             if isinstance(vertex, xml.dom.minidom.Text):
                 continue
