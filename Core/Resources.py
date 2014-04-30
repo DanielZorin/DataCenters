@@ -120,25 +120,25 @@ class ResourceGraph(AbstractGraph):
             root.setAttribute("time", str(r[0]))
         for v in self.vertices:
             if isinstance(v, Computer):
-                tag = dom.createElement("computer")
-                tag.setAttribute("speed", str(v.speed))
-                tag.setAttribute("ramcapacity", str(v.ram))
-                tag.setAttribute("used", str(v.intervals[r].usedSpeed) if r != None else "0")
-                tag.setAttribute("usedram", str(v.intervals[r].usedRam) if r != None else "0")
+                tag = dom.createElement("server")
+                tag.setAttribute("server_name", str(v.id))
             elif isinstance(v, Storage):
                 tag = dom.createElement("storage")
-                tag.setAttribute("volume", str(v.volume))
-                tag.setAttribute("used", str(v.intervals[r].usedVolume) if r != None else "0")
-                tag.setAttribute("type", str(v.type))
+                tag.setAttribute("storage_name", str(v.id))
             elif isinstance(v, Router):
-                tag = dom.createElement("router")
-                tag.setAttribute("capacity", str(v.capacity))
-                tag.setAttribute("used", str(v.intervals[r].usedCapacity) if r != None else "0")
+                tag = dom.createElement("netelement")
+                tag.setAttribute("netelement_name", str(v.id))
             if v.x:
                 tag.setAttribute("x", str(v.x))
                 tag.setAttribute("y", str(v.y))
-            tag.setAttribute("number", str(v.number))
-            tag.setAttribute("name", str(v.id))
+            pset = dom.createElement("parameter_set")
+            for p in v.params:
+                param = dom.createElement("parameter")
+                param.setAttribute("parameter_name", p.name)
+                param.setAttribute("parameter_type", p.type)
+                param.setAttribute("value_user", p.value)
+                pset.appendChild(param)
+            tag.appendChild(pset)
             root.appendChild(tag)
         for v in self.edges:
             tag = dom.createElement("link")
@@ -169,26 +169,34 @@ class ResourceGraph(AbstractGraph):
                 continue
             if vertex.nodeName == "link":
                 continue
-            name = vertex.getAttribute("name")
-            number = int(vertex.getAttribute("number"))
-            if vertex.nodeName == "computer":
-                speed = int(vertex.getAttribute("speed"))
-                ram = int(vertex.getAttribute("ramcapacity")) if vertex.hasAttribute("ramcapacity") else 0
-                v = Computer(name, speed, ram)
+            params = []
+            for v in vertex.childNodes:
+                if isinstance(v, xml.dom.minidom.Text):
+                    continue
+                if v.nodeName == "parameter_set":
+                    for param in v.childNodes:
+                        if isinstance(param, xml.dom.minidom.Text):
+                            continue
+                        name = param.getAttribute("parameter_name")
+                        type = param.getAttribute("parameter_type")
+                        value = param.getAttribute("value_user")
+                        params.append(Param(name, type, value))
+            if vertex.nodeName == "server":
+                name = vertex.getAttribute("server_name")
+                v = Computer(name, 0, 0)
             elif vertex.nodeName == "storage":
-                volume = int(vertex.getAttribute("volume"))
-                type = int(vertex.getAttribute("type"))
-                v = Storage(name, volume, type)
-            elif vertex.nodeName == "router":
-                capacity = int(vertex.getAttribute("capacity"))
-                v = Router(name,capacity)
+                name = vertex.getAttribute("storage_name")
+                v = Storage(name, 0, 0)
+            elif vertex.nodeName == "netelement":
+                name = vertex.getAttribute("netelement_name")
+                v = Router(name, 0)
             x = vertex.getAttribute("x")
             y = vertex.getAttribute("y")
             if x != '':
                 v.x = float(x)
             if y != '':
                 v.y = float(y)
-            v.number = number
+            v.params = params
             self.vertices.append(v)
 
         self.vertices.sort(key=lambda x: x.number)
