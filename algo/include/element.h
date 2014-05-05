@@ -126,7 +126,17 @@ public:
         assignments.erase(a);
     }
 
+    virtual void unassign() {
+        if ( !isAssigned() )
+           return;
+
+        assignee->removeAssignment(this); 
+    }
+
     virtual Elements adjacent() const = 0;
+    virtual Elements adjacentNodes() const = 0;
+    virtual Elements adjacentEdges() const = 0;
+
 
 public:
     inline bool isAdjacent(const Element * other) const {

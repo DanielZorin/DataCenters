@@ -46,6 +46,16 @@ public:
         result.insert(second->getParentNode());
         return result; 
     }
+
+    virtual Elements adjacentNodes() const {
+        return adjacent();
+    }
+
+    virtual Elements adjacentEdges() const {
+        return Elements();
+    }
+
+
 protected:
     Port * first;
     Port * second;

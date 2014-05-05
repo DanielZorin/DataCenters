@@ -55,4 +55,12 @@ public:
     inline static bool isAdjacent(const Element * t, const Element * e) {
         return e->isAdjacent(t); 
     }
+
+    inline static bool elementWeightDescending(const Element * first, const Element * second) {
+        return first->weight() > second->weight(); 
+    }
+
+    inline static bool canHostAssignment(const Element * host, const Element * target) {
+        return host->canHostAssignment(target);
+    }
 };

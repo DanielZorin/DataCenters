@@ -13,6 +13,7 @@ SET ( COMPONENTS
       interface
       routing
       test
+      prototype
       )
 
 FOREACH(COMPONENT ${COMPONENTS})

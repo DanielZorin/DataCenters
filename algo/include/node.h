@@ -35,6 +35,20 @@ public:
         return edges;
     }
 
+    virtual Elements adjacentNodes() const {
+        Elements result;
+        for (Elements::iterator i = edges.begin(); i != edges.end(); i++) {
+            Element * e = *i;
+            Elements nodes = e->adjacent();
+            result.insert(nodes.begin(), nodes.end());
+        }
+        return result;
+    }
+
+    virtual Elements adjacentEdges() const {
+        return adjacent();
+    }
+
 private:
     Elements edges;
     Ports ports;
