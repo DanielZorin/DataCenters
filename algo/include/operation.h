@@ -65,4 +65,15 @@ namespace Operation {
         result.insert(second.begin(), second.end());
         return result;
     }
+
+    inline void forEach(const Elements & elements, void (*op)(Element *)) {
+        for ( Elements::iterator i = elements.begin(); i != elements.end(); i++ ) {
+            Element * e = const_cast<Element *>(*i);
+            op(e);
+        }
+    }
+
+    inline void unassign(Element * e) {
+        e->unassign();
+    }
 };

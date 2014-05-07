@@ -10,7 +10,8 @@ public:
     virtual void schedule();
 private:
     void prioritizeRequests(Requests & r);
-    void scheduleRequest(Request * r);
+    bool scheduleRequest(Request * r);
+    bool exhaustiveSearch(Element * e);
 
     Element * getSeedElement(Elements & e);
 };

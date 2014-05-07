@@ -39,4 +39,9 @@ public:
     inline bool isAssigned() const {
         return elementsToAssign().empty(); 
     }
+
+    inline void purgeAssignments() {
+        Elements assigned = assignedElements();
+        Operation::forEach(assigned, Operation::unassign);
+    }
 };

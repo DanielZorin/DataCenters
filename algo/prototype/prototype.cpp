@@ -5,6 +5,7 @@
 #include "network.h"
 #include "criteria.h"
 #include "operation.h"
+#include "routing/bfsrouter.h"
 
 #include <vector>
 #include <algorithm>
@@ -23,10 +24,10 @@ void PrototypeAlgorithm::prioritizeRequests(Requests & r) {
     
 }
 
-void PrototypeAlgorithm::scheduleRequest(Request * r) {
-    Elements unassigned = r->elementsToAssign();
-    while ( !unassigned.empty() ) {
-        Element * unassignedSeed = getSeedElement(unassigned);
+bool PrototypeAlgorithm::scheduleRequest(Request * r) {
+    Elements unassignedNodes = Operation::filter(r->elementsToAssign(), Criteria::isNode);
+    while ( !unassignedNodes.empty() ) {
+        Element * unassignedSeed = getSeedElement(unassignedNodes);
         std::queue<Element *> queue;
         queue.push(unassignedSeed);
         while ( !queue.empty() ) {
@@ -36,8 +37,27 @@ void PrototypeAlgorithm::scheduleRequest(Request * r) {
             if ( nextToAssign->isAssigned() )
                 continue;
 
+            BFSRouter router(*r, nextToAssign);
+            if ( !router.search() ) {
+                if ( !exhaustiveSearch(nextToAssign) ) {
+                    r->purgeAssignments();
+                    return false;
+                }
+            }
+
+            Elements adjacentNodes = nextToAssign->adjacentNodes();
+            for ( Elements::iterator i = adjacentNodes.begin(); i != adjacentNodes.end(); i++) {
+                queue.push(*i);
+            }
+            unassignedNodes.erase(nextToAssign);
         }
     }
+
+    return true;
+}
+
+bool PrototypeAlgorithm::exhaustiveSearch(Element * e) {
+    return false;
 }
 
 Element * PrototypeAlgorithm::getSeedElement(Elements & e) {
