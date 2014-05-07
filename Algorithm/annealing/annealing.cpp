@@ -497,12 +497,9 @@ Annealing::reassignRandRequest()
 Algorithm::Result 
 Annealing::changeAssignments()
 {
-	//cout << "Try to change assignments..." << endl;
 	currentAssignment->forcedCleanup();
 	currentAssignment = new Assignment();
 	int i = 0, k = 0;
-	//cout << "Printing curAssignments before removing element" << endl;
-	//printAssignments(curAssignments);
 	if (curAssignments.size() > 0) {
 		i = rand() % (curAssignments.size());
 		for (Assignments::iterator iter = curAssignments.begin(); iter != curAssignments.end(); ++iter) {
@@ -528,12 +525,10 @@ Annealing::changeAssignments()
 	//clear network
 		
 	Request *request = currentAssignment->getRequest();
-	//cout << "It is request " << request->getName() << endl;
 	Stores &storages = request->getStorages();
 	Nodes &vm = request->getVirtualMachines();
 	int flag = 0;
 	for (Stores::iterator i = storages.begin(); i != storages.end(); ++i) {
-		//cout << "Removing store assignments" << endl; 
 		flag = 1;
         //is curNetwork be changed?
 		Store *store = currentAssignment->GetAssignment(*i);
@@ -542,7 +537,6 @@ Annealing::changeAssignments()
 	}
 	for (Nodes::iterator i = vm.begin(); i != vm.end(); ++i) {
 		flag = 1;
-		//cout << "Removing node assignments" << endl; 
 		Node *node = currentAssignment->GetAssignment(*i);
 		node->RemoveAssignment(*i);
 		currentAssignment->RemoveAssignment(*i);
@@ -551,10 +545,6 @@ Annealing::changeAssignments()
 	if (flag) {
 		//cout << "2.removed assignment" << endl;
 	}
-	//cout << endl<< endl << "Printing curNetwork after removing one request" << endl;
-	//curNetwork.printNetwork();
-	//cout << "printing cur_assignments after removing one request" << endl;
-	//printAssignments(curAssignments);
 	Result res = FAILURE;
 	int counter = 0;
 	currentAssignment = new Assignment(request);
@@ -570,22 +560,14 @@ Annealing::changeAssignments()
 			break;
 		}
 	}	
-	
-	//cout << endl<< endl << "Printing curNetwork after removing and reassigning one request" << endl;
-	//curNetwork.printNetwork();
-	//cout << "printing cur_assignments after removing and reassigning one request" << endl;
-	//printAssignments(curAssignments);
 	return res;
 }
 
 Algorithm::Result 
 Annealing::tryToInsertNewAssignment() 
 {
-	//one of assignments chosen randomly was moved
-	//now look for not assigned requests and try to assign it
-	//need to provide random
-	//cout << endl << "Try to assign some else request..." << endl;
-	cout << "insert................" << endl;
+	//looking for not assigned requests and trying to assign it
+	//chosen request is assigned randomly
 	int flag = 0;
 	Requests::iterator i;
 	for (i = requests.begin(); i != requests.end(); i++) {
@@ -602,10 +584,6 @@ Annealing::tryToInsertNewAssignment()
 			Result res = FAILURE;
 			int counter = 0;
 			while (res == FAILURE) {
-				//cout << "res == FAILURE, in cycle, counter = " << counter << endl;
-				//printAssignments(curAssignments);
-				//curNetwork.printNetwork();
-				//currentAssignment->forcedCleanup();
 				res = generateAssignmentCurNetwork(*i);
 				if (res == SUCCESS) { 
 					++kol;
@@ -615,8 +593,6 @@ Annealing::tryToInsertNewAssignment()
 				} else {
 					//cout << "2. not assigned requests can't be assigned" << endl;
 				}
-				//printAssignments(curAssignments);
-				//curNetwork.printNetwork();
 				++counter;
 				if (counter > 100) {
 					break;
@@ -631,7 +607,6 @@ Annealing::tryToInsertNewAssignment()
 		return SUCCESS;
 	}
 	if (i == requests.end()) {
-		//cout << "All possible requests are already assigned, they must be mixed to assign new one" << endl;
 		return FAILURE;
 	}
 	return SUCCESS;
@@ -776,7 +751,6 @@ Annealing::copyBestAssignmentsToCur()
 Algorithm::Result
 Annealing::deleteAssignmentFromCur()
 {
-	cout << "delete......................" << endl;
 	if (curAssignments.begin() == curAssignments.end()) {
 		return FAILURE;
 	}
@@ -796,8 +770,6 @@ Annealing::deleteAssignmentFromCur()
 			continue;
 		}
 		if (tmpNodes == aNodes && tmpStores == aStores) {
-			//printAssignment(*it);
-			//cout << "assignment to delete found" << endl;
 			break;
 		}
 	}
@@ -805,15 +777,12 @@ Annealing::deleteAssignmentFromCur()
 		return FAILURE;
 	}
     curAssignments.erase(*it);	
-    //cout << "tmp assignment to erase from curAssignments" << endl;
-    //printAssignment(*it);
 	
 	Request *request = a[i]->getRequest();
 	Stores &storages = request->getStorages();
 	Nodes &vm = request->getVirtualMachines();
 	int flag = 0;
 	for (Stores::iterator iter = storages.begin(); iter != storages.end(); ++iter) {
-		//cout << "Removing store assignments" << endl; 
 		flag = 1;
         //is curNetwork be changed?
 		Store *store = a[i]->GetAssignment(*iter);
@@ -822,7 +791,6 @@ Annealing::deleteAssignmentFromCur()
 	}
 	for (Nodes::iterator iter = vm.begin(); iter != vm.end(); ++iter) {
 		flag = 1;
-		//cout << "Removing node assignments" << endl; 
 		Node *node = a[i]->GetAssignment(*iter);
 		node->RemoveAssignment(*iter);
 		a[i]->RemoveAssignment(node);
@@ -942,16 +910,7 @@ Algorithm::Result Annealing::schedule()
     state = 1;
     counterFail = 1;
     copyPrevAssignmentsToCur();
-   //for (int i = 0; i < 10; ++i) {
-	    //mutation();
-		//cout << endl << "printing curNetwork" << endl;
-		//curNetwork.printNetwork();
-		//cout <<  endl <<"printing curAssignments" << endl;
-		//printAssignments(curAssignments);
-		//printUnassignedRequests();
-	//}
-    
-	double temperature, start_temperature = 50;
+	double temperature, start_temperature = 100;
 	int delta = 0;
 	double p = 1; 
 	int step = 2;
@@ -959,18 +918,9 @@ Algorithm::Result Annealing::schedule()
 	counterFail = 1;
 	//network->printNetwork();
 	//printRequests();
-	//cout << "prevAssignments size: generated: " << prevAssignments.size() << endl;
-	//curNetwork = prevNetwork;
 	copyPrevAssignmentsToCur();
-	//cout << "prevNetwork:" << endl;
-	//prevNetwork.printNetwork();
-	
-	//cout << "curNetwork before all this" << endl;
-	//curNetwork.printNetwork();
-	//cout << "curAssignments before all this" << endl;
-	//printAssignments(curAssignments);	
 	do {
-		temperature = start_temperature / log(1 + step);
+		temperature = start_temperature * log(1 + step) / (1 + step);
 		cout << "step " << step <<  ";         temperature = " << temperature << ";" << endl;
 		cout << "cur:  " << curAssignments.size() << ", prev: " << prevAssignments.size() << endl;
 		for (int i = 0; i < 10; ++i) {
@@ -1000,25 +950,19 @@ Algorithm::Result Annealing::schedule()
 			
 		}
 		++step;
-	} while (temperature > 12 && assignments.size() != requests.size());
-	if (temperature <= 12) {
+	} while (temperature > 2 && assignments.size() != requests.size());
+	if (temperature <= 2) {
 		cout << "Temperature is low to continue" << endl;
 	}
-	printf("Nodes and stores assigned\n");
 	(*network) = bestNetwork;
-	network->printNetwork();
+	//network->printNetwork();
 	assignLinks();
 	
 	printf("Assigned total of %d from %d requests\n", assignments.size(), requests.size());
-	cout << endl << endl << endl;
 	//printAssignments(assignments);
 	//cout << kol << endl;
-	cout << endl << "printing bestNetwork..." << endl;
-	bestNetwork.printNetwork();
-	
-	cout << endl << "printing bestAssignments" << endl;
-	printAssignments(assignments);
-	
+	//cout << endl << "printing bestNetwork..." << endl;
+	//bestNetwork.printNetwork();
 	    
     if ( assignments.size() == requests.size() )
         return SUCCESS;

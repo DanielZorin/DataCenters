@@ -49,7 +49,7 @@ public:
 
     // Remove the assignment, it is assumed that the other
     // element is assigned in this element.
-    virtual void RemoveAssignment(Element const * other)
+    virtual void RemoveAssignment(Element const *other)
     {
         capacity += other->capacity;
     }
