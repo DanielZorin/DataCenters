@@ -11,7 +11,7 @@ public:
         NONE = 0
     };
 
-    Link() : Edge() {
+    Link() : Edge(), throughput(0), latency(0) {
         type = LINK;
     }
 

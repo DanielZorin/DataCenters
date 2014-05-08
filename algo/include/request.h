@@ -7,7 +7,7 @@
 
 class Request : public Graph {
 public:
-    Request(const Elements & e) {
+    Request(const Elements & e, std::string name = ""): name(name) {
         elements = Operation::filter(e, Criteria::isVirtual);
     }
 
@@ -44,4 +44,12 @@ public:
         Elements assigned = assignedElements();
         Operation::forEach(assigned, Operation::unassign);
     }
+
+    inline std::string getName() const {
+    	return name;
+    }
+
+private:
+
+    std::string name;
 };

@@ -4,6 +4,8 @@
 #include "network.h"
 #include <list>
 
+#include <QString>
+
 ResourcesXMLFactory::ResourcesXMLFactory(const QDomElement & element)
 :
 	networkXml(element)
@@ -32,4 +34,7 @@ Network * ResourcesXMLFactory::getNetwork() const {
     return network;
 }
 
-
+QString ResourcesXMLFactory::getName(Element* elem) const {
+	QDomElement elemXml = elementsXML.value(elem);
+	return elemXml.attribute("name");
+}

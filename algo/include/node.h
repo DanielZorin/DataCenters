@@ -2,6 +2,7 @@
 
 #include "element.h"
 #include "criteria.h"
+#include "port.h"
 
 class Node : public Element {
 protected:
@@ -27,8 +28,15 @@ public:
     	ports.insert(port);
     }
 
-    Ports getPorts() const {
+    const Ports& getPorts() const {
 		return ports;
+	}
+
+    Port* getPortByName(std::string name) const {
+    	for (Ports::const_iterator it = ports.begin(); it != ports.end(); ++it )
+    		if ( (*it)->getName().compare(name) == 0 )
+    			return *it;
+		return 0;
 	}
 
     virtual Elements adjacent() const {

@@ -15,6 +15,8 @@ public:
     Network * getNetwork() const;
     // void commitAssignmentData(NetworkXMLFactory * nf);
 
+    class QString getName(Element*) const;
+
 private:
     Network * network;
     QDomElement networkXml;

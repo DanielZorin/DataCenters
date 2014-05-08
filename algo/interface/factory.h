@@ -30,12 +30,16 @@ public:
 private:
 
     static void createElementsFromNodeList(QDomNodeList & list, ElementsMap& elementsMap);
-    static Element * createElementFromXML(const QDomElement & element);
+    static Element * createElementFromXML(const QDomElement & element, const ElementsMap& elementsMap);
     static Properties getAttributesFromXML(const QDomNamedNodeMap &);
     static Properties getParametersFromXML(const QDomNodeList &);
 
+    static void addPortsFromXML(const QDomElement& element, Node* node);
+
     // Create link or node depending on type name
-    static Link * createLink(const QDomElement & element);
+    static Link * createLink(const QDomElement & element, const ElementsMap& elementsMap);
     static Element * createNode(const QDomElement & element);
+
+    static void setSwitchAttributes(Switch* sw, const QDomElement & e);
 
 };

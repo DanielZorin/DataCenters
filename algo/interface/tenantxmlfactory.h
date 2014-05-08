@@ -13,7 +13,7 @@ public:
     TenantXMLFactory(const QDomElement & element);
     virtual ~TenantXMLFactory();
     Request * getRequest() const;
-    // void commitAssignmentData(NetworkXMLFactory * nf);
+    void commitAssignmentData(const class ResourcesXMLFactory& resourceFactory);
 
 private:
     Request * request;

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <vector>
 #include "interface/tenantxmlfactory.h"
 #include "interface/resourcesxmlfactory.h"
 #include "test/testalgorithm.h"
@@ -17,9 +18,9 @@
 
 int main(int argc, char ** argv)
 {
-    if ( argc != 2 )
+    if ( argc != 3 )
     {
-        printf("Usage: %s <input file>\n", *argv);
+        printf("Usage: %s <input file> <outpup file>\n", *argv);
         return 1;
     }
 
@@ -35,9 +36,11 @@ int main(int argc, char ** argv)
     QDomNodeList tenants = root.elementsByTagName("tenant");
 
     Requests requests;
+    std::vector<TenantXMLFactory *> tenantsFactory;
     for ( int i = 0; i < tenants.size(); ++i ) {
-    	TenantXMLFactory sampleFactory = TenantXMLFactory(tenants.item(i).toElement());
-    	Request * request = sampleFactory.getRequest();
+    	TenantXMLFactory* sampleFactory = new TenantXMLFactory(tenants.item(i).toElement());
+    	tenantsFactory.push_back(sampleFactory);
+    	Request * request = sampleFactory->getRequest();
     	printf("Request has %d elements\n", request->getElements().size());
     	requests.insert(request);
     }
@@ -48,6 +51,19 @@ int main(int argc, char ** argv)
     if ( network != 0 ) {
     	printf("Network has %d elements\n", network->getElements().size());
     }
+
+    // TODO: algorithm scheduling
+    for ( std::vector<TenantXMLFactory *>::iterator it = tenantsFactory.begin(); it != tenantsFactory.end(); ++it ) {
+    	if ( (*it)->getRequest()->isAssigned() ) {
+    		(*it)->commitAssignmentData(resourcesFactory);
+    	}
+    	delete (*it);
+    }
+
+    QFile output(argv[2]);
+    output.open(QIODevice::WriteOnly | QIODevice::Text);
+    QTextStream outStream(&output);
+    outStream << document.toString(4);
 
     return 0;
 }

@@ -6,7 +6,7 @@
 class Port {
 public:
 	Port(std::string name, Element* parentNode):
-		name(name), parentNode(parentNode) {
+		name(name), parentNode(parentNode), assignedTo(0) {
 	}
 
 	inline void connect(Edge* link, Port* otherPort) {
@@ -30,9 +30,23 @@ public:
 		return assosiatedLink;
 	}
 
+	inline void assignTo(Port* other) {
+		assignedTo = other;
+	}
+
+	inline void removeAssignment() {
+		assignedTo = 0;
+	}
+
+	inline Port* getAssignee() const {
+		return assignedTo;
+	}
+
 private:
 	std::string name;
 	Port* connectedPort;
 	Edge* assosiatedLink;
 	Element* parentNode;
+
+	Port* assignedTo;
 };

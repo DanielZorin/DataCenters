@@ -32,5 +32,5 @@ private:
      * Ports used to provide service.
      * These ports are mapped by client.
      */
-    Ports exportedPorts;
+    Ports externalPorts;
 };
