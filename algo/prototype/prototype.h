@@ -12,6 +12,7 @@ private:
     void prioritizeRequests(Requests & r);
     bool scheduleRequest(Request * r);
     bool exhaustiveSearch(Element * e);
+    bool assignSeedElement(Element * e);
 
     Element * getSeedElement(Elements & e);
 };

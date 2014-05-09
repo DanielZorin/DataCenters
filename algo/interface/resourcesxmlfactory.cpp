@@ -17,17 +17,19 @@ ResourcesXMLFactory::ResourcesXMLFactory(const QDomElement & element)
     std::list<Element*> list = elementsXML.keys().toStdList();
     Elements elements = Elements(list.begin(), list.end());
     for (Elements::iterator it = elements.begin(); it != elements.end(); ++it ) {
-    	(*it)->physical = true;
+        Element * e = *it;
+    	e->physical = true;
+        e->available = true;
     }
 
     network = new Network(elements);
 }
 
 ResourcesXMLFactory::~ResourcesXMLFactory() {
-	foreach( Element* elem, elementsXML.keys() ) {
-		delete elem;
-	}
-	delete network;
+    foreach( Element* elem, elementsXML.keys() ) {
+        delete elem;
+    }
+    delete network;
 }
 
 Network * ResourcesXMLFactory::getNetwork() const {
@@ -35,6 +37,6 @@ Network * ResourcesXMLFactory::getNetwork() const {
 }
 
 QString ResourcesXMLFactory::getName(Element* elem) const {
-	QDomElement elemXml = elementsXML.value(elem);
-	return elemXml.attribute("name");
+    QDomElement elemXml = elementsXML.value(elem);
+    return elemXml.attribute("name");
 }

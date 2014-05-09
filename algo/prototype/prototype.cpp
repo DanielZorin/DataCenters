@@ -11,6 +11,8 @@
 #include <algorithm>
 #include <queue>
 
+#include <stdio.h>
+
 void PrototypeAlgorithm::schedule() {
     prioritizeRequests(requests);
     for (Requests::iterator i = requests.begin();
@@ -38,7 +40,17 @@ bool PrototypeAlgorithm::scheduleRequest(Request * r) {
                 continue;
 
             BFSRouter router(*r, nextToAssign);
-            if ( !router.search() ) {
+            bool result = false;
+
+            if ( router.isValid() ) {
+                printf("Trying to assign via router, request %l\n", (long)r);
+                result = router.search();
+            } else {
+                printf("Trying to assign element as seed, request %l\n", (long)r);
+                result = assignSeedElement(nextToAssign);
+            }
+
+            if ( !result ) {
                 if ( !exhaustiveSearch(nextToAssign) ) {
                     r->purgeAssignments();
                     return false;
@@ -53,11 +65,21 @@ bool PrototypeAlgorithm::scheduleRequest(Request * r) {
         }
     }
 
+    printf("Assigned request %l\n", (long)r);
     return true;
 }
 
 bool PrototypeAlgorithm::exhaustiveSearch(Element * e) {
     return false;
+}
+
+bool PrototypeAlgorithm::assignSeedElement(Element * e) {
+    Elements candidates = Operation::filter(network->getNodes(), e, Criteria::canHostAssignment);
+    if ( candidates.empty() )
+        return false;
+
+    Element * candidate = getSeedElement(candidates);
+    return candidate->assign(e);
 }
 
 Element * PrototypeAlgorithm::getSeedElement(Elements & e) {

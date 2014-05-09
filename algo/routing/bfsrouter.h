@@ -14,13 +14,17 @@ public:
     BFSRouter(Request & r, Element * target);
     ~BFSRouter();
     bool isExhausted() const; 
+    bool isValid() const {
+        return !searchers.empty(); 
+    }
     bool search();
 
 private:
     Searchers::iterator findNextNonExhausted(Searchers::iterator last) {
         Searchers::iterator i = last;
-        while ( true ) {
+        while ( !isExhausted() ) {
             i++;
+
             if ( i == searchers.end() )
                 i = searchers.begin();
 

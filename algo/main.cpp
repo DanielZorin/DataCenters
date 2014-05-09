@@ -3,6 +3,7 @@
 #include "interface/tenantxmlfactory.h"
 #include "interface/resourcesxmlfactory.h"
 #include "test/testalgorithm.h"
+#include "prototype/prototype.h"
 
 #include <QString>
 #include <QFile>
@@ -33,8 +34,15 @@ int main(int argc, char ** argv)
     document.setContent(inputStream.readAll());
 
     QDomElement root = document.documentElement();
-    QDomNodeList tenants = root.elementsByTagName("tenant");
 
+    QDomElement resources = root.elementsByTagName("resources").item(0).toElement();
+    ResourcesXMLFactory resourcesFactory = ResourcesXMLFactory(resources);
+    Network * network= resourcesFactory.getNetwork();
+    if ( network != 0 ) {
+    	printf("Network has %d elements\n", network->getElements().size());
+    }
+
+    QDomNodeList tenants = root.elementsByTagName("tenant");
     Requests requests;
     std::vector<TenantXMLFactory *> tenantsFactory;
     for ( int i = 0; i < tenants.size(); ++i ) {
@@ -45,14 +53,9 @@ int main(int argc, char ** argv)
     	requests.insert(request);
     }
 
-    QDomElement resources = root.elementsByTagName("resources").item(0).toElement();
-    ResourcesXMLFactory resourcesFactory = ResourcesXMLFactory(resources);
-    Network * network= resourcesFactory.getNetwork();
-    if ( network != 0 ) {
-    	printf("Network has %d elements\n", network->getElements().size());
-    }
+    PrototypeAlgorithm algorithm(network, requests);
+    algorithm.schedule(); 
 
-    // TODO: algorithm scheduling
     for ( std::vector<TenantXMLFactory *>::iterator it = tenantsFactory.begin(); it != tenantsFactory.end(); ++it ) {
     	if ( (*it)->getRequest()->isAssigned() ) {
     		(*it)->commitAssignmentData(resourcesFactory);
