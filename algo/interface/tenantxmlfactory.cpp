@@ -39,28 +39,37 @@ void setPortAssignee(QDomNodeList portsXml, QString portName, QString assigneeNa
     }
 }
 
+void TenantXMLFactory::commitPartialAssignmentData(const class ResourcesXMLFactory& resourceFactory) {
+    Elements elements =  request->getElements();
+    for ( Elements::iterator it = elements.begin(); it != elements.end(); ++it ) {
+        Element * e = *it;
+
+        if ( !e->isAssigned() )
+            continue;
+        elementsXML[e].setAttribute("assignedTo", resourceFactory.getName(e->getAssignee()));
+
+        // assign ports
+        if ( !e->isNode() )
+            continue;
+
+        Ports ports = (*it)->toNode()->getPorts();
+        for ( Ports::const_iterator pit = ports.begin(); pit != ports.end(); ++pit ) {
+            Port * p = *pit;
+            if ( p->getAssignee() == 0 )
+                continue;
+
+            QString portName = QString::fromUtf8((*pit)->getName().c_str());
+            QString assigneeName = QString::fromUtf8((*pit)->getAssignee()->getName().c_str());
+            setPortAssignee(elementsXML[*it].elementsByTagName("port"), portName, assigneeName);
+        }
+    }
+}
+
 void TenantXMLFactory::commitAssignmentData(const ResourcesXMLFactory& resourceFactory) {
     if ( !request->isAssigned() )
         return;
 
-    Elements elements =  request->getElements();
-    Elements::const_iterator it = elements.begin();
-    for ( ; it != elements.end(); ++it ) {
-        if ( (*it)->isAssigned() ) {
-            elementsXML[*it].attribute("assignedTo", resourceFactory.getName((*it)->getAssignee()));
+    commitPartialAssignmentData(resourceFactory);
 
-            // assign ports
-            if ( (*it)->isNode() ) {
-                Ports ports = (*it)->toNode()->getPorts();
-                for ( Ports::const_iterator pit = ports.begin(); pit != ports.end(); ++pit ) {
-                    if ( (*pit)->getAssignee() != 0 ) {
-                        QString portName = QString::fromUtf8((*pit)->getName().c_str());
-                        QString assigneeName = QString::fromUtf8((*pit)->getAssignee()->getName().c_str());
-                        setPortAssignee(elementsXML[*it].elementsByTagName("port"), portName, assigneeName);
-                    }
-                }
-            }
-        }
-    }
 }
 

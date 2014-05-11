@@ -14,6 +14,7 @@ public:
     virtual ~TenantXMLFactory();
     Request * getRequest() const;
     void commitAssignmentData(const class ResourcesXMLFactory& resourceFactory);
+    void commitPartialAssignmentData(const class ResourcesXMLFactory & resourceFactory);
 
 private:
     Request * request;

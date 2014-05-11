@@ -43,10 +43,8 @@ bool PrototypeAlgorithm::scheduleRequest(Request * r) {
             bool result = false;
 
             if ( router.isValid() ) {
-                printf("Trying to assign via router, request %l\n", (long)r);
                 result = router.search();
             } else {
-                printf("Trying to assign element as seed, request %l\n", (long)r);
                 result = assignSeedElement(nextToAssign);
             }
 
@@ -65,7 +63,6 @@ bool PrototypeAlgorithm::scheduleRequest(Request * r) {
         }
     }
 
-    printf("Assigned request %l\n", (long)r);
     return true;
 }
 

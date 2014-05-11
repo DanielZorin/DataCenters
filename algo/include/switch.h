@@ -25,7 +25,7 @@ public:
 private:
 
     virtual bool typeCheck(const Element * other) const {
-        return Criteria::isLink(other);
+        return Criteria::isNetwork(other);
     }
 
     virtual bool physicalCheck(const Element * other) const {

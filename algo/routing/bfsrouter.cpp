@@ -3,6 +3,9 @@
 #include "operation.h"
 #include "request.h"
 #include "criteria.h"
+#include "path.h"
+
+#include <stdio.h>
 
 BFSRouter::BFSRouter(Request & r, Element * t)
 :
@@ -18,10 +21,13 @@ BFSRouter::BFSRouter(Request & r, Element * t)
         Element * adjacent = tunnel->toEdge()->getAdjacent(target);
         if ( !adjacent->isAssigned() )
             continue;
+
+        Element * assignee = adjacent->getAssignee();
         
         candidates[adjacent] = new Elements();
-        searchers[adjacent] = new BFSQueue(adjacent, tunnel);
+        searchers[adjacent] = new BFSQueue(assignee, tunnel);
     }
+        
 }
 
 BFSRouter::~BFSRouter() {
@@ -42,20 +48,20 @@ bool BFSRouter::isExhausted() const {
 }
 
 bool BFSRouter::search() {
-    Searchers::iterator i = findNextNonExhausted(searchers.end());
+    Searchers::iterator i = searchers.begin();
     
-    while( i != searchers.end() ) {
+    while( !isExhausted() ) {
         Element * start = i->first;
         BFSQueue * queue = i->second;
-        Element * candidate = queue->getNextCandidate();
+        Element * candidate = 0;
 
-        while ( candidate != 0  ) {
+        while ( !queue->isExhausted()  ) {
+            candidate = queue->getNextCandidate();
             if ( candidate->canHostAssignment(target) )
                 break;
-            candidate = queue->getNextCandidate();
         }
 
-        if ( candidate != 0 ) {
+        if ( candidate != 0 && candidate->canHostAssignment(target) ) {
             Elements * c = candidates.at(start);
             c->insert(candidate);
             Elements intersection = intersectCandidates();
@@ -82,7 +88,23 @@ Elements BFSRouter::intersectCandidates() {
 }
 
 bool BFSRouter::commit(Elements & c) {
-    return false;
+    for(Elements::iterator i = c.begin(); i != c.end(); i++) {
+        Element * host = *i;
+        if ( !host->canHostAssignment(target) )
+           continue;
+
+        for(Searchers::iterator i = searchers.begin(); i != searchers.end(); i++ ) {
+            BFSQueue * queue = i->second;
+            Path path = queue->getPath(host);
+            //TODO: commit pathes;
+                
+        }
+
+        host->assign(target);
+
+         
+    } 
+    return true;
 }
 
 void BFSRouter::discard(Elements & d) {

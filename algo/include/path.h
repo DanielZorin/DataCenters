@@ -19,26 +19,24 @@ public:
         if ( !Criteria::isNode(end) ) throw;
 
         from = begin;
-        end = to;
+        to = end;
     }
 
     inline bool isZeroPath() const {
         return from == to;
     }
 
+    inline int length() const {
+        path.size() + 2; 
+    }
+
     inline bool isValid() const {
-        if ( from == 0 || to == 0 ) return false;
-        if ( isZeroPath() ) return true;
-        if ( path.empty() ) return false;
-        Element * last = path.back();
-        if ( !Criteria::isLink(last) ) return false;
-        Link * link = last->toLink();
-        if ( !link->connects(to) ) return false;
         return true;
     }
 
     inline bool addElement(Element * element) {
         if ( !Criteria::isPhysical(element) ) return false;
+        /*
         if ( path.empty() ) {
             if ( !Criteria::isLink(element) ) return false;
             Link * link = element->toLink();
@@ -54,6 +52,7 @@ public:
                 return false;
             }
         }
+        */
         path.push_back(element);
         return true;
     }

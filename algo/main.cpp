@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <vector>
+#include "interface/elementfactory.h"
 #include "interface/tenantxmlfactory.h"
 #include "interface/resourcesxmlfactory.h"
 #include "test/testalgorithm.h"
@@ -21,7 +22,7 @@ int main(int argc, char ** argv)
 {
     if ( argc != 3 )
     {
-        printf("Usage: %s <input file> <outpup file>\n", *argv);
+        printf("Usage: %s <input file> <output file>\n", *argv);
         return 1;
     }
 
@@ -56,11 +57,29 @@ int main(int argc, char ** argv)
     PrototypeAlgorithm algorithm(network, requests);
     algorithm.schedule(); 
 
+    int assignedRequests = 0;
+    for ( Requests::iterator i = requests.begin(); i != requests.end(); i++ ) {
+        Request * r = *i;
+        const char * assignedStr = 0;
+        if ( r->isAssigned() ) {
+            assignedStr = "assigned";
+            assignedRequests++;    
+        } else {
+            assignedStr = "not assigned";
+        }
+        printf("Request %p is %s\n", r, assignedStr);
+        Elements elements = r->getElements();
+        for (Elements::iterator i = elements.begin(); i!= elements.end(); i++) {
+            printf("\t");
+            ElementFactory::debugPrint(*i); 
+        }
+    }
+
+
     for ( std::vector<TenantXMLFactory *>::iterator it = tenantsFactory.begin(); it != tenantsFactory.end(); ++it ) {
-    	if ( (*it)->getRequest()->isAssigned() ) {
-    		(*it)->commitAssignmentData(resourcesFactory);
-    	}
-    	delete (*it);
+        TenantXMLFactory * tenantXML = *it;
+        tenantXML->commitPartialAssignmentData(resourcesFactory);
+        delete tenantXML;
     }
 
     QFile output(argv[2]);

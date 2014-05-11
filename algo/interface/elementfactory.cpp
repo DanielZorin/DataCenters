@@ -6,7 +6,16 @@
 #include "link.h"
 
 #include "parameter.h"
-#include "interface/tenantxmlfactory.h"
+
+#include <stdio.h>
+
+void ElementFactory::debugPrint(Element * element) {
+    if ( element->isPhysical() )
+        return;
+
+    printf("Element %p of type %d assigned to element %p\n", 
+            element, element->type, element->assignee);
+}
 
 Element * ElementFactory::populate(Element * element, const QVariant & properties)
 {

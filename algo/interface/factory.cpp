@@ -11,7 +11,7 @@
 #include <QDomNamedNodeMap>
 
 Factory::ElementsMap Factory::getXmlElementsByTypes(const QStringList & types, const QDomElement & root) {
-	ElementsMap result;
+    ElementsMap result;
     for (int i = 0; i < types.size(); i++ ) {
         QString type = types.at(i);
         QDomNodeList elementsList = root.elementsByTagName(type);
@@ -25,7 +25,7 @@ void Factory::createElementsFromNodeList(QDomNodeList & list, ElementsMap& eleme
         QDomElement xmlElement = list.at(i).toElement();
         Element* element = createElementFromXML(xmlElement, elementsMap);
         if ( element != 0 ) {
-        	elementsMap[element] = xmlElement;
+            elementsMap[element] = xmlElement;
         }
     }
 }
@@ -62,13 +62,13 @@ Factory::Properties Factory::getParametersFromXML(const QDomNodeList & l) {
 }
 
 void Factory::addPortsFromXML(const QDomElement& element, Node* node) {
-	QDomNodeList portsXml = element.elementsByTagName("port");
-	for (int i = 0; i < portsXml.size(); ++i ) {
-		Port* port = new Port(portsXml.at(i).toElement().attribute("name").toStdString(), node);
-		node->addPort(port);
-	}
+    QDomNodeList portsXml = element.elementsByTagName("port");
+    for (int i = 0; i < portsXml.size(); ++i ) {
+        Port* port = new Port(portsXml.at(i).toElement().attribute("name").toStdString(), node);
+        node->addPort(port);
+    }
 
-	// TODO: add external ports
+    // TODO: add external ports
 }
 
 Element * Factory::createElementFromXML(const QDomElement & element, const ElementsMap& elementsMap) {
@@ -84,19 +84,19 @@ Element * Factory::createElementFromXML(const QDomElement & element, const Eleme
 }
 
 Element* getElementByName(const QString name, const Factory::ElementsMap& elementsMap) {
-	foreach ( QDomElement elem, elementsMap.values() ) {
-		if ( elem.attribute("name") == name ) {
-			return elementsMap.key(elem);
-		}
-	}
-	return 0;
+    foreach ( QDomElement elem, elementsMap.values() ) {
+        if ( elem.attribute("name") == name ) {
+            return elementsMap.key(elem);
+        }
+    }
+    return 0;
 }
 
 Link * Factory::createLink(const QDomElement & e, const ElementsMap& elementsMap) {
     Element* elem1 = getElementByName(e.attribute("node1"), elementsMap);
     Element* elem2 = getElementByName(e.attribute("node2"), elementsMap);
     if ( elem1 == 0 || elem2 == 0 )
-    	return 0;
+        return 0;
 
     Link * link = new Link();
     Port* port1 = elem1->toNode()->getPortByName(e.attribute("port1").toStdString());
@@ -108,24 +108,24 @@ Link * Factory::createLink(const QDomElement & e, const ElementsMap& elementsMap
 }
 
 void Factory::setSwitchAttributes(Switch* sw, const QDomElement & e) {
-	if ( e.attribute("is_router") == "1" ) {
-		sw->attributes |= Switch::ROUTER;
-		QDomNodeList services = e.elementsByTagName("service");
-		for ( int i = 0; i < services.size(); ++i ) {
-			QString service = services.item(i).toElement().attribute("name");
-			if ( service == "FW")
-				sw->attributes |= Switch::FW;
+    if ( e.attribute("is_router") == "1" ) {
+        sw->attributes |= Switch::ROUTER;
+        QDomNodeList services = e.elementsByTagName("service");
+        for ( int i = 0; i < services.size(); ++i ) {
+            QString service = services.item(i).toElement().attribute("name");
+            if ( service == "FW")
+                sw->attributes |= Switch::FW;
 
-			if ( service == "DHCP")
-				sw->attributes |= Switch::DHCP;
+            if ( service == "DHCP")
+                sw->attributes |= Switch::DHCP;
 
-			if ( service == "NAT")
-				sw->attributes |= Switch::NAT;
+            if ( service == "NAT")
+                sw->attributes |= Switch::NAT;
 
-			if ( service == "PAT")
-				sw->attributes |= Switch::PAT;
-		}
-	}
+            if ( service == "PAT")
+                sw->attributes |= Switch::PAT;
+        }
+    }
 }
 
 Element * Factory::createNode(const QDomElement & e) {
@@ -149,7 +149,7 @@ Element * Factory::createNode(const QDomElement & e) {
     }
 
     if ( node != 0 )
-    	addPortsFromXML(e, node->toNode());
+        addPortsFromXML(e, node->toNode());
 
     return node;
 }

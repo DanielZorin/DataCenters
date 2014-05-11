@@ -2,6 +2,7 @@
 
 #include "element.h"
 #include "criteria.h"
+#include "edge.h"
 #include "port.h"
 
 class Node : public Element {
@@ -29,15 +30,15 @@ public:
     }
 
     const Ports& getPorts() const {
-		return ports;
-	}
+        return ports;
+    }
 
     Port* getPortByName(std::string name) const {
-    	for (Ports::const_iterator it = ports.begin(); it != ports.end(); ++it )
-    		if ( (*it)->getName().compare(name) == 0 )
-    			return *it;
-		return 0;
-	}
+        for (Ports::const_iterator it = ports.begin(); it != ports.end(); ++it )
+            if ( (*it)->getName().compare(name) == 0 )
+                return *it;
+        return 0;
+    }
 
     virtual Elements adjacent() const {
         return edges;
@@ -45,16 +46,23 @@ public:
 
     virtual Elements adjacentNodes() const {
         Elements result;
+        Elements edges = adjacentEdges();
         for (Elements::iterator i = edges.begin(); i != edges.end(); i++) {
-            Element * e = *i;
-            Elements nodes = e->adjacent();
-            result.insert(nodes.begin(), nodes.end());
+            Edge * edge = (*i)->toEdge();
+            result.insert(edge->getAdjacent(this));
         }
         return result;
     }
 
     virtual Elements adjacentEdges() const {
-        return adjacent();
+        Elements result;
+        for(Ports::iterator i = ports.begin(); i != ports.end(); i++ ) {
+            Port * p = *i;
+            Edge * e = p->getConnectedLink();
+            if ( e != 0 )
+                result.insert(e);
+        }
+        return result;
     }
 
 private:

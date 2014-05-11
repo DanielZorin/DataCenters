@@ -1,6 +1,7 @@
 #include "bfsqueue.h"
 
 #include "element.h"
+#include "edge.h"
 
 BFSQueue::BFSQueue(Element * s, Element * t) 
 : 
@@ -19,18 +20,14 @@ Element * BFSQueue::processNextItem() {
     Element * next = unvisited.front();
     unvisited.pop();
 
-    Elements adjacent = next->adjacent();
-    for( Elements::iterator i = adjacent.begin(); i != adjacent.end(); i++) {
-        Element * a = *i;
-        if ( ancestors.find(a) != ancestors.end() )
+    Elements adjacentNodes = next->adjacentNodes();
+    for( Elements::iterator i = adjacentNodes.begin(); i != adjacentNodes.end(); i++) {
+        Element * node = *i;
+        if ( ancestors.count(node) != 0 )
             continue;
 
-        if ( a->isNetwork() )
-            if ( !a->canHostAssignment(tunnel) )
-                continue;
-
-        unvisited.push(a);
-        ancestors[a] = next;
+        unvisited.push(node);
+        ancestors[node] = next;
     }
 
     return next;
@@ -38,24 +35,31 @@ Element * BFSQueue::processNextItem() {
 
 Element * BFSQueue::getNextCandidate() {
     while ( !isExhausted() ) {
-        Element * processed = processNextItem();
-        if ( processed->isComputational() ) {
-            return processed;
-        }
+        return processNextItem();
     }
 
     return 0;
 }
 
 Path BFSQueue::getPath(Element * target) const {
-    if ( ancestors.find(target) == ancestors.end() )
+    if ( ancestors.count(target) == 0 )
         return Path();
 
     Path result(target, start);
     Element * next = target;
     while ( next != start ) {
         Element * ancestor = ancestors.at(next);
-        if ( !result.addElement(ancestor) ) throw;
+        Elements ancestorEdges = ancestor->adjacentEdges();
+        Elements::iterator i;
+        for ( i = ancestorEdges.begin(); i != ancestorEdges.end(); i++) {
+            Edge * edge = (*i)->toEdge();
+            if ( edge->connects(next) ) {
+                result.addElement(edge);
+                break;
+            }
+        }
+        if ( ancestor != start )
+            result.addElement(ancestor);
         next = ancestor;
     }
 
