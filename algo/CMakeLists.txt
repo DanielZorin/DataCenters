@@ -10,10 +10,9 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}
       include/
       )
 SET ( COMPONENTS
+      prototype
       interface
       routing
-      test
-      prototype
       )
 
 FOREACH(COMPONENT ${COMPONENTS})
