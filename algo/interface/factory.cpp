@@ -4,6 +4,7 @@
 #include "store.h"
 #include "computer.h"
 #include "port.h"
+#include "parameter.h"
 
 #include "elementfactory.h"
 
@@ -39,8 +40,8 @@ Factory::Properties Factory::getAttributesFromXML(const QDomNamedNodeMap & m) {
     return result;
 }
 
-Factory::Properties Factory::getParametersFromXML(const QDomNodeList & l) {
-    Properties result;
+Factory::Params Factory::getParametersFromXML(const QDomNodeList & l) {
+    Params result;
     for (int i = 0; i < l.length(); i++) {
         QDomElement e = l.at(i).toElement();
         if ( e.tagName() != "parameter" )
@@ -49,13 +50,16 @@ Factory::Properties Factory::getParametersFromXML(const QDomNodeList & l) {
         QString parameterName = e.attribute("parameter_name");
         QString parameterType = e.attribute("parameter_type");
         QVariant parameterValue = e.attribute("parameter_value");
+        ParameterValue * pv = 0;
 
-        if ( parameterType == "int" )
-            parameterValue.convert(QVariant::Int);
+        if ( parameterType == "integer" )
+            pv = new ParameterInt(parameterValue.toInt());
         else if ( parameterType == "real" )
-            parameterValue.convert(QVariant::Double);
+            pv = new ParameterReal(parameterValue.toFloat());
+        else if ( parameterType == "string" )
+            pv = new ParameterString(parameterValue.toString().toStdString());
 
-        result.insert(parameterName, parameterValue);
+        result.insert(parameterName, pv);
     }
 
     return result;
@@ -131,21 +135,21 @@ void Factory::setSwitchAttributes(Switch* sw, const QDomElement & e) {
 Element * Factory::createNode(const QDomElement & e) {
     Element * node = 0;
     QString type = e.tagName();
-    Properties properties = getParametersFromXML(e.elementsByTagName("parameter"));
+    Params params = getParametersFromXML(e.elementsByTagName("parameter"));
 
 
     if ( type == "vm" || type == "vnf" || type == "server" ) {
         Computer * vm = new Computer();
-        node = ElementFactory::populate(vm, properties);
+        node = ElementFactory::populate(vm, params);
     } else if ( type == "st" || type == "storage" ) {
         Store * st = new Store();
-        node = ElementFactory::populate(st, properties);
+        node = ElementFactory::populate(st, params);
     } else if ( type == "netelement" ) {
         Switch * sw = new Switch();
 
         // switch has additional attributes (is_router, ...)
         setSwitchAttributes(sw, e);
-        node = ElementFactory::populate(sw, properties);
+        node = ElementFactory::populate(sw, params);
     }
 
     if ( node != 0 )

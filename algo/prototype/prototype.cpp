@@ -11,20 +11,25 @@
 #include <algorithm>
 #include <queue>
 
-#include <stdio.h>
-
 void PrototypeAlgorithm::schedule() {
-    prioritizeRequests(requests);
-    for (Requests::iterator i = requests.begin();
-            i != requests.end(); i++) 
+    std::vector<Request *> pRequests = prioritizeRequests(requests);
+    for (std::vector<Request *>::iterator i = pRequests.begin();
+            i != pRequests.end(); i++) 
     {
         scheduleRequest(*i);   
     }
 }
 
-void PrototypeAlgorithm::prioritizeRequests(Requests & r) {
-    
+std::vector<Request *> PrototypeAlgorithm::prioritizeRequests(Requests & r) {
+    std::vector<Request *> result(r.begin(), r.end());
+    std::sort(result.begin(), result.end(), simpleIncreasing);
+    return result;
 }
+
+bool PrototypeAlgorithm::simpleIncreasing(Request * first, Request * second) {
+    return first->getElements().size() > second->getElements().size();
+}  
+
 
 bool PrototypeAlgorithm::scheduleRequest(Request * r) {
     Elements unassignedNodes = Operation::filter(r->elementsToAssign(), Criteria::isNode);

@@ -17,6 +17,7 @@ class Factory
 public:
 	typedef QMap<Element *, QDomElement> ElementsMap;
 	typedef QMap<QString, QVariant> Properties;
+        typedef QMap<QString, ParameterValue *> Params;
 private:
     Factory() {}
     virtual ~Factory() {}
@@ -32,7 +33,7 @@ private:
     static void createElementsFromNodeList(QDomNodeList & list, ElementsMap& elementsMap);
     static Element * createElementFromXML(const QDomElement & element, const ElementsMap& elementsMap);
     static Properties getAttributesFromXML(const QDomNamedNodeMap &);
-    static Properties getParametersFromXML(const QDomNodeList &);
+    static Params getParametersFromXML(const QDomNodeList &);
 
     static void addPortsFromXML(const QDomElement& element, Node* node);
 

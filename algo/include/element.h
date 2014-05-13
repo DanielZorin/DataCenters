@@ -26,38 +26,39 @@ protected:
     virtual bool physicalCheck(const Element * other) const {
         Parameters::const_iterator it = parameters.begin();
         for ( ; it != parameters.end(); ++it ) {
-        	Parameter* type = it->first;
-        	ParameterValue* value = it->second;
-        	if (other->parameters.find(type) != other->parameters.end() &&
-        		!value->compare(other->parameters.at(type)) )
+            Parameter* type = it->first;
+            ParameterValue* value = it->second;
+            if (other->parameters.find(type) != other->parameters.end() &&
+                    !value->compare(other->parameters.at(type)) )
                 return false;
         }
         return true;
     }
+
     virtual bool attributeCheck(const Element * other) const {
         return ( attributes & other->attributes) == other->attributes;
     }
 
     virtual void decreaseResources(const Element * other) {
-    	Parameters::iterator it = parameters.begin();
+        Parameters::iterator it = parameters.begin();
         for ( ; it != parameters.end(); ++it ) {
-        	Parameter* type = it->first;
-			ParameterValue* value = it->second;
-			if (other->parameters.find(type) != other->parameters.end()) {
-				value->decrease(other->parameters.at(type));
-			}
+            Parameter* type = it->first;
+            ParameterValue* value = it->second;
+            if (other->parameters.find(type) != other->parameters.end()) {
+                value->decrease(other->parameters.at(type));
+            }
         }
     }
 
     virtual void restoreResources(const Element * other)  {
-    	Parameters::iterator it = parameters.begin();
-		for ( ; it != parameters.end(); ++it ) {
-			Parameter* type = it->first;
-			ParameterValue* value = it->second;
-			if (other->parameters.find(type) != other->parameters.end()) {
-				value->increase(other->parameters.at(type));
-			}
-		}
+        Parameters::iterator it = parameters.begin();
+        for ( ; it != parameters.end(); ++it ) {
+            Parameter* type = it->first;
+            ParameterValue* value = it->second;
+            if (other->parameters.find(type) != other->parameters.end()) {
+                value->increase(other->parameters.at(type));
+            }
+        }
     }
     
     virtual unsigned long weight() const { return 0; }

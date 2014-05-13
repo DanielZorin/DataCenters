@@ -9,6 +9,8 @@
 
 #include <stdio.h>
 
+QMap<QString, Parameter *> ElementFactory::parameters;
+
 void ElementFactory::debugPrint(Element * element) {
     if ( element->isPhysical() )
         return;
@@ -17,30 +19,36 @@ void ElementFactory::debugPrint(Element * element) {
             element, element->type, element->assignee);
 }
 
-Element * ElementFactory::populate(Element * element, const QVariant & properties)
+Element * ElementFactory::populate(Element * element, const QMap<QString, ParameterValue *> & pr)
 {
     element->physical = false;
 
-    Parameters params = parametersFromProperties(properties.toMap());
+    Parameters params = parametersFromProperties(pr);
     element->parameters = params;
 
     return element;
 }
 
-Parameters ElementFactory::parametersFromProperties(const QMap<QString, QVariant> & pr) {
+Parameters ElementFactory::parametersFromProperties(const QMap<QString, ParameterValue *> & pr) {
     Parameters result;
     foreach(QString name, pr.keys()) {
-        QVariant value = pr[name];
-        Parameter * par = new Parameter(name.toStdString());
-        ParameterValue * val = 0;
-        if ( value.type() == QVariant::Double )
-            val = new ParameterReal(value.toFloat());
-        else if ( value.type() == QVariant::Int )
-            val = new ParameterInt(value.toInt());
-        else
-            val = new ParameterString(value.toString().toStdString());
+        Parameter * par = parameterByName(name);
+        ParameterValue * val = pr[name];
         result[par] = val;
     }
     
     return result;
+}
+
+Parameter * ElementFactory::parameterByName(const std::string & name) {
+    return parameterByName(QString::fromStdString(name));
+}
+
+Parameter * ElementFactory::parameterByName(const QString & name) {
+    if ( parameters.contains(name) )
+        return parameters[name];
+
+    Parameter * parameter = new Parameter(name.toStdString());
+    parameters.insert(name, parameter);
+    return parameter;
 }

@@ -6,7 +6,7 @@
 class Port {
 public:
 	Port(std::string name, Element* parentNode):
-		name(name), parentNode(parentNode), assignedTo(0) {
+		name(name), parentNode(parentNode), assignedTo(0), assosiatedLink(0), connectedPort(0) {
 	}
 
 	inline void connect(Edge* link, Port* otherPort) {
