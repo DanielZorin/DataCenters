@@ -32,7 +32,12 @@ int main(int argc, char ** argv)
     QTextStream inputStream(&input);
 
     QDomDocument document("XmlDocument");
-    document.setContent(inputStream.readAll());
+    QString errMessage;
+    int errorLine, errorColumn;
+    if ( !document.setContent(inputStream.readAll(), false, &errMessage, &errorLine, &errorColumn)) {
+        printf("XML parsing error, reason: %s at line %d, column %d\n", errMessage.toStdString().c_str(), errorLine, errorColumn);
+        return 2;  
+    }
 
     QDomElement root = document.documentElement();
 
