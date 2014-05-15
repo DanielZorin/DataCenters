@@ -29,7 +29,7 @@ public:
     }
 
     inline bool isValid() const {
-        return true;
+        return from != 0 && to != 0;
     }
 
     inline bool addElement(Element * element) {

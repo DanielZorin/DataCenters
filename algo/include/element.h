@@ -203,7 +203,7 @@ public:
         return isPhysical() && available;
     }
 
-    inline  bool isAssigned() const {
+    virtual bool isAssigned() const {
         return isVirtual() && assignee != 0;
     }
 

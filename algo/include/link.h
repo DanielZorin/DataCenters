@@ -17,16 +17,20 @@ public:
     }
 
     void setThroughput(unsigned throughput) {
-		this->throughput = throughput;
-	}
+        this->throughput = throughput;
+    }
 
     virtual bool setRoute(Path& route) {
-		this->route = route;
-	}
+        this->route = route;
+    }
 
-	virtual Path getRoute() const {
-		return route;
-	}
+    virtual Path getRoute() const {
+        return route;
+    }
+
+    virtual bool isAssigned() const {
+        return isVirtual() && route.isValid();
+    }
 
 private:
     virtual bool typeCheck(const Element * other) const {
