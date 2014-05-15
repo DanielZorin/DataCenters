@@ -272,8 +272,7 @@ class MainWindow(QMainWindow):
         d = self.tenants[self.ui.tenants.currentItem()]
         if d.assigned:
             self.project.resources.DropTenant(d)
-            
-            #self.project.method.UpdateIntervals(d)
+        self.tenantEditor.canvas.tenants = self.project.tenants
         self.tenantEditor.setData(d)
         self.tenantEditor.show()
 
