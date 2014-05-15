@@ -1,9 +1,7 @@
 #pragma once
 
 #include "defs.h"
-#include "link.h"
 #include "node.h"
-#include "switch.h"
 #include "criteria.h"
 
 #include <vector>

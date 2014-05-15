@@ -2,6 +2,7 @@
 
 #include "edge.h"
 #include "criteria.h"
+#include "path.h"
 
 class Link : public Edge {
     friend class ElementFactory;
@@ -17,6 +18,14 @@ public:
 
     void setThroughput(unsigned throughput) {
 		this->throughput = throughput;
+	}
+
+    virtual bool setRoute(Path& route) {
+		this->route = route;
+	}
+
+	virtual Path getRoute() const {
+		return route;
 	}
 
 private:
@@ -43,4 +52,5 @@ private:
 private:
     unsigned throughput;
     unsigned latency; // TODO: do not know how to check this yet, this might be a constant value maybe
+    Path route;
 };

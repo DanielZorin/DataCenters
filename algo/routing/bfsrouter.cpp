@@ -4,6 +4,8 @@
 #include "request.h"
 #include "criteria.h"
 #include "path.h"
+#include "link.h"
+#include <QString>
 
 #include <stdio.h>
 
@@ -95,9 +97,36 @@ bool BFSRouter::commit(Elements & c) {
 
         for(Searchers::iterator i = searchers.begin(); i != searchers.end(); i++ ) {
             BFSQueue * queue = i->second;
-            Path path = queue->getPath(host);
-            //TODO: commit pathes;
-                
+            Path route = queue->getPath(host);
+            /*
+            std::vector<Element*>path = route.getPath();
+
+            for (std::vector<Element *>::const_iterator it = path.begin(); it != path.end(); ++it) {
+				const Element *e = *it;
+				if ( e->isEdge() ) {
+					const Port* port1 = e->toEdge()->getFirst();
+					const Port* port2 = e->toEdge()->getSecond();
+
+					QString result("");
+					//if (result.length() ==  0) {
+						//result += resourceFactory.getName(port1->getParentNode());
+						//result += ":";
+						QString portName = QString::fromUtf8(port1->getName().c_str());
+						result += portName;
+					//}
+
+					result += "; ";
+					//result += resourceFactory.getName(port2->getParentNode());
+					//result += ":";
+					portName = QString::fromUtf8(port2->getName().c_str());
+					result += portName;
+					printf("Path: %s\n", result.toStdString().c_str());
+				}
+			}
+            printf("\n");
+            */
+
+            queue->getTunnel()->toLink()->setRoute(route);
         }
 
         host->assign(target);

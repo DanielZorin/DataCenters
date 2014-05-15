@@ -16,6 +16,9 @@ public:
     void commitAssignmentData(const class ResourcesXMLFactory& resourceFactory);
     void commitPartialAssignmentData(const class ResourcesXMLFactory & resourceFactory);
 
+    // Get string representation for path in the form "NodeName: PortName; NodeName:PortName ..."
+    class QString getPathXml(class Path& path, const class ResourcesXMLFactory & resourceFactory) const;
+
 private:
     Request * request;
     QDomElement tenant;

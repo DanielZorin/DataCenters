@@ -5,6 +5,7 @@
 #include "request.h"
 #include "port.h"
 #include "node.h"
+#include "link.h"
 #include <list>
 
 TenantXMLFactory::TenantXMLFactory(const QDomElement & element) 
@@ -44,6 +45,12 @@ void TenantXMLFactory::commitPartialAssignmentData(const class ResourcesXMLFacto
     for ( Elements::iterator it = elements.begin(); it != elements.end(); ++it ) {
         Element * e = *it;
 
+        // check whether this is virtual link first and it is assigned
+        if ( e->isLink() && e->toLink()->getRoute().length() >= 0 ) {
+        	Path route = e->toLink()->getRoute();
+        	elementsXML[e].setAttribute("assignedTo", getPathXml(route, resourceFactory));
+        }
+
         if ( !e->isAssigned() )
             continue;
         elementsXML[e].setAttribute("assignedTo", resourceFactory.getName(e->getAssignee()));
@@ -73,3 +80,30 @@ void TenantXMLFactory::commitAssignmentData(const ResourcesXMLFactory& resourceF
 
 }
 
+QString TenantXMLFactory::getPathXml(Path& route, const ResourcesXMLFactory & resourceFactory) const {
+	QString result = QString("");
+	std::vector<Element *> path = route.getPath();
+
+	for (std::vector<Element *>::const_iterator it = path.begin(); it != path.end(); ++it) {
+		const Element *e = *it;
+		if ( e->isEdge() ) {
+			const Port* port1 = e->toEdge()->getFirst();
+			const Port* port2 = e->toEdge()->getSecond();
+
+			if (result.length() ==  0) {
+				result += resourceFactory.getName(port1->getParentNode());
+				result += ":";
+				QString portName = QString::fromUtf8(port1->getName().c_str());
+				result += portName;
+			}
+
+			result += "; ";
+			result += resourceFactory.getName(port2->getParentNode());
+			result += ":";
+			QString portName = QString::fromUtf8(port2->getName().c_str());
+			result += portName;
+		}
+	}
+
+	return result;
+}
