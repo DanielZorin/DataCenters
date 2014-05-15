@@ -94,19 +94,43 @@ class DomainDialog(VertexDialog):
         v.type = str(self.ui.type.text())
 
 class SwitchDialog(VertexDialog):
-    def __init__(self):
+    def __init__(self, curname = "", tenants = []):
         VertexDialog.__init__(self, Ui_TenantSwitch())
-        
+        self.services = {}
+        for t in tenants:
+            for v in t.vertices:
+                if isinstance(v, Vnf) and v.isservice:
+                    if v.username == curname:
+                        name = t.name
+                        servicename = v.servicename
+                        conset = v.connectionset
+                        if not name in self.services:
+                            self.services[name] = {}
+                        self.services[name][servicename] = conset
+        for t in self.services.keys():
+            self.ui.provider.addItem(t)
+        #if self.services:
+        #    self.ProviderChanged(0)
+
     def Load(self, v):
         self.LoadCommon(v)
         self.ui.type.setCurrentIndex(0 if v.type == "Switch" else 1)
         self.ui.ip.setText(v.ip)
         self.ui.router.setChecked(v.router)
         self.ui.serviceasuser.setChecked(v.isservice)
-        self.ui.provider.setText(v.provider)
-        self.ui.servicename.setText(v.servicename)
-        self.ui.port.setText(v.port)
-        
+        if not v.isservice:
+            return
+        for i in range(self.ui.provider.count()):
+            if self.ui.provider.itemText(i) == v.provider:
+                self.ui.provider.setCurrentIndex(i)
+        #self.ProviderChanged(0)
+        for i in range(self.ui.servicename.count()):
+            if self.ui.servicename.itemText(i) == v.servicename:
+                self.ui.servicename.setCurrentIndex(i)
+        #self.ServiceChanged(0)
+        for i in range(self.ui.port.count()):
+            if self.ui.port.itemText(i) == v.port:
+                self.ui.port.setCurrentIndex(i)
 
     def SetResult(self, v):
         self.SetResultCommon(v)
@@ -116,10 +140,26 @@ class SwitchDialog(VertexDialog):
         v.servicename = str(self.ui.servicename.currentText())
         v.provider = str(self.ui.provider.currentText())
         v.port = str(self.ui.port.currentText())
-        v.isService = self.ui.serviceasuser.isChecked()
+        v.isservice = self.ui.serviceasuser.isChecked()
 
     def ServiceChecked(self):
         pass
+
+    def ProviderChanged(self, index):
+        while self.ui.servicename.count() > 0:
+            self.ui.servicename.removeItem(0)
+        name = str(self.ui.provider.currentText())
+        for p in self.services[name].keys():
+            self.ui.servicename.addItem(p)
+        #self.ServiceChanged(0)
+
+    def ServiceChanged(self, index):
+        while self.ui.port.count() > 0:
+            self.ui.port.removeItem(0)
+        prov = str(self.ui.provider.currentText())
+        name = str(self.ui.servicename.currentText())
+        for p in self.services[prov][name]:
+            self.ui.port.addItem(p)
 
 class VnfDialog(VertexDialog):
     def __init__(self):
@@ -138,7 +178,7 @@ class VnfDialog(VertexDialog):
         self.SetResultCommon(v)
         v.type = str(self.ui.type.text())
         v.profile = str(self.ui.profile.text())
-        v.isService = self.ui.serviceasprovider.isChecked()
+        v.isservice = self.ui.serviceasprovider.isChecked()
         v.username = str(self.ui.username.text())
         v.servicename = str(self.ui.servicename.text())
         v.connectionset = str(self.ui.set.text()).split(",")
@@ -198,6 +238,7 @@ class TenantCanvas(QWidget):
         self.routericon = QImage(":/pics/pics/router.png")
         self.serviceicon = QImage(":/pics/pics/vnf.png")
         self.domainicon = QImage(":/pics/pics/topology.png")
+        self.tenants = []
       
     def paintEvent(self, event):
         if not self.tenant:
@@ -426,7 +467,7 @@ class TenantCanvas(QWidget):
         elif isinstance(v, Storage):
             d = StorageDialog()
         elif isinstance(v, NetElement):
-            d = SwitchDialog()
+            d = SwitchDialog(self.tenant.name, self.tenants)
         elif isinstance(v, Vnf):
             d = VnfDialog()
         elif isinstance(v, Domain):
