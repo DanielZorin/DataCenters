@@ -81,29 +81,25 @@ void TenantXMLFactory::commitAssignmentData(const ResourcesXMLFactory& resourceF
 }
 
 QString TenantXMLFactory::getPathXml(Path& route, const ResourcesXMLFactory & resourceFactory) const {
-	QString result = QString("");
-	std::vector<Element *> path = route.getPath();
+    std::vector<Element *> path = route.getPath();
+    QStringList unjoinedResult;
 
-	for (std::vector<Element *>::const_iterator it = path.begin(); it != path.end(); ++it) {
-		const Element *e = *it;
-		if ( e->isEdge() ) {
-			const Port* port1 = e->toEdge()->getFirst();
-			const Port* port2 = e->toEdge()->getSecond();
+    for (std::vector<Element *>::iterator it = path.begin(); it != path.end(); ++it) {
+        Element *e = *it;
+        if ( !e->isEdge() )
+            continue;
+        Port* port1 = e->toEdge()->getFirst();
+        Port* port2 = e->toEdge()->getSecond();
 
-			if (result.length() ==  0) {
-				result += resourceFactory.getName(port1->getParentNode());
-				result += ":";
-				QString portName = QString::fromUtf8(port1->getName().c_str());
-				result += portName;
-			}
+        unjoinedResult << getPhysicalPortXML(port1, resourceFactory)
+            << getPhysicalPortXML(port2, resourceFactory);
+    }
 
-			result += "; ";
-			result += resourceFactory.getName(port2->getParentNode());
-			result += ":";
-			QString portName = QString::fromUtf8(port2->getName().c_str());
-			result += portName;
-		}
-	}
+    return unjoinedResult.join("; ");
+}
 
-	return result;
+QString TenantXMLFactory::getPhysicalPortXML(Port * port, const ResourcesXMLFactory & rf) const {
+    return QString("%1:%2")
+        .arg(rf.getName(port->getParentNode()))
+        .arg(QString::fromStdString(port->getName()));
 }

@@ -31,7 +31,7 @@ public:
     }
 
     bool connects(const Element * node) const {
-        return getAdjacent(node) == 0;
+        return getAdjacent(node) != 0;
     }
 
     Element * getAdjacent(const Element * node) const {

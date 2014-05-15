@@ -65,7 +65,7 @@ public:
         std::reverse(path.begin(), path.end()); 
     }
 
-    const std::vector<Element *> getPath() const { 
+    std::vector<Element *> getPath() const { 
         return path;
     }
 
