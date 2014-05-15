@@ -20,14 +20,16 @@ Element * BFSQueue::processNextItem() {
     Element * next = unvisited.front();
     unvisited.pop();
 
-    Elements adjacentNodes = next->adjacentNodes();
-    for( Elements::iterator i = adjacentNodes.begin(); i != adjacentNodes.end(); i++) {
-        Element * node = *i;
-        if ( ancestors.count(node) != 0 )
-            continue;
+    if ( next == start || next->isNetwork() ) {
+       Elements adjacentNodes = next->adjacentNodes();
+       for( Elements::iterator i = adjacentNodes.begin(); i != adjacentNodes.end(); i++) {
+          Element * node = *i;
+          if ( ancestors.count(node) != 0 )
+             continue;
 
-        unvisited.push(node);
-        ancestors[node] = next;
+          unvisited.push(node);
+          ancestors[node] = next;
+       }
     }
 
     return next;
