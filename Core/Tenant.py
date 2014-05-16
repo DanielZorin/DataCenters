@@ -1,5 +1,6 @@
 import xml.dom.minidom, copy, random
 from Core.AbstractGraph import AbstractGraph, AbstractVertex
+from Core.ParamFactory import *
 
 class Storage(AbstractVertex):
     ''' Storage element
@@ -10,6 +11,7 @@ class Storage(AbstractVertex):
     '''
     def __init__(self, id):
         AbstractVertex.__init__(self, id)
+        self.params = ParamFactory.Create("st")
 
 class VM(AbstractVertex):
     ''' Computer element
@@ -21,6 +23,7 @@ class VM(AbstractVertex):
     def __init__(self, id):
         AbstractVertex.__init__(self, id)
         self.image = ""
+        self.params = ParamFactory.Create("vm")
 
 class Vnf(AbstractVertex):
     def __init__(self, id=""):
@@ -31,6 +34,7 @@ class Vnf(AbstractVertex):
         self.servicename = ""
         self.username = ""
         self.connectionset = []
+        self.params = ParamFactory.Create("vnf")
 
 class Domain(AbstractVertex):
     ''' Computer element
@@ -42,6 +46,7 @@ class Domain(AbstractVertex):
     def __init__(self, id, type=""):
         AbstractVertex.__init__(self, id)
         self.type = type
+        self.params = ParamFactory.Create("domain")
 
 class NetElement(AbstractVertex):
     ''' Router/switch element
@@ -58,6 +63,7 @@ class NetElement(AbstractVertex):
         self.servicename = ""
         self.provider = ""
         self.port = ""
+        self.params = ParamFactory.Create("netelement")
 
 class Link:
     ''' Channel;
