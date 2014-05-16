@@ -9,6 +9,7 @@ from DCGUI.SettingsDialog import SettingsDialog
 from DCGUI.ParamsDialog import ParamsDialog
 from DCGUI.TestsWindow import TestsWindow 
 from Core.Resources import Storage
+from Core.ParamFactory import ParamFactory
 import os, re, sys
 
 class MainWindow(QMainWindow):
@@ -45,6 +46,8 @@ class MainWindow(QMainWindow):
         self.settingsDialog.ui.backup.setChecked(self.settings.value("backup").toBool())
         self.settingsDialog.ui.autosave.setChecked(self.settings.value("autosave").toBool())
         self.settingsDialog.ui.interval.setValue(self.settings.value("interval").toInt()[0])
+        paramxml = self.settings.value("paramxml", "node_params.xml").toString()
+        ParamFactory.Load(paramxml)
         i = 0
         for s in self.languages:
             self.settingsDialog.ui.languages.addItem(s)
