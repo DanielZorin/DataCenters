@@ -31,9 +31,15 @@ class VertexDialog(QDialog):
         self.ui.service.setChecked(v.service)
         for p in v.params:
             self.ui.params.insertRow(0)
-            self.ui.params.setItem(0, 0, QTableWidgetItem(p.name))
-            self.ui.params.setItem(0, 1, QTableWidgetItem(p.type))
-            self.ui.params.setItem(0, 2, QTableWidgetItem(str(p.value)))
+            it = QTableWidgetItem(p.name)
+            it.setFlags(Qt.ItemIsEnabled)
+            self.ui.params.setItem(0, 0, it)
+            it = QTableWidgetItem(p.type + " [" + p.minv + "..." + p.maxv + "]")
+            it.setFlags(Qt.ItemIsEnabled)
+            self.ui.params.setItem(0, 1, it)
+            it = QTableWidgetItem(str(p.value))
+            it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
+            self.ui.params.setItem(0, 2, it)
         height = 0
         for i in range(self.ui.params.rowCount()):
             height += self.ui.params.rowHeight(i)
@@ -52,12 +58,10 @@ class VertexDialog(QDialog):
     def SetResultCommon(self, v):
         v.id = str(self.ui.name.text() + self.hash)
         v.service = self.ui.service.isChecked()
-        v.params = []
         for i in range(self.ui.params.rowCount()):
-            p = Param(str(self.ui.params.item(i, 0).text()), 
-                      str(self.ui.params.item(i, 1).text()), 
-                      str(self.ui.params.item(i, 2).text()))
-            v.params.append(p)
+            for p in v.params:
+                if p.name == str(self.ui.params.item(i, 0).text()):
+                    p.value = str(self.ui.params.item(i, 2).text())
         
 class VMDialog(VertexDialog):
     def __init__(self):
