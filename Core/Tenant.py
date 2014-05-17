@@ -237,15 +237,14 @@ class Tenant(AbstractGraph):
                         name = param.getAttribute("parameter_name")
                         type = param.getAttribute("parameter_type")
                         value = param.getAttribute("value_user")
-                        params.append(Param(name, type, value))
+                        params.append([name, type, value])
             if vertex.nodeName == "vm":
                 v = VM(vertex.getAttribute("vm_name"))
                 v.image = vertex.getAttribute("image_id")
-                srv = vertex.getAttribute("server_name")
-                if srv:
-                    self.Assign(v, srv, resources)
+                assigned = vertex.getAttribute("server_name")             
             elif vertex.nodeName == "st":
                 v = Storage(vertex.getAttribute("st_name"))
+                assigned = vertex.getAttribute("storage_name")
             elif vertex.nodeName == "netelement":
                 tag = vertex
                 v = NetElement(tag.getAttribute("netelement_name"))              
@@ -256,6 +255,7 @@ class Tenant(AbstractGraph):
                 v.servicename = tag.getAttribute("service_name")
                 v.provider = tag.getAttribute("provider_name")
                 v.port = tag.getAttribute("external_port")
+                assigned = vertex.getAttribute("switch_name") 
             elif vertex.nodeName == "vnf":
                 v = Vnf()
                 tag = vertex
@@ -266,9 +266,11 @@ class Tenant(AbstractGraph):
                 v.servicename = tag.getAttribute("service_name")
                 v.username = tag.getAttribute("user_name")
                 v.connectionset = conset
+                assigned = vertex.getAttribute("server_name") 
             elif vertex.nodeName == "domain":
                 v = Domain(vertex.getAttribute("domain_name"))
                 v.type = vertex.getAttribute("commutation_type")
+                assigned = vertex.getAttribute("server_name") 
             x = vertex.getAttribute("x")
             y = vertex.getAttribute("y")
             if x != '':
@@ -276,8 +278,13 @@ class Tenant(AbstractGraph):
             if y != '':
                 v.y = float(y)
             v.service = service
-            v.params = params
             v.ports = ports
+            for vp in v.params:
+                for p in params:
+                    if (p[0] == vp.name) and (p[1] == vp.type):
+                        vp.value = p[2]
+            if assigned:
+                self.Assign(v, assigned, resources)
             self.vertices.append(v)
 
     def ParseLinks(self, root):

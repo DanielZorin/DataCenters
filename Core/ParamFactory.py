@@ -1,7 +1,7 @@
 ﻿import xml.dom.minidom, copy
 
 class Param:
-    def __init__(self, name, type, value, minv, maxv):
+    def __init__(self, name, type, value, minv=0, maxv=0):
         self.name = name
         self.type = type
         self.default = value

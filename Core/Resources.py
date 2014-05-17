@@ -1,6 +1,7 @@
 import xml.dom.minidom, copy, random
 from Core.AbstractGraph import AbstractGraph, AbstractVertex
 from Core.Tenant import Storage, VM
+from Core.ParamFactory import *
 
 class State:
     def __init__(self):
@@ -39,6 +40,7 @@ class Storage(AbstractVertex):
         self.volume = volume
         self.type = type
         self.intervals = {}
+        self.params = ParamFactory.Create("st")
 
     def getUsedVolumePercent(self, t):
         return 0 if self.volume == 0 or not t in self.intervals else self.intervals[t].usedVolume * 100.0 / self.volume
@@ -55,6 +57,7 @@ class Computer(AbstractVertex):
         self.speed = speed
         self.ram = ram
         self.intervals = {}
+        self.params = ParamFactory.Create("vm")
 
     def getUsedSpeedPercent(self, t):
         return 0 if self.speed == 0 or not t in self.intervals else self.intervals[t].usedSpeed * 100.0 / self.speed
@@ -72,6 +75,7 @@ class Router(AbstractVertex):
         AbstractVertex.__init__(self, id)
         self.capacity = capacity
         self.intervals = {}
+        self.params = ParamFactory.Create("netelement")
 
     def getUsedCapacityPercent(self, t):
         return 0 if self.capacity == 0 or not t in self.intervals else self.intervals[t].usedCapacity * 100.0 / self.capacity
@@ -180,7 +184,7 @@ class ResourceGraph(AbstractGraph):
                         name = param.getAttribute("parameter_name")
                         type = param.getAttribute("parameter_type")
                         value = param.getAttribute("value_user")
-                        params.append(Param(name, type, value))
+                        params.append([name, type, value])
             if vertex.nodeName == "server":
                 name = vertex.getAttribute("server_name")
                 v = Computer(name, 0, 0)
@@ -190,13 +194,18 @@ class ResourceGraph(AbstractGraph):
             elif vertex.nodeName == "netelement":
                 name = vertex.getAttribute("netelement_name")
                 v = Router(name, 0)
+            else:
+                continue
             x = vertex.getAttribute("x")
             y = vertex.getAttribute("y")
             if x != '':
                 v.x = float(x)
             if y != '':
                 v.y = float(y)
-            v.params = params
+            for vp in v.params:
+                for p in params:
+                    if (p[0] == vp.name) and (p[1] == vp.type):
+                        vp.value = p[2]
             self.vertices.append(v)
 
         self.vertices.sort(key=lambda x: x.number)
