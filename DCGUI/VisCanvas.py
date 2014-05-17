@@ -120,14 +120,14 @@ class VisCanvas(QWidget):
             self.drawArrow(paint, self.curEdge[0].x() + self.size / 2, self.curEdge[0].y() + self.size / 2,
                            QCursor.pos().x() - self.mapToGlobal(self.geometry().topLeft()).x(),
                            QCursor.pos().y() - self.mapToGlobal(self.geometry().topLeft()).y())
-        if self.settings["channel"]:
+        '''if self.settings["channel"]:
             for e in self.resources.edges:
                 x1 = self.vertices[e.e1].x() + self.size / 2
                 y1 = self.vertices[e.e1].y() + self.size / 2
                 x2 = self.vertices[e.e2].x() + self.size / 2
                 y2 = self.vertices[e.e2].y() + self.size / 2
                 paint.setPen(self.settings["text"])
-                paint.drawText((x1+x2)/2, (y1+y2)/2, str(int(e.getUsedCapacityPercent(self.time)))+"%")
+                paint.drawText((x1+x2)/2, (y1+y2)/2, str(int(e.getUsedCapacityPercent(self.time)))+"%")'''
         paint.end()
 
     def Visualize(self, r):

@@ -42,14 +42,25 @@ class Vis(QMainWindow):
         v = next(v for v in self.canvas.vertices.keys() if self.canvas.vertices[v] == self.canvas.selectedVertex)
         str = QString("<b><font size=\"+1\">%1</font></b><br />").arg(self.tr("Statistics"))
         str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Computer id")).arg(v.id)
+        tenants = list(set([p[1].name for p in v.assignments]))
+        tenants.sort()
         #str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Performance")).arg(v.speed)
         #str += QString("&nbsp;&nbsp;%1:<font color=blue> %2 (%3%)</font><br />").arg(self.tr("Used Performance")).arg(v.intervals[timeInt].usedSpeed).arg(v.getUsedSpeedPercent(timeInt))
         #str += QString("&nbsp;&nbsp;%1:<font color=blue> %2 (%3%)</font><br />").arg(self.tr("Used RAM")).arg(v.intervals[timeInt].usedRam).arg(v.getUsedRamPercent(timeInt))
-        #str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Number of assigned tenants")).arg(len(v.intervals[timeInt].tenants.keys()))
+        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Number of assigned tenants")).arg(len(tenants))
         str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Number of assigned VMs")).arg(len(v.assignments))
+        str += QString("<b><font size=\"+1\">%1</font></b><br />").arg(self.tr("Parameters"))
+        for p in v.params:
+            if (p.type == "int") or (p.type == "real"):
+                name = p.name
+                val = int(p.value) if p.type == "int" else float(p.value)
+                used = 0
+                for v1 in v.assignments:
+                    for p1 in v1[0].params:
+                        if (p1.name == name) and (p1.type == p.type):
+                            used += int(p1.value) if p.type == "int" else float(p1.value)
+                str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>: used %2 of %3 (%4 %)<br />").arg(name).arg(used).arg(val).arg(int(float(used)/float(val)*100))
         str += QString("<b><font size=\"+1\">%1</font></b><br />").arg(self.tr("Assigned Tenants"))
-        tenants = list(set([p[1].name for p in v.assignments]))
-        tenants.sort()
         for id in tenants:
             d = self.project.FindTenant(id)
             str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(id)
@@ -142,10 +153,10 @@ class Vis(QMainWindow):
             for v in d.vertices:
                 self.canvas.tenantVertices.append(v.assigned)
             links = d.edges
-            for e in links:
+            '''for e in links:
                 for e1 in e.path[1:len(e.path)-1]:
                     if isinstance(e1,Router):
                         self.canvas.tenantVertices.append(e1)
                     else:
-                        self.canvas.tenantEdges.append(self.project.resources.FindEdge(e1.e1, e1.e2))
+                        self.canvas.tenantEdges.append(self.project.resources.FindEdge(e1.e1, e1.e2))'''
         self.canvas.Visualize(self.project.resources)

@@ -2,22 +2,41 @@
 <dcxml name="tenants">
 	<resources>
 		<server server_name="s1" x="99.5" y="51.5">
-			<parameter_set/>
+			<parameter_set>
+				<parameter parameter_name="memory" parameter_type="real" value_user="1000"/>
+				<parameter parameter_name="vcpus" parameter_type="int" value_user="100"/>
+			</parameter_set>
 		</server>
 		<server server_name="s2" x="173.5" y="54.5">
-			<parameter_set/>
+			<parameter_set>
+				<parameter parameter_name="memory" parameter_type="real" value_user="5120"/>
+				<parameter parameter_name="vcpus" parameter_type="int" value_user="100"/>
+			</parameter_set>
 		</server>
 		<server server_name="s3" x="257.5" y="61.5">
-			<parameter_set/>
+			<parameter_set>
+				<parameter parameter_name="memory" parameter_type="real" value_user="5120"/>
+				<parameter parameter_name="vcpus" parameter_type="int" value_user="10"/>
+			</parameter_set>
 		</server>
 		<storage storage_name="s4" x="83.5" y="121.5">
-			<parameter_set/>
+			<parameter_set>
+				<parameter parameter_name="st_memory" parameter_type="real" value_user="5120"/>
+				<parameter parameter_name="st_vcpus" parameter_type="int" value_user="10"/>
+			</parameter_set>
 		</storage>
 		<storage storage_name="s5" x="158.5" y="126.5">
-			<parameter_set/>
+			<parameter_set>
+				<parameter parameter_name="st_memory" parameter_type="real" value_user="5120"/>
+				<parameter parameter_name="st_vcpus" parameter_type="int" value_user="10"/>
+			</parameter_set>
 		</storage>
 		<storage storage_name="s6" x="230.5" y="126.5">
-			<parameter_set/>
+			<parameter_set>
+				<parameter parameter_name="st_memory" parameter_type="real" value_user="5120"/>
+				<parameter parameter_name="st_vcpus" parameter_type="int" value_user="10"/>
+			</parameter_set>
+
 		</storage>
 		<netelement netelement_name="r1" x="170.5" y="92.5">
 			<parameter_set/>
@@ -158,7 +177,7 @@
 						<parameter parameter_name="vcpus" parameter_type="int" value_user="1"/>
 					</parameter_set>
 				</vm>
-				<st service="1" st_name="id!1400313880.85" x="260.5" y="144.5" storage_name="s4">
+				<st service="1" st_name="id!1400313880.85" x="260.5" y="144.5" storage_name="s5">
 					<connection_set number_of_ports="1">
 						<port port_name="id!1400313880.85_port_0"/>
 					</connection_set>
