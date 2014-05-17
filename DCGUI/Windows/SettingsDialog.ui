@@ -60,7 +60,7 @@ QLabel, QSlider, QCheckBox {
      <item>
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <property name="elideMode">
         <enum>Qt::ElideNone</enum>
@@ -88,6 +88,27 @@ QLabel, QSlider, QCheckBox {
             </font>
            </property>
           </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Parameters info</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <item>
+            <widget class="QLineEdit" name="params"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="open">
+             <property name="text">
+              <string>Open</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item>
           <widget class="QLabel" name="label_4">
@@ -413,6 +434,22 @@ QLabel, QSlider, QCheckBox {
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>open</sender>
+   <signal>clicked()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>OpenParams()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>231</x>
+     <y>123</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>146</x>
+     <y>174</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>AxisColor()</slot>
@@ -421,5 +458,6 @@ QLabel, QSlider, QCheckBox {
   <slot>HighlightColor()</slot>
   <slot>OK()</slot>
   <slot>Cancel()</slot>
+  <slot>OpenParams()</slot>
  </slots>
 </ui>

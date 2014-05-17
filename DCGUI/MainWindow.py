@@ -48,6 +48,7 @@ class MainWindow(QMainWindow):
         self.settingsDialog.ui.interval.setValue(self.settings.value("interval").toInt()[0])
         paramxml = self.settings.value("paramxml", "node_params.xml").toString()
         ParamFactory.Load(paramxml)
+        self.settingsDialog.ui.params.setText(paramxml)
         i = 0
         for s in self.languages:
             self.settingsDialog.ui.languages.addItem(s)
@@ -405,15 +406,17 @@ class MainWindow(QMainWindow):
         self.settingsDialog.exec_()
         if self.settingsDialog.result() == QDialog.Accepted:
             self.settings.setValue("vis", self.Vis.canvas.settings)  
-            self.settings.setValue("graphVis", self.graphvis.settings)
             self.settings.setValue("backup", self.settingsDialog.ui.backup.isChecked())
             self.settings.setValue("autosave", self.settingsDialog.ui.autosave.isChecked())
             self.settings.setValue("interval", self.settingsDialog.ui.interval.value())
+            self.settings.setValue("paramxml", self.settingsDialog.ui.params.text())
+            ParamFactory.Load(self.settingsDialog.ui.params.text())
             self.autosaveTimer.setInterval(self.settings.value("interval").toInt()[0] * 1000)
             newlang = self.settingsDialog.ui.languages.currentText()
             if newlang != self.settings.value("language"):
                 self.Translate(newlang)
                 self.settings.setValue("language", newlang)
+
 
     def Translate(self, lang):
         translator = QTranslator(qApp)

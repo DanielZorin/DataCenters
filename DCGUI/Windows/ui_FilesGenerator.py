@@ -4,16 +4,7 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    def _fromUtf8(s):
-        return s
-
-try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+    _fromUtf8 = lambda s: s
 
 class Ui_FilesGenerator(object):
     def setupUi(self, FilesGenerator):
@@ -82,14 +73,14 @@ class Ui_FilesGenerator(object):
         QtCore.QMetaObject.connectSlotsByName(FilesGenerator)
 
     def retranslateUi(self, FilesGenerator):
-        FilesGenerator.setWindowTitle(_translate("FilesGenerator", "Generate Projects", None))
-        self.namelabel.setText(_translate("FilesGenerator", "Number of files:", None))
-        self.volumelabel.setText(_translate("FilesGenerator", "Topology:", None))
-        self.topologies.setItemText(0, _translate("FilesGenerator", "Common DC Topology", None))
-        self.topologies.setItemText(1, _translate("FilesGenerator", "Tree-like (2 switch layers)", None))
-        self.topologies.setItemText(2, _translate("FilesGenerator", "Tree-like (3 switch layers)", None))
-        self.typelabel.setText(_translate("FilesGenerator", "Generator:", None))
-        self.OK.setText(_translate("FilesGenerator", "OK", None))
-        self.Cancel.setText(_translate("FilesGenerator", "Cancel", None))
+        FilesGenerator.setWindowTitle(QtGui.QApplication.translate("FilesGenerator", "Generate Projects", None, QtGui.QApplication.UnicodeUTF8))
+        self.namelabel.setText(QtGui.QApplication.translate("FilesGenerator", "Number of files:", None, QtGui.QApplication.UnicodeUTF8))
+        self.volumelabel.setText(QtGui.QApplication.translate("FilesGenerator", "Topology:", None, QtGui.QApplication.UnicodeUTF8))
+        self.topologies.setItemText(0, QtGui.QApplication.translate("FilesGenerator", "Common DC Topology", None, QtGui.QApplication.UnicodeUTF8))
+        self.topologies.setItemText(1, QtGui.QApplication.translate("FilesGenerator", "Tree-like (2 switch layers)", None, QtGui.QApplication.UnicodeUTF8))
+        self.topologies.setItemText(2, QtGui.QApplication.translate("FilesGenerator", "Tree-like (3 switch layers)", None, QtGui.QApplication.UnicodeUTF8))
+        self.typelabel.setText(QtGui.QApplication.translate("FilesGenerator", "Generator:", None, QtGui.QApplication.UnicodeUTF8))
+        self.OK.setText(QtGui.QApplication.translate("FilesGenerator", "OK", None, QtGui.QApplication.UnicodeUTF8))
+        self.Cancel.setText(QtGui.QApplication.translate("FilesGenerator", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
 
 from . import resources_rc

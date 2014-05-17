@@ -4,16 +4,7 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    def _fromUtf8(s):
-        return s
-
-try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+    _fromUtf8 = lambda s: s
 
 class Ui_TenantSwitch(object):
     def setupUi(self, TenantSwitch):
@@ -157,25 +148,25 @@ class Ui_TenantSwitch(object):
         QtCore.QMetaObject.connectSlotsByName(TenantSwitch)
 
     def retranslateUi(self, TenantSwitch):
-        TenantSwitch.setWindowTitle(_translate("TenantSwitch", "Edit Switch", None))
-        self.namelabel.setText(_translate("TenantSwitch", "Name:", None))
-        self.service.setText(_translate("TenantSwitch", "Service", None))
-        self.label_4.setText(_translate("TenantSwitch", "Type:", None))
-        self.type.setItemText(0, _translate("TenantSwitch", "Switch", None))
-        self.type.setItemText(1, _translate("TenantSwitch", "Router", None))
-        self.router.setText(_translate("TenantSwitch", "Router  IP:", None))
-        self.serviceasuser.setText(_translate("TenantSwitch", "Service as User", None))
-        self.label_5.setText(_translate("TenantSwitch", "Provider name:", None))
-        self.label_2.setText(_translate("TenantSwitch", "Service name:", None))
-        self.label_6.setText(_translate("TenantSwitch", "External port:", None))
-        self.label_3.setText(_translate("TenantSwitch", "Parameters:", None))
+        TenantSwitch.setWindowTitle(QtGui.QApplication.translate("TenantSwitch", "Edit Switch", None, QtGui.QApplication.UnicodeUTF8))
+        self.namelabel.setText(QtGui.QApplication.translate("TenantSwitch", "Name:", None, QtGui.QApplication.UnicodeUTF8))
+        self.service.setText(QtGui.QApplication.translate("TenantSwitch", "Service", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_4.setText(QtGui.QApplication.translate("TenantSwitch", "Type:", None, QtGui.QApplication.UnicodeUTF8))
+        self.type.setItemText(0, QtGui.QApplication.translate("TenantSwitch", "Switch", None, QtGui.QApplication.UnicodeUTF8))
+        self.type.setItemText(1, QtGui.QApplication.translate("TenantSwitch", "Router", None, QtGui.QApplication.UnicodeUTF8))
+        self.router.setText(QtGui.QApplication.translate("TenantSwitch", "Router  IP:", None, QtGui.QApplication.UnicodeUTF8))
+        self.serviceasuser.setText(QtGui.QApplication.translate("TenantSwitch", "Service as User", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_5.setText(QtGui.QApplication.translate("TenantSwitch", "Provider name:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_2.setText(QtGui.QApplication.translate("TenantSwitch", "Service name:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_6.setText(QtGui.QApplication.translate("TenantSwitch", "External port:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_3.setText(QtGui.QApplication.translate("TenantSwitch", "Parameters:", None, QtGui.QApplication.UnicodeUTF8))
         item = self.params.horizontalHeaderItem(0)
-        item.setText(_translate("TenantSwitch", "Name", None))
+        item.setText(QtGui.QApplication.translate("TenantSwitch", "Name", None, QtGui.QApplication.UnicodeUTF8))
         item = self.params.horizontalHeaderItem(1)
-        item.setText(_translate("TenantSwitch", "Type", None))
+        item.setText(QtGui.QApplication.translate("TenantSwitch", "Type", None, QtGui.QApplication.UnicodeUTF8))
         item = self.params.horizontalHeaderItem(2)
-        item.setText(_translate("TenantSwitch", "Value", None))
-        self.OK.setText(_translate("TenantSwitch", "OK", None))
-        self.Cancel.setText(_translate("TenantSwitch", "Cancel", None))
+        item.setText(QtGui.QApplication.translate("TenantSwitch", "Value", None, QtGui.QApplication.UnicodeUTF8))
+        self.OK.setText(QtGui.QApplication.translate("TenantSwitch", "OK", None, QtGui.QApplication.UnicodeUTF8))
+        self.Cancel.setText(QtGui.QApplication.translate("TenantSwitch", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
 
 from . import resources_rc
