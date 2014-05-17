@@ -25,7 +25,7 @@ if __name__ == "__main__":
     os.system("pyrcc4 -py3 resources.qrc -o resources_rc.py")
     clear("resources_rc.py", 8)
     
-    if 0 == 1:
+    if 1 == 1:
         os.chdir("..")
         os.system("pylupdate4 DCGUI.pro")
         
