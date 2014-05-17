@@ -15,19 +15,11 @@ class TenantSettingsDialog(QDialog):
     def Load(self, v):
         self.ui.name.setText(v.name)
         self.ui.type.setText(v.type)
-        self.ui.created.setText(v.created)
-        self.ui.updated.setText(v.updated)
-        self.ui.deleted.setText(v.deleted)
-        self.ui.delbox.setChecked(v.deleteFlag)
         self.ui.expiration.setText(v.expiration)
 
     def SetResult(self, v):
         v.name = str(self.ui.name.text())
         v.type = str(self.ui.type.text())
-        v.created = str(self.ui.created.text())
-        v.updated = str(self.ui.updated.text())
-        v.deleted = str(self.ui.deleted.text())
-        v.deleteFlag = self.ui.delbox.isChecked()
         v.expiration = str(self.ui.expiration.text())
 
 

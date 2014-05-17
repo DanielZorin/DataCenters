@@ -251,10 +251,11 @@ class MainWindow(QMainWindow):
         it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
         self.tenants[it] = d
         self.ui.tenants.editItem(it)
-        self.tenants[it].id = unicode(it.text(0))
+        self.tenants[it].name = unicode(it.text(0))
         self.tenants[it].startTime = int(it.text(1))
         self.tenants[it].endTime = int(it.text(2))
         self.tenants[it].critical = False if self.ui.tenants.itemWidget(it,3).currentText() == self.tr("Yes") else True
+        self.UpdateTenant(it)
     
     def DeleteTenant(self):
         item = self.ui.tenants.currentItem()
@@ -267,7 +268,22 @@ class MainWindow(QMainWindow):
 
     def UpdateTenant(self, item):
         if item in self.tenants:
-            self.tenants[item].name = unicode(item.text(0))
+            rename = True
+            entered = unicode(item.text(0))
+            name = entered
+            index = 1
+            while rename:
+                fixed = False
+                for t in self.project.tenants:
+                    if t.name == name:
+                        if t != self.tenants[item]:
+                            name = entered + " (" + str(index) + ")"
+                            index += 1
+                            fixed = True
+                if not fixed:
+                    rename = False
+            item.setText(0, name)
+            self.tenants[item].name = name
             
     def EditTenant(self):
         if (self.tenants == {}) or (self.ui.tenants.currentItem() == None):
