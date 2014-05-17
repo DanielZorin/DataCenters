@@ -4,16 +4,7 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    def _fromUtf8(s):
-        return s
-
-try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+    _fromUtf8 = lambda s: s
 
 class Ui_TenantStorage(object):
     def setupUi(self, TenantStorage):
@@ -120,17 +111,17 @@ class Ui_TenantStorage(object):
         QtCore.QMetaObject.connectSlotsByName(TenantStorage)
 
     def retranslateUi(self, TenantStorage):
-        TenantStorage.setWindowTitle(_translate("TenantStorage", "Edit Storage", None))
-        self.namelabel.setText(_translate("TenantStorage", "Name:", None))
-        self.service.setText(_translate("TenantStorage", "Service", None))
-        self.label_3.setText(_translate("TenantStorage", "Parameters:", None))
+        TenantStorage.setWindowTitle(QtGui.QApplication.translate("TenantStorage", "Edit Storage", None, QtGui.QApplication.UnicodeUTF8))
+        self.namelabel.setText(QtGui.QApplication.translate("TenantStorage", "Name:", None, QtGui.QApplication.UnicodeUTF8))
+        self.service.setText(QtGui.QApplication.translate("TenantStorage", "Service", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_3.setText(QtGui.QApplication.translate("TenantStorage", "Parameters:", None, QtGui.QApplication.UnicodeUTF8))
         item = self.params.horizontalHeaderItem(0)
-        item.setText(_translate("TenantStorage", "Name", None))
+        item.setText(QtGui.QApplication.translate("TenantStorage", "Name", None, QtGui.QApplication.UnicodeUTF8))
         item = self.params.horizontalHeaderItem(1)
-        item.setText(_translate("TenantStorage", "Type", None))
+        item.setText(QtGui.QApplication.translate("TenantStorage", "Type", None, QtGui.QApplication.UnicodeUTF8))
         item = self.params.horizontalHeaderItem(2)
-        item.setText(_translate("TenantStorage", "Value", None))
-        self.OK.setText(_translate("TenantStorage", "OK", None))
-        self.Cancel.setText(_translate("TenantStorage", "Cancel", None))
+        item.setText(QtGui.QApplication.translate("TenantStorage", "Value", None, QtGui.QApplication.UnicodeUTF8))
+        self.OK.setText(QtGui.QApplication.translate("TenantStorage", "OK", None, QtGui.QApplication.UnicodeUTF8))
+        self.Cancel.setText(QtGui.QApplication.translate("TenantStorage", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
 
 from . import resources_rc

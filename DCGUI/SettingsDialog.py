@@ -4,7 +4,7 @@ Created on 06.01.2011
 @author: juan
 '''
 
-from PyQt4.QtGui import QDialog, QColorDialog
+from PyQt4.QtGui import QDialog, QColorDialog, QFileDialog
 from DCGUI.Windows.ui_SettingsDialog import Ui_SettingsDialog
      
 class SettingsDialog(QDialog):
@@ -38,6 +38,12 @@ class SettingsDialog(QDialog):
     def exec_(self):
         self.Backup()  
         QDialog.exec_(self)
+
+    def OpenParams(self):
+        name = unicode(QFileDialog.getOpenFileName(filter="*.xml"))
+        if name == None or name == '':
+            return
+        self.ui.params.setText(name)
         
     def OK(self):
         self.vis["node"] = self.ui.names.isChecked()

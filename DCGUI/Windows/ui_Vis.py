@@ -4,16 +4,7 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    def _fromUtf8(s):
-        return s
-
-try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+    _fromUtf8 = lambda s: s
 
 class Ui_Vis(object):
     def setupUi(self, Vis):
@@ -73,9 +64,9 @@ class Ui_Vis(object):
         QtCore.QMetaObject.connectSlotsByName(Vis)
 
     def retranslateUi(self, Vis):
-        Vis.setWindowTitle(_translate("Vis", "Results Visualizer", None))
-        self.assignedTenants.headerItem().setText(0, _translate("Vis", "Assigned Tenants", None))
-        self.actionExit.setText(_translate("Vis", "Exit", None))
-        self.actionExit.setShortcut(_translate("Vis", "Ctrl+X", None))
+        Vis.setWindowTitle(QtGui.QApplication.translate("Vis", "Results Visualizer", None, QtGui.QApplication.UnicodeUTF8))
+        self.assignedTenants.headerItem().setText(0, QtGui.QApplication.translate("Vis", "Assigned Tenants", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionExit.setText(QtGui.QApplication.translate("Vis", "Exit", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionExit.setShortcut(QtGui.QApplication.translate("Vis", "Ctrl+X", None, QtGui.QApplication.UnicodeUTF8))
 
 from . import resources_rc

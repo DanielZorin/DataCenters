@@ -4,16 +4,7 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    def _fromUtf8(s):
-        return s
-
-try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+    _fromUtf8 = lambda s: s
 
 class Ui_EdgeDialog(object):
     def setupUi(self, EdgeDialog):
@@ -66,8 +57,8 @@ class Ui_EdgeDialog(object):
         QtCore.QMetaObject.connectSlotsByName(EdgeDialog)
 
     def retranslateUi(self, EdgeDialog):
-        EdgeDialog.setWindowTitle(_translate("EdgeDialog", "Edit Channel", None))
-        self.capacitylabel.setText(_translate("EdgeDialog", "Bandwidth:", None))
-        self.OK.setText(_translate("EdgeDialog", "OK", None))
-        self.Cancel.setText(_translate("EdgeDialog", "Cancel", None))
+        EdgeDialog.setWindowTitle(QtGui.QApplication.translate("EdgeDialog", "Edit Channel", None, QtGui.QApplication.UnicodeUTF8))
+        self.capacitylabel.setText(QtGui.QApplication.translate("EdgeDialog", "Bandwidth:", None, QtGui.QApplication.UnicodeUTF8))
+        self.OK.setText(QtGui.QApplication.translate("EdgeDialog", "OK", None, QtGui.QApplication.UnicodeUTF8))
+        self.Cancel.setText(QtGui.QApplication.translate("EdgeDialog", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
 

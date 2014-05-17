@@ -4,16 +4,7 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    def _fromUtf8(s):
-        return s
-
-try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+    _fromUtf8 = lambda s: s
 
 class Ui_TenantVnf(object):
     def setupUi(self, TenantVnf):
@@ -146,23 +137,23 @@ class Ui_TenantVnf(object):
         QtCore.QMetaObject.connectSlotsByName(TenantVnf)
 
     def retranslateUi(self, TenantVnf):
-        TenantVnf.setWindowTitle(_translate("TenantVnf", "Edit Vnf", None))
-        self.label_7.setText(_translate("TenantVnf", "Name:", None))
-        self.service.setText(_translate("TenantVnf", "Service", None))
-        self.label_11.setText(_translate("TenantVnf", "Exported connection set:", None))
-        self.label_10.setText(_translate("TenantVnf", "User name:", None))
-        self.label_8.setText(_translate("TenantVnf", "Service Name:", None))
-        self.label_12.setText(_translate("TenantVnf", "Profile Type:", None))
-        self.label_9.setText(_translate("TenantVnf", "Type:", None))
-        self.serviceasprovider.setText(_translate("TenantVnf", "Service as Provider", None))
-        self.label_3.setText(_translate("TenantVnf", "Parameters:", None))
+        TenantVnf.setWindowTitle(QtGui.QApplication.translate("TenantVnf", "Edit Vnf", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_7.setText(QtGui.QApplication.translate("TenantVnf", "Name:", None, QtGui.QApplication.UnicodeUTF8))
+        self.service.setText(QtGui.QApplication.translate("TenantVnf", "Service", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_11.setText(QtGui.QApplication.translate("TenantVnf", "Exported connection set:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_10.setText(QtGui.QApplication.translate("TenantVnf", "User name:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_8.setText(QtGui.QApplication.translate("TenantVnf", "Service Name:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_12.setText(QtGui.QApplication.translate("TenantVnf", "Profile Type:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_9.setText(QtGui.QApplication.translate("TenantVnf", "Type:", None, QtGui.QApplication.UnicodeUTF8))
+        self.serviceasprovider.setText(QtGui.QApplication.translate("TenantVnf", "Service as Provider", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_3.setText(QtGui.QApplication.translate("TenantVnf", "Parameters:", None, QtGui.QApplication.UnicodeUTF8))
         item = self.params.horizontalHeaderItem(0)
-        item.setText(_translate("TenantVnf", "Name", None))
+        item.setText(QtGui.QApplication.translate("TenantVnf", "Name", None, QtGui.QApplication.UnicodeUTF8))
         item = self.params.horizontalHeaderItem(1)
-        item.setText(_translate("TenantVnf", "Type", None))
+        item.setText(QtGui.QApplication.translate("TenantVnf", "Type", None, QtGui.QApplication.UnicodeUTF8))
         item = self.params.horizontalHeaderItem(2)
-        item.setText(_translate("TenantVnf", "Value", None))
-        self.OK.setText(_translate("TenantVnf", "OK", None))
-        self.Cancel.setText(_translate("TenantVnf", "Cancel", None))
+        item.setText(QtGui.QApplication.translate("TenantVnf", "Value", None, QtGui.QApplication.UnicodeUTF8))
+        self.OK.setText(QtGui.QApplication.translate("TenantVnf", "OK", None, QtGui.QApplication.UnicodeUTF8))
+        self.Cancel.setText(QtGui.QApplication.translate("TenantVnf", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
 
 from . import resources_rc
