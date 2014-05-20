@@ -1,6 +1,5 @@
 from Core.Resources import ResourceGraph, Computer, Storage, Router
 from Core.Tenant import Tenant
-from Methods.RandomMethod import RandomMethod
 import xml.dom.minidom
 import os
 
@@ -20,7 +19,7 @@ class Project:
     def __init__(self):
         self.resources = ResourceGraph()
         self.tenants = []
-        self.method = RandomMethod(self.resources, self.tenants)
+        #self.method = RandomMethod(self.resources, self.tenants)
 
     def CreateTenant(self):
         d = Tenant()
@@ -78,7 +77,7 @@ class Project:
             #get time intervals and assigne tenants
             self.resources.LoadAllTenants(self.tenants)
         f.close()
-        self.method = RandomMethod(self.resources, self.tenants)    
+        #self.method = RandomMethod(self.resources, self.tenants)    
         
     def Reset(self):
         for d in self.tenants:
