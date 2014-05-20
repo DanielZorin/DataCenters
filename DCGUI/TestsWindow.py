@@ -5,7 +5,7 @@ from DCGUI.Windows.ui_FilesGenerator import Ui_FilesGenerator
 from DCGUI.Project import Project
 from DCGUI.TreeDialog import TreeDialog
 from DCGUI.ParamsDialog import ParamsDialog
-from Core.Demands import DemandStorage, VM
+from Core.Tenant import *
 from Core.Resources import Computer, Storage, ResourceGraph
 import os, sys, subprocess, random
 

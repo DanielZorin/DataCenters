@@ -79,7 +79,7 @@ class MainWindow(QMainWindow):
         self.Translate(str(self.settings.value("language", "English").toString()))
         self.projFilter = self.tr("Data centers projects (*.dcxml)")
         self.setWindowTitle(self.tr("Untitled") + " - " + self.basename)
-        self.loadPlugins()
+        #self.loadPlugins()
 
     def NewProject(self):
         self.project = Project()
