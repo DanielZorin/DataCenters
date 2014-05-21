@@ -242,8 +242,9 @@ class TenantCanvas(QWidget):
         if self.edgeDraw:
             for v in self.vertices.keys():
                 if self.vertices[v].contains(e.pos()):
-                    ne = Link(self.curEdge[1], v, 0)
-                    self.tenant.AddLink(ne)
+                    if self.curEdge[1] != v:
+                        ne = Link(self.curEdge[1], v, 0)
+                        self.tenant.AddLink(ne)
             self.edgeDraw = False
             self.curEdge = None 
             self.changed = True    
