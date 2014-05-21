@@ -111,12 +111,12 @@ class MainWindow(QMainWindow):
         self.resourcesGraphEditor.setData(self.project.resources)
         self.ui.tenants.clear()
         for d in self.project.tenants:
-            it = QTreeWidgetItem(self.ui.tenants, QStringList([d.name, "0", "0", self.tr("No") if d.critical else self.tr("Yes"), self.tr("Yes") if d.assigned else self.tr("No")]))
+            it = QTreeWidgetItem(self.ui.tenants, QStringList([d.name, self.tr("No") if d.critical else self.tr("Yes"), self.tr("Yes") if d.assigned else self.tr("No")]))
             cb = QComboBox()
             cb.addItems([self.tr("No"),self.tr("Yes")])
             cb.setCurrentIndex(0 if d.critical else 1)
             QObject.connect(cb, SIGNAL("currentIndexChanged(int)"), it.emitDataChanged)
-            self.ui.tenants.setItemWidget(it,3,cb)
+            self.ui.tenants.setItemWidget(it,1,cb)
             it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
             self.tenants[it] = d
         self.UpdateRecentFiles()
@@ -245,18 +245,16 @@ class MainWindow(QMainWindow):
 
     def AddTenant(self):
         d = self.project.CreateTenant()
-        it = QTreeWidgetItem(self.ui.tenants, QStringList(["New_tenant", "0", "1", self.tr("No"), self.tr("No")]))
+        it = QTreeWidgetItem(self.ui.tenants, QStringList(["New_tenant", self.tr("No"), self.tr("No")]))
         cb = QComboBox()
         cb.addItems([self.tr("No"),self.tr("Yes")])
-        self.ui.tenants.setItemWidget(it,3,cb)
+        self.ui.tenants.setItemWidget(it,1,cb)
         QObject.connect(cb, SIGNAL("currentIndexChanged(int)"), it.emitDataChanged)
         it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
         self.tenants[it] = d
         self.ui.tenants.editItem(it)
         self.tenants[it].name = unicode(it.text(0))
-        self.tenants[it].startTime = int(it.text(1))
-        self.tenants[it].endTime = int(it.text(2))
-        self.tenants[it].critical = False if self.ui.tenants.itemWidget(it,3).currentText() == self.tr("Yes") else True
+        self.tenants[it].critical = False if self.ui.tenants.itemWidget(it,1).currentText() == self.tr("Yes") else True
         self.UpdateTenant(it)
     
     def DeleteTenant(self):
@@ -312,10 +310,10 @@ class MainWindow(QMainWindow):
             dict["types"] = types
             for i in range(dict["n"]):
                 tenant = self.project.CreateRandomTenant(dict)
-                it = QTreeWidgetItem(self.ui.tenants, QStringList([tenant.id, str(tenant.startTime), str(tenant.endTime), self.tr("No"), self.tr("No")]))
+                it = QTreeWidgetItem(self.ui.tenants, QStringList([tenant.id, self.tr("No"), self.tr("No")]))
                 cb = QComboBox()
                 cb.addItems([self.tr("No"),self.tr("Yes")])
-                self.ui.tenants.setItemWidget(it,3,cb)
+                self.ui.tenants.setItemWidget(it,1,cb)
                 QObject.connect(cb, SIGNAL("currentIndexChanged(int)"), it.emitDataChanged)
                 it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
                 self.tenants[it] = tenant
@@ -323,7 +321,7 @@ class MainWindow(QMainWindow):
     def Reset(self):
         self.project.Reset()
         for k in self.tenants.keys():
-            k.setText(4, self.tr("No"))
+            k.setText(2, self.tr("No"))
         self.showStats()
 
     def About(self):
@@ -437,11 +435,11 @@ class MainWindow(QMainWindow):
             cb.addItems([self.tr("No"),self.tr("Yes")])
             cb.setCurrentIndex(0 if self.tenants[k].critical else 1)
             QObject.connect(cb, SIGNAL("currentIndexChanged(int)"), k.emitDataChanged)
-            self.ui.tenants.setItemWidget(k,3,cb)
+            self.ui.tenants.setItemWidget(k,1,cb)
             if self.tenants[k].assigned:
-                k.setText(4, self.tr("Yes"))
+                k.setText(2, self.tr("Yes"))
             else:
-                k.setText(4, self.tr("No"))
+                k.setText(2, self.tr("No"))
 
     def loadTranslations(self):
         all = QDir(":Translations").entryList()
@@ -489,7 +487,7 @@ class MainWindow(QMainWindow):
                 it = QTreeWidgetItem(self.ui.tenants, QStringList([tenant.id, str(tenant.startTime), str(tenant.endTime), self.tr("No"), self.tr("No")]))
                 cb = QComboBox()
                 cb.addItems([self.tr("No"),self.tr("Yes")])
-                self.ui.tenants.setItemWidget(it,3,cb)
+                self.ui.tenants.setItemWidget(it,1,cb)
                 QObject.connect(cb, SIGNAL("currentIndexChanged(int)"), it.emitDataChanged)
                 it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
                 self.tenants[it] = tenant
