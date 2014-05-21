@@ -14,12 +14,12 @@ class Ui_ResourcesGraphEditor(object):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/graph.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         ResourcesGraphEditor.setWindowIcon(icon)
-        ResourcesGraphEditor.setStyleSheet(_fromUtf8("QWidget, QMenuBar::item {\n"
+        ResourcesGraphEditor.setStyleSheet(_fromUtf8("QWidget, QMenuBar::item, QHeaderView::section {\n"
 "    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
-"                                      stop: 0 #c5d8ef, stop: 1 #89a5c3);\n"
+"                                      stop: 0 #a0a0a0, stop: 1 #f0f0f0);\n"
 "}\n"
 "\n"
-"QLabel, QSlider {\n"
+"QLabel, QSlider, QCheckBox {\n"
 "    background-color: transparent;\n"
 "}"))
         self.centralwidget = QtGui.QWidget(ResourcesGraphEditor)
@@ -39,7 +39,7 @@ class Ui_ResourcesGraphEditor(object):
         self.verticalLayout.addLayout(self.horizontalLayout)
         ResourcesGraphEditor.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(ResourcesGraphEditor)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 427, 20))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 427, 21))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuFile = QtGui.QMenu(self.menubar)
         self.menuFile.setObjectName(_fromUtf8("menuFile"))
@@ -118,7 +118,6 @@ class Ui_ResourcesGraphEditor(object):
         self.toolBar.addAction(self.actionRouter)
         self.toolBar.addAction(self.actionEdge)
         self.toolBar.addSeparator()
-        self.toolBar.addAction(self.actionTopology)
 
         self.retranslateUi(ResourcesGraphEditor)
         QtCore.QObject.connect(self.actionSelect, QtCore.SIGNAL(_fromUtf8("triggered()")), ResourcesGraphEditor.toggleSelect)
@@ -131,7 +130,6 @@ class Ui_ResourcesGraphEditor(object):
         QtCore.QObject.connect(self.actionExit, QtCore.SIGNAL(_fromUtf8("triggered()")), ResourcesGraphEditor.close)
         QtCore.QObject.connect(self.actionStorage, QtCore.SIGNAL(_fromUtf8("triggered()")), ResourcesGraphEditor.toggleStorage)
         QtCore.QObject.connect(self.actionRouter, QtCore.SIGNAL(_fromUtf8("triggered()")), ResourcesGraphEditor.toggleRouter)
-        QtCore.QObject.connect(self.actionTopology, QtCore.SIGNAL(_fromUtf8("triggered()")), ResourcesGraphEditor.generateTopology)
         QtCore.QMetaObject.connectSlotsByName(ResourcesGraphEditor)
 
     def retranslateUi(self, ResourcesGraphEditor):

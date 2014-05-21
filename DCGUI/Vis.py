@@ -3,7 +3,7 @@ from PyQt4.QtGui import QMainWindow, QFileDialog, QTextEdit, QTreeWidgetItem
 from DCGUI.Windows.ui_Vis import Ui_Vis
 from DCGUI.VisCanvas import VisCanvas
 from Core.Tenant import *
-from Core.Resources import Computer, Storage, Router
+from Core.Resources import *
 
 class Vis(QMainWindow):
     xmlfile = None
@@ -22,7 +22,6 @@ class Vis(QMainWindow):
     def setData(self, project):
         self.project = project
         self.canvas.Clear()
-        r = self.project.resources.GetTimeBounds()
         self.ui.info.setText("")
         self.ui.assignedTenants.clear()
         for d in self.project.tenants:
@@ -119,27 +118,6 @@ class Vis(QMainWindow):
                     type2 = self.tr("VM") if isinstance(r.e2,VM) else self.tr("Storage")
                     str += QString("&nbsp;&nbsp;&nbsp;&nbsp;%6: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;%7: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(r.e1.id).arg(type2).arg(r.e2.id).arg(r.capacity).arg(self.tr("Channel")).arg(self.tr("Bandwidth"))
         self.ui.info.setText(str)
-
-    def Update(self):
-        timeInt = self.project.resources.GetTimeInterval(self.time)
-        self.ui.assignedTenants.clear()
-        for d in self.project.tenants:
-            if (d.startTime <= self.time) and (d.endTime >= self.time) and d.assigned:
-                it = QTreeWidgetItem(self.ui.assignedTenants, [d.id])
-                it.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
-        self.canvas.tenantVertices = []
-        self.canvas.tenantEdges = []
-        self.canvas.Visualize(self.project.resources, timeInt)
-        self.ShowEdgeInfo()
-        if self.canvas.selectedVertex == None:
-            return
-        v = next(v for v in self.canvas.vertices.keys() if self.canvas.vertices[v] == self.canvas.selectedVertex)
-        if isinstance(v,Router):
-            self.ShowRouterInfo()
-        elif isinstance(v,Computer):
-            self.ShowComputerInfo()
-        elif isinstance(v,Storage):
-            self.ShowStorageInfo()
             
     def tenantSelected(self):
         self.canvas.tenantVertices = []

@@ -1,4 +1,4 @@
-from Core.Resources import ResourceGraph, Computer, Storage, Router
+from Core.Resources import ResourceGraph
 from Core.Tenant import Tenant
 import xml.dom.minidom
 import os

@@ -221,6 +221,7 @@ class MainWindow(QMainWindow):
         f.close()
 
     def showStats(self):
+        return
         if self.project.resources.vertices == []:
             return
         stats = self.project.GetStats()

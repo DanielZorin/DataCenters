@@ -46,6 +46,7 @@
     <Compile Include="DCGUI\TestsWindow.py" />
     <Compile Include="DCGUI\SettingsDialog.py" />
     <Compile Include="DCGUI\TreeDialog.py" />
+    <Compile Include="DCGUI\VertexDialog.py" />
     <Compile Include="DCGUI\VisCanvas.py" />
     <Compile Include="DCGUI\Vis.py" />
     <Compile Include="DCGUI\ResourcesGraphEditor.py" />

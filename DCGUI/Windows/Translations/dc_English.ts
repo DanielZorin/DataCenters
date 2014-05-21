@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="en_US">
+<!DOCTYPE TS><TS version="2.0" language="en_US" sourcelanguage="">
 <context>
     <name>ComputerDialog</name>
     <message>
@@ -813,52 +812,52 @@
 <context>
     <name>ResourcesGraphEditor</name>
     <message>
-        <location filename="Windows/ui_ResourcesGraphEditor.py" line="137"/>
+        <location filename="Windows/ui_ResourcesGraphEditor.py" line="135"/>
         <source>Resources Graph Editor</source>
         <translation>Resources Graph Editor</translation>
     </message>
     <message>
-        <location filename="Windows/ui_ResourcesGraphEditor.py" line="138"/>
+        <location filename="Windows/ui_ResourcesGraphEditor.py" line="136"/>
         <source>File</source>
         <translation>File</translation>
     </message>
     <message>
-        <location filename="Windows/ui_ResourcesGraphEditor.py" line="139"/>
+        <location filename="Windows/ui_ResourcesGraphEditor.py" line="137"/>
         <source>toolBar</source>
         <translation>toolBar</translation>
     </message>
     <message>
-        <location filename="Windows/ui_ResourcesGraphEditor.py" line="140"/>
+        <location filename="Windows/ui_ResourcesGraphEditor.py" line="138"/>
         <source>Select</source>
         <translation>Select</translation>
     </message>
     <message>
-        <location filename="Windows/ui_ResourcesGraphEditor.py" line="148"/>
+        <location filename="Windows/ui_ResourcesGraphEditor.py" line="146"/>
         <source>New Graph</source>
         <translation>New Graph</translation>
     </message>
     <message>
-        <location filename="Windows/ui_ResourcesGraphEditor.py" line="150"/>
+        <location filename="Windows/ui_ResourcesGraphEditor.py" line="148"/>
         <source>Open Graph</source>
         <translation>Open Graph</translation>
     </message>
     <message>
-        <location filename="Windows/ui_ResourcesGraphEditor.py" line="152"/>
+        <location filename="Windows/ui_ResourcesGraphEditor.py" line="150"/>
         <source>Save Graph</source>
         <translation>Save Graph</translation>
     </message>
     <message>
-        <location filename="Windows/ui_ResourcesGraphEditor.py" line="154"/>
+        <location filename="Windows/ui_ResourcesGraphEditor.py" line="152"/>
         <source>Save Graph As...</source>
         <translation>Save Graph As...</translation>
     </message>
     <message>
-        <location filename="Windows/ui_ResourcesGraphEditor.py" line="156"/>
+        <location filename="Windows/ui_ResourcesGraphEditor.py" line="154"/>
         <source>Exit</source>
         <translation>Exit</translation>
     </message>
     <message>
-        <location filename="Windows/ui_ResourcesGraphEditor.py" line="165"/>
+        <location filename="Windows/ui_ResourcesGraphEditor.py" line="163"/>
         <source>Generate Standart Topology</source>
         <translation>Generate Standard Topology</translation>
     </message>
@@ -868,72 +867,72 @@
         <translation type="obsolete">Untitled</translation>
     </message>
     <message>
-        <location filename="Windows/ui_ResourcesGraphEditor.py" line="143"/>
+        <location filename="Windows/ui_ResourcesGraphEditor.py" line="141"/>
         <source>Add Computational Node</source>
         <translation>Add Computational Node</translation>
     </message>
     <message>
-        <location filename="Windows/ui_ResourcesGraphEditor.py" line="146"/>
+        <location filename="Windows/ui_ResourcesGraphEditor.py" line="144"/>
         <source>Add Channel</source>
         <translation>Add Channel</translation>
     </message>
     <message>
-        <location filename="Windows/ui_ResourcesGraphEditor.py" line="159"/>
+        <location filename="Windows/ui_ResourcesGraphEditor.py" line="157"/>
         <source>Add Data Store</source>
         <translation>Add Data Store</translation>
     </message>
     <message>
-        <location filename="Windows/ui_ResourcesGraphEditor.py" line="162"/>
+        <location filename="Windows/ui_ResourcesGraphEditor.py" line="160"/>
         <source>Add Commutation Element</source>
         <translation>Add Commutation Element</translation>
     </message>
     <message>
-        <location filename="Windows/ui_ResourcesGraphEditor.py" line="141"/>
+        <location filename="Windows/ui_ResourcesGraphEditor.py" line="139"/>
         <source>Alt+1</source>
         <translation>Alt+1</translation>
     </message>
     <message>
-        <location filename="Windows/ui_ResourcesGraphEditor.py" line="144"/>
+        <location filename="Windows/ui_ResourcesGraphEditor.py" line="142"/>
         <source>Alt+2</source>
         <translation>Alt+2</translation>
     </message>
     <message>
-        <location filename="Windows/ui_ResourcesGraphEditor.py" line="147"/>
+        <location filename="Windows/ui_ResourcesGraphEditor.py" line="145"/>
         <source>Alt+3</source>
         <translation>Alt+3</translation>
     </message>
     <message>
-        <location filename="Windows/ui_ResourcesGraphEditor.py" line="149"/>
+        <location filename="Windows/ui_ResourcesGraphEditor.py" line="147"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="Windows/ui_ResourcesGraphEditor.py" line="151"/>
+        <location filename="Windows/ui_ResourcesGraphEditor.py" line="149"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="Windows/ui_ResourcesGraphEditor.py" line="153"/>
+        <location filename="Windows/ui_ResourcesGraphEditor.py" line="151"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="Windows/ui_ResourcesGraphEditor.py" line="155"/>
+        <location filename="Windows/ui_ResourcesGraphEditor.py" line="153"/>
         <source>Ctrl+Shift+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Windows/ui_ResourcesGraphEditor.py" line="157"/>
+        <location filename="Windows/ui_ResourcesGraphEditor.py" line="155"/>
         <source>Ctrl+X</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Windows/ui_ResourcesGraphEditor.py" line="160"/>
+        <location filename="Windows/ui_ResourcesGraphEditor.py" line="158"/>
         <source>Alt+4</source>
         <translation>Alt+4</translation>
     </message>
     <message>
-        <location filename="Windows/ui_ResourcesGraphEditor.py" line="163"/>
+        <location filename="Windows/ui_ResourcesGraphEditor.py" line="161"/>
         <source>Alt+5</source>
         <translation>Alt+5</translation>
     </message>
@@ -2285,7 +2284,7 @@
     <message>
         <location filename="MainWindow.py" line="426"/>
         <source>Tenant Editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tenant Editor</translation>
     </message>
 </context>
 </TS>

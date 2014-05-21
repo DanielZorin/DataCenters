@@ -125,6 +125,8 @@ class Tenant(AbstractGraph):
             elif isinstance(v, Storage):
                 tag = dom.createElement("st")
                 tag.setAttribute("st_name", v.id)
+                if v.assigned:
+                    tag.setAttribute("storage_name", v.assigned.id)
             elif isinstance(v, NetElement):
                 tag = dom.createElement("netelement")
                 tag.setAttribute("netelement_name", v.id)
@@ -135,10 +137,14 @@ class Tenant(AbstractGraph):
                 tag.setAttribute("service_name", v.servicename)
                 tag.setAttribute("provider_name", v.provider)
                 tag.setAttribute("external_port", v.port)
+                if v.assigned:
+                    tag.setAttribute("netelement_name", v.assigned.id)
             elif isinstance(v, Domain):
                 tag = dom.createElement("domain")
                 tag.setAttribute("domain_name", v.id)
                 tag.setAttribute("commutation_type", v.type)
+                if v.assigned:
+                    tag.setAttribute("server_name", v.assigned.id)
             elif isinstance(v, Vnf):
                 tag = dom.createElement("vnf")
                 tag.setAttribute("vnf_name", v.id)
@@ -147,6 +153,8 @@ class Tenant(AbstractGraph):
                 tag.setAttribute("is_service", "1" if v.isservice else "0")
                 tag.setAttribute("service_name", v.servicename)
                 tag.setAttribute("user_name", v.username)
+                if v.assigned:
+                    tag.setAttribute("server_name", v.assigned.id)
                 conset = dom.createElement("exported_connection_set")
                 conset.setAttribute("number_of_ports", str(len(v.connectionset)))
                 for s in v.connectionset:

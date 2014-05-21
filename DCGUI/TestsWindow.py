@@ -6,7 +6,7 @@ from DCGUI.Project import Project
 from DCGUI.TreeDialog import TreeDialog
 from DCGUI.ParamsDialog import ParamsDialog
 from Core.Tenant import *
-from Core.Resources import Computer, Storage, ResourceGraph
+from Core.Resources import ResourceGraph
 import os, sys, subprocess, random
 
 algnames = {"a":"Ant Colony", "d":"Decentralized", "c":"Centralized", "r":"RandomFit", "f":"FirstFit"}

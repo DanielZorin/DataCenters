@@ -1,6 +1,6 @@
 import math
-from Core.Resources import Computer, Storage, Router, Link
-from Core.Tenant import VM
+from Core.Resources import *
+from Core.Tenant import *
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import QPointF, QRect, QString, pyqtSignal, Qt
 from PyQt4.QtGui import QImage, QWidget, QPainter, QPainterPath, QColor, QCursor, QDialog, QIntValidator, QTableWidgetItem, QFont
@@ -66,7 +66,7 @@ class VisCanvas(QWidget):
         for v in self.vertices.keys():
             if self.tenantVertices.count(v) != 0:
                 paint.fillRect(self.vertices[v],self.settings["selected_tenant"])
-            if isinstance(v,Computer):
+            if isinstance(v, VM):
                 if self.selectedVertex != self.vertices[v]:
                     paint.drawImage(self.vertices[v], self.computericon)
                 else:
@@ -107,7 +107,7 @@ class VisCanvas(QWidget):
                 if self.settings["storage"]:
                     paint.setPen(self.settings["text"])
                     paint.drawText(self.vertices[v].x(), self.vertices[v].y() + self.size/2, str(int(v.getUsedVolumePercent(self.time)))+"%")'''
-            elif isinstance(v,Router):
+            elif isinstance(v, NetElement):
                 if self.selectedVertex != self.vertices[v]:
                     paint.drawImage(self.vertices[v], self.routericon)
                 else:

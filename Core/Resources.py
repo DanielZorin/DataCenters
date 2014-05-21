@@ -1,100 +1,8 @@
 import xml.dom.minidom, copy, random
 from Core.AbstractGraph import AbstractGraph, AbstractVertex
-from Core.Tenant import Storage, VM
+from Core.Tenant import *
 from Core.ParamFactory import *
 
-class State:
-    def __init__(self):
-        self.tenants = {}
-
-class ComputerState(State):
-    def __init__(self):
-        State.__init__(self)
-        self.usedSpeed = 0
-        self.usedRam = 0
-
-class StorageState(State):
-    def __init__(self):
-        State.__init__(self)
-        self.usedVolume = 0
-
-class RouterState(State):
-    def __init__(self):
-        State.__init__(self)
-        self.usedCapacity = 0
-
-class LinkState(State):
-    def __init__(self):
-        State.__init__(self)
-        self.usedCapacity = 0
-
-class Storage(AbstractVertex):
-    ''' Storage element
-
-    :param id: name
-    :param volume: storage size
-    :param type: storage type (enum/int)
-    '''
-    def __init__(self, id, volume, type):
-        AbstractVertex.__init__(self, id)
-        self.volume = volume
-        self.type = type
-        self.intervals = {}
-        self.params = ParamFactory.Create("st")
-
-    def getUsedVolumePercent(self, t):
-        return 0 if self.volume == 0 or not t in self.intervals else self.intervals[t].usedVolume * 100.0 / self.volume
-
-class Computer(AbstractVertex):
-    ''' Computer element
-
-    :param id: name
-    :param speed: computer performance
-    :param ram: RAM capacity
-    '''
-    def __init__(self, id, speed, ram):
-        AbstractVertex.__init__(self, id)
-        self.speed = speed
-        self.ram = ram
-        self.intervals = {}
-        self.params = ParamFactory.Create("vm")
-
-    def getUsedSpeedPercent(self, t):
-        return 0 if self.speed == 0 or not t in self.intervals else self.intervals[t].usedSpeed * 100.0 / self.speed
-
-    def getUsedRamPercent(self, t):
-        return 0 if self.ram == 0 or not t in self.intervals else self.intervals[t].usedRam * 100.0 / self.ram
-
-class Router(AbstractVertex):
-    ''' Router/switch element
-
-    :param id: name
-    :param capcity: total channel bandwidth
-    '''
-    def __init__(self, id, capacity):
-        AbstractVertex.__init__(self, id)
-        self.capacity = capacity
-        self.intervals = {}
-        self.params = ParamFactory.Create("netelement")
-
-    def getUsedCapacityPercent(self, t):
-        return 0 if self.capacity == 0 or not t in self.intervals else self.intervals[t].usedCapacity * 100.0 / self.capacity
-
-class Link:
-    ''' Channe;
-
-    :param e1: first node
-    :param e2: second node
-    :param capacity: bandwidth
-    '''
-    def __init__(self, e1, e2, capacity):
-        self.e1 = e1
-        self.e2 = e2
-        self.capacity = capacity
-        self.intervals = {}
-
-    def getUsedCapacityPercent(self,t):
-        return 0 if self.capacity == 0 or not t in self.intervals else self.intervals[t].usedCapacity * 100.0 / self.capacity
 
 class ResourceGraph(AbstractGraph):
     ''' Graph of physical resources
@@ -115,26 +23,37 @@ class ResourceGraph(AbstractGraph):
 
     def CreateXml(self, dom):
         root = dom.createElement("resources")
-        # TODO: take some meaningful interval
-        try:
-            r = [q for q in self.vertices[0].intervals.keys()][0]
-        except:
-            r = None
-        if r:
-            root.setAttribute("time", str(r[0]))
         for v in self.vertices:
-            if isinstance(v, Computer):
+            if isinstance(v, VM):
                 tag = dom.createElement("server")
-                tag.setAttribute("server_name", str(v.id))
+                tag.setAttribute("server_name", v.id)
+                tag.setAttribute("image_id", v.image)
             elif isinstance(v, Storage):
                 tag = dom.createElement("storage")
-                tag.setAttribute("storage_name", str(v.id))
-            elif isinstance(v, Router):
+                tag.setAttribute("storage_name", v.id)
+            elif isinstance(v, NetElement):
                 tag = dom.createElement("netelement")
-                tag.setAttribute("netelement_name", str(v.id))
+                tag.setAttribute("netelement_name", v.id)
+                tag.setAttribute("netelement_type", v.type)
+                tag.setAttribute("ip", v.ip)
+                tag.setAttribute("is_router", "1" if v.router else "0")
+                tag.setAttribute("is_service", "1" if v.isservice else "0")
+                tag.setAttribute("service_name", v.servicename)
+                tag.setAttribute("provider_name", v.provider)
+                tag.setAttribute("external_port", v.port)
+
             if v.x:
                 tag.setAttribute("x", str(v.x))
                 tag.setAttribute("y", str(v.y))
+
+            tag.setAttribute("service", "1" if v.service else "0")
+            conset = dom.createElement("connection_set")
+            conset.setAttribute("number_of_ports", str(len(v.ports)))
+            for s in v.ports:
+                port = dom.createElement("port")
+                port.setAttribute("port_name", s)
+                conset.appendChild(port)
+            tag.appendChild(conset)
             pset = dom.createElement("parameter_set")
             for p in v.params:
                 param = dom.createElement("parameter")
@@ -146,10 +65,17 @@ class ResourceGraph(AbstractGraph):
             root.appendChild(tag)
         for v in self.edges:
             tag = dom.createElement("link")
-            tag.setAttribute("from", str(v.e1.number))
-            tag.setAttribute("to", str(v.e2.number))
-            tag.setAttribute("capacity", str(v.capacity))
-            tag.setAttribute("used", str(v.intervals[r].usedCapacity) if r != None else "0")
+            tag.setAttribute("service", "1" if v.service else "0")
+            tag.setAttribute("channel_capacity", str(v.capacity))
+            nd = dom.createElement("node1")
+            nd.setAttribute("node_name", v.e1.id)
+            nd.setAttribute("port_name", v.port1)
+            tag.appendChild(nd)
+            nd = dom.createElement("node2")
+            nd.setAttribute("node_name", v.e2.id)
+            nd.setAttribute("port_name", v.port2)
+            tag.appendChild(nd)
+            tag.appendChild(nd)
             root.appendChild(tag)
         return root
 
@@ -166,17 +92,23 @@ class ResourceGraph(AbstractGraph):
                 self.LoadFromXmlNode(node)
         f.close()
 
-    def LoadFromXmlNode(self, node):
-        #Parse vertices
-        for vertex in node.childNodes:
-            if isinstance(vertex, xml.dom.minidom.Text):
+    def ParseNodes(self, root, resources):
+        for vertex in root.childNodes:
+            if isinstance(vertex, xml.dom.minidom.Text) or (vertex.nodeName == "link"):
                 continue
-            if vertex.nodeName == "link":
-                continue
+            service = True if vertex.getAttribute("service") == "1" else False
+            ports = []
             params = []
+            conset = []
             for v in vertex.childNodes:
                 if isinstance(v, xml.dom.minidom.Text):
                     continue
+                if v.nodeName == "connection_set":
+                    for port in v.childNodes:
+                        if isinstance(port, xml.dom.minidom.Text):
+                            continue
+                        s = port.getAttribute("port_name")
+                        ports.append(s)
                 if v.nodeName == "parameter_set":
                     for param in v.childNodes:
                         if isinstance(param, xml.dom.minidom.Text):
@@ -186,38 +118,64 @@ class ResourceGraph(AbstractGraph):
                         value = param.getAttribute("value_user")
                         params.append([name, type, value])
             if vertex.nodeName == "server":
-                name = vertex.getAttribute("server_name")
-                v = Computer(name, 0, 0)
+                v = VM(vertex.getAttribute("server_name"))
+                v.image = vertex.getAttribute("image_id")            
             elif vertex.nodeName == "storage":
-                name = vertex.getAttribute("storage_name")
-                v = Storage(name, 0, 0)
+                v = Storage(vertex.getAttribute("storage_name"))
             elif vertex.nodeName == "netelement":
-                name = vertex.getAttribute("netelement_name")
-                v = Router(name, 0)
-            else:
-                continue
+                tag = vertex
+                v = NetElement(tag.getAttribute("netelement_name"))              
+                v.type = tag.getAttribute("netelement_type")
+                v.ip = tag.getAttribute("ip")
+                v.router = tag.getAttribute("is_router") == 1
+                v.isservice = tag.getAttribute("is_service") == 1
+                v.servicename = tag.getAttribute("service_name")
+                v.provider = tag.getAttribute("provider_name")
+                v.port = tag.getAttribute("external_port")
             x = vertex.getAttribute("x")
             y = vertex.getAttribute("y")
             if x != '':
                 v.x = float(x)
             if y != '':
                 v.y = float(y)
+            v.service = service
+            v.ports = ports
             for vp in v.params:
                 for p in params:
                     if (p[0] == vp.name) and (p[1] == vp.type):
                         vp.value = p[2]
             self.vertices.append(v)
 
-        self.vertices.sort(key=lambda x: x.number)
-                    
-        #Parse edges
-        for edge in node.childNodes:
+    def ParseLinks(self, root):
+        for edge in root.childNodes:
             if edge.nodeName == "link":
-                source = int(edge.getAttribute("from"))
-                destination = int(edge.getAttribute("to"))
-                cap = int(edge.getAttribute("capacity"))
-                e = Link(self.vertices[source-1], self.vertices[destination-1], cap)
+                for v in edge.childNodes:
+                    if isinstance(v, xml.dom.minidom.Text):
+                        continue
+                    if v.tagName == "node1":
+                        src = v.getAttribute("node_name")
+                        port1 = v.getAttribute("port_name")
+                    if v.tagName == "node2":
+                        dst = v.getAttribute("node_name")
+                        port2 = v.getAttribute("port_name")
+                cap = edge.getAttribute("channel_capacity")
+                service = edge.getAttribute("service") == "1"
+                # TODO: error handling
+                srcv = [v for v in self.vertices if v.id == src][0]
+                dstv = [v for v in self.vertices if v.id == dst][0]
+                e = Link(srcv, dstv, cap)
+                e.port1 = port1
+                e.port2 = port2
+                e.service = service
                 self.edges.append(e)
+
+    def LoadFromXmlNode(self, node, resources=None):
+        self.expiration = node.getAttribute("expiration_time")
+        self.type = node.getAttribute("tenant_type")
+        self.name = node.getAttribute("tenant_name")
+        #Parse vertices
+        self.ParseNodes(node, resources)
+        self.ParseLinks(node)
 
         self._buildPaths()
 
