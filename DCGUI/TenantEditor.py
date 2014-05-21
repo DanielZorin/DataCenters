@@ -136,7 +136,6 @@ class TenantEditor(QMainWindow):
         self.setWindowTitle(self.tr("Untitled") + " - " + self.basename)
 
     def Open(self):
-        return
         name = QFileDialog.getOpenFileName(filter="*.xml")
         if name == None or name == '':
             return
