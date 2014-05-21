@@ -15,6 +15,8 @@ class VertexDialog(QDialog):
         self.ui.setupUi(self)
         self.ui.params.verticalHeader().hide()
         self.ui.params.horizontalHeader().setStretchLastSection(True)
+        self.ui.add.setEnabled(False)
+        self.ui.remove.setEnabled(False)
 
     def LoadCommon(self, v):
         ind = v.id.find("!")
@@ -105,6 +107,7 @@ class SwitchDialog(VertexDialog):
             self.ui.servicename.setEnabled(False)
             self.ui.port.setEnabled(False)
             self.ui.serviceasuser.setEnabled(False)
+            return
         for t in tenants:
             for v in t.vertices:
                 if isinstance(v, Vnf) and v.isservice:
