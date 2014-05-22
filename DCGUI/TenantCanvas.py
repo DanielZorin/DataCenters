@@ -237,12 +237,25 @@ class TenantCanvas(QWidget):
         else:
             return
 
+    def LinkAllowed(self, v1, v2):
+        classnames = {VM:u"vm", Storage:u"st", Vnf:u"vnf", NetElement:u"netelement", Domain:u"domain"}
+        n1 = classnames[v1.__class__]
+        n2 = classnames[v2.__class__]
+        for p in ParamFactory.forbiddenlinks:
+            if p[0] == n1:
+                if p[1] == n2:
+                    return False
+            if p[0] == n2:
+                if p[1] == n1:
+                    return False
+        return True
+
     def mouseReleaseEvent(self, e):
         self.pressed = False
         if self.edgeDraw:
             for v in self.vertices.keys():
                 if self.vertices[v].contains(e.pos()):
-                    if self.curEdge[1] != v:
+                    if (self.curEdge[1] != v) and self.LinkAllowed(self.curEdge[1], v):
                         ne = Link(self.curEdge[1], v, 0)
                         self.tenant.AddLink(ne)
             self.edgeDraw = False

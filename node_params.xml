@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <params>
+	<forbid_link from="st" to="vnf"/>
+	<forbid_link from="st" to="domain"/>
+	<forbid_link from="st" to="netelement"/>
+	<forbid_link from="netelement" to="netelement"/>
 	<vm>
 	  <parameter_set>
 		<parameter parameter_name="memory" parameter_type="real" value_default="512" min="256" max="1024"/>

@@ -11,6 +11,7 @@ class Param:
 
 class ParamFactory(object):
     params = {}
+    forbiddenlinks = []
 
     @staticmethod
     def Load(xmlfile):
@@ -24,6 +25,11 @@ class ParamFactory(object):
                 if top.tagName == "params":
                     for node in top.childNodes:
                         if isinstance(node, xml.dom.minidom.Text):
+                            continue
+                        if node.tagName == "forbid_link":
+                            v1 = node.getAttribute("from")
+                            v2 = node.getAttribute("to")
+                            ParamFactory.forbiddenlinks.append([v1, v2])
                             continue
                         nodetype = node.tagName
                         ParamFactory.params[nodetype] = []
