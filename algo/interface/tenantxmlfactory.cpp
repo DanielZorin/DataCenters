@@ -45,16 +45,16 @@ void TenantXMLFactory::commitPartialAssignmentData(const class ResourcesXMLFacto
     for ( Elements::iterator it = elements.begin(); it != elements.end(); ++it ) {
         Element * e = *it;
 
-        // check whether this is virtual link first and it is assigned
-        if ( e->isLink() && e->toLink()->getRoute().length() >= 0 ) {
-        	Path route = e->toLink()->getRoute();
-        	elementsXML[e].setAttribute("assignedTo", getPathXml(route, resourceFactory));
-        }
-
         if ( !e->isAssigned() )
             continue;
-        elementsXML[e].setAttribute("assignedTo", resourceFactory.getName(e->getAssignee()));
 
+        // check whether this is virtual link first and it is assigned
+        if ( e->isLink() ) {
+            Path route = e->toLink()->getRoute();
+            elementsXML[e].setAttribute("assignedTo", getPathXml(route, resourceFactory));
+        } else {
+            elementsXML[e].setAttribute("assignedTo", resourceFactory.getName(e->getAssignee()));
+        }
         // assign ports
         if ( !e->isNode() )
             continue;
