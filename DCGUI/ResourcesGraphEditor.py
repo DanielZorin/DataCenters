@@ -119,5 +119,8 @@ class ResourcesGraphEditor(QMainWindow):
             output.close()
             self.setWindowTitle(str(self.xmlfile).split('/').pop().split('.')[0] + " - " + self.basename)
 
+    def Delete(self):
+        self.canvas.Delete()
+
     def closeEvent(self, e):
         self.canvas.updatePos()

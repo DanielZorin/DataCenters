@@ -102,6 +102,11 @@ class Ui_ResourcesGraphEditor(object):
         icon9.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/topology.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionTopology.setIcon(icon9)
         self.actionTopology.setObjectName(_fromUtf8("actionTopology"))
+        self.actionDelete = QtGui.QAction(ResourcesGraphEditor)
+        icon10 = QtGui.QIcon()
+        icon10.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/delete.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionDelete.setIcon(icon10)
+        self.actionDelete.setObjectName(_fromUtf8("actionDelete"))
         self.menuFile.addAction(self.actionNew_System)
         self.menuFile.addAction(self.actionOpen_System)
         self.menuFile.addAction(self.actionSave_System)
@@ -118,6 +123,7 @@ class Ui_ResourcesGraphEditor(object):
         self.toolBar.addAction(self.actionRouter)
         self.toolBar.addAction(self.actionEdge)
         self.toolBar.addSeparator()
+        self.toolBar.addAction(self.actionDelete)
 
         self.retranslateUi(ResourcesGraphEditor)
         QtCore.QObject.connect(self.actionSelect, QtCore.SIGNAL(_fromUtf8("triggered()")), ResourcesGraphEditor.toggleSelect)
@@ -130,6 +136,7 @@ class Ui_ResourcesGraphEditor(object):
         QtCore.QObject.connect(self.actionExit, QtCore.SIGNAL(_fromUtf8("triggered()")), ResourcesGraphEditor.close)
         QtCore.QObject.connect(self.actionStorage, QtCore.SIGNAL(_fromUtf8("triggered()")), ResourcesGraphEditor.toggleStorage)
         QtCore.QObject.connect(self.actionRouter, QtCore.SIGNAL(_fromUtf8("triggered()")), ResourcesGraphEditor.toggleRouter)
+        QtCore.QObject.connect(self.actionDelete, QtCore.SIGNAL(_fromUtf8("triggered()")), ResourcesGraphEditor.Delete)
         QtCore.QMetaObject.connectSlotsByName(ResourcesGraphEditor)
 
     def retranslateUi(self, ResourcesGraphEditor):
@@ -162,5 +169,7 @@ class Ui_ResourcesGraphEditor(object):
         self.actionRouter.setShortcut(QtGui.QApplication.translate("ResourcesGraphEditor", "Alt+5", None, QtGui.QApplication.UnicodeUTF8))
         self.actionTopology.setText(QtGui.QApplication.translate("ResourcesGraphEditor", "Generate Standart Topology", None, QtGui.QApplication.UnicodeUTF8))
         self.actionTopology.setToolTip(QtGui.QApplication.translate("ResourcesGraphEditor", "Generate Standart Topology", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionDelete.setText(QtGui.QApplication.translate("ResourcesGraphEditor", "Delete", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionDelete.setShortcut(QtGui.QApplication.translate("ResourcesGraphEditor", "Del", None, QtGui.QApplication.UnicodeUTF8))
 
 from . import resources_rc
