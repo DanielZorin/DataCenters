@@ -151,14 +151,6 @@ public:
     	return false;
     }
 
-	virtual bool isServiceAsProvider() const {
-		return false;
-	}
-
-	virtual bool isServiceAsUser() const {
-		return false;
-	}
-
     inline bool isComputer() const { 
         return type & COMPUTER; 
     }

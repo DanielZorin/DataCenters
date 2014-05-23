@@ -65,19 +65,8 @@ int main(int argc, char ** argv)
     int assignedRequests = 0;
     for ( Requests::iterator i = requests.begin(); i != requests.end(); i++ ) {
         Request * r = *i;
-        const char * assignedStr = 0;
-        if ( r->isAssigned() ) {
-            assignedStr = "assigned";
+        if ( r->isAssigned() )
             assignedRequests++;    
-        } else {
-            assignedStr = "not assigned";
-        }
-        printf("Request %p is %s\n", r, assignedStr);
-        Elements elements = r->getElements();
-        for (Elements::iterator i = elements.begin(); i!= elements.end(); i++) {
-            printf("\t");
-            ElementFactory::debugPrint(*i); 
-        }
     }
 
 
@@ -91,6 +80,8 @@ int main(int argc, char ** argv)
     output.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream outStream(&output);
     outStream << document.toString(4);
+
+    printf("Assigned %d of %d requests\n", assignedRequests, requests.size());
 
     return 0;
 }
