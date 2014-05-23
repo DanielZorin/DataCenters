@@ -158,7 +158,7 @@ class ResourceGraph(AbstractGraph):
                     if v.tagName == "node2":
                         dst = v.getAttribute("node_name")
                         port2 = v.getAttribute("port_name")
-                cap = edge.getAttribute("channel_capacity")
+                cap = int(edge.getAttribute("channel_capacity"))
                 service = edge.getAttribute("service") == "1"
                 # TODO: error handling
                 srcv = [v for v in self.vertices if v.id == src][0]
@@ -199,25 +199,6 @@ class ResourceGraph(AbstractGraph):
             if newpaths == []:
                 break
             paths = newpaths
-
-    def GetTimeBounds(self):
-        t1 = 0
-        t0 = 0
-        if not (self.vertices == []) and  not (self.vertices[0].intervals.keys() == []):
-            t0 = self.vertices[0].intervals.keys()[0][0]
-        for v in self.vertices:
-            for t in v.intervals.keys():
-                if t[1] > t1:
-                    t1 = t[1]
-                if t[0] < t0:
-                    t0 = t[0]
-        return (t0, t1)
-
-    def GetTimeInterval(self, time):
-        for v in self.vertices:
-            for t in v.intervals.keys():
-                if (time >= t[0]) and (time <= t[1]):
-                    return t
 
     def GetAvailableVertices(self,v,time):
         availableVertices = set([])
@@ -299,34 +280,6 @@ class ResourceGraph(AbstractGraph):
         if tenant in self.assignedTenants:
             self.assignedTenants.remove(tenant) 
         #self.RemoveIntervals(tenant)
-
-    def AssignVertex(self, tenant, vtenant, vresource, time):
-        vtenant.resource = vresource
-        self.assignedTenants.add(tenant)
-        if not vresource.intervals[time].tenants.has_key(tenant.id):
-            vresource.intervals[time].tenants[tenant.id] = []
-        vresource.intervals[time].tenants[tenant.id].append(vtenant.number)
-        if isinstance(vtenant, VM):
-            vresource.intervals[time].usedSpeed += vtenant.speed
-            vresource.intervals[time].usedRam += vtenant.ram
-        elif isinstance(vtenant, TenantStorage):
-            vresource.intervals[time].usedVolume += vtenant.volume
-
-    def AssignLink(self, tenant, link, path, time):
-        link.path = path
-        self.assignedTenants.add(tenant)
-        for elem in path[1:len(path)-1]:
-            if isinstance(elem, Router):
-                elem.intervals[time].usedCapacity += link.capacity
-                if not elem.intervals[time].tenants.has_key(tenant.id):
-                    elem.intervals[time].tenants[tenant.id] = []
-                elem.intervals[time].tenants[tenant.id].append((link.e1.number, link.e2.number))
-            else:
-                e = self.FindEdge(elem.e1, elem.e2)
-                e.intervals[time].usedCapacity += link.capacity
-                if not e.intervals[time].tenants.has_key(tenant.id):
-                    e.intervals[time].tenants[tenant.id] = []
-                e.intervals[time].tenants[tenant.id].append((link.e1.number, link.e2.number))
 
     def LoadAllTenants(self, tenants):
         for tenant in tenants:

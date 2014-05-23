@@ -79,6 +79,8 @@ class Link:
         self.port2 = e2.addPort()
         self.capacity = capacity
         self.service = False
+        self.assigned = []
+        self.assignments = []
         
 class Tenant(AbstractGraph):
     ''' Tenant
@@ -99,6 +101,26 @@ class Tenant(AbstractGraph):
         node = [v for v in resources.vertices if v.id == id][0]
         vt.assigned = node
         node.assignments.append([vt, self])
+
+    def AssignLink(self, e, id, resources):
+        if not resources:
+            return
+        # TODO: error handling!!
+        nodes = id.replace(" ", "").split(";")
+        verts = []
+        for n in nodes:
+            ss = n.split(":")
+            name = ss[0]
+            port = ss[1]
+            node = [v for v in resources.vertices if v.id == name][0]
+            verts.append([node, port])
+        prev = verts[0]
+        for v in verts[1:]:
+            edge = resources.FindEdge(prev[0], v[0])
+            #if ((edge.port1 == prev[1]) and (edge.port2 == v[1])) or ((edge.port1 == v[1]) and (edge.port2 == prev[1])) :
+            edge.assignments.append([e, self])
+            e.assigned.append(edge)
+            prev = v
 
     def ExportToXml(self):
         '''
@@ -295,7 +317,7 @@ class Tenant(AbstractGraph):
                 self.Assign(v, assigned, resources)
             self.vertices.append(v)
 
-    def ParseLinks(self, root):
+    def ParseLinks(self, root, resources):
         for edge in root.childNodes:
             if edge.nodeName == "link":
                 for v in edge.childNodes:
@@ -307,8 +329,9 @@ class Tenant(AbstractGraph):
                     if v.tagName == "node2":
                         dst = v.getAttribute("node_name")
                         port2 = v.getAttribute("port_name")
-                cap = edge.getAttribute("channel_capacity")
+                cap = int(edge.getAttribute("channel_capacity"))
                 service = edge.getAttribute("service") == "1"
+                assigned = edge.getAttribute("assigned")
                 # TODO: error handling
                 srcv = [v for v in self.vertices if v.id == src][0]
                 dstv = [v for v in self.vertices if v.id == dst][0]
@@ -316,6 +339,8 @@ class Tenant(AbstractGraph):
                 e.port1 = port1
                 e.port2 = port2
                 e.service = service
+                if assigned:
+                    self.AssignLink(e, assigned, resources)
                 self.edges.append(e)
 
     def LoadFromXmlNode(self, node, resources=None):
@@ -334,7 +359,7 @@ class Tenant(AbstractGraph):
             if isinstance(vertex, xml.dom.minidom.Text):
                 continue
             if vertex.nodeName == "list_of_links":
-                self.ParseLinks(vertex)
+                self.ParseLinks(vertex, resources)
 
         self._buildPaths()
 

@@ -72,51 +72,25 @@ class Vis(QMainWindow):
         e = self.canvas.selectedEdge
         if e == None:
             return
-        timeInt = self.project.resources.GetTimeInterval(self.time)
-        if timeInt==None:
-            return
-        link_num = 0
-        for d in e.intervals[timeInt].tenants.keys():
-            link_num += len(e.intervals[timeInt].tenants[d])
-        replicalinks = {}
-        for d in self.project.tenants:
-            replicalinks[d.id] = []
-            if d.startTime<=timeInt[0] and d.endTime>=timeInt[1]:
-                for r in d.replicalinks:
-                    if r.path.count(e) != 0:
-                        link_num += 1
-                        replicalinks[d.id].append(r)
+        tenants = list(set([p[1].name for p in e.assignments]))
+        tenants.sort()
+        used = 0
+        for v in e.assignments:
+            used += v[0].capacity
         str = QString("<b><font size=\"+1\">%1</font></b><br />").arg(self.tr("Statistics"))
         str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Bandwidth")).arg(e.capacity)
-        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2 (%3%)</font><br />").arg(self.tr("Used Bandwidth")).arg(e.intervals[timeInt].usedCapacity).arg(e.getUsedCapacityPercent(timeInt))
-        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Number of assigned requests")).arg(len(e.intervals[timeInt].tenants.keys()))
-        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Number of assigned channels")).arg(link_num)
-        str += QString("<b><font size=\"+1\">%1</font></b><br />").arg(self.tr("Assigned Requests"))
-        tenants = e.intervals[timeInt].tenants.keys()
-        for id in replicalinks.keys():
-            if tenants.count(id) == 0 and replicalinks[id] != []:
-                tenants.append(id)
-        tenants.sort()
+        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2 (%3%)</font><br />").arg(self.tr("Used Bandwidth")).arg(used).arg(int(float(used)/float(e.capacity)*100))
+        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Number of assigned tenants")).arg(len(tenants))
+        str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Number of assigned channels")).arg(len(e.assignments))
+        str += QString("<b><font size=\"+1\">%1</font></b><br />").arg(self.tr("Assigned Tenants"))
+        classnames = {VM:u"VM", Storage:u"Storage", Vnf:u"VNF", NetElement:u"NetElement", Domain:u"Domain"}
         for id in tenants:
             d = self.project.FindTenant(id)
             str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(id)
-            if e.intervals[timeInt].tenants.has_key(id):
-                for link in e.intervals[timeInt].tenants[id]:
-                    l = d.FindEdge(d.FindVertex(link[0]),d.FindVertex(link[1]))
-                    type1 = self.tr("VM") if isinstance(l.e1,VM) else self.tr("Storage")
-                    type2 = self.tr("VM") if isinstance(l.e2,VM) else self.tr("Storage")
-                    str += QString("&nbsp;&nbsp;&nbsp;&nbsp;%6: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;%7: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(l.e1.id).arg(type2).arg(l.e2.id).arg(l.capacity).arg(self.tr("Channel")).arg(self.tr("Bandwidth"))
-            for r in replicalinks[id]:
-                if r.e1 == r.e2:
-                    str += QString("&nbsp;&nbsp;&nbsp;&nbsp;%1 <font color=blue>%2</font>&nbsp;&nbsp;%3: <font color=blue>%4</font>&nbsp;&nbsp;<br />").arg(self.tr("Consistency channel: <font color=blue>Storage</font>")).arg(r.e1.id).arg(self.tr("<font color=blue>&lt;---&gt; replica</font>. Bandwidth")).arg(r.capacity)
-                elif r.toreplica:
-                    type1 = self.tr("VM") if isinstance(r.e1,VM) else self.tr("Storage")
-                    type2 = self.tr("Replica of storage")
-                    str += QString("&nbsp;&nbsp;&nbsp;&nbsp;%6: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;%7: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(r.e1.id).arg(type2).arg(r.e2.id).arg(r.capacity).arg(self.tr("Channel")).arg(self.tr("Bandwidth"))
-                else:
-                    type1 = self.tr("Replica of storage")
-                    type2 = self.tr("VM") if isinstance(r.e2,VM) else self.tr("Storage")
-                    str += QString("&nbsp;&nbsp;&nbsp;&nbsp;%6: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;%7: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(type1).arg(r.e1.id).arg(type2).arg(r.e2.id).arg(r.capacity).arg(self.tr("Channel")).arg(self.tr("Bandwidth"))
+            for l in e.assignments:
+                t1 = classnames[l[0].e1.__class__]
+                t2 = classnames[l[0].e2.__class__]
+                str += QString("&nbsp;&nbsp;&nbsp;&nbsp;%6: <font color=blue>%1: %2 &lt;---&gt; %3: %4</font>&nbsp;&nbsp;%7: <font color=blue>%5</font>&nbsp;&nbsp;<br />").arg(t1).arg(l[0].e1.id).arg(t2).arg(l[0].e2.id).arg(l[0].capacity).arg(self.tr("Channel")).arg(self.tr("Bandwidth"))
         self.ui.info.setText(str)
             
     def tenantSelected(self):
