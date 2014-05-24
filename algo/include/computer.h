@@ -5,24 +5,28 @@
 class Computer : public Node {
     friend class ElementFactory;
 public:
-    enum Attributes {
+    enum Type {
         NONE = 0,
         VNF = 1
     };
 
-    Computer(bool vnf = false) : Node() {
+    Computer(bool vnf = false) : Node(), computerType(0) {
         type = COMPUTER;
         if (vnf)
-        	attributes |= VNF;
+            computerType |= VNF;
     }
 
     bool isVnf() const {
-    	return attributes & VNF == VNF;
+    	return computerType & VNF == VNF;
     }
 
 private:
     virtual bool typeCheck(const Element * other) const {
         return other->isComputer();
     }
+
+private:
+
+    int computerType; // vnf or not
 
 };

@@ -8,6 +8,7 @@
 #include "link.h"
 #include "switch.h"
 #include <list>
+#include <QDebug>
 
 TenantXMLFactory::TenantXMLFactory(const QDomElement & element) 
 :
@@ -18,11 +19,20 @@ TenantXMLFactory::TenantXMLFactory(const QDomElement & element)
     elementsXML = Factory::getXmlElementsByTypes(elementTypes, tenant);
 
     std::list<Element*> list = elementsXML.keys().toStdList();
+
+    // Parsing elements, removing extra net-elements, saving ports and external ports
     Elements elements;
     for ( std::list<Element*>::iterator it = list.begin(); it != list.end(); ++it ) {
     	Element* elem = (*it);
     	// Ignoring non-router net-elements and their links
     	if ( !isNonRouterSwitch(elem) && !elem->isLink() ) {
+    	    if ( elem->isNode() )
+    	        ports.insert(elem->toNode()->ports.begin(), elem->toNode()->ports.end());
+
+    	    if ( elem->isVnf() ) {
+    	        addExternalPorts(elem->toNode());
+    	    }
+
     		elements.insert(elem);
     	} else if ( elem->isLink() ) {
     		Element* first = elem->toLink()->getFirst()->getParentNode();
@@ -123,4 +133,58 @@ QString TenantXMLFactory::getPhysicalPortXML(Port * port, const ResourcesXMLFact
     return QString("%1:%2")
         .arg(rf.getName(port->getParentNode()))
         .arg(QString::fromStdString(port->getName()));
+}
+
+void TenantXMLFactory::parseExternalPorts(QString clientName, Ports ports) {
+    if ( externalPorts.find(clientName) != externalPorts.end() ) {
+        std::set<std::pair<Element*, QString> > clientInfo = externalPorts.value(clientName);
+        std::set<std::pair<Element*, QString> >::iterator it = clientInfo.begin();
+        for ( ; it != clientInfo.end(); ++it ) {
+            QString name = it->second;
+            Node * vnf = it->first->toNode();
+            // searching the port in client
+            for ( Ports::iterator pit = ports.begin(); pit != ports.end(); ++pit ) {
+                std::string stdName = name.toUtf8().constData();
+                if ( (*pit)->getName().compare(stdName) == 0 ) {
+                    // searching for the free port in our vnf
+                    Port* freePort = vnf->getFreePort();
+                    if ( freePort == 0 ) {
+                        qDebug() << "Cannot create external link: no free port available in vnf!\n";
+                        break;
+                    }
+
+                    Link* externalLink = new Link();
+                    externalLink->connect(freePort, *pit);
+                    (*pit)->connect(externalLink, freePort);
+                    freePort->connect(externalLink, *pit);
+                    qDebug() << "External link created from " << QString::fromUtf8((*pit)->getName().c_str())
+                        << " of " << QString::fromUtf8(this->request->getName().c_str())
+                        << " to " << QString::fromUtf8(freePort->getName().c_str())
+                        << " of " << clientName;
+                }
+            }
+        }
+    }
+}
+
+bool TenantXMLFactory::isProviderTenant(const QDomElement & element) {
+	return element.elementsByTagName("vnf").length() > 0;
+}
+
+void TenantXMLFactory::addExternalPorts(Node* elem) {
+    QDomElement elemXml = elementsXML.value(elem);
+
+    QString clientName = elemXml.attribute("user_name");
+    if ( clientName.length() == 0 ) {
+        qDebug() << "Client not found\n";
+        return;
+    }
+
+    QDomNodeList portsXml = elemXml.elementsByTagName("external_port");
+    for (int i = 0; i < portsXml.size(); ++i ) {
+        QString name = portsXml.at(i).toElement().attribute("name");
+        if ( name.length() > 0 ) {
+            externalPorts[clientName].insert(std::pair<Element*, QString>(elem, name));
+        }
+    }
 }

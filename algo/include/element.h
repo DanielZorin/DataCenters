@@ -5,6 +5,7 @@
 
 class Element {
     friend class ElementFactory;
+    friend class Factory;
     friend class TenantXMLFactory;
     friend class ResourcesXMLFactory;
     friend class Criteria;

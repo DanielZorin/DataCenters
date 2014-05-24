@@ -72,8 +72,6 @@ void Factory::addPortsFromXML(const QDomElement& element, Node* node) {
         Port* port = new Port(portsXml.at(i).toElement().attribute("name").toStdString(), node);
         node->addPort(port);
     }
-
-    // TODO: add external ports
 }
 
 Element * Factory::createElementFromXML(const QDomElement & element, const ElementsMap& elementsMap) {
@@ -140,7 +138,7 @@ Element * Factory::createNode(const QDomElement & e) {
 
 
     if ( type == "vm" || type == "vnf" || type == "server" ) {
-        Computer * vm = new Computer();
+        Computer * vm = new Computer(type == "vnf");
         node = ElementFactory::populate(vm, params);
     } else if ( type == "st" || type == "storage" ) {
         Store * st = new Store();

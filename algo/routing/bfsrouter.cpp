@@ -13,7 +13,7 @@ BFSRouter::BFSRouter(Request & r, Element * t)
 :
     target(t)    
 {
-    if ( !Operation::isIn(target, r.getNodes())) throw;
+    // if ( !Operation::isIn(target, r.getNodes())) throw;
 
     Elements tunnels = r.getTunnels();
     Elements adjacentTunnels = Operation::filter(tunnels, target, Criteria::isAdjacent);

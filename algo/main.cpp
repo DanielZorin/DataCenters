@@ -50,13 +50,37 @@ int main(int argc, char ** argv)
 
     QDomNodeList tenants = root.elementsByTagName("tenant");
     Requests requests;
+
     std::vector<TenantXMLFactory *> tenantsFactory;
+    std::vector<TenantXMLFactory *> clientFactory;
+    // Parsing client tenants first
     for ( int i = 0; i < tenants.size(); ++i ) {
-    	TenantXMLFactory* sampleFactory = new TenantXMLFactory(tenants.item(i).toElement());
-    	tenantsFactory.push_back(sampleFactory);
-    	Request * request = sampleFactory->getRequest();
-    	printf("Request has %d elements\n", request->getElements().size());
-    	requests.insert(request);
+    	if ( !TenantXMLFactory::isProviderTenant(tenants.item(i).toElement()) ) {
+			TenantXMLFactory* sampleFactory = new TenantXMLFactory(tenants.item(i).toElement());
+			tenantsFactory.push_back(sampleFactory);
+			clientFactory.push_back(sampleFactory);
+			Request * request = sampleFactory->getRequest();
+			printf("Request has %d elements\n", request->getElements().size());
+			requests.insert(request);
+    	}
+    }
+
+    // Parsing provider tenants
+    for ( int i = 0; i < tenants.size(); ++i ) {
+        if ( TenantXMLFactory::isProviderTenant(tenants.item(i).toElement()) ) {
+            TenantXMLFactory* sampleFactory = new TenantXMLFactory(tenants.item(i).toElement());
+            tenantsFactory.push_back(sampleFactory);
+            Request * request = sampleFactory->getRequest();
+            printf("Request has %d elements\n", request->getElements().size());
+            requests.insert(request);
+
+            // Parsing external links
+            std::vector<TenantXMLFactory *>::iterator it = clientFactory.begin();
+            for ( ; it != clientFactory.end(); ++it ) {
+                QString name = QString::fromUtf8((*it)->getRequest()->getName().c_str());
+                sampleFactory->parseExternalPorts(name, (*it)->getPorts());
+            }
+        }
     }
 
     PrototypeAlgorithm algorithm(network, requests);

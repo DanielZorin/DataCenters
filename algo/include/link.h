@@ -32,6 +32,13 @@ public:
         return isVirtual() && route.isValid();
     }
 
+    virtual void unassign() {
+        if ( !isAssigned() )
+           return;
+
+        route = Path();
+    }
+
 private:
     virtual bool typeCheck(const Element * other) const {
         return Criteria::isNetwork(other);

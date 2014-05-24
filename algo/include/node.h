@@ -41,6 +41,15 @@ public:
         return 0;
     }
 
+    Port* getFreePort() {
+        for ( Ports::iterator it = ports.begin(); it != ports.end(); ++it ) {
+            if ( (*it)->getConnectedLink() == 0 ) {
+                return *it;
+            }
+        }
+        return 0;
+    }
+
     virtual Elements adjacent() const {
         return edges;
     }

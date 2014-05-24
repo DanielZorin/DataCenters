@@ -19,7 +19,19 @@ public:
     // Get string representation for path in the form "NodeName: PortName; NodeName:PortName ..."
     QString getPathXml(class Path& path, const class ResourcesXMLFactory & resourceFactory) const;
     QString getPhysicalPortXML(Port * port, const class ResourcesXMLFactory & rf) const;
+
+    static bool isProviderTenant(const QDomElement & element);
+
+    // Parse external ports
+    void parseExternalPorts(QString clientName, Ports ports);
+
+    inline const Ports& getPorts() {
+        return ports;
+    }
 private:
+
+    // Add external ports from vnf
+    void addExternalPorts(Node* elem);
 
     // Method to check whether the element is non-router net-element
     bool isNonRouterSwitch(const Element* elem);
@@ -27,4 +39,7 @@ private:
     Request * request;
     QDomElement tenant;
     Factory::ElementsMap elementsXML;
+
+    Ports ports; // all existing ports
+    QMap<QString, std::set<std::pair<Element*, QString> > > externalPorts; // external port name with client's name
 };
