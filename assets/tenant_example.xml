@@ -119,7 +119,7 @@
                </service_set>
             </netelement>
             
-            <vnf service="1" name="provider_vnf" is_service="1" user_name="user_tenant">
+            <vnf service="1" name="provider_vnf" is_service="1" user_name="user">
                <connection_set number_of_ports="">
                   <port name="provider_vnf_port"/>
                </connection_set>
@@ -157,25 +157,16 @@
             <netelement service="1" name="user_router" is_router="1" router_ip="10.0.10.1">
                <connection_set>
                   <port name="user_router_port"/>
+                  <port name="external_port"/>
                </connection_set>
                <service_set>
                   <service name="DHCP" />
                   <service name="NAT" />
                </service_set>
             </netelement>
-            
-   <!--    Netelement to connect to provider       -->
-            <netelement service="1" name="user_external_service" is_router="0" >
-               <connection_set>
-                  <port name="internal_port"/>
-                  <port name="external_port"/>
-               </connection_set>
-            </netelement>
-            
          </list_of_nodes>
          <list_of_links>               
             <link node1="user_vm1" port1="user_vm1_port" node2="user_router" port2="user_router_port" />
-            <link node1="user_vm1" port1="user_vm2_port" node2="user_external_service" port2="internal_port" />
          </list_of_links>
       </tenant>
    </tenants>
