@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="ru_RU" sourcelanguage="">
+<!DOCTYPE TS>
+<TS version="2.0" language="ru_RU">
 <context>
     <name>ComputerDialog</name>
     <message>
@@ -1471,47 +1472,47 @@
     <message>
         <location filename="Windows/ui_TenantSwitch.py" line="158"/>
         <source>Provider name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя провайдера:</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantSwitch.py" line="159"/>
         <source>Service name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя сервиса:</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantSwitch.py" line="160"/>
         <source>External port:</source>
-        <translation type="unfinished"></translation>
+        <translation>Внешний порт:</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantSwitch.py" line="161"/>
         <source>Parameters:</source>
-        <translation type="unfinished">Параметры:</translation>
+        <translation>Параметры:</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantSwitch.py" line="163"/>
         <source>Name</source>
-        <translation type="unfinished">Имя</translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantSwitch.py" line="165"/>
         <source>Type</source>
-        <translation type="unfinished">Тип</translation>
+        <translation>Тип</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantSwitch.py" line="167"/>
         <source>Value</source>
-        <translation type="unfinished">Значение</translation>
+        <translation>Значение</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantSwitch.py" line="168"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>ОК</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantSwitch.py" line="169"/>
         <source>Cancel</source>
-        <translation type="unfinished">Отмена</translation>
+        <translation>Отмена</translation>
     </message>
 </context>
 <context>
@@ -1519,52 +1520,52 @@
     <message>
         <location filename="Windows/ui_TenantVM.py" line="118"/>
         <source>Edit VM</source>
-        <translation type="unfinished">Редактирование виртуальной машины</translation>
+        <translation>Редактирование виртуальной машины</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantVM.py" line="119"/>
         <source>Name:</source>
-        <translation type="unfinished">Имя:</translation>
+        <translation>Имя:</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantVM.py" line="120"/>
         <source>Service</source>
-        <translation type="unfinished">Сервис</translation>
+        <translation>Сервис</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantVM.py" line="121"/>
         <source>Image Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя образа:</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantVM.py" line="122"/>
         <source>Parameters:</source>
-        <translation type="unfinished">Параметры:</translation>
+        <translation>Параметры:</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantVM.py" line="124"/>
         <source>Name</source>
-        <translation type="unfinished">Имя</translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantVM.py" line="126"/>
         <source>Type</source>
-        <translation type="unfinished">Тип</translation>
+        <translation>Тип</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantVM.py" line="128"/>
         <source>Value</source>
-        <translation type="unfinished">Значение</translation>
+        <translation>Значение</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantVM.py" line="129"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>ОК</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantVM.py" line="130"/>
         <source>Cancel</source>
-        <translation type="unfinished">Отмена</translation>
+        <translation>Отмена</translation>
     </message>
 </context>
 <context>
@@ -1572,42 +1573,42 @@
     <message>
         <location filename="Windows/ui_TenantVnf.py" line="139"/>
         <source>Edit Vnf</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактирование виртуального сервиса</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantVnf.py" line="140"/>
         <source>Name:</source>
-        <translation type="unfinished">Имя:</translation>
+        <translation>Имя:</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantVnf.py" line="141"/>
         <source>Service</source>
-        <translation type="unfinished">Сервис</translation>
+        <translation>Сервис</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantVnf.py" line="142"/>
         <source>Exported connection set:</source>
-        <translation type="unfinished"></translation>
+        <translation>Экспортируемый набор портов:</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantVnf.py" line="143"/>
         <source>User name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя пользователя:</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantVnf.py" line="144"/>
         <source>Service Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя сервиса:</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantVnf.py" line="145"/>
         <source>Profile Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип профиля:</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantVnf.py" line="146"/>
         <source>Type:</source>
-        <translation type="unfinished">Тип:</translation>
+        <translation>Тип:</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantVnf.py" line="147"/>
@@ -1617,32 +1618,32 @@
     <message>
         <location filename="Windows/ui_TenantVnf.py" line="148"/>
         <source>Parameters:</source>
-        <translation type="unfinished">Параметры:</translation>
+        <translation>Параметры:</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantVnf.py" line="150"/>
         <source>Name</source>
-        <translation type="unfinished">Имя</translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantVnf.py" line="152"/>
         <source>Type</source>
-        <translation type="unfinished">Тип</translation>
+        <translation>Тип</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantVnf.py" line="154"/>
         <source>Value</source>
-        <translation type="unfinished">Значение</translation>
+        <translation>Значение</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantVnf.py" line="155"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>ОК</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantVnf.py" line="156"/>
         <source>Cancel</source>
-        <translation type="unfinished">Отмена</translation>
+        <translation>Отмена</translation>
     </message>
 </context>
 <context>
@@ -2245,7 +2246,7 @@
     <message>
         <location filename="Windows/ui_Vis.py" line="67"/>
         <source>Assigned Tenants</source>
-        <translation type="unfinished"></translation>
+        <translation>Назначенные тенанты</translation>
     </message>
 </context>
 <context>
@@ -2269,7 +2270,7 @@
     <message>
         <location filename="MainWindow.py" line="425"/>
         <source>Tenant Editor</source>
-        <translation type="unfinished">Редактор тенанта</translation>
+        <translation>Редактор тенанта</translation>
     </message>
 </context>
 </TS>
