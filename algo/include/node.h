@@ -6,6 +6,7 @@
 #include "port.h"
 
 class Node : public Element {
+	friend class TenantXMLFactory;
 protected:
     Node() : Element() {}
 public:

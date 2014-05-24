@@ -20,6 +20,10 @@ public:
     QString getPathXml(class Path& path, const class ResourcesXMLFactory & resourceFactory) const;
     QString getPhysicalPortXML(Port * port, const class ResourcesXMLFactory & rf) const;
 private:
+
+    // Method to check whether the element is non-router net-element
+    bool isNonRouterSwitch(const Element* elem);
+private:
     Request * request;
     QDomElement tenant;
     Factory::ElementsMap elementsXML;

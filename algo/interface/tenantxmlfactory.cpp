@@ -6,6 +6,7 @@
 #include "port.h"
 #include "node.h"
 #include "link.h"
+#include "switch.h"
 #include <list>
 
 TenantXMLFactory::TenantXMLFactory(const QDomElement & element) 
@@ -17,7 +18,23 @@ TenantXMLFactory::TenantXMLFactory(const QDomElement & element)
     elementsXML = Factory::getXmlElementsByTypes(elementTypes, tenant);
 
     std::list<Element*> list = elementsXML.keys().toStdList();
-    Elements elements = Elements(list.begin(), list.end());
+    Elements elements;
+    for ( std::list<Element*>::iterator it = list.begin(); it != list.end(); ++it ) {
+    	Element* elem = (*it);
+    	// Ignoring non-router net-elements and their links
+    	if ( !isNonRouterSwitch(elem) && !elem->isLink() ) {
+    		elements.insert(elem);
+    	} else if ( elem->isLink() ) {
+    		Element* first = elem->toLink()->getFirst()->getParentNode();
+    		Element* second = elem->toLink()->getSecond()->getParentNode();
+    		if ( !isNonRouterSwitch(first) && !isNonRouterSwitch(second) ) {
+    			elements.insert(elem);
+    		} else {
+    			first->toNode()->ports.erase(elem->toLink()->getFirst());
+    			second->toNode()->ports.erase(elem->toLink()->getSecond());
+    		}
+    	}
+    }
 
     request = new Request(elements, element.attribute("name").toStdString());
 }
@@ -27,6 +44,10 @@ TenantXMLFactory::~TenantXMLFactory() {
         delete elem;
     }
     delete request;
+}
+
+bool TenantXMLFactory::isNonRouterSwitch(const Element* elem) {
+	return elem->isSwitch() && (elem->attributes & Switch::ROUTER) == 0;
 }
 
 Request * TenantXMLFactory::getRequest() const {

@@ -1,5 +1,6 @@
 #include "factory.h"
 
+#include <iostream>
 #include "switch.h"
 #include "store.h"
 #include "computer.h"
