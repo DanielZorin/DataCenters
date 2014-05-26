@@ -217,7 +217,7 @@ class ResourcesGraphCanvas(QWidget):
             for v in self.vertices.keys():
                 if self.vertices[v].contains(e.pos()):
                     if self.curEdge[1] != v:
-                        ne = Link(self.curEdge[1], v, 0)
+                        ne = Link(self.curEdge[1], v, 1)
                         self.resources.AddLink(ne)
             self.edgeDraw = False
             self.curEdge = None 
