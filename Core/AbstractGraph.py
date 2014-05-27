@@ -1,3 +1,5 @@
+from Core.ParamFactory import Param
+
 class AbstractVertex:
     ''' Represents a graph vertex.
         
@@ -12,9 +14,19 @@ class AbstractVertex:
 
     number = -1
 
-    def __init__(self, id):
+    def __init__(self, id, service=True):
         self.id = id
+        self.service = service
+        self.params = []
+        self.ports = []
+        self.assigned = None
+        self.assignments = []
 
+    def addPort(self):
+        s = self.id + "_port_" + str(len(self.ports))
+        self.ports.append(s)
+        return s
+        
 class AbstractGraph:
     ''' Represents a graph with vertices and edges'''
     def __init__(self):

@@ -14,12 +14,12 @@ class Ui_Vis(object):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/pics/pics/line_chart.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Vis.setWindowIcon(icon)
-        Vis.setStyleSheet(_fromUtf8("QWidget, QMenuBar::item {\n"
+        Vis.setStyleSheet(_fromUtf8("QWidget, QMenuBar::item, QHeaderView::section {\n"
 "    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
-"                                      stop: 0 #c5d8ef, stop: 1 #89a5c3);\n"
+"                                      stop: 0 #a0a0a0, stop: 1 #f0f0f0);\n"
 "}\n"
 "\n"
-"QLabel, QSlider {\n"
+"QLabel, QSlider, QCheckBox {\n"
 "    background-color: transparent;\n"
 "}"))
         self.centralwidget = QtGui.QWidget(Vis)
@@ -34,29 +34,14 @@ class Ui_Vis(object):
         self.verticalLayout = QtGui.QVBoxLayout(self.layoutWidget)
         self.verticalLayout.setMargin(0)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.horizontalLayout_4 = QtGui.QHBoxLayout()
-        self.horizontalLayout_4.setObjectName(_fromUtf8("horizontalLayout_4"))
-        self.label = QtGui.QLabel(self.layoutWidget)
-        self.label.setObjectName(_fromUtf8("label"))
-        self.horizontalLayout_4.addWidget(self.label)
-        self.timeSlider = QtGui.QSlider(self.layoutWidget)
-        self.timeSlider.setOrientation(QtCore.Qt.Horizontal)
-        self.timeSlider.setObjectName(_fromUtf8("timeSlider"))
-        self.horizontalLayout_4.addWidget(self.timeSlider)
-        self.timeSpinBox = QtGui.QSpinBox(self.layoutWidget)
-        self.timeSpinBox.setMinimum(0)
-        self.timeSpinBox.setMaximum(99)
-        self.timeSpinBox.setObjectName(_fromUtf8("timeSpinBox"))
-        self.horizontalLayout_4.addWidget(self.timeSpinBox)
-        self.verticalLayout.addLayout(self.horizontalLayout_4)
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
-        self.assignedDemands = QtGui.QTreeWidget(self.layoutWidget)
-        self.assignedDemands.setMinimumSize(QtCore.QSize(0, 0))
-        self.assignedDemands.setMaximumSize(QtCore.QSize(111, 9999))
-        self.assignedDemands.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)
-        self.assignedDemands.setObjectName(_fromUtf8("assignedDemands"))
-        self.horizontalLayout.addWidget(self.assignedDemands)
+        self.assignedTenants = QtGui.QTreeWidget(self.layoutWidget)
+        self.assignedTenants.setMinimumSize(QtCore.QSize(0, 0))
+        self.assignedTenants.setMaximumSize(QtCore.QSize(111, 9999))
+        self.assignedTenants.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)
+        self.assignedTenants.setObjectName(_fromUtf8("assignedTenants"))
+        self.horizontalLayout.addWidget(self.assignedTenants)
         self.graphArea = QtGui.QScrollArea(self.layoutWidget)
         self.graphArea.setWidgetResizable(False)
         self.graphArea.setObjectName(_fromUtf8("graphArea"))
@@ -75,15 +60,12 @@ class Ui_Vis(object):
 
         self.retranslateUi(Vis)
         QtCore.QObject.connect(self.actionExit, QtCore.SIGNAL(_fromUtf8("triggered()")), Vis.close)
-        QtCore.QObject.connect(self.timeSlider, QtCore.SIGNAL(_fromUtf8("valueChanged(int)")), Vis.UpdateTimeFromSlider)
-        QtCore.QObject.connect(self.timeSpinBox, QtCore.SIGNAL(_fromUtf8("valueChanged(int)")), Vis.UpdateTimeFromSpinBox)
-        QtCore.QObject.connect(self.assignedDemands, QtCore.SIGNAL(_fromUtf8("itemSelectionChanged()")), Vis.demandSelected)
+        QtCore.QObject.connect(self.assignedTenants, QtCore.SIGNAL(_fromUtf8("itemSelectionChanged()")), Vis.tenantSelected)
         QtCore.QMetaObject.connectSlotsByName(Vis)
 
     def retranslateUi(self, Vis):
         Vis.setWindowTitle(QtGui.QApplication.translate("Vis", "Results Visualizer", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("Vis", "Time:", None, QtGui.QApplication.UnicodeUTF8))
-        self.assignedDemands.headerItem().setText(0, QtGui.QApplication.translate("Vis", "Assigned Requests", None, QtGui.QApplication.UnicodeUTF8))
+        self.assignedTenants.headerItem().setText(0, QtGui.QApplication.translate("Vis", "Assigned Tenants", None, QtGui.QApplication.UnicodeUTF8))
         self.actionExit.setText(QtGui.QApplication.translate("Vis", "Exit", None, QtGui.QApplication.UnicodeUTF8))
         self.actionExit.setShortcut(QtGui.QApplication.translate("Vis", "Ctrl+X", None, QtGui.QApplication.UnicodeUTF8))
 

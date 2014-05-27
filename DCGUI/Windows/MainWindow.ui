@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>746</width>
-    <height>589</height>
+    <width>749</width>
+    <height>627</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -24,14 +24,14 @@
     <normaloff>:/pics/pics/star.png</normaloff>:/pics/pics/star.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget, QMenuBar::item {
+   <string notr="true">QWidget, QMenuBar::item, QHeaderView::section {
 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                      stop: 0 #c5d8ef, stop: 1 #89a5c3);
+                                      stop: 0 #a0a0a0, stop: 1 #f0f0f0);
 }
 
-QLabel, QSlider {
+QLabel, QSlider, QCheckBox {
 	background-color: transparent;
-}a</string>
+}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
@@ -171,20 +171,13 @@ QLabel, QSlider {
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QTreeWidget" name="demands">
+         <widget class="QTreeWidget" name="tenants">
+          <attribute name="headerDefaultSectionSize">
+           <number>150</number>
+          </attribute>
           <column>
            <property name="text">
             <string>Name</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Starting time</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>End time</string>
            </property>
           </column>
           <column>
@@ -213,7 +206,7 @@ QLabel, QSlider {
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="demandcount">
+            <widget class="QLabel" name="tenantcount">
              <property name="text">
               <string>0</string>
              </property>
@@ -387,7 +380,7 @@ QLabel, QSlider {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>746</width>
+     <width>749</width>
      <height>21</height>
     </rect>
    </property>
@@ -447,14 +440,11 @@ QLabel, QSlider {
    <addaction name="actionAdd_Demand"/>
    <addaction name="actionDelete_Demand"/>
    <addaction name="actionEdit_Demand"/>
-   <addaction name="actionCreate_Random_Demands"/>
    <addaction name="separator"/>
    <addaction name="actionStart"/>
    <addaction name="actionSchedule_selected"/>
-   <addaction name="actionShow_Statistics"/>
    <addaction name="actionShow_Results"/>
    <addaction name="actionSettings"/>
-   <addaction name="actionRunMultiple"/>
   </widget>
   <action name="actionExit">
    <property name="text">
@@ -571,7 +561,7 @@ QLabel, QSlider {
      <normaloff>:/pics/pics/add.png</normaloff>:/pics/pics/add.png</iconset>
    </property>
    <property name="text">
-    <string>Add Request</string>
+    <string>Add Tenant</string>
    </property>
    <property name="toolTip">
     <string>Add Request</string>
@@ -586,16 +576,19 @@ QLabel, QSlider {
      <normaloff>:/pics/pics/delete.png</normaloff>:/pics/pics/delete.png</iconset>
    </property>
    <property name="text">
-    <string>Delete Request</string>
+    <string>Delete Tenant</string>
    </property>
    <property name="toolTip">
-    <string>Delete Request</string>
+    <string>Delete Tenant</string>
    </property>
    <property name="shortcut">
     <string>Alt+X</string>
    </property>
   </action>
   <action name="actionCreate_Random_Demands">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/pics/pics/dice.png</normaloff>:/pics/pics/dice.png</iconset>
@@ -616,10 +609,10 @@ QLabel, QSlider {
      <normaloff>:/pics/pics/page_edit.png</normaloff>:/pics/pics/page_edit.png</iconset>
    </property>
    <property name="text">
-    <string>Edit Request</string>
+    <string>Edit Tenant</string>
    </property>
    <property name="toolTip">
-    <string>Edit Request</string>
+    <string>Edit Tenant</string>
    </property>
    <property name="shortcut">
     <string>F4</string>
@@ -845,7 +838,7 @@ QLabel, QSlider {
    <sender>actionAdd_Demand</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>AddDemand()</slot>
+   <slot>AddTenant()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -861,7 +854,7 @@ QLabel, QSlider {
    <sender>actionDelete_Demand</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>DeleteDemand()</slot>
+   <slot>DeleteTenant()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -877,7 +870,7 @@ QLabel, QSlider {
    <sender>actionEdit_Demand</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>EditDemand()</slot>
+   <slot>EditTenant()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -893,7 +886,7 @@ QLabel, QSlider {
    <sender>actionCreate_Random_Demands</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>RandomDemand()</slot>
+   <slot>RandomTenant()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -1002,10 +995,10 @@ QLabel, QSlider {
    </hints>
   </connection>
   <connection>
-   <sender>demands</sender>
+   <sender>tenants</sender>
    <signal>itemChanged(QTreeWidgetItem*,int)</signal>
    <receiver>MainWindow</receiver>
-   <slot>UpdateDemand()</slot>
+   <slot>UpdateTenant()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>267</x>
@@ -1042,11 +1035,11 @@ QLabel, QSlider {
   <slot>SaveProject()</slot>
   <slot>SaveProjectAs()</slot>
   <slot>EditProgram()</slot>
-  <slot>AddDemand()</slot>
-  <slot>DeleteDemand()</slot>
-  <slot>EditDemand()</slot>
-  <slot>RandomDemand()</slot>
-  <slot>UpdateDemand()</slot>
+  <slot>AddTenant()</slot>
+  <slot>DeleteTenant()</slot>
+  <slot>EditTenant()</slot>
+  <slot>RandomTenant()</slot>
+  <slot>UpdateTenant()</slot>
   <slot>ShowResults()</slot>
   <slot>Reset()</slot>
   <slot>EditName()</slot>

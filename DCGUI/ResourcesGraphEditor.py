@@ -41,7 +41,7 @@ class ResourcesGraphEditor(QMainWindow):
         self.ui.actionStorage.setChecked(False)
         self.ui.actionRouter.setChecked(False)
         self.ui.actionEdge.setChecked(False)
-        self.canvas.state = State.Computer
+        self.canvas.state = State.VM
 
     def toggleStorage(self):
         self.ui.actionSelect.setChecked(False)
@@ -57,7 +57,7 @@ class ResourcesGraphEditor(QMainWindow):
         self.ui.actionStorage.setChecked(False)
         self.ui.actionRouter.setChecked(True)
         self.ui.actionEdge.setChecked(False)
-        self.canvas.state = State.Router
+        self.canvas.state = State.Switch
 
     def toggleEdge(self):
         self.ui.actionSelect.setChecked(False)
@@ -119,29 +119,8 @@ class ResourcesGraphEditor(QMainWindow):
             output.close()
             self.setWindowTitle(str(self.xmlfile).split('/').pop().split('.')[0] + " - " + self.basename)
 
+    def Delete(self):
+        self.canvas.Delete()
+
     def closeEvent(self, e):
         self.canvas.updatePos()
-
-    def generateTopology(self):
-        self.New()
-        d = TopologyDialog()
-        d.exec_()
-        if not d.result():
-            return
-        if d.ui.common.isChecked():
-            d1 = TreeDialog(1)
-        elif d.ui.tree2.isChecked():
-            d1 = TreeDialog(2)
-        elif d.ui.tree3.isChecked():
-            d1 = TreeDialog(3)
-        d1.exec_()
-        if not d1.result():
-            return
-        dict = d1.GetResult()
-        if dict["type"]==1:
-            self.resources.GenerateCommonStructure(dict)
-        elif dict["type"]==2:
-            self.resources.GenerateTree2(dict)
-        elif dict["type"]==3:
-            self.resources.GenerateTree3(dict)
-        self.setData(self.resources)

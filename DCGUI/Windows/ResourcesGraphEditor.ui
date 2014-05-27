@@ -21,12 +21,12 @@
     <normaloff>:/pics/pics/graph.png</normaloff>:/pics/pics/graph.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget, QMenuBar::item {
+   <string notr="true">QWidget, QMenuBar::item, QHeaderView::section {
 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                      stop: 0 #c5d8ef, stop: 1 #89a5c3);
+                                      stop: 0 #a0a0a0, stop: 1 #f0f0f0);
 }
 
-QLabel, QSlider {
+QLabel, QSlider, QCheckBox {
 	background-color: transparent;
 }</string>
   </property>
@@ -61,7 +61,7 @@ QLabel, QSlider {
      <x>0</x>
      <y>0</y>
      <width>427</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -96,7 +96,7 @@ QLabel, QSlider {
    <addaction name="actionRouter"/>
    <addaction name="actionEdge"/>
    <addaction name="separator"/>
-   <addaction name="actionTopology"/>
+   <addaction name="actionDelete"/>
   </widget>
   <action name="actionSelect">
    <property name="checkable">
@@ -250,6 +250,18 @@ QLabel, QSlider {
    </property>
    <property name="toolTip">
     <string>Generate Standart Topology</string>
+   </property>
+  </action>
+  <action name="actionDelete">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/pics/pics/delete.png</normaloff>:/pics/pics/delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
    </property>
   </action>
  </widget>
@@ -418,10 +430,10 @@ QLabel, QSlider {
    </hints>
   </connection>
   <connection>
-   <sender>actionTopology</sender>
+   <sender>actionDelete</sender>
    <signal>triggered()</signal>
    <receiver>ResourcesGraphEditor</receiver>
-   <slot>generateTopology()</slot>
+   <slot>Delete()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -445,5 +457,6 @@ QLabel, QSlider {
   <slot>toggleStorage()</slot>
   <slot>toggleRouter()</slot>
   <slot>generateTopology()</slot>
+  <slot>Delete()</slot>
  </slots>
 </ui>
