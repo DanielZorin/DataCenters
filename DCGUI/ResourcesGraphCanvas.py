@@ -1,89 +1,21 @@
-import math
-from Core.Resources import Computer, Storage, Router, Link
+import math, time
+from Core.Tenant import *
+from Core.Resources import *
 from PyQt4 import QtGui, QtCore
-from PyQt4.QtCore import QPointF, QRect
-from PyQt4.QtGui import QImage, QWidget, QPainter, QPainterPath, QColor, QCursor, QDialog, QIntValidator, QTableWidgetItem
-from DCGUI.Windows.ui_ComputerDialog import Ui_ComputerDialog
-from DCGUI.Windows.ui_RouterDialog import Ui_RouterDialog
-from DCGUI.Windows.ui_EdgeDialog import Ui_EdgeDialog
-from DCGUI.Windows.ui_StorageDialog import Ui_StorageDialog
-
-class ComputerDialog(QDialog):
-    def __init__(self):
-        QDialog.__init__(self)
-        self.ui = Ui_ComputerDialog()
-        self.ui.setupUi(self)
-        self.valid = QIntValidator(0, 1000000, self)
-        self.ui.speed.setValidator(self.valid)
-        self.ui.ram.setValidator(self.valid)
-        
-    def Load(self, v):
-        self.ui.id.setText(v.id)
-        self.ui.speed.setText(str(v.speed))
-        self.ui.ram.setText(str(v.ram))
-        
-    def SetResult(self, v):
-        v.id = self.ui.id.text()
-        v.speed = int(self.ui.speed.text())
-        v.ram = int(self.ui.ram.text())
-
-class StorageDialog(QDialog):
-    def __init__(self):
-        QDialog.__init__(self)
-        self.ui = Ui_StorageDialog()
-        self.ui.setupUi(self)
-        self.valid = QIntValidator(0, 1000000, self)
-        self.ui.volume.setValidator(self.valid)
-        
-    def Load(self, v):
-        self.ui.id.setText(v.id)
-        self.ui.volume.setText(str(v.volume))
-        self.ui.type.setText(str(v.type))
-        
-    def SetResult(self, v):
-        v.id = self.ui.id.text()
-        v.volume = int(self.ui.volume.text())
-        v.type = self.ui.type.text()
-
-class RouterDialog(QDialog):
-    def __init__(self):
-        QDialog.__init__(self)
-        self.ui = Ui_RouterDialog()
-        self.ui.setupUi(self)
-        
-    def Load(self, v):
-        self.ui.id.setText(v.id)
-        self.ui.capacity.setText(str(v.capacity))
-        
-    def SetResult(self, v):
-        v.id = self.ui.id.text()
-        v.capacity = int(self.ui.capacity.text())
-        
-
-class EdgeDialog(QDialog):
-    def __init__(self):
-        QDialog.__init__(self)
-        self.ui = Ui_EdgeDialog()
-        self.ui.setupUi(self)
-        self.valid = QIntValidator(0, 1000000, self)
-        self.ui.capacity.setValidator(self.valid)
-
-    def Load(self, e):
-        self.ui.capacity.setText(str(e.capacity))
-
-    def SetResult(self, e):
-        e.capacity = int(self.ui.capacity.text())
+from PyQt4.QtCore import QPointF
+from PyQt4.QtGui import QImage, QWidget, QPainter, QColor, QCursor, QDialog
+from DCGUI.VertexDialog import *
 
 class State:
     ''' Enum representing current editing mode '''
     Select = 0
-    Computer = 1
+    VM = 1
     Storage = 2
-    Router = 3
+    Switch = 3
     Edge = 4
 
 class ResourcesGraphCanvas(QWidget):
-    resources = None
+    resources = ResourceGraph()
     vertices = {}
     edges = {}
     selectedVertex = None
@@ -106,10 +38,7 @@ class ResourcesGraphCanvas(QWidget):
         self.computericon = QImage(":/pics/pics/computer.png")
         self.storageicon = QImage(":/pics/pics/storage.png")
         self.routericon = QImage(":/pics/pics/router.png")
-        self.computerselectedicon = QImage(":/pics/pics/computer_selected.png")
-        self.storageselectedicon = QImage(":/pics/pics/storage_selected.png")
-        self.routerselectedicon = QImage(":/pics/pics/router_selected.png")
-        
+      
     def paintEvent(self, event):
         if not self.resources:
             return
@@ -122,21 +51,16 @@ class ResourcesGraphCanvas(QWidget):
                 self.drawArrow(paint, self.vertices[e.e1].x() + self.size / 2, self.vertices[e.e1].y() + self.size / 2,
                              self.vertices[e.e2].x() + self.size / 2, self.vertices[e.e2].y() + self.size / 2)
         for v in self.vertices.keys():
-            if isinstance(v, Computer):
-                if self.selectedVertex != self.vertices[v]:
-                    paint.drawImage(self.vertices[v], self.computericon)
-                else:
-                    paint.drawImage(self.vertices[v], self.computerselectedicon)
+            pen = paint.pen()
+            paint.setPen(Qt.red)
+            if self.selectedVertex == self.vertices[v]:
+                paint.drawRect(self.vertices[v])
+            if isinstance(v, VM):
+                paint.drawImage(self.vertices[v], self.computericon)
             elif isinstance(v, Storage):
-                if self.selectedVertex != self.vertices[v]:
-                    paint.drawImage(self.vertices[v], self.storageicon)
-                else:
-                    paint.drawImage(self.vertices[v], self.storageselectedicon)
-            elif isinstance(v, Router):
-                if self.selectedVertex != self.vertices[v]:
-                    paint.drawImage(self.vertices[v], self.routericon)
-                else:
-                    paint.drawImage(self.vertices[v], self.routerselectedicon)
+                paint.drawImage(self.vertices[v], self.storageicon)
+            elif isinstance(v, NetElement):
+                paint.drawImage(self.vertices[v], self.routericon)
         paint.setPen(self.colors["line"])
         if self.edgeDraw:
             self.drawArrow(paint, self.curEdge[0].x() + self.size / 2, self.curEdge[0].y() + self.size / 2,
@@ -152,22 +76,23 @@ class ResourcesGraphCanvas(QWidget):
         self.ResizeCanvas()
         self.repaint()
 
+    def Delete(self):
+        if self.selectedVertex != None:
+            v = next(v for v in self.vertices.keys() if self.vertices[v] == self.selectedVertex)
+            del self.vertices[v]
+            self.resources.DeleteVertex(v)
+            del self.selectedVertex
+            self.selectedVertex = None
+            self.changed = True
+            self.repaint()
+        elif self.selectedEdge != None:
+            self.resources.DeleteEdge(self.selectedEdge)
+            self.selectedEdge = None
+            self.changed = True
+            self.repaint()
+
     def keyPressEvent(self, e):
-        if e.key() == QtCore.Qt.Key_Delete:
-            if self.selectedVertex != None:
-                v = next(v for v in self.vertices.keys() if self.vertices[v] == self.selectedVertex)
-                del self.vertices[v]
-                self.resources.DeleteVertex(v)
-                del self.selectedVertex
-                self.selectedVertex = None
-                self.changed = True
-                self.repaint()
-            elif self.selectedEdge != None:
-                self.resources.DeleteEdge(self.selectedEdge)
-                self.selectedEdge = None
-                self.changed = True
-                self.repaint()
-        elif e.key() == QtCore.Qt.Key_Return:
+        if e.key() == QtCore.Qt.Key_Return:
             if self.selectedVertex != None:
                 v = next(v for v in self.vertices.keys() if self.vertices[v] == self.selectedVertex)
                 self.EditVertex(v)
@@ -238,9 +163,9 @@ class ResourcesGraphCanvas(QWidget):
             self.selectedVertex = None
             self.repaint()
             return
-        elif self.state == State.Computer:
+        elif self.state == State.VM:
             rect = QtCore.QRect(e.x() - self.size / 2, e.y() - self.size / 2, self.size, self.size)
-            computer = Computer("id", 0, 0)
+            computer = VM(self.genId())
             self.vertices[computer] = rect
             self.resources.AddVertex(computer)
             self.changed = True
@@ -248,15 +173,15 @@ class ResourcesGraphCanvas(QWidget):
             self.repaint()
         elif self.state == State.Storage:
             rect = QtCore.QRect(e.x() - self.size / 2, e.y() - self.size / 2, self.size, self.size)
-            storage = Storage("id", 0, 0)
+            storage = Storage(self.genId())
             self.vertices[storage] = rect
             self.resources.AddVertex(storage)
             self.changed = True
             self.ResizeCanvas()
             self.repaint()
-        elif self.state == State.Router:
+        elif self.state == State.Switch:
             rect = QtCore.QRect(e.x() - self.size / 2, e.y() - self.size / 2, self.size, self.size)
-            router = Router("id", 0)
+            router = NetElement(self.genId(), "Switch")
             self.vertices[router] = rect
             self.resources.AddVertex(router)
             self.changed = True
@@ -271,10 +196,11 @@ class ResourcesGraphCanvas(QWidget):
                     self.curEdge.append(v)
                     self.repaint()
 
+    def genId(self):
+        return "id!" + str(time.time())
+
     def mouseMoveEvent(self, e):
-        if (self.state == State.Computer) or (self.state == State.Storage) or (self.state == State.Router):
-            return
-        elif self.state == State.Select:
+        if self.state == State.Select:
             if self.pressed:
                 self.selectedVertex.moveTo(e.pos().x() - self.size / 2, e.pos().y() - self.size / 2)
                 self.ResizeCanvas()
@@ -282,14 +208,17 @@ class ResourcesGraphCanvas(QWidget):
         elif self.state == State.Edge:
             if self.edgeDraw:
                 self.repaint()
+        else:
+            return
 
     def mouseReleaseEvent(self, e):
         self.pressed = False
         if self.edgeDraw:
             for v in self.vertices.keys():
                 if self.vertices[v].contains(e.pos()):
-                    ne = Link(self.curEdge[1], v, 0)
-                    self.resources.AddLink(ne)
+                    if self.curEdge[1] != v:
+                        ne = Link(self.curEdge[1], v, 1)
+                        self.resources.AddLink(ne)
             self.edgeDraw = False
             self.curEdge = None 
             self.changed = True    
@@ -313,24 +242,16 @@ class ResourcesGraphCanvas(QWidget):
             self.changed = True
 
     def EditVertex(self, v):
-        if isinstance(v, Computer):
-            d = ComputerDialog()
-            d.Load(v)
-            d.exec_()
-            if d.result() == QDialog.Accepted:
-                d.SetResult(v)
-        if isinstance(v, Storage):
+        if isinstance(v, VM):
+            d = VMDialog()
+        elif isinstance(v, Storage):
             d = StorageDialog()
-            d.Load(v)
-            d.exec_()
-            if d.result() == QDialog.Accepted:
-                d.SetResult(v)
-        if isinstance(v, Router):
-            d = RouterDialog()
-            d.Load(v)
-            d.exec_()
-            if d.result() == QDialog.Accepted:
-                d.SetResult(v)
+        elif isinstance(v, NetElement):
+            d = SwitchDialog("", None)
+        d.Load(v)
+        d.exec_()
+        if d.result() == QDialog.Accepted:
+            d.SetResult(v)
         self.changed = True
 
     def Clear(self):

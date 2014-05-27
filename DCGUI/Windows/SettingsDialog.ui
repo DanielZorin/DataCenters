@@ -36,14 +36,14 @@
     <normaloff>:/pics/pics/settings.png</normaloff>:/pics/pics/settings.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget, QMenuBar::item {
+   <string notr="true">QWidget, QMenuBar::item, QHeaderView::section {
 	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                      stop: 0 #c5d8ef, stop: 1 #89a5c3);
+                                      stop: 0 #a0a0a0, stop: 1 #f0f0f0);
 }
 
-QLabel, QSlider {
+QLabel, QSlider, QCheckBox {
 	background-color: transparent;
-}a</string>
+}</string>
   </property>
   <property name="locale">
    <locale language="English" country="UnitedStates"/>
@@ -60,7 +60,7 @@ QLabel, QSlider {
      <item>
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>2</number>
+        <number>0</number>
        </property>
        <property name="elideMode">
         <enum>Qt::ElideNone</enum>
@@ -88,6 +88,27 @@ QLabel, QSlider {
             </font>
            </property>
           </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Parameters info</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <item>
+            <widget class="QLineEdit" name="params"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="open">
+             <property name="text">
+              <string>Open</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item>
           <widget class="QLabel" name="label_4">
@@ -318,128 +339,6 @@ QLabel, QSlider {
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="tab_2">
-        <attribute name="icon">
-         <iconset resource="resources.qrc">
-          <normaloff>:/pics/pics/chart.png</normaloff>:/pics/pics/chart.png</iconset>
-        </attribute>
-        <attribute name="title">
-         <string>Graph Plotter</string>
-        </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
-         <item>
-          <widget class="QGroupBox" name="groupBox_2">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="title">
-            <string>Settings</string>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_9">
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_8">
-              <item>
-               <layout class="QVBoxLayout" name="verticalLayout_7">
-                <item>
-                 <widget class="QLabel" name="label_5">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>25</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Axis Color</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_6">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>25</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Graph Color</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QVBoxLayout" name="verticalLayout_5">
-                <item>
-                 <widget class="QPushButton" name="axis">
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="graph">
-                  <property name="text">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="net">
-              <property name="text">
-               <string>Show Net</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <spacer name="verticalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </widget>
       </widget>
      </item>
      <item>
@@ -536,34 +435,18 @@ QLabel, QSlider {
    </hints>
   </connection>
   <connection>
-   <sender>axis</sender>
+   <sender>open</sender>
    <signal>clicked()</signal>
    <receiver>SettingsDialog</receiver>
-   <slot>AxisColor()</slot>
+   <slot>OpenParams()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>134</x>
-     <y>78</y>
+     <x>231</x>
+     <y>123</y>
     </hint>
     <hint type="destinationlabel">
-     <x>90</x>
-     <y>127</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>graph</sender>
-   <signal>clicked()</signal>
-   <receiver>SettingsDialog</receiver>
-   <slot>GraphColor()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>134</x>
-     <y>107</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>90</x>
-     <y>127</y>
+     <x>146</x>
+     <y>174</y>
     </hint>
    </hints>
   </connection>
@@ -575,5 +458,6 @@ QLabel, QSlider {
   <slot>HighlightColor()</slot>
   <slot>OK()</slot>
   <slot>Cancel()</slot>
+  <slot>OpenParams()</slot>
  </slots>
 </ui>

@@ -362,7 +362,7 @@ class Ui_TreeDialog(object):
         self.horizontalLayout_19.addWidget(self.label_4)
         self.copyNum = QtGui.QSpinBox(TreeDialog)
         self.copyNum.setMinimum(0)
-        self.copyNum.setProperty(_fromUtf8("value"), 0)
+        self.copyNum.setProperty("value", 0)
         self.copyNum.setObjectName(_fromUtf8("copyNum"))
         self.horizontalLayout_19.addWidget(self.copyNum)
         spacerItem17 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)

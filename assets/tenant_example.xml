@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='utf-8'?>
+<dcxml name="examlpe">
+   <resources>
+   <!-- Servers    -->
+      <server name="server1">
+         <connection_set>
+            <port name="server1_eth0" />
+            <port name="server1_eth1" />
+         </connection_set>
+         <parameter_set>
+            <parameter parameter_name="vcpus" parameter_type="integer" parameter_value="8" />
+            <parameter parameter_name="memory_mb" parameter_type="real" parameter_value="31638" />
+            <parameter parameter_name="shared_disk_gb" parameter_type="real" parameter_value="90" />
+         </parameter_set>
+      </server>
+      
+      <server name="server2">
+         <connection_set>
+            <port name="server2_eth0" />
+            <port name="server2_eth1" />
+         </connection_set>
+         <parameter_set>
+            <parameter parameter_name="vcpus" parameter_type="integer" parameter_value="8" />
+            <parameter parameter_name="memory_mb" parameter_type="real" parameter_value="31638" />
+            <parameter parameter_name="shared_disk_gb" parameter_type="real" parameter_value="90" />
+         </parameter_set>
+      </server>
+      
+   <!--  Storages   -->
+      <storage name="storage">
+         <connection_set>
+            <port name="storage_eth0" />
+            <port name="storage_eth1" />
+         </connection_set>
+         <parameter_set>
+            <parameter parameter_name="disk_gb" parameter_type="real" parameter_value="12" />
+         </parameter_set>
+      </storage>
+      <storage name="fake_storage">
+         <connection_set>
+            <port name="fake_storage_eth0" />
+         </connection_set>
+         <parameter_set>
+            <parameter parameter_name="disk_gb" parameter_type="real" parameter_value="0" />
+         </parameter_set>
+      </storage>
+      
+   <!--  Switches   -->
+      
+      <netelement name="switch1" is_router="0">
+         <connection_set>
+         <port name="switch1_eth0"/>
+         <port name="switch1_eth1"/>
+         <port name="switch1_eth2"/>
+         </connection_set>
+      </netelement>
+      
+      <netelement name="switch2" is_router="0">
+         <connection_set>
+         <port name="switch2_eth0"/>
+         <port name="switch2_eth1"/>
+         <port name="switch2_eth2"/>
+         </connection_set>
+      </netelement>
+      
+   <!--  Routers   -->
+      <netelement name="router" is_router="1" router_ip="10.0.0.1">
+         <connection_set>
+         <port name="router_eth0"/>
+         <port name="router_eth1"/>
+         </connection_set>
+         <service_set>
+            <service name="FW" />
+            <service name="DHCP" />
+            <service name="NAT" />
+         </service_set>
+      </netelement>
+      
+   <!--  Links   -->
+      <link node1="server1" port1="server1_eth0" node2="storage" port2="storage_eth0" />
+      <link node1="server1" port1="server1_eth1" node2="switch1" port2="switch1_eth0" />
+      <link node1="switch1" port1="switch1_eth1" node2="router" port2="router_eth0" />
+      <link node1="switch2" port1="switch2_eth1" node2="router" port2="router_eth1" />
+      <link node1="server2" port1="server2_eth0" node2="switch2" port2="switch2_eth0" />
+      <link node1="server2" port1="server2_eth1" node2="fake_storage" port2="fake_storage_eth0" />
+      
+   </resources>
+   <tenants>
+      <tenant name="provider">
+         <list_of_nodes>
+            <vm service="1" name="provider_vm1">
+               <connection_set>
+                  <port name="provider_vm1_port"/>
+                  <port name="provider_vm2_port"/>
+               </connection_set>
+               <parameter_set>
+                  <parameter parameter_name="vcpus" parameter_type="integer" parameter_value="2" />
+                  <parameter parameter_name="memory_mb" parameter_type="real" parameter_value="10000" />
+                  <parameter parameter_name="shared_disk_gb" parameter_type="real" parameter_value="10" />
+               </parameter_set>
+            </vm>
+
+            <st service="1" name="provider_st1">
+               <connection_set>
+                  <port name="provider_st1_port"/>
+               </connection_set>
+               <parameter_set>
+                  <parameter parameter_name="disk_gb" parameter_type="real" parameter_value="2" />
+               </parameter_set>
+            </st>
+
+            <netelement service="1" name="provider_router" is_router="1" router_ip="192.168.0.1">
+               <connection_set>
+                  <port name="provider_router_port"/>
+               </connection_set>
+               <service_set>
+                  <service name="FW" />
+                  <service name="NAT" />
+               </service_set>
+            </netelement>
+            
+            <vnf service="1" name="provider_vnf" is_service="1" user_name="user">
+               <connection_set number_of_ports="">
+                  <port name="provider_vnf_port"/>
+               </connection_set>
+               <parameter_set>
+                  <parameter parameter_name="vcpus" parameter_type="integer" parameter_value="2" />
+                  <parameter parameter_name="memory_mb" parameter_type="real" parameter_value="10000" />
+                  <parameter parameter_name="shared_disk_gb" parameter_type="real" parameter_value="10" />
+               </parameter_set>
+               <!--Connecting to external port-->
+               <external_connection_set>
+                  <external_port name="external_port"/>
+               </external_connection_set>
+            </vnf>
+            
+         </list_of_nodes>
+         <list_of_links>               
+            <link node1="provider_vm1" port1="provider_vm1_port" node2="provider_st1" port2="provider_st1_port" />
+            <link node1="provider_vm1" port1="provider_vm2_port" node2="provider_router" port2="provider_router_port" />
+         </list_of_links>
+      </tenant>
+      <tenant name="user">
+         <list_of_nodes>
+            <vm service="1" name="user_vm1">
+               <connection_set>
+                  <port name="user_vm1_port"/>
+                  <port name="user_vm2_port"/>
+               </connection_set>
+               <parameter_set>
+                  <parameter parameter_name="vcpus" parameter_type="integer" parameter_value="2" />
+                  <parameter parameter_name="memory_mb" parameter_type="real" parameter_value="10000" />
+                  <parameter parameter_name="shared_disk_gb" parameter_type="real" parameter_value="10" />
+               </parameter_set>
+            </vm>
+
+            <netelement service="1" name="user_router" is_router="1" router_ip="10.0.10.1">
+               <connection_set>
+                  <port name="user_router_port"/>
+                  <port name="external_port"/>
+               </connection_set>
+               <service_set>
+                  <service name="DHCP" />
+                  <service name="NAT" />
+               </service_set>
+            </netelement>
+         </list_of_nodes>
+         <list_of_links>               
+            <link node1="user_vm1" port1="user_vm1_port" node2="user_router" port2="user_router_port" />
+         </list_of_links>
+      </tenant>
+   </tenants>
+</dcxml>

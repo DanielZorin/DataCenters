@@ -1,0 +1,3 @@
+Old directories are kept here for reference to prevent
+from excessive branch switching. Use "git rm -rf" on them as
+soon as they no longer required.

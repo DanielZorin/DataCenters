@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tenant expiration_time="2020-01-01 00:00:00" created_at="2014-03-27 10:00:00" updated_at="" deleted_at="" deleted="0">
+  <tenant_name>Tenant_1</tenant_name>
+  <tenant_type>0</tenant_type>
+  <list_of_nodes>
+    <vm created_at="2014-03-27 10:00:00" updated_at="" deleted_at="" deleted="0" service="1">
+      <!--здесь может быть произвольное число элементов vm-->
+      <vm_name>VMA</vm_name>
+      <image_id>some_image1</image_id>
+      <connection_set number_of_ports="1">
+      <!--здесь может быть произвольное число портов-->
+        <port_name>some_port_of_VMA</port_name>
+      </connection_set>
+      <parameter_set>
+      <!--здесь может быть произвольное число параметров-->
+        <parameter parameter_name="vcpus" parameter_type="int">
+          <!--число ядер-->
+	  <value_user>1</value_user>
+        </parameter>
+        <parameter parameter_name="memory_mb" parameter_type="real">
+          <!--оперативная память-->
+	  <value_user>512</value_user>
+        </parameter>
+      </parameter_set>
+    </vm>
+    <vm created_at="2014-03-27 10:00:00" updated_at="" deleted_at="" deleted="0" service="1">    
+      <vm_name>VMB</vm_name>
+      <image_id>some_image2</image_id>
+      <connection_set number_of_ports="1">
+        <port_name>some_port_of_VM_B</port_name>
+      </connection_set>
+      <parameter_set>
+        <parameter parameter_name="vcpus" parameter_type="int">
+          <!--число ядер-->
+	  <value_user>2</value_user>
+        </parameter>
+        <parameter parameter_name="memory_mb" parameter_type="real">
+          <!--оперативная память-->
+	  <value_user>1024</value_user>
+        </parameter>
+      </parameter_set>
+    </vm>
+    <st created_at="2014-03-27 10:00:00" updated_at="" deleted_at="" deleted="0" service="1">
+      <st_name>STORAGE1</st_name>
+      <connection_set number_of_ports="1">
+        <port_name>some_port_of_ST1</port_name>
+      </connection_set>
+      <parameter_set>
+        <parameter parameter_name="memory_tb" parameter_type="real">
+	  <value_user>3</value_user>
+        </parameter>
+      </parameter_set>
+    </st>
+    <netelement created_at="2014-03-27 10:00:00" updated_at="" deleted_at="" deleted="0" service="1">
+      <netelement_name>Switch_A</netelement_name>
+      <netelement_type>switch</netelement_type>
+      <connection_set number_of_ports="3">
+        <port_name>some_port_to_connect_router_and_SwitchA</port_name>
+        <port_name>some_port_to_connect_VMA_and_SwitchA</port_name>
+      </connection_set>
+      <router flag="0" router_ip=""/>
+      <parameter_set>
+        <parameter parameter_name="some_parameter" parameter_type="string">
+	  <value_user>some_value</value_user>
+        </parameter>
+      </parameter_set>
+    </netelement>
+    <netelement created_at="2014-03-27 10:00:00" updated_at="" deleted_at="" deleted="0" service="1">
+      <netelement_name>Switch_B</netelement_name>
+      <netelement_type>switch</netelement_type>
+      <connection_set number_of_ports="3">
+        <port_name>some_port_to_connect_router_and_SwitchB</port_name>
+        <port_name>some_port_to_connect_VMA_and_SwitchB</port_name>
+      </connection_set>
+      <router flag="0" router_ip=""/>
+      <parameter_set>
+        <parameter parameter_name="some_parameter" parameter_type="string">
+	  <value_user>some_value</value_user>
+        </parameter>
+      </parameter_set>
+    </netelement>
+    <netelement created_at="2014-03-27 10:00:00" updated_at="" deleted_at="" deleted="0" service="1">
+      <netelement_name>ROUTER</netelement_name>
+      <netelement_type>some_type</netelement_type>
+      <connection_set number_of_ports="1">
+        <port_name>some_port_to_connect_SwitchA_and_router</port_name>
+        <port_name>some_port_to_connect_router_SwitchB_and_router</port_name>
+      </connection_set>
+      <router flag="1" router_ip="10.1.2.3"/>
+      <parameter_set>
+        <parameter parameter_name="some_parameter" parameter_type="string">
+	  <value_user>some_value</value_user>
+        </parameter>
+      </parameter_set>
+    </netelement>
+    <vnf created_at="" updated_at="" deleted_at="" deleted="0" service="1">
+      <vnf_name></vnf_name>
+      <vnf_type></vnf_type>
+      <profile_type></profile_type>
+      <connection_set number_of_ports="">
+        <port_name></port_name>
+      </connection_set>
+      <parameter_set>
+        <parameter parameter_name="" parameter_type="">
+	  <value_user></value_user>
+        </parameter>
+      </parameter_set>
+    </vnf>
+    <domain created_at="" updated_at="" deleted_at="" deleted="0" service="1">
+      <domain_name></domain_name>
+      <commutation_type></commutation_type>
+      <connection_set number_of_ports="">
+        <port_name></port_name>
+      </connection_set>
+      <parameter_set>
+        <parameter parameter_name="" parameter_type="">
+	  <value_user></value_user>
+        </parameter>
+      </parameter_set>
+    </domain>
+  </list_of_nodes>	
+  <link  created_at="2014-03-27 10:00:00" updated_at="" deleted_at="" deleted="0" service="1">
+    <link_name>
+      <node_name port_name="some_port_to_connect_SwitchA_and_router">ROUTER</node_name>
+      <node_name port_name="some_port_to_connect_router_and_SwitchA">SwitchA</node_name>
+      <!--node_name - имя одного из элементов vm, st, netelement, vnf, domain -->
+      <!--port_name - имя порта из множества connection_set данного узла -->
+    </link_name>
+    <channel_capacity>2</channel_capacity>
+  </link>
+  <link  created_at="2014-03-27 10:00:00" updated_at="" deleted_at="" deleted="0" service="1">
+    <link_name>
+      <node_name port_name="some_port_to_connect_SwitchB_and_router">ROUTER</node_name>
+      <node_name port_name="some_port_to_connect_router_and_SwitchB">SwitchB</node_name>
+    </link_name>
+    <channel_capacity>2</channel_capacity>
+  </link>
+      <!--здесь еще может быть несколько линков Switch to vm, vm to storage и т.д.  -->
+  <service_as_provider service_name="some_name">
+    <user_name>some_other_tenant</user_name>
+    <vnf created_at="" updated_at="" deleted_at="" deleted="0" service="1">
+    <!--описание элемента vnf, специально созданного для данного сервиса-->
+      <vnf_name></vnf_name>
+      <vnf_type></vnf_type>
+      <profile_type></profile_type>
+      <connection_set number_of_ports="">
+    <!--внутренний connection_set-->
+        <port_name></port_name>
+      </connection_set>
+      <parameter_set>
+        <parameter parameter_name="" parameter_type="">
+	  <value_user></value_user>
+        </parameter>
+        </parameter_set>
+    </vnf>
+    <exported_connection_set number_of_ports="">
+    <!--внешний connection_set для предоставления другому тенанту-->
+      <port_name></port_name>
+    </exported_connection_set>    
+  </service_as_provider>
+  <service_as_user>
+    <provider_name service_name=""></provider_name>
+   <!--имя провайдера и сервиса в его сети-->
+    <netelement created_at="" updated_at="" deleted_at="" deleted="0" service="1">
+      <netelement_name>external_netelement</netelement_name>
+      <netelement_type>some_type</netelement_type>
+      <connection_set number_of_ports="1">
+        <port_name>some_port_of_external_netelement</port_name>
+      </connection_set>
+      <router flag="1" router_ip="10.1.2.3"/>
+      <parameter_set>
+        <parameter parameter_name="some_parameter" parameter_type="string">
+	  <value_user>some_value</value_user>
+        </parameter>
+      </parameter_set>
+    </netelement>
+    <imported_connection_set number_of_ports="">
+    <!--connection_set, предоставленный другим тенантом-->
+      <port_name></port_name>
+    </imported_connection_set>
+  </service_as_user>
+</tenant>

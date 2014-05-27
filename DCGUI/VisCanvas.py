@@ -1,6 +1,6 @@
 import math
-from Core.Resources import Computer, Storage, Router, Link
-from Core.Demands import VM
+from Core.Resources import *
+from Core.Tenant import *
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import QPointF, QRect, QString, pyqtSignal, Qt
 from PyQt4.QtGui import QImage, QWidget, QPainter, QPainterPath, QColor, QCursor, QDialog, QIntValidator, QTableWidgetItem, QFont
@@ -9,22 +9,20 @@ class VisCanvas(QWidget):
     resources = None
     vertices = {}
     edges = {}
-    demandVertices = []
+    tenantVertices = []
     selectedVertex = None
     pressed = False
     edgeDraw = False
     curEdge = None
     selectedEdge = None
-    demandEdges = []
+    tenantEdges = []
     size = 25.0
-    router_selected = pyqtSignal()
-    storage_selected = pyqtSignal()
-    computer_selected = pyqtSignal()
+    vertex_selected = pyqtSignal()
     edge_selected = pyqtSignal()
 
     settings = {
               "line": QColor(10, 34, 200),
-              "selected_demand": QColor(1, 200, 1),
+              "selected_tenant": QColor(1, 200, 1),
               "selected": QColor(200, 1, 1),
               "text": QColor(0,0,0),
               "node": True,
@@ -55,8 +53,8 @@ class VisCanvas(QWidget):
         for e in self.resources.edges:
                 if e == self.selectedEdge:
                     paint.setPen(self.settings["selected"])
-                elif self.demandEdges.count(e):
-                    paint.setPen(self.settings["selected_demand"])
+                elif self.tenantEdges.count(e):
+                    paint.setPen(self.settings["selected_tenant"])
                 else:
                     paint.setPen(self.settings["line"])
                 x1 = self.vertices[e.e1].x() + self.size / 2
@@ -66,14 +64,14 @@ class VisCanvas(QWidget):
                 self.drawArrow(paint, x1, y1, x2, y2)
                 
         for v in self.vertices.keys():
-            if self.demandVertices.count(v) != 0:
-                paint.fillRect(self.vertices[v],self.settings["selected_demand"])
-            if isinstance(v,Computer):
+            if self.tenantVertices.count(v) != 0:
+                paint.fillRect(self.vertices[v],self.settings["selected_tenant"])
+            if isinstance(v, VM):
                 if self.selectedVertex != self.vertices[v]:
                     paint.drawImage(self.vertices[v], self.computericon)
                 else:
                     paint.drawImage(self.vertices[v], self.computerselectedicon)
-                n = v.getUsedSpeedPercent(self.time)
+                '''n = v.getUsedSpeedPercent(self.time)
                 pen = paint.pen()
                 if n > 90:
                     paint.setPen(Qt.red)
@@ -88,13 +86,13 @@ class VisCanvas(QWidget):
                 if self.settings["computer"]:
                     paint.setPen(self.settings["text"])
                     paint.drawText(self.vertices[v].x(), self.vertices[v].y()+self.size/2, str(int(v.getUsedSpeedPercent(self.time)))+"%")
-                    paint.drawText(self.vertices[v].x(), self.vertices[v].y()+self.size/2+10, str(int(v.getUsedRamPercent(self.time)))+"%")
+                    paint.drawText(self.vertices[v].x(), self.vertices[v].y()+self.size/2+10, str(int(v.getUsedRamPercent(self.time)))+"%")'''
             elif isinstance(v,Storage):
                 if self.selectedVertex != self.vertices[v]:
                     paint.drawImage(self.vertices[v], self.storageicon)
                 else:
                     paint.drawImage(self.vertices[v], self.storageselectedicon)
-                n = v.getUsedVolumePercent(self.time)
+                '''n = v.getUsedVolumePercent(self.time)
                 pen = paint.pen()
                 if n > 90:
                     paint.setPen(Qt.red)
@@ -108,33 +106,32 @@ class VisCanvas(QWidget):
                 paint.setPen(pen)
                 if self.settings["storage"]:
                     paint.setPen(self.settings["text"])
-                    paint.drawText(self.vertices[v].x(), self.vertices[v].y() + self.size/2, str(int(v.getUsedVolumePercent(self.time)))+"%")
-            elif isinstance(v,Router):
+                    paint.drawText(self.vertices[v].x(), self.vertices[v].y() + self.size/2, str(int(v.getUsedVolumePercent(self.time)))+"%")'''
+            elif isinstance(v, NetElement):
                 if self.selectedVertex != self.vertices[v]:
                     paint.drawImage(self.vertices[v], self.routericon)
                 else:
                     paint.drawImage(self.vertices[v], self.routerselectedicon)
-                if self.settings["router"]:
+                '''if self.settings["router"]:
                     paint.setPen(self.settings["text"])
-                    paint.drawText(self.vertices[v].x(), self.vertices[v].y() + self.size/2, str(int(v.getUsedCapacityPercent(self.time)))+"%")
+                    paint.drawText(self.vertices[v].x(), self.vertices[v].y() + self.size/2, str(int(v.getUsedCapacityPercent(self.time)))+"%")'''
         paint.setPen(self.settings["line"])
         if self.edgeDraw:
             self.drawArrow(paint, self.curEdge[0].x() + self.size / 2, self.curEdge[0].y() + self.size / 2,
                            QCursor.pos().x() - self.mapToGlobal(self.geometry().topLeft()).x(),
                            QCursor.pos().y() - self.mapToGlobal(self.geometry().topLeft()).y())
-        if self.settings["channel"]:
+        '''if self.settings["channel"]:
             for e in self.resources.edges:
                 x1 = self.vertices[e.e1].x() + self.size / 2
                 y1 = self.vertices[e.e1].y() + self.size / 2
                 x2 = self.vertices[e.e2].x() + self.size / 2
                 y2 = self.vertices[e.e2].y() + self.size / 2
                 paint.setPen(self.settings["text"])
-                paint.drawText((x1+x2)/2, (y1+y2)/2, str(int(e.getUsedCapacityPercent(self.time)))+"%")
+                paint.drawText((x1+x2)/2, (y1+y2)/2, str(int(e.getUsedCapacityPercent(self.time)))+"%")'''
         paint.end()
 
-    def Visualize(self, r, time):
+    def Visualize(self, r):
         self.resources = r
-        self.time = time
         for v in self.resources.vertices:
             rect = QtCore.QRect(v.x - self.size / 2, v.y - self.size / 2, self.size, self.size)
             self.vertices[v] = rect
@@ -181,12 +178,7 @@ class VisCanvas(QWidget):
                 self.selectedEdge = None
                 self.repaint()
                 self.pressed = True
-                if isinstance(v,Computer):
-                    self.computer_selected.emit()
-                elif isinstance(v,Storage):
-                    self.storage_selected.emit()
-                elif isinstance(v,Router):
-                    self.router_selected.emit()
+                self.vertex_selected.emit()
                 return
         for ed in self.resources.edges:
             a = self.vertices[ed.e1].center()

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tenant expiration_time="" created_at="" updated_at="" deleted_at="" deleted="0" tenant_name="" tenant_type="0">
+  <list_of_nodes>
+    <vm created_at="" updated_at="" deleted_at="" deleted="0" service="1" vm_name="" image_id="">
+      <connection_set number_of_ports="">
+        <port port_name=""/>
+       <!--1 or more ports -->
+      </connection_set>
+      <parameter_set>
+        <parameter parameter_name="" parameter_type="" value_user=""/>
+        <!--1 or more params -->
+      </parameter_set>
+    </vm>
+    <!--0 or more vms -->
+    <st created_at="" updated_at="" deleted_at="" deleted="0" service="1" st_name="">
+      <connection_set number_of_ports="">
+        <port port_name=""/>
+       <!--1 or more ports -->
+      </connection_set>
+      <parameter_set>
+        <parameter parameter_name="" parameter_type="" value_user=""/>
+        <!--1 or more params -->
+      </parameter_set>
+    </st>
+   <!--0 or more sts -->
+    <netelement created_at="" updated_at="" deleted_at="" deleted="0" service="1" netelement_name="" netelement_type="" is_service="0" service_name="" provider_name="" is_router="0" router_ip="">
+      <connection_set number_of_ports="">
+        <port port_name=""/>
+       <!--1 or more ports -->
+      </connection_set>
+      <parameter_set>
+        <parameter parameter_name="" parameter_type="" value_user=""/>
+        <!--1 or more params -->
+      </parameter_set>
+      <!--if is_service==1: -->
+      <external_connection_set number_of_ports="">
+        <external_port port_name=""/>
+        <!--1 or more ports --> 
+      </external_connection_set>
+    </netelement>
+   <!--0 or more netelements -->
+    <vnf created_at="" updated_at="" deleted_at="" deleted="0" service="1" vnf_name="" vnf_type="" profile_type=""  is_service="0" service_name="" user_name="">
+      <connection_set number_of_ports="">
+        <port port_name=""/>
+       <!--1 or more ports -->
+      </connection_set>
+      <parameter_set>
+        <parameter parameter_name="" parameter_type="" value_user=""/>
+        <!--1 or more params -->
+      </parameter_set>
+      <!--if is_service==1: -->
+      <external_connection_set number_of_ports="">
+        <external_port port_name=""/>
+        <!--1 or more ports -->
+      </external_connection_set>
+    </vnf>
+   <!--0 or more vnfs -->
+    <domain created_at="" updated_at="" deleted_at="" deleted="0" service="1" domain_name="" commutation_type="">
+     <connection_set number_of_ports="">
+        <port port_name=""/>
+       <!--1 or more ports -->
+      </connection_set>
+      <parameter_set>
+        <parameter parameter_name="" parameter_type="" value_user=""/>
+        <!--1 or more params -->
+      </parameter_set>
+    </domain>
+   <!--0 or more domains -->
+  </list_of_nodes>
+  <list_of_links>		
+  <link  created_at="" updated_at="" deleted_at="" deleted="0" service="1" channel_capacity="">
+    <node1 node_name="" port_name=""/>
+    <node2 node_name="" port_name=""/>
+  </link>
+   <!--0 or more links -->
+  </list_of_links>		
+</tenant>
