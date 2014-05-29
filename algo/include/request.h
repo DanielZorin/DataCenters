@@ -49,6 +49,10 @@ public:
     	return name;
     }
 
+    inline void addExternalLink(Element * link) {
+        elements.insert(link); 
+    }
+
 private:
 
     std::string name;
