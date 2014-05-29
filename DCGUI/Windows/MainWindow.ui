@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>749</width>
-    <height>627</height>
+    <height>467</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -227,93 +227,9 @@ QLabel, QSlider, QCheckBox {
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label">
-             <property name="text">
-              <string>Average computational nodes CPU load</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="vmavg">
-             <property name="text">
-              <string>0</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_3">
-             <property name="text">
-              <string>Maximal computational nodes CPU load</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="vmmax">
-             <property name="text">
-              <string>0</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_8">
-             <property name="text">
-              <string>Average computational nodes RAM load</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="ramavg">
-             <property name="text">
-              <string>0</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_10">
-             <property name="text">
-              <string>Maximal computational nodes RAM load</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="rammax">
-             <property name="text">
-              <string>0</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_6">
-             <property name="text">
-              <string>Average stores load</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="stavg">
-             <property name="text">
-              <string>0</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_7">
-             <property name="text">
-              <string>Maximal stores load</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="stmax">
-             <property name="text">
-              <string>0</string>
-             </property>
-            </widget>
-           </item>
-           <item>
             <widget class="QLabel" name="label_9">
              <property name="text">
-              <string>Average network load</string>
+              <string>Network load</string>
              </property>
             </widget>
            </item>
@@ -325,23 +241,9 @@ QLabel, QSlider, QCheckBox {
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label_11">
-             <property name="text">
-              <string>Maximal network load</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="netmax">
-             <property name="text">
-              <string>0</string>
-             </property>
-            </widget>
-           </item>
-           <item>
             <widget class="QLabel" name="label_4">
              <property name="text">
-              <string>Average leaf channels load</string>
+              <string>Leaf channels load</string>
              </property>
             </widget>
            </item>
@@ -353,18 +255,17 @@ QLabel, QSlider, QCheckBox {
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label_5">
-             <property name="text">
-              <string>Maximal leaf channels load</string>
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
              </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="leafmax">
-             <property name="text">
-              <string>0</string>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
              </property>
-            </widget>
+            </spacer>
            </item>
           </layout>
          </widget>

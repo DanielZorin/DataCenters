@@ -81,6 +81,10 @@ class Link:
         self.service = False
         self.assigned = []
         self.assignments = []
+
+    def usedCapacity(self):
+        s = sum([e[0].capacity for e in self.assignments])
+        return s
         
 class Tenant(AbstractGraph):
     ''' Tenant

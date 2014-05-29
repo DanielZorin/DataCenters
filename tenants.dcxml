@@ -1,289 +1,205 @@
 <?xml version="1.0" ?>
 <dcxml name="tenants">
 	<resources>
-		<server image_id="" server_name="s1" service="0" x="99.5" y="51.5">
-			<connection_set number_of_ports="3">
-				<port port_name="s1_port_0"/>
-				<port port_name="s1_port_1"/>
-				<port port_name="s1_port_2"/>
-			</connection_set>
-			<parameter_set>
-				<parameter parameter_name="memory" parameter_type="real" value_user="1000"/>
-				<parameter parameter_name="vcpus" parameter_type="int" value_user="100"/>
-			</parameter_set>
-		</server>
-		<server image_id="" server_name="s2" service="0" x="173.5" y="54.5">
-			<connection_set number_of_ports="3">
-				<port port_name="s2_port_0"/>
-				<port port_name="s2_port_1"/>
-				<port port_name="s2_port_2"/>
-			</connection_set>
-			<parameter_set>
-				<parameter parameter_name="memory" parameter_type="real" value_user="5120"/>
-				<parameter parameter_name="vcpus" parameter_type="int" value_user="100"/>
-			</parameter_set>
-		</server>
-		<server image_id="" server_name="s3" service="0" x="257.5" y="61.5">
-			<connection_set number_of_ports="3">
-				<port port_name="s3_port_0"/>
-				<port port_name="s3_port_1"/>
-				<port port_name="s3_port_2"/>
-			</connection_set>
-			<parameter_set>
-				<parameter parameter_name="memory" parameter_type="real" value_user="5120"/>
-				<parameter parameter_name="vcpus" parameter_type="int" value_user="10"/>
-			</parameter_set>
-		</server>
-		<storage service="0" storage_name="s4" x="83.5" y="121.5">
-			<connection_set number_of_ports="3">
-				<port port_name="s4_port_0"/>
-				<port port_name="s4_port_1"/>
-				<port port_name="s4_port_2"/>
-			</connection_set>
-			<parameter_set>
-				<parameter parameter_name="st_memory" parameter_type="real" value_user="5120"/>
-				<parameter parameter_name="st_vcpus" parameter_type="int" value_user="10"/>
-			</parameter_set>
-		</storage>
-		<storage service="0" storage_name="s5" x="158.5" y="126.5">
-			<connection_set number_of_ports="3">
-				<port port_name="s5_port_0"/>
-				<port port_name="s5_port_1"/>
-				<port port_name="s5_port_2"/>
-			</connection_set>
-			<parameter_set>
-				<parameter parameter_name="st_memory" parameter_type="real" value_user="5120"/>
-				<parameter parameter_name="st_vcpus" parameter_type="int" value_user="10"/>
-			</parameter_set>
-		</storage>
-		<storage service="0" storage_name="s6" x="230.5" y="126.5">
-			<connection_set number_of_ports="3">
-				<port port_name="s6_port_0"/>
-				<port port_name="s6_port_1"/>
-				<port port_name="s6_port_2"/>
-			</connection_set>
-			<parameter_set>
-				<parameter parameter_name="st_memory" parameter_type="real" value_user="5120"/>
-				<parameter parameter_name="st_vcpus" parameter_type="int" value_user="10"/>
-			</parameter_set>
-		</storage>
-		<netelement external_port="" ip="" is_router="0" is_service="0" netelement_name="id!1400861700.9" netelement_type="Switch" provider_name="" service="1" service_name="" x="160.5" y="88.5">
+		<netelement external_port="" ip="" is_router="0" is_service="0" netelement_name="id!1401362471.87" netelement_type="Switch" provider_name="" service="1" service_name="" x="185.5" y="69.5">
 			<connection_set number_of_ports="6">
-				<port port_name="id!1400861700.9_port_0"/>
-				<port port_name="id!1400861700.9_port_1"/>
-				<port port_name="id!1400861700.9_port_2"/>
-				<port port_name="id!1400861700.9_port_3"/>
-				<port port_name="id!1400861700.9_port_4"/>
-				<port port_name="id!1400861700.9_port_5"/>
+				<port port_name="id!1401362471.87_port_0"/>
+				<port port_name="id!1401362471.87_port_1"/>
+				<port port_name="id!1401362471.87_port_2"/>
+				<port port_name="id!1401362471.87_port_3"/>
+				<port port_name="id!1401362471.87_port_4"/>
+				<port port_name="id!1401362471.87_port_5"/>
 			</connection_set>
 			<parameter_set/>
 		</netelement>
+		<server image_id="" server_name="id!1401362472.76" service="1" x="88.5" y="70.5">
+			<connection_set number_of_ports="1">
+				<port port_name="id!1401362472.76_port_0"/>
+			</connection_set>
+			<parameter_set>
+				<parameter parameter_name="memory" parameter_type="real" value_user="512"/>
+				<parameter parameter_name="vcpus" parameter_type="int" value_user="1"/>
+			</parameter_set>
+		</server>
+		<server image_id="" server_name="id!1401362473.1" service="1" x="83.5" y="119.5">
+			<connection_set number_of_ports="1">
+				<port port_name="id!1401362473.1_port_0"/>
+			</connection_set>
+			<parameter_set>
+				<parameter parameter_name="memory" parameter_type="real" value_user="512"/>
+				<parameter parameter_name="vcpus" parameter_type="int" value_user="1"/>
+			</parameter_set>
+		</server>
+		<server image_id="" server_name="id!1401362473.45" service="1" x="108.5" y="167.5">
+			<connection_set number_of_ports="1">
+				<port port_name="id!1401362473.45_port_0"/>
+			</connection_set>
+			<parameter_set>
+				<parameter parameter_name="memory" parameter_type="real" value_user="512"/>
+				<parameter parameter_name="vcpus" parameter_type="int" value_user="1"/>
+			</parameter_set>
+		</server>
+		<storage service="1" storage_name="id!1401362474.43" x="297.5" y="44.5">
+			<connection_set number_of_ports="1">
+				<port port_name="id!1401362474.43_port_0"/>
+			</connection_set>
+			<parameter_set>
+				<parameter parameter_name="st_memory" parameter_type="real" value_user="512"/>
+				<parameter parameter_name="st_vcpus" parameter_type="int" value_user="1"/>
+			</parameter_set>
+		</storage>
+		<storage service="1" storage_name="id!1401362474.71" x="294.5" y="94.5">
+			<connection_set number_of_ports="1">
+				<port port_name="id!1401362474.71_port_0"/>
+			</connection_set>
+			<parameter_set>
+				<parameter parameter_name="st_memory" parameter_type="real" value_user="512"/>
+				<parameter parameter_name="st_vcpus" parameter_type="int" value_user="1"/>
+			</parameter_set>
+		</storage>
+		<storage service="1" storage_name="id!1401362475.0" x="287.5" y="159.5">
+			<connection_set number_of_ports="1">
+				<port port_name="id!1401362475.0_port_0"/>
+			</connection_set>
+			<parameter_set>
+				<parameter parameter_name="st_memory" parameter_type="real" value_user="512"/>
+				<parameter parameter_name="st_vcpus" parameter_type="int" value_user="1"/>
+			</parameter_set>
+		</storage>
 		<link channel_capacity="10" service="0">
-			<node1 node_name="s1" port_name="s1_port_2"/>
-			<node2 node_name="id!1400861700.9" port_name="id!1400861700.9_port_0"/>
+			<node1 node_name="id!1401362471.87" port_name="id!1401362471.87_port_0"/>
+			<node2 node_name="id!1401362474.43" port_name="id!1401362474.43_port_0"/>
 		</link>
 		<link channel_capacity="10" service="0">
-			<node1 node_name="s2" port_name="s2_port_2"/>
-			<node2 node_name="id!1400861700.9" port_name="id!1400861700.9_port_1"/>
+			<node1 node_name="id!1401362471.87" port_name="id!1401362471.87_port_1"/>
+			<node2 node_name="id!1401362474.71" port_name="id!1401362474.71_port_0"/>
 		</link>
 		<link channel_capacity="10" service="0">
-			<node1 node_name="s3" port_name="s3_port_2"/>
-			<node2 node_name="id!1400861700.9" port_name="id!1400861700.9_port_2"/>
+			<node1 node_name="id!1401362471.87" port_name="id!1401362471.87_port_2"/>
+			<node2 node_name="id!1401362475.0" port_name="id!1401362475.0_port_0"/>
 		</link>
 		<link channel_capacity="10" service="0">
-			<node1 node_name="s6" port_name="s6_port_2"/>
-			<node2 node_name="id!1400861700.9" port_name="id!1400861700.9_port_3"/>
+			<node1 node_name="id!1401362471.87" port_name="id!1401362471.87_port_3"/>
+			<node2 node_name="id!1401362472.76" port_name="id!1401362472.76_port_0"/>
 		</link>
-		<link channel_capacity="10" service="0">
-			<node1 node_name="s5" port_name="s5_port_2"/>
-			<node2 node_name="id!1400861700.9" port_name="id!1400861700.9_port_4"/>
+		<link channel_capacity="1" service="0">
+			<node1 node_name="id!1401362471.87" port_name="id!1401362471.87_port_4"/>
+			<node2 node_name="id!1401362473.1" port_name="id!1401362473.1_port_0"/>
 		</link>
-		<link channel_capacity="10" service="0">
-			<node1 node_name="s4" port_name="s4_port_2"/>
-			<node2 node_name="id!1400861700.9" port_name="id!1400861700.9_port_5"/>
+		<link channel_capacity="1" service="0">
+			<node1 node_name="id!1401362471.87" port_name="id!1401362471.87_port_5"/>
+			<node2 node_name="id!1401362473.45" port_name="id!1401362473.45_port_0"/>
 		</link>
 	</resources>
 	<tenants>
 		<tenant expiration_time="" tenant_name="t1" tenant_type="">
 			<list_of_nodes>
-				<vm image_id="" server_name="s1" service="1" vm_name="id!1400313828.27" x="108.5" y="47.5">
-					<connection_set number_of_ports="0"/>
-					<parameter_set>
-						<parameter parameter_name="memory" parameter_type="real" value_user="512"/>
-						<parameter parameter_name="vcpus" parameter_type="int" value_user="1"/>
-					</parameter_set>
-				</vm>
-				<vm image_id="" server_name="s2" service="1" vm_name="id!1400313828.58" x="159.5" y="50.5">
-					<connection_set number_of_ports="3">
-						<port port_name="id!1400313828.58_port_0"/>
-						<port port_name="id!1400313828.58_port_1"/>
-						<port port_name="id!1400313828.58_port_2"/>
+				<vm image_id="" name="id!1401362506.34" service="1" x="80.5" y="41.5">
+					<connection_set number_of_ports="2">
+						<port name="id!1401362506.34_port_0"/>
+						<port name="id!1401362506.34_port_1"/>
 					</connection_set>
 					<parameter_set>
-						<parameter parameter_name="memory" parameter_type="real" value_user="512"/>
-						<parameter parameter_name="vcpus" parameter_type="int" value_user="1"/>
+						<parameter parameter_name="memory" parameter_type="real" parameter_value="512"/>
+						<parameter parameter_name="vcpus" parameter_type="int" parameter_value="1"/>
 					</parameter_set>
 				</vm>
-				<st service="1" st_name="id!1400313829.62" storage_name="s4" x="104.5" y="117.5">
-					<connection_set number_of_ports="0"/>
+				<st name="id!1401362507.21" service="1" x="152.5" y="36.5">
+					<connection_set number_of_ports="1">
+						<port name="id!1401362507.21_port_0"/>
+					</connection_set>
 					<parameter_set>
-						<parameter parameter_name="st_memory" parameter_type="real" value_user="512"/>
-						<parameter parameter_name="st_vcpus" parameter_type="int" value_user="1"/>
+						<parameter parameter_name="st_memory" parameter_type="real" parameter_value="512"/>
+						<parameter parameter_name="st_vcpus" parameter_type="int" parameter_value="1"/>
 					</parameter_set>
 				</st>
-				<st service="1" st_name="id!1400313829.88" storage_name="s6" x="156.5" y="108.5">
-					<connection_set number_of_ports="0"/>
-					<parameter_set>
-						<parameter parameter_name="st_memory" parameter_type="real" value_user="512"/>
-						<parameter parameter_name="st_vcpus" parameter_type="int" value_user="1"/>
-					</parameter_set>
-				</st>
-				<netelement external_port="" ip="" is_router="0" is_service="0" netelement_name="id!1400313830.79" netelement_type="Switch" provider_name="" service="1" service_name="" x="227.5" y="29.5">
-					<connection_set number_of_ports="6">
-						<port port_name="id!1400313830.79_port_0"/>
-						<port port_name="id!1400313830.79_port_1"/>
-						<port port_name="id!1400313830.79_port_2"/>
-						<port port_name="id!1400313830.79_port_3"/>
-						<port port_name="id!1400313830.79_port_4"/>
-						<port port_name="id!1400313830.79_port_5"/>
+				<netelement external_port="" ip="" is_router="0" is_service="0" name="id!1401362508.48" netelement_type="Switch" provider_name="" service="1" service_name="" x="206.5" y="87.5">
+					<connection_set number_of_ports="4">
+						<port name="id!1401362508.48_port_0"/>
+						<port name="id!1401362508.48_port_1"/>
+						<port name="id!1401362508.48_port_2"/>
+						<port name="id!1401362508.48_port_3"/>
 					</connection_set>
 					<parameter_set/>
 				</netelement>
-				<netelement external_port="" ip="" is_router="0" is_service="0" netelement_name="id!1400313831.13" netelement_type="Switch" provider_name="" service="1" service_name="" x="314.5" y="60.5">
-					<connection_set number_of_ports="6">
-						<port port_name="id!1400313831.13_port_0"/>
-						<port port_name="id!1400313831.13_port_1"/>
-						<port port_name="id!1400313831.13_port_2"/>
-						<port port_name="id!1400313831.13_port_3"/>
-						<port port_name="id!1400313831.13_port_4"/>
-						<port port_name="id!1400313831.13_port_5"/>
-					</connection_set>
-					<parameter_set/>
-				</netelement>
-				<vnf is_service="1" profile_type="" service="1" service_name="s1" user_name="t2" vnf_name="id!1400313832.73" vnf_type="" x="227.5" y="93.5">
-					<exported_connection_set number_of_ports="4">
-						<port port_name="2"/>
-						<port port_name="3"/>
-						<port port_name="4"/>
-						<port port_name="5"/>
-					</exported_connection_set>
-					<connection_set number_of_ports="0"/>
-					<parameter_set/>
-				</vnf>
-				<vnf is_service="1" profile_type="" service="1" service_name="s4" user_name="t2" vnf_name="id!1400313832.93" vnf_type="" x="269.5" y="115.5">
+				<vnf is_service="1" name="id!1401362509.26" profile_type="" service="1" service_name="service1" user_name="t2" vnf_type="" x="272.5" y="70.5">
 					<exported_connection_set number_of_ports="3">
-						<port port_name="56"/>
-						<port port_name="6"/>
-						<port port_name="88"/>
+						<port name="1"/>
+						<port name="2"/>
+						<port name="3"/>
 					</exported_connection_set>
-					<connection_set number_of_ports="3">
-						<port port_name="id!1400313832.93_port_0"/>
-						<port port_name="id!1400313832.93_port_1"/>
-						<port port_name="id!1400313832.93_port_2"/>
+					<connection_set number_of_ports="1">
+						<port name="id!1401362509.26_port_0"/>
 					</connection_set>
 					<parameter_set/>
 				</vnf>
-				<domain commutation_type="" domain_name="id!1400313833.82" service="1" x="328.5" y="129.5">
-					<connection_set number_of_ports="6">
-						<port port_name="id!1400313833.82_port_0"/>
-						<port port_name="id!1400313833.82_port_1"/>
-						<port port_name="id!1400313833.82_port_2"/>
-						<port port_name="id!1400313833.82_port_3"/>
-						<port port_name="id!1400313833.82_port_4"/>
-						<port port_name="id!1400313833.82_port_5"/>
+				<vnf is_service="1" name="id!1401362512.75" profile_type="" service="1" service_name="service2" user_name="t2" vnf_type="" x="258.5" y="127.5">
+					<exported_connection_set number_of_ports="3">
+						<port name="5"/>
+						<port name="6"/>
+						<port name="88"/>
+					</exported_connection_set>
+					<connection_set number_of_ports="1">
+						<port name="id!1401362512.75_port_0"/>
 					</connection_set>
 					<parameter_set/>
-				</domain>
+				</vnf>
+				<vnf is_service="0" name="id!1401362513.16" profile_type="" service="1" service_name="" user_name="" vnf_type="" x="122.5" y="172.5">
+					<exported_connection_set number_of_ports="0"/>
+					<connection_set number_of_ports="1">
+						<port name="id!1401362513.16_port_0"/>
+					</connection_set>
+					<parameter_set/>
+				</vnf>
 			</list_of_nodes>
 			<list_of_links>
-				<link channel_capacity="0" service="0">
-					<node1 node_name="id!1400313828.58" port_name="id!1400313828.58_port_0"/>
-					<node2 node_name="id!1400313830.79" port_name="id!1400313830.79_port_0"/>
-				</link>
-				<link channel_capacity="0" service="0">
-					<node1 node_name="id!1400313830.79" port_name="id!1400313830.79_port_1"/>
-					<node2 node_name="id!1400313831.13" port_name="id!1400313831.13_port_0"/>
-				</link>
-				<link channel_capacity="0" service="0">
-					<node1 node_name="id!1400313831.13" port_name="id!1400313831.13_port_1"/>
-					<node2 node_name="id!1400313833.82" port_name="id!1400313833.82_port_0"/>
-				</link>
-				<link channel_capacity="0" service="0">
-					<node1 node_name="id!1400313833.82" port_name="id!1400313833.82_port_1"/>
-					<node2 node_name="id!1400313832.93" port_name="id!1400313832.93_port_0"/>
-				</link>
+				<link channel_capacity="1" node1="id!1401362508.48" node2="id!1401362509.26" port1="id!1401362508.48_port_0" port2="id!1401362509.26_port_0" service="0" assignedTo="id!1401362471.87:id!1401362471.87_port_4;id!1401362473.1:id!1401362473.1_port_0"/>
+				<link channel_capacity="1" node1="id!1401362508.48" node2="id!1401362512.75" port1="id!1401362508.48_port_1" port2="id!1401362512.75_port_0" service="0"/>
+				<link channel_capacity="1" node1="id!1401362508.48" node2="id!1401362513.16" port1="id!1401362508.48_port_2" port2="id!1401362513.16_port_0" service="0"/>
+				<link channel_capacity="1" node1="id!1401362508.48" node2="id!1401362506.34" port1="id!1401362508.48_port_3" port2="id!1401362506.34_port_0" service="0"/>
+				<link channel_capacity="1" node1="id!1401362506.34" node2="id!1401362507.21" port1="id!1401362506.34_port_1" port2="id!1401362507.21_port_0" service="0"/>
 			</list_of_links>
 		</tenant>
 		<tenant expiration_time="" tenant_name="t2" tenant_type="">
 			<list_of_nodes>
-				<netelement external_port="88" ip="" is_router="0" is_service="0" netelement_name="r1" netelement_type="Switch" provider_name="t1" service="1" service_name="s4" x="122.5" y="77.5">
-					<connection_set number_of_ports="0"/>
+				<vm image_id="" name="id!1401362562.18" service="1" x="110.5" y="86.5">
+					<connection_set number_of_ports="2">
+						<port name="id!1401362562.18_port_0"/>
+						<port name="id!1401362562.18_port_1"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="memory" parameter_type="real" parameter_value="512"/>
+						<parameter parameter_name="vcpus" parameter_type="int" parameter_value="1"/>
+					</parameter_set>
+				</vm>
+				<netelement external_port="5" ip="" is_router="0" is_service="1" name="id!1401362563.16" netelement_type="Switch" provider_name="t1" service="1" service_name="service2" x="218.5" y="36.5">
+					<connection_set number_of_ports="2">
+						<port name="id!1401362563.16_port_0"/>
+						<port name="id!1401362563.16_port_1"/>
+					</connection_set>
 					<parameter_set/>
 				</netelement>
-				<netelement external_port="" ip="" is_router="0" is_service="0" netelement_name="r1" netelement_type="Switch" provider_name="" service="1" service_name="" x="214.5" y="71.5">
-					<connection_set number_of_ports="0"/>
+				<st name="id!1401362563.86" service="1" x="159.5" y="136.5">
+					<connection_set number_of_ports="1">
+						<port name="id!1401362563.86_port_0"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="st_memory" parameter_type="real" parameter_value="512"/>
+						<parameter parameter_name="st_vcpus" parameter_type="int" parameter_value="1"/>
+					</parameter_set>
+				</st>
+				<vnf is_service="0" name="id!1401362565.75" profile_type="" service="1" service_name="" user_name="" vnf_type="" x="243.5" y="128.5">
+					<exported_connection_set number_of_ports="0"/>
+					<connection_set number_of_ports="1">
+						<port name="id!1401362565.75_port_0"/>
+					</connection_set>
 					<parameter_set/>
-				</netelement>
-				<vm image_id="" server_name="s1" service="1" vm_name="id!1400313879.31" x="158.5" y="145.5">
-					<connection_set number_of_ports="0"/>
-					<parameter_set>
-						<parameter parameter_name="memory" parameter_type="real" value_user="512"/>
-						<parameter parameter_name="vcpus" parameter_type="int" value_user="1"/>
-					</parameter_set>
-				</vm>
-				<vm image_id="" server_name="s1" service="1" vm_name="id!1400313879.55" x="218.5" y="131.5">
-					<connection_set number_of_ports="0"/>
-					<parameter_set>
-						<parameter parameter_name="memory" parameter_type="real" value_user="512"/>
-						<parameter parameter_name="vcpus" parameter_type="int" value_user="1"/>
-					</parameter_set>
-				</vm>
-				<vm image_id="" server_name="s2" service="1" vm_name="id!1400313879.76" x="294.5" y="107.5">
-					<connection_set number_of_ports="6">
-						<port port_name="id!1400313879.76_port_0"/>
-						<port port_name="id!1400313879.76_port_1"/>
-						<port port_name="id!1400313879.76_port_2"/>
-						<port port_name="id!1400313879.76_port_3"/>
-						<port port_name="id!1400313879.76_port_4"/>
-						<port port_name="id!1400313879.76_port_5"/>
-					</connection_set>
-					<parameter_set>
-						<parameter parameter_name="memory" parameter_type="real" value_user="512"/>
-						<parameter parameter_name="vcpus" parameter_type="int" value_user="1"/>
-					</parameter_set>
-				</vm>
-				<st service="1" st_name="id!1400313880.85" storage_name="s5" x="260.5" y="144.5">
-					<connection_set number_of_ports="3">
-						<port port_name="id!1400313880.85_port_0"/>
-						<port port_name="id!1400313880.85_port_1"/>
-						<port port_name="id!1400313880.85_port_2"/>
-					</connection_set>
-					<parameter_set>
-						<parameter parameter_name="st_memory" parameter_type="real" value_user="512"/>
-						<parameter parameter_name="st_vcpus" parameter_type="int" value_user="1"/>
-					</parameter_set>
-				</st>
-				<st service="1" st_name="id!1400313881.11" storage_name="s4" x="342.5" y="156.5">
-					<connection_set number_of_ports="3">
-						<port port_name="id!1400313881.11_port_0"/>
-						<port port_name="id!1400313881.11_port_1"/>
-						<port port_name="id!1400313881.11_port_2"/>
-					</connection_set>
-					<parameter_set>
-						<parameter parameter_name="st_memory" parameter_type="real" value_user="512"/>
-						<parameter parameter_name="st_vcpus" parameter_type="int" value_user="1"/>
-					</parameter_set>
-				</st>
+				</vnf>
 			</list_of_nodes>
 			<list_of_links>
-				<link channel_capacity="2" service="0" assigned="s5:s5_port_2;id!1400861700.9:id!1400861700.9_port_4;s4:s4_port_2">
-					<node1 node_name="id!1400313879.76" port_name="id!1400313879.76_port_0"/>
-					<node2 node_name="id!1400313881.11" port_name="id!1400313881.11_port_0"/>
-				</link>
-				<link channel_capacity="3" service="0" assigned="s5:s5_port_2;id!1400861700.9:id!1400861700.9_port_4">
-					<node1 node_name="id!1400313879.76" port_name="id!1400313879.76_port_1"/>
-					<node2 node_name="id!1400313880.85" port_name="id!1400313880.85_port_0"/>
-				</link>
+				<link channel_capacity="1" node1="id!1401362563.16" node2="id!1401362565.75" port1="id!1401362563.16_port_0" port2="id!1401362565.75_port_0" service="0"/>
+				<link channel_capacity="1" node1="id!1401362563.16" node2="id!1401362562.18" port1="id!1401362563.16_port_1" port2="id!1401362562.18_port_0" service="0"/>
+				<link channel_capacity="1" node1="id!1401362562.18" node2="id!1401362563.86" port1="id!1401362562.18_port_1" port2="id!1401362563.86_port_0" service="0"/>
 			</list_of_links>
 		</tenant>
 	</tenants>

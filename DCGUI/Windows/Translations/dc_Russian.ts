@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="ru_RU">
+<!DOCTYPE TS><TS version="2.0" language="ru_RU" sourcelanguage="">
 <context>
     <name>ComputerDialog</name>
     <message>
@@ -272,67 +271,67 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="320"/>
+        <location filename="Windows/ui_MainWindow.py" line="274"/>
         <source>Project name</source>
         <translation>Имя проекта</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="356"/>
+        <location filename="Windows/ui_MainWindow.py" line="294"/>
         <source>File</source>
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="359"/>
+        <location filename="Windows/ui_MainWindow.py" line="297"/>
         <source>toolBar</source>
         <translation>toolBar</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="370"/>
+        <location filename="Windows/ui_MainWindow.py" line="308"/>
         <source>Save Project As...</source>
         <translation>Сохранить проект как...</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="360"/>
+        <location filename="Windows/ui_MainWindow.py" line="298"/>
         <source>Exit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="321"/>
+        <location filename="Windows/ui_MainWindow.py" line="275"/>
         <source>Algorithm:</source>
         <translation>Алгоритм:</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="322"/>
+        <location filename="Windows/ui_MainWindow.py" line="276"/>
         <source>Ant Colony</source>
         <translation>Схема муравьиных колоний</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="323"/>
+        <location filename="Windows/ui_MainWindow.py" line="277"/>
         <source>Centralized</source>
         <translation>Централизованный</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="324"/>
+        <location filename="Windows/ui_MainWindow.py" line="278"/>
         <source>Decentralized</source>
         <translation>Децентрализованный</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="328"/>
+        <location filename="Windows/ui_MainWindow.py" line="282"/>
         <source>Name</source>
         <translation>Имя</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="331"/>
+        <location filename="Windows/ui_MainWindow.py" line="285"/>
         <source>Statistics</source>
         <translation>Статистика</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="375"/>
+        <location filename="Windows/ui_MainWindow.py" line="313"/>
         <source>Settings...</source>
         <translation>Настройки...</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="381"/>
+        <location filename="Windows/ui_MainWindow.py" line="319"/>
         <source>Add Request</source>
         <translation>Добавить запрос</translation>
     </message>
@@ -357,12 +356,12 @@
         <translation>Новый проект</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="489"/>
+        <location filename="MainWindow.py" line="482"/>
         <source>No</source>
         <translation>Нет</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="489"/>
+        <location filename="MainWindow.py" line="482"/>
         <source>Yes</source>
         <translation>Да</translation>
     </message>
@@ -377,7 +376,7 @@
         <translation>Проект не найден</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="319"/>
+        <location filename="Windows/ui_MainWindow.py" line="273"/>
         <source>Data Centers GUI</source>
         <translation>Средство планирования вычислений в ЦОД</translation>
     </message>
@@ -402,229 +401,229 @@
         <translation type="obsolete">Время окончания</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="329"/>
+        <location filename="Windows/ui_MainWindow.py" line="283"/>
         <source>Allow rescheduling</source>
         <translation>Разрешено перепланирование</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="330"/>
+        <location filename="Windows/ui_MainWindow.py" line="284"/>
         <source>Scheduled</source>
         <translation>Назначен</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="332"/>
+        <location filename="Windows/ui_MainWindow.py" line="286"/>
         <source>Total requests scheduled</source>
         <translation>Количество назначенных запросов</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="355"/>
+        <location filename="Windows/ui_MainWindow.py" line="293"/>
         <source>0</source>
         <translation></translation>
     </message>
     <message>
         <location filename="Windows/ui_MainWindow.py" line="336"/>
         <source>Average computational nodes CPU load</source>
-        <translation>Средняя загрузка CPU вычислителей</translation>
+        <translation type="obsolete">Средняя загрузка CPU вычислителей</translation>
     </message>
     <message>
         <location filename="Windows/ui_MainWindow.py" line="338"/>
         <source>Maximal computational nodes CPU load</source>
-        <translation>Максимальная загрузка CPU вычислителей</translation>
+        <translation type="obsolete">Максимальная загрузка CPU вычислителей</translation>
     </message>
     <message>
         <location filename="Windows/ui_MainWindow.py" line="340"/>
         <source>Average computational nodes RAM load</source>
-        <translation>Средняя загрузка RAM вычислителей</translation>
+        <translation type="obsolete">Средняя загрузка RAM вычислителей</translation>
     </message>
     <message>
         <location filename="Windows/ui_MainWindow.py" line="342"/>
         <source>Maximal computational nodes RAM load</source>
-        <translation>Максимальная загрузка RAM вычислителей</translation>
+        <translation type="obsolete">Максимальная загрузка RAM вычислителей</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="357"/>
+        <location filename="Windows/ui_MainWindow.py" line="295"/>
         <source>Project</source>
         <translation>Проект</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="358"/>
+        <location filename="Windows/ui_MainWindow.py" line="296"/>
         <source>Generate Requests</source>
         <translation>Генерация Запросов</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="361"/>
+        <location filename="Windows/ui_MainWindow.py" line="299"/>
         <source>Ctrl+X</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="364"/>
+        <location filename="Windows/ui_MainWindow.py" line="302"/>
         <source>New Project</source>
         <translation>Новый проект</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="365"/>
+        <location filename="Windows/ui_MainWindow.py" line="303"/>
         <source>Ctrl+N</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="366"/>
+        <location filename="Windows/ui_MainWindow.py" line="304"/>
         <source>Open Project</source>
         <translation>Открыть проект</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="367"/>
+        <location filename="Windows/ui_MainWindow.py" line="305"/>
         <source>Ctrl+O</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="368"/>
+        <location filename="Windows/ui_MainWindow.py" line="306"/>
         <source>Save Project</source>
         <translation>Сохранить проект</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="369"/>
+        <location filename="Windows/ui_MainWindow.py" line="307"/>
         <source>Ctrl+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="371"/>
+        <location filename="Windows/ui_MainWindow.py" line="309"/>
         <source>Ctrl+Shift+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="373"/>
+        <location filename="Windows/ui_MainWindow.py" line="311"/>
         <source>Schedule All</source>
         <translation>Назначить все</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="374"/>
+        <location filename="Windows/ui_MainWindow.py" line="312"/>
         <source>F5</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="376"/>
+        <location filename="Windows/ui_MainWindow.py" line="314"/>
         <source>F12</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="378"/>
+        <location filename="Windows/ui_MainWindow.py" line="316"/>
         <source>Edit Resources</source>
         <translation>Редактировать ресурсы</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="379"/>
+        <location filename="Windows/ui_MainWindow.py" line="317"/>
         <source>F3</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="382"/>
+        <location filename="Windows/ui_MainWindow.py" line="320"/>
         <source>Alt+N</source>
         <translation> </translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="385"/>
+        <location filename="Windows/ui_MainWindow.py" line="323"/>
         <source>Alt+X</source>
         <translation> </translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="387"/>
+        <location filename="Windows/ui_MainWindow.py" line="325"/>
         <source>Create Random Requests</source>
         <translation>Генерация случайных запросов</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="388"/>
+        <location filename="Windows/ui_MainWindow.py" line="326"/>
         <source>F9</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="391"/>
+        <location filename="Windows/ui_MainWindow.py" line="329"/>
         <source>F4</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="393"/>
+        <location filename="Windows/ui_MainWindow.py" line="331"/>
         <source>Show Results</source>
         <translation>Визуализация результатов</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="394"/>
+        <location filename="Windows/ui_MainWindow.py" line="332"/>
         <source>F7</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="396"/>
+        <location filename="Windows/ui_MainWindow.py" line="334"/>
         <source>Show Statistics</source>
         <translation>Показать статистику</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="397"/>
+        <location filename="Windows/ui_MainWindow.py" line="335"/>
         <source>F8</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="398"/>
+        <location filename="Windows/ui_MainWindow.py" line="336"/>
         <source>Reset</source>
         <translation>Сбросить</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="399"/>
+        <location filename="Windows/ui_MainWindow.py" line="337"/>
         <source>F10</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="401"/>
+        <location filename="Windows/ui_MainWindow.py" line="339"/>
         <source>F6, Ctrl+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="402"/>
+        <location filename="Windows/ui_MainWindow.py" line="340"/>
         <source>runMultiple</source>
         <translation>runMultiple</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="403"/>
+        <location filename="Windows/ui_MainWindow.py" line="341"/>
         <source>Run Multiple Tests</source>
         <translation>Запуск нескольких экспериментов</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="404"/>
+        <location filename="Windows/ui_MainWindow.py" line="342"/>
         <source>fds</source>
         <translation>fds</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="363"/>
+        <location filename="Windows/ui_MainWindow.py" line="301"/>
         <source>About DC GUI</source>
         <translation>Сведения о средстве планирования вычислений в ЦОД</translation>
     </message>
     <message>
         <location filename="Windows/ui_MainWindow.py" line="344"/>
         <source>Average stores load</source>
-        <translation>Средняя загрузка хранилищ</translation>
+        <translation type="obsolete">Средняя загрузка хранилищ</translation>
     </message>
     <message>
         <location filename="Windows/ui_MainWindow.py" line="346"/>
         <source>Maximal stores load</source>
-        <translation>Максимальная загрузка хранилищ</translation>
+        <translation type="obsolete">Максимальная загрузка хранилищ</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="348"/>
+        <location filename="Windows/ui_MainWindow.py" line="302"/>
         <source>Average network load</source>
-        <translation>Средняя загрузка сети</translation>
+        <translation type="obsolete">Средняя загрузка сети</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="350"/>
+        <location filename="Windows/ui_MainWindow.py" line="304"/>
         <source>Maximal network load</source>
-        <translation>Максимальная загрузка сети</translation>
+        <translation type="obsolete">Максимальная загрузка сети</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="352"/>
+        <location filename="Windows/ui_MainWindow.py" line="306"/>
         <source>Average leaf channels load</source>
-        <translation>Ср. загрузка каналов с лист. вершинами</translation>
+        <translation type="obsolete">Ср. загрузка каналов с лист. вершинами</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="354"/>
+        <location filename="Windows/ui_MainWindow.py" line="308"/>
         <source>Maximal leaf channels load</source>
-        <translation>Макс. загрузка каналов с лист. вершинами</translation>
+        <translation type="obsolete">Макс. загрузка каналов с лист. вершинами</translation>
     </message>
     <message>
         <location filename="MainWindow.py" line="64"/>
@@ -632,48 +631,58 @@
         <translation>Alt+</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="378"/>
+        <location filename="MainWindow.py" line="371"/>
         <source>&amp;%1: %2</source>
         <translation>&amp;%1: %2</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="325"/>
+        <location filename="Windows/ui_MainWindow.py" line="279"/>
         <source>FirstFit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="326"/>
+        <location filename="Windows/ui_MainWindow.py" line="280"/>
         <source>RandomFit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="327"/>
+        <location filename="Windows/ui_MainWindow.py" line="281"/>
         <source>Schedule</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="334"/>
+        <location filename="Windows/ui_MainWindow.py" line="288"/>
         <source>Assignment ratio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="380"/>
+        <location filename="Windows/ui_MainWindow.py" line="318"/>
         <source>Add Tenant</source>
         <translation>Создать тенант</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="384"/>
+        <location filename="Windows/ui_MainWindow.py" line="322"/>
         <source>Delete Tenant</source>
         <translation>Удалить тенант</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="390"/>
+        <location filename="Windows/ui_MainWindow.py" line="328"/>
         <source>Edit Tenant</source>
         <translation>Редактировать тенант</translation>
     </message>
     <message>
-        <location filename="Windows/ui_MainWindow.py" line="400"/>
+        <location filename="Windows/ui_MainWindow.py" line="338"/>
         <source>Run All Algorithms</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Windows/ui_MainWindow.py" line="290"/>
+        <source>Network load</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Windows/ui_MainWindow.py" line="292"/>
+        <source>Leaf channels load</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2260,7 +2269,7 @@
 <context>
     <name>self.resourcesGraphEditor</name>
     <message>
-        <location filename="MainWindow.py" line="426"/>
+        <location filename="MainWindow.py" line="419"/>
         <source>Resources Graph Editor</source>
         <translation>Редактор графа ресурсов</translation>
     </message>
@@ -2268,7 +2277,7 @@
 <context>
     <name>self.tenantEditor</name>
     <message>
-        <location filename="MainWindow.py" line="425"/>
+        <location filename="MainWindow.py" line="418"/>
         <source>Tenant Editor</source>
         <translation>Редактор тенанта</translation>
     </message>

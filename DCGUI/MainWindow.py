@@ -221,22 +221,13 @@ class MainWindow(QMainWindow):
         f.close()
 
     def showStats(self):
-        return
         if self.project.resources.vertices == []:
             return
         stats = self.project.GetStats()
         self.ui.tenantcount.setText(str(stats["tenants"]))
         self.ui.ratio.setText(str(stats["ratio"])+"%")
-        self.ui.vmavg.setText(str(stats["vmavg"])+"%")
-        self.ui.ramavg.setText(str(stats["ramavg"])+"%")
-        self.ui.stavg.setText(str(stats["stavg"])+"%")
         self.ui.netavg.setText(str(stats["netavg"])+"%")
         self.ui.leafavg.setText(str(stats["leafavg"])+"%")
-        self.ui.vmmax.setText(str(stats["vmmax"])+"%")
-        self.ui.rammax.setText(str(stats["rammax"])+"%")
-        self.ui.stmax.setText(str(stats["stmax"])+"%")
-        self.ui.netmax.setText(str(stats["netmax"])+"%")
-        self.ui.leafmax.setText(str(stats["leafmax"])+"%")
 
     def EditProgram(self):
         self.resourcesGraphEditor.show()
