@@ -67,15 +67,10 @@ class ResourceGraph(AbstractGraph):
             tag = dom.createElement("link")
             tag.setAttribute("service", "1" if v.service else "0")
             tag.setAttribute("channel_capacity", str(v.capacity))
-            nd = dom.createElement("node1")
-            nd.setAttribute("node_name", v.e1.id)
-            nd.setAttribute("port_name", v.port1)
-            tag.appendChild(nd)
-            nd = dom.createElement("node2")
-            nd.setAttribute("node_name", v.e2.id)
-            nd.setAttribute("port_name", v.port2)
-            tag.appendChild(nd)
-            tag.appendChild(nd)
+            tag.setAttribute("node1", v.e1.id)
+            tag.setAttribute("port1", v.port1)
+            tag.setAttribute("node2", v.e2.id)
+            tag.setAttribute("port2", v.port2)
             root.appendChild(tag)
         return root
 
@@ -149,15 +144,10 @@ class ResourceGraph(AbstractGraph):
     def ParseLinks(self, root):
         for edge in root.childNodes:
             if edge.nodeName == "link":
-                for v in edge.childNodes:
-                    if isinstance(v, xml.dom.minidom.Text):
-                        continue
-                    if v.tagName == "node1":
-                        src = v.getAttribute("node_name")
-                        port1 = v.getAttribute("port_name")
-                    if v.tagName == "node2":
-                        dst = v.getAttribute("node_name")
-                        port2 = v.getAttribute("port_name")
+                src = edge.getAttribute("node1")
+                port1 = edge.getAttribute("port1")
+                dst = edge.getAttribute("node2")
+                port2 = edge.getAttribute("port2")
                 cap = int(edge.getAttribute("channel_capacity"))
                 service = edge.getAttribute("service") == "1"
                 # TODO: error handling
