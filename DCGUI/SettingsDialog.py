@@ -40,7 +40,7 @@ class SettingsDialog(QDialog):
         QDialog.exec_(self)
 
     def OpenParams(self):
-        name = unicode(QFileDialog.getOpenFileName(filter="*.xml"))
+        name = unicode(QFileDialog.getExistingDirectory())
         if name == None or name == '':
             return
         self.ui.params.setText(name)

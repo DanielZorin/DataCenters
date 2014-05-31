@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<params>
+	<forbid_link from="st" to="vnf"/>
+	<forbid_link from="st" to="domain"/>
+	<forbid_link from="st" to="netelement"/>
+	<forbid_link from="netelement" to="netelement"/>
+</params>

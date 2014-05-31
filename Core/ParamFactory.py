@@ -1,4 +1,4 @@
-﻿import xml.dom.minidom, copy
+﻿import xml.dom.minidom, copy, os
 
 class Param:
     def __init__(self, name, type, value, minv=0, maxv=0):
@@ -14,11 +14,19 @@ class ParamFactory(object):
     forbiddenlinks = []
 
     @staticmethod
+    def LoadDir(url):
+        ParamFactory.patams = {}
+        ParamFactory.forbiddenlinks = []
+        if os.path.isdir(url):
+            for s in os.listdir(url):
+                ParamFactory.Load(os.path.join(url, s))
+
+    @staticmethod
     def Load(xmlfile):
         #try:
         f = open(xmlfile, "r")
         dom = xml.dom.minidom.parse(f)
-        ParamFactory.params = {}
+        #ParamFactory.params = {}
         for top in dom.childNodes:
             if isinstance(top, xml.dom.minidom.Text) or isinstance(top, xml.dom.minidom.Comment):
                 continue
@@ -32,7 +40,8 @@ class ParamFactory(object):
                         ParamFactory.forbiddenlinks.append([v1, v2])
                         continue
                     nodetype = node.tagName
-                    ParamFactory.params[nodetype] = []
+                    if not nodetype in ParamFactory.params:
+                        ParamFactory.params[nodetype] = []
                     for vertex in node.childNodes:
                         if isinstance(vertex, xml.dom.minidom.Text) or isinstance(vertex, xml.dom.minidom.Comment):
                             continue

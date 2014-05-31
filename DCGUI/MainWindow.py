@@ -46,8 +46,8 @@ class MainWindow(QMainWindow):
         self.settingsDialog.ui.backup.setChecked(self.settings.value("backup").toBool())
         self.settingsDialog.ui.autosave.setChecked(self.settings.value("autosave").toBool())
         self.settingsDialog.ui.interval.setValue(self.settings.value("interval").toInt()[0])
-        paramxml = self.settings.value("paramxml", "node_params.xml").toString()
-        ParamFactory.Load(paramxml)
+        paramxml = self.settings.value("paramxml", "params").toString()
+        ParamFactory.LoadDir(str(paramxml))
         self.settingsDialog.ui.params.setText(paramxml)
         i = 0
         for s in self.languages:
@@ -400,7 +400,7 @@ class MainWindow(QMainWindow):
             self.settings.setValue("autosave", self.settingsDialog.ui.autosave.isChecked())
             self.settings.setValue("interval", self.settingsDialog.ui.interval.value())
             self.settings.setValue("paramxml", self.settingsDialog.ui.params.text())
-            ParamFactory.Load(self.settingsDialog.ui.params.text())
+            ParamFactory.LoadDir(str(self.settingsDialog.ui.params.text()))
             self.autosaveTimer.setInterval(self.settings.value("interval").toInt()[0] * 1000)
             newlang = self.settingsDialog.ui.languages.currentText()
             if newlang != self.settings.value("language"):
