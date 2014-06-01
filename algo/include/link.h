@@ -22,6 +22,7 @@ public:
 
     virtual bool setRoute(Path& route) {
         this->route = route;
+		return true;
     }
 
     virtual Path getRoute() const {

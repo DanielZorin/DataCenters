@@ -28,6 +28,7 @@ public:
 
     bool addPort(Port * port) {
     	ports.insert(port);
+		return true;
     }
 
     const Ports& getPorts() const {
