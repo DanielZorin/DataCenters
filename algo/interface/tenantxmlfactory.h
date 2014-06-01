@@ -32,9 +32,12 @@ private:
 
     // Add external ports from vnf
     void addExternalPorts(Node* elem);
+    void assignLink(Link * link, const class ResourcesXMLFactory & resourceFactory);
 
     // Method to check whether the element is non-router net-element
     bool isNonRouterSwitch(const Element* elem);
+
+    QDomElement generateLinkElement(Link * link);
 private:
     Request * request;
     QDomElement tenant;

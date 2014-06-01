@@ -33,7 +33,7 @@ TenantXMLFactory::TenantXMLFactory(const QDomElement & element)
     	        addExternalPorts(elem->toNode());
     	    }
 
-    		elements.insert(elem);
+            elements.insert(elem);
     	} else if ( elem->isLink() ) {
     		Element* first = elem->toLink()->getFirst()->getParentNode();
     		Element* second = elem->toLink()->getSecond()->getParentNode();
@@ -57,7 +57,7 @@ TenantXMLFactory::~TenantXMLFactory() {
 }
 
 bool TenantXMLFactory::isNonRouterSwitch(const Element* elem) {
-	return elem->isSwitch() && (elem->attributes & Switch::ROUTER) == 0;
+    return elem->isSwitch() && (elem->attributes & Switch::ROUTER) == 0;
 }
 
 Request * TenantXMLFactory::getRequest() const {
@@ -71,7 +71,7 @@ void setPortAssignee(QDomNodeList portsXml, QString portName, QString assigneeNa
     }
 }
 
-void TenantXMLFactory::commitPartialAssignmentData(const class ResourcesXMLFactory& resourceFactory) {
+void TenantXMLFactory::commitPartialAssignmentData(const ResourcesXMLFactory& resourceFactory) {
     Elements elements =  request->getElements();
     for ( Elements::iterator it = elements.begin(); it != elements.end(); ++it ) {
         Element * e = *it;
@@ -81,8 +81,7 @@ void TenantXMLFactory::commitPartialAssignmentData(const class ResourcesXMLFacto
 
         // check whether this is virtual link first and it is assigned
         if ( e->isLink() ) {
-            Path route = e->toLink()->getRoute();
-            elementsXML[e].setAttribute("assignedTo", getPathXml(route, resourceFactory));
+            assignLink(e->toLink(), resourceFactory);
         } else {
             elementsXML[e].setAttribute("assignedTo", resourceFactory.getName(e->getAssignee()));
         }
@@ -101,6 +100,35 @@ void TenantXMLFactory::commitPartialAssignmentData(const class ResourcesXMLFacto
             setPortAssignee(elementsXML[*it].elementsByTagName("port"), portName, assigneeName);
         }
     }
+}
+
+void TenantXMLFactory::assignLink(Link * link, const ResourcesXMLFactory & resourceFactory) {
+    if ( !link->isAssigned() )
+        return;
+
+    QDomElement element = elementsXML[link];
+    if ( element.isNull() )
+        element = generateLinkElement(link);
+
+    Path route = link->getRoute();
+    element.setAttribute("assignedTo", getPathXml(route, resourceFactory));
+}
+
+QDomElement TenantXMLFactory::generateLinkElement(Link * link) {
+    QDomDocument document = tenant.ownerDocument();
+    QDomElement result = document.createElement("link");
+    QDomNodeList tmp = tenant.elementsByTagName("list_of_links");
+    QDomNode list_of_links;
+    if ( tmp.size() != 0 ) {
+        list_of_links = tmp.at(0);
+    } else {
+        list_of_links = document.createElement("list_of_links");
+        tenant.appendChild(list_of_links);
+    }
+
+    list_of_links.appendChild(result);
+        
+    return result;
 }
 
 void TenantXMLFactory::commitAssignmentData(const ResourcesXMLFactory& resourceFactory) {
@@ -157,10 +185,11 @@ void TenantXMLFactory::parseExternalPorts(QString clientName, Ports ports) {
                     externalLink->connect(freePort, *pit);
                     (*pit)->connect(externalLink, freePort);
                     freePort->connect(externalLink, *pit);
-                    qDebug() << "External link created from " << QString::fromUtf8((*pit)->getName().c_str())
-                        << " of " << QString::fromUtf8(this->request->getName().c_str())
-                        << " to " << QString::fromUtf8(freePort->getName().c_str())
+                    qDebug() << "External link created from " << QString::fromStdString((*pit)->getName())
+                        << " of " << QString::fromStdString(this->request->getName())
+                        << " to " << QString::fromStdString(freePort->getName())
                         << " of " << clientName;
+                    request->addExternalLink(externalLink);
                 }
             }
         }

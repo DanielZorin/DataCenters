@@ -15,8 +15,7 @@ BFSRouter::BFSRouter(Request & r, Element * t)
 {
     // if ( !Operation::isIn(target, r.getNodes())) throw;
 
-    Elements tunnels = r.getTunnels();
-    Elements adjacentTunnels = Operation::filter(tunnels, target, Criteria::isAdjacent);
+    Elements adjacentTunnels = target->adjacentEdges();
 
     for(Elements::iterator i = adjacentTunnels.begin(); i != adjacentTunnels.end(); i++) {
         Element * tunnel = *i;
