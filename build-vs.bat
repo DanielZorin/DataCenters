@@ -1,4 +1,4 @@
 python.exe ExeBuild.py
-cd Algorithm
+cd algo
 msbuild.exe Algorithm.vcxproj
-cp Algolib.exe ..
+cp algo.exe ..

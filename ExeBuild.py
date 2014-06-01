@@ -14,5 +14,4 @@ if sys.argv[-1] != "build":
     sys.argv.append("build")
     
 setup(name = "dcgui", version = "0.1", description = "dcgui", executables = 
-      [Executable("DCGUI.py", base=base),
-       Executable("LaunchTE.py", base=base)])
+      [Executable("DCGUI.py", base=base)])
