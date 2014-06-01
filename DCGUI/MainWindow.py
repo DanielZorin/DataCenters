@@ -160,7 +160,7 @@ class MainWindow(QMainWindow):
 
     def InitProject(self):
         self.project.resources._buildPaths()
-        self.project.method.tenant_assigned.connect(self.tenantAssigned)
+        #self.project.method.tenant_assigned.connect(self.tenantAssigned)
 
     def Run(self):
         self.Reset()
@@ -179,9 +179,9 @@ class MainWindow(QMainWindow):
         else:
             alg = "r"
         if sys.platform.startswith("win"):
-            name = "Algorithm\\algorithm.exe"
+            name = "algo.exe"
         else:
-            name = "Algorithm/Algolib"
+            name = "algo/algo"
         os.system(name + " \"" + os.path.relpath(self.projectFile) + "\" -w \"" + os.path.relpath(self.projectFile) + "\" " + alg)
         #self.project.Run()
         self.OpenProjectFromFile(self.projectFile)

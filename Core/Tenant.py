@@ -236,36 +236,38 @@ class Tenant(AbstractGraph):
         self.vertices = []
         self.edges = []
         for node in dom.childNodes:
+            if isinstance(node, xml.dom.minidom.Text) or isinstance(node, xml.dom.minidom.Comment):
+                continue
             if node.tagName == "tenant":
                 self.LoadFromXmlNode(node)
         f.close()
 
     def ParseNodes(self, root, resources):
         for vertex in root.childNodes:
-            if isinstance(vertex, xml.dom.minidom.Text):
+            if isinstance(vertex, xml.dom.minidom.Text) or isinstance(vertex, xml.dom.minidom.Comment):
                 continue
             service = True if vertex.getAttribute("service") == "1" else False
             ports = []
             params = []
             conset = []
             for v in vertex.childNodes:
-                if isinstance(v, xml.dom.minidom.Text):
+                if isinstance(v, xml.dom.minidom.Text) or isinstance(v, xml.dom.minidom.Comment):
                     continue
                 if v.nodeName == "connection_set":
                     for port in v.childNodes:
-                        if isinstance(port, xml.dom.minidom.Text):
+                        if isinstance(port, xml.dom.minidom.Text) or isinstance(port, xml.dom.minidom.Comment):
                             continue
                         s = port.getAttribute("name")
                         ports.append(s)
                 if v.nodeName == "exported_connection_set":
                     for port in v.childNodes:
-                        if isinstance(port, xml.dom.minidom.Text):
+                        if isinstance(port, xml.dom.minidom.Text) or isinstance(port, xml.dom.minidom.Comment):
                             continue
                         s = port.getAttribute("name")
                         conset.append(s)
                 if v.nodeName == "parameter_set":
                     for param in v.childNodes:
-                        if isinstance(param, xml.dom.minidom.Text):
+                        if isinstance(param, xml.dom.minidom.Text) or isinstance(param, xml.dom.minidom.Comment):
                             continue
                         name = param.getAttribute("parameter_name")
                         type = param.getAttribute("parameter_type")
@@ -318,17 +320,25 @@ class Tenant(AbstractGraph):
 
     def ParseLinks(self, root, resources):
         for edge in root.childNodes:
+            if isinstance(edge, xml.dom.minidom.Text) or isinstance(edge, xml.dom.minidom.Comment):
+                continue
             if edge.nodeName == "link":
                 src = edge.getAttribute("node1")
                 port1 = edge.getAttribute("port1")
                 dst = edge.getAttribute("node2")
                 port2 = edge.getAttribute("port2")
-                cap = int(edge.getAttribute("channel_capacity"))
+                try:
+                    cap = int(edge.getAttribute("channel_capacity"))
+                except:
+                    cap = 0
                 service = edge.getAttribute("service") == "1"
                 assigned = edge.getAttribute("assignedTo")
-                # TODO: error handling
-                srcv = [v for v in self.vertices if v.id == src][0]
-                dstv = [v for v in self.vertices if v.id == dst][0]
+                try:
+                    srcv = [v for v in self.vertices if v.id == src][0]
+                    dstv = [v for v in self.vertices if v.id == dst][0]
+                except:
+                    print("Incorrect link:", src, dst)
+                    continue
                 e = Link(srcv, dstv, cap)
                 e.port1 = port1
                 e.port2 = port2

@@ -26,14 +26,14 @@ class ResourceGraph(AbstractGraph):
         for v in self.vertices:
             if isinstance(v, VM):
                 tag = dom.createElement("server")
-                tag.setAttribute("server_name", v.id)
+                tag.setAttribute("name", v.id)
                 tag.setAttribute("image_id", v.image)
             elif isinstance(v, Storage):
                 tag = dom.createElement("storage")
-                tag.setAttribute("storage_name", v.id)
+                tag.setAttribute("name", v.id)
             elif isinstance(v, NetElement):
                 tag = dom.createElement("netelement")
-                tag.setAttribute("netelement_name", v.id)
+                tag.setAttribute("name", v.id)
                 tag.setAttribute("netelement_type", v.type)
                 tag.setAttribute("ip", v.ip)
                 tag.setAttribute("is_router", "1" if v.router else "0")
@@ -83,43 +83,45 @@ class ResourceGraph(AbstractGraph):
         self.vertices = []
         self.edges = []
         for node in dom.childNodes:
+            if isinstance(node, xml.dom.minidom.Text) or isinstance(node, xml.dom.minidom.Comment):
+                continue
             if node.tagName == "resources":
                 self.LoadFromXmlNode(node)
         f.close()
 
     def ParseNodes(self, root, resources):
         for vertex in root.childNodes:
-            if isinstance(vertex, xml.dom.minidom.Text) or (vertex.nodeName == "link"):
+            if isinstance(vertex, xml.dom.minidom.Text) or isinstance(vertex, xml.dom.minidom.Comment) or (vertex.nodeName == "link"):
                 continue
             service = True if vertex.getAttribute("service") == "1" else False
             ports = []
             params = []
             conset = []
             for v in vertex.childNodes:
-                if isinstance(v, xml.dom.minidom.Text):
+                if isinstance(v, xml.dom.minidom.Text) or isinstance(v, xml.dom.minidom.Comment):
                     continue
                 if v.nodeName == "connection_set":
                     for port in v.childNodes:
-                        if isinstance(port, xml.dom.minidom.Text):
+                        if isinstance(port, xml.dom.minidom.Text) or isinstance(port, xml.dom.minidom.Comment):
                             continue
                         s = port.getAttribute("port_name")
                         ports.append(s)
                 if v.nodeName == "parameter_set":
                     for param in v.childNodes:
-                        if isinstance(param, xml.dom.minidom.Text):
+                        if isinstance(param, xml.dom.minidom.Text) or isinstance(param, xml.dom.minidom.Comment):
                             continue
                         name = param.getAttribute("parameter_name")
                         type = param.getAttribute("parameter_type")
                         value = param.getAttribute("value_user")
                         params.append([name, type, value])
             if vertex.nodeName == "server":
-                v = VM(vertex.getAttribute("server_name"))
+                v = VM(vertex.getAttribute("name"))
                 v.image = vertex.getAttribute("image_id")            
             elif vertex.nodeName == "storage":
-                v = Storage(vertex.getAttribute("storage_name"))
+                v = Storage(vertex.getAttribute("name"))
             elif vertex.nodeName == "netelement":
                 tag = vertex
-                v = NetElement(tag.getAttribute("netelement_name"))              
+                v = NetElement(tag.getAttribute("name"))              
                 v.type = tag.getAttribute("netelement_type")
                 v.ip = tag.getAttribute("ip")
                 v.router = tag.getAttribute("is_router") == 1
@@ -143,16 +145,24 @@ class ResourceGraph(AbstractGraph):
 
     def ParseLinks(self, root):
         for edge in root.childNodes:
+            if isinstance(edge, xml.dom.minidom.Text) or isinstance(edge, xml.dom.minidom.Comment):
+                continue
             if edge.nodeName == "link":
                 src = edge.getAttribute("node1")
                 port1 = edge.getAttribute("port1")
                 dst = edge.getAttribute("node2")
                 port2 = edge.getAttribute("port2")
-                cap = int(edge.getAttribute("channel_capacity"))
+                try:
+                    cap = int(edge.getAttribute("channel_capacity"))
+                except:
+                    cap = 0
                 service = edge.getAttribute("service") == "1"
-                # TODO: error handling
-                srcv = [v for v in self.vertices if v.id == src][0]
-                dstv = [v for v in self.vertices if v.id == dst][0]
+                try:
+                    srcv = [v for v in self.vertices if v.id == src][0]
+                    dstv = [v for v in self.vertices if v.id == dst][0]
+                except:
+                    print("Incorrect link:", src, dst)
+                    continue
                 e = Link(srcv, dstv, cap)
                 e.port1 = port1
                 e.port2 = port2
