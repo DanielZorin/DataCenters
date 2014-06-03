@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<params>
+<st>
+<parameter_set>
+   <parameter parameter_name="size" parameter_type="real" value_default="2" min="1" max="5"/>
+   <!-- The size of the volume in gigabytes -->
+</parameter_set>
+</st>
+</params>

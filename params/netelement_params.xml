@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<params>
+<netelement>
+<parameter_set>
+   <parameter parameter_name="router" parameter_type="integer" value_default="0" min="0" max="1"/>
+   <!-- netelement of this type is not external router -->
+   <parameter parameter_name="fw" parameter_type="string" value_default="0.0.0.0" min="" max=""/>
+   <!-- netelement for provider's vnf -->
+   <parameter parameter_name="nat" parameter_type="string" value_default="0.0.0.0" min="" max=""/>
+   <!-- netelement for provider's vnf -->
+   <parameter parameter_name="dns" parameter_type="string" value_default="0.0.0.0" min="" max=""/>
+   <!-- netelement for provider's vnf: dns server IP -->
+   <parameter parameter_name="dhcp" parameter_type="string" value_default="0.0.0.0" min="" max=""/>
+   <!-- netelement for provider's vnf: dhcp server IP -->      
+</parameter_set>
+</netelement>
+</params>
+ 

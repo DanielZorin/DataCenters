@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<params>
+<vnf>
+<parameter_set>
+   <parameter parameter_name="VCPUs" parameter_type="integer" value_default="2" min="1" max="8" />
+   <!-- Number of virtual CPUs presented to the instance -->
+   <parameter parameter_name="RAM" parameter_type="real" value_default="4" min="0.5" max="16" />
+   <!-- Virtual machine memory in gigabytes -->
+   <parameter parameter_name="RootDisk" parameter_type="integer" value_default="40" min="1" max="160" />
+   <!-- Virtual root disk size in gigabytes -->
+</parameter_set>
+</vnf>
+</params>
+ 

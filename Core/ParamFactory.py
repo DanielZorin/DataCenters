@@ -15,11 +15,16 @@ class ParamFactory(object):
 
     @staticmethod
     def LoadDir(url):
-        ParamFactory.patams = {}
+        ParamFactory.params = {}
         ParamFactory.forbiddenlinks = []
         if os.path.isdir(url):
             for s in os.listdir(url):
-                ParamFactory.Load(os.path.join(url, s))
+                xml = os.path.join(url, s)
+                if os.path.isfile(xml):
+                    try:
+                        ParamFactory.Load(xml)
+                    except:
+                        print("Can't parse file: ", xml)
 
     @staticmethod
     def Load(xmlfile):
