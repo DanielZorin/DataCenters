@@ -29,8 +29,9 @@ protected:
         for ( ; it != parameters.end(); ++it ) {
             Parameter* type = it->first;
             ParameterValue* value = it->second;
-            if (other->parameters.find(type) != other->parameters.end() &&
-                    !value->compare(other->parameters.at(type)) )
+            if ( other->parameters.find(type) == other->parameters.end() )
+               return false;
+            if ( !value->compare(other->parameters.at(type)) )
                 return false;
         }
         return true;

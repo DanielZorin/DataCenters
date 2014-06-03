@@ -21,7 +21,9 @@ TenantXMLFactory::TenantXMLFactory(const QDomElement & element)
     std::list<Element*> list = elementsXML.keys().toStdList();
 
     // Parsing elements, removing extra net-elements, saving ports and external ports
-    Elements elements;
+    Elements elements(list.begin(), list.end());
+
+    /*
     for ( std::list<Element*>::iterator it = list.begin(); it != list.end(); ++it ) {
     	Element* elem = (*it);
     	// Ignoring non-router net-elements and their links
@@ -45,7 +47,7 @@ TenantXMLFactory::TenantXMLFactory(const QDomElement & element)
     		}
     	}
     }
-
+*/
     request = new Request(elements, element.attribute("name").toStdString());
 }
 
