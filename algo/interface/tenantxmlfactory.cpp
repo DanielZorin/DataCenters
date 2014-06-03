@@ -21,33 +21,20 @@ TenantXMLFactory::TenantXMLFactory(const QDomElement & element)
     std::list<Element*> list = elementsXML.keys().toStdList();
 
     // Parsing elements, removing extra net-elements, saving ports and external ports
-    Elements elements(list.begin(), list.end());
+    Elements elements;
 
-    /*
     for ( std::list<Element*>::iterator it = list.begin(); it != list.end(); ++it ) {
     	Element* elem = (*it);
-    	// Ignoring non-router net-elements and their links
-    	if ( !isNonRouterSwitch(elem) && !elem->isLink() ) {
-    	    if ( elem->isNode() )
-    	        ports.insert(elem->toNode()->ports.begin(), elem->toNode()->ports.end());
 
-    	    if ( elem->isVnf() ) {
-    	        addExternalPorts(elem->toNode());
-    	    }
+        if ( elem->isNode() )
+            ports.insert(elem->toNode()->ports.begin(), elem->toNode()->ports.end());
 
-            elements.insert(elem);
-    	} else if ( elem->isLink() ) {
-    		Element* first = elem->toLink()->getFirst()->getParentNode();
-    		Element* second = elem->toLink()->getSecond()->getParentNode();
-    		if ( !isNonRouterSwitch(first) && !isNonRouterSwitch(second) ) {
-    			elements.insert(elem);
-    		} else {
-    			first->toNode()->ports.erase(elem->toLink()->getFirst());
-    			second->toNode()->ports.erase(elem->toLink()->getSecond());
-    		}
-    	}
+        if ( elem->isVnf() )
+            addExternalPorts(elem->toNode());
+
+        elements.insert(elem);
     }
-*/
+
     request = new Request(elements, element.attribute("name").toStdString());
 }
 
