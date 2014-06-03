@@ -1,6 +1,6 @@
 from Core.Tenant import *
 from PyQt4.QtCore import Qt
-from PyQt4.QtGui import QDialog, QIntValidator, QTableWidgetItem
+from PyQt4.QtGui import QDialog, QIntValidator, QDoubleValidator, QTableWidgetItem, QLineEdit
 from DCGUI.Windows.ui_TenantVM import Ui_TenantVM
 from DCGUI.Windows.ui_TenantStorage import Ui_TenantStorage
 from DCGUI.Windows.ui_TenantSwitch import Ui_TenantSwitch
@@ -33,12 +33,23 @@ class VertexDialog(QDialog):
             it = QTableWidgetItem(p.name)
             it.setFlags(Qt.ItemIsEnabled)
             self.ui.params.setItem(0, 0, it)
-            it = QTableWidgetItem(p.type + " [" + p.minv + "..." + p.maxv + "]")
+            types = p.type
+            if p.type != "string":
+                types += " [" + str(p.minv) + "..." + str(p.maxv) + "]"
+            it = QTableWidgetItem(types)
             it.setFlags(Qt.ItemIsEnabled)
             self.ui.params.setItem(0, 1, it)
             it = QTableWidgetItem(str(p.value))
             it.setFlags(Qt.ItemIsEditable | Qt.ItemIsEnabled | Qt.ItemIsSelectable)
-            self.ui.params.setItem(0, 2, it)
+            le = QLineEdit(self.ui.params)
+            le.setText(str(p.value))
+            if p.type == "integer":
+                valid = QIntValidator(p.minv, p.maxv, self)
+                le.setValidator(valid)
+            if p.type == "real":
+                valid = QDoubleValidator(p.minv, p.maxv, 10, self)
+                le.setValidator(valid)
+            self.ui.params.setCellWidget(0, 2, le)
         height = 0
         for i in range(self.ui.params.rowCount()):
             height += self.ui.params.rowHeight(i)
@@ -60,7 +71,7 @@ class VertexDialog(QDialog):
         for i in range(self.ui.params.rowCount()):
             for p in v.params:
                 if p.name == str(self.ui.params.item(i, 0).text()):
-                    p.value = str(self.ui.params.item(i, 2).text())
+                    p.value = str(self.ui.params.cellWidget(i, 2).text())
         
 class VMDialog(VertexDialog):
     def __init__(self):

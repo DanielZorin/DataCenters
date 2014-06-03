@@ -12,11 +12,13 @@ class Param:
 class ParamFactory(object):
     params = {}
     forbiddenlinks = []
+    images = []
 
     @staticmethod
     def LoadDir(url):
         ParamFactory.params = {}
         ParamFactory.forbiddenlinks = []
+        ParamFactory.images = []
         if os.path.isdir(url):
             for s in os.listdir(url):
                 xml = os.path.join(url, s)
@@ -44,6 +46,10 @@ class ParamFactory(object):
                         v2 = node.getAttribute("to")
                         ParamFactory.forbiddenlinks.append([v1, v2])
                         continue
+                    if node.tagName == "image":
+                        img = node.getAttribute("id")
+                        ParamFactory.images.append(img)
+                        continue
                     nodetype = node.tagName
                     if not nodetype in ParamFactory.params:
                         ParamFactory.params[nodetype] = []
@@ -59,6 +65,12 @@ class ParamFactory(object):
                                 value = param.getAttribute("value_default")
                                 minv = param.getAttribute("min")
                                 maxv = param.getAttribute("max")
+                                if type == "integer":
+                                    minv = int(minv)
+                                    maxv = int(maxv)
+                                if type == "real":
+                                    minv = float(minv)
+                                    maxv = float(maxv)
                                 ParamFactory.params[nodetype].append(Param(name, type, value, minv, maxv))
         f.close()
 
