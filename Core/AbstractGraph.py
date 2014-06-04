@@ -42,8 +42,16 @@ class AbstractGraph:
         self.vertices.append(v)
         v.number = len(self.vertices)
 
-    def GenCoords(self, v):
-        pass
+    def GenCoords(self, vert):
+        x = 0
+        y = 0
+        for v in self.vertices:
+            if v.x > x:
+                x = v.x
+            if v.y > y:
+                y = v.y
+        vert.y = y + 30
+        vert.x = (x + 40) / 2
 
     def DeleteVertex(self, v):
         ''' Delete vertex and all edges incident to it'''
