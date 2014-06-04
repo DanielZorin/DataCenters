@@ -50,6 +50,7 @@ class VertexDialog(QDialog):
                 valid = QDoubleValidator(p.minv, p.maxv, 10, self)
                 le.setValidator(valid)
             self.ui.params.setCellWidget(0, 2, le)
+            self.ui.params.resizeColumnsToContents()
         height = 0
         for i in range(self.ui.params.rowCount()):
             height += self.ui.params.rowHeight(i)
@@ -79,11 +80,15 @@ class VMDialog(VertexDialog):
         
     def Load(self, v):
         self.LoadCommon(v)
-        self.ui.image.setText(v.image)
+        for s in ParamFactory.images:
+            self.ui.image.addItem(s)
+        for i in range(self.ui.image.count()):
+            if self.ui.image.itemText(i) == v.image:
+                self.ui.image.setCurrentIndex(i)
 
     def SetResult(self, v):
         self.SetResultCommon(v)
-        v.image = str(self.ui.image.text())
+        v.image = str(self.ui.image.currentText())
         
 class StorageDialog(VertexDialog):
     def __init__(self):

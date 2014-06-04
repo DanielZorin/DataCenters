@@ -5,32 +5,32 @@
     <message>
         <location filename="Windows/ui_ComputerDialog.py" line="82"/>
         <source>Name:</source>
-        <translation>Name:</translation>
+        <translation type="obsolete">Name:</translation>
     </message>
     <message>
         <location filename="Windows/ui_ComputerDialog.py" line="83"/>
         <source>Performance:</source>
-        <translation>Performance:</translation>
+        <translation type="obsolete">Performance:</translation>
     </message>
     <message>
         <location filename="Windows/ui_ComputerDialog.py" line="85"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="obsolete">OK</translation>
     </message>
     <message>
         <location filename="Windows/ui_ComputerDialog.py" line="86"/>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation type="obsolete">Cancel</translation>
     </message>
     <message>
         <location filename="Windows/ui_ComputerDialog.py" line="81"/>
         <source>Edit Computational Node</source>
-        <translation>Edit Computational Node</translation>
+        <translation type="obsolete">Edit Computational Node</translation>
     </message>
     <message>
         <location filename="Windows/ui_ComputerDialog.py" line="84"/>
         <source>RAM capacity:</source>
-        <translation>RAM capacity:</translation>
+        <translation type="obsolete">RAM capacity:</translation>
     </message>
 </context>
 <context>
@@ -194,22 +194,22 @@
     <message>
         <location filename="Windows/ui_EdgeDialog.py" line="60"/>
         <source>Bandwidth:</source>
-        <translation>Bandwidth:</translation>
+        <translation type="obsolete">Bandwidth:</translation>
     </message>
     <message>
         <location filename="Windows/ui_EdgeDialog.py" line="61"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="obsolete">OK</translation>
     </message>
     <message>
         <location filename="Windows/ui_EdgeDialog.py" line="62"/>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation type="obsolete">Cancel</translation>
     </message>
     <message>
         <location filename="Windows/ui_EdgeDialog.py" line="59"/>
         <source>Edit Channel</source>
-        <translation>Edit Channel</translation>
+        <translation type="obsolete">Edit Channel</translation>
     </message>
 </context>
 <context>
@@ -566,12 +566,12 @@
         <translation>Untitled</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="482"/>
+        <location filename="MainWindow.py" line="480"/>
         <source>No</source>
         <translation>No</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="482"/>
+        <location filename="MainWindow.py" line="480"/>
         <source>Yes</source>
         <translation>Yes</translation>
     </message>
@@ -586,7 +586,7 @@
         <translation>Project not found</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="371"/>
+        <location filename="MainWindow.py" line="369"/>
         <source>&amp;%1: %2</source>
         <translation></translation>
     </message>
@@ -1113,32 +1113,32 @@
     <message>
         <location filename="Windows/ui_StorageDialog.py" line="81"/>
         <source>Edit Storage</source>
-        <translation>Edit Storage</translation>
+        <translation type="obsolete">Edit Storage</translation>
     </message>
     <message>
         <location filename="Windows/ui_StorageDialog.py" line="82"/>
         <source>Name:</source>
-        <translation>Name:</translation>
+        <translation type="obsolete">Name:</translation>
     </message>
     <message>
         <location filename="Windows/ui_StorageDialog.py" line="83"/>
         <source>Capacity:</source>
-        <translation>Capacity:</translation>
+        <translation type="obsolete">Capacity:</translation>
     </message>
     <message>
         <location filename="Windows/ui_StorageDialog.py" line="84"/>
         <source>Type:</source>
-        <translation>Type:</translation>
+        <translation type="obsolete">Type:</translation>
     </message>
     <message>
         <location filename="Windows/ui_StorageDialog.py" line="85"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="obsolete">OK</translation>
     </message>
     <message>
         <location filename="Windows/ui_StorageDialog.py" line="86"/>
         <source>Cancel</source>
-        <translation>Cancel</translation>
+        <translation type="obsolete">Cancel</translation>
     </message>
 </context>
 <context>
@@ -2294,7 +2294,7 @@
 <context>
     <name>self.resourcesGraphEditor</name>
     <message>
-        <location filename="MainWindow.py" line="419"/>
+        <location filename="MainWindow.py" line="417"/>
         <source>Resources Graph Editor</source>
         <translation>Resources Graph Editor</translation>
     </message>
@@ -2302,7 +2302,7 @@
 <context>
     <name>self.tenantEditor</name>
     <message>
-        <location filename="MainWindow.py" line="418"/>
+        <location filename="MainWindow.py" line="416"/>
         <source>Tenant Editor</source>
         <translation>Tenant Editor</translation>
     </message>

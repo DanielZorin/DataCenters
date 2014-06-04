@@ -75,7 +75,7 @@ QLabel, QSlider, QCheckBox {
         </widget>
        </item>
        <item row="3" column="1">
-        <widget class="QLineEdit" name="image"/>
+        <widget class="QComboBox" name="image"/>
        </item>
       </layout>
      </item>

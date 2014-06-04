@@ -46,7 +46,7 @@ class Ui_TenantVM(object):
         self.label_4 = QtGui.QLabel(TenantVM)
         self.label_4.setObjectName(_fromUtf8("label_4"))
         self.formLayout.setWidget(3, QtGui.QFormLayout.LabelRole, self.label_4)
-        self.image = QtGui.QLineEdit(TenantVM)
+        self.image = QtGui.QComboBox(TenantVM)
         self.image.setObjectName(_fromUtf8("image"))
         self.formLayout.setWidget(3, QtGui.QFormLayout.FieldRole, self.image)
         self.verticalLayout.addLayout(self.formLayout)

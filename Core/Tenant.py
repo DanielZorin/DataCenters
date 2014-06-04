@@ -304,10 +304,11 @@ class Tenant(AbstractGraph):
             assigned = vertex.getAttribute("assignedTo") 
             x = vertex.getAttribute("x")
             y = vertex.getAttribute("y")
-            if x != '':
+            if (x != '') and (y != ''):
                 v.x = float(x)
-            if y != '':
                 v.y = float(y)
+            else:
+                self.GenCoords(v)
             v.service = service
             v.ports = ports
             for vp in v.params:
