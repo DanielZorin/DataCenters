@@ -72,11 +72,17 @@ class Link:
     :param e2: second node
     :param capacity: bandwidth
     '''
-    def __init__(self, e1, e2, capacity):
+    def __init__(self, e1, e2, capacity, port1=None, port2=None):
         self.e1 = e1
         self.e2 = e2
-        self.port1 = e1.addPort()
-        self.port2 = e2.addPort()
+        if not port1:
+            self.port1 = e1.addPort()
+        else:
+            self.port1 = port1
+        if not port2:
+            self.port2 = e2.addPort()
+        else:
+            self.port2 = port2
         self.capacity = capacity
         self.service = False
         self.assigned = []
@@ -340,9 +346,7 @@ class Tenant(AbstractGraph):
                 except:
                     print("Incorrect link:", src, dst)
                     continue
-                e = Link(srcv, dstv, cap)
-                e.port1 = port1
-                e.port2 = port2
+                e = Link(srcv, dstv, cap, port1, port2)
                 e.service = service
                 if assigned:
                     self.AssignLink(e, assigned, resources)

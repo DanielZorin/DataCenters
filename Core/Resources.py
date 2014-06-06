@@ -164,9 +164,7 @@ class ResourceGraph(AbstractGraph):
                 except:
                     print("Incorrect link:", src, dst)
                     continue
-                e = Link(srcv, dstv, cap)
-                e.port1 = port1
-                e.port2 = port2
+                e = Link(srcv, dstv, cap, port1, port2)
                 e.service = service
                 self.edges.append(e)
 

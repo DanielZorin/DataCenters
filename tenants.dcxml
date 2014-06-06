@@ -10,15 +10,22 @@
 				<port port_name="id!1401362471.87_port_4"/>
 				<port port_name="id!1401362471.87_port_5"/>
 			</connection_set>
-			<parameter_set/>
+			<parameter_set>
+				<parameter parameter_name="router" parameter_type="integer" value_user="0"/>
+				<parameter parameter_name="fw" parameter_type="string" value_user="0.0.0.0"/>
+				<parameter parameter_name="nat" parameter_type="string" value_user="0.0.0.0"/>
+				<parameter parameter_name="dns" parameter_type="string" value_user="0.0.0.0"/>
+				<parameter parameter_name="dhcp" parameter_type="string" value_user="0.0.0.0"/>
+			</parameter_set>
 		</netelement>
 		<server image_id="" name="id!1401362472.76" service="1" x="88.5" y="70.5">
 			<connection_set number_of_ports="1">
 				<port port_name="id!1401362472.76_port_0"/>
 			</connection_set>
 			<parameter_set>
-				<parameter parameter_name="memory" parameter_type="real" value_user="512"/>
-				<parameter parameter_name="vcpus" parameter_type="int" value_user="1"/>
+				<parameter parameter_name="VCPUs" parameter_type="integer" value_user="2"/>
+				<parameter parameter_name="RAM" parameter_type="real" value_user="4"/>
+				<parameter parameter_name="RootDisk" parameter_type="integer" value_user="40"/>
 			</parameter_set>
 		</server>
 		<server image_id="" name="id!1401362473.1" service="1" x="83.5" y="119.5">
@@ -26,8 +33,9 @@
 				<port port_name="id!1401362473.1_port_0"/>
 			</connection_set>
 			<parameter_set>
-				<parameter parameter_name="memory" parameter_type="real" value_user="512"/>
-				<parameter parameter_name="vcpus" parameter_type="int" value_user="1"/>
+				<parameter parameter_name="VCPUs" parameter_type="integer" value_user="2"/>
+				<parameter parameter_name="RAM" parameter_type="real" value_user="4"/>
+				<parameter parameter_name="RootDisk" parameter_type="integer" value_user="40"/>
 			</parameter_set>
 		</server>
 		<server image_id="" name="id!1401362473.45" service="1" x="108.5" y="167.5">
@@ -35,35 +43,33 @@
 				<port port_name="id!1401362473.45_port_0"/>
 			</connection_set>
 			<parameter_set>
-				<parameter parameter_name="memory" parameter_type="real" value_user="512"/>
-				<parameter parameter_name="vcpus" parameter_type="int" value_user="1"/>
+				<parameter parameter_name="VCPUs" parameter_type="integer" value_user="2"/>
+				<parameter parameter_name="RAM" parameter_type="real" value_user="4"/>
+				<parameter parameter_name="RootDisk" parameter_type="integer" value_user="40"/>
 			</parameter_set>
 		</server>
-		<storage service="1" name="id!1401362474.43" x="297.5" y="44.5">
+		<storage name="id!1401362474.43" service="1" x="297.5" y="44.5">
 			<connection_set number_of_ports="1">
 				<port port_name="id!1401362474.43_port_0"/>
 			</connection_set>
 			<parameter_set>
-				<parameter parameter_name="st_memory" parameter_type="real" value_user="512"/>
-				<parameter parameter_name="st_vcpus" parameter_type="int" value_user="1"/>
+				<parameter parameter_name="size" parameter_type="real" value_user="2"/>
 			</parameter_set>
 		</storage>
-		<storage service="1" name="id!1401362474.71" x="294.5" y="94.5">
+		<storage name="id!1401362474.71" service="1" x="294.5" y="94.5">
 			<connection_set number_of_ports="1">
 				<port port_name="id!1401362474.71_port_0"/>
 			</connection_set>
 			<parameter_set>
-				<parameter parameter_name="st_memory" parameter_type="real" value_user="512"/>
-				<parameter parameter_name="st_vcpus" parameter_type="int" value_user="1"/>
+				<parameter parameter_name="size" parameter_type="real" value_user="2"/>
 			</parameter_set>
 		</storage>
-		<storage service="1" name="id!1401362475.0" x="287.5" y="159.5">
+		<storage name="id!1401362475.0" service="1" x="287.5" y="159.5">
 			<connection_set number_of_ports="1">
 				<port port_name="id!1401362475.0_port_0"/>
 			</connection_set>
 			<parameter_set>
-				<parameter parameter_name="st_memory" parameter_type="real" value_user="512"/>
-				<parameter parameter_name="st_vcpus" parameter_type="int" value_user="1"/>
+				<parameter parameter_name="size" parameter_type="real" value_user="2"/>
 			</parameter_set>
 		</storage>
 		<link channel_capacity="1" node1="id!1401362472.76" node2="id!1401362471.87" port1="id!1401362472.76_port_0" port2="id!1401362471.87_port_0" service="0"/>
@@ -84,8 +90,9 @@
 						<port name="id!1401362506.34_port_3"/>
 					</connection_set>
 					<parameter_set>
-						<parameter parameter_name="memory" parameter_type="real" parameter_value="512"/>
-						<parameter parameter_name="vcpus" parameter_type="int" parameter_value="1"/>
+						<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="2"/>
+						<parameter parameter_name="RAM" parameter_type="real" parameter_value="4"/>
+						<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="40"/>
 					</parameter_set>
 				</vm>
 				<st name="id!1401362507.21" service="1" x="152.5" y="36.5">
@@ -94,8 +101,7 @@
 						<port name="id!1401362507.21_port_1"/>
 					</connection_set>
 					<parameter_set>
-						<parameter parameter_name="st_memory" parameter_type="real" parameter_value="512"/>
-						<parameter parameter_name="st_vcpus" parameter_type="int" parameter_value="1"/>
+						<parameter parameter_name="size" parameter_type="real" parameter_value="2"/>
 					</parameter_set>
 				</st>
 				<netelement external_port="" ip="" is_router="0" is_service="0" name="id!1401362508.48" netelement_type="Switch" provider_name="" service="1" service_name="" x="206.5" y="87.5">
@@ -109,7 +115,13 @@
 						<port name="id!1401362508.48_port_6"/>
 						<port name="id!1401362508.48_port_7"/>
 					</connection_set>
-					<parameter_set/>
+					<parameter_set>
+						<parameter parameter_name="router" parameter_type="integer" parameter_value="0"/>
+						<parameter parameter_name="fw" parameter_type="string" parameter_value="0.0.0.0"/>
+						<parameter parameter_name="nat" parameter_type="string" parameter_value="0.0.0.0"/>
+						<parameter parameter_name="dns" parameter_type="string" parameter_value="0.0.0.0"/>
+						<parameter parameter_name="dhcp" parameter_type="string" parameter_value="0.0.0.0"/>
+					</parameter_set>
 				</netelement>
 				<vnf is_service="1" name="id!1401362509.26" profile_type="" service="1" service_name="service1" user_name="t2" vnf_type="" x="272.5" y="70.5">
 					<exported_connection_set number_of_ports="3">
@@ -121,7 +133,11 @@
 						<port name="id!1401362509.26_port_0"/>
 						<port name="id!1401362509.26_port_1"/>
 					</connection_set>
-					<parameter_set/>
+					<parameter_set>
+						<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="2"/>
+						<parameter parameter_name="RAM" parameter_type="real" parameter_value="4"/>
+						<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="40"/>
+					</parameter_set>
 				</vnf>
 				<vnf is_service="1" name="id!1401362512.75" profile_type="" service="1" service_name="service2" user_name="t2" vnf_type="" x="258.5" y="127.5">
 					<exported_connection_set number_of_ports="3">
@@ -133,7 +149,11 @@
 						<port name="id!1401362512.75_port_0"/>
 						<port name="id!1401362512.75_port_1"/>
 					</connection_set>
-					<parameter_set/>
+					<parameter_set>
+						<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="2"/>
+						<parameter parameter_name="RAM" parameter_type="real" parameter_value="4"/>
+						<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="40"/>
+					</parameter_set>
 				</vnf>
 				<vnf is_service="0" name="id!1401362513.16" profile_type="" service="1" service_name="" user_name="" vnf_type="" x="122.5" y="172.5">
 					<exported_connection_set number_of_ports="0"/>
@@ -141,7 +161,11 @@
 						<port name="id!1401362513.16_port_0"/>
 						<port name="id!1401362513.16_port_1"/>
 					</connection_set>
-					<parameter_set/>
+					<parameter_set>
+						<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="2"/>
+						<parameter parameter_name="RAM" parameter_type="real" parameter_value="4"/>
+						<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="40"/>
+					</parameter_set>
 				</vnf>
 			</list_of_nodes>
 			<list_of_links>
@@ -162,8 +186,9 @@
 						<port name="id!1401362562.18_port_3"/>
 					</connection_set>
 					<parameter_set>
-						<parameter parameter_name="memory" parameter_type="real" parameter_value="512"/>
-						<parameter parameter_name="vcpus" parameter_type="int" parameter_value="1"/>
+						<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="2"/>
+						<parameter parameter_name="RAM" parameter_type="real" parameter_value="4"/>
+						<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="40"/>
 					</parameter_set>
 				</vm>
 				<netelement external_port="5" ip="" is_router="0" is_service="0" name="id!1401362563.16" netelement_type="Switch" provider_name="t1" service="1" service_name="service2" x="218.5" y="36.5">
@@ -173,7 +198,13 @@
 						<port name="id!1401362563.16_port_2"/>
 						<port name="id!1401362563.16_port_3"/>
 					</connection_set>
-					<parameter_set/>
+					<parameter_set>
+						<parameter parameter_name="router" parameter_type="integer" parameter_value="0"/>
+						<parameter parameter_name="fw" parameter_type="string" parameter_value="0.0.0.0"/>
+						<parameter parameter_name="nat" parameter_type="string" parameter_value="0.0.0.0"/>
+						<parameter parameter_name="dns" parameter_type="string" parameter_value="0.0.0.0"/>
+						<parameter parameter_name="dhcp" parameter_type="string" parameter_value="0.0.0.0"/>
+					</parameter_set>
 				</netelement>
 				<st name="id!1401362563.86" service="1" x="159.5" y="136.5">
 					<connection_set number_of_ports="2">
@@ -181,8 +212,7 @@
 						<port name="id!1401362563.86_port_1"/>
 					</connection_set>
 					<parameter_set>
-						<parameter parameter_name="st_memory" parameter_type="real" parameter_value="512"/>
-						<parameter parameter_name="st_vcpus" parameter_type="int" parameter_value="1"/>
+						<parameter parameter_name="size" parameter_type="real" parameter_value="2"/>
 					</parameter_set>
 				</st>
 				<vnf is_service="0" name="id!1401362565.75" profile_type="" service="1" service_name="" user_name="" vnf_type="" x="243.5" y="128.5">
@@ -191,7 +221,11 @@
 						<port name="id!1401362565.75_port_0"/>
 						<port name="id!1401362565.75_port_1"/>
 					</connection_set>
-					<parameter_set/>
+					<parameter_set>
+						<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="2"/>
+						<parameter parameter_name="RAM" parameter_type="real" parameter_value="4"/>
+						<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="40"/>
+					</parameter_set>
 				</vnf>
 			</list_of_nodes>
 			<list_of_links>
