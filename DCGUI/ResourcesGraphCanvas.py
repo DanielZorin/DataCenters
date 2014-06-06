@@ -244,6 +244,8 @@ class ResourcesGraphCanvas(QWidget):
     def EditVertex(self, v):
         if isinstance(v, VM):
             d = VMDialog()
+            #TODO: this is a hotfix 
+            d.ui.image.setEnabled(False)
         elif isinstance(v, Storage):
             d = StorageDialog()
         elif isinstance(v, NetElement):
