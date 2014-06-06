@@ -59,7 +59,7 @@ class ResourceGraph(AbstractGraph):
                 param = dom.createElement("parameter")
                 param.setAttribute("parameter_name", p.name)
                 param.setAttribute("parameter_type", p.type)
-                param.setAttribute("value_user", p.value)
+                param.setAttribute("parameter_value", p.value)
                 pset.appendChild(param)
             tag.appendChild(pset)
             root.appendChild(tag)
@@ -112,7 +112,7 @@ class ResourceGraph(AbstractGraph):
                             continue
                         name = param.getAttribute("parameter_name")
                         type = param.getAttribute("parameter_type")
-                        value = param.getAttribute("value_user")
+                        value = param.getAttribute("parameter_value")
                         params.append([name, type, value])
             if vertex.nodeName == "server":
                 v = VM(vertex.getAttribute("name"))
