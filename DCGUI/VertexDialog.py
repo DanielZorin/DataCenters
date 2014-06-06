@@ -176,8 +176,9 @@ class SwitchDialog(VertexDialog):
         while self.ui.servicename.count() > 0:
             self.ui.servicename.removeItem(0)
         name = str(self.ui.provider.currentText())
-        for p in self.services[name].keys():
-            self.ui.servicename.addItem(p)
+        if name in self.services:
+            for p in self.services[name].keys():
+                self.ui.servicename.addItem(p)
         #self.ServiceChanged(0)
 
     def ServiceChanged(self, index):
@@ -185,8 +186,10 @@ class SwitchDialog(VertexDialog):
             self.ui.port.removeItem(0)
         prov = str(self.ui.provider.currentText())
         name = str(self.ui.servicename.currentText())
-        for p in self.services[prov][name]:
-            self.ui.port.addItem(p)
+        if prov in self.services:
+            if name in self.services[prov]:
+                for p in self.services[prov][name]:
+                    self.ui.port.addItem(p)
 
 class VnfDialog(VertexDialog):
     def __init__(self):
