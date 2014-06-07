@@ -4,7 +4,16 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    _fromUtf8 = lambda s: s
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_TenantVM(object):
     def setupUi(self, TenantVM):
@@ -116,18 +125,18 @@ class Ui_TenantVM(object):
         QtCore.QMetaObject.connectSlotsByName(TenantVM)
 
     def retranslateUi(self, TenantVM):
-        TenantVM.setWindowTitle(QtGui.QApplication.translate("TenantVM", "Edit VM", None, QtGui.QApplication.UnicodeUTF8))
-        self.namelabel.setText(QtGui.QApplication.translate("TenantVM", "Name:", None, QtGui.QApplication.UnicodeUTF8))
-        self.service.setText(QtGui.QApplication.translate("TenantVM", "Service", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_4.setText(QtGui.QApplication.translate("TenantVM", "Image Name:", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_3.setText(QtGui.QApplication.translate("TenantVM", "Parameters:", None, QtGui.QApplication.UnicodeUTF8))
+        TenantVM.setWindowTitle(_translate("TenantVM", "Edit VM", None))
+        self.namelabel.setText(_translate("TenantVM", "Name:", None))
+        self.service.setText(_translate("TenantVM", "Service", None))
+        self.label_4.setText(_translate("TenantVM", "Image Name:", None))
+        self.label_3.setText(_translate("TenantVM", "Parameters:", None))
         item = self.params.horizontalHeaderItem(0)
-        item.setText(QtGui.QApplication.translate("TenantVM", "Name", None, QtGui.QApplication.UnicodeUTF8))
+        item.setText(_translate("TenantVM", "Name", None))
         item = self.params.horizontalHeaderItem(1)
-        item.setText(QtGui.QApplication.translate("TenantVM", "Type", None, QtGui.QApplication.UnicodeUTF8))
+        item.setText(_translate("TenantVM", "Type", None))
         item = self.params.horizontalHeaderItem(2)
-        item.setText(QtGui.QApplication.translate("TenantVM", "Value", None, QtGui.QApplication.UnicodeUTF8))
-        self.OK.setText(QtGui.QApplication.translate("TenantVM", "OK", None, QtGui.QApplication.UnicodeUTF8))
-        self.Cancel.setText(QtGui.QApplication.translate("TenantVM", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
+        item.setText(_translate("TenantVM", "Value", None))
+        self.OK.setText(_translate("TenantVM", "OK", None))
+        self.Cancel.setText(_translate("TenantVM", "Cancel", None))
 
 from . import resources_rc

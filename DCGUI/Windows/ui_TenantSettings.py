@@ -4,7 +4,16 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    _fromUtf8 = lambda s: s
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_TenantSettings(object):
     def setupUi(self, TenantSettings):
@@ -77,11 +86,11 @@ class Ui_TenantSettings(object):
         QtCore.QMetaObject.connectSlotsByName(TenantSettings)
 
     def retranslateUi(self, TenantSettings):
-        TenantSettings.setWindowTitle(QtGui.QApplication.translate("TenantSettings", "Tenant Settings", None, QtGui.QApplication.UnicodeUTF8))
-        self.namelabel.setText(QtGui.QApplication.translate("TenantSettings", "Name:", None, QtGui.QApplication.UnicodeUTF8))
-        self.timelabel.setText(QtGui.QApplication.translate("TenantSettings", "Type:", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_3.setText(QtGui.QApplication.translate("TenantSettings", "Expiration time:", None, QtGui.QApplication.UnicodeUTF8))
-        self.OK.setText(QtGui.QApplication.translate("TenantSettings", "OK", None, QtGui.QApplication.UnicodeUTF8))
-        self.Cancel.setText(QtGui.QApplication.translate("TenantSettings", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
+        TenantSettings.setWindowTitle(_translate("TenantSettings", "Tenant Settings", None))
+        self.namelabel.setText(_translate("TenantSettings", "Name:", None))
+        self.timelabel.setText(_translate("TenantSettings", "Type:", None))
+        self.label_3.setText(_translate("TenantSettings", "Expiration time:", None))
+        self.OK.setText(_translate("TenantSettings", "OK", None))
+        self.Cancel.setText(_translate("TenantSettings", "Cancel", None))
 
 from . import resources_rc

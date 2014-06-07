@@ -4,7 +4,16 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    _fromUtf8 = lambda s: s
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_TenantEditor(object):
     def setupUi(self, TenantEditor):
@@ -158,43 +167,43 @@ class Ui_TenantEditor(object):
         QtCore.QMetaObject.connectSlotsByName(TenantEditor)
 
     def retranslateUi(self, TenantEditor):
-        TenantEditor.setWindowTitle(QtGui.QApplication.translate("TenantEditor", "Tenant Editor", None, QtGui.QApplication.UnicodeUTF8))
-        self.menuFile.setTitle(QtGui.QApplication.translate("TenantEditor", "File", None, QtGui.QApplication.UnicodeUTF8))
-        self.menuEdit.setTitle(QtGui.QApplication.translate("TenantEditor", "Edit", None, QtGui.QApplication.UnicodeUTF8))
-        self.toolBar.setWindowTitle(QtGui.QApplication.translate("TenantEditor", "toolBar", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSelect.setText(QtGui.QApplication.translate("TenantEditor", "Select", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSelect.setShortcut(QtGui.QApplication.translate("TenantEditor", "Alt+1", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionComputer.setText(QtGui.QApplication.translate("TenantEditor", "Add VM", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionComputer.setToolTip(QtGui.QApplication.translate("TenantEditor", "Add VM", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionComputer.setShortcut(QtGui.QApplication.translate("TenantEditor", "Alt+2", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionEdge.setText(QtGui.QApplication.translate("TenantEditor", "Add Channel", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionEdge.setToolTip(QtGui.QApplication.translate("TenantEditor", "Add Channel", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionEdge.setShortcut(QtGui.QApplication.translate("TenantEditor", "Alt+7", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionNew_System.setText(QtGui.QApplication.translate("TenantEditor", "New Graph", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionNew_System.setShortcut(QtGui.QApplication.translate("TenantEditor", "Ctrl+N", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionOpen_System.setText(QtGui.QApplication.translate("TenantEditor", "Open Graph", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionOpen_System.setShortcut(QtGui.QApplication.translate("TenantEditor", "Ctrl+O", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSave_System.setText(QtGui.QApplication.translate("TenantEditor", "Save Graph", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSave_System.setShortcut(QtGui.QApplication.translate("TenantEditor", "Ctrl+S", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSave_System_As.setText(QtGui.QApplication.translate("TenantEditor", "Save Graph As...", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSave_System_As.setShortcut(QtGui.QApplication.translate("TenantEditor", "Ctrl+Shift+S", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionExit.setText(QtGui.QApplication.translate("TenantEditor", "Exit", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionExit.setShortcut(QtGui.QApplication.translate("TenantEditor", "Ctrl+X", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionStorage.setText(QtGui.QApplication.translate("TenantEditor", "Add Data Store", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionStorage.setToolTip(QtGui.QApplication.translate("TenantEditor", "Add Data Store", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionStorage.setShortcut(QtGui.QApplication.translate("TenantEditor", "Alt+3", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionRouter.setText(QtGui.QApplication.translate("TenantEditor", "Add Commutation Element", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionRouter.setToolTip(QtGui.QApplication.translate("TenantEditor", "Add Commutation Element", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionRouter.setShortcut(QtGui.QApplication.translate("TenantEditor", "Alt+4", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionDomain.setText(QtGui.QApplication.translate("TenantEditor", "Add Domain", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionDomain.setToolTip(QtGui.QApplication.translate("TenantEditor", "Add Domain", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionDomain.setShortcut(QtGui.QApplication.translate("TenantEditor", "Alt+5", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionService.setText(QtGui.QApplication.translate("TenantEditor", "Add Net Service", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionService.setToolTip(QtGui.QApplication.translate("TenantEditor", "Add Net Service", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionService.setShortcut(QtGui.QApplication.translate("TenantEditor", "Alt+6", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSettings.setText(QtGui.QApplication.translate("TenantEditor", "Settings", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionDelete.setText(QtGui.QApplication.translate("TenantEditor", "Delete", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionDelete.setToolTip(QtGui.QApplication.translate("TenantEditor", "Delete Node or Edge", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionDelete.setShortcut(QtGui.QApplication.translate("TenantEditor", "Del", None, QtGui.QApplication.UnicodeUTF8))
+        TenantEditor.setWindowTitle(_translate("TenantEditor", "Tenant Editor", None))
+        self.menuFile.setTitle(_translate("TenantEditor", "File", None))
+        self.menuEdit.setTitle(_translate("TenantEditor", "Edit", None))
+        self.toolBar.setWindowTitle(_translate("TenantEditor", "toolBar", None))
+        self.actionSelect.setText(_translate("TenantEditor", "Select", None))
+        self.actionSelect.setShortcut(_translate("TenantEditor", "Alt+1", None))
+        self.actionComputer.setText(_translate("TenantEditor", "Add VM", None))
+        self.actionComputer.setToolTip(_translate("TenantEditor", "Add VM", None))
+        self.actionComputer.setShortcut(_translate("TenantEditor", "Alt+2", None))
+        self.actionEdge.setText(_translate("TenantEditor", "Add Channel", None))
+        self.actionEdge.setToolTip(_translate("TenantEditor", "Add Channel", None))
+        self.actionEdge.setShortcut(_translate("TenantEditor", "Alt+7", None))
+        self.actionNew_System.setText(_translate("TenantEditor", "New Graph", None))
+        self.actionNew_System.setShortcut(_translate("TenantEditor", "Ctrl+N", None))
+        self.actionOpen_System.setText(_translate("TenantEditor", "Open Graph", None))
+        self.actionOpen_System.setShortcut(_translate("TenantEditor", "Ctrl+O", None))
+        self.actionSave_System.setText(_translate("TenantEditor", "Save Graph", None))
+        self.actionSave_System.setShortcut(_translate("TenantEditor", "Ctrl+S", None))
+        self.actionSave_System_As.setText(_translate("TenantEditor", "Save Graph As...", None))
+        self.actionSave_System_As.setShortcut(_translate("TenantEditor", "Ctrl+Shift+S", None))
+        self.actionExit.setText(_translate("TenantEditor", "Exit", None))
+        self.actionExit.setShortcut(_translate("TenantEditor", "Ctrl+X", None))
+        self.actionStorage.setText(_translate("TenantEditor", "Add Data Store", None))
+        self.actionStorage.setToolTip(_translate("TenantEditor", "Add Data Store", None))
+        self.actionStorage.setShortcut(_translate("TenantEditor", "Alt+3", None))
+        self.actionRouter.setText(_translate("TenantEditor", "Add Commutation Element", None))
+        self.actionRouter.setToolTip(_translate("TenantEditor", "Add Commutation Element", None))
+        self.actionRouter.setShortcut(_translate("TenantEditor", "Alt+4", None))
+        self.actionDomain.setText(_translate("TenantEditor", "Add Domain", None))
+        self.actionDomain.setToolTip(_translate("TenantEditor", "Add Domain", None))
+        self.actionDomain.setShortcut(_translate("TenantEditor", "Alt+5", None))
+        self.actionService.setText(_translate("TenantEditor", "Add Net Service", None))
+        self.actionService.setToolTip(_translate("TenantEditor", "Add Net Service", None))
+        self.actionService.setShortcut(_translate("TenantEditor", "Alt+6", None))
+        self.actionSettings.setText(_translate("TenantEditor", "Settings", None))
+        self.actionDelete.setText(_translate("TenantEditor", "Delete", None))
+        self.actionDelete.setToolTip(_translate("TenantEditor", "Delete Node or Edge", None))
+        self.actionDelete.setShortcut(_translate("TenantEditor", "Del", None))
 
 from . import resources_rc

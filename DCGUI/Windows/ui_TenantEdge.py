@@ -4,7 +4,16 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    _fromUtf8 = lambda s: s
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_TenantEdge(object):
     def setupUi(self, TenantEdge):
@@ -54,10 +63,10 @@ class Ui_TenantEdge(object):
         QtCore.QMetaObject.connectSlotsByName(TenantEdge)
 
     def retranslateUi(self, TenantEdge):
-        TenantEdge.setWindowTitle(QtGui.QApplication.translate("TenantEdge", "Edit Edge", None, QtGui.QApplication.UnicodeUTF8))
-        self.service.setText(QtGui.QApplication.translate("TenantEdge", "Service", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_4.setText(QtGui.QApplication.translate("TenantEdge", "Capacity:", None, QtGui.QApplication.UnicodeUTF8))
-        self.OK.setText(QtGui.QApplication.translate("TenantEdge", "OK", None, QtGui.QApplication.UnicodeUTF8))
-        self.Cancel.setText(QtGui.QApplication.translate("TenantEdge", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
+        TenantEdge.setWindowTitle(_translate("TenantEdge", "Edit Edge", None))
+        self.service.setText(_translate("TenantEdge", "Service", None))
+        self.label_4.setText(_translate("TenantEdge", "Capacity:", None))
+        self.OK.setText(_translate("TenantEdge", "OK", None))
+        self.Cancel.setText(_translate("TenantEdge", "Cancel", None))
 
 from . import resources_rc

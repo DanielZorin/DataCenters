@@ -4,7 +4,16 @@ from PyQt4 import QtCore, QtGui
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
-    _fromUtf8 = lambda s: s
+    def _fromUtf8(s):
+        return s
+
+try:
+    _encoding = QtGui.QApplication.UnicodeUTF8
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig, _encoding)
+except AttributeError:
+    def _translate(context, text, disambig):
+        return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_SettingsDialog(object):
     def setupUi(self, SettingsDialog):
@@ -189,26 +198,26 @@ class Ui_SettingsDialog(object):
         QtCore.QMetaObject.connectSlotsByName(SettingsDialog)
 
     def retranslateUi(self, SettingsDialog):
-        SettingsDialog.setWindowTitle(QtGui.QApplication.translate("SettingsDialog", "Settings", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_3.setText(QtGui.QApplication.translate("SettingsDialog", "Language", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_5.setText(QtGui.QApplication.translate("SettingsDialog", "Parameters info", None, QtGui.QApplication.UnicodeUTF8))
-        self.open.setText(QtGui.QApplication.translate("SettingsDialog", "Open", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_4.setText(QtGui.QApplication.translate("SettingsDialog", "Saving Settings", None, QtGui.QApplication.UnicodeUTF8))
-        self.backup.setText(QtGui.QApplication.translate("SettingsDialog", "Backup", None, QtGui.QApplication.UnicodeUTF8))
-        self.autosave.setText(QtGui.QApplication.translate("SettingsDialog", "Auto Save", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_7.setText(QtGui.QApplication.translate("SettingsDialog", "Auto Save Interval:", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_8.setText(QtGui.QApplication.translate("SettingsDialog", "seconds", None, QtGui.QApplication.UnicodeUTF8))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), QtGui.QApplication.translate("SettingsDialog", "General", None, QtGui.QApplication.UnicodeUTF8))
-        self.groupBox.setTitle(QtGui.QApplication.translate("SettingsDialog", "Settings", None, QtGui.QApplication.UnicodeUTF8))
-        self.label.setText(QtGui.QApplication.translate("SettingsDialog", "Selection Color", None, QtGui.QApplication.UnicodeUTF8))
-        self.label_2.setText(QtGui.QApplication.translate("SettingsDialog", "Highlight Color", None, QtGui.QApplication.UnicodeUTF8))
-        self.names.setText(QtGui.QApplication.translate("SettingsDialog", "Show Node Names", None, QtGui.QApplication.UnicodeUTF8))
-        self.computer.setText(QtGui.QApplication.translate("SettingsDialog", "Show Computer Load", None, QtGui.QApplication.UnicodeUTF8))
-        self.storage.setText(QtGui.QApplication.translate("SettingsDialog", "Show Data Store Load", None, QtGui.QApplication.UnicodeUTF8))
-        self.router.setText(QtGui.QApplication.translate("SettingsDialog", "Show Switch Load", None, QtGui.QApplication.UnicodeUTF8))
-        self.channel.setText(QtGui.QApplication.translate("SettingsDialog", "Show Channel Load", None, QtGui.QApplication.UnicodeUTF8))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QtGui.QApplication.translate("SettingsDialog", "Visualizer", None, QtGui.QApplication.UnicodeUTF8))
-        self.pushButton.setText(QtGui.QApplication.translate("SettingsDialog", "OK", None, QtGui.QApplication.UnicodeUTF8))
-        self.pushButton_2.setText(QtGui.QApplication.translate("SettingsDialog", "Cancel", None, QtGui.QApplication.UnicodeUTF8))
+        SettingsDialog.setWindowTitle(_translate("SettingsDialog", "Settings", None))
+        self.label_3.setText(_translate("SettingsDialog", "Language", None))
+        self.label_5.setText(_translate("SettingsDialog", "Parameters info", None))
+        self.open.setText(_translate("SettingsDialog", "Open", None))
+        self.label_4.setText(_translate("SettingsDialog", "Saving Settings", None))
+        self.backup.setText(_translate("SettingsDialog", "Backup", None))
+        self.autosave.setText(_translate("SettingsDialog", "Auto Save", None))
+        self.label_7.setText(_translate("SettingsDialog", "Auto Save Interval:", None))
+        self.label_8.setText(_translate("SettingsDialog", "seconds", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("SettingsDialog", "General", None))
+        self.groupBox.setTitle(_translate("SettingsDialog", "Settings", None))
+        self.label.setText(_translate("SettingsDialog", "Selection Color", None))
+        self.label_2.setText(_translate("SettingsDialog", "Highlight Color", None))
+        self.names.setText(_translate("SettingsDialog", "Show Node Names", None))
+        self.computer.setText(_translate("SettingsDialog", "Show Computer Load", None))
+        self.storage.setText(_translate("SettingsDialog", "Show Data Store Load", None))
+        self.router.setText(_translate("SettingsDialog", "Show Switch Load", None))
+        self.channel.setText(_translate("SettingsDialog", "Show Channel Load", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("SettingsDialog", "Visualizer", None))
+        self.pushButton.setText(_translate("SettingsDialog", "OK", None))
+        self.pushButton_2.setText(_translate("SettingsDialog", "Cancel", None))
 
 from . import resources_rc
