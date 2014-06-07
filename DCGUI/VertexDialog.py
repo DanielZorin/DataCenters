@@ -1,6 +1,6 @@
 from Core.Tenant import *
 from PyQt4.QtCore import Qt
-from PyQt4.QtGui import QDialog, QIntValidator, QDoubleValidator, QTableWidgetItem, QLineEdit
+from PyQt4.QtGui import QDialog, QValidator, QIntValidator, QDoubleValidator, QTableWidgetItem, QLineEdit
 from DCGUI.Windows.ui_TenantVM import Ui_TenantVM
 from DCGUI.Windows.ui_TenantStorage import Ui_TenantStorage
 from DCGUI.Windows.ui_TenantSwitch import Ui_TenantSwitch
@@ -72,7 +72,8 @@ class VertexDialog(QDialog):
         for i in range(self.ui.params.rowCount()):
             for p in v.params:
                 if p.name == str(self.ui.params.item(i, 0).text()):
-                    p.value = str(self.ui.params.cellWidget(i, 2).text())
+                    if self.ui.params.cellWidget(i, 2).validator().validate(self.ui.params.cellWidget(i, 2).text(), 0)[0] == QValidator.Acceptable:
+                        p.value = str(self.ui.params.cellWidget(i, 2).text())
         
 class VMDialog(VertexDialog):
     def __init__(self):
