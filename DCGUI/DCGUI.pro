@@ -13,6 +13,7 @@ Windows\ui_TenantVnf.py \
 Windows\ui_SettingsDialog.py \
 Windows\ui_Vis.py \
 Windows\ui_ResourcesGraphEditor.py \
+Vis.py \
 
 TRANSLATIONS = Windows\Translations\dc_Russian.ts \
 Windows\Translations\dc_English.ts

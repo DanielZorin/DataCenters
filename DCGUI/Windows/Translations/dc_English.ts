@@ -713,7 +713,7 @@
     <message>
         <location filename="Windows/ui_MainWindow.py" line="301"/>
         <source>Leaf channels load</source>
-        <translation type="unfinished">Leaf channels load</translation>
+        <translation>Leaf channels load</translation>
     </message>
 </context>
 <context>
@@ -1506,22 +1506,22 @@
     <message>
         <location filename="Windows/ui_TenantSwitch.py" line="166"/>
         <source>Service as User</source>
-        <translation type="unfinished"></translation>
+        <translation>Service as User</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantSwitch.py" line="167"/>
         <source>Provider name:</source>
-        <translation type="unfinished">Provider name:</translation>
+        <translation>Provider name:</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantSwitch.py" line="168"/>
         <source>Service name:</source>
-        <translation type="unfinished">Service name:</translation>
+        <translation>Service name:</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantSwitch.py" line="169"/>
         <source>External port:</source>
-        <translation type="unfinished">External port:</translation>
+        <translation>External port:</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantSwitch.py" line="170"/>
@@ -1652,7 +1652,7 @@
     <message>
         <location filename="Windows/ui_TenantVnf.py" line="156"/>
         <source>Service as Provider</source>
-        <translation type="unfinished"></translation>
+        <translation>Service as Provider</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantVnf.py" line="157"/>
@@ -1941,7 +1941,7 @@
     <message>
         <location filename="../plugins/LCGenerator.py" line="135"/>
         <source>Total Storage Load (%)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../plugins/LCGenerator.py" line="136"/>
@@ -2158,14 +2158,14 @@
         <translation type="obsolete">Router id</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="214"/>
+        <location filename="Vis.py" line="93"/>
         <source>Bandwidth</source>
-        <translation type="obsolete">Bandwidth</translation>
+        <translation>Bandwidth</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="186"/>
+        <location filename="Vis.py" line="82"/>
         <source>Used Bandwidth</source>
-        <translation type="obsolete">Used Bandwidth</translation>
+        <translation>Used Bandwidth</translation>
     </message>
     <message>
         <location filename="Vis.py" line="187"/>
@@ -2173,9 +2173,9 @@
         <translation type="obsolete">Number of assigned requests</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="188"/>
+        <location filename="Vis.py" line="84"/>
         <source>Number of assigned channels</source>
-        <translation type="obsolete">Number of assigned channels</translation>
+        <translation>Number of assigned channels</translation>
     </message>
     <message>
         <location filename="Vis.py" line="213"/>
@@ -2188,19 +2188,19 @@
         <translation type="obsolete">Storage</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="214"/>
+        <location filename="Vis.py" line="93"/>
         <source>Channel</source>
-        <translation type="obsolete">Channel</translation>
+        <translation>Channel</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="184"/>
+        <location filename="Vis.py" line="80"/>
         <source>Statistics</source>
-        <translation type="obsolete">Statistics</translation>
+        <translation>Statistics</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="111"/>
+        <location filename="Vis.py" line="43"/>
         <source>Computer id</source>
-        <translation type="obsolete">Computer id</translation>
+        <translation>Computer id</translation>
     </message>
     <message>
         <location filename="Vis.py" line="124"/>
@@ -2213,9 +2213,9 @@
         <translation type="obsolete">Used Performance</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="116"/>
+        <location filename="Vis.py" line="50"/>
         <source>Number of assigned VMs</source>
-        <translation type="obsolete">Number of assigned VMs</translation>
+        <translation>Number of assigned VMs</translation>
     </message>
     <message>
         <location filename="Vis.py" line="124"/>
@@ -2278,9 +2278,29 @@
         <translation type="obsolete">RAM</translation>
     </message>
     <message>
-        <location filename="Windows/ui_Vis.py" line="76"/>
+        <location filename="Vis.py" line="85"/>
         <source>Assigned Tenants</source>
         <translation>Assigned Tenants</translation>
+    </message>
+    <message>
+        <location filename="Vis.py" line="83"/>
+        <source>Number of assigned tenants</source>
+        <translation>Number of assigned tenants</translation>
+    </message>
+    <message>
+        <location filename="Vis.py" line="51"/>
+        <source>Parameters</source>
+        <translation>Parameters</translation>
+    </message>
+    <message>
+        <location filename="Vis.py" line="61"/>
+        <source>used</source>
+        <translation>used</translation>
+    </message>
+    <message>
+        <location filename="Vis.py" line="61"/>
+        <source>of</source>
+        <translation>of</translation>
     </message>
 </context>
 <context>

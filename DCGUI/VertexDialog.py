@@ -72,8 +72,9 @@ class VertexDialog(QDialog):
         for i in range(self.ui.params.rowCount()):
             for p in v.params:
                 if p.name == str(self.ui.params.item(i, 0).text()):
-                    if self.ui.params.cellWidget(i, 2).validator().validate(self.ui.params.cellWidget(i, 2).text(), 0)[0] == QValidator.Acceptable:
-                        p.value = str(self.ui.params.cellWidget(i, 2).text())
+                    if self.ui.params.cellWidget(i, 2).validator():
+                        if self.ui.params.cellWidget(i, 2).validator().validate(self.ui.params.cellWidget(i, 2).text(), 0)[0] == QValidator.Acceptable:
+                            p.value = str(self.ui.params.cellWidget(i, 2).text())
         
 class VMDialog(VertexDialog):
     def __init__(self):

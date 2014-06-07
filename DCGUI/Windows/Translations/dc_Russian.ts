@@ -985,7 +985,7 @@
     <message>
         <location filename="Windows/ui_SettingsDialog.py" line="205"/>
         <source>Backup</source>
-        <translation></translation>
+        <translation>Резервное сохранение</translation>
     </message>
     <message>
         <location filename="Windows/ui_SettingsDialog.py" line="206"/>
@@ -1476,7 +1476,7 @@
     <message>
         <location filename="Windows/ui_TenantSwitch.py" line="166"/>
         <source>Service as User</source>
-        <translation type="unfinished"></translation>
+        <translation>Сервис-пользователь</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantSwitch.py" line="167"/>
@@ -1622,7 +1622,7 @@
     <message>
         <location filename="Windows/ui_TenantVnf.py" line="156"/>
         <source>Service as Provider</source>
-        <translation type="unfinished"></translation>
+        <translation>Сервис-провайдер</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantVnf.py" line="157"/>
@@ -2113,14 +2113,14 @@
         <translation type="obsolete">Id коммутатора</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="214"/>
+        <location filename="Vis.py" line="93"/>
         <source>Bandwidth</source>
-        <translation type="obsolete">Пропускная способность</translation>
+        <translation>Пропускная способность</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="186"/>
+        <location filename="Vis.py" line="82"/>
         <source>Used Bandwidth</source>
-        <translation type="obsolete">Используемая пропускная способность</translation>
+        <translation>Используемая пропускная способность</translation>
     </message>
     <message>
         <location filename="Vis.py" line="187"/>
@@ -2128,9 +2128,9 @@
         <translation type="obsolete">Количество запланированных запросов</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="188"/>
+        <location filename="Vis.py" line="84"/>
         <source>Number of assigned channels</source>
-        <translation type="obsolete">Количество назначенных вирт.каналов</translation>
+        <translation>Количество назначенных вирт.каналов</translation>
     </message>
     <message>
         <location filename="Vis.ui" line="91"/>
@@ -2148,19 +2148,19 @@
         <translation type="obsolete">Хранилище</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="214"/>
+        <location filename="Vis.py" line="93"/>
         <source>Channel</source>
-        <translation type="obsolete">Канал</translation>
+        <translation>Канал</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="184"/>
+        <location filename="Vis.py" line="80"/>
         <source>Statistics</source>
-        <translation type="obsolete">Статистика</translation>
+        <translation>Статистика</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="111"/>
+        <location filename="Vis.py" line="43"/>
         <source>Computer id</source>
-        <translation type="obsolete">Id вычислителя</translation>
+        <translation>Id вычислителя</translation>
     </message>
     <message>
         <location filename="Vis.py" line="124"/>
@@ -2173,9 +2173,9 @@
         <translation type="obsolete">Используемая производительность</translation>
     </message>
     <message>
-        <location filename="Vis.py" line="116"/>
+        <location filename="Vis.py" line="50"/>
         <source>Number of assigned VMs</source>
-        <translation type="obsolete">Количество назначенных вирт.машин</translation>
+        <translation>Количество назначенных вирт.машин</translation>
     </message>
     <message>
         <location filename="Vis.py" line="124"/>
@@ -2253,9 +2253,29 @@
         <translation type="obsolete">RAM</translation>
     </message>
     <message>
-        <location filename="Windows/ui_Vis.py" line="76"/>
+        <location filename="Vis.py" line="85"/>
         <source>Assigned Tenants</source>
         <translation>Назначенные тенанты</translation>
+    </message>
+    <message>
+        <location filename="Vis.py" line="83"/>
+        <source>Number of assigned tenants</source>
+        <translation>Количество назначенных тенантов</translation>
+    </message>
+    <message>
+        <location filename="Vis.py" line="51"/>
+        <source>Parameters</source>
+        <translation>Параметры</translation>
+    </message>
+    <message>
+        <location filename="Vis.py" line="61"/>
+        <source>used</source>
+        <translation>использовано</translation>
+    </message>
+    <message>
+        <location filename="Vis.py" line="61"/>
+        <source>of</source>
+        <translation>из</translation>
     </message>
 </context>
 <context>

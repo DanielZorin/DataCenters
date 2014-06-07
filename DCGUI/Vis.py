@@ -58,7 +58,7 @@ class Vis(QMainWindow):
                     for p1 in v1[0].params:
                         if (p1.name == name) and (p1.type == p.type):
                             used += int(p1.value) if p.type == "int" else float(p1.value)
-                str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>: used %2 of %3 (%4 %)<br />").arg(name).arg(used).arg(val).arg(int(float(used)/float(val)*100))
+                str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>: %5 %2 %6 %3 (%4 %)<br />").arg(name).arg(used).arg(val).arg(int(float(used)/float(val)*100)).arg(self.tr("used")).arg(self.tr("of"))
         str += QString("<b><font size=\"+1\">%1</font></b><br />").arg(self.tr("Assigned Tenants"))
         for id in tenants:
             d = self.project.FindTenant(id)
