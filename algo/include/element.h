@@ -2,6 +2,7 @@
 
 #include "defs.h"
 #include "parameter.h"
+#include "../interface/elementfactory.h"
 
 class Element {
     friend class ElementFactory;
@@ -64,10 +65,11 @@ protected:
     }
     
     virtual double weight() const { 
-        double result;
+        double result = 0.0;
         for (Parameters::const_iterator it = parameters.begin(); it != parameters.end(); it ++) {
             ParameterValue * value = it->second;
-            result += value->weight();
+            Parameter* par = it->first;
+            result += value->weight() / ElementFactory::getMaxValue(par) * ElementFactory::getDeficit(par);
         }
 
         return result;

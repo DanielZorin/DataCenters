@@ -9,7 +9,12 @@
 
 #include <stdio.h>
 
+#define EPS 0.000000001
+
 QMap<QString, Parameter *> ElementFactory::parameters;
+QMap<Parameter*, double> ElementFactory::maxValues;
+QMap<Parameter*, double> ElementFactory::resourcesSum;
+QMap<Parameter*, double> ElementFactory::resourcesDeficit;
 
 void ElementFactory::debugPrint(Element * element) {
     if ( element->isPhysical() )
@@ -19,22 +24,43 @@ void ElementFactory::debugPrint(Element * element) {
             element, element->type, element->assignee);
 }
 
-Element * ElementFactory::populate(Element * element, const QMap<QString, ParameterValue *> & pr)
+Element * ElementFactory::populate(Element * element, const QMap<QString, ParameterValue *> & pr, bool isVirtual)
 {
     element->physical = false;
 
-    Parameters params = parametersFromProperties(pr);
+    Parameters params = parametersFromProperties(pr, isVirtual);
     element->parameters = params;
 
     return element;
 }
 
-Parameters ElementFactory::parametersFromProperties(const QMap<QString, ParameterValue *> & pr) {
+Parameters ElementFactory::parametersFromProperties(const QMap<QString, ParameterValue *> & pr, bool isVirtual) {
     Parameters result;
     foreach(QString name, pr.keys()) {
         Parameter * par = parameterByName(name);
         ParameterValue * val = pr[name];
         result[par] = val;
+
+        if ( isVirtual ) {
+            double weight = val->weight(),
+                    physical = resourcesSum.contains(par) ? resourcesSum.value(par) : 0.0;
+            // counting deficit
+            if ( physical > EPS ) {
+                if ( resourcesDeficit.contains(par) )
+                    resourcesDeficit[par] += weight / physical;
+                else
+                    resourcesDeficit[par] = weight / physical;
+            }
+
+            // counting max virtual value
+            if ( !maxValues.contains(par) || maxValues[par] < weight )
+                maxValues[par] = weight;
+        } else {
+            if ( !resourcesSum.contains(par) )
+                resourcesSum[par] = val->weight();
+            else
+                resourcesSum[par] += val->weight();
+        }
     }
     
     return result;

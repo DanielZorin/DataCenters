@@ -142,10 +142,10 @@ Element * Factory::createNode(const QDomElement & e) {
 
     if ( type == "vm" || type == "vnf" || type == "server" ) {
         Computer * vm = new Computer(type == "vnf");
-        node = ElementFactory::populate(vm, params);
+        node = ElementFactory::populate(vm, params, type != "server");
     } else if ( type == "st" || type == "storage" ) {
         Store * st = new Store();
-        node = ElementFactory::populate(st, params);
+        node = ElementFactory::populate(st, params, type == "st");
     } else if ( type == "netelement" ) {
         Switch * sw = new Switch();
 
