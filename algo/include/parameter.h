@@ -136,7 +136,7 @@ public:
 
 class ParameterString: public ParameterValue {
 public:
-	ParameterString(std::string value) {
+	ParameterString(std::string & value) {
 		stringValue = new std::string(value);
 	}
 

@@ -57,8 +57,11 @@ Factory::Params Factory::getParametersFromXML(const QDomNodeList & l) {
             pv = new ParameterInt(parameterValue.toInt());
         else if ( parameterType == "real" )
             pv = new ParameterReal(parameterValue.toFloat());
-        else if ( parameterType == "string" )
-            pv = new ParameterString(parameterValue.toString().toStdString());
+        else if ( parameterType == "string" ) {
+            QString stringValue = parameterValue.toString();
+            std::string conversedString = stringValue.toStdString();
+            pv = new ParameterString(conversedString);
+        }
 
         result.insert(parameterName, pv);
     }
