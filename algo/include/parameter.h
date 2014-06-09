@@ -147,7 +147,9 @@ public:
 public:
 
 	bool compare(const ParameterValue* value) {
-		return stringValue->compare(*(value->stringValue)) == 0;
+            // String values don't have to have same values
+            // return stringValue->compare(*(value->stringValue)) == 0;
+            return true;
 	}
 
 	void decrease(const ParameterValue* value) {
