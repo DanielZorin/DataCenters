@@ -28,22 +28,6 @@ private:
         return Criteria::isNetwork(other);
     }
 
-    virtual bool physicalCheck(const Element * other) const {
-        //Link * link = other->toLink();
-        // if ( throughput < link->throughput ) return false;
-        return true;
-    }
-
-    virtual void decreaseResources(const Element * other) {
-        //Link * link = other->toLink();
-        //throughput -= link->throughput;
-    }
-
-    virtual void restoreResources(const Element * other) {
-        //Link * link = other->toLink();
-        //throughput += link->throughput;
-    }
-
 private:
     // TODO: switch doesn't have any parameters, maybe latency calculation should be added on switch (buffer latency)
     //unsigned throughput;
