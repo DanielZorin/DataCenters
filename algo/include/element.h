@@ -63,7 +63,15 @@ protected:
         }
     }
     
-    virtual unsigned long weight() const { return 0; }
+    virtual double weight() const { 
+        double result;
+        for (Parameters::const_iterator it = parameters.begin(); it != parameters.end(); it ++) {
+            ParameterValue * value = it->second;
+            result += value->weight();
+        }
+
+        return result;
+    }
 public:
     Element() : type(NONE), physical(false),
         available(false), attributes(0), assignee(0) {}
