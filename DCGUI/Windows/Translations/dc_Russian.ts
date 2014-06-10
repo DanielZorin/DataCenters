@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="ru_RU" sourcelanguage="">
+<!DOCTYPE TS>
+<TS version="2.0" language="ru_RU">
 <context>
     <name>ComputerDialog</name>
     <message>
@@ -1471,7 +1472,7 @@
     <message>
         <location filename="Windows/ui_TenantSwitch.py" line="165"/>
         <source>Router  IP:</source>
-        <translation>IP роутера:</translation>
+        <translation>Роутер  IP:</translation>
     </message>
     <message>
         <location filename="Windows/ui_TenantSwitch.py" line="166"/>
