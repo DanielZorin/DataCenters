@@ -50,8 +50,24 @@ class AbstractGraph:
                 x = v.x
             if v.y > y:
                 y = v.y
-        vert.y = y + 30
-        vert.x = (x + 40) / 2
+        maxx = x
+        maxy = y
+        x = 20
+        y = 20
+        while x < maxx:
+            while y < maxy:
+                ok = True
+                for v in self.vertices:
+                    if (abs(x-v.x) < 25) and (abs(y-v.y) < 25):
+                        ok = False
+                if ok:
+                    vert.x = x
+                    vert.y = y
+                    return
+                y+= 30
+            x += 30
+        vert.y = maxy + 30
+        vert.x = maxx + 30
 
     def DeleteVertex(self, v):
         ''' Delete vertex and all edges incident to it'''
