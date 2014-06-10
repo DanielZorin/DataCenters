@@ -51,7 +51,7 @@ class ResourceGraph(AbstractGraph):
             conset.setAttribute("number_of_ports", str(len(v.ports)))
             for s in v.ports:
                 port = dom.createElement("port")
-                port.setAttribute("port_name", s)
+                port.setAttribute("name", s)
                 conset.appendChild(port)
             tag.appendChild(conset)
             pset = dom.createElement("parameter_set")
@@ -104,7 +104,7 @@ class ResourceGraph(AbstractGraph):
                     for port in v.childNodes:
                         if isinstance(port, xml.dom.minidom.Text) or isinstance(port, xml.dom.minidom.Comment):
                             continue
-                        s = port.getAttribute("port_name")
+                        s = port.getAttribute("name")
                         ports.append(s)
                 if v.nodeName == "parameter_set":
                     for param in v.childNodes:
