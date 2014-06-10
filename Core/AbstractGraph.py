@@ -61,7 +61,8 @@ class AbstractGraph:
             if e.e1 != v and e.e2 != v:
                 new_edges.append(e)
             else:
-                del e
+                e.e1.ports = [p for p in e.e1.ports if p != e.port1]
+                e.e2.ports = [p for p in e.e2.ports if p != e.port1]
         self.edges = new_edges
         for v in self.vertices[ind:]:
             v.number -= 1
@@ -76,6 +77,8 @@ class AbstractGraph:
             else:
                 del e
         self.edges = new_edges
+        ed.e1.ports = [p for p in ed.e1.ports if p != ed.port1]
+        ed.e2.ports = [p for p in ed.e2.ports if p != ed.port1]
 
     def FindEdge(self, v1, v2):
         '''Search for a specific edge from v1 to v2. Returns None if the edge doesn't exist'''

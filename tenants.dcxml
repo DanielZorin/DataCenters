@@ -1,88 +1,88 @@
 <?xml version="1.0" ?>
 <dcxml name="tenants">
 	<resources>
-		<netelement external_port="" ip="" is_router="0" is_service="0" name="id!1401362471.87" netelement_type="Switch" provider_name="" service="1" service_name="" x="185.5" y="69.5">
-			<connection_set number_of_ports="6">
-				<port port_name="id!1401362471.87_port_0"/>
-				<port port_name="id!1401362471.87_port_1"/>
-				<port port_name="id!1401362471.87_port_2"/>
-				<port port_name="id!1401362471.87_port_3"/>
-				<port port_name="id!1401362471.87_port_4"/>
-				<port port_name="id!1401362471.87_port_5"/>
+		<server image_id="" name="id!1402384752.18" service="1" x="133.5" y="35.5">
+			<connection_set number_of_ports="2">
+				<port name="id!1402384752.18_port_0"/>
+				<port name="id!1402384752.18_port_1"/>
 			</connection_set>
 			<parameter_set>
-				<parameter parameter_name="router" parameter_type="integer" parameter_value="1"/>
-				<parameter parameter_name="fw" parameter_type="string" parameter_value="1"/>
-				<parameter parameter_name="nat" parameter_type="string" parameter_value="1"/>
-				<parameter parameter_name="dns" parameter_type="string" parameter_value="1"/>
-				<parameter parameter_name="dhcp" parameter_type="string" parameter_value="1"/>
+				<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="2"/>
+				<parameter parameter_name="RAM" parameter_type="real" parameter_value="4"/>
+				<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="40"/>
+			</parameter_set>
+		</server>
+		<server image_id="" name="id!1402384752.84" service="1" x="133.5" y="65.5">
+			<connection_set number_of_ports="2">
+				<port name="id!1402384752.84_port_0"/>
+				<port name="id!1402384752.84_port_1"/>
+			</connection_set>
+			<parameter_set>
+				<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="2"/>
+				<parameter parameter_name="RAM" parameter_type="real" parameter_value="4"/>
+				<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="40"/>
+			</parameter_set>
+		</server>
+		<server image_id="" name="id!1402384753.75" service="1" x="133.5" y="98.5">
+			<connection_set number_of_ports="2">
+				<port name="id!1402384753.75_port_0"/>
+				<port name="id!1402384753.75_port_1"/>
+			</connection_set>
+			<parameter_set>
+				<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="2"/>
+				<parameter parameter_name="RAM" parameter_type="real" parameter_value="4"/>
+				<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="40"/>
+			</parameter_set>
+		</server>
+		<netelement external_port="" ip="" is_router="0" is_service="0" name="id!1402384756.74" netelement_type="Switch" provider_name="" service="1" service_name="" x="234.5" y="62.5">
+			<connection_set number_of_ports="3">
+				<port name="id!1402384756.74_port_0"/>
+				<port name="id!1402384756.74_port_1"/>
+				<port name="id!1402384756.74_port_2"/>
+			</connection_set>
+			<parameter_set>
+				<parameter parameter_name="router" parameter_type="integer" parameter_value="0"/>
+				<parameter parameter_name="fw" parameter_type="string" parameter_value="0.0.0.0"/>
+				<parameter parameter_name="nat" parameter_type="string" parameter_value="0.0.0.0"/>
+				<parameter parameter_name="dns" parameter_type="string" parameter_value="0.0.0.0"/>
+				<parameter parameter_name="dhcp" parameter_type="string" parameter_value="0.0.0.0"/>
 			</parameter_set>
 		</netelement>
-		<server image_id="bd707300-854e-453e-b96b-ee16d1b555e9" name="id!1401362472.76" service="1" x="88.5" y="70.5">
+		<storage name="id!1402384758.71" service="1" x="49.5" y="24.5">
 			<connection_set number_of_ports="1">
-				<port port_name="id!1401362472.76_port_0"/>
+				<port name="id!1402384758.71_port_0"/>
 			</connection_set>
 			<parameter_set>
-				<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="1"/>
-				<parameter parameter_name="RAM" parameter_type="real" parameter_value="1"/>
-				<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="1"/>
-			</parameter_set>
-		</server>
-		<server image_id="bd707300-854e-453e-b96b-ee16d1b555e9" name="id!1401362473.1" service="1" x="83.5" y="119.5">
-			<connection_set number_of_ports="1">
-				<port port_name="id!1401362473.1_port_0"/>
-			</connection_set>
-			<parameter_set>
-				<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="1"/>
-				<parameter parameter_name="RAM" parameter_type="real" parameter_value="1"/>
-				<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="1"/>
-			</parameter_set>
-		</server>
-		<server image_id="bd707300-854e-453e-b96b-ee16d1b555e9" name="id!1401362473.45" service="1" x="108.5" y="167.5">
-			<connection_set number_of_ports="1">
-				<port port_name="id!1401362473.45_port_0"/>
-			</connection_set>
-			<parameter_set>
-				<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="1"/>
-				<parameter parameter_name="RAM" parameter_type="real" parameter_value="1"/>
-				<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="1"/>
-			</parameter_set>
-		</server>
-		<storage name="id!1401362474.43" service="1" x="297.5" y="44.5">
-			<connection_set number_of_ports="1">
-				<port port_name="id!1401362474.43_port_0"/>
-			</connection_set>
-			<parameter_set>
-				<parameter parameter_name="size" parameter_type="real" parameter_value="1"/>
+				<parameter parameter_name="size" parameter_type="real" parameter_value="2"/>
 			</parameter_set>
 		</storage>
-		<storage name="id!1401362474.71" service="1" x="294.5" y="94.5">
+		<storage name="id!1402384759.33" service="1" x="52.5" y="52.5">
 			<connection_set number_of_ports="1">
-				<port port_name="id!1401362474.71_port_0"/>
+				<port name="id!1402384759.33_port_0"/>
 			</connection_set>
 			<parameter_set>
-				<parameter parameter_name="size" parameter_type="real" parameter_value="1"/>
+				<parameter parameter_name="size" parameter_type="real" parameter_value="2"/>
 			</parameter_set>
 		</storage>
-		<storage name="id!1401362475.0" service="1" x="287.5" y="159.5">
+		<storage name="id!1402384759.88" service="1" x="52.5" y="92.5">
 			<connection_set number_of_ports="1">
-				<port port_name="id!1401362475.0_port_0"/>
+				<port name="id!1402384759.88_port_0"/>
 			</connection_set>
 			<parameter_set>
-				<parameter parameter_name="size" parameter_type="real" parameter_value="1"/>
+				<parameter parameter_name="size" parameter_type="real" parameter_value="2"/>
 			</parameter_set>
 		</storage>
-		<link channel_capacity="1" node1="id!1401362472.76" node2="id!1401362471.87" port1="id!1401362472.76_port_0" port2="id!1401362471.87_port_0" service="0"/>
-		<link channel_capacity="1" node1="id!1401362471.87" node2="id!1401362474.43" port1="id!1401362471.87_port_1" port2="id!1401362474.43_port_0" service="0"/>
-		<link channel_capacity="1" node1="id!1401362471.87" node2="id!1401362474.71" port1="id!1401362471.87_port_2" port2="id!1401362474.71_port_0" service="0"/>
-		<link channel_capacity="1" node1="id!1401362471.87" node2="id!1401362475.0" port1="id!1401362471.87_port_3" port2="id!1401362475.0_port_0" service="0"/>
-		<link channel_capacity="1" node1="id!1401362471.87" node2="id!1401362473.1" port1="id!1401362471.87_port_4" port2="id!1401362473.1_port_0" service="0"/>
-		<link channel_capacity="1" node1="id!1401362471.87" node2="id!1401362473.45" port1="id!1401362471.87_port_5" port2="id!1401362473.45_port_0" service="0"/>
+		<link channel_capacity="1" node1="id!1402384758.71" node2="id!1402384752.18" port1="id!1402384758.71_port_0" port2="id!1402384752.18_port_0" service="0"/>
+		<link channel_capacity="1" node1="id!1402384759.33" node2="id!1402384752.84" port1="id!1402384759.33_port_0" port2="id!1402384752.84_port_0" service="0"/>
+		<link channel_capacity="1" node1="id!1402384759.88" node2="id!1402384753.75" port1="id!1402384759.88_port_0" port2="id!1402384753.75_port_0" service="0"/>
+		<link channel_capacity="1" node1="id!1402384753.75" node2="id!1402384756.74" port1="id!1402384753.75_port_1" port2="id!1402384756.74_port_0" service="0"/>
+		<link channel_capacity="1" node1="id!1402384752.84" node2="id!1402384756.74" port1="id!1402384752.84_port_1" port2="id!1402384756.74_port_1" service="0"/>
+		<link channel_capacity="1" node1="id!1402384752.18" node2="id!1402384756.74" port1="id!1402384752.18_port_1" port2="id!1402384756.74_port_2" service="0"/>
 	</resources>
 	<tenants>
 		<tenant expiration_time="" tenant_name="t1" tenant_type="">
 			<list_of_nodes>
-				<vm image_id="" name="id!1401362506.34" service="1" assignedTo="id!1401362472.76" x="80.5" y="41.5">
+				<vm assignedTo="id!1401362472.76" image_id="" name="id!1401362506.34" service="1" x="80.5" y="41.5">
 					<connection_set number_of_ports="4">
 						<port name="id!1401362506.34_port_0"/>
 						<port name="id!1401362506.34_port_1"/>
@@ -178,7 +178,7 @@
 		</tenant>
 		<tenant expiration_time="" tenant_name="t2" tenant_type="">
 			<list_of_nodes>
-				<vm image_id="" name="id!1401362562.18" service="1" assignedTo="id!1401362472.76" x="110.5" y="86.5">
+				<vm assignedTo="id!1401362472.76" image_id="" name="id!1401362562.18" service="1" x="110.5" y="86.5">
 					<connection_set number_of_ports="4">
 						<port name="id!1401362562.18_port_0"/>
 						<port name="id!1401362562.18_port_1"/>
