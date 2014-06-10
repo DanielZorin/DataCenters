@@ -163,7 +163,7 @@ class SwitchDialog(VertexDialog):
 
     def SetResult(self, v):
         self.SetResultCommon(v)
-        v.type = str(self.ui.type.currentText())
+        v.type = "Switch" if self.ui.type.currentIndex() == 0 else "Router"
         v.router = self.ui.router.isChecked()
         v.ip = str(self.ui.ip.text())
         v.servicename = str(self.ui.servicename.currentText())
