@@ -5,6 +5,7 @@
 #include "criteria.h"
 #include "operation.h"
 
+#include <algorithm>
 using std::vector;
 
 ExhaustiveSearcher::ExhaustiveSearcher(Network * n, Element * t, int d, int ma) 
@@ -42,12 +43,40 @@ bool ExhaustiveSearcher::isExhausted() const {
     return indices[depth - 1] == indices[depth];
 }
 
+bool ExhaustiveSearcher::search() {
+    if ( !isValid() )
+       return false;
+
+    while( !isExhausted() ) {
+        attempt++;
+        if ( attempt > maxAttempts )
+            return false;
+        if ( makeAttempt() )
+            return true;
+    }
+
+    return false;
+}
+
 bool ExhaustiveSearcher::makeAttempt() {
     if ( isExhausted() )
         return false;
 
     Elements cortege = getNextCortege();
-    return true;
+    Assignments cache = getAssignmentsCache(cortege);
+    Elements assignmentPack = getAssignmentPack(cache);
+    Operation::forEach(assignmentPack, Operation::unassign);
+
+    assignmentPack.insert(target);
+    if ( performGreedyAssignment(assignmentPack, cortege) ) {
+        updatePathes(assignmentPack);
+        return true;
+    }
+
+    for(Assignments::iterator i = cache.begin(); i != cache.end(); i++ ) 
+        i->second->assign(i->first);
+
+    return false;
 }
 
 Elements ExhaustiveSearcher::getNextCortege() {
@@ -74,3 +103,52 @@ void ExhaustiveSearcher::advanceCursors() {
     }
 }
 
+ExhaustiveSearcher::Assignments ExhaustiveSearcher::getAssignmentsCache(Elements & resources) {
+    Assignments result;
+    for (Elements::iterator i = resources.begin(); i != resources.end(); i++) {
+        Element * resource = *i;
+        Elements assignments = resource->getAssignments();
+        for(Elements::iterator a = assignments.begin(); a != assignments.end(); a++ ) {
+            Element * assignment = *a;
+            result[assignment] = resource;
+        }
+    }
+    return result;
+}
+
+Elements ExhaustiveSearcher::getAssignmentPack(ExhaustiveSearcher::Assignments & assignments) {
+    Elements result;
+    for (Assignments::iterator i = assignments.begin(); i != assignments.end(); i++) {
+        result.insert(i->first);
+    }
+    return result;
+}
+
+bool ExhaustiveSearcher::performGreedyAssignment(Elements & t, Elements & p) {
+    std::vector<Element *> targets(t.begin(), t.end());
+    std::vector<Element *> physical(p.begin(), p.end());
+    std::sort(targets.begin(), targets.end(), Criteria::elementWeightDescending);
+    std::sort(physical.begin(), physical.end(), Criteria::elementWeightDescending);
+    for(vector<Element *>::iterator i = targets.begin(); i != targets.end(); i++) {
+        Element * element = *i;
+        bool result;
+        for (vector<Element *>::iterator j = physical.begin(); j != physical.end(); j++) {
+            Element * assignee = *j;
+            result = assignee->assign(element);
+            if ( result )
+                break;
+        }
+        if ( !result ) {
+            Operation::forEach(t, Operation::unassign);
+            return false;
+        }
+
+        std::sort(physical.begin(), physical.end(), Criteria::elementWeightDescending);
+    }
+
+    return true;;
+}
+
+bool ExhaustiveSearcher::updatePathes(Elements & assignments) {
+    return false;
+}
