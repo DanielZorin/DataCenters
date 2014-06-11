@@ -44,7 +44,10 @@ class ParamFactory(object):
                     if node.tagName == "forbid_link":
                         v1 = node.getAttribute("from")
                         v2 = node.getAttribute("to")
-                        ParamFactory.forbiddenlinks.append([v1, v2])
+                        type = node.getAttribute("type")
+                        if not type:
+                            type = "both"
+                        ParamFactory.forbiddenlinks.append([v1, v2, type])
                         continue
                     if node.tagName == "image":
                         img = node.getAttribute("id")

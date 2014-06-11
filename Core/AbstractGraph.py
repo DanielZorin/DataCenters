@@ -23,9 +23,11 @@ class AbstractVertex:
         self.assignments = []
 
     def addPort(self):
-        s = self.id + "_port_" + str(len(self.ports))
-        self.ports.append(s)
-        return s
+        for i in range(len(self.ports) + 1):
+            s = self.id + "_port_" + str(i)
+            if not s in self.ports:
+                self.ports.append(s)
+                return s
         
 class AbstractGraph:
     ''' Represents a graph with vertices and edges'''
