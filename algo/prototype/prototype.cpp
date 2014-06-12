@@ -6,6 +6,7 @@
 #include "criteria.h"
 #include "operation.h"
 #include "routing/bfsrouter.h"
+#include "exhaustivesearcher.h"
 
 #include <vector>
 #include <algorithm>
@@ -72,7 +73,8 @@ bool PrototypeAlgorithm::scheduleRequest(Request * r) {
 }
 
 bool PrototypeAlgorithm::exhaustiveSearch(Element * e) {
-    return false;
+    ExhaustiveSearcher searcher(network, e, 3);
+    return searcher.search();
 }
 
 bool PrototypeAlgorithm::assignSeedElement(Element * e) {

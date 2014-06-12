@@ -7,7 +7,7 @@
 class ExhaustiveSearcher {
 public:
     typedef std::map<Element *, Element *> Assignments; 
-    ExhaustiveSearcher(Network * network, Element * target, int depth = 2, int maxAttempts = 1000);
+    ExhaustiveSearcher(Network * network, Element * target, int depth = 3, int maxAttempts = 1000);
     ~ExhaustiveSearcher();
 
 

@@ -4,9 +4,15 @@
 #include "network.h"
 #include "criteria.h"
 #include "operation.h"
+#include "path.h"
+#include "link.h"
+#include "port.h"
+#include "routing/bsearcher.h"
 
 #include <algorithm>
 using std::vector;
+
+#include <stdio.h>
 
 ExhaustiveSearcher::ExhaustiveSearcher(Network * n, Element * t, int d, int ma) 
 :
@@ -25,9 +31,16 @@ ExhaustiveSearcher::ExhaustiveSearcher(Network * n, Element * t, int d, int ma)
     for ( int i = 0; i < depth; i++ )
         indices[i] = i;
     indices[depth] = candidates.size();
+    printf("Created exhaustive search environment to assign element %p, %d possible candidates\n", t, candidates.size());
 }
 
 ExhaustiveSearcher::~ExhaustiveSearcher() {
+    printf("Exhaustive search decomposing, attempted %d of %d attempts,", attempt, maxAttempts);
+    if ( isExhausted() )
+        printf(" is exhausted\n");
+    else
+        printf(" not exhauted\n");
+
     delete indices;
 }
 
@@ -69,8 +82,8 @@ bool ExhaustiveSearcher::makeAttempt() {
 
     assignmentPack.insert(target);
     if ( performGreedyAssignment(assignmentPack, cortege) ) {
-        updatePathes(assignmentPack);
-        return true;
+        if ( updatePathes(assignmentPack) )
+            return true;
     }
 
     for(Assignments::iterator i = cache.begin(); i != cache.end(); i++ ) 
@@ -150,5 +163,31 @@ bool ExhaustiveSearcher::performGreedyAssignment(Elements & t, Elements & p) {
 }
 
 bool ExhaustiveSearcher::updatePathes(Elements & assignments) {
-    return false;
+    std::map<Link *, Path> oldPathes;
+    for(Elements::iterator i = assignments.begin(); i != assignments.end(); i++ ) {
+        Element * assignment = *i;
+        Elements edges = assignment->adjacentEdges();
+        for(Elements::iterator e = edges.begin(); e != edges.end(); e++ ) {
+            Element * edge = *e;
+            Link * tunnel = edge->toLink();
+            Path oldPath = tunnel->getRoute();
+            oldPathes[tunnel] = oldPath;
+
+            Element * start = tunnel->getFirst()->getParentNode()->getAssignee();
+            Element * end = tunnel->getSecond()->getParentNode()->getAssignee();
+            BSearcher searcher(start, end, tunnel);
+            if ( !searcher.isValid() ) 
+                continue;
+            if ( !searcher.search() ) {
+                for(std::map<Link *, Path>::iterator p = oldPathes.begin();
+                        p != oldPathes.end(); p++) 
+                    p->first->setRoute(p->second);
+                return false;
+            }
+            Path route = searcher.getPath();
+            tunnel->setRoute(route);
+        }
+    }
+
+    return true;
 }
