@@ -233,6 +233,9 @@ class MainWindow(QMainWindow):
         self.resourcesGraphEditor.show()
         while self.resourcesGraphEditor.isVisible():
             qApp.processEvents()
+        if self.resourcesGraphEditor.canvas.changed:
+            for t in self.project.tenants:
+                t.RemoveAssignment()
 
     def AddTenant(self):
         d = self.project.CreateTenant()
@@ -280,8 +283,7 @@ class MainWindow(QMainWindow):
         if (self.tenants == {}) or (self.ui.tenants.currentItem() == None):
             return
         d = self.tenants[self.ui.tenants.currentItem()]
-        if d.assigned:
-            self.project.resources.DropTenant(d)
+        d.RemoveAssignment()
         self.tenantEditor.canvas.tenants = self.project.tenants
         self.tenantEditor.setData(d)
         self.tenantEditor.show()

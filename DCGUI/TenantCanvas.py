@@ -5,8 +5,6 @@ from PyQt4.QtCore import QPointF, Qt
 from PyQt4.QtGui import QImage, QWidget, QPainter, QColor, QCursor, QDialog
 from DCGUI.VertexDialog import *
 
-
-
 class State:
     ''' Enum representing current editing mode '''
     Select = 0

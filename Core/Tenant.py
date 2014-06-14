@@ -132,6 +132,25 @@ class Tenant(AbstractGraph):
             e.assigned.append(edge)
             prev = v
 
+    def RemoveAssignment(self):
+        for v in self.vertices:
+            if v.assigned:
+                newl = []
+                for s in v.assigned.assignments:
+                    if s[0] != v:
+                        newl.append(s)
+                v.assigned.assignments = newl
+                v.assigned = None
+        for v in self.edges:
+            if v.assigned:
+                for e in v.assigned:
+                    newl = []
+                    for s in e.assignments:
+                        if s[0] != v:
+                            newl.append(s)
+                    e.assignments = newl
+                v.assigned = None
+
     def ExportToXml(self):
         '''
         :returns: string with XML representation
