@@ -82,7 +82,7 @@
 	<tenants>
 		<tenant expiration_time="" tenant_name="t1" tenant_type="">
 			<list_of_nodes>
-				<vm assignedTo="id!1401362472.76" image_id="" name="id!1401362506.34" service="1" x="80.5" y="41.5">
+				<vm assignedTo="id!1402384752.18" image_id="" name="id!1401362506.34" service="1" x="80.5" y="41.5">
 					<connection_set number_of_ports="4">
 						<port name="id!1401362506.34_port_0"/>
 						<port name="id!1401362506.34_port_1"/>
@@ -178,7 +178,7 @@
 		</tenant>
 		<tenant expiration_time="" tenant_name="t2" tenant_type="">
 			<list_of_nodes>
-				<vm assignedTo="id!1401362472.76" image_id="" name="id!1401362562.18" service="1" x="110.5" y="86.5">
+				<vm assignedTo="id!1402384752.18" image_id="" name="id!1401362562.18" service="1" x="110.5" y="86.5">
 					<connection_set number_of_ports="4">
 						<port name="id!1401362562.18_port_0"/>
 						<port name="id!1401362562.18_port_1"/>
@@ -229,9 +229,9 @@
 				</vnf>
 			</list_of_nodes>
 			<list_of_links>
-				<link channel_capacity="1" node1="id!1401362563.16" node2="id!1401362565.75" port1="id!1401362563.16_port_0" port2="id!1401362565.75_port_0" service="0"/>
+				<link assignedTo="id!1402384758.71:id!1402384758.71_port_0;id!1402384752.18:id!1402384752.18_port_0" channel_capacity="1" node1="id!1401362563.16" node2="id!1401362565.75" port1="id!1401362563.16_port_0" port2="id!1401362565.75_port_0" service="0"/>
 				<link channel_capacity="1" node1="id!1401362563.16" node2="id!1401362562.18" port1="id!1401362563.16_port_1" port2="id!1401362562.18_port_0" service="0"/>
-				<link channel_capacity="1" node1="id!1401362562.18" node2="id!1401362563.86" port1="id!1401362562.18_port_1" port2="id!1401362563.86_port_0" service="0"/>
+				<link assignedTo="id!1402384758.71:id!1402384758.71_port_0;id!1402384752.18:id!1402384752.18_port_0" channel_capacity="1" node1="id!1401362562.18" node2="id!1401362563.86" port1="id!1401362562.18_port_1" port2="id!1401362563.86_port_0" service="0"/>
 			</list_of_links>
 		</tenant>
 	</tenants>

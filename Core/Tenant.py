@@ -229,6 +229,7 @@ class Tenant(AbstractGraph):
                 res = v.assigned[0].e1.id + ":" + v.assigned[0].port1
                 for e in v.assigned:
                     res += ";" + e.e2.id + ":" + e.port2
+                tag.setAttribute("assignedTo", res)
             links.appendChild(tag)
         root.appendChild(links)
         return root

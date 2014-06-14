@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <params>
-	<forbid_link from="st" to="vnf"/>
-	<forbid_link from="st" to="domain"/>
-	<forbid_link from="st" to="netelement"/>
-	<forbid_link from="netelement" to="netelement"/>
+	<forbid_link from="st" to="vnf" type="tenant"/>
+	<forbid_link from="st" to="domain" type="tenant"/>
+	<forbid_link from="st" to="netelement" type="tenant"/>
+	<forbid_link from="netelement" to="netelement" type="tenant"/>
+	<forbid_link from="server" to="storage" type="resource"/>
+	<forbid_link from="server" to="server" type="resource"/>
+	<forbid_link from="storage" to="storage" type="resource"/>
 </params>
