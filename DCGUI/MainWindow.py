@@ -77,7 +77,7 @@ class MainWindow(QMainWindow):
         self.autosaveTimer.setSingleShot(False)
         QObject.connect(self.autosaveTimer, SIGNAL("timeout()"), self.Autosave)
         self.Translate(str(self.settings.value("language", "English").toString()))
-        self.projFilter = self.tr("Data centers projects (*.dcxml)")
+        self.projFilter = self.tr("Data centers projects (*.dcxml *.xml)")
         self.setWindowTitle(self.tr("Untitled") + " - " + self.basename)
         #self.loadPlugins()
 
