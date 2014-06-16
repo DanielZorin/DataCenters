@@ -79,7 +79,7 @@ bool PrototypeAlgorithm::scheduleRequest(Request * r) {
 }
 
 bool PrototypeAlgorithm::exhaustiveSearch(Element * e) {
-    ExhaustiveSearcher searcher(network, e, 3);
+    ExhaustiveSearcher searcher(network, e, 2);
     return searcher.search();
 }
 

@@ -6,6 +6,8 @@
 #include "operation.h"
 #include "criteria.h"
 
+#include "stdio.h"
+
 Request * Preprocessor::fakeNetElements(Request * r) {
     Request * fakeRequest = new Request(*r);
     Elements netElements = Operation::filter(r->getElements(), Criteria::isSwitch);
@@ -24,10 +26,16 @@ Request * Preprocessor::fakeNetElements(Request * r) {
 
         Elements adjacentEdges = netElement->adjacentEdges();
         for (Elements::iterator e = adjacentEdges.begin(); e != adjacentEdges.end(); e++) {
-            fakeRequest->omitElement(*e);
+            Link * link = (*e)->toLink();
+            Port * port = link->getFirst();
+            port->getParentNode()->toNode()->removePort(port);
+            port = link->getSecond();
+            port->getParentNode()->toNode()->removePort(port); 
+            fakeRequest->omitElement(link);
         } 
         fakeRequest->omitElement(netElement);
     }
+    printf("Faking request: %d elements against %d in the original\n", fakeRequest->size(), r->size());
     return fakeRequest;
 }
 

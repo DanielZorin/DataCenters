@@ -6,7 +6,7 @@
 BSearcher::BSearcher(Element * s, Element * e, Element * t)
 :
     start(s),
-    end(s),
+    end(e),
     tunnel(t)
 {
 }
@@ -30,6 +30,9 @@ bool BSearcher::search() {
 
         if ( next == end )
             return true;
+
+        if ( !next->isNetwork() )
+           continue;
 
         Elements adjacentNodes = next->adjacentNodes();
         for ( Elements::iterator i = adjacentNodes.begin(); i != adjacentNodes.end(); i++) {
