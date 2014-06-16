@@ -22,6 +22,10 @@ public:
         if ( isVirtualRouter )
         	attributes |= ROUTER;
     }
+
+    virtual bool isRouter() const {
+        return attributes & ROUTER; 
+    }
 private:
 
     virtual bool typeCheck(const Element * other) const {

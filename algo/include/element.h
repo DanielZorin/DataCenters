@@ -163,6 +163,10 @@ public:
     	return false;
     }
 
+    virtual bool isRouter() const {
+        return false;   
+    }
+
     inline bool isComputer() const { 
         return type & COMPUTER; 
     }

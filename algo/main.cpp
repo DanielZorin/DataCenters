@@ -17,6 +17,8 @@
 #include "defs.h"
 #include "request.h"
 #include "network.h"
+#include "operation.h"
+#include "criteria.h"
 
 int main(int argc, char ** argv)
 {
@@ -87,10 +89,14 @@ int main(int argc, char ** argv)
     algorithm.schedule(); 
 
     int assignedRequests = 0;
+    int nodeAssignedRequests = 0;
     for ( Requests::iterator i = requests.begin(); i != requests.end(); i++ ) {
         Request * r = *i;
         if ( r->isAssigned() )
             assignedRequests++;    
+        Elements unassignedComputational = Operation::filter(r->elementsToAssign(), Criteria::isComputational);
+        if ( unassignedComputational.empty() )
+            nodeAssignedRequests++;
     }
 
 
@@ -105,7 +111,8 @@ int main(int argc, char ** argv)
     QTextStream outStream(&output);
     outStream << document.toString(4);
 
-    printf("Assigned %d of %d requests\n", assignedRequests, requests.size());
+    printf("Node assigned: %d of %d requests\n", nodeAssignedRequests, requests.size());
+    printf("Model assigned: %d of %d requests\n", assignedRequests, requests.size());
 
     return 0;
 }

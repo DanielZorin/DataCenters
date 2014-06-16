@@ -39,7 +39,7 @@ ExhaustiveSearcher::~ExhaustiveSearcher() {
     if ( isExhausted() )
         printf(" is exhausted\n");
     else
-        printf(" not exhauted\n");
+        printf(" not exhausted\n");
 
     delete indices;
 }

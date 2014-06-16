@@ -11,6 +11,11 @@ public:
         elements = Operation::filter(e, Criteria::isVirtual);
     }
 
+    Request(const Request & other) { 
+       name = other.name; 
+       elements = other.elements;
+    }
+
     inline Elements assignedElements() const {
         return Operation::filter(getElements(), Criteria::isAssigned);
     }
@@ -51,6 +56,10 @@ public:
 
     inline void addExternalLink(Element * link) {
         elements.insert(link); 
+    }
+    
+    inline void omitElement(Element * element) {
+        elements.erase(element);  
     }
 
 private:
