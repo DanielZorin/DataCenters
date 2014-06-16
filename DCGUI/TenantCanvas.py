@@ -240,7 +240,7 @@ class TenantCanvas(QWidget):
         n1 = classnames[v1.__class__]
         n2 = classnames[v2.__class__]
         for p in ParamFactory.forbiddenlinks:
-            if (p[2] == "both") or (p[2] == "resource"):
+            if (p[2] == "both") or (p[2] == "tenant"):
                 if p[0] == n1:
                     if p[1] == n2:
                         return False

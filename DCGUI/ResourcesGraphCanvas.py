@@ -212,7 +212,7 @@ class ResourcesGraphCanvas(QWidget):
             return
 
     def LinkAllowed(self, v1, v2):
-        classnames = {VM:u"vm", Storage:u"st", NetElement:u"netelement"}
+        classnames = {VM:u"server", Storage:u"storage", NetElement:u"netelement"}
         n1 = classnames[v1.__class__]
         n2 = classnames[v2.__class__]
         for p in ParamFactory.forbiddenlinks:
