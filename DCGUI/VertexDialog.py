@@ -7,6 +7,7 @@ from DCGUI.Windows.ui_TenantSwitch import Ui_TenantSwitch
 from DCGUI.Windows.ui_TenantVnf import Ui_TenantVnf
 from DCGUI.Windows.ui_TenantDomain import Ui_TenantDomain
 from DCGUI.Windows.ui_TenantEdge import Ui_TenantEdge
+from DCGUI.Windows.ui_ResourceServer import Ui_ResourceServer
 
 class VertexDialog(QDialog):
     showLimits = True
@@ -92,6 +93,16 @@ class VMDialog(VertexDialog):
     def SetResult(self, v):
         self.SetResultCommon(v)
         v.image = str(self.ui.image.currentText())
+        
+class ServerDialog(VertexDialog):
+    def __init__(self):
+        VertexDialog.__init__(self, Ui_ResourceServer())
+        
+    def Load(self, v):
+        self.LoadCommon(v)
+
+    def SetResult(self, v):
+        self.SetResultCommon(v)
         
 class StorageDialog(VertexDialog):
     def __init__(self):
