@@ -182,7 +182,7 @@ class MainWindow(QMainWindow):
             name = "algo.exe"
         else:
             name = "algo/algo"
-        os.system(name + " \"" + os.path.relpath(self.projectFile) + "\" -w \"" + os.path.relpath(self.projectFile) + "\" " + alg)
+        os.system(name + " \"" + os.path.relpath(self.projectFile) + "\"  \"" + os.path.relpath(self.projectFile) + "\" ")
         #self.project.Run()
         self.OpenProjectFromFile(self.projectFile)
         self.showStats()

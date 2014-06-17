@@ -33,7 +33,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)</OutDir>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Qt\4.8.4\include;include;routing;prototype;interface;$(IncludePath)</IncludePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">interface;include;prototype;routing;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
@@ -49,7 +49,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
+      <OutputFile>$(SolutionDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>qtmaind.lib;QtCored4.lib;QtGuid4.lib;QtXmld4.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -78,9 +78,12 @@
     <ClCompile Include="interface\resourcesxmlfactory.cpp" />
     <ClCompile Include="interface\tenantxmlfactory.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="prototype\exhaustivesearcher.cpp" />
+    <ClCompile Include="prototype\preprocessor.cpp" />
     <ClCompile Include="prototype\prototype.cpp" />
     <ClCompile Include="routing\bfsqueue.cpp" />
     <ClCompile Include="routing\bfsrouter.cpp" />
+    <ClCompile Include="routing\bsearcher.cpp" />
     <ClCompile Include="routing\dijkstratouter.cpp" />
     <ClCompile Include="routing\router.cpp" />
   </ItemGroup>
@@ -108,9 +111,12 @@
     <ClInclude Include="interface\factory.h" />
     <ClInclude Include="interface\resourcesxmlfactory.h" />
     <ClInclude Include="interface\tenantxmlfactory.h" />
+    <ClInclude Include="prototype\exhaustivesearcher.h" />
+    <ClInclude Include="prototype\preprocessor.h" />
     <ClInclude Include="prototype\prototype.h" />
     <ClInclude Include="routing\bfsqueue.h" />
     <ClInclude Include="routing\bfsrouter.h" />
+    <ClInclude Include="routing\bsearcher.h" />
     <ClInclude Include="routing\dijkstrarouter.h" />
     <ClInclude Include="routing\router.h" />
   </ItemGroup>
@@ -119,7 +125,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties UicDir=".\GeneratedFiles" MocDir=".\GeneratedFiles\$(ConfigurationName)" MocOptions="" RccDir=".\GeneratedFiles" lupdateOnBuild="0" lupdateOptions="" lreleaseOptions="" QtVersion_x0020_Win32="4.8.4" />
+      <UserProperties UicDir=".\GeneratedFiles" MocDir=".\GeneratedFiles\$(ConfigurationName)" MocOptions="" RccDir=".\GeneratedFiles" lupdateOnBuild="0" lupdateOptions="" lreleaseOptions="" QtVersion_x0020_Win32="4.8.5" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

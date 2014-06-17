@@ -65,6 +65,15 @@
     <ClCompile Include="routing\router.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="prototype\preprocessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="prototype\exhaustivesearcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="routing\bsearcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\algorithm.h">
@@ -149,6 +158,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="routing\router.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="prototype\preprocessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="prototype\exhaustivesearcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="routing\bsearcher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
