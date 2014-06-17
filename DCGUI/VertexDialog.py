@@ -9,6 +9,7 @@ from DCGUI.Windows.ui_TenantDomain import Ui_TenantDomain
 from DCGUI.Windows.ui_TenantEdge import Ui_TenantEdge
 
 class VertexDialog(QDialog):
+    showLimits = True
     def __init__(self, ui):
         QDialog.__init__(self)        
         self.ui = ui
@@ -34,7 +35,7 @@ class VertexDialog(QDialog):
             it.setFlags(Qt.ItemIsEnabled)
             self.ui.params.setItem(0, 0, it)
             types = p.type
-            if p.type != "string":
+            if self.showLimits and (p.type != "string"):
                 types += " [" + str(p.minv) + "..." + str(p.maxv) + "]"
             it = QTableWidgetItem(types)
             it.setFlags(Qt.ItemIsEnabled)

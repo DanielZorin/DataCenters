@@ -264,6 +264,7 @@ class ResourcesGraphCanvas(QWidget):
             d = StorageDialog()
         elif isinstance(v, NetElement):
             d = SwitchDialog("", None)
+        d.showLimits = False
         d.Load(v)
         d.exec_()
         if d.result() == QDialog.Accepted:
