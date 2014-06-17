@@ -102,6 +102,8 @@ public:
 	 */
 	virtual void increase(const ParameterValue* value) = 0;
 
+        virtual double weight() const = 0;
+
 protected:
 	union {
 		int intValue;
@@ -112,73 +114,87 @@ protected:
 
 class ParameterInt: public ParameterValue {
 public:
-	ParameterInt(int value) {
-		intValue = value;
-	}
+    ParameterInt(int value) {
+        intValue = value;
+    }
 
-	~ParameterInt(){}
+    ~ParameterInt(){}
 
 public:
 
-	bool compare(const ParameterValue* value) {
-		return intValue >= value->intValue;
-	}
+    bool compare(const ParameterValue* value) {
+        return intValue >= value->intValue;
+    }
 
-	void decrease(const ParameterValue* value) {
-		assert(intValue >= value->intValue);
-		intValue -= value->intValue;
-	}
+    void decrease(const ParameterValue* value) {
+        assert(intValue >= value->intValue);
+        intValue -= value->intValue;
+    }
 
-	void increase(const ParameterValue* value) {
-		intValue += value->intValue;
-	}
+    void increase(const ParameterValue* value) {
+        intValue += value->intValue;
+    }
+
+    virtual double weight() const {
+        return intValue;
+    }
 };
 
 class ParameterString: public ParameterValue {
 public:
-	ParameterString(std::string value) {
-		stringValue = new std::string(value);
-	}
+    ParameterString(std::string & value) {
+        stringValue = new std::string(value);
+    }
 
-	virtual ~ParameterString() {
-		delete ParameterValue::stringValue;
-	}
+    virtual ~ParameterString() {
+        delete ParameterValue::stringValue;
+    }
 
 public:
 
-	bool compare(const ParameterValue* value) {
-		return stringValue->compare(*(value->stringValue)) == 0;
-	}
+    bool compare(const ParameterValue* value) {
+        // String values don't have to have same values
+        // return stringValue->compare(*(value->stringValue)) == 0;
+        return true;
+    }
 
-	void decrease(const ParameterValue* value) {
-	}
+    void decrease(const ParameterValue* value) {
+    }
 
-	void increase(const ParameterValue* value) {
-	}
+    void increase(const ParameterValue* value) {
+    }
+
+    virtual double weight() const {
+        return 0;
+    }
 };
 
 class ParameterReal: public ParameterValue {
 public:
-	ParameterReal(float value) {
-		realValue = value;
-	}
+    ParameterReal(float value) {
+        realValue = value;
+    }
 
-	~ParameterReal(){}
+    ~ParameterReal(){}
 
 public:
 
-	bool compare(const ParameterValue* value) {
-		return realValue >= value->realValue;
-	}
+    bool compare(const ParameterValue* value) {
+        return realValue >= value->realValue;
+    }
 
-	void decrease(const ParameterValue* value) {
-		assert(realValue >= value->realValue);
-		realValue -= value->realValue;
-	}
+    void decrease(const ParameterValue* value) {
+        assert(realValue >= value->realValue);
+        realValue -= value->realValue;
+    }
 
-	void increase(const ParameterValue* value) {
-		realValue += value->realValue;
-	}
+    void increase(const ParameterValue* value) {
+        realValue += value->realValue;
+    }
+
+    virtual double weight() const {
+        return realValue;
+    }
 };
 
 

@@ -8,10 +8,6 @@ class Edge : public Element {
 protected:
     Edge() : Element(), first(0), second(0) {}
     virtual ~Edge() {
-		if ( first != 0 )
-			delete first;
-		if ( second != 0 )
-			delete second;
 	}
 public:
     Port * getFirst() const {

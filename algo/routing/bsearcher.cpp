@@ -6,12 +6,18 @@
 BSearcher::BSearcher(Element * s, Element * e, Element * t)
 :
     start(s),
-    end(s),
+    end(e),
     tunnel(t)
 {
-    if ( !start->isPhysical() ) throw;
-    if ( !end->isPhysical() ) throw;
-    if ( tunnel != 0 && !tunnel->isVirtual() && !tunnel->isLink() ) throw;
+}
+
+bool BSearcher::isValid() const {
+    if ( !start ) return false;
+    if ( !start->isPhysical() ) return false;
+    if ( !end ) return false;
+    if ( !end->isPhysical() ) return false;
+    if ( tunnel != 0 && !tunnel->isVirtual() && !tunnel->isLink() ) return false;
+    return true;
 }
 
 bool BSearcher::search() {
@@ -24,6 +30,9 @@ bool BSearcher::search() {
 
         if ( next == end )
             return true;
+
+        if ( !next->isNetwork() )
+           continue;
 
         Elements adjacentNodes = next->adjacentNodes();
         for ( Elements::iterator i = adjacentNodes.begin(); i != adjacentNodes.end(); i++) {

@@ -1,11 +1,13 @@
 #include "prototype.h"
 
+#include "preprocessor.h"
 #include "request.h"
 #include "element.h"
 #include "network.h"
 #include "criteria.h"
 #include "operation.h"
 #include "routing/bfsrouter.h"
+#include "exhaustivesearcher.h"
 
 #include <vector>
 #include <algorithm>
@@ -16,7 +18,9 @@ void PrototypeAlgorithm::schedule() {
     for (std::vector<Request *>::iterator i = pRequests.begin();
             i != pRequests.end(); i++) 
     {
-        scheduleRequest(*i);   
+        Request * fakeRequest = Preprocessor::fakeNetElements(*i);
+        scheduleRequest(fakeRequest);
+        delete fakeRequest;   
     }
 }
 
@@ -32,7 +36,7 @@ bool PrototypeAlgorithm::simpleIncreasing(Request * first, Request * second) {
 
 
 bool PrototypeAlgorithm::scheduleRequest(Request * r) {
-    Elements unassignedNodes = Operation::filter(r->elementsToAssign(), Criteria::isNode);
+    Elements unassignedNodes = Operation::filter(r->elementsToAssign(), Criteria::isComputational);
     while ( !unassignedNodes.empty() ) {
         Element * unassignedSeed = getSeedElement(unassignedNodes);
         std::queue<Element *> queue;
@@ -42,6 +46,9 @@ bool PrototypeAlgorithm::scheduleRequest(Request * r) {
             queue.pop();
             
             if ( nextToAssign->isAssigned() )
+                continue;
+
+            if ( nextToAssign->isSwitch() && !nextToAssign->isRouter())
                 continue;
 
             BFSRouter router(*r, nextToAssign);
@@ -72,7 +79,8 @@ bool PrototypeAlgorithm::scheduleRequest(Request * r) {
 }
 
 bool PrototypeAlgorithm::exhaustiveSearch(Element * e) {
-    return false;
+    ExhaustiveSearcher searcher(network, e, 2);
+    return searcher.search();
 }
 
 bool PrototypeAlgorithm::assignSeedElement(Element * e) {

@@ -57,8 +57,11 @@ Factory::Params Factory::getParametersFromXML(const QDomNodeList & l) {
             pv = new ParameterInt(parameterValue.toInt());
         else if ( parameterType == "real" )
             pv = new ParameterReal(parameterValue.toFloat());
-        else if ( parameterType == "string" )
-            pv = new ParameterString(parameterValue.toString().toStdString());
+        else if ( parameterType == "string" ) {
+            QString stringValue = parameterValue.toString();
+            std::string conversedString = stringValue.toStdString();
+            pv = new ParameterString(conversedString);
+        }
 
         result.insert(parameterName, pv);
     }
@@ -139,10 +142,10 @@ Element * Factory::createNode(const QDomElement & e) {
 
     if ( type == "vm" || type == "vnf" || type == "server" ) {
         Computer * vm = new Computer(type == "vnf");
-        node = ElementFactory::populate(vm, params);
+        node = ElementFactory::populate(vm, params, type != "server");
     } else if ( type == "st" || type == "storage" ) {
         Store * st = new Store();
-        node = ElementFactory::populate(st, params);
+        node = ElementFactory::populate(st, params, type == "st");
     } else if ( type == "netelement" ) {
         Switch * sw = new Switch();
 

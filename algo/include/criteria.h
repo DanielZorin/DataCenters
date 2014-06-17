@@ -63,4 +63,10 @@ public:
     inline static bool canHostAssignment(const Element * host, const Element * target) {
         return host->canHostAssignment(target);
     }
+
+    inline static bool isExhaustiveCandidate(const Element * host, const Element * target) {
+        if ( !host->typeCheck(target) )
+            return false;
+        return host->attributeCheck(target);
+    }
 };

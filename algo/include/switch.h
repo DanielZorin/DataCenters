@@ -22,26 +22,14 @@ public:
         if ( isVirtualRouter )
         	attributes |= ROUTER;
     }
+
+    virtual bool isRouter() const {
+        return attributes & ROUTER; 
+    }
 private:
 
     virtual bool typeCheck(const Element * other) const {
         return Criteria::isNetwork(other);
-    }
-
-    virtual bool physicalCheck(const Element * other) const {
-        //Link * link = other->toLink();
-        // if ( throughput < link->throughput ) return false;
-        return true;
-    }
-
-    virtual void decreaseResources(const Element * other) {
-        //Link * link = other->toLink();
-        //throughput -= link->throughput;
-    }
-
-    virtual void restoreResources(const Element * other) {
-        //Link * link = other->toLink();
-        //throughput += link->throughput;
     }
 
 private:

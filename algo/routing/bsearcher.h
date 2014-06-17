@@ -9,7 +9,8 @@
 class BSearcher {
 public:
     BSearcher(Element * start, Element * end, Element * tunnel = 0); 
-    inline bool search();
+    bool search();
+    bool isValid() const;
     Path getPath() const;
     Element * getTunnel() const { return tunnel; }
 private:

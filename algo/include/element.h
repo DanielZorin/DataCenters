@@ -2,6 +2,7 @@
 
 #include "defs.h"
 #include "parameter.h"
+#include "../interface/elementfactory.h"
 
 class Element {
     friend class ElementFactory;
@@ -29,8 +30,9 @@ protected:
         for ( ; it != parameters.end(); ++it ) {
             Parameter* type = it->first;
             ParameterValue* value = it->second;
-            if (other->parameters.find(type) != other->parameters.end() &&
-                    !value->compare(other->parameters.at(type)) )
+            if ( other->parameters.find(type) == other->parameters.end() )
+               return false;
+            if ( !value->compare(other->parameters.at(type)) )
                 return false;
         }
         return true;
@@ -62,7 +64,16 @@ protected:
         }
     }
     
-    virtual unsigned long weight() const { return 0; }
+    virtual double weight() const { 
+        double result = 0.0;
+        for (Parameters::const_iterator it = parameters.begin(); it != parameters.end(); it ++) {
+            ParameterValue * value = it->second;
+            Parameter* par = it->first;
+            result += value->weight() / ElementFactory::getMaxValue(par) * ElementFactory::getDeficit(par);
+        }
+
+        return result;
+    }
 public:
     Element() : type(NONE), physical(false),
         available(false), attributes(0), assignee(0) {}
@@ -150,6 +161,10 @@ public:
     // Vnf is in fact virtual machine
     virtual bool isVnf() const {
     	return false;
+    }
+
+    virtual bool isRouter() const {
+        return false;   
     }
 
     inline bool isComputer() const { 

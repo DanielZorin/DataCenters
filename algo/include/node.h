@@ -35,6 +35,10 @@ public:
         return ports;
     }
 
+    void removePort(Port * port) {
+        ports.erase(port);
+    }
+
     Port* getPortByName(std::string name) const {
         for (Ports::const_iterator it = ports.begin(); it != ports.end(); ++it )
             if ( (*it)->getName().compare(name) == 0 )

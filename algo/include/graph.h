@@ -18,6 +18,10 @@ public:
         return Operation::filter(getElements(), Criteria::isEdge);
     }
 
+    inline int size() const {
+        return elements.size();
+    }
+
 protected:
     Elements elements;
 };
