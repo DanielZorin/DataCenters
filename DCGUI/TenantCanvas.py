@@ -38,7 +38,8 @@ class TenantCanvas(QWidget):
         self.setFocusPolicy(QtCore.Qt.StrongFocus)
         self.computericon = QImage(":/pics/pics/computer.png")
         self.storageicon = QImage(":/pics/pics/storage.png")
-        self.routericon = QImage(":/pics/pics/router.png")
+        self.routericon = QImage(":/pics/pics/router2.png")
+        self.switchicon = QImage(":/pics/pics/router.png")
         self.serviceicon = QImage(":/pics/pics/vnf.png")
         self.domainicon = QImage(":/pics/pics/topology.png")
         self.tenants = []
@@ -64,7 +65,10 @@ class TenantCanvas(QWidget):
             elif isinstance(v, Storage):
                 paint.drawImage(self.vertices[v], self.storageicon)
             elif isinstance(v, NetElement):
-                paint.drawImage(self.vertices[v], self.routericon)
+                if v.router:
+                    paint.drawImage(self.vertices[v], self.routericon)
+                else:
+                    paint.drawImage(self.vertices[v], self.switchicon)
             elif isinstance(v, Vnf):
                 paint.drawImage(self.vertices[v], self.serviceicon)
             elif isinstance(v, Domain):

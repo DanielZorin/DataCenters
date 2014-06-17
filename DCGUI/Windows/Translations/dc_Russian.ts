@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="ru_RU">
+<!DOCTYPE TS><TS version="2.0" language="ru_RU" sourcelanguage="">
 <context>
     <name>ComputerDialog</name>
     <message>
@@ -349,7 +348,7 @@
     <message>
         <location filename="MainWindow.py" line="80"/>
         <source>Data centers projects (*.dcxml)</source>
-        <translation>Проекты ЦОД (*.dcxml)</translation>
+        <translation type="obsolete">Проекты ЦОД (*.dcxml)</translation>
     </message>
     <message>
         <location filename="MainWindow.py" line="90"/>
@@ -357,12 +356,12 @@
         <translation>Новый проект</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="480"/>
+        <location filename="MainWindow.py" line="482"/>
         <source>No</source>
         <translation>Нет</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="480"/>
+        <location filename="MainWindow.py" line="482"/>
         <source>Yes</source>
         <translation>Да</translation>
     </message>
@@ -632,7 +631,7 @@
         <translation>Alt+</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="369"/>
+        <location filename="MainWindow.py" line="371"/>
         <source>&amp;%1: %2</source>
         <translation>&amp;%1: %2</translation>
     </message>
@@ -685,6 +684,11 @@
         <location filename="Windows/ui_MainWindow.py" line="301"/>
         <source>Leaf channels load</source>
         <translation>Загрузка листовых каналов</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.py" line="80"/>
+        <source>Data centers projects (*.dcxml *.xml)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2290,7 +2294,7 @@
 <context>
     <name>self.resourcesGraphEditor</name>
     <message>
-        <location filename="MainWindow.py" line="417"/>
+        <location filename="MainWindow.py" line="419"/>
         <source>Resources Graph Editor</source>
         <translation>Редактор графа ресурсов</translation>
     </message>
@@ -2298,7 +2302,7 @@
 <context>
     <name>self.tenantEditor</name>
     <message>
-        <location filename="MainWindow.py" line="416"/>
+        <location filename="MainWindow.py" line="418"/>
         <source>Tenant Editor</source>
         <translation>Редактор тенанта</translation>
     </message>

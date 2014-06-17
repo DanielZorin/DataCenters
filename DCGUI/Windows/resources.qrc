@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="pics">
+    <file>pics/router2.png</file>
     <file>pics/vnf.png</file>
     <file>pics/multtests.png</file>
     <file>pics/scaledown.png</file>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="en_US">
+<!DOCTYPE TS><TS version="2.0" language="en_US" sourcelanguage="">
 <context>
     <name>ComputerDialog</name>
     <message>
@@ -559,7 +558,7 @@
     <message>
         <location filename="MainWindow.py" line="80"/>
         <source>Data centers projects (*.dcxml)</source>
-        <translation>Data centers projects (*.dcxml)</translation>
+        <translation type="obsolete">Data centers projects (*.dcxml)</translation>
     </message>
     <message>
         <location filename="MainWindow.py" line="90"/>
@@ -567,12 +566,12 @@
         <translation>Untitled</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="480"/>
+        <location filename="MainWindow.py" line="482"/>
         <source>No</source>
         <translation>No</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="480"/>
+        <location filename="MainWindow.py" line="482"/>
         <source>Yes</source>
         <translation>Yes</translation>
     </message>
@@ -587,7 +586,7 @@
         <translation>Project not found</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="369"/>
+        <location filename="MainWindow.py" line="371"/>
         <source>&amp;%1: %2</source>
         <translation></translation>
     </message>
@@ -715,6 +714,11 @@
         <location filename="Windows/ui_MainWindow.py" line="301"/>
         <source>Leaf channels load</source>
         <translation>Leaf channels load</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.py" line="80"/>
+        <source>Data centers projects (*.dcxml *.xml)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2315,7 +2319,7 @@
 <context>
     <name>self.resourcesGraphEditor</name>
     <message>
-        <location filename="MainWindow.py" line="417"/>
+        <location filename="MainWindow.py" line="419"/>
         <source>Resources Graph Editor</source>
         <translation>Resources Graph Editor</translation>
     </message>
@@ -2323,7 +2327,7 @@
 <context>
     <name>self.tenantEditor</name>
     <message>
-        <location filename="MainWindow.py" line="416"/>
+        <location filename="MainWindow.py" line="418"/>
         <source>Tenant Editor</source>
         <translation>Tenant Editor</translation>
     </message>
