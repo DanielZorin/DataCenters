@@ -23,6 +23,7 @@ class VM(AbstractVertex):
     def __init__(self, id):
         AbstractVertex.__init__(self, id)
         self.image = ""
+        self.external = False
         self.params = ParamFactory.Create("vm")
 
 class Vnf(AbstractVertex):

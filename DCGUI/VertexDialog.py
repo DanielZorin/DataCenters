@@ -89,10 +89,12 @@ class VMDialog(VertexDialog):
         for i in range(self.ui.image.count()):
             if self.ui.image.itemText(i) == v.image:
                 self.ui.image.setCurrentIndex(i)
+        self.ui.external.setChecked(v.external)
 
     def SetResult(self, v):
         self.SetResultCommon(v)
         v.image = str(self.ui.image.currentText())
+        v.external = self.ui.external.isChecked()
         
 class ServerDialog(VertexDialog):
     def __init__(self):

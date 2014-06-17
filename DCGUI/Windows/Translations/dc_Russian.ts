@@ -1532,54 +1532,59 @@
 <context>
     <name>TenantVM</name>
     <message>
-        <location filename="Windows/ui_TenantVM.py" line="127"/>
+        <location filename="Windows/ui_TenantVM.py" line="131"/>
         <source>Edit VM</source>
         <translation>Редактирование виртуальной машины</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantVM.py" line="128"/>
+        <location filename="Windows/ui_TenantVM.py" line="132"/>
         <source>Name:</source>
         <translation>Имя:</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantVM.py" line="129"/>
+        <location filename="Windows/ui_TenantVM.py" line="133"/>
         <source>Service</source>
         <translation>Сервис</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantVM.py" line="130"/>
+        <location filename="Windows/ui_TenantVM.py" line="134"/>
         <source>Image Name:</source>
         <translation>Имя образа:</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantVM.py" line="131"/>
+        <location filename="Windows/ui_TenantVM.py" line="136"/>
         <source>Parameters:</source>
         <translation>Параметры:</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantVM.py" line="133"/>
+        <location filename="Windows/ui_TenantVM.py" line="138"/>
         <source>Name</source>
         <translation>Имя</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantVM.py" line="135"/>
+        <location filename="Windows/ui_TenantVM.py" line="140"/>
         <source>Type</source>
         <translation>Тип</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantVM.py" line="137"/>
+        <location filename="Windows/ui_TenantVM.py" line="142"/>
         <source>Value</source>
         <translation>Значение</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantVM.py" line="138"/>
+        <location filename="Windows/ui_TenantVM.py" line="143"/>
         <source>OK</source>
         <translation>ОК</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantVM.py" line="139"/>
+        <location filename="Windows/ui_TenantVM.py" line="144"/>
         <source>Cancel</source>
         <translation>Отмена</translation>
+    </message>
+    <message>
+        <location filename="Windows/ui_TenantVM.py" line="135"/>
+        <source>Request External IP</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

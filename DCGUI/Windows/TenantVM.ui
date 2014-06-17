@@ -77,6 +77,16 @@ QLabel, QSlider, QCheckBox {
        <item row="3" column="1">
         <widget class="QComboBox" name="image"/>
        </item>
+       <item row="4" column="1">
+        <widget class="QCheckBox" name="external">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Request External IP</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
      <item>

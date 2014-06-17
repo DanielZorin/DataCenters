@@ -286,6 +286,15 @@ class TenantCanvas(QWidget):
     def EditVertex(self, v):
         if isinstance(v, VM):
             d = VMDialog()
+            es = self.tenant.FindAllEdges(v1=v)
+            router = False
+            for e in es:
+                if (e.e1 == v) and isinstance(e.e2, NetElement) and e.e2.router:
+                     router = True
+                if (e.e2 == v) and isinstance(e.e1, NetElement) and e.e1.router:
+                     router = True
+            if router:
+                d.ui.external.setEnabled(True)
         elif isinstance(v, Storage):
             d = StorageDialog()
         elif isinstance(v, NetElement):
