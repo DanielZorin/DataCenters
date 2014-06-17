@@ -50,14 +50,14 @@ class Vis(QMainWindow):
         str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Number of assigned VMs")).arg(len(v.assignments))
         str += QString("<b><font size=\"+1\">%1</font></b><br />").arg(self.tr("Parameters"))
         for p in v.params:
-            if (p.type == "int") or (p.type == "real"):
+            if (p.type == "integer") or (p.type == "real"):
                 name = p.name
-                val = int(p.value) if p.type == "int" else float(p.value)
+                val = int(p.value) if p.type == "integer" else float(p.value)
                 used = 0
                 for v1 in v.assignments:
                     for p1 in v1[0].params:
                         if (p1.name == name) and (p1.type == p.type):
-                            used += int(p1.value) if p.type == "int" else float(p1.value)
+                            used += int(p1.value) if p.type == "integer" else float(p1.value)
                 str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>: %5 %2 %6 %3 (%4 %)<br />").arg(name).arg(used).arg(val).arg(int(float(used)/float(val)*100)).arg(self.tr("used")).arg(self.tr("of"))
         str += QString("<b><font size=\"+1\">%1</font></b><br />").arg(self.tr("Assigned Tenants"))
         for id in tenants:
@@ -65,7 +65,7 @@ class Vis(QMainWindow):
             str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>:<br />").arg(id)
             for v1 in v.assignments:
                 if v1[1] == d:
-                    str += QString("&nbsp;&nbsp;&nbsp;&nbsp;VM ID: <font color=blue>%1</font> <br />").arg(v1[0].id)
+                    str += QString("&nbsp;&nbsp;&nbsp;&nbsp;ID: <font color=blue>%1</font> <br />").arg(v1[0].id)
         self.ui.info.setText(str)
 
     def ShowEdgeInfo(self):
