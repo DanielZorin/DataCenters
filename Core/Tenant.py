@@ -108,7 +108,11 @@ class Tenant(AbstractGraph):
         if not resources:
             return
         # TODO: error handling
-        node = [v for v in resources.vertices if v.id == id][0]
+        nodes = [v for v in resources.vertices if v.id == id]
+        if not nodes:
+            print "Can't find resource ", id
+            return
+        node = nodes[0]
         vt.assigned = node
         node.assignments.append([vt, self])
 
@@ -127,6 +131,9 @@ class Tenant(AbstractGraph):
         prev = verts[0]
         for v in verts[1:]:
             edge = resources.FindEdge(prev[0], v[0])
+            if not edge:
+                print "Assignment ", id, " is incorrect: can't find edge from ", prev[0].id, " to ", v[0].id
+                return
             #if ((edge.port1 == prev[1]) and (edge.port2 == v[1])) or ((edge.port1 == v[1]) and (edge.port2 == prev[1])) :
             edge.assignments.append([e, self])
             e.assigned.append(edge)
