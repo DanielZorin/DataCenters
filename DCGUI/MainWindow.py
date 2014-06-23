@@ -230,6 +230,7 @@ class MainWindow(QMainWindow):
         self.ui.leafavg.setText(str(stats["leafavg"])+"%")
 
     def EditProgram(self):
+        self.resourcesGraphEditor.canvas.changed = False
         self.resourcesGraphEditor.show()
         while self.resourcesGraphEditor.isVisible():
             qApp.processEvents()
