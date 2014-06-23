@@ -110,6 +110,16 @@ Link * Factory::createLink(const QDomElement & e, const ElementsMap& elementsMap
     link->connect(port1, port2);
     port1->connect(link, port2);
     port2->connect(link, port1);
+
+    if ( elem1->isComputer() && elem2->isStore() 
+          || elem1->isStore() && elem2->isComputer() ) 
+    {
+        link->setLatency(Link::AFFINITY);
+    } else {
+        link->setLatency(Link::NORMAL);
+        
+    }
+
     return link;
 }
 

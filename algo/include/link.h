@@ -12,7 +12,13 @@ public:
         NONE = 0
     };
 
-    Link() : Edge(), throughput(0), latency(0) {
+    enum Latencies {
+        DUMMY = 0,
+        NORMAL = 1,
+        AFFINITY = NORMAL << 1
+    };
+
+    Link() : Edge(), throughput(0), latency(DUMMY) {
         type = LINK;
     }
 
@@ -22,7 +28,7 @@ public:
 
     virtual bool setRoute(Path& route) {
         this->route = route;
-		return true;
+        return true;
     }
 
     virtual Path getRoute() const {
@@ -38,6 +44,22 @@ public:
            return;
 
         route = Path();
+    }
+
+    virtual Latencies getLatency() const {
+        return latency;
+    }
+
+    virtual void setLatency(Latencies l) {
+        latency = l;
+    }
+
+    virtual bool isDummy() const {
+        return latency == DUMMY;
+    }
+
+    virtual bool isAffine() const {
+        return latency == AFFINITY;
     }
 
 private:
@@ -63,6 +85,6 @@ private:
 
 private:
     unsigned throughput;
-    unsigned latency; // TODO: do not know how to check this yet, this might be a constant value maybe
+    Latencies latency; // TODO: do not know how to check this yet, this might be a constant value maybe
     Path route;
 };

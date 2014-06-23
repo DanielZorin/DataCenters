@@ -3,6 +3,7 @@
 #include "algorithm.h"
 
 #include <vector>
+#include <deque>
 
 class PrototypeAlgorithm : public Algorithm {
 public:
@@ -15,6 +16,8 @@ private:
     bool scheduleRequest(Request * r);
     bool exhaustiveSearch(Element * e);
     bool assignSeedElement(Element * e);
+    Elements connectedComponent(Element * e);
+    void tweakQueue(std::deque<Element *> & queue, Request * r);
 
     static bool simpleIncreasing(Request * first, Request * second);
 
