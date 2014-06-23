@@ -1,0 +1,205 @@
+<?xml version="1.0" ?>
+<dcxml name="tenants">
+	<resources>
+		<server image_id="" name="server1" service="1" x="116.5" y="189.5">
+			<connection_set number_of_ports="1">
+				<port name="server1_port_0"/>
+			</connection_set>
+			<parameter_set>
+				<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="2"/>
+				<parameter parameter_name="RAM" parameter_type="real" parameter_value="16"/>
+				<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="400"/>
+			</parameter_set>
+		</server>
+		<server image_id="" name="server2" service="1" x="292.5" y="195.5">
+			<connection_set number_of_ports="1">
+				<port name="server2_port_0"/>
+			</connection_set>
+			<parameter_set>
+				<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="2"/>
+				<parameter parameter_name="RAM" parameter_type="real" parameter_value="16"/>
+				<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="400"/>
+			</parameter_set>
+		</server>
+		<netelement external_port="" ip="0.0.0.0" is_router="0" is_service="0" name="ROUTER" netelement_type="Router" provider_name="" service="1" service_name="" x="149.5" y="22.5">
+			<connection_set number_of_ports="2">
+				<port name="ROUTER_port_0"/>
+				<port name="ROUTER_port_1"/>
+			</connection_set>
+			<parameter_set>
+				<parameter parameter_name="router" parameter_type="integer" parameter_value="0"/>
+				<parameter parameter_name="fw" parameter_type="string" parameter_value="0.0.0.0"/>
+				<parameter parameter_name="nat" parameter_type="string" parameter_value="0.0.0.0"/>
+				<parameter parameter_name="dns" parameter_type="string" parameter_value="0.0.0.0"/>
+				<parameter parameter_name="dhcp" parameter_type="string" parameter_value="0.0.0.0"/>
+			</parameter_set>
+		</netelement>
+		<netelement external_port="" ip="" is_router="0" is_service="0" name="SW1" netelement_type="Switch" provider_name="" service="1" service_name="" x="73.5" y="96.5">
+			<connection_set number_of_ports="4">
+				<port name="SW1_port_0"/>
+				<port name="SW1_port_1"/>
+				<port name="SW1_port_2"/>
+				<port name="SW1_port_3"/>
+			</connection_set>
+			<parameter_set>
+				<parameter parameter_name="router" parameter_type="integer" parameter_value="0"/>
+				<parameter parameter_name="fw" parameter_type="string" parameter_value="0.0.0.0"/>
+				<parameter parameter_name="nat" parameter_type="string" parameter_value="0.0.0.0"/>
+				<parameter parameter_name="dns" parameter_type="string" parameter_value="0.0.0.0"/>
+				<parameter parameter_name="dhcp" parameter_type="string" parameter_value="0.0.0.0"/>
+			</parameter_set>
+		</netelement>
+		<netelement external_port="" ip="" is_router="0" is_service="0" name="SW2" netelement_type="Switch" provider_name="" service="1" service_name="" x="231.5" y="95.5">
+			<connection_set number_of_ports="4">
+				<port name="SW2_port_0"/>
+				<port name="SW2_port_1"/>
+				<port name="SW2_port_2"/>
+				<port name="SW2_port_3"/>
+			</connection_set>
+			<parameter_set>
+				<parameter parameter_name="router" parameter_type="integer" parameter_value="0"/>
+				<parameter parameter_name="fw" parameter_type="string" parameter_value="0.0.0.0"/>
+				<parameter parameter_name="nat" parameter_type="string" parameter_value="0.0.0.0"/>
+				<parameter parameter_name="dns" parameter_type="string" parameter_value="0.0.0.0"/>
+				<parameter parameter_name="dhcp" parameter_type="string" parameter_value="0.0.0.0"/>
+			</parameter_set>
+		</netelement>
+		<storage name="st1" service="1" x="30.5" y="191.5">
+			<connection_set number_of_ports="1">
+				<port name="st1_port_0"/>
+			</connection_set>
+			<parameter_set>
+				<parameter parameter_name="size" parameter_type="real" parameter_value="20"/>
+			</parameter_set>
+		</storage>
+		<storage name="st2" service="1" x="207.5" y="191.5">
+			<connection_set number_of_ports="1">
+				<port name="st2_port_0"/>
+			</connection_set>
+			<parameter_set>
+				<parameter parameter_name="size" parameter_type="real" parameter_value="20"/>
+			</parameter_set>
+		</storage>
+		<link channel_capacity="1" node1="ROUTER" node2="SW1" port1="ROUTER_port_0" port2="SW1_port_0" service="0"/>
+		<link channel_capacity="1" node1="ROUTER" node2="SW2" port1="ROUTER_port_1" port2="SW2_port_0" service="0"/>
+		<link channel_capacity="1" node1="SW1" node2="SW2" port1="SW1_port_1" port2="SW2_port_1" service="0"/>
+		<link channel_capacity="1" node1="SW1" node2="server1" port1="SW1_port_2" port2="server1_port_0" service="0"/>
+		<link channel_capacity="1" node1="SW1" node2="st1" port1="SW1_port_3" port2="st1_port_0" service="0"/>
+		<link channel_capacity="1" node1="SW2" node2="server2" port1="SW2_port_2" port2="server2_port_0" service="0"/>
+		<link channel_capacity="1" node1="SW2" node2="st2" port1="SW2_port_3" port2="st2_port_0" service="0"/>
+	</resources>
+	<tenants>
+		<tenant expiration_time="" tenant_name="t1" tenant_type="">
+			<list_of_nodes>
+				<vm image_id="" name="vm11" service="1" x="87.5" y="87.5">
+					<connection_set number_of_ports="2">
+						<port name="vm11_port_0"/>
+						<port name="vm11_port_1"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="1"/>
+						<parameter parameter_name="RAM" parameter_type="real" parameter_value="1"/>
+						<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="2"/>
+					</parameter_set>
+				</vm>
+				<vm image_id="" name="vm12" service="1" x="188.5" y="85.5">
+					<connection_set number_of_ports="1">
+						<port name="vm12_port_0"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="1"/>
+						<parameter parameter_name="RAM" parameter_type="real" parameter_value="1"/>
+						<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="2"/>
+					</parameter_set>
+				</vm>
+				<st name="st11" service="1" x="80.5" y="142.5">
+					<connection_set number_of_ports="1">
+						<port name="st11_port_0"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="size" parameter_type="real" parameter_value="10"/>
+					</parameter_set>
+				</st>
+				<netelement external_port="" ip="0.0.0.0" is_router="0" is_service="0" name="NE1" netelement_type="Router" provider_name="" service="1" service_name="" x="133.5" y="23.5">
+					<connection_set number_of_ports="2">
+						<port name="NE1_port_0"/>
+						<port name="NE1_port_1"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="router" parameter_type="integer" parameter_value="0"/>
+						<parameter parameter_name="fw" parameter_type="string" parameter_value="0.0.0.0"/>
+						<parameter parameter_name="nat" parameter_type="string" parameter_value="0.0.0.0"/>
+						<parameter parameter_name="dns" parameter_type="string" parameter_value="0.0.0.0"/>
+						<parameter parameter_name="dhcp" parameter_type="string" parameter_value="0.0.0.0"/>
+					</parameter_set>
+				</netelement>
+			</list_of_nodes>
+			<list_of_links>
+				<link channel_capacity="1" node1="NE1" node2="vm11" port1="NE1_port_0" port2="vm11_port_0" service="0"/>
+				<link channel_capacity="1" node1="NE1" node2="vm12" port1="NE1_port_1" port2="vm12_port_0" service="0"/>
+				<link channel_capacity="1" node1="vm11" node2="st11" port1="vm11_port_1" port2="st11_port_0" service="0"/>
+			</list_of_links>
+		</tenant>
+		<tenant expiration_time="" tenant_name="t2" tenant_type="">
+			<list_of_nodes>
+				<vm image_id="" name="vm21" service="1" x="87.5" y="87.5">
+					<connection_set number_of_ports="2">
+						<port name="vm21_port_0"/>
+						<port name="vm21_port_1"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="1"/>
+						<parameter parameter_name="RAM" parameter_type="real" parameter_value="1"/>
+						<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="2"/>
+					</parameter_set>
+				</vm>
+				<vm image_id="" name="vm22" service="1" x="188.5" y="85.5">
+					<connection_set number_of_ports="2">
+						<port name="vm22_port_0"/>
+						<port name="vm22_port_1"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="1"/>
+						<parameter parameter_name="RAM" parameter_type="real" parameter_value="1"/>
+						<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="2"/>
+					</parameter_set>
+				</vm>
+				<st name="st21" service="1" x="80.5" y="142.5">
+					<connection_set number_of_ports="1">
+						<port name="st21_port_0"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="size" parameter_type="real" parameter_value="10"/>
+					</parameter_set>
+				</st>
+				<st name="st22" service="1" x="185.5" y="142.5">
+					<connection_set number_of_ports="1">
+						<port name="st22_port_0"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="size" parameter_type="real" parameter_value="20"/>
+					</parameter_set>
+				</st>
+				<netelement external_port="" ip="0.0.0.0" is_router="0" is_service="0" name="NE2" netelement_type="Router" provider_name="" service="1" service_name="" x="133.5" y="23.5">
+					<connection_set number_of_ports="2">
+						<port name="NE2_port_0"/>
+						<port name="NE2_port_1"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="router" parameter_type="integer" parameter_value="0"/>
+						<parameter parameter_name="fw" parameter_type="string" parameter_value="0.0.0.0"/>
+						<parameter parameter_name="nat" parameter_type="string" parameter_value="0.0.0.0"/>
+						<parameter parameter_name="dns" parameter_type="string" parameter_value="0.0.0.0"/>
+						<parameter parameter_name="dhcp" parameter_type="string" parameter_value="0.0.0.0"/>
+					</parameter_set>
+				</netelement>
+			</list_of_nodes>
+			<list_of_links>
+				<link channel_capacity="1" node1="NE2" node2="vm21" port1="NE2_port_0" port2="vm21_port_0" service="0"/>
+				<link channel_capacity="1" node1="NE2" node2="vm22" port1="NE2_port_1" port2="vm22_port_0" service="0"/>
+				<link channel_capacity="1" node1="vm21" node2="st21" port1="vm21_port_1" port2="st21_port_0" service="0"/>
+				<link channel_capacity="1" node1="vm22" node2="st22" port1="vm22_port_1" port2="st22_port_0" service="0"/>
+			</list_of_links>
+		</tenant>
+	</tenants>
+</dcxml>

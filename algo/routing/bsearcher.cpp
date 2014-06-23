@@ -31,7 +31,7 @@ bool BSearcher::search() {
         if ( next == end )
             return true;
 
-        if ( !next->isNetwork() )
+        if ( !next->isNetwork() && next != start )
            continue;
 
         Elements adjacentNodes = next->adjacentNodes();
