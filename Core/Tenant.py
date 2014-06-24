@@ -34,6 +34,7 @@ class Vnf(AbstractVertex):
         self.isservice = False
         self.servicename = ""
         self.username = ""
+        self.image = ""
         self.connectionset = []
         self.params = ParamFactory.Create("vnf")
 
@@ -64,6 +65,7 @@ class NetElement(AbstractVertex):
         self.servicename = ""
         self.provider = ""
         self.port = ""
+        self.prefix = "1"
         self.params = ParamFactory.Create("netelement")
 
 class Link:
@@ -179,6 +181,7 @@ class Tenant(AbstractGraph):
                 tag = dom.createElement("vm")
                 tag.setAttribute("name", v.id)
                 tag.setAttribute("image_id", v.image)
+                tag.setAttribute("floating_ip", str(v.external))
                 if v.assigned:
                     tag.setAttribute("assignedTo", v.assigned.id)
             elif isinstance(v, Storage):
@@ -196,6 +199,7 @@ class Tenant(AbstractGraph):
                 tag.setAttribute("service_name", v.servicename)
                 tag.setAttribute("provider_name", v.provider)
                 tag.setAttribute("external_port", v.port)
+                tag.setAttribute("prefix", v.prefix)
                 if v.assigned:
                     tag.setAttribute("assignedTo", v.assigned.id)
             elif isinstance(v, Domain):
@@ -209,6 +213,7 @@ class Tenant(AbstractGraph):
                 tag.setAttribute("name", v.id)
                 tag.setAttribute("vnf_type", v.type)
                 tag.setAttribute("profile_type", v.profile)
+                tag.setAttribute("image_id", v.image)
                 tag.setAttribute("is_service", "1" if v.isservice else "0")
                 tag.setAttribute("service_name", v.servicename)
                 tag.setAttribute("user_name", v.username)
@@ -309,7 +314,8 @@ class Tenant(AbstractGraph):
                         params.append([name, type, value])
             if vertex.nodeName == "vm":
                 v = VM(vertex.getAttribute("name"))
-                v.image = vertex.getAttribute("image_id")            
+                v.image = vertex.getAttribute("image_id") 
+                v.external = vertex.getAttribute("floating_ip") == "True"           
             elif vertex.nodeName == "st":
                 v = Storage(vertex.getAttribute("name"))
             elif vertex.nodeName == "netelement":
@@ -318,6 +324,7 @@ class Tenant(AbstractGraph):
                 v.type = tag.getAttribute("netelement_type")
                 v.ip = tag.getAttribute("ip")
                 v.router = tag.getAttribute("is_router") == 1
+                v.prefix = tag.getAttribute("prefix")
                 v.isservice = tag.getAttribute("is_service") == 1
                 v.servicename = tag.getAttribute("service_name")
                 v.provider = tag.getAttribute("provider_name")
@@ -327,6 +334,7 @@ class Tenant(AbstractGraph):
                 tag = vertex
                 v.id = tag.getAttribute("name")
                 v.type = tag.getAttribute("vnf_type")
+                v.image = tag.getAttribute("image_id")
                 v.profile = tag.getAttribute("profile_type")
                 v.isservice = tag.getAttribute("is_service") == "1"
                 v.servicename = tag.getAttribute("service_name")

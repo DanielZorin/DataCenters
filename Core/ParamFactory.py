@@ -13,12 +13,14 @@ class ParamFactory(object):
     params = {}
     forbiddenlinks = []
     images = []
+    vnfimages = []
 
     @staticmethod
     def LoadDir(url):
         ParamFactory.params = {}
         ParamFactory.forbiddenlinks = []
         ParamFactory.images = []
+        ParamFactory.vnfimages = []
         if os.path.isdir(url):
             for s in os.listdir(url):
                 xml = os.path.join(url, s)
@@ -51,7 +53,14 @@ class ParamFactory(object):
                         continue
                     if node.tagName == "image":
                         img = node.getAttribute("id")
-                        ParamFactory.images.append(img)
+                        type = node.getAttribute("type")
+                        if type == "vm":
+                            ParamFactory.images.append(img)
+                        elif type == "vnf":
+                            ParamFactory.vnfimages.append(img)
+                        else:
+                            ParamFactory.images.append(img)
+                            ParamFactory.vnfimages.append(img)
                         continue
                     nodetype = node.tagName
                     if not nodetype in ParamFactory.params:

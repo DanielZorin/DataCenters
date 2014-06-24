@@ -161,6 +161,7 @@ class SwitchDialog(VertexDialog):
         self.ui.ip.setText(v.ip)
         self.ui.router.setChecked(v.router)
         self.ui.serviceasuser.setChecked(v.isservice)
+        self.ui.prefix.setText(v.prefix)
         if not v.isservice:
             return
         for i in range(self.ui.provider.count()):
@@ -183,6 +184,7 @@ class SwitchDialog(VertexDialog):
         v.servicename = str(self.ui.servicename.currentText())
         v.provider = str(self.ui.provider.currentText())
         v.port = str(self.ui.port.currentText())
+        v.prefix = str(self.ui.prefix.text())
         v.isservice = self.ui.serviceasuser.isChecked()
 
     def ServiceChecked(self):
@@ -213,6 +215,11 @@ class VnfDialog(VertexDialog):
 
     def Load(self, v):
         self.LoadCommon(v)        
+        for s in ParamFactory.vnfimages:
+            self.ui.image.addItem(s)
+        for i in range(self.ui.image.count()):
+            if self.ui.image.itemText(i) == v.image:
+                self.ui.image.setCurrentIndex(i)
         self.ui.type.setText(v.type)
         self.ui.profile.setText(v.profile)
         self.ui.serviceasprovider.setChecked(v.isservice)
@@ -228,6 +235,7 @@ class VnfDialog(VertexDialog):
         v.username = str(self.ui.username.text())
         v.servicename = str(self.ui.servicename.text())
         v.connectionset = str(self.ui.set.text()).split(",")
+        v.image = str(self.ui.image.currentText())
         
     def ServiceChecked(self):
         pass
