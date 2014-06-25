@@ -91,7 +91,7 @@ bool PrototypeAlgorithm::assignSeedElement(Element * e) {
     if ( candidates.empty() )
         return false;
 
-    Element * candidate = getSeedElement(candidates);
+    Element * candidate = getSeedElement(candidates, false);
     return candidate->assign(e);
 }
 
@@ -141,7 +141,7 @@ void PrototypeAlgorithm::tweakQueue(std::deque<Element *> & queue, Request * r) 
     }
 }
 
-Element * PrototypeAlgorithm::getSeedElement(Elements & e) {
+Element * PrototypeAlgorithm::getSeedElement(Elements & e, bool isVirtual) {
     std::vector<Element *> tmp;
     Elements stores = Operation::filter(e, Criteria::isStore);
     if ( !stores.empty() ) {
@@ -149,7 +149,12 @@ Element * PrototypeAlgorithm::getSeedElement(Elements & e) {
     } else {
         tmp = std::vector<Element *>(e.begin(), e.end());
     }
-    std::sort(tmp.begin(), tmp.end(), Criteria::elementWeightDescending);
+
+    if ( isVirtual ) {
+        std::sort(tmp.begin(), tmp.end(), Criteria::elementWeightDescending);
+    } else {
+        std::sort(tmp.begin(), tmp.end(), Criteria::elementWeightAscending);
+    }
     Element * result = tmp[0];
     return result;
 } 

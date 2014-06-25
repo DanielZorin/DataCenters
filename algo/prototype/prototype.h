@@ -21,5 +21,5 @@ private:
 
     static bool simpleIncreasing(Request * first, Request * second);
 
-    Element * getSeedElement(Elements & e);
+    Element * getSeedElement(Elements & e, bool isVirtual = true);
 };
