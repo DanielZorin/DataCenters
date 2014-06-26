@@ -174,7 +174,7 @@ class Tenant(AbstractGraph):
         root = dom.createElement("tenant")
         root.setAttribute("expiration_time", self.expiration)
         root.setAttribute("tenant_type", self.type)
-        root.setAttribute("tenant_name", self.name)
+        root.setAttribute("name", self.name)
         nodes = dom.createElement("list_of_nodes")
         for v in self.vertices:
             if isinstance(v, VM):
@@ -219,10 +219,13 @@ class Tenant(AbstractGraph):
                 tag.setAttribute("user_name", v.username)
                 if v.assigned:
                     tag.setAttribute("assignedTo", v.assigned.id)
-                conset = dom.createElement("exported_connection_set")
+                conset = dom.createElement("external_connection_set")
                 conset.setAttribute("number_of_ports", str(len(v.connectionset)))
-                for s in v.connectionset:
-                    port = dom.createElement("port")
+                ports = [s for s in v.connectionset]
+                if not ports:
+                    ports = ["default_port"]
+                for s in ports:
+                    port = dom.createElement("external_port")
                     port.setAttribute("name", s)
                     conset.appendChild(port)
                 tag.appendChild(conset)
@@ -298,7 +301,7 @@ class Tenant(AbstractGraph):
                             continue
                         s = port.getAttribute("name")
                         ports.append(s)
-                if v.nodeName == "exported_connection_set":
+                if v.nodeName == "external_connection_set":
                     for port in v.childNodes:
                         if isinstance(port, xml.dom.minidom.Text) or isinstance(port, xml.dom.minidom.Comment):
                             continue
@@ -391,7 +394,7 @@ class Tenant(AbstractGraph):
     def LoadFromXmlNode(self, node, resources=None):
         self.expiration = node.getAttribute("expiration_time")
         self.type = node.getAttribute("tenant_type")
-        self.name = node.getAttribute("tenant_name")
+        self.name = node.getAttribute("name")
         #Parse vertices
         for vertex in node.childNodes:
             if isinstance(vertex, xml.dom.minidom.Text):

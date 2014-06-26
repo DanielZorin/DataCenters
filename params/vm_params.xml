@@ -4,9 +4,9 @@
 <parameter_set>
    <parameter parameter_name="VCPUs" parameter_type="integer" value_default="2" min="1" max="8" />
    <!-- Number of virtual CPUs presented to the instance -->
-   <parameter parameter_name="RAM" parameter_type="real" value_default="4" min="0.5" max="16" />
+   <parameter parameter_name="RAM" parameter_type="integer" value_default="4096" min="512" max="16" />
    <!-- Virtual machine memory in gigabytes -->
-   <parameter parameter_name="RootDisk" parameter_type="integer" value_default="40" min="1" max="160" />
+   <parameter parameter_name="RootDisk" parameter_type="integer" value_default="40" min="1" max="16384" />
    <!-- Virtual root disk size in gigabytes -->
 </parameter_set>
 </vm>

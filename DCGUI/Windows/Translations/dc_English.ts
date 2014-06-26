@@ -566,12 +566,12 @@
         <translation>Untitled</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="482"/>
+        <location filename="MainWindow.py" line="483"/>
         <source>No</source>
         <translation>No</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="482"/>
+        <location filename="MainWindow.py" line="483"/>
         <source>Yes</source>
         <translation>Yes</translation>
     </message>
@@ -586,7 +586,7 @@
         <translation>Project not found</translation>
     </message>
     <message>
-        <location filename="MainWindow.py" line="371"/>
+        <location filename="MainWindow.py" line="372"/>
         <source>&amp;%1: %2</source>
         <translation></translation>
     </message>
@@ -1474,89 +1474,94 @@
 <context>
     <name>TenantSwitch</name>
     <message>
-        <location filename="Windows/ui_TenantSwitch.py" line="159"/>
+        <location filename="Windows/ui_TenantSwitch.py" line="165"/>
         <source>Edit Switch</source>
         <translation>Edit Switch</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantSwitch.py" line="160"/>
+        <location filename="Windows/ui_TenantSwitch.py" line="166"/>
         <source>Name:</source>
         <translation>Name:</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantSwitch.py" line="161"/>
+        <location filename="Windows/ui_TenantSwitch.py" line="167"/>
         <source>Service</source>
         <translation>Service</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantSwitch.py" line="162"/>
+        <location filename="Windows/ui_TenantSwitch.py" line="168"/>
         <source>Type:</source>
         <translation>Type:</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantSwitch.py" line="163"/>
+        <location filename="Windows/ui_TenantSwitch.py" line="169"/>
         <source>Switch</source>
         <translation>Switch</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantSwitch.py" line="164"/>
+        <location filename="Windows/ui_TenantSwitch.py" line="170"/>
         <source>Router</source>
         <translation>Router</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantSwitch.py" line="165"/>
+        <location filename="Windows/ui_TenantSwitch.py" line="171"/>
         <source>Router  IP:</source>
         <translation>Router IP:</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantSwitch.py" line="166"/>
+        <location filename="Windows/ui_TenantSwitch.py" line="172"/>
         <source>Service as User</source>
         <translation>Service as User</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantSwitch.py" line="167"/>
+        <location filename="Windows/ui_TenantSwitch.py" line="173"/>
         <source>Provider name:</source>
         <translation>Provider name:</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantSwitch.py" line="168"/>
+        <location filename="Windows/ui_TenantSwitch.py" line="174"/>
         <source>Service name:</source>
         <translation>Service name:</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantSwitch.py" line="169"/>
+        <location filename="Windows/ui_TenantSwitch.py" line="175"/>
         <source>External port:</source>
         <translation>External port:</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantSwitch.py" line="170"/>
+        <location filename="Windows/ui_TenantSwitch.py" line="177"/>
         <source>Parameters:</source>
         <translation>Parameters:</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantSwitch.py" line="172"/>
+        <location filename="Windows/ui_TenantSwitch.py" line="179"/>
         <source>Name</source>
         <translation>Name</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantSwitch.py" line="174"/>
+        <location filename="Windows/ui_TenantSwitch.py" line="181"/>
         <source>Type</source>
         <translation>Type</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantSwitch.py" line="176"/>
+        <location filename="Windows/ui_TenantSwitch.py" line="183"/>
         <source>Value</source>
         <translation>Value</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantSwitch.py" line="177"/>
+        <location filename="Windows/ui_TenantSwitch.py" line="184"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantSwitch.py" line="178"/>
+        <location filename="Windows/ui_TenantSwitch.py" line="185"/>
         <source>Cancel</source>
         <translation>Cancel</translation>
+    </message>
+    <message>
+        <location filename="Windows/ui_TenantSwitch.py" line="176"/>
+        <source>Prefix:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1620,79 +1625,84 @@
 <context>
     <name>TenantVnf</name>
     <message>
-        <location filename="Windows/ui_TenantVnf.py" line="148"/>
+        <location filename="Windows/ui_TenantVnf.py" line="154"/>
         <source>Edit Vnf</source>
         <translation>Edit Vnf</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantVnf.py" line="149"/>
+        <location filename="Windows/ui_TenantVnf.py" line="155"/>
         <source>Name:</source>
         <translation>Name:</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantVnf.py" line="150"/>
+        <location filename="Windows/ui_TenantVnf.py" line="156"/>
         <source>Service</source>
         <translation>Service</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantVnf.py" line="151"/>
+        <location filename="Windows/ui_TenantVnf.py" line="157"/>
         <source>Exported connection set:</source>
         <translation>Exported connection set:</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantVnf.py" line="152"/>
+        <location filename="Windows/ui_TenantVnf.py" line="158"/>
         <source>User name:</source>
         <translation>User name:</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantVnf.py" line="153"/>
+        <location filename="Windows/ui_TenantVnf.py" line="159"/>
         <source>Service Name:</source>
         <translation>Service Name:</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantVnf.py" line="154"/>
+        <location filename="Windows/ui_TenantVnf.py" line="160"/>
         <source>Profile Type:</source>
         <translation>Profile Type:</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantVnf.py" line="155"/>
+        <location filename="Windows/ui_TenantVnf.py" line="161"/>
         <source>Type:</source>
         <translation>Type:</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantVnf.py" line="156"/>
+        <location filename="Windows/ui_TenantVnf.py" line="162"/>
         <source>Service as Provider</source>
         <translation>Service as Provider</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantVnf.py" line="157"/>
+        <location filename="Windows/ui_TenantVnf.py" line="164"/>
         <source>Parameters:</source>
         <translation>Parameters:</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantVnf.py" line="159"/>
+        <location filename="Windows/ui_TenantVnf.py" line="166"/>
         <source>Name</source>
         <translation>Name</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantVnf.py" line="161"/>
+        <location filename="Windows/ui_TenantVnf.py" line="168"/>
         <source>Type</source>
         <translation>Type</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantVnf.py" line="163"/>
+        <location filename="Windows/ui_TenantVnf.py" line="170"/>
         <source>Value</source>
         <translation>Value</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantVnf.py" line="164"/>
+        <location filename="Windows/ui_TenantVnf.py" line="171"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="Windows/ui_TenantVnf.py" line="165"/>
+        <location filename="Windows/ui_TenantVnf.py" line="172"/>
         <source>Cancel</source>
         <translation>Cancel</translation>
+    </message>
+    <message>
+        <location filename="Windows/ui_TenantVnf.py" line="163"/>
+        <source>Image ID:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2324,7 +2334,7 @@
 <context>
     <name>self.resourcesGraphEditor</name>
     <message>
-        <location filename="MainWindow.py" line="419"/>
+        <location filename="MainWindow.py" line="420"/>
         <source>Resources Graph Editor</source>
         <translation>Resources Graph Editor</translation>
     </message>
@@ -2332,7 +2342,7 @@
 <context>
     <name>self.tenantEditor</name>
     <message>
-        <location filename="MainWindow.py" line="418"/>
+        <location filename="MainWindow.py" line="419"/>
         <source>Tenant Editor</source>
         <translation>Tenant Editor</translation>
     </message>
