@@ -60,6 +60,10 @@ public:
         return first->weight() > second->weight(); 
     }
 
+    inline static bool elementWeightAscending(const Element * first, const Element * second) {
+        return first->weight() < second->weight();
+    }
+
     inline static bool canHostAssignment(const Element * host, const Element * target) {
         return host->canHostAssignment(target);
     }
