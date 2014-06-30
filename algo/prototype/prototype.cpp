@@ -10,6 +10,8 @@
 #include "routing/bfsrouter.h"
 #include "exhaustivesearcher.h"
 
+#include <stdio.h>
+
 #include <vector>
 #include <algorithm>
 #include <queue>
@@ -20,8 +22,10 @@ void PrototypeAlgorithm::schedule() {
     for (std::vector<Request *>::iterator i = pRequests.begin();
             i != pRequests.end(); i++) 
     {
-        Request * fakeRequest = Preprocessor::fakeNetElements(*i);
-        scheduleRequest(fakeRequest);
+        Request * r = *i;
+        Request * fakeRequest = Preprocessor::fakeNetElements(r);
+        if ( !scheduleRequest(fakeRequest))
+            fprintf(stderr, "[ERROR] Failed to assign request %s.\n", r->getName().c_str());
         delete fakeRequest;   
     }
 }
