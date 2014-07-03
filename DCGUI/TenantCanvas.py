@@ -1,4 +1,4 @@
-import math, time
+import math, time, uuid
 from Core.Tenant import *
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtCore import QPointF, Qt
@@ -225,7 +225,7 @@ class TenantCanvas(QWidget):
                     self.repaint()
 
     def genId(self):
-        return "id!" + str(time.time())
+        return "id!" + str(uuid.uuid4())
 
     def mouseMoveEvent(self, e):
         if self.state == State.Select:
