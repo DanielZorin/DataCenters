@@ -2,13 +2,13 @@
 <params>
 <netelement>
 <parameter_set>
-   <parameter parameter_name="fw" parameter_type="string" value_default="0.0.0.0" min="" max=""/>
+   <parameter parameter_name="fw" parameter_type="string" value_default="0.0.0.0" min="" max="" parameter_unit=""/>
    <!-- netelement for provider's vnf -->
-   <parameter parameter_name="nat" parameter_type="string" value_default="0.0.0.0" min="" max=""/>
+   <parameter parameter_name="nat" parameter_type="string" value_default="0.0.0.0" min="" max="" parameter_unit=""/>
    <!-- netelement for provider's vnf -->
-   <parameter parameter_name="dns" parameter_type="string" value_default="0.0.0.0" min="" max=""/>
+   <parameter parameter_name="dns" parameter_type="string" value_default="0.0.0.0" min="" max="" parameter_unit=""/>
    <!-- netelement for provider's vnf: dns server IP -->
-   <parameter parameter_name="dhcp" parameter_type="string" value_default="0.0.0.0" min="" max=""/>
+   <parameter parameter_name="dhcp" parameter_type="string" value_default="0.0.0.0" min="" max="" parameter_unit=""/>
    <!-- netelement for provider's vnf: dhcp server IP -->      
 </parameter_set>
 </netelement>

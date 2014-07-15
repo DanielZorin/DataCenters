@@ -2,7 +2,7 @@
 <params>
 <st>
 <parameter_set>
-   <parameter parameter_name="size" parameter_type="real" value_default="2" min="1" max="5"/>
+   <parameter parameter_name="size" parameter_type="real" value_default="2" min="1" max="5" parameter_unit="Gb"/>
    <!-- The size of the volume in gigabytes -->
 </parameter_set>
 </st>
