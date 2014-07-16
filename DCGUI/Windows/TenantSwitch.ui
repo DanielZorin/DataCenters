@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>324</width>
-    <height>398</height>
+    <height>405</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -112,28 +112,28 @@ QLabel, QSlider, QCheckBox {
          </property>
         </widget>
        </item>
-       <item row="5" column="1">
-        <widget class="QComboBox" name="provider"/>
-       </item>
-       <item row="6" column="0">
+       <item row="7" column="0">
         <widget class="QLabel" name="label_2">
          <property name="text">
           <string>Service name:</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="1">
-        <widget class="QComboBox" name="servicename"/>
-       </item>
-       <item row="7" column="0">
+       <item row="8" column="0">
         <widget class="QLabel" name="label_6">
          <property name="text">
           <string>External port:</string>
          </property>
         </widget>
        </item>
+       <item row="5" column="1">
+        <widget class="QLineEdit" name="provider"/>
+       </item>
        <item row="7" column="1">
-        <widget class="QComboBox" name="port"/>
+        <widget class="QLineEdit" name="servicename"/>
+       </item>
+       <item row="8" column="1">
+        <widget class="QLineEdit" name="port"/>
        </item>
       </layout>
      </item>
@@ -319,54 +319,6 @@ QLabel, QSlider, QCheckBox {
     <hint type="destinationlabel">
      <x>115</x>
      <y>128</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>serviceasuser</sender>
-   <signal>clicked()</signal>
-   <receiver>TenantSwitch</receiver>
-   <slot>ServiceChecked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>209</x>
-     <y>128</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>161</x>
-     <y>198</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>provider</sender>
-   <signal>currentIndexChanged(int)</signal>
-   <receiver>TenantSwitch</receiver>
-   <slot>ProviderChanged()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>209</x>
-     <y>139</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>161</x>
-     <y>198</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>servicename</sender>
-   <signal>currentIndexChanged(int)</signal>
-   <receiver>TenantSwitch</receiver>
-   <slot>ServiceChanged()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>209</x>
-     <y>163</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>161</x>
-     <y>198</y>
     </hint>
    </hints>
   </connection>

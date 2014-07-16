@@ -18,7 +18,7 @@ except AttributeError:
 class Ui_TenantSwitch(object):
     def setupUi(self, TenantSwitch):
         TenantSwitch.setObjectName(_fromUtf8("TenantSwitch"))
-        TenantSwitch.resize(324, 398)
+        TenantSwitch.resize(324, 405)
         TenantSwitch.setStyleSheet(_fromUtf8("QWidget, QMenuBar::item, QHeaderView::section {\n"
 "    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
 "                                      stop: 0 #a0a0a0, stop: 1 #f0f0f0);\n"
@@ -72,21 +72,21 @@ class Ui_TenantSwitch(object):
         self.label_5 = QtGui.QLabel(TenantSwitch)
         self.label_5.setObjectName(_fromUtf8("label_5"))
         self.formLayout.setWidget(5, QtGui.QFormLayout.LabelRole, self.label_5)
-        self.provider = QtGui.QComboBox(TenantSwitch)
-        self.provider.setObjectName(_fromUtf8("provider"))
-        self.formLayout.setWidget(5, QtGui.QFormLayout.FieldRole, self.provider)
         self.label_2 = QtGui.QLabel(TenantSwitch)
         self.label_2.setObjectName(_fromUtf8("label_2"))
-        self.formLayout.setWidget(6, QtGui.QFormLayout.LabelRole, self.label_2)
-        self.servicename = QtGui.QComboBox(TenantSwitch)
-        self.servicename.setObjectName(_fromUtf8("servicename"))
-        self.formLayout.setWidget(6, QtGui.QFormLayout.FieldRole, self.servicename)
+        self.formLayout.setWidget(7, QtGui.QFormLayout.LabelRole, self.label_2)
         self.label_6 = QtGui.QLabel(TenantSwitch)
         self.label_6.setObjectName(_fromUtf8("label_6"))
-        self.formLayout.setWidget(7, QtGui.QFormLayout.LabelRole, self.label_6)
-        self.port = QtGui.QComboBox(TenantSwitch)
+        self.formLayout.setWidget(8, QtGui.QFormLayout.LabelRole, self.label_6)
+        self.provider = QtGui.QLineEdit(TenantSwitch)
+        self.provider.setObjectName(_fromUtf8("provider"))
+        self.formLayout.setWidget(5, QtGui.QFormLayout.FieldRole, self.provider)
+        self.servicename = QtGui.QLineEdit(TenantSwitch)
+        self.servicename.setObjectName(_fromUtf8("servicename"))
+        self.formLayout.setWidget(7, QtGui.QFormLayout.FieldRole, self.servicename)
+        self.port = QtGui.QLineEdit(TenantSwitch)
         self.port.setObjectName(_fromUtf8("port"))
-        self.formLayout.setWidget(7, QtGui.QFormLayout.FieldRole, self.port)
+        self.formLayout.setWidget(8, QtGui.QFormLayout.FieldRole, self.port)
         self.verticalLayout.addLayout(self.formLayout)
         self.horizontalLayout_5 = QtGui.QHBoxLayout()
         self.horizontalLayout_5.setObjectName(_fromUtf8("horizontalLayout_5"))
@@ -151,9 +151,6 @@ class Ui_TenantSwitch(object):
         QtCore.QObject.connect(self.Cancel, QtCore.SIGNAL(_fromUtf8("clicked()")), TenantSwitch.reject)
         QtCore.QObject.connect(self.add, QtCore.SIGNAL(_fromUtf8("clicked()")), TenantSwitch.AddParam)
         QtCore.QObject.connect(self.remove, QtCore.SIGNAL(_fromUtf8("clicked()")), TenantSwitch.RemoveParam)
-        QtCore.QObject.connect(self.serviceasuser, QtCore.SIGNAL(_fromUtf8("clicked()")), TenantSwitch.ServiceChecked)
-        QtCore.QObject.connect(self.provider, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(int)")), TenantSwitch.ProviderChanged)
-        QtCore.QObject.connect(self.servicename, QtCore.SIGNAL(_fromUtf8("currentIndexChanged(int)")), TenantSwitch.ServiceChanged)
         QtCore.QMetaObject.connectSlotsByName(TenantSwitch)
 
     def retranslateUi(self, TenantSwitch):

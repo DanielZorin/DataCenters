@@ -140,20 +140,6 @@ class SwitchDialog(VertexDialog):
             self.ui.port.setEnabled(False)
             self.ui.serviceasuser.setEnabled(False)
             return
-        for t in tenants:
-            for v in t.vertices:
-                if isinstance(v, Vnf) and v.isservice:
-                    if v.username == curname:
-                        name = t.name
-                        servicename = v.servicename
-                        conset = v.connectionset
-                        if not name in self.services:
-                            self.services[name] = {}
-                        self.services[name][servicename] = conset
-        for t in self.services.keys():
-            self.ui.provider.addItem(t)
-        #if self.services:
-        #    self.ProviderChanged(0)
 
     def Load(self, v):
         self.LoadCommon(v)
@@ -161,51 +147,19 @@ class SwitchDialog(VertexDialog):
         self.ui.ip.setText(v.ip)
         self.ui.router.setChecked(v.router)
         self.ui.serviceasuser.setChecked(v.isservice)
-        if not v.isservice:
-            return
-        for i in range(self.ui.provider.count()):
-            if self.ui.provider.itemText(i) == v.provider:
-                self.ui.provider.setCurrentIndex(i)
-        #self.ProviderChanged(0)
-        for i in range(self.ui.servicename.count()):
-            if self.ui.servicename.itemText(i) == v.servicename:
-                self.ui.servicename.setCurrentIndex(i)
-        #self.ServiceChanged(0)
-        for i in range(self.ui.port.count()):
-            if self.ui.port.itemText(i) == v.port:
-                self.ui.port.setCurrentIndex(i)
+        self.ui.servicename.setText(v.servicename)
+        self.ui.provider.setText(v.provider)
+        self.ui.port.setText(v.port)
 
     def SetResult(self, v):
         self.SetResultCommon(v)
         v.type = "Switch" if self.ui.type.currentIndex() == 0 else "Router"
         v.router = self.ui.router.isChecked()
         v.ip = str(self.ui.ip.text())
-        v.servicename = str(self.ui.servicename.currentText())
-        v.provider = str(self.ui.provider.currentText())
-        v.port = str(self.ui.port.currentText())
+        v.servicename = str(self.ui.servicename.text())
+        v.provider = str(self.ui.provider.text())
+        v.port = str(self.ui.port.text())
         v.isservice = self.ui.serviceasuser.isChecked()
-
-    def ServiceChecked(self):
-        pass
-
-    def ProviderChanged(self, index):
-        while self.ui.servicename.count() > 0:
-            self.ui.servicename.removeItem(0)
-        name = str(self.ui.provider.currentText())
-        if name in self.services:
-            for p in self.services[name].keys():
-                self.ui.servicename.addItem(p)
-        #self.ServiceChanged(0)
-
-    def ServiceChanged(self, index):
-        while self.ui.port.count() > 0:
-            self.ui.port.removeItem(0)
-        prov = str(self.ui.provider.currentText())
-        name = str(self.ui.servicename.currentText())
-        if prov in self.services:
-            if name in self.services[prov]:
-                for p in self.services[prov][name]:
-                    self.ui.port.addItem(p)
 
 class VnfDialog(VertexDialog):
     def __init__(self):
