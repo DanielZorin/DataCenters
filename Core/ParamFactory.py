@@ -74,6 +74,9 @@ class ParamFactory(object):
                                     continue
                                 name = param.getAttribute("parameter_name")
                                 type = param.getAttribute("parameter_type")
+                                unit = param.getAttribute("parameter_unit")
+                                if unit:
+                                    name = name + " (" + unit + ")"
                                 value = param.getAttribute("value_default")
                                 minv = param.getAttribute("min")
                                 maxv = param.getAttribute("max")
