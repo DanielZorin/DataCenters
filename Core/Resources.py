@@ -124,8 +124,8 @@ class ResourceGraph(AbstractGraph):
                 v = NetElement(tag.getAttribute("name"))              
                 v.type = tag.getAttribute("netelement_type")
                 v.ip = tag.getAttribute("ip")
-                v.router = tag.getAttribute("is_router") == 1
-                v.isservice = tag.getAttribute("is_service") == 1
+                v.router = tag.getAttribute("is_router") == "1"
+                v.isservice = tag.getAttribute("is_service") == "1"
                 v.servicename = tag.getAttribute("service_name")
                 v.provider = tag.getAttribute("provider_name")
                 v.port = tag.getAttribute("external_port")
