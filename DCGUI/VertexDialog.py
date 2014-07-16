@@ -161,7 +161,6 @@ class SwitchDialog(VertexDialog):
         self.ui.ip.setText(v.ip)
         self.ui.router.setChecked(v.router)
         self.ui.serviceasuser.setChecked(v.isservice)
-        self.ui.prefix.setText(v.prefix)
         if not v.isservice:
             return
         for i in range(self.ui.provider.count()):
@@ -184,7 +183,6 @@ class SwitchDialog(VertexDialog):
         v.servicename = str(self.ui.servicename.currentText())
         v.provider = str(self.ui.provider.currentText())
         v.port = str(self.ui.port.currentText())
-        v.prefix = str(self.ui.prefix.text())
         v.isservice = self.ui.serviceasuser.isChecked()
 
     def ServiceChecked(self):

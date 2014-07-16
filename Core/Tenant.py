@@ -199,7 +199,6 @@ class Tenant(AbstractGraph):
                 tag.setAttribute("service_name", v.servicename)
                 tag.setAttribute("provider_name", v.provider)
                 tag.setAttribute("external_port", v.port)
-                tag.setAttribute("prefix", v.prefix)
                 if v.assigned:
                     tag.setAttribute("assignedTo", v.assigned.id)
             elif isinstance(v, Domain):
@@ -327,7 +326,6 @@ class Tenant(AbstractGraph):
                 v.type = tag.getAttribute("netelement_type")
                 v.ip = tag.getAttribute("ip")
                 v.router = tag.getAttribute("is_router") == "1"
-                v.prefix = tag.getAttribute("prefix")
                 v.isservice = tag.getAttribute("is_service") == "1"
                 v.servicename = tag.getAttribute("service_name")
                 v.provider = tag.getAttribute("provider_name")
