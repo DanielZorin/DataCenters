@@ -2,8 +2,8 @@ import math, time, uuid
 from Core.Tenant import *
 from Core.Resources import *
 from PyQt4 import QtGui, QtCore
-from PyQt4.QtCore import QPointF
-from PyQt4.QtGui import QImage, QWidget, QPainter, QColor, QCursor, QDialog
+from PyQt4.QtCore import QPointF, QEvent
+from PyQt4.QtGui import QImage, QWidget, QPainter, QColor, QCursor, QDialog, QToolTip
 from DCGUI.VertexDialog import *
 
 class State:
@@ -281,3 +281,17 @@ class ResourcesGraphCanvas(QWidget):
             rect = self.vertices[v]
             v.x = rect.x() + self.size/2
             v.y = rect.y() + self.size/2
+
+    def event(self, e):
+        if e.type() != QEvent.ToolTip:
+            return QWidget.event(self, e)
+        for v in self.vertices.keys():
+            rect = self.vertices[v]
+            if rect.contains(e.pos()):
+                txt = v.id
+                for p in v.params:
+                    txt += "\n" + p.name + "=" + p.value + " " + p.unit
+                QToolTip.showText(e.globalPos(), txt)
+                return True
+        e.ignore()
+        return True
