@@ -172,7 +172,6 @@ class ResourcesGraphCanvas(QWidget):
             computer = VM(self.genId())
             self.vertices[computer] = rect
             self.resources.AddVertex(computer)
-            self.changed = True
             self.ResizeCanvas()
             self.repaint()
         elif self.state == State.Storage:
@@ -180,7 +179,6 @@ class ResourcesGraphCanvas(QWidget):
             storage = Storage(self.genId())
             self.vertices[storage] = rect
             self.resources.AddVertex(storage)
-            self.changed = True
             self.ResizeCanvas()
             self.repaint()
         elif self.state == State.Switch:
@@ -188,7 +186,6 @@ class ResourcesGraphCanvas(QWidget):
             router = NetElement(self.genId(), "Switch")
             self.vertices[router] = rect
             self.resources.AddVertex(router)
-            self.changed = True
             self.ResizeCanvas()
             self.repaint()
         elif self.state == State.Edge:
@@ -238,8 +235,7 @@ class ResourcesGraphCanvas(QWidget):
                         ne = Link(self.curEdge[1], v, 1)
                         self.resources.AddLink(ne)
             self.edgeDraw = False
-            self.curEdge = None 
-            self.changed = True    
+            self.curEdge = None     
             self.repaint()
 
     def mouseDoubleClickEvent(self, e):
@@ -257,7 +253,6 @@ class ResourcesGraphCanvas(QWidget):
         d.exec_()
         if d.result() == QDialog.Accepted:
             d.SetResult(e)
-            self.changed = True
 
     def EditVertex(self, v):
         if isinstance(v, VM):
@@ -271,7 +266,6 @@ class ResourcesGraphCanvas(QWidget):
         d.exec_()
         if d.result() == QDialog.Accepted:
             d.SetResult(v)
-        self.changed = True
 
     def Clear(self):
         self.vertices = {}

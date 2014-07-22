@@ -284,7 +284,7 @@ class MainWindow(QMainWindow):
         if (self.tenants == {}) or (self.ui.tenants.currentItem() == None):
             return
         d = self.tenants[self.ui.tenants.currentItem()]
-        d.RemoveAssignment()
+        #d.RemoveAssignment()
         self.tenantEditor.canvas.tenants = self.project.tenants
         self.tenantEditor.setData(d)
         self.tenantEditor.show()
