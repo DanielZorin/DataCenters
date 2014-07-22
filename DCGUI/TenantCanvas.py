@@ -178,6 +178,8 @@ class TenantCanvas(QWidget):
         elif self.state == State.VM:
             rect = QtCore.QRect(e.x() - self.size / 2, e.y() - self.size / 2, self.size, self.size)
             computer = VM(self.genId())
+            if ParamFactory.images:
+                computer.image = ParamFactory.images[0]
             self.vertices[computer] = rect
             self.tenant.AddVertex(computer)
             self.changed = True
@@ -210,6 +212,8 @@ class TenantCanvas(QWidget):
         elif self.state == State.Vnf:
             rect = QtCore.QRect(e.x() - self.size / 2, e.y() - self.size / 2, self.size, self.size)
             vnf = Vnf(self.genId())
+            if ParamFactory.vnfimages:
+                vnf.image = ParamFactory.vnfimages[0]
             self.vertices[vnf] = rect
             self.tenant.AddVertex(vnf)
             self.changed = True
