@@ -37,7 +37,8 @@ class ResourcesGraphCanvas(QWidget):
         self.setFocusPolicy(QtCore.Qt.StrongFocus)
         self.computericon = QImage(":/pics/pics/computer.png")
         self.storageicon = QImage(":/pics/pics/storage.png")
-        self.routericon = QImage(":/pics/pics/router.png")
+        self.switchicon = QImage(":/pics/pics/router.png")
+        self.routericon = QImage(":/pics/pics/router2.png")
       
     def paintEvent(self, event):
         if not self.resources:
@@ -60,7 +61,10 @@ class ResourcesGraphCanvas(QWidget):
             elif isinstance(v, Storage):
                 paint.drawImage(self.vertices[v], self.storageicon)
             elif isinstance(v, NetElement):
-                paint.drawImage(self.vertices[v], self.routericon)
+                if v.router:
+                    paint.drawImage(self.vertices[v], self.routericon)
+                else:
+                    paint.drawImage(self.vertices[v], self.switchicon)
         paint.setPen(self.colors["line"])
         if self.edgeDraw:
             self.drawArrow(paint, self.curEdge[0].x() + self.size / 2, self.curEdge[0].y() + self.size / 2,
