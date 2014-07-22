@@ -1,13 +1,14 @@
 ﻿import xml.dom.minidom, copy, os
 
 class Param:
-    def __init__(self, name, type, value, minv=0, maxv=0):
+    def __init__(self, name, type, value, minv=0, maxv=0, unit=""):
         self.name = name
         self.type = type
         self.default = value
         self.minv = minv
         self.maxv = maxv
         self.value = self.default
+        self.unit = unit
 
 class ParamFactory(object):
     params = {}
@@ -75,8 +76,6 @@ class ParamFactory(object):
                                 name = param.getAttribute("parameter_name")
                                 type = param.getAttribute("parameter_type")
                                 unit = param.getAttribute("parameter_unit")
-                                if unit:
-                                    name = name + " (" + unit + ")"
                                 value = param.getAttribute("value_default")
                                 minv = param.getAttribute("min")
                                 maxv = param.getAttribute("max")
@@ -86,7 +85,7 @@ class ParamFactory(object):
                                 if type == "real":
                                     minv = float(minv)
                                     maxv = float(maxv)
-                                ParamFactory.params[nodetype].append(Param(name, type, value, minv, maxv))
+                                ParamFactory.params[nodetype].append(Param(name, type, value, minv, maxv, unit))
         f.close()
 
     @staticmethod

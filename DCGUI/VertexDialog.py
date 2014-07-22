@@ -32,7 +32,10 @@ class VertexDialog(QDialog):
         self.ui.service.setChecked(v.service)
         for p in v.params:
             self.ui.params.insertRow(0)
-            it = QTableWidgetItem(p.name)
+            name = p.name
+            if p.unit:
+                name += " (" + p.unit + ")"
+            it = QTableWidgetItem(name)
             it.setFlags(Qt.ItemIsEnabled)
             self.ui.params.setItem(0, 0, it)
             types = p.type
