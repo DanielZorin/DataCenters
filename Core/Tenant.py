@@ -131,16 +131,16 @@ class Tenant(AbstractGraph):
             port = ss[1]
             node = [v for v in resources.vertices if v.id == name][0]
             verts.append([node, port])
-        prev = verts[0]
-        for v in verts[1:]:
-            edge = resources.FindEdge(prev[0], v[0])
+        for i in range(len(verts) / 2):
+            v1 = verts[i][0]
+            v2 = verts[i+1][0]
+            edge = resources.FindEdge(v1, v2)
             if not edge:
-                print "Assignment ", id, " is incorrect: can't find edge from ", prev[0].id, " to ", v[0].id
+                print "Assignment ", id, " is incorrect: can't find edge from ", v1.id, " to ", v2.id
                 return
             #if ((edge.port1 == prev[1]) and (edge.port2 == v[1])) or ((edge.port1 == v[1]) and (edge.port2 == prev[1])) :
             edge.assignments.append([e, self])
             e.assigned.append(edge)
-            prev = v
 
     def RemoveAssignment(self):
         for v in self.vertices:
@@ -260,10 +260,10 @@ class Tenant(AbstractGraph):
             tag.setAttribute("node2", v.e2.id)
             tag.setAttribute("port2", v.port2)
             if v.assigned:
-                res = v.assigned[0].e1.id + ":" + v.assigned[0].port1
+                res = ""
                 for e in v.assigned:
-                    res += ";" + e.e2.id + ":" + e.port2
-                tag.setAttribute("assignedTo", res)
+                    res += e.e1.id + ":" + e.port1 + ";" + e.e2.id + ":" + e.port2 + ";"
+                tag.setAttribute("assignedTo", res[:-1])
             links.appendChild(tag)
         root.appendChild(links)
         return root
