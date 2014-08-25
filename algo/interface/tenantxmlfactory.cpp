@@ -190,6 +190,18 @@ QString TenantXMLFactory::name() const
     return tenant.attribute("name");
 }
 
+QMap<QString, QString> TenantXMLFactory::assignments() const
+{
+    QMap<QString, QString> result;
+    foreach(QDomElement e, elementsXML)
+    {
+        QString assignee = e.attribute("assignedTo");
+        if ( !assignee.isEmpty() )
+            result[e.attribute("name")] = assignee;
+    }
+    return result;
+}
+
 bool TenantXMLFactory::isProviderTenant(const QDomElement & element) {
 	return element.elementsByTagName("vnf").length() > 0;
 }
