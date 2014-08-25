@@ -35,7 +35,7 @@ TenantXMLFactory::TenantXMLFactory(const QDomElement & element)
         elements.insert(elem);
     }
 
-    request = new Request(elements, element.attribute("name").toStdString());
+    request = new Request(elements, name().toStdString());
 }
 
 TenantXMLFactory::~TenantXMLFactory() {
@@ -183,6 +183,11 @@ void TenantXMLFactory::parseExternalPorts(QString clientName, Ports ports) {
             }
         }
     }
+}
+
+QString TenantXMLFactory::name() const
+{
+    return tenant.attribute("name");
 }
 
 bool TenantXMLFactory::isProviderTenant(const QDomElement & element) {

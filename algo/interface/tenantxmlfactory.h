@@ -24,6 +24,7 @@ public:
 
     // Parse external ports
     void parseExternalPorts(QString clientName, Ports ports);
+    QString name() const;
 
     inline const Ports& getPorts() {
         return ports;
