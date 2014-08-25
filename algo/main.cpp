@@ -45,7 +45,6 @@ int main(int argc, char ** argv)
     }
 
     snapshot.write(argv[2]);
-    snapshot.print();
 
     if ( nodeAssignedRequests != requests.size())
        return PARTIAL_FAILURE;

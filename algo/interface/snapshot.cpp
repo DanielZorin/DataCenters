@@ -105,25 +105,3 @@ Requests Snapshot::getRequests() const
         result.insert(f->getRequest());
     return result;
 }
-
-void Snapshot::print() 
-{
-    parseReverseAssignments();
-    qDebug() << "\n\nResults:";
-    foreach(QString tenant, assignments.keys())
-    {
-        qDebug() << "tenant" << tenant << ":";
-        QMap<QString, QString> & a = assignments[tenant];
-        foreach(QString element, a.keys())
-            qDebug() << "\t" << element << "->" << a[element];
-    }
-}
-
-void Snapshot::parseReverseAssignments()
-{
-    assignments.clear();
-    foreach(TenantXMLFactory * f, tenants)
-    {
-        assignments[f->name()] = f->assignments();
-    }
-}

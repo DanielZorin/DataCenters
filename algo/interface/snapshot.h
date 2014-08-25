@@ -3,7 +3,6 @@
 #include "defs.h"
 
 #include <QList>
-#include <QMap>
 
 class ResourcesXMLFactory;
 class TenantXMLFactory;
@@ -20,12 +19,8 @@ public:
     Network * getNetwork() const;
     Requests getRequests() const;
 
-    void print();
-private:
-    void parseReverseAssignments(); 
 private:
     QDomDocument * document;
     ResourcesXMLFactory * network;
     QList<TenantXMLFactory *> tenants;
-    QMap<QString, QMap<QString, QString> > assignments;
 };
