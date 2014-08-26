@@ -2,7 +2,7 @@
 
 #include "defs.h"
 #include "parameter.h"
-#include "../interface/elementfactory.h"
+#include "interface/export.h"
 
 class Element {
     friend class ElementFactory;
@@ -69,7 +69,7 @@ protected:
         for (Parameters::const_iterator it = parameters.begin(); it != parameters.end(); it ++) {
             ParameterValue * value = it->second;
             Parameter* par = it->first;
-            result += value->weight() / ElementFactory::getMaxValue(par) * ElementFactory::getDeficit(par);
+            result += value->weight() / EF::getMaxValue(par) * EF::getDeficit(par);
         }
 
         return result;

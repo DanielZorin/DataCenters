@@ -5,7 +5,6 @@
 #include "criteria.h"
 #include "path.h"
 #include "link.h"
-#include <QString>
 
 #include <stdio.h>
 

@@ -11,6 +11,8 @@
 #include "operation.h"
 #include "criteria.h"
 
+#include <QString>
+
 enum ReturnCodes {
    SUCCESS = 0,
    PARTIAL_FAILURE,
