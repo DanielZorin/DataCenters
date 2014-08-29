@@ -1,0 +1,14 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
+PROJECT(trans)
+
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}
+      ../include/
+      ../interface/
+      )
+
+find_package( Qt5Core REQUIRED )
+
+ADD_EXECUTABLE(${PROJECT_NAME} main.cpp)
+qt5_use_modules(${PROJECT_NAME} Core)
+TARGET_LINK_LIBRARIES (${PROJECT_NAME} interface)
