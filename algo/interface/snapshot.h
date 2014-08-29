@@ -15,6 +15,7 @@ public:
     ~Snapshot();
 
     bool read(const QString & filename);
+    void commit();
     void write(const QString & filename) const;
 
     Network * getNetwork() const;

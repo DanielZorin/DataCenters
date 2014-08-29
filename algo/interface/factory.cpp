@@ -11,6 +11,7 @@
 
 #include <QStringList>
 #include <QDomNamedNodeMap>
+#include <QDebug>
 
 Factory::ElementsMap Factory::getXmlElementsByTypes(const QStringList & types, const QDomElement & root) {
     ElementsMap result;
@@ -19,6 +20,13 @@ Factory::ElementsMap Factory::getXmlElementsByTypes(const QStringList & types, c
         QDomNodeList elementsList = root.elementsByTagName(type);
         createElementsFromNodeList(elementsList, result);
     }
+    return result;
+}
+
+Factory::IDS Factory::getReverseIndex(const Factory::ElementsMap & index) {
+    IDS result;
+    foreach(Element * e, index.keys())
+        result[index[e].attribute("name")] = e;
     return result;
 }
 
@@ -89,7 +97,7 @@ Element * Factory::createElementFromXML(const QDomElement & element, const Eleme
     return result;
 }
 
-Element* getElementByName(const QString name, const Factory::ElementsMap& elementsMap) {
+static Element* getElementByName(const QString name, const Factory::ElementsMap& elementsMap) {
     foreach ( QDomElement elem, elementsMap.values() ) {
         if ( elem.attribute("name") == name ) {
             return elementsMap.key(elem);

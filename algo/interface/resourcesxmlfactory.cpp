@@ -13,6 +13,7 @@ ResourcesXMLFactory::ResourcesXMLFactory(const QDomElement & element)
     QStringList elementTypes;
     elementTypes << "server" << "storage" << "netelement" << "link";
     elementsXML = Factory::getXmlElementsByTypes(elementTypes, networkXml);
+    ids = Factory::getReverseIndex(elementsXML);
 
     std::list<Element*> list = elementsXML.keys().toStdList();
     Elements elements = Elements(list.begin(), list.end());

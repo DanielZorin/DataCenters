@@ -15,9 +15,10 @@
 class Factory
 {
 public:
-	typedef QMap<Element *, QDomElement> ElementsMap;
-	typedef QMap<QString, QVariant> Properties;
-        typedef QMap<QString, ParameterValue *> Params;
+    typedef QMap<Element *, QDomElement> ElementsMap;
+    typedef QMap<QString, Element *> IDS;
+    typedef QMap<QString, QVariant> Properties;
+    typedef QMap<QString, ParameterValue *> Params;
 private:
     Factory() {}
     virtual ~Factory() {}
@@ -27,6 +28,7 @@ public:
     // These method is useful for any xml representation.
     // Returns: Map of all found elements on corresponding xml objects
     static ElementsMap getXmlElementsByTypes(const class QStringList &, const QDomElement &);
+    static IDS getReverseIndex(const ElementsMap & index);
 
 private:
 

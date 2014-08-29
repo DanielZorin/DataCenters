@@ -17,6 +17,7 @@ TenantXMLFactory::TenantXMLFactory(const QDomElement & element)
     QStringList elementTypes;
     elementTypes << "vm" << "st" << "netelement" << "vnf" << "domain" << "link";
     elementsXML = Factory::getXmlElementsByTypes(elementTypes, tenant);
+    ids = Factory::getReverseIndex(elementsXML);
 
     std::list<Element*> list = elementsXML.keys().toStdList();
 
@@ -53,10 +54,10 @@ Request * TenantXMLFactory::getRequest() const {
     return request;
 }
 
-void setPortAssignee(QDomNodeList portsXml, QString portName, QString assigneeName) {
+static void setPortAssignee(QDomNodeList portsXml, QString portName, QString assigneeName) {
     for ( int i = 0; i < portsXml.size(); ++i ) {
         if (portsXml.item(i).toElement().attribute("name") == portName)
-            portsXml.item(i).toElement().attribute("assignedTo", assigneeName);
+            portsXml.item(i).toElement().setAttribute("assignedTo", assigneeName);
     }
 }
 
@@ -88,6 +89,19 @@ void TenantXMLFactory::commitPartialAssignmentData(const ResourcesXMLFactory& re
             QString assigneeName = QString::fromUtf8((*pit)->getAssignee()->getName().c_str());
             setPortAssignee(elementsXML[*it].elementsByTagName("port"), portName, assigneeName);
         }
+    }
+}
+
+void TenantXMLFactory::readAssignmentData(const ResourcesXMLFactory& resourceFactory) {
+    QMap<QString, QString> data = assignments();
+    foreach(QString a, data.keys())  {
+        Element * assignment = getElement(a);
+        Element * assignee = resourceFactory.getElement(data[a]);
+        if ( assignee->assign(assignment) )
+            continue;
+
+        qDebug() << "Was unable to assign" << a << "to" << data[a];
+        return;
     }
 }
 
@@ -196,8 +210,14 @@ QMap<QString, QString> TenantXMLFactory::assignments() const
     foreach(QDomElement e, elementsXML)
     {
         QString assignee = e.attribute("assignedTo");
-        if ( !assignee.isEmpty() )
-            result[e.attribute("name")] = assignee;
+        if ( assignee.isEmpty() )
+            continue;
+
+        QString assignment = e.attribute("name");
+        if ( assignment.isEmpty() )
+            continue;
+
+        result.insert(e.attribute("name"), assignee);
     }
     return result;
 }

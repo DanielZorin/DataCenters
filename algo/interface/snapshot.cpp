@@ -77,7 +77,15 @@ bool Snapshot::read(const QString & filename)
     }
 
     tenants.append(clients);
+    commit();
+
     return true;
+}
+
+void Snapshot::commit() 
+{
+   foreach(TenantXMLFactory * f, tenants)
+      f->readAssignmentData(*network);
 }
 
 void Snapshot::write(const QString & filename) const
@@ -124,6 +132,6 @@ void Snapshot::parseReverseAssignments()
     assignments.clear();
     foreach(TenantXMLFactory * f, tenants)
     {
-        assignments[f->name()] = f->assignments();
+        assignments.insertMulti(f->name(), f->assignments());
     }
 }

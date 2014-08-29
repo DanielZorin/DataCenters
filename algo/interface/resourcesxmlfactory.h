@@ -8,17 +8,16 @@ class NetworkXMLFactory;
 
 class ResourcesXMLFactory {
 public:
-    //typedef QMap<QString, Element *> IDS;
 
-	ResourcesXMLFactory(const QDomElement & element);
+    ResourcesXMLFactory(const QDomElement & element);
     virtual ~ResourcesXMLFactory();
     Network * getNetwork() const;
-    // void commitAssignmentData(NetworkXMLFactory * nf);
 
+    class Element * getElement(const QString & name) const { return ids[name]; }
     class QString getName(Element*) const;
-
 private:
     Network * network;
     QDomElement networkXml;
     Factory::ElementsMap elementsXML;
+    Factory::IDS ids;
 };

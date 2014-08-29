@@ -8,11 +8,10 @@ class NetworkXMLFactory;
 
 class TenantXMLFactory {
 public:
-    //typedef QMap<QString, Element *> IDS;
-
     TenantXMLFactory(const QDomElement & element);
     virtual ~TenantXMLFactory();
     Request * getRequest() const;
+    void readAssignmentData(const class ResourcesXMLFactory& resourceFactory);
     void commitAssignmentData(const class ResourcesXMLFactory& resourceFactory);
     void commitPartialAssignmentData(const class ResourcesXMLFactory & resourceFactory);
 
@@ -26,6 +25,7 @@ public:
     void parseExternalPorts(QString clientName, Ports ports);
     QString name() const;
     QMap<QString, QString> assignments() const;
+    Element * getElement(const QString & name) const { return ids[name]; }
 
     inline const Ports& getPorts() {
         return ports;
@@ -44,6 +44,7 @@ private:
     Request * request;
     QDomElement tenant;
     Factory::ElementsMap elementsXML;
+    Factory::IDS ids;
 
     Ports ports; // all existing ports
     QMap<QString, std::set<std::pair<Element*, QString> > > externalPorts; // external port name with client's name
