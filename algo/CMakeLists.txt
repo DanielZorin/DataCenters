@@ -12,6 +12,7 @@ SET ( COMPONENTS
       prototype
       interface
       routing
+      trans
       )
 
 FOREACH(COMPONENT ${COMPONENTS})
@@ -22,4 +23,6 @@ ADD_EXECUTABLE(${PROJECT_NAME} main.cpp)
 qt5_use_modules(${PROJECT_NAME} Core)
 TARGET_LINK_LIBRARIES (${PROJECT_NAME} ${COMPONENTS})
 
-ADD_SUBDIRECTORY(trans)
+ADD_EXECUTABLE(tr trans.cpp)
+qt5_use_modules(tr Core)
+TARGET_LINK_LIBRARIES(tr trans interface)

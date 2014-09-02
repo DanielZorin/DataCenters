@@ -1,5 +1,5 @@
 #include "defs.h"
-#include "snapshot.h"
+#include "interface/snapshot.h"
 
 #include <QString>
 
