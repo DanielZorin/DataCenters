@@ -11,22 +11,23 @@ class QDomDocument;
 
 class Snapshot {
 public:
+    typedef QMap<QString, QMap<QString, QString> > Assignments;
+public:
     Snapshot();
     ~Snapshot();
 
     bool read(const QString & filename);
-    void commit();
     void write(const QString & filename) const;
 
     Network * getNetwork() const;
     Requests getRequests() const;
+    Assignments parseReverseAssignments() const; 
 
     void print();
 private:
-    void parseReverseAssignments(); 
+    void commit();
 private:
     QDomDocument * document;
     ResourcesXMLFactory * network;
     QList<TenantXMLFactory *> tenants;
-    QMap<QString, QMap<QString, QString> > assignments;
 };

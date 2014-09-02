@@ -5,7 +5,8 @@ Task::Task(Element * t, Element * d)
 :
     target(t),
     destination(d)
-{}
+{
+}
 
 bool Task::isValid() const {
     if ( target == 0 || destination == 0 ) return false;
@@ -18,5 +19,13 @@ bool Task::isComplete() const {
     if ( !target->isAssigned() ) return false;
     const Element * source = target->getAssignee();
     if ( source != destination ) return false;
+    return true;
+}
+
+bool Task::move(Element * newDestination) {
+    if ( !isValid() ) return false;
+    Element * source = target->getAssignee();
+    if ( !newDestination->assign(target) ) return false;
+    if ( source != 0 ) history.push_back(source);
     return true;
 }

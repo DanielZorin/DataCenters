@@ -121,8 +121,10 @@ public:
         if ( !canHostAssignment(other) )
           return false;
 
+
         decreaseResources(other);
         
+        other->unassign();
         other->assignee = this;
         assignments.insert(other);
         return true;

@@ -116,7 +116,7 @@ Requests Snapshot::getRequests() const
 
 void Snapshot::print() 
 {
-    parseReverseAssignments();
+    Assignments assignments = parseReverseAssignments();
     qDebug() << "\n\nResults:";
     foreach(QString tenant, assignments.keys())
     {
@@ -127,11 +127,13 @@ void Snapshot::print()
     }
 }
 
-void Snapshot::parseReverseAssignments()
+Snapshot::Assignments Snapshot::parseReverseAssignments() const
 {
-    assignments.clear();
+    Assignments assignments;
     foreach(TenantXMLFactory * f, tenants)
     {
         assignments.insertMulti(f->name(), f->assignments());
     }
+    return assignments;
 }
+
