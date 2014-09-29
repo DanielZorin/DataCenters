@@ -89,7 +89,7 @@ class VMDialog(VertexDialog):
         
     def Load(self, v):
         self.LoadCommon(v)
-        for s in ParamFactory.images:
+        for s in ParamFactory.images.keys():
             self.ui.image.addItem(s)
         for i in range(self.ui.image.count()):
             if self.ui.image.itemText(i) == v.image:
@@ -99,7 +99,7 @@ class VMDialog(VertexDialog):
 
     def SetResult(self, v):
         self.SetResultCommon(v)
-        v.image = str(self.ui.image.currentText())
+        v.image = ParamFactory.images[str(self.ui.image.currentText())]
         if self.ui.external.currentIndex() == 0:
             v.external = "False"
         else:
@@ -176,7 +176,7 @@ class VnfDialog(VertexDialog):
 
     def Load(self, v):
         self.LoadCommon(v)        
-        for s in ParamFactory.vnfimages:
+        for s in ParamFactory.vnfimages.keys():
             self.ui.image.addItem(s)
         for i in range(self.ui.image.count()):
             if self.ui.image.itemText(i) == v.image:
@@ -196,7 +196,7 @@ class VnfDialog(VertexDialog):
         v.username = str(self.ui.username.text())
         v.servicename = str(self.ui.servicename.text())
         v.connectionset = str(self.ui.set.text()).split(",")
-        v.image = str(self.ui.image.currentText())
+        v.image = ParamFactory.vnfimages[str(self.ui.image.currentText())]
         
     def ServiceChecked(self):
         pass
