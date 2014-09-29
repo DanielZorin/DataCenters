@@ -291,14 +291,14 @@ class TenantCanvas(QWidget):
         if isinstance(v, VM):
             d = VMDialog()
             es = self.tenant.FindAllEdges(v1=v)
-            router = False
+            routers = []
             for e in es:
                 if (e.e1 == v) and isinstance(e.e2, NetElement) and e.e2.router:
-                     router = True
+                     routers.append(e.e2.id)
                 if (e.e2 == v) and isinstance(e.e1, NetElement) and e.e1.router:
-                     router = True
-            if router:
-                d.ui.external.setEnabled(True)
+                     routers.append(e.e1.id)
+            for r in routers:
+                d.ui.external.addItem(r)
         elif isinstance(v, Storage):
             d = StorageDialog()
         elif isinstance(v, NetElement):
