@@ -10,6 +10,7 @@ from DCGUI.ParamsDialog import ParamsDialog
 from DCGUI.TestsWindow import TestsWindow 
 from Core.Resources import Storage
 from Core.ParamFactory import ParamFactory
+from Methods.SimulatedAnnealing import SimulatedAnnealing
 import os, re, sys
 
 class MainWindow(QMainWindow):
@@ -182,9 +183,13 @@ class MainWindow(QMainWindow):
             name = "algo.exe"
         else:
             name = "algo/algo"
-        os.system(name + " \"" + os.path.relpath(self.projectFile) + "\"  \"" + os.path.relpath(self.projectFile) + "\" ")
-        #self.project.Run()
-        self.OpenProjectFromFile(self.projectFile)
+        if alg != "a":
+            os.system(name + " \"" + os.path.relpath(self.projectFile) + "\"  \"" + os.path.relpath(self.projectFile) + "\" ")
+            #self.project.Run()
+            self.OpenProjectFromFile(self.projectFile)
+        else:
+            alg = SimulatedAnnealing(self.project)
+            alg.Run()
         self.showStats()
 
     def RunMultipleTests(self):

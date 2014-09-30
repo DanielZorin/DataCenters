@@ -57,6 +57,7 @@
     <Compile Include="ExeBuild.py" />
     <Compile Include="LaunchTE.py" />
     <Compile Include="Methods\RandomMethod.py" />
+    <Compile Include="Methods\SimulatedAnnealing.py" />
     <Compile Include="Methods\__init__.py" />
     <Compile Include="plugins\LCGenerator.py" />
     <Compile Include="plugins\TCGenerator.py" />
