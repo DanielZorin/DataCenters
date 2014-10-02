@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <params>
-<image id="8383ae34-8b5a-4613-8180-5a828cf99cd5"/>
-<image id="6961f316-c548-47e1-b4d9-57f6c38316ff"/>
-<image id="4b5ed3dc-bd5b-43aa-8b5f-265186d2eaee"/>
+<image id="8383ae34-8b5a-4613-8180-5a828cf99cd5" name="CirrOS"/>
+<image id="6961f316-c548-47e1-b4d9-57f6c38316ff" name="MYSQL_CLIENT"/>
+<image id="4b5ed3dc-bd5b-43aa-8b5f-265186d2eaee" name="OS_VNF_PHPMYADMIN"/>
 </params>

@@ -92,7 +92,7 @@ class VMDialog(VertexDialog):
         for s in ParamFactory.images.keys():
             self.ui.image.addItem(s)
         for i in range(self.ui.image.count()):
-            if self.ui.image.itemText(i) == v.image:
+            if ParamFactory.images[str(self.ui.image.itemText(i))] == v.image:
                 self.ui.image.setCurrentIndex(i)
         self.ui.external.insertItem(0, "None")
         self.ui.external.setCurrentIndex(0)
@@ -179,7 +179,7 @@ class VnfDialog(VertexDialog):
         for s in ParamFactory.vnfimages.keys():
             self.ui.image.addItem(s)
         for i in range(self.ui.image.count()):
-            if self.ui.image.itemText(i) == v.image:
+            if ParamFactory.vnfimages[str(self.ui.image.itemText(i))] == v.image:
                 self.ui.image.setCurrentIndex(i)
         self.ui.type.setText(v.type)
         self.ui.profile.setText(v.profile)
