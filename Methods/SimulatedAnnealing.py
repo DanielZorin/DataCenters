@@ -23,7 +23,7 @@ class SimulatedAnnealing(QObject):
             return False
 
     def Step(self):
-        pass
+        self.iteration += 1
 
     def Run(self):
         # Code the data and create an initial approximation here

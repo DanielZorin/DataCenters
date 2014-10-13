@@ -114,6 +114,11 @@ QLabel, QSlider, QCheckBox {
           </property>
           <item>
            <property name="text">
+            <string>Simulated Annealing</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
             <string>Ant Colony</string>
            </property>
           </item>
