@@ -107,6 +107,19 @@ class Tenant(AbstractGraph):
         self.assigned = False
         self.critical = False
 
+	def Assign(self, vertex, node):
+		'''
+		vertex - tenant vertex
+		node - resource vertex where it is assigned
+		'''
+		for p in vertex.params:
+			if p.value + node.paramvalues[p.name] > node.getParams(p.name).value:
+				return False
+        vertex.assigned = node
+        node.assignments.append([vertex, self])
+        node.updateParams()
+		return True
+
     def Assign(self, vt, id, resources):
         if not resources:
             return

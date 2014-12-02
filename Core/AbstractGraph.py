@@ -21,6 +21,7 @@ class AbstractVertex:
         self.ports = []
         self.assigned = None
         self.assignments = []
+        self.paramvalues = {}
 
     def addPort(self):
         for i in range(len(self.ports) + 1):
@@ -28,6 +29,25 @@ class AbstractVertex:
             if not s in self.ports:
                 self.ports.append(s)
                 return s
+                
+    def getParam(self, name):
+        try:
+            param = (p for p in self.params if p.name == name).next()
+            return param
+        except:
+            return None
+                
+    def updateParams(self):
+        for p in self.params:
+            if (p.type != "int") and (p.type != "float"):
+                continue
+            value = 0
+            for a in self.assignments:
+                node = a[0]
+                param = node.getParam(p.name)
+                value += param.value
+            self.paramvalues[p.name] = value
+                
         
 class AbstractGraph:
     ''' Represents a graph with vertices and edges'''
