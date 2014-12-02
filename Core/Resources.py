@@ -59,7 +59,7 @@ class ResourceGraph(AbstractGraph):
                 param = dom.createElement("parameter")
                 param.setAttribute("parameter_name", p.name)
                 param.setAttribute("parameter_type", p.type)
-                param.setAttribute("parameter_value", p.value)
+                param.setAttribute("parameter_value", str(p.value))
                 pset.appendChild(param)
             tag.appendChild(pset)
             root.appendChild(tag)
@@ -141,7 +141,12 @@ class ResourceGraph(AbstractGraph):
             for vp in v.params:
                 for p in params:
                     if (p[0] == vp.name) and (p[1] == vp.type):
+                        if (vp.type == "integer"):
+                            p[2] = int(p[2])
+                        if (vp.type == "real"):
+                            p[2] = float(p[2])
                         vp.value = p[2]
+            v.updateParams()
             self.vertices.append(v)
 
     def ParseLinks(self, root):

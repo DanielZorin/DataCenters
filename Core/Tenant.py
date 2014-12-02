@@ -107,20 +107,24 @@ class Tenant(AbstractGraph):
         self.assigned = False
         self.critical = False
 
-	def Assign(self, vertex, node):
-		'''
-		vertex - tenant vertex
-		node - resource vertex where it is assigned
-		'''
-		for p in vertex.params:
-			if p.value + node.paramvalues[p.name] > node.getParams(p.name).value:
-				return False
+    def Assign(self, vertex, node):
+        '''
+        vertex - tenant vertex
+        node - resource vertex where it is assigned
+        '''
+        print node
+        print node.paramvalues
+        for p in vertex.params:
+            print p.value,  node.paramvalues[p.name], node.getParam(p.name).value
+            print type(p.value),  type(node.paramvalues[p.name]), type(node.getParam(p.name).value)
+            if p.value + node.paramvalues[p.name] > node.getParam(p.name).value:
+                return False
         vertex.assigned = node
         node.assignments.append([vertex, self])
         node.updateParams()
-		return True
+        return True
 
-    def Assign(self, vt, id, resources):
+    def LoadAssign(self, vt, id, resources):
         if not resources:
             return
         # TODO: error handling
@@ -258,7 +262,7 @@ class Tenant(AbstractGraph):
                 param = dom.createElement("parameter")
                 param.setAttribute("parameter_name", p.name)
                 param.setAttribute("parameter_type", p.type)
-                param.setAttribute("parameter_value", p.value)
+                param.setAttribute("parameter_value", str(p.value))
                 pset.appendChild(param)
             tag.appendChild(pset)
             nodes.appendChild(tag)
@@ -370,9 +374,13 @@ class Tenant(AbstractGraph):
             for vp in v.params:
                 for p in params:
                     if (p[0] == vp.name) and (p[1] == vp.type):
+                        if (vp.type == "integer"):
+                            p[2] = int(p[2])
+                        if (vp.type == "real"):
+                            p[2] = float(p[2])
                         vp.value = p[2]
             if assigned:
-                self.Assign(v, assigned, resources)
+                self.LoadAssign(v, assigned, resources)
             self.vertices.append(v)
 
     def ParseLinks(self, root, resources):

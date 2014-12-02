@@ -39,7 +39,7 @@ class AbstractVertex:
                 
     def updateParams(self):
         for p in self.params:
-            if (p.type != "int") and (p.type != "float"):
+            if (p.type != "integer") and (p.type != "real"):
                 continue
             value = 0
             for a in self.assignments:
