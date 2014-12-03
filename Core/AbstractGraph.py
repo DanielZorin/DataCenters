@@ -136,6 +136,13 @@ class AbstractGraph:
                     res.append(ver)
         return res
 
+    def ClearAssignments(self):
+        #TODO: clear link assignments too!
+        for v in self.vertices:
+            v.assigned = None
+            v.assignments = []
+            v.paramvalues = {}
+
     def _buildPaths(self):
         ''' Searches all linked components of the graph (self.components)
             and constructs a dictionary (self.compdict) vertex -> component

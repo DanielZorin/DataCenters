@@ -112,11 +112,7 @@ class Tenant(AbstractGraph):
         vertex - tenant vertex
         node - resource vertex where it is assigned
         '''
-        print node
-        print node.paramvalues
         for p in vertex.params:
-            print p.value,  node.paramvalues[p.name], node.getParam(p.name).value
-            print type(p.value),  type(node.paramvalues[p.name]), type(node.getParam(p.name).value)
             if p.value + node.paramvalues[p.name] > node.getParam(p.name).value:
                 return False
         vertex.assigned = node

@@ -11,17 +11,23 @@ class SimulatedAnnealing(QObject):
         super(SimulatedAnnealing, self).__init__()
 
     def Init(self):
+        self.project.resources.ClearAssignments()
+        for t in self.project.tenants:
+            t.ClearAssignments()
+        for v in self.project.resources.vertices:
+            v.updateParams()
         for ten in self.project.tenants:
             for ver in ten.vertices:
                 nodes = [n for n in self.project.resources.vertices if n.__class__.__name__ == ver.__class__.__name__]
-                #print "_______", nodes, type(v), self.project.resources.vertices
                 randNode = random.choice(nodes)
                 flag = ten.Assign(ver, randNode)
-                while flag == False:
-					randNode = random.choice(nodes)
-					flag = ten.Assign(ver, randNode)
-                if flag == True:
-					print "Assigned!"
+                i = 0
+                while (flag == False) and (i < 1000):
+                    randNode = random.choice(nodes)
+                    flag = ten.Assign(ver, randNode)
+                    i += 1
+                    if flag == True:
+                        print "Assigned!"
 
     def Finish(self):
         pass
