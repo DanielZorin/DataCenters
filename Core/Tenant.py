@@ -112,8 +112,8 @@ class Tenant(AbstractGraph):
         vertex - tenant vertex
         node - resource vertex where it is assigned
         '''
-        for p in vertex.params:
-            if p.value + node.paramvalues[p.name] > node.getParam(p.name).value:
+        for p in vertex.params.values():
+            if p.value + node.paramvalues[p.name] > node.params[p.name].value:
                 return False
         vertex.assigned = node
         node.assignments.append([vertex, self])
@@ -254,7 +254,7 @@ class Tenant(AbstractGraph):
                 conset.appendChild(port)
             tag.appendChild(conset)
             pset = dom.createElement("parameter_set")
-            for p in v.params:
+            for p in v.params.values():
                 param = dom.createElement("parameter")
                 param.setAttribute("parameter_name", p.name)
                 param.setAttribute("parameter_type", p.type)
@@ -367,7 +367,7 @@ class Tenant(AbstractGraph):
                 self.GenCoords(v)
             v.service = service
             v.ports = ports
-            for vp in v.params:
+            for vp in v.params.values():
                 for p in params:
                     if (p[0] == vp.name) and (p[1] == vp.type):
                         if (vp.type == "integer"):

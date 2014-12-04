@@ -17,7 +17,7 @@ class AbstractVertex:
     def __init__(self, id, service=True):
         self.id = id
         self.service = service
-        self.params = []
+        self.params = {}
         self.ports = []
         self.assigned = None
         self.assignments = []
@@ -30,21 +30,14 @@ class AbstractVertex:
                 self.ports.append(s)
                 return s
                 
-    def getParam(self, name):
-        try:
-            param = (p for p in self.params if p.name == name).next()
-            return param
-        except:
-            return None
-                
     def updateParams(self):
-        for p in self.params:
+        for p in self.params.values():
             if (p.type != "integer") and (p.type != "real"):
                 continue
             value = 0
             for a in self.assignments:
                 node = a[0]
-                param = node.getParam(p.name)
+                param = node.params[p.name]
                 value += param.value
             self.paramvalues[p.name] = value
                 

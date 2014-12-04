@@ -92,6 +92,10 @@ class ParamFactory(object):
     @staticmethod
     def Create(type):
         if type in ParamFactory.params:
-            return copy.deepcopy(ParamFactory.params[type])
+            lst = copy.deepcopy(ParamFactory.params[type])
+            params = {}
+            for p in lst:
+                params[p.name] = p
+            return params
         else:
-            return []
+            return {}

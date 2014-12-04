@@ -31,7 +31,7 @@ class VertexDialog(QDialog):
         self.ui.name.setText(id)
         self.ui.service.setChecked(v.service)
         self.paramnames = {}
-        for p in v.params:
+        for p in v.params.values():
             self.ui.params.insertRow(0)
             name = p.name
             if p.unit:
@@ -77,7 +77,7 @@ class VertexDialog(QDialog):
         v.id = str(self.ui.name.text() + self.hash)
         v.service = self.ui.service.isChecked()
         for i in range(self.ui.params.rowCount()):
-            for p in v.params:
+            for p in v.params.values():
                 if p.name == self.paramnames[str(self.ui.params.item(i, 0).text())]:
                     if self.ui.params.cellWidget(i, 2).validator():
                         if self.ui.params.cellWidget(i, 2).validator().validate(self.ui.params.cellWidget(i, 2).text(), 0)[0] == QValidator.Acceptable:

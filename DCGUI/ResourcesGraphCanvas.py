@@ -289,7 +289,7 @@ class ResourcesGraphCanvas(QWidget):
             rect = self.vertices[v]
             if rect.contains(e.pos()):
                 txt = v.id
-                for p in v.params:
+                for p in v.params.values():
                     txt += "\n" + p.name + "=" + p.value + " " + p.unit
                 QToolTip.showText(e.globalPos(), txt)
                 return True

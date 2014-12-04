@@ -49,13 +49,13 @@ class Vis(QMainWindow):
         str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Number of assigned tenants")).arg(len(tenants))
         str += QString("&nbsp;&nbsp;%1:<font color=blue> %2</font><br />").arg(self.tr("Number of assigned VMs")).arg(len(v.assignments))
         str += QString("<b><font size=\"+1\">%1</font></b><br />").arg(self.tr("Parameters"))
-        for p in v.params:
+        for p in v.params.values():
             if (p.type == "integer") or (p.type == "real"):
                 name = p.name
                 val = int(p.value) if p.type == "integer" else float(p.value)
                 used = 0
                 for v1 in v.assignments:
-                    for p1 in v1[0].params:
+                    for p1 in v1[0].params.values():
                         if (p1.name == name) and (p1.type == p.type):
                             used += int(p1.value) if p.type == "integer" else float(p1.value)
                 str += QString("&nbsp;&nbsp;<font size=\"+1\">%1</font>: %5 %2 %6 %3 (%4 %)<br />").arg(name).arg(used).arg(val).arg(int(float(used)/float(val)*100)).arg(self.tr("used")).arg(self.tr("of"))
