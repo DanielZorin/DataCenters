@@ -115,4 +115,17 @@ class Project:
         for d in self.tenants:
             if d.name == id:
                 return d
+    
+    def IsAssignmentFull(self):
+        for ten in self.tenants:
+            if ten.assigned == False:
+                return False
+        return True
+        
+    def AssignedTenantsNumber(self):
+        kol = 0
+        for ten in self.tenants:
+            if ten.assigned == True:
+                kol += 1
+        return kol
                
