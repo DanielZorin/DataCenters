@@ -2,6 +2,9 @@ import random, copy, math
 from PyQt4.QtCore import QObject, pyqtSignal
 from DCGUI.Project import Project
 
+#Результаты должны сохраняться в bestProject, но не копируются из prevProject или curProject
+#если итоговый результат выводится в gui из self.project, то он не отображает назначенные запросы графически. 
+#но по фукнции подсчета количества назначенных запросов в project.py назначает нормально
 
 class SimulatedAnnealing(QObject):
     demand_assigned = pyqtSignal(str)
