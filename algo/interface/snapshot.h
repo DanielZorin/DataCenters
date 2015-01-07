@@ -24,10 +24,13 @@ public:
     Assignments parseReverseAssignments() const; 
 
     void print();
+
+    Element * getNetworkElement(const QString & name) const;
+    Element * getTenantElement(const QString & tenant, const QString & name) const;
 private:
     void commit();
 private:
     QDomDocument * document;
     ResourcesXMLFactory * network;
-    QList<TenantXMLFactory *> tenants;
+    QMap<QString, TenantXMLFactory *> tenants;
 };

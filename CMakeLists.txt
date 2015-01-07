@@ -1,4 +1,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
 PROJECT(DCGUI)
 
 macro(configure_files srcDir destDir)

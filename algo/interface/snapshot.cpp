@@ -71,15 +71,26 @@ bool Snapshot::read(const QString & filename)
             continue;
 
         TenantXMLFactory * factory = new TenantXMLFactory(e);
-        tenants.append(factory);
+        tenants.insert(factory->name(), factory);
         foreach(TenantXMLFactory * f, clients)
             factory->parseExternalPorts(f->name(), f->getPorts());
     }
 
-    tenants.append(clients);
+    foreach(TenantXMLFactory * client, clients)
+        tenants.insert(client->name(), client);
     commit();
 
     return true;
+}
+
+Element * Snapshot::getNetworkElement(const QString & name) const
+{
+    return network->getElement(name);
+}
+
+Element * Snapshot::getTenantElement(const QString & tenant, const QString & name) const
+{
+    return tenants[tenant]->getElement(name);
 }
 
 void Snapshot::commit() 

@@ -1,5 +1,6 @@
 #include "defs.h"
 #include "interface/snapshot.h"
+#include "trans/mixer.h"
 
 #include <QString>
 
@@ -16,6 +17,10 @@ int main(int argc, char ** argv)
    Snapshot from, to;
    from.read(argv[1]);
    to.read(argv[2]);
+
+   Mixer mixer;
+   mixer.read(from, to);
+   mixer.print();
 
    return 0;
 }

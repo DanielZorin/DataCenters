@@ -43,6 +43,7 @@ bool PrototypeAlgorithm::simpleIncreasing(Request * first, Request * second) {
 
 bool PrototypeAlgorithm::scheduleRequest(Request * r) {
     Elements unassignedNodes = Operation::filter(r->elementsToAssign(), Criteria::isComputational);
+    fprintf(stderr, "[DEBUG] assigning %d nodes.\n", unassignedNodes.size());
     while ( !unassignedNodes.empty() ) {
         Element * unassignedSeed = getSeedElement(unassignedNodes);
         std::deque<Element *> queue;
