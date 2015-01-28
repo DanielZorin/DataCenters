@@ -128,7 +128,7 @@ Requests Snapshot::getRequests() const
 void Snapshot::print() 
 {
     Assignments assignments = parseReverseAssignments();
-    qDebug() << "\n\nResults:";
+    qDebug() << "[SNAPSHOT] Current state:";
     foreach(QString tenant, assignments.keys())
     {
         qDebug() << "tenant" << tenant << ":";
