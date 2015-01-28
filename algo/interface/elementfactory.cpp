@@ -26,7 +26,7 @@ void ElementFactory::debugPrint(Element * element) {
 
 Element * ElementFactory::populate(Element * element, const QMap<QString, ParameterValue *> & pr, bool isVirtual)
 {
-    element->physical = false;
+    element->physical = !isVirtual;
 
     Parameters params = parametersFromProperties(pr, isVirtual);
     element->parameters = params;

@@ -76,7 +76,7 @@ protected:
     }
 public:
     Element() : type(NONE), physical(false),
-        available(false), attributes(0), assignee(0) {}
+        available(true), attributes(0), assignee(0) {}
 
     virtual ~Element() {
     	for ( Parameters::iterator it = parameters.begin(); it != parameters.end(); ++it ) {

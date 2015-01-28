@@ -20,7 +20,6 @@ ResourcesXMLFactory::ResourcesXMLFactory(const QDomElement & element)
     for (Elements::iterator it = elements.begin(); it != elements.end(); ++it ) {
         Element * e = *it;
     	e->physical = true;
-        e->available = true;
     }
 
     network = new Network(elements);

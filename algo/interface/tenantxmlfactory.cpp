@@ -101,7 +101,6 @@ void TenantXMLFactory::readAssignmentData(const ResourcesXMLFactory& resourceFac
             continue;
 
         qDebug() << "Was unable to assign" << a << "to" << data[a];
-        return;
     }
 }
 

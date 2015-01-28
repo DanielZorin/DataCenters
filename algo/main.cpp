@@ -29,7 +29,8 @@ int main(int argc, char ** argv)
     }
 
     Snapshot snapshot;
-    snapshot.read(argv[1]);
+    if ( !snapshot.read(argv[1]) )
+       return INVALID_INPUT;
 
     Requests requests = snapshot.getRequests();
     PrototypeAlgorithm algorithm(snapshot.getNetwork(), requests);
