@@ -16,8 +16,6 @@ public:
        elements = other.elements;
     }
 
-    const std:string & getName() const { return name; }
-
     inline Elements assignedElements() const {
         return Operation::filter(getElements(), Criteria::isAssigned);
     }
