@@ -42,6 +42,7 @@ private:
     // Create link or node depending on type name
     static Link * createLink(const QDomElement & element, const ElementsMap& elementsMap);
     static Element * createNode(const QDomElement & element);
+    static void setServerLayer(class LeafNode * node, const QDomElement & element);
 
     static void setSwitchAttributes(Switch* sw, const QDomElement & e);
 

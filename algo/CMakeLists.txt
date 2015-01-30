@@ -15,6 +15,7 @@ SET ( COMPONENTS
       interface
       routing
       trans
+      common
       )
 
 FOREACH(COMPONENT ${COMPONENTS})

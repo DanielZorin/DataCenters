@@ -4,6 +4,7 @@
 #include "switch.h"
 #include "store.h"
 #include "computer.h"
+#include "leafnode.h"
 #include "port.h"
 #include "parameter.h"
 
@@ -174,10 +175,26 @@ Element * Factory::createNode(const QDomElement & e) {
         // switch has additional attributes (is_router, ...)
         setSwitchAttributes(sw, e);
         node = ElementFactory::populate(sw, params);
+    } else {
+        throw; 
     }
+
+    if ( type == "vm" || type == "vnf" || type == "st" )
+        setServerLayer((LeafNode *)node, e);
 
     if ( node != 0 )
         addPortsFromXML(e, node->toNode());
 
     return node;
+}
+
+void Factory::setServerLayer(LeafNode * node, const QDomElement & e) {
+    if ( !e.hasAttribute("sl") )
+        return;
+
+    int layer = e.attribute("sl").toInt();
+    if ( layer <= 0 || layer > LeafNode::maxLayer() )
+        return;
+
+    node->setServerLayer(layer);
 }

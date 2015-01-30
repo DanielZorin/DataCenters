@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<dcxml name="server_shutdown">
+   <resources>
+      <server name="shutdown" service="1">
+         <connection_set/>
+         <parameter_set>
+            <parameter parameter_name="RAM" parameter_type="real" parameter_value="16"/>
+         </parameter_set>
+      </server>
+      <server name="hotswap" service="1">
+         <connection_set/>
+         <parameter_set>
+            <parameter parameter_name="RAM" parameter_type="real" parameter_value="16"/>
+         </parameter_set>
+      </server>
+   </resources>
+   <tenants>
+      <tenant name="sample">
+         <list_of_nodes>
+            <vm name="v1" assignedTo="shutdown" service="1">
+               <connection_set/>
+               <parameter_set>
+                  <parameter parameter_name="RAM" parameter_type="real" parameter_value="8"/>
+               </parameter_set>
+            </vm>
+            <vm name="v2" assignedTo="shutdown" service="1">
+               <connection_set/>
+               <parameter_set>
+                  <parameter parameter_name="RAM" parameter_type="real" parameter_value="8"/>
+               </parameter_set>
+            </vm>
+         </list_of_nodes>
+         <list_of_links/>
+      </tenant>
+   </tenants>
+</dcxml>

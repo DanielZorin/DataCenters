@@ -52,6 +52,10 @@ public:
         return e->isAssigned();
     }
 
+    inline static bool isUnassigned(const Element * e) {
+        return !isAssigned(e);
+    }
+
     inline static bool isAdjacent(const Element * e, const Element * t) {
         return e->isAdjacent(t); 
     }
@@ -73,4 +77,6 @@ public:
             return false;
         return host->attributeCheck(target);
     }
+
+    static bool isServerLayered(const Element * e);
 };

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "node.h"
+#include "leafnode.h"
 
-class Computer : public Node {
+class Computer : public LeafNode {
     friend class ElementFactory;
 public:
     enum Type {
@@ -10,7 +10,7 @@ public:
         VNF = 1
     };
 
-    Computer(bool vnf = false) : Node(), computerType(0) {
+    Computer(bool vnf = false) : LeafNode(), computerType(0) {
         type = COMPUTER;
         if (vnf)
             computerType |= VNF;

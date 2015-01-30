@@ -1,9 +1,8 @@
 #pragma once
 
-#include "node.h"
-#include "criteria.h"
+#include "leafnode.h"
 
-class Store : public Node {
+class Store : public LeafNode {
     friend class ElementFactory;
 public:
     enum Attributes {
@@ -11,13 +10,13 @@ public:
         REPLICABLE = 1
     };
 
-    Store() : Node() {
+    Store() : LeafNode() {
         type = STORE;
     }
 
 private:
     virtual bool typeCheck(const Element * other) const {
-        return Criteria::isStore(other);
+        return other->isStore();
     }
 
 };

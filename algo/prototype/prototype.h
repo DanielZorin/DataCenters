@@ -19,6 +19,10 @@ private:
     Elements connectedComponent(Element * e);
     void tweakQueue(std::deque<Element *> & queue, Request * r);
 
+    /* Divergent assignment procedures */
+    bool routedAssignment(Elements & nodes, Request * r);
+    bool slAssignment(Elements & nodes, Request * r);
+
     static bool simpleIncreasing(Request * first, Request * second);
 
     Element * getSeedElement(Elements & e, bool isVirtual = true);

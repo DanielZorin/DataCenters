@@ -7,6 +7,7 @@
 #include "criteria.h"
 #include "operation.h"
 #include "link.h"
+#include "leafnode.h"
 #include "routing/bfsrouter.h"
 #include "exhaustivesearcher.h"
 
@@ -16,6 +17,7 @@
 #include <algorithm>
 #include <queue>
 #include <deque>
+#include <map>
 
 void PrototypeAlgorithm::schedule() {
     std::vector<Request *> pRequests = prioritizeRequests(requests);
@@ -42,10 +44,21 @@ bool PrototypeAlgorithm::simpleIncreasing(Request * first, Request * second) {
 
 
 bool PrototypeAlgorithm::scheduleRequest(Request * r) {
+    Elements serverLayered = Operation::filter(r->elementsToAssign(), Criteria::isServerLayered);
+    if ( !slAssignment(serverLayered, r) ) {
+        fprintf(stderr, "[ERROR] server layer requirement failed\n");
+        return false;
+    }
+
+
     Elements unassignedNodes = Operation::filter(r->elementsToAssign(), Criteria::isComputational);
-    fprintf(stderr, "[DEBUG] assigning %d nodes.\n", unassignedNodes.size());
-    while ( !unassignedNodes.empty() ) {
-        Element * unassignedSeed = getSeedElement(unassignedNodes);
+    return routedAssignment(unassignedNodes, r);
+}
+
+bool PrototypeAlgorithm::routedAssignment(Elements & nodes, Request * r)
+{
+    while ( !nodes.empty() ) {
+        Element * unassignedSeed = getSeedElement(nodes);
         std::deque<Element *> queue;
         tweakQueue(queue, r);
         queue.push_back(unassignedSeed);
@@ -79,11 +92,62 @@ bool PrototypeAlgorithm::scheduleRequest(Request * r) {
             for ( Elements::iterator i = adjacentNodes.begin(); i != adjacentNodes.end(); i++) {
                 queue.push_back(*i);
             }
-            unassignedNodes.erase(nextToAssign);
+            nodes.erase(nextToAssign);
         }
     }
 
     return true;
+
+}
+
+bool PrototypeAlgorithm::slAssignment(Elements & nodes, Request * r) {
+    if ( nodes.empty() )
+        return true;
+    
+    using std::map;
+    map<int, Elements> layeredModel;
+    for (Elements::iterator i = nodes.begin(); i != nodes.end(); i++) {
+        LeafNode * l = (LeafNode *)(*i);
+        layeredModel[l->sl()].insert(l);
+    }
+    
+    for(map<int, Elements>::iterator i = layeredModel.begin(); i != layeredModel.end(); i++) {
+        Elements & elements = i->second;
+        Elements globalCandidates = Operation::filter(network->getNodes(), *elements.begin(), Criteria::canHostAssignment);
+        for (Elements::iterator c = globalCandidates.begin(); c != globalCandidates.end(); c++ ) {
+            Elements localAssigned;
+            for ( Elements::iterator a = (*c)->getAssignments().begin(); a != (*c)->getAssignments().end(); a++ ) {
+                if ( Operation::isIn(*a, r->getElements()) )
+                    localAssigned.insert(*a);
+            }
+
+            bool layerConflict = false;
+            for ( Elements::iterator a = localAssigned.begin(); a != localAssigned.end(); a++ ) {
+                if ( !Criteria::isServerLayered(*a) )
+                    continue;
+
+                LeafNode * l = (LeafNode *)(*a);
+                if ( l->sl() | i->first )
+                    layerConflict = true;
+            }
+            if ( layerConflict )
+                continue;
+
+            bool result = true;
+            for ( Elements::iterator e = elements.begin(); e != elements.end(); e++) {
+                result &= (*c)->assign(*e);    
+            }
+
+            if ( result )
+                break;
+
+            Operation::forEach(elements, Operation::unassign);
+        }
+        if ( !Operation::filter(elements, Criteria::isUnassigned).empty() )
+            return false;
+    }
+
+    return false; 
 }
 
 bool PrototypeAlgorithm::exhaustiveSearch(Element * e) {
