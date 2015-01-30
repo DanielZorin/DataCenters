@@ -179,8 +179,13 @@ Element * Factory::createNode(const QDomElement & e) {
         throw; 
     }
 
-    if ( type == "vm" || type == "vnf" || type == "st" )
+    if ( type == "vm" || type == "vnf" || type == "st" ) {
         setServerLayer((LeafNode *)node, e);
+        setDCLayer((LeafNode *)node, e);
+    }
+
+    if ( type == "server" || type == "storage" )
+        setDCLayer((LeafNode *)node, e);
 
     if ( node != 0 )
         addPortsFromXML(e, node->toNode());
@@ -197,4 +202,15 @@ void Factory::setServerLayer(LeafNode * node, const QDomElement & e) {
         return;
 
     node->setServerLayer(layer);
+}
+
+void Factory::setDCLayer(LeafNode * node, const QDomElement & e) {
+    if ( !e.hasAttribute("dl") )
+        return;
+
+    int layer = e.attribute("dl").toInt();
+    if ( layer <= 0 || layer > LeafNode::maxLayer() )
+        return;
+
+    node->setDCLayer(layer);
 }

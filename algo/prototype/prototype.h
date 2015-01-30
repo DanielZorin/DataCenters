@@ -14,14 +14,16 @@ public:
 private:
     std::vector<Request *> prioritizeRequests(Requests & r);
     bool scheduleRequest(Request * r);
-    bool exhaustiveSearch(Element * e);
-    bool assignSeedElement(Element * e);
+    bool exhaustiveSearch(Element * e, Elements & pool);
+    bool assignSeedElement(Element * e, Elements & pool);
     Elements connectedComponent(Element * e);
     void tweakQueue(std::deque<Element *> & queue, Request * r);
 
     /* Divergent assignment procedures */
-    bool routedAssignment(Elements & nodes, Request * r);
-    bool slAssignment(Elements & nodes, Request * r);
+    bool routedAssignment(Elements & nodes, Elements & pool, Request * r);
+    bool slAssignment(Elements & nodes, Elements & pool, Request * r);
+    bool dlAssignment(Elements & nodes, Elements & pool, Request * r);
+    bool dlRequestAssignment(Request * r);
 
     static bool simpleIncreasing(Request * first, Request * second);
 

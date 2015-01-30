@@ -11,7 +11,7 @@ protected:
 public:
     static int maxLayer() { return sizeof(int) * 8; }
 
-    void setDcLayer(int l) {
+    void setDCLayer(int l) {
         if ( l <= 0 || l > maxLayer() )
             return;
 

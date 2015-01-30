@@ -10,6 +10,7 @@
 #include "leafnode.h"
 #include "routing/bfsrouter.h"
 #include "exhaustivesearcher.h"
+#include "dcoverseer.h"
 
 #include <stdio.h>
 
@@ -44,19 +45,51 @@ bool PrototypeAlgorithm::simpleIncreasing(Request * first, Request * second) {
 
 
 bool PrototypeAlgorithm::scheduleRequest(Request * r) {
+    if ( r->isDCAffined() ) {
+        if ( !dlRequestAssignment(r) ) {
+            fprintf(stderr, "[ERROR] tenant affinity requirement failed\n");
+            return false;
+        }
+
+    }
+
     Elements serverLayered = Operation::filter(r->elementsToAssign(), Criteria::isServerLayered);
-    if ( !slAssignment(serverLayered, r) ) {
+    Elements pool = network->getNodes();
+    if ( !slAssignment(serverLayered, pool, r) ) {
         fprintf(stderr, "[ERROR] server layer requirement failed\n");
         return false;
     }
 
 
     Elements unassignedNodes = Operation::filter(r->elementsToAssign(), Criteria::isComputational);
-    return routedAssignment(unassignedNodes, r);
+    return routedAssignment(unassignedNodes, pool, r);
 }
 
-bool PrototypeAlgorithm::routedAssignment(Elements & nodes, Request * r)
+bool PrototypeAlgorithm::dlRequestAssignment(Request * r) {
+    Elements elements = r->elementsToAssign();
+    DCOverseer overseer(network); 
+
+    for( int i = 0; i < overseer.dcCount(); i++) {
+        Elements pool = overseer.dcPositionPool(i);
+        if ( slAssignment(elements, pool, r) ) 
+            return true;
+
+        Operation::forEach(elements, Operation::unassign);
+
+        if ( routedAssignment(elements, pool, r )) 
+            return true;
+
+        Operation::forEach(elements, Operation::unassign);
+
+    }
+
+    return false;
+
+}
+
+bool PrototypeAlgorithm::routedAssignment(Elements & n, Elements & pool, Request * r)
 {
+    Elements nodes = n;
     while ( !nodes.empty() ) {
         Element * unassignedSeed = getSeedElement(nodes);
         std::deque<Element *> queue;
@@ -78,12 +111,11 @@ bool PrototypeAlgorithm::routedAssignment(Elements & nodes, Request * r)
             if ( router.isValid() ) {
                 result = router.search();
             } else {
-                result = assignSeedElement(nextToAssign);
+                result = assignSeedElement(nextToAssign, pool);
             }
 
             if ( !result ) {
-                if ( !exhaustiveSearch(nextToAssign) ) {
-                    r->purgeAssignments();
+                if ( !exhaustiveSearch(nextToAssign, pool) ) {
                     return false;
                 }
             }
@@ -100,7 +132,7 @@ bool PrototypeAlgorithm::routedAssignment(Elements & nodes, Request * r)
 
 }
 
-bool PrototypeAlgorithm::slAssignment(Elements & nodes, Request * r) {
+bool PrototypeAlgorithm::slAssignment(Elements & nodes, Elements & pool, Request * r) {
     if ( nodes.empty() )
         return true;
     
@@ -113,7 +145,7 @@ bool PrototypeAlgorithm::slAssignment(Elements & nodes, Request * r) {
     
     for(map<int, Elements>::iterator i = layeredModel.begin(); i != layeredModel.end(); i++) {
         Elements & elements = i->second;
-        Elements globalCandidates = Operation::filter(network->getNodes(), *elements.begin(), Criteria::canHostAssignment);
+        Elements globalCandidates = Operation::filter(pool, *elements.begin(), Criteria::canHostAssignment);
         for (Elements::iterator c = globalCandidates.begin(); c != globalCandidates.end(); c++ ) {
             Elements localAssigned;
             for ( Elements::iterator a = (*c)->getAssignments().begin(); a != (*c)->getAssignments().end(); a++ ) {
@@ -150,13 +182,18 @@ bool PrototypeAlgorithm::slAssignment(Elements & nodes, Request * r) {
     return false; 
 }
 
-bool PrototypeAlgorithm::exhaustiveSearch(Element * e) {
-    ExhaustiveSearcher searcher(network, e, 3);
+bool PrototypeAlgorithm::dlAssignment(Elements & nodes, Elements & pool, Request * r) {
+    return false;
+}
+
+bool PrototypeAlgorithm::exhaustiveSearch(Element * e, Elements & pool) {
+    return false;
+    ExhaustiveSearcher searcher(pool, e, 3);
     return searcher.search();
 }
 
-bool PrototypeAlgorithm::assignSeedElement(Element * e) {
-    Elements candidates = Operation::filter(network->getNodes(), e, Criteria::canHostAssignment);
+bool PrototypeAlgorithm::assignSeedElement(Element * e, Elements & pool) {
+    Elements candidates = Operation::filter(pool, e, Criteria::canHostAssignment);
     if ( candidates.empty() )
         return false;
 

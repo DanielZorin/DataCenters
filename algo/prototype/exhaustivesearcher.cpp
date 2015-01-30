@@ -14,15 +14,14 @@ using std::vector;
 
 #include <stdio.h>
 
-ExhaustiveSearcher::ExhaustiveSearcher(Network * n, Element * t, int d, int ma) 
+ExhaustiveSearcher::ExhaustiveSearcher(Elements & pool, Element * t, int d, int ma) 
 :
-    network(n),
     target(t),
     maxAttempts(ma),
     attempt(0),
     depth(d)
 {
-    Elements cand = Operation::filter(network->getElements(), target, Criteria::isExhaustiveCandidate);
+    Elements cand = Operation::filter(pool, target, Criteria::isExhaustiveCandidate);
     if ( cand.size() < depth )
         depth = cand.size();
 
@@ -45,7 +44,6 @@ ExhaustiveSearcher::~ExhaustiveSearcher() {
 }
 
 bool ExhaustiveSearcher::isValid() const {
-    if ( !network ) return false;
     if ( !target ) return false;
     if ( !target->isVirtual() ) return false;
     if ( !target->isNode() ) return false;

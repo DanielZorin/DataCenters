@@ -11,3 +11,14 @@ bool Criteria::isServerLayered(const Element * e) {
 
     return true;
 }
+
+bool Criteria::isDCLayered(const Element * e) {
+    if ( !e->isComputational() )
+        return false;
+
+    LeafNode * l = (LeafNode *)e;
+    if ( l->dl() == 0 )
+        return false;
+
+    return true;
+}

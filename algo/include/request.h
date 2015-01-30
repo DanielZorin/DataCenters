@@ -8,12 +8,14 @@
 class Request : public Graph {
 public:
     Request(const Elements & e, std::string name = ""): name(name) {
+        affine = false;
         elements = Operation::filter(e, Criteria::isVirtual);
     }
 
     Request(const Request & other) { 
-       name = other.name; 
-       elements = other.elements;
+        affine = other.affine;
+        name = other.name; 
+        elements = other.elements;
     }
 
     inline Elements assignedElements() const {
@@ -62,7 +64,15 @@ public:
         elements.erase(element);  
     }
 
-private:
+    inline bool isDCAffined() const {
+        return affine;
+    }
 
+    inline void setDCAffine(bool af = true ) {
+        affine = af;
+    }
+
+private:
+    bool affine; 
     std::string name;
 };

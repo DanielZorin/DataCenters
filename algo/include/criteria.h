@@ -79,4 +79,5 @@ public:
     }
 
     static bool isServerLayered(const Element * e);
+    static bool isDCLayered(const Element * e);
 };

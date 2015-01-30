@@ -1,0 +1,68 @@
+<?xml version="1.0" ?>
+<dcxml name="server_shutdown">
+   <resources>
+      <server name="s1_d1" service="1" dl="1">
+         <connection_set/>
+         <parameter_set>
+            <parameter parameter_name="RAM" parameter_type="real" parameter_value="16"/>
+         </parameter_set>
+      </server>
+      <server name="s2_d1" service="1" dl="1">
+         <connection_set/>
+         <parameter_set>
+            <parameter parameter_name="RAM" parameter_type="real" parameter_value="16"/>
+         </parameter_set>
+      </server>
+     
+      <server name="s1_d2" service="1" dl="2">
+         <connection_set/>
+         <parameter_set>
+            <parameter parameter_name="RAM" parameter_type="real" parameter_value="16"/>
+         </parameter_set>
+      </server>
+      <server name="s2_d2" service="1" dl="2">
+         <connection_set/>
+         <parameter_set>
+            <parameter parameter_name="RAM" parameter_type="real" parameter_value="16"/>
+         </parameter_set>
+      </server>
+
+   </resources>
+   <tenants>
+      <tenant name="t1" dl="1">
+         <list_of_nodes>
+            <vm name="v1" service="1">
+               <connection_set/>
+               <parameter_set>
+                  <parameter parameter_name="RAM" parameter_type="real" parameter_value="8"/>
+               </parameter_set>
+            </vm>
+            <vm name="v2" service="1">
+               <connection_set/>
+               <parameter_set>
+                  <parameter parameter_name="RAM" parameter_type="real" parameter_value="8"/>
+               </parameter_set>
+            </vm>
+            <vm name="v3" service="1">
+               <connection_set/>
+               <parameter_set>
+                  <parameter parameter_name="RAM" parameter_type="real" parameter_value="8"/>
+               </parameter_set>
+            </vm>
+            <vm name="v4" service="1">
+               <connection_set/>
+               <parameter_set>
+                  <parameter parameter_name="RAM" parameter_type="real" parameter_value="8"/>
+               </parameter_set>
+            </vm>
+            <vm name="v_ax" service="1">
+               <connection_set/>
+               <parameter_set>
+                  <parameter parameter_name="RAM" parameter_type="real" parameter_value="8"/>
+               </parameter_set>
+            </vm>
+         </list_of_nodes>
+         <list_of_links/>
+      </tenant>
+   </tenants>
+</dcxml>
