@@ -34,8 +34,18 @@ void PrototypeAlgorithm::schedule() {
 }
 
 std::vector<Request *> PrototypeAlgorithm::prioritizeRequests(Requests & r) {
-    std::vector<Request *> result(r.begin(), r.end());
-    std::sort(result.begin(), result.end(), simpleIncreasing);
+    std::vector<Request *> providers;
+    std::vector<Request *> others;
+    for(Requests::iterator i = r.begin(); i != r.end(); i++ ) { 
+        if ( (*i)->isProvider() )
+            providers.push_back(*i);
+        else
+            others.push_back(*i);
+    }
+    std::sort(providers.begin(), providers.end(), simpleIncreasing);
+    std::sort(others.begin(), others.end(), simpleIncreasing);
+    std::vector<Request *> result(providers);
+    result.insert(result.end(), others.begin(), others.end());
     return result;
 }
 

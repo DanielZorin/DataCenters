@@ -38,7 +38,9 @@ TenantXMLFactory::TenantXMLFactory(const QDomElement & element)
 
     request = new Request(elements, name().toStdString());
     if ( element.hasAttribute("dl") )
-       request->setDCAffine();
+       request->affine = true;
+    if ( isProviderTenant(element) )
+       request->provider = true;
 }
 
 TenantXMLFactory::~TenantXMLFactory() {

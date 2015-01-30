@@ -6,9 +6,11 @@
 #include "criteria.h"
 
 class Request : public Graph {
+    friend class TenantXMLFactory;
 public:
     Request(const Elements & e, std::string name = ""): name(name) {
         affine = false;
+        provider = false;
         elements = Operation::filter(e, Criteria::isVirtual);
     }
 
@@ -68,11 +70,12 @@ public:
         return affine;
     }
 
-    inline void setDCAffine(bool af = true ) {
-        affine = af;
+    inline bool isProvider() {
+        return provider;
     }
 
 private:
     bool affine; 
+    bool provider;
     std::string name;
 };
