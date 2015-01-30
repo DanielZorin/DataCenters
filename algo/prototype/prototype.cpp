@@ -197,7 +197,6 @@ bool PrototypeAlgorithm::dlAssignment(Elements & nodes, Elements & pool, Request
 }
 
 bool PrototypeAlgorithm::exhaustiveSearch(Element * e, Elements & pool) {
-    return false;
     ExhaustiveSearcher searcher(pool, e, 3);
     return searcher.search();
 }
