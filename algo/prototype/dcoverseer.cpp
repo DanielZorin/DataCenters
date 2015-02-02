@@ -8,15 +8,12 @@
 
 #include <stdio.h>
 
-DCOverseer::DCOverseer(Network * network) {
-    Elements affineNodes = Operation::filter(network->getNodes(), Criteria::isDCLayered);
+DCOverseer::DCOverseer(const Elements & nodes) {
+    Elements affineNodes = Operation::filter(nodes, Criteria::isDCLayered);
     for(Elements::iterator n = affineNodes.begin(); n != affineNodes.end(); n++) {
         LeafNode * l = (LeafNode *)(*n);
         dcs[l->dl()].insert(l);
     }
-    dcs[0] = Operation::minus(network->getNodes(), affineNodes);
-
-    fprintf(stderr, "[DCOverseer] parsed %d dc's\n", dcCount());
 }
 
 Elements DCOverseer::dcPool(int dc) const {

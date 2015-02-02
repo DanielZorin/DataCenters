@@ -1,0 +1,420 @@
+<?xml version="1.0" ?>
+<dcxml name="">
+	<resources>
+		<server image_id="" name="compute02" service="0" x="209.5" y="139.5">
+			<connection_set number_of_ports="1">
+				<port name="compute02_port_0"/>
+			</connection_set>
+			<parameter_set>
+				<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="8"/>
+				<parameter parameter_name="RAM" parameter_type="integer" parameter_value="9591"/>
+				<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="35"/>
+			</parameter_set>
+		</server>
+		<server image_id="" name="compute01" service="0" x="39.5" y="137.5">
+			<connection_set number_of_ports="1">
+				<port name="compute01_port_0"/>
+			</connection_set>
+			<parameter_set>
+				<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="8"/>
+				<parameter parameter_name="RAM" parameter_type="integer" parameter_value="10639"/>
+				<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="50"/>
+			</parameter_set>
+		</server>
+		<server image_id="" name="compute03" service="0" x="330.5" y="111.5">
+			<connection_set number_of_ports="2">
+				<port name="compute03_port_0"/>
+				<port name="compute03_port_1"/>
+			</connection_set>
+			<parameter_set>
+				<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="2"/>
+				<parameter parameter_name="RAM" parameter_type="integer" parameter_value="10024"/>
+				<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="12"/>
+			</parameter_set>
+		</server>
+		<storage name="controller01" service="0" x="109.5" y="138.5">
+			<connection_set number_of_ports="1">
+				<port name="controller01_port_0"/>
+			</connection_set>
+			<parameter_set>
+				<parameter parameter_name="size" parameter_type="real" parameter_value="11"/>
+			</parameter_set>
+		</storage>
+		<netelement external_port="" ip="0.0.0.0" is_router="1" is_service="0" name="ROUTER" netelement_type="Router" provider_name="" service="0" service_name="" x="149.5" y="19.5">
+			<connection_set number_of_ports="3">
+				<port name="ROUTER_port_0"/>
+				<port name="ROUTER_port_1"/>
+				<port name="ROUTER_port_2"/>
+			</connection_set>
+			<parameter_set/>
+		</netelement>
+		<netelement external_port="" ip="" is_router="0" is_service="0" name="SW1" netelement_type="Switch" provider_name="" service="0" service_name="" x="69.5" y="89.5">
+			<connection_set number_of_ports="4">
+				<port name="SW1_port_0"/>
+				<port name="SW1_port_1"/>
+				<port name="SW1_port_2"/>
+				<port name="SW1_port_3"/>
+			</connection_set>
+			<parameter_set/>
+		</netelement>
+		<netelement external_port="" ip="" is_router="0" is_service="0" name="SW2" netelement_type="Switch" provider_name="" service="0" service_name="" x="229.5" y="89.5">
+			<connection_set number_of_ports="5">
+				<port name="SW2_port_0"/>
+				<port name="SW2_port_1"/>
+				<port name="SW2_port_2"/>
+				<port name="SW2_port_3"/>
+				<port name="SW2_port_4"/>
+			</connection_set>
+			<parameter_set/>
+		</netelement>
+		<storage name="cinder" service="0" x="272.5" y="139.5">
+			<connection_set number_of_ports="1">
+				<port name="cinder_port_0"/>
+			</connection_set>
+			<parameter_set>
+				<parameter parameter_name="size" parameter_type="real" parameter_value="11"/>
+			</parameter_set>
+		</storage>
+		<netelement external_port="" ip="" is_router="0" is_service="0" name="sw3!a34f983d-8af9-4b49-8aaf-4a60d870ef2d" netelement_type="Switch" provider_name="" service="1" service_name="" x="282.5" y="60.5">
+			<connection_set number_of_ports="3">
+				<port name="id!a34f983d-8af9-4b49-8aaf-4a60d870ef2d_port_0"/>
+				<port name="id!a34f983d-8af9-4b49-8aaf-4a60d870ef2d_port_1"/>
+				<port name="id!a34f983d-8af9-4b49-8aaf-4a60d870ef2d_port_2"/>
+			</connection_set>
+			<parameter_set/>
+		</netelement>
+		<link channel_capacity="0" node1="ROUTER" node2="SW1" port1="ROUTER_port_0" port2="SW1_port_0" service="0"/>
+		<link channel_capacity="0" node1="ROUTER" node2="SW2" port1="ROUTER_port_1" port2="SW2_port_0" service="0"/>
+		<link channel_capacity="0" node1="SW1" node2="SW2" port1="SW1_port_1" port2="SW2_port_1" service="0"/>
+		<link channel_capacity="0" node1="SW1" node2="compute01" port1="SW1_port_2" port2="compute01_port_0" service="0"/>
+		<link channel_capacity="0" node1="SW1" node2="controller01" port1="SW1_port_3" port2="controller01_port_0" service="0"/>
+		<link channel_capacity="0" node1="SW2" node2="compute02" port1="SW2_port_2" port2="compute02_port_0" service="0"/>
+		<link channel_capacity="0" node1="SW2" node2="cinder" port1="SW2_port_3" port2="cinder_port_0" service="0"/>
+		<link channel_capacity="1" node1="sw3!a34f983d-8af9-4b49-8aaf-4a60d870ef2d" node2="ROUTER" port1="id!a34f983d-8af9-4b49-8aaf-4a60d870ef2d_port_0" port2="ROUTER_port_2" service="0"/>
+		<link channel_capacity="1" node1="compute03" node2="sw3!a34f983d-8af9-4b49-8aaf-4a60d870ef2d" port1="compute03_port_1" port2="id!a34f983d-8af9-4b49-8aaf-4a60d870ef2d_port_1" service="0"/>
+		<link channel_capacity="1" node1="SW2" node2="sw3!a34f983d-8af9-4b49-8aaf-4a60d870ef2d" port1="SW2_port_4" port2="id!a34f983d-8af9-4b49-8aaf-4a60d870ef2d_port_2" service="0"/>
+	</resources>
+	<tenants>
+		<tenant expiration_time="2014-11-02 19:04:46" name="provider" tenant_type="0">
+			<list_of_nodes>
+				<netelement external_port="" ip="192.168.100.0/24" is_router="1" is_service="0" name="PROV_ROUTER!d0ca4826-759a-42d8-8f90-d330ca1d0300" netelement_type="Router" provider_name="" service="1" service_name="" x="29.5" y="29.5">
+					<connection_set number_of_ports="3">
+						<port name="id!d0ca4826-759a-42d8-8f90-d330ca1d0300_port_0"/>
+						<port name="id!d0ca4826-759a-42d8-8f90-d330ca1d0300_port_1"/>
+						<port name="PROV_ROUTER!d0ca4826-759a-42d8-8f90-d330ca1d0300_port_0"/>
+					</connection_set>
+					<parameter_set/>
+				</netelement>
+				<vnf image_id="b45b8c12-24a3-4a0f-80bc-41336d36f121" is_service="0" name="SERVER!cd28100f-3dab-409f-8530-78ff032be0a1" profile_type="" service="1" service_name="mysql" user_name="user" vnf_type="" x="27.5" y="98.5">
+					<external_connection_set number_of_ports="1">
+						<external_port name=""/>
+					</external_connection_set>
+					<connection_set number_of_ports="2">
+						<port name="id!cd28100f-3dab-409f-8530-78ff032be0a1_port_0"/>
+						<port name="SERVER!cd28100f-3dab-409f-8530-78ff032be0a1_port_0"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="1"/>
+						<parameter parameter_name="RAM" parameter_type="integer" parameter_value="2048"/>
+						<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="7"/>
+					</parameter_set>
+				</vnf>
+				<netelement external_port="" ip="192.168.50.0/24" is_router="0" is_service="0" name="SW_PROV!119fd3d3-1e43-4ba5-9a2f-cc4c962623a5" netelement_type="Switch" provider_name="" service="1" service_name="" x="182.5" y="31.5">
+					<connection_set number_of_ports="1">
+						<port name="SW_PROV!119fd3d3-1e43-4ba5-9a2f-cc4c962623a5_port_0"/>
+					</connection_set>
+					<parameter_set/>
+				</netelement>
+				<netelement external_port="" ip="192.168.150.0/24" is_router="1" is_service="0" name="R2_PROV!2248e4c2-ecaf-44c6-adb1-943a6fd8edd1" netelement_type="Router" provider_name="" service="1" service_name="" x="122.5" y="195.5">
+					<connection_set number_of_ports="2">
+						<port name="R2_PROV!2248e4c2-ecaf-44c6-adb1-943a6fd8edd1_port_0"/>
+						<port name="R2_PROV!2248e4c2-ecaf-44c6-adb1-943a6fd8edd1_port_1"/>
+					</connection_set>
+					<parameter_set/>
+				</netelement>
+				<vm floating_ip="R2_PROV!2248e4c2-ecaf-44c6-adb1-943a6fd8edd1" image_id="91499c5f-1cc6-46d7-bd8c-c227937beecc" name="VM1!b0880d62-b5b7-4564-a2bf-41deafaafec8" service="1" x="118.5" y="118.5">
+					<connection_set number_of_ports="5">
+						<port name="id!b0880d62-b5b7-4564-a2bf-41deafaafec8_port_0"/>
+						<port name="id!b0880d62-b5b7-4564-a2bf-41deafaafec8_port_1"/>
+						<port name="id!b0880d62-b5b7-4564-a2bf-41deafaafec8_port_2"/>
+						<port name="id!b0880d62-b5b7-4564-a2bf-41deafaafec8_port_3"/>
+						<port name="VM1!b0880d62-b5b7-4564-a2bf-41deafaafec8_port_0"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="1"/>
+						<parameter parameter_name="RAM" parameter_type="integer" parameter_value="2048"/>
+						<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="5"/>
+					</parameter_set>
+				</vm>
+				<st name="C0!8a8c436c-ae6c-4a8c-a392-193e89a3b8a0" service="1" x="272.5" y="162.5">
+					<connection_set number_of_ports="2">
+						<port name="id!8a8c436c-ae6c-4a8c-a392-193e89a3b8a0_port_0"/>
+						<port name="C0!8a8c436c-ae6c-4a8c-a392-193e89a3b8a0_port_0"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="size" parameter_type="real" parameter_value="3"/>
+					</parameter_set>
+				</st>
+				<st name="C1!8f79cef5-3c67-403b-8a71-f90925f751a9" service="1" x="21.5" y="134.5">
+					<connection_set number_of_ports="1">
+						<port name="id!8f79cef5-3c67-403b-8a71-f90925f751a9_port_0"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="size" parameter_type="real" parameter_value="5"/>
+					</parameter_set>
+				</st>
+			</list_of_nodes>
+			<list_of_links>
+				<link channel_capacity="0" node1="PROV_ROUTER!d0ca4826-759a-42d8-8f90-d330ca1d0300" node2="VM1!b0880d62-b5b7-4564-a2bf-41deafaafec8" port1="PROV_ROUTER!d0ca4826-759a-42d8-8f90-d330ca1d0300_port_0" port2="id!b0880d62-b5b7-4564-a2bf-41deafaafec8_port_0" service="0"/>
+				<link channel_capacity="0" node1="SERVER!cd28100f-3dab-409f-8530-78ff032be0a1" node2="PROV_ROUTER!d0ca4826-759a-42d8-8f90-d330ca1d0300" port1="id!cd28100f-3dab-409f-8530-78ff032be0a1_port_0" port2="id!d0ca4826-759a-42d8-8f90-d330ca1d0300_port_0" service="0"/>
+				<link channel_capacity="0" node1="VM1!b0880d62-b5b7-4564-a2bf-41deafaafec8" node2="R2_PROV!2248e4c2-ecaf-44c6-adb1-943a6fd8edd1" port1="id!b0880d62-b5b7-4564-a2bf-41deafaafec8_port_1" port2="R2_PROV!2248e4c2-ecaf-44c6-adb1-943a6fd8edd1_port_0" service="0"/>
+				<link channel_capacity="0" node1="VM1!b0880d62-b5b7-4564-a2bf-41deafaafec8" node2="SW_PROV!119fd3d3-1e43-4ba5-9a2f-cc4c962623a5" port1="id!b0880d62-b5b7-4564-a2bf-41deafaafec8_port_2" port2="SW_PROV!119fd3d3-1e43-4ba5-9a2f-cc4c962623a5_port_0" service="0"/>
+				<link channel_capacity="0" node1="C1!8f79cef5-3c67-403b-8a71-f90925f751a9" node2="VM1!b0880d62-b5b7-4564-a2bf-41deafaafec8" port1="id!8f79cef5-3c67-403b-8a71-f90925f751a9_port_0" port2="id!b0880d62-b5b7-4564-a2bf-41deafaafec8_port_3" service="0"/>
+				<link channel_capacity="1" node1="VM1!b0880d62-b5b7-4564-a2bf-41deafaafec8" node2="C0!8a8c436c-ae6c-4a8c-a392-193e89a3b8a0" port1="VM1!b0880d62-b5b7-4564-a2bf-41deafaafec8_port_0" port2="C0!8a8c436c-ae6c-4a8c-a392-193e89a3b8a0_port_0" service="0"/>
+			</list_of_links>
+		</tenant>
+		<tenant expiration_time="2014-11-02 19:04:46" name="user" tenant_type="0">
+			<list_of_nodes>
+				<netelement external_port="" ip="192.168.200.0/24" is_router="1" is_service="0" name="NFV_SHARED!a4bf43e2-3fa0-4c5a-8e34-117c62a17964" netelement_type="Router" provider_name="provider" service="1" service_name="mysql" x="354.5" y="92.5">
+					<connection_set number_of_ports="5">
+						<port name="id!a4bf43e2-3fa0-4c5a-8e34-117c62a17964_port_0"/>
+						<port name="NFV_SHARED!a4bf43e2-3fa0-4c5a-8e34-117c62a17964_port_0"/>
+						<port name="NFV_SHARED!a4bf43e2-3fa0-4c5a-8e34-117c62a17964_port_1"/>
+						<port name="NFV_SHARED!a4bf43e2-3fa0-4c5a-8e34-117c62a17964_port_2"/>
+						<port name="NFV_SHARED!a4bf43e2-3fa0-4c5a-8e34-117c62a17964_port_3"/>
+					</connection_set>
+					<parameter_set/>
+				</netelement>
+				<vm floating_ip="NFV_SHARED!a4bf43e2-3fa0-4c5a-8e34-117c62a17964" image_id="1c1876e5-ee2e-4687-8ff2-1168551dfcc3" name="CLIENT!ef335bd3-582a-4560-88b2-cdae2eb32fc2" service="1" x="267.5" y="171.5">
+					<connection_set number_of_ports="5">
+						<port name="id!ef335bd3-582a-4560-88b2-cdae2eb32fc2_port_0"/>
+						<port name="id!ef335bd3-582a-4560-88b2-cdae2eb32fc2_port_1"/>
+						<port name="CLIENT!ef335bd3-582a-4560-88b2-cdae2eb32fc2_port_0"/>
+						<port name="CLIENT!ef335bd3-582a-4560-88b2-cdae2eb32fc2_port_1"/>
+						<port name="CLIENT!ef335bd3-582a-4560-88b2-cdae2eb32fc2_port_2"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="2"/>
+						<parameter parameter_name="RAM" parameter_type="integer" parameter_value="2248"/>
+						<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="5"/>
+					</parameter_set>
+				</vm>
+				<st name="D1!6801e004-7a6a-41fa-8d3f-341d325a9249" service="1" x="156.5" y="195.5">
+					<connection_set number_of_ports="1">
+						<port name="id!6801e004-7a6a-41fa-8d3f-341d325a9249_port_0"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="size" parameter_type="real" parameter_value="3"/>
+					</parameter_set>
+				</st>
+				<netelement external_port="" ip="192.168.210.0/24" is_router="0" is_service="0" name="SW_USER!80d81b76-f02c-463b-a0d8-44b64f2f423b" netelement_type="Switch" provider_name="" service="1" service_name="" x="301.5" y="52.5">
+					<connection_set number_of_ports="4">
+						<port name="SW_USER!80d81b76-f02c-463b-a0d8-44b64f2f423b_port_0"/>
+						<port name="SW_USER!80d81b76-f02c-463b-a0d8-44b64f2f423b_port_1"/>
+						<port name="SW_USER!80d81b76-f02c-463b-a0d8-44b64f2f423b_port_2"/>
+						<port name="SW_USER!80d81b76-f02c-463b-a0d8-44b64f2f423b_port_3"/>
+					</connection_set>
+					<parameter_set/>
+				</netelement>
+				<vm floating_ip="False" image_id="d29fe1bb-3215-47bf-a741-e861e3db0b7e" name="VM3!8633046a-6711-43e2-a29e-eafd1269c347" service="1" x="74.5" y="150.5">
+					<connection_set number_of_ports="2">
+						<port name="id!8633046a-6711-43e2-a29e-eafd1269c347_port_0"/>
+						<port name="VM3!8633046a-6711-43e2-a29e-eafd1269c347_port_0"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="3"/>
+						<parameter parameter_name="RAM" parameter_type="integer" parameter_value="2048"/>
+						<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="5"/>
+					</parameter_set>
+				</vm>
+				<st name="id!8e0c2625-6204-41b5-94d8-ddb5fd6870b9" service="1" x="86.5" y="195.5">
+					<connection_set number_of_ports="1">
+						<port name="id!8e0c2625-6204-41b5-94d8-ddb5fd6870b9_port_0"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="size" parameter_type="real" parameter_value="4"/>
+					</parameter_set>
+				</st>
+				<vm floating_ip="False" image_id="d29fe1bb-3215-47bf-a741-e861e3db0b7e" name="id!a62c9b66-340f-4888-990a-5e823dad52a4" service="1" x="389.5" y="167.5">
+					<connection_set number_of_ports="3">
+						<port name="id!a62c9b66-340f-4888-990a-5e823dad52a4_port_0"/>
+						<port name="id!a62c9b66-340f-4888-990a-5e823dad52a4_port_1"/>
+						<port name="id!a62c9b66-340f-4888-990a-5e823dad52a4_port_2"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="2"/>
+						<parameter parameter_name="RAM" parameter_type="integer" parameter_value="2048"/>
+						<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="5"/>
+					</parameter_set>
+				</vm>
+				<vnf image_id="d29fe1bb-3215-47bf-a741-e861e3db0b7e" is_service="0" name="id!5563189e-fd10-4af5-afc2-835622c1c022" profile_type="" service="1" service_name="" user_name="" vnf_type="" x="339.5" y="206.5">
+					<external_connection_set number_of_ports="1">
+						<external_port name="default_port"/>
+					</external_connection_set>
+					<connection_set number_of_ports="2">
+						<port name="id!5563189e-fd10-4af5-afc2-835622c1c022_port_0"/>
+						<port name="id!5563189e-fd10-4af5-afc2-835622c1c022_port_1"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="2"/>
+						<parameter parameter_name="RAM" parameter_type="integer" parameter_value="2048"/>
+						<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="5"/>
+					</parameter_set>
+				</vnf>
+			</list_of_nodes>
+			<list_of_links>
+				<link channel_capacity="0" node1="CLIENT!ef335bd3-582a-4560-88b2-cdae2eb32fc2" node2="NFV_SHARED!a4bf43e2-3fa0-4c5a-8e34-117c62a17964" port1="id!ef335bd3-582a-4560-88b2-cdae2eb32fc2_port_0" port2="id!a4bf43e2-3fa0-4c5a-8e34-117c62a17964_port_0" service="0"/>
+				<link channel_capacity="0" node1="CLIENT!ef335bd3-582a-4560-88b2-cdae2eb32fc2" node2="SW_USER!80d81b76-f02c-463b-a0d8-44b64f2f423b" port1="CLIENT!ef335bd3-582a-4560-88b2-cdae2eb32fc2_port_2" port2="SW_USER!80d81b76-f02c-463b-a0d8-44b64f2f423b_port_2" service="0"/>
+				<link channel_capacity="0" node1="D1!6801e004-7a6a-41fa-8d3f-341d325a9249" node2="CLIENT!ef335bd3-582a-4560-88b2-cdae2eb32fc2" port1="id!6801e004-7a6a-41fa-8d3f-341d325a9249_port_0" port2="CLIENT!ef335bd3-582a-4560-88b2-cdae2eb32fc2_port_1" service="0"/>
+				<link channel_capacity="0" node1="VM3!8633046a-6711-43e2-a29e-eafd1269c347" node2="SW_USER!80d81b76-f02c-463b-a0d8-44b64f2f423b" port1="id!8633046a-6711-43e2-a29e-eafd1269c347_port_0" port2="SW_USER!80d81b76-f02c-463b-a0d8-44b64f2f423b_port_1" service="0"/>
+				<link channel_capacity="1" node1="id!8e0c2625-6204-41b5-94d8-ddb5fd6870b9" node2="VM3!8633046a-6711-43e2-a29e-eafd1269c347" port1="id!8e0c2625-6204-41b5-94d8-ddb5fd6870b9_port_0" port2="VM3!8633046a-6711-43e2-a29e-eafd1269c347_port_0" service="0"/>
+				<link channel_capacity="1" node1="NFV_SHARED!a4bf43e2-3fa0-4c5a-8e34-117c62a17964" node2="id!5563189e-fd10-4af5-afc2-835622c1c022" port1="NFV_SHARED!a4bf43e2-3fa0-4c5a-8e34-117c62a17964_port_0" port2="id!5563189e-fd10-4af5-afc2-835622c1c022_port_0" service="0"/>
+				<link channel_capacity="1" node1="NFV_SHARED!a4bf43e2-3fa0-4c5a-8e34-117c62a17964" node2="id!a62c9b66-340f-4888-990a-5e823dad52a4" port1="NFV_SHARED!a4bf43e2-3fa0-4c5a-8e34-117c62a17964_port_1" port2="id!a62c9b66-340f-4888-990a-5e823dad52a4_port_0" service="0"/>
+				<link channel_capacity="1" node1="NFV_SHARED!a4bf43e2-3fa0-4c5a-8e34-117c62a17964" node2="id!5563189e-fd10-4af5-afc2-835622c1c022" port1="NFV_SHARED!a4bf43e2-3fa0-4c5a-8e34-117c62a17964_port_2" port2="id!5563189e-fd10-4af5-afc2-835622c1c022_port_1" service="0"/>
+				<link channel_capacity="1" node1="NFV_SHARED!a4bf43e2-3fa0-4c5a-8e34-117c62a17964" node2="id!a62c9b66-340f-4888-990a-5e823dad52a4" port1="NFV_SHARED!a4bf43e2-3fa0-4c5a-8e34-117c62a17964_port_3" port2="id!a62c9b66-340f-4888-990a-5e823dad52a4_port_1" service="0"/>
+				<link channel_capacity="1" node1="SW_USER!80d81b76-f02c-463b-a0d8-44b64f2f423b" node2="id!a62c9b66-340f-4888-990a-5e823dad52a4" port1="SW_USER!80d81b76-f02c-463b-a0d8-44b64f2f423b_port_3" port2="id!a62c9b66-340f-4888-990a-5e823dad52a4_port_2" service="0"/>
+			</list_of_links>
+		</tenant>
+		<tenant expiration_time="" name="new" tenant_type="">
+			<list_of_nodes>
+				<netelement external_port="" ip="" is_router="0" is_service="0" name="id!2188ceee-a021-4211-a087-f6c5d3e3396b" netelement_type="Switch" provider_name="" service="1" service_name="" x="156.5" y="57.5">
+					<connection_set number_of_ports="2">
+						<port name="id!2188ceee-a021-4211-a087-f6c5d3e3396b_port_0"/>
+						<port name="id!2188ceee-a021-4211-a087-f6c5d3e3396b_port_2"/>
+					</connection_set>
+					<parameter_set/>
+				</netelement>
+				<vm floating_ip="False" image_id="d29fe1bb-3215-47bf-a741-e861e3db0b7e" name="id!ecee544b-22f7-44f3-a410-6a88e6f73bcf" service="1" x="252.5" y="113.5">
+					<connection_set number_of_ports="2">
+						<port name="id!ecee544b-22f7-44f3-a410-6a88e6f73bcf_port_0"/>
+						<port name="id!ecee544b-22f7-44f3-a410-6a88e6f73bcf_port_1"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="3"/>
+						<parameter parameter_name="RAM" parameter_type="integer" parameter_value="2348"/>
+						<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="12"/>
+					</parameter_set>
+				</vm>
+				<st name="id!c147947f-f244-497c-a488-51e092783069" service="1" x="303.5" y="144.5">
+					<connection_set number_of_ports="1">
+						<port name="id!c147947f-f244-497c-a488-51e092783069_port_0"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="size" parameter_type="real" parameter_value="2"/>
+					</parameter_set>
+				</st>
+			</list_of_nodes>
+			<list_of_links>
+				<link channel_capacity="1" node1="id!2188ceee-a021-4211-a087-f6c5d3e3396b" node2="id!ecee544b-22f7-44f3-a410-6a88e6f73bcf" port1="id!2188ceee-a021-4211-a087-f6c5d3e3396b_port_2" port2="id!ecee544b-22f7-44f3-a410-6a88e6f73bcf_port_0" service="0"/>
+				<link channel_capacity="1" node1="id!ecee544b-22f7-44f3-a410-6a88e6f73bcf" node2="id!c147947f-f244-497c-a488-51e092783069" port1="id!ecee544b-22f7-44f3-a410-6a88e6f73bcf_port_1" port2="id!c147947f-f244-497c-a488-51e092783069_port_0" service="0"/>
+			</list_of_links>
+		</tenant>
+		<tenant expiration_time="" name="new1" tenant_type="">
+			<list_of_nodes>
+				<netelement external_port="" ip="" is_router="0" is_service="0" name="id!ec335f3f-d02d-4aef-a84f-09b4fd0825f6" netelement_type="Switch" provider_name="" service="1" service_name="" x="240.5" y="128.5">
+					<connection_set number_of_ports="2">
+						<port name="id!ec335f3f-d02d-4aef-a84f-09b4fd0825f6_port_0"/>
+						<port name="id!ec335f3f-d02d-4aef-a84f-09b4fd0825f6_port_1"/>
+					</connection_set>
+					<parameter_set/>
+				</netelement>
+				<vm floating_ip="False" image_id="d29fe1bb-3215-47bf-a741-e861e3db0b7e" name="id!ae88ba45-41ce-49a5-92d4-f9e9f566e4b9" service="1" x="220.5" y="199.5">
+					<connection_set number_of_ports="6">
+						<port name="id!ae88ba45-41ce-49a5-92d4-f9e9f566e4b9_port_0"/>
+						<port name="id!ae88ba45-41ce-49a5-92d4-f9e9f566e4b9_port_1"/>
+						<port name="id!ae88ba45-41ce-49a5-92d4-f9e9f566e4b9_port_2"/>
+						<port name="id!ae88ba45-41ce-49a5-92d4-f9e9f566e4b9_port_3"/>
+						<port name="id!ae88ba45-41ce-49a5-92d4-f9e9f566e4b9_port_4"/>
+						<port name="id!ae88ba45-41ce-49a5-92d4-f9e9f566e4b9_port_5"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="1"/>
+						<parameter parameter_name="RAM" parameter_type="integer" parameter_value="2148"/>
+						<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="2"/>
+					</parameter_set>
+				</vm>
+				<st name="id!6ecb20ff-acc6-48db-8022-9116be97faa5" service="1" x="152.5" y="272.5">
+					<connection_set number_of_ports="1">
+						<port name="id!6ecb20ff-acc6-48db-8022-9116be97faa5_port_0"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="size" parameter_type="real" parameter_value="1"/>
+					</parameter_set>
+				</st>
+				<st name="id!ea4946ac-da59-4791-ae25-d99f459c053b" service="1" x="231.5" y="279.5">
+					<connection_set number_of_ports="1">
+						<port name="id!ea4946ac-da59-4791-ae25-d99f459c053b_port_0"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="size" parameter_type="real" parameter_value="1"/>
+					</parameter_set>
+				</st>
+				<st name="id!25acbe83-79a2-4819-b747-7fa8b623a49a" service="1" x="268.5" y="267.5">
+					<connection_set number_of_ports="1">
+						<port name="id!25acbe83-79a2-4819-b747-7fa8b623a49a_port_0"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="size" parameter_type="real" parameter_value="1"/>
+					</parameter_set>
+				</st>
+				<vm floating_ip="False" image_id="d29fe1bb-3215-47bf-a741-e861e3db0b7e" name="id!7d50e274-108c-469b-9842-350cbff910ad" service="1" x="295.5" y="202.5">
+					<connection_set number_of_ports="5">
+						<port name="id!7d50e274-108c-469b-9842-350cbff910ad_port_0"/>
+						<port name="id!7d50e274-108c-469b-9842-350cbff910ad_port_1"/>
+						<port name="id!7d50e274-108c-469b-9842-350cbff910ad_port_2"/>
+						<port name="id!7d50e274-108c-469b-9842-350cbff910ad_port_3"/>
+						<port name="id!7d50e274-108c-469b-9842-350cbff910ad_port_4"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="VCPUs" parameter_type="integer" parameter_value="1"/>
+						<parameter parameter_name="RAM" parameter_type="integer" parameter_value="2048"/>
+						<parameter parameter_name="RootDisk" parameter_type="integer" parameter_value="12"/>
+					</parameter_set>
+				</vm>
+				<st name="id!8ef3483f-23f5-4b32-862f-075ec3ab6023" service="1" x="303.5" y="256.5">
+					<connection_set number_of_ports="1">
+						<port name="id!8ef3483f-23f5-4b32-862f-075ec3ab6023_port_0"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="size" parameter_type="real" parameter_value="1"/>
+					</parameter_set>
+				</st>
+				<st name="id!01d83880-c877-4ee1-9d17-c78217588e66" service="1" x="332.5" y="250.5">
+					<connection_set number_of_ports="1">
+						<port name="id!01d83880-c877-4ee1-9d17-c78217588e66_port_0"/>
+					</connection_set>
+					<parameter_set>
+						<parameter parameter_name="size" parameter_type="real" parameter_value="1"/>
+					</parameter_set>
+				</st>
+				<netelement external_port="" ip="" is_router="0" is_service="0" name="id!99a4dff1-99d5-45b3-a6c2-7e3a937c3869" netelement_type="Switch" provider_name="" service="1" service_name="" x="148.5" y="126.5">
+					<connection_set number_of_ports="2">
+						<port name="id!99a4dff1-99d5-45b3-a6c2-7e3a937c3869_port_0"/>
+						<port name="id!99a4dff1-99d5-45b3-a6c2-7e3a937c3869_port_1"/>
+					</connection_set>
+					<parameter_set/>
+				</netelement>
+				<netelement external_port="" ip="" is_router="0" is_service="0" name="id!e35e1084-2a50-4b8d-9859-5bb4349ffe86" netelement_type="Switch" provider_name="" service="1" service_name="" x="353.5" y="90.5">
+					<connection_set number_of_ports="2">
+						<port name="id!e35e1084-2a50-4b8d-9859-5bb4349ffe86_port_0"/>
+						<port name="id!e35e1084-2a50-4b8d-9859-5bb4349ffe86_port_1"/>
+					</connection_set>
+					<parameter_set/>
+				</netelement>
+			</list_of_nodes>
+			<list_of_links>
+				<link channel_capacity="1" node1="id!ec335f3f-d02d-4aef-a84f-09b4fd0825f6" node2="id!ae88ba45-41ce-49a5-92d4-f9e9f566e4b9" port1="id!ec335f3f-d02d-4aef-a84f-09b4fd0825f6_port_0" port2="id!ae88ba45-41ce-49a5-92d4-f9e9f566e4b9_port_0" service="0"/>
+				<link channel_capacity="1" node1="id!ae88ba45-41ce-49a5-92d4-f9e9f566e4b9" node2="id!6ecb20ff-acc6-48db-8022-9116be97faa5" port1="id!ae88ba45-41ce-49a5-92d4-f9e9f566e4b9_port_1" port2="id!6ecb20ff-acc6-48db-8022-9116be97faa5_port_0" service="0"/>
+				<link channel_capacity="1" node1="id!ae88ba45-41ce-49a5-92d4-f9e9f566e4b9" node2="id!ea4946ac-da59-4791-ae25-d99f459c053b" port1="id!ae88ba45-41ce-49a5-92d4-f9e9f566e4b9_port_2" port2="id!ea4946ac-da59-4791-ae25-d99f459c053b_port_0" service="0"/>
+				<link channel_capacity="1" node1="id!ae88ba45-41ce-49a5-92d4-f9e9f566e4b9" node2="id!25acbe83-79a2-4819-b747-7fa8b623a49a" port1="id!ae88ba45-41ce-49a5-92d4-f9e9f566e4b9_port_3" port2="id!25acbe83-79a2-4819-b747-7fa8b623a49a_port_0" service="0"/>
+				<link channel_capacity="1" node1="id!ec335f3f-d02d-4aef-a84f-09b4fd0825f6" node2="id!7d50e274-108c-469b-9842-350cbff910ad" port1="id!ec335f3f-d02d-4aef-a84f-09b4fd0825f6_port_1" port2="id!7d50e274-108c-469b-9842-350cbff910ad_port_0" service="0"/>
+				<link channel_capacity="1" node1="id!7d50e274-108c-469b-9842-350cbff910ad" node2="id!8ef3483f-23f5-4b32-862f-075ec3ab6023" port1="id!7d50e274-108c-469b-9842-350cbff910ad_port_1" port2="id!8ef3483f-23f5-4b32-862f-075ec3ab6023_port_0" service="0"/>
+				<link channel_capacity="1" node1="id!7d50e274-108c-469b-9842-350cbff910ad" node2="id!01d83880-c877-4ee1-9d17-c78217588e66" port1="id!7d50e274-108c-469b-9842-350cbff910ad_port_2" port2="id!01d83880-c877-4ee1-9d17-c78217588e66_port_0" service="0"/>
+				<link channel_capacity="1" node1="id!99a4dff1-99d5-45b3-a6c2-7e3a937c3869" node2="id!7d50e274-108c-469b-9842-350cbff910ad" port1="id!99a4dff1-99d5-45b3-a6c2-7e3a937c3869_port_0" port2="id!7d50e274-108c-469b-9842-350cbff910ad_port_3" service="0"/>
+				<link channel_capacity="1" node1="id!99a4dff1-99d5-45b3-a6c2-7e3a937c3869" node2="id!ae88ba45-41ce-49a5-92d4-f9e9f566e4b9" port1="id!99a4dff1-99d5-45b3-a6c2-7e3a937c3869_port_1" port2="id!ae88ba45-41ce-49a5-92d4-f9e9f566e4b9_port_4" service="0"/>
+				<link channel_capacity="1" node1="id!ae88ba45-41ce-49a5-92d4-f9e9f566e4b9" node2="id!e35e1084-2a50-4b8d-9859-5bb4349ffe86" port1="id!ae88ba45-41ce-49a5-92d4-f9e9f566e4b9_port_5" port2="id!e35e1084-2a50-4b8d-9859-5bb4349ffe86_port_0" service="0"/>
+				<link channel_capacity="1" node1="id!e35e1084-2a50-4b8d-9859-5bb4349ffe86" node2="id!7d50e274-108c-469b-9842-350cbff910ad" port1="id!e35e1084-2a50-4b8d-9859-5bb4349ffe86_port_1" port2="id!7d50e274-108c-469b-9842-350cbff910ad_port_4" service="0"/>
+			</list_of_links>
+		</tenant>
+	</tenants>
+</dcxml>

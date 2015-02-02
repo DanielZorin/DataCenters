@@ -5,7 +5,7 @@
 
 class DCOverseer {
 public:
-    DCOverseer(Network * network);
+    DCOverseer(const Elements & nodes);
     int dcCount() const { return dcs.size(); }
     Elements dcPositionPool(int i) const;
     Elements dcPool(int dc) const;

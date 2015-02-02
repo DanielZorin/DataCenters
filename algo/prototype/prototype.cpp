@@ -27,8 +27,10 @@ void PrototypeAlgorithm::schedule() {
     {
         Request * r = *i;
         Request * fakeRequest = Preprocessor::fakeNetElements(r);
-        if ( !scheduleRequest(fakeRequest))
+        if ( !scheduleRequest(fakeRequest)) {
             fprintf(stderr, "[ERROR] Failed to assign request %s.\n", r->getName().c_str());
+            r->purgeAssignments();
+        }
         delete fakeRequest;   
     }
 }
@@ -60,11 +62,17 @@ bool PrototypeAlgorithm::scheduleRequest(Request * r) {
             fprintf(stderr, "[ERROR] tenant affinity requirement failed\n");
             return false;
         }
+    }
 
+    Elements pool = network->getNodes();
+
+    Elements dcLayered = Operation::filter(r->elementsToAssign(), Criteria::isDCLayered);
+    if ( !dlAssignment(dcLayered, pool, r) ) {
+        fprintf(stderr, "[ERROR] dc layer requirement failed\n");
+        return false;
     }
 
     Elements serverLayered = Operation::filter(r->elementsToAssign(), Criteria::isServerLayered);
-    Elements pool = network->getNodes();
     if ( !slAssignment(serverLayered, pool, r) ) {
         fprintf(stderr, "[ERROR] server layer requirement failed\n");
         return false;
@@ -77,19 +85,28 @@ bool PrototypeAlgorithm::scheduleRequest(Request * r) {
 
 bool PrototypeAlgorithm::dlRequestAssignment(Request * r) {
     Elements elements = r->elementsToAssign();
-    DCOverseer overseer(network); 
+    Elements nodes = Operation::filter(elements, Criteria::isNode);
+    Elements sle = Operation::filter(nodes, Criteria::isServerLayered);
+    Elements others = Operation::minus(nodes, sle);
+
+    DCOverseer overseer(network->getNodes()); 
 
     for( int i = 0; i < overseer.dcCount(); i++) {
         Elements pool = overseer.dcPositionPool(i);
-        if ( slAssignment(elements, pool, r) ) 
-            return true;
 
-        Operation::forEach(elements, Operation::unassign);
+        if ( !sle.empty() && !slAssignment(sle, pool, r) )
+        {
+            Operation::forEach(sle, Operation::unassign);
+            continue;
+        }
 
-        if ( routedAssignment(elements, pool, r )) 
-            return true;
+        if ( !others.empty() && !routedAssignment(others, pool, r) )
+        {
+            Operation::forEach(others, Operation::unassign);
+            continue;
+        }
 
-        Operation::forEach(elements, Operation::unassign);
+        return true;
 
     }
 
@@ -143,12 +160,14 @@ bool PrototypeAlgorithm::routedAssignment(Elements & n, Elements & pool, Request
 }
 
 bool PrototypeAlgorithm::slAssignment(Elements & nodes, Elements & pool, Request * r) {
-    if ( nodes.empty() )
+    Elements layered = Operation::filter(nodes, Criteria::isServerLayered);
+
+    if ( layered.empty() )
         return true;
     
     using std::map;
     map<int, Elements> layeredModel;
-    for (Elements::iterator i = nodes.begin(); i != nodes.end(); i++) {
+    for (Elements::iterator i = layered.begin(); i != layered.end(); i++) {
         LeafNode * l = (LeafNode *)(*i);
         layeredModel[l->sl()].insert(l);
     }
@@ -189,11 +208,52 @@ bool PrototypeAlgorithm::slAssignment(Elements & nodes, Elements & pool, Request
             return false;
     }
 
-    return false; 
+    return true; 
 }
 
 bool PrototypeAlgorithm::dlAssignment(Elements & nodes, Elements & pool, Request * r) {
-    return false;
+    if ( nodes.empty() )
+        return true;
+
+    DCOverseer virtualOverseer(nodes);
+    DCOverseer physicalOverseer(pool);
+
+    if ( virtualOverseer.dcCount() > physicalOverseer.dcCount() ) {
+        fprintf(stderr, "[ERROR] not enough physical datacenters to satisfy restrictions");
+        return false;
+    }
+
+    using std::map;
+    map<int, int> physicalAffinity;
+    for(int i = 0; i < virtualOverseer.dcCount(); i++ ) {
+        Elements elements = virtualOverseer.dcPositionPool(i);
+        Elements sle = Operation::filter(elements, Criteria::isServerLayered);
+        Elements others = Operation::minus(elements, sle);
+        for ( int j = 0; j < physicalOverseer.dcCount(); j++ ) {
+            if ( physicalAffinity.find(j) != physicalAffinity.end() )
+                continue;
+
+            Elements pool = physicalOverseer.dcPositionPool(j);
+            if ( !sle.empty() && !slAssignment(sle, pool, r) )
+            {
+                Operation::forEach(sle, Operation::unassign);
+                continue;
+            }
+
+            if ( !others.empty() && !routedAssignment(others, pool, r) )
+            {
+                Operation::forEach(others, Operation::unassign);
+                continue;
+            }
+
+            physicalAffinity[j] = i;
+        }        
+    }
+
+    if ( physicalAffinity.size() < virtualOverseer.dcCount() )
+        return false;
+
+    return true;
 }
 
 bool PrototypeAlgorithm::exhaustiveSearch(Element * e, Elements & pool) {
