@@ -169,6 +169,7 @@ Element * Factory::createNode(const QDomElement & e) {
     } else if ( type == "st" || type == "storage" ) {
         Store * st = new Store();
         node = ElementFactory::populate(st, params, type == "st");
+        setStorageClass(st, e);
     } else if ( type == "netelement" ) {
         Switch * sw = new Switch();
 
@@ -213,4 +214,15 @@ void Factory::setDCLayer(LeafNode * node, const QDomElement & e) {
         return;
 
     node->setDCLayer(layer);
+}
+
+void Factory::setStorageClass(Store * store, const QDomElement & e) {
+    if ( !e.hasAttribute("class") )
+        return;
+
+    int cl = e.attribute("class").toInt();
+    if ( cl <= 0 || cl > 3 ) 
+        return;
+
+    store->setClass(cl);
 }

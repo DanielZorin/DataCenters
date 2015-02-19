@@ -1,0 +1,89 @@
+<?xml version="1.0" ?>
+<dcxml name="server_shutdown">
+   <resources>
+      <storage name="ssd1" service="1" >
+         <connection_set/>
+         <parameter_set>
+            <parameter parameter_name="capacity" parameter_type="real" parameter_value="32"/>
+         </parameter_set>
+      </storage>
+      <storage name="ssd2" service="1" >
+         <connection_set/>
+         <parameter_set>
+            <parameter parameter_name="capacity" parameter_type="real" parameter_value="32"/>
+         </parameter_set>
+      </storage>
+      <storage name="sata1" service="1" >
+         <connection_set/>
+         <parameter_set>
+            <parameter parameter_name="capacity" parameter_type="real" parameter_value="32"/>
+         </parameter_set>
+      </storage>
+      <storage name="sata2" service="1" >
+         <connection_set/>
+         <parameter_set>
+            <parameter parameter_name="capacity" parameter_type="real" parameter_value="32"/>
+         </parameter_set>
+      </storage>
+      <storage name="ide1" service="1" >
+         <connection_set/>
+         <parameter_set>
+            <parameter parameter_name="capacity" parameter_type="real" parameter_value="32"/>
+         </parameter_set>
+      </storage>
+      <storage name="ide1" service="1" >
+         <connection_set/>
+         <parameter_set>
+            <parameter parameter_name="capacity" parameter_type="real" parameter_value="32"/>
+         </parameter_set>
+      </storage>
+   </resources>
+   <tenants>
+      <tenant name="fasttenant">
+         <list_of_nodes>
+            <st name="f1" service="1" >
+               <connection_set/>
+               <parameter_set>
+                  <parameter parameter_name="capacity" parameter_type="real" parameter_value="32"/>
+               </parameter_set>
+            </st>
+            <st name="f2" service="1" >
+               <connection_set/>
+               <parameter_set>
+                  <parameter parameter_name="capacity" parameter_type="real" parameter_value="32"/>
+               </parameter_set>
+            </st>
+         </list_of_nodes>
+         <list_of_links/>
+      </tenant> 
+      <tenant name="slowtenant">
+         <list_of_nodes>
+            <st name="s1" service="1" >
+               <connection_set/>
+               <parameter_set>
+                  <parameter parameter_name="capacity" parameter_type="real" parameter_value="32"/>
+               </parameter_set>
+            </st>
+            <st name="s2" service="1" >
+               <connection_set/>
+               <parameter_set>
+                  <parameter parameter_name="capacity" parameter_type="real" parameter_value="32"/>
+               </parameter_set>
+            </st>
+            <st name="s3" service="1" >
+               <connection_set/>
+               <parameter_set>
+                  <parameter parameter_name="capacity" parameter_type="real" parameter_value="32"/>
+               </parameter_set>
+            </st>
+            <st name="s4" service="1" >
+               <connection_set/>
+               <parameter_set>
+                  <parameter parameter_name="capacity" parameter_type="real" parameter_value="32"/>
+               </parameter_set>
+            </st>
+         </list_of_nodes>
+         <list_of_links/>
+      </tenant> 
+   </tenants>
+</dcxml>

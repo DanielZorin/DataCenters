@@ -10,8 +10,15 @@ public:
         REPLICABLE = 1
     };
 
-    Store() : LeafNode() {
+    Store() : 
+        LeafNode(),
+        cl(0)
+    {
         type = STORE;
+    }
+
+    void setClass(int cl) {
+        this->cl = cl;
     }
 
 private:
@@ -19,4 +26,15 @@ private:
         return other->isStore();
     }
 
+    virtual bool physicalCheck(const Element * other) const {
+        if ( !LeafNode::physicalCheck(other) ) return false;
+        return classCheck(other);
+    }
+
+    bool classCheck(const Element * other) const {
+        return cl >= other->toStore()->cl;
+    }
+
+private:
+    int cl;
 };

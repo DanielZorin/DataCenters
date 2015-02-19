@@ -44,6 +44,7 @@ private:
     static Element * createNode(const QDomElement & element);
     static void setServerLayer(class LeafNode * node, const QDomElement & element);
     static void setDCLayer(class LeafNode * node, const QDomElement & element);
+    static void setStorageClass(class Store * store, const QDomElement & element);
 
     static void setSwitchAttributes(Switch* sw, const QDomElement & e);
 
