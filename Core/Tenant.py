@@ -3,6 +3,8 @@ from Core.AbstractGraph import AbstractGraph, AbstractVertex
 from Core.ParamFactory import *
 
 class Storage(AbstractVertex):
+    resource="storage"
+    name="storage"
     ''' Storage element
 
     :param id: name
@@ -14,6 +16,8 @@ class Storage(AbstractVertex):
         self.params = ParamFactory.Create("st")
 
 class VM(AbstractVertex):
+    resource="vm"
+    name="vm"
     ''' Computer element
 
     :param id: name
@@ -27,6 +31,8 @@ class VM(AbstractVertex):
         self.params = ParamFactory.Create("vm")
 
 class Vnf(AbstractVertex):
+    resource="vm"
+    name="vnf"
     def __init__(self, id=""):
         AbstractVertex.__init__(self, id)
         self.type = ""
@@ -39,23 +45,16 @@ class Vnf(AbstractVertex):
         self.params = ParamFactory.Create("vnf")
 
 class Domain(AbstractVertex):
-    ''' Computer element
-
-    :param id: name
-    :param speed: computer performance
-    :param ram: RAM capacity
-    '''
+    resource="vm"
+    name="domain"
     def __init__(self, id, type=""):
         AbstractVertex.__init__(self, id)
         self.type = type
         self.params = ParamFactory.Create("domain")
 
 class NetElement(AbstractVertex):
-    ''' Router/switch element
-
-    :param id: name
-    :param capcity: total channel bandwidth
-    '''
+    resource="netelement"
+    name="netelement"
     def __init__(self, id, type=""):
         AbstractVertex.__init__(self, id)
         self.type = type

@@ -18,7 +18,7 @@ class SimulatedAnnealing(QObject):
             v.updateParams()
         for ten in self.project.tenants:
             for ver in ten.vertices:
-                nodes = [n for n in self.project.resources.vertices if n.__class__.__name__ == ver.__class__.__name__]
+                nodes = [n for n in self.project.resources.vertices if n.name == ver.resource]
                 randNode = random.choice(nodes)
                 flag = ten.Assign(ver, randNode)
                 i = 0
