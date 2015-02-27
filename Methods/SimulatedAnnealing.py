@@ -1,10 +1,6 @@
-import random, copy, math
+import random, copy, math, time
 from PyQt4.QtCore import QObject, pyqtSignal
 from DCGUI.Project import Project
-
-#Результаты должны сохраняться в bestProject, но не копируются из prevProject или curProject
-#если итоговый результат выводится в gui из self.project, то он не отображает назначенные запросы графически. 
-#но по фукнции подсчета количества назначенных запросов в project.py назначает нормально
 
 class SimulatedAnnealing(QObject):
     demand_assigned = pyqtSignal(str)
@@ -39,7 +35,7 @@ class SimulatedAnnealing(QObject):
         for ten in self.prevProject.tenants:
             flag = False
             for ver in ten.vertices:
-                nodes = [n for n in self.prevProject.resources.vertices if n.__class__.__name__ == ver.__class__.__name__]
+                nodes = [n for n in self.project.resources.vertices if n.name == ver.resource]
                 isRandAssigned = random.randint(0, len(nodes));
                 if isRandAssigned == 0:
                     flag = False
@@ -137,8 +133,17 @@ class SimulatedAnnealing(QObject):
         print self.iteration, self.temperature
         while i < 1:
             #mutation
+            '''
+            select_one_tenant_element()
+            move_it_somewhere()
+            '''
             self.GenerateCurProject()
             #compare
+            '''
+            target function here = 
+                sum(difference between used resource and total resource in percent, if used <= total) + 
+                sum(difference between used resource and total resource in percent * 10, if used > total)
+            '''
             delta = self.prevProject.AssignedTenantsNumber() - self.curProject.AssignedTenantsNumber()
             #delta < 0 if the current situation is better
             p = math.exp(-delta / self.temperature)
@@ -163,13 +168,23 @@ class SimulatedAnnealing(QObject):
             v.updateParams()
         # Code the data and create an initial approximation here
         self.Init()
+        '''
+        while time.time() < TIME_LIMIT:
+            while not self.StopCondition():
+                self.Step()
+            if success:
+                add_one_more_tenant()
+            else:
+                remove_last_tenant()
+                add_one_more_tenant()
+        '''
         #self.GenerateCurProject()
         self.project = copy.deepcopy(self.prevProject)
         self.project.resources = copy.deepcopy(self.prevProject.resources)
         self.project.tenants = copy.deepcopy(self.prevProject.tenants)
         
         print self.project.AssignedTenantsNumber()
-        #while not self.StopCondition():
-            #self.Step()
+        while not self.StopCondition():
+            self.Step()
         # Decode the results here
         #self.Finish()

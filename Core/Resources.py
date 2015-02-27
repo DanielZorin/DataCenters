@@ -14,9 +14,9 @@ class ResourceGraph(AbstractGraph):
         
     def print_all(self):
         for v in self.vertices:
-            print v.id
+            print(v.id)
             for t in v.assignments:
-                print "\t" + t[0].id
+                print("\t" + t[0].id)
 
     def ExportToXml(self):
         '''
