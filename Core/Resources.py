@@ -11,6 +11,12 @@ class ResourceGraph(AbstractGraph):
 
     def __init__(self):
         AbstractGraph.__init__(self)
+        
+    def print_all(self):
+        for v in self.vertices:
+            print v.id
+            for t in v.assignments:
+                print "\t" + t[0].id
 
     def ExportToXml(self):
         '''

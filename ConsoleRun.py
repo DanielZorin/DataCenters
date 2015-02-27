@@ -16,6 +16,7 @@ if __name__ == "__main__":
     proj.Load(filename)
     alg = SimulatedAnnealing(proj)
     alg.Run()
+    proj.resources.print_all()
     proj.Save(outfile)
 
 
