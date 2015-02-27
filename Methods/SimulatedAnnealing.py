@@ -80,7 +80,7 @@ class SimulatedAnnealing(QObject):
         for ten in self.project.tenants:
             flag = False
             for ver in ten.vertices:
-                nodes = [n for n in self.project.resources.vertices if n.__class__.__name__ == ver.__class__.__name__]
+                nodes = [n for n in self.project.resources.vertices if n.name == ver.resource]
                 isRandAssigned = random.randint(0, len(nodes));
                 if isRandAssigned == 0:
                     flag = False
