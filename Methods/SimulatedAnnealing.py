@@ -178,6 +178,20 @@ class SimulatedAnnealing(QObject):
                 remove_last_tenant()
                 add_one_more_tenant()
         '''
+        
+        notassigned = [t for t in self.project.tenants if not t.assigned]
+        # Replace with time limit
+        for i in range(50):
+            backup = copy.deepcopy(self.project)
+            t = notassigned[random.randint(0, len(notassigned))]
+            t.AssignRandomly(self.project.resources)
+            number = self.project.AssignedTenantsNumber()
+            while not self.StopCondition():
+                self.Step()
+            number2 = self.project.AssignedTenantsNumber()
+            if number2 > number:
+                pass
+            
         #self.GenerateCurProject()
         self.project = copy.deepcopy(self.prevProject)
         self.project.resources = copy.deepcopy(self.prevProject.resources)

@@ -154,6 +154,9 @@ class Tenant(AbstractGraph):
             edge.assignments.append([e, self])
             e.assigned.append(edge)
 
+    def AssignRandomly(self, resources):
+        pass
+            
     def RemoveAssignment(self):
         for v in self.vertices:
             if v.assigned:
