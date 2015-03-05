@@ -13,6 +13,10 @@ Request * Preprocessor::fakeNetElements(Request * r) {
     Elements netElements = Operation::filter(r->getElements(), Criteria::isSwitch);
     for ( Elements::iterator i = netElements.begin(); i != netElements.end(); i++ ) {
         Switch * netElement = (*i)->toSwitch();
+        if ( netElement->isRouter() )
+            continue;
+
+
         Elements adjacentElements = netElement->adjacentNodes();
         while( !adjacentElements.empty() ) {
             Element * pivot = *(adjacentElements.begin());
