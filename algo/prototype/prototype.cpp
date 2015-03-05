@@ -247,6 +247,7 @@ bool PrototypeAlgorithm::dlAssignment(Elements & nodes, Elements & pool, Request
             }
 
             physicalAffinity[j] = i;
+            break;
         }        
     }
 
