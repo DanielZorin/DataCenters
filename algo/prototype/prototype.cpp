@@ -116,7 +116,7 @@ bool PrototypeAlgorithm::dlRequestAssignment(Request * r) {
 
 bool PrototypeAlgorithm::routedAssignment(Elements & n, Elements & pool, Request * r)
 {
-    Elements nodes = n;
+    Elements nodes = Operation::filter(n, Criteria::isUnassigned);
     while ( !nodes.empty() ) {
         Element * unassignedSeed = getSeedElement(nodes);
         std::deque<Element *> queue;
@@ -236,13 +236,13 @@ bool PrototypeAlgorithm::dlAssignment(Elements & nodes, Elements & pool, Request
             Elements pool = physicalOverseer.dcPositionPool(j);
             if ( !sle.empty() && !slAssignment(sle, pool, r) )
             {
-                Operation::forEach(sle, Operation::unassign);
+                Operation::forEach(elements, Operation::unassign);
                 continue;
             }
 
             if ( !others.empty() && !routedAssignment(others, pool, r) )
             {
-                Operation::forEach(others, Operation::unassign);
+                Operation::forEach(elements, Operation::unassign);
                 continue;
             }
 
