@@ -10,22 +10,23 @@ class SimulatedAnnealing(QObject):
         self.iteration = 2
         self.temperature = 100
         self.start_temperature = 100
-        self.prevProject = copy.deepcopy(project)
-        self.prevProject.resources = copy.deepcopy(project.resources)
-        self.prevProject.tenants = copy.deepcopy(project.tenants)
-        
-        self.curProject = copy.deepcopy(project)
-        self.curProject.resources = copy.deepcopy(project.resources)
-        self.curProject.tenants = copy.deepcopy(project.tenants)
-        
-        self.bestProject = copy.deepcopy(project)
-        self.bestProject.resources = copy.deepcopy(project.resources)
-        self.bestProject.tenants = copy.deepcopy(project.tenants)
+        self.prevProject = Project()
+        self.curProject = Project()
+        self.bestProject = Project()
+        #self.prevProject, self.curProject, self.bestProject
+        project.Save("1.xml")
+        self.prevProject.Load("1.xml")
+        self.curProject.Load("1.xml") 
+    
+        self.bestProject.Load("1.xml")
+   
         #need to save previuos assignments and current assignments
         #also best assignments
         super(SimulatedAnnealing, self).__init__()
 
     def Init(self):
+    #generate PrevProject
+        kol = 0
         self.prevProject.resources.ClearAssignments()
         for t in self.prevProject.tenants:
             t.ClearAssignments()
@@ -35,7 +36,7 @@ class SimulatedAnnealing(QObject):
         for ten in self.prevProject.tenants:
             flag = False
             for ver in ten.vertices:
-                nodes = [n for n in self.project.resources.vertices if n.name == ver.resource]
+                nodes = [n for n in self.prevProject.resources.vertices if n.name == ver.resource]
                 isRandAssigned = random.randint(0, len(nodes));
                 if isRandAssigned == 0:
                     flag = False
@@ -61,22 +62,22 @@ class SimulatedAnnealing(QObject):
                 print "assigned"
             else:
                 print "not assigned"
-        #self.prevProject = copy.deepcopy(self.project)
-        #self.bestProject = copy.deepcopy(self.prevProject)
-        print "     self.project.AssignedTenantsNumber()", self.project.AssignedTenantsNumber()
-        print "     self.prevProject.AssignedTenantsNumber()", self.prevProject.AssignedTenantsNumber()
+        kol = self.prevProject.AssignedTenantsNumber()
+        print "self.prevProject.AssignedTenantsNumber =", kol
+        return kol
     
     def GenerateCurProject(self):
-        self.project.resources.ClearAssignments()
-        for t in self.project.tenants:
+        kol = 0
+        self.curProject.resources.ClearAssignments()
+        for t in self.curProject.tenants:
             t.ClearAssignments()
             t.assigned = False
-        for v in self.project.resources.vertices:
+        for v in self.curProject.resources.vertices:
             v.updateParams()
-        for ten in self.project.tenants:
+        for ten in self.curProject.tenants:
             flag = False
             for ver in ten.vertices:
-                nodes = [n for n in self.project.resources.vertices if n.name == ver.resource]
+                nodes = [n for n in self.curProject.resources.vertices if n.name == ver.resource]
                 isRandAssigned = random.randint(0, len(nodes));
                 if isRandAssigned == 0:
                     flag = False
@@ -102,26 +103,21 @@ class SimulatedAnnealing(QObject):
                 print "assigned"
             else:
                 print "not assigned"
-        self.curProject = copy.deepcopy(self.project)
-        if self.curProject.AssignedTenantsNumber() > self.bestProject.AssignedTenantsNumber():
-            self.bestProject.resources.ClearAssignments()
-            for t in self.bestProject.tenants:
-                t.ClearAssignments()
-                t.assigned = False
-            self.bestProject = copy.deepcopy(self.curProject)
-        print "     self.curproject.AssignedTenantsNumber()", self.curProject.AssignedTenantsNumber()
+        kol = self.curProject.AssignedTenantsNumber()
+        print "self.curProject.AssignedTenantsNumber =", kol
+        return kol
         
     def Finish(self):
         self.project.resources.ClearAssignments()
         for t in self.project.tenants:
             t.ClearAssignments()
             t.assigned = False
-        self.project = copy.deepcopy(self.bestProject)
+        self.SaveBestProject()
         print "The winner is..."
         print self.project.AssignedTenantsNumber(), self.bestProject.AssignedTenantsNumber()
 
     def StopCondition(self):
-        if self.temperature < 20 or self.project.IsAssignmentFull():
+        if self.temperature < 20 or self.bestProject.IsAssignmentFull():
             return True
         else:
             return False
@@ -150,13 +146,40 @@ class SimulatedAnnealing(QObject):
             h = random.random()
             #save best assignments
             if (delta <= 0):
-                self.prevProject = copy.deepcopy(self.curProject)
+				self.CopyCurToPrev()
+                #self.prevProject = copy.deepcopy(self.curProject)
             elif h > p:
-                self.prevProject = copy.deepcopy(self.curProject)
+				self.CopyCurToPrev()
+                #self.prevProject = copy.deepcopy(self.curProject)
             
             if self.bestProject.AssignedTenantsNumber() < self.prevProject.AssignedTenantsNumber():
-                self.bestProject = copy.deepcopy(self.prevProject)
+                self.CopyPrevToBest()
+                #self.bestProject = copy.deepcopy(self.prevProject)
             i += 1
+    
+    def CopyPrevToBest(self):
+        self.prevProject.Save("1.xml")
+        self.bestProject.Load("1.xml")
+        for t in self.bestProject.tenants:
+            t.UpdateAssignFlag()
+
+    def CopyCurToBest(self):
+        self.curProject.Save("1.xml")
+        self.bestProject.Load("1.xml")
+        for t in self.bestProject.tenants:
+            print "updateAssignFlag", t.UpdateAssignFlag()
+            
+    def CopyCurToPrev(self):
+        self.curProject.Save("1.xml")
+        self.prevProject.Load("1.xml")
+        for t in self.prevProject.tenants:
+            print "updateAssignFlag", t.UpdateAssignFlag()
+            
+    def SaveBestProject(self):
+        self.bestProject.Save("1.xml")
+        self.project.Load("1.xml")
+        for t in self.project.tenants:
+            print "updateAssignFlag", t.UpdateAssignFlag()
 
     def Run(self):
         #self.project.Reset()
@@ -168,6 +191,13 @@ class SimulatedAnnealing(QObject):
             v.updateParams()
         # Code the data and create an initial approximation here
         self.Init()
+        print "     self.prevProject.AssignedTenantsNumber()", self.prevProject.AssignedTenantsNumber()
+        print "     self.project.AssignedTenantsNumber()", self.project.AssignedTenantsNumber()
+        self.CopyPrevToBest()
+        self.Finish()
+        
+        #print "     self.project.AssignedTenantsNumber()", self.project.AssignedTenantsNumber()
+        
         '''
         while time.time() < TIME_LIMIT:
             while not self.StopCondition():
@@ -178,9 +208,9 @@ class SimulatedAnnealing(QObject):
                 remove_last_tenant()
                 add_one_more_tenant()
         '''
-        
+        ''' 
         notassigned = [t for t in self.project.tenants if not t.assigned]
-        # Replace with time limit
+        ## Replace with time limit
         for i in range(50):
             backup = copy.deepcopy(self.project)
             t = notassigned[random.randint(0, len(notassigned))]
@@ -191,14 +221,12 @@ class SimulatedAnnealing(QObject):
             number2 = self.project.AssignedTenantsNumber()
             if number2 > number:
                 pass
-            
-        #self.GenerateCurProject()
-        self.project = copy.deepcopy(self.prevProject)
-        self.project.resources = copy.deepcopy(self.prevProject.resources)
-        self.project.tenants = copy.deepcopy(self.prevProject.tenants)
-        
-        print self.project.AssignedTenantsNumber()
+         '''   
+        #self.project = copy.deepcopy(self.prevProject)
+        #self.project.resources = copy.deepcopy(self.prevProject.resources)
+        #self.project.tenants = copy.deepcopy(self.prevProject.tenants)
+       
         while not self.StopCondition():
             self.Step()
         # Decode the results here
-        #self.Finish()
+        self.Finish()

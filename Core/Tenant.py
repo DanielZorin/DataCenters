@@ -448,4 +448,16 @@ class Tenant(AbstractGraph):
             if newpaths == []:
                 break
             paths = newpaths
+            
+    def UpdateAssignFlag(self):
+        flag = False
+        for v in self.vertices:
+            if v.assigned:
+                flag = True
+                continue
+            flag = False
+            self.assigned = False
+            return flag
+        self.assigned = flag
+        return flag
 
