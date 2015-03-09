@@ -13,11 +13,9 @@ class SimulatedAnnealing(QObject):
         self.prevProject = Project()
         self.curProject = Project()
         self.bestProject = Project()
-        #self.prevProject, self.curProject, self.bestProject
         project.Save("1.xml")
         self.prevProject.Load("1.xml")
         self.curProject.Load("1.xml") 
-    
         self.bestProject.Load("1.xml")
    
         #need to save previuos assignments and current assignments
@@ -59,11 +57,7 @@ class SimulatedAnnealing(QObject):
                     #need to observe all previous vertices and leave them unassigned
             if flag == True:
                 ten.assigned = True
-                print "assigned"
-            else:
-                print "not assigned"
         kol = self.prevProject.AssignedTenantsNumber()
-        print "self.prevProject.AssignedTenantsNumber =", kol
         return kol
     
     def GenerateCurProject(self):
@@ -100,11 +94,7 @@ class SimulatedAnnealing(QObject):
                     #need to observe all previous vertices and leave them unassigned
             if flag == True:
                 ten.assigned = True
-                print "assigned"
-            else:
-                print "not assigned"
         kol = self.curProject.AssignedTenantsNumber()
-        print "self.curProject.AssignedTenantsNumber =", kol
         return kol
         
     def Finish(self):
@@ -127,7 +117,7 @@ class SimulatedAnnealing(QObject):
         self.iteration += 1
         i = 0
         print self.iteration, self.temperature
-        while i < 1:
+        while i < 10:
             #mutation
             '''
             select_one_tenant_element()
@@ -146,15 +136,11 @@ class SimulatedAnnealing(QObject):
             h = random.random()
             #save best assignments
             if (delta <= 0):
-				self.CopyCurToPrev()
-                #self.prevProject = copy.deepcopy(self.curProject)
+                self.CopyCurToPrev()
             elif h > p:
-				self.CopyCurToPrev()
-                #self.prevProject = copy.deepcopy(self.curProject)
-            
+                self.CopyCurToPrev()            
             if self.bestProject.AssignedTenantsNumber() < self.prevProject.AssignedTenantsNumber():
                 self.CopyPrevToBest()
-                #self.bestProject = copy.deepcopy(self.prevProject)
             i += 1
     
     def CopyPrevToBest(self):
@@ -167,20 +153,104 @@ class SimulatedAnnealing(QObject):
         self.curProject.Save("1.xml")
         self.bestProject.Load("1.xml")
         for t in self.bestProject.tenants:
-            print "updateAssignFlag", t.UpdateAssignFlag()
+            t.UpdateAssignFlag()
             
     def CopyCurToPrev(self):
         self.curProject.Save("1.xml")
         self.prevProject.Load("1.xml")
         for t in self.prevProject.tenants:
-            print "updateAssignFlag", t.UpdateAssignFlag()
+            t.UpdateAssignFlag()
+            
+    def CopyPrevToCur(self):
+        self.prevProject.Save("1.xml")
+        self.curProject.Load("1.xml")
+        for t in self.curProject.tenants:
+            t.UpdateAssignFlag()
             
     def SaveBestProject(self):
         self.bestProject.Save("1.xml")
         self.project.Load("1.xml")
         for t in self.project.tenants:
-            print "updateAssignFlag", t.UpdateAssignFlag()
+            t.UpdateAssignFlag()
 
+    def RemoveRandomTenantAssignment(self):
+        self.CopyPrevToCur()
+        assignedTenants = [t for t in self.curProject.tenants if t.assigned]
+        if not assignedTenants:
+            return False
+        t = random.choice(assignedTenants)
+        t.RemoveAssignment()
+        t.assigned = False
+
+    def ReassignRandomTenant(self):
+        self.CopyPrevToCur()
+        assignedTenants = [t for t in self.curProject.tenants if t.assigned]
+        if not assignedTenants:
+            return False
+        t = random.choice(assignedTenants)
+        t.RemoveAssignment()
+        t.assigned = False
+        for ver in t.vertices:
+            nodes = [n for n in self.curProject.resources.vertices if n.name == ver.resource]
+            if not nodes:
+                t.RemoveAssignment()
+                t.assigned = False
+                return False
+            randNode = random.choice(nodes)
+            flag = t.Assign(ver, randNode)
+            i = 0
+            while (flag == False) and (i < 1000):
+                randNode = random.choice(nodes)
+                flag = t.Assign(ver, randNode)
+                i += 1
+                if flag == True:
+                    break
+            if flag == False:
+                t.RemoveAssignment()
+                t.assigned = False
+                break
+        if flag == True:
+            t.assigned = True
+            return True
+        else:
+            t.RemoveAssignment()
+            t.assigned = False
+            return False    
+
+    def AddUnassigned(self):
+        self.CopyPrevToCur()
+        unassignedTenants = [t for t in self.curProject.tenants if not t.assigned]
+        if not unassignedTenants:
+            return False
+        ten = random.choice(unassignedTenants)
+        for ver in ten.vertices:
+            nodes = [n for n in self.curProject.resources.vertices if n.name == ver.resource]
+            if not nodes:
+                ten.RemoveAssignment()
+                ten.assigned = False
+                return False
+            randNode = random.choice(nodes)
+            flag = ten.Assign(ver, randNode)
+            i = 0
+            while (flag == False) and (i < 1000):
+                randNode = random.choice(nodes)
+                flag = ten.Assign(ver, randNode)
+                i += 1
+                if flag == True:
+                    break
+            if flag == False:
+                ten.RemoveAssignment()
+                ten.assigned = False
+                break
+        if flag == True:
+            ten.assigned = True
+            return True
+        else:
+            ten.RemoveAssignment()
+            ten.assigned = False
+            return False    
+
+        
     def Run(self):
         #self.project.Reset()
         self.project.resources.ClearAssignments()
@@ -191,12 +261,13 @@ class SimulatedAnnealing(QObject):
             v.updateParams()
         # Code the data and create an initial approximation here
         self.Init()
+
+        print self.AddUnassigned()
         print "     self.prevProject.AssignedTenantsNumber()", self.prevProject.AssignedTenantsNumber()
-        print "     self.project.AssignedTenantsNumber()", self.project.AssignedTenantsNumber()
-        self.CopyPrevToBest()
-        self.Finish()
-        
-        #print "     self.project.AssignedTenantsNumber()", self.project.AssignedTenantsNumber()
+        self.prevProject.PrintTenantsAssignmentFlags()
+        print "     self.curProject.AssignedTenantsNumber()", self.curProject.AssignedTenantsNumber()
+        self.curProject.PrintTenantsAssignmentFlags()
+        self.CopyCurToBest()
         
         '''
         while time.time() < TIME_LIMIT:
@@ -222,11 +293,8 @@ class SimulatedAnnealing(QObject):
             if number2 > number:
                 pass
          '''   
-        #self.project = copy.deepcopy(self.prevProject)
-        #self.project.resources = copy.deepcopy(self.prevProject.resources)
-        #self.project.tenants = copy.deepcopy(self.prevProject.tenants)
        
-        while not self.StopCondition():
-            self.Step()
+        #while not self.StopCondition():
+            #self.Step()
         # Decode the results here
         self.Finish()

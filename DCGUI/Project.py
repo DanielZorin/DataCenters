@@ -128,4 +128,11 @@ class Project:
             if ten.assigned == True:
                 kol += 1
         return kol
+        
+    def PrintTenantsAssignmentFlags(self):
+		for ten in self.tenants:
+			if ten.assigned == True:
+				print "assigned"
+			else:
+				print "unassigned"
                
