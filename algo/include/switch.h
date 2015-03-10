@@ -32,6 +32,10 @@ private:
         return Criteria::isNetwork(other);
     }
 
+    virtual bool physicalCheck(const Element * other) const {
+        return true; 
+    }
+
 private:
     // TODO: switch doesn't have any parameters, maybe latency calculation should be added on switch (buffer latency)
     //unsigned throughput;
