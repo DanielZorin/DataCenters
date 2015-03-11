@@ -23,7 +23,9 @@ private:
     bool routedAssignment(Elements & nodes, Elements & pool, Request * r);
     bool slAssignment(Elements & nodes, Elements & pool, Request * r);
     bool dlAssignment(Elements & nodes, Elements & pool, Request * r);
+    bool dlAssignmentStrict(Elements & nodes, Elements & pool, Request * r);
     bool dlRequestAssignment(Request * r);
+    bool slrAssignment(Elements & nodes, Elements & pool, Request * r);
 
     static bool simpleIncreasing(Request * first, Request * second);
 

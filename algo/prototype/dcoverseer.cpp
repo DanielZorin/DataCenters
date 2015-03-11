@@ -34,3 +34,14 @@ Elements DCOverseer::dcPositionPool(int i) const {
         i--;
     } 
 }
+
+int DCOverseer::dcPoolId(int position) const {
+    if ( position < 0 || position >= dcCount() )
+       return -1;
+
+    for(std::map<int, Elements>::const_iterator dc = dcs.begin(); dc != dcs.end(); dc++ ) {
+        if ( position == 0 )
+            return dc->first;
+        position--;
+    } 
+}

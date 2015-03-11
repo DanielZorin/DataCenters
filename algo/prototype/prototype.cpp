@@ -67,7 +67,11 @@ bool PrototypeAlgorithm::scheduleRequest(Request * r) {
     Elements pool = network->getNodes();
 
     Elements dcLayered = Operation::filter(r->elementsToAssign(), Criteria::isDCLayered);
+#ifndef DL_STRICT
     if ( !dlAssignment(dcLayered, pool, r) ) {
+#else
+    if ( !dlAssignmentStrict(dcLayered, pool, r) ) {
+#endif
         fprintf(stderr, "[ERROR] dc layer requirement failed\n");
         return false;
     }
@@ -219,7 +223,7 @@ bool PrototypeAlgorithm::dlAssignment(Elements & nodes, Elements & pool, Request
     DCOverseer physicalOverseer(pool);
 
     if ( virtualOverseer.dcCount() > physicalOverseer.dcCount() ) {
-        fprintf(stderr, "[ERROR] not enough physical datacenters to satisfy restrictions");
+        fprintf(stderr, "[ERROR] not enough physical datacenters to satisfy restrictions\n");
         return false;
     }
 
@@ -227,24 +231,13 @@ bool PrototypeAlgorithm::dlAssignment(Elements & nodes, Elements & pool, Request
     map<int, int> physicalAffinity;
     for(int i = 0; i < virtualOverseer.dcCount(); i++ ) {
         Elements elements = virtualOverseer.dcPositionPool(i);
-        Elements sle = Operation::filter(elements, Criteria::isServerLayered);
-        Elements others = Operation::minus(elements, sle);
         for ( int j = 0; j < physicalOverseer.dcCount(); j++ ) {
             if ( physicalAffinity.find(j) != physicalAffinity.end() )
                 continue;
 
             Elements pool = physicalOverseer.dcPositionPool(j);
-            if ( !sle.empty() && !slAssignment(sle, pool, r) )
-            {
-                Operation::forEach(elements, Operation::unassign);
+            if ( !slrAssignment(elements,pool, r))
                 continue;
-            }
-
-            if ( !others.empty() && !routedAssignment(others, pool, r) )
-            {
-                Operation::forEach(elements, Operation::unassign);
-                continue;
-            }
 
             physicalAffinity[j] = i;
             break;
@@ -255,6 +248,48 @@ bool PrototypeAlgorithm::dlAssignment(Elements & nodes, Elements & pool, Request
         return false;
 
     return true;
+}
+
+bool PrototypeAlgorithm::dlAssignmentStrict(Elements & nodes, Elements & pool, Request * r) {
+    if ( nodes.empty() )
+       return true;
+
+    DCOverseer vo(nodes);
+    DCOverseer po(pool);
+
+    if ( vo.dcCount() > po.dcCount() ) {
+        fprintf(stderr, "[ERROR] not enough physical datacenters to satisfy restrictions\n");
+        return false;
+    } 
+
+    for ( int i = 0; i < vo.dcCount(); i++ ) {
+        Elements elements = vo.dcPositionPool(i);
+        Elements pool = po.dcPool(vo.dcPoolId(i));
+        if ( !slrAssignment(elements, pool, r) ) {
+            fprintf(stderr, "[ERROR] was unable to lay out dc with dl=%d\n", vo.dcPoolId(i));
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool PrototypeAlgorithm::slrAssignment(Elements & nodes, Elements & pool, Request * r) {
+    Elements n = Operation::filter(nodes, Criteria::isUnassigned);
+    Elements sle = Operation::filter(n, Criteria::isServerLayered);
+    Elements other = Operation::minus(n, sle);
+    if ( !sle.empty() && !slAssignment(sle, pool, r) ) {
+        Operation::forEach(sle, Operation::unassign);
+        return false;
+    } 
+
+    if ( !other.empty() && !routedAssignment(other, pool, r) ) {
+        Operation::forEach(n, Operation::unassign);
+        return false;
+    }
+
+    return true;
+
 }
 
 bool PrototypeAlgorithm::exhaustiveSearch(Element * e, Elements & pool) {
