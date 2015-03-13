@@ -105,6 +105,23 @@ class Tenant(AbstractGraph):
         self.expiration = ""
         self.assigned = False
         self.critical = False
+        
+        self.nocheckassigned = False
+        
+    def NoCheckAssign(self, vertex, node):
+		#vertex - tenant, node - resource
+		vertex.assigned = node
+		node.assignments.append([vertex, self])
+		node.updateParams()
+		s = 0
+		percent = 0
+		for t in vertex.params.values():
+			percent = (node.params[t.name].value - t.value - node.paramvalues[t.name]) / node.params[t.name].value
+			if percent >= 0:
+				s += percent
+			else:
+				s += (percent * 10)
+		return s
 
     def Assign(self, vertex, node):
         '''

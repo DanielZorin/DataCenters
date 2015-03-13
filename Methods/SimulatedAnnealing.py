@@ -123,23 +123,25 @@ class SimulatedAnnealing(QObject):
             select_one_tenant_element()
             move_it_somewhere()
             '''
-            self.GenerateCurProject()
+            self.ReassignRandomTenant()
+            target = self.curProject.TargetFunction()
+            #self.GenerateCurProject()
             #compare
             '''
             target function here = 
                 sum(difference between used resource and total resource in percent, if used <= total) + 
                 sum(difference between used resource and total resource in percent * 10, if used > total)
             '''
-            delta = self.prevProject.AssignedTenantsNumber() - self.curProject.AssignedTenantsNumber()
+            #delta = self.prevProject.AssignedTenantsNumber() - self.curProject.AssignedTenantsNumber()
             #delta < 0 if the current situation is better
-            p = math.exp(-delta / self.temperature)
+            p = math.exp(-target / self.temperature)
             h = random.random()
             #save best assignments
-            if (delta <= 0):
+            if (target <= 0):
                 self.CopyCurToPrev()
             elif h > p:
                 self.CopyCurToPrev()            
-            if self.bestProject.AssignedTenantsNumber() < self.prevProject.AssignedTenantsNumber():
+            if self.prevProject.CheckAssignments() == True and self.bestProject.AssignedTenantsNumber() < self.prevProject.AssignedTenantsNumber():
                 self.CopyPrevToBest()
             i += 1
     
@@ -197,25 +199,10 @@ class SimulatedAnnealing(QObject):
                 t.assigned = False
                 return False
             randNode = random.choice(nodes)
-            flag = t.Assign(ver, randNode)
-            i = 0
-            while (flag == False) and (i < 1000):
-                randNode = random.choice(nodes)
-                flag = t.Assign(ver, randNode)
-                i += 1
-                if flag == True:
-                    break
-            if flag == False:
-                t.RemoveAssignment()
-                t.assigned = False
-                break
-        if flag == True:
-            t.assigned = True
-            return True
-        else:
-            t.RemoveAssignment()
-            t.assigned = False
-            return False    
+            t.NoCheckAssign(ver, randNode)
+        t.assigned = True
+        return True
+ 
 
     def AddUnassigned(self):
         self.CopyPrevToCur()
@@ -262,12 +249,12 @@ class SimulatedAnnealing(QObject):
         # Code the data and create an initial approximation here
         self.Init()
 
-        print self.AddUnassigned()
-        print "     self.prevProject.AssignedTenantsNumber()", self.prevProject.AssignedTenantsNumber()
-        self.prevProject.PrintTenantsAssignmentFlags()
-        print "     self.curProject.AssignedTenantsNumber()", self.curProject.AssignedTenantsNumber()
-        self.curProject.PrintTenantsAssignmentFlags()
-        self.CopyCurToBest()
+        #print self.AddUnassigned()
+        #print "     self.prevProject.AssignedTenantsNumber()", self.prevProject.AssignedTenantsNumber()
+        #self.prevProject.PrintTenantsAssignmentFlags()
+        #print "     self.curProject.AssignedTenantsNumber()", self.curProject.AssignedTenantsNumber()
+        #self.curProject.PrintTenantsAssignmentFlags()
+        #self.CopyCurToBest()
         
         '''
         while time.time() < TIME_LIMIT:
@@ -279,20 +266,20 @@ class SimulatedAnnealing(QObject):
                 remove_last_tenant()
                 add_one_more_tenant()
         '''
-        ''' 
+ 
         notassigned = [t for t in self.project.tenants if not t.assigned]
         ## Replace with time limit
         for i in range(50):
             backup = copy.deepcopy(self.project)
-            t = notassigned[random.randint(0, len(notassigned))]
-            t.AssignRandomly(self.project.resources)
-            number = self.project.AssignedTenantsNumber()
+            self.AddUnassigned()
+            number = self.curProject.AssignedTenantsNumber()
+            self.CopyCurToBest()
             while not self.StopCondition():
                 self.Step()
-            number2 = self.project.AssignedTenantsNumber()
+            number2 = self.bestProject.AssignedTenantsNumber()
             if number2 > number:
                 pass
-         '''   
+  
        
         #while not self.StopCondition():
             #self.Step()
