@@ -57,13 +57,14 @@ bool PrototypeAlgorithm::simpleIncreasing(Request * first, Request * second) {
 
 
 bool PrototypeAlgorithm::scheduleRequest(Request * r) {
+#ifdef DL_AFFINE
     if ( r->isDCAffined() ) {
         if ( !dlRequestAssignment(r) ) {
             fprintf(stderr, "[ERROR] tenant affinity requirement failed\n");
             return false;
         }
     }
-
+#endif
     Elements pool = network->getNodes();
 
     Elements dcLayered = Operation::filter(r->elementsToAssign(), Criteria::isDCLayered);
@@ -264,6 +265,7 @@ bool PrototypeAlgorithm::dlAssignmentStrict(Elements & nodes, Elements & pool, R
 
     for ( int i = 0; i < vo.dcCount(); i++ ) {
         Elements elements = vo.dcPositionPool(i);
+        printf("Laying out virtual dc %d into physical dc %d.\n", vo.dcPoolId(i), po.dcPoolId(i));
         Elements pool = po.dcPool(vo.dcPoolId(i));
         if ( !slrAssignment(elements, pool, r) ) {
             fprintf(stderr, "[ERROR] was unable to lay out dc with dl=%d\n", vo.dcPoolId(i));
