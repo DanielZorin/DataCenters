@@ -35,16 +35,10 @@ class SimulatedAnnealing(QObject):
             flag = False
             for ver in ten.vertices:
                 nodes = [n for n in self.prevProject.resources.vertices if n.name == ver.resource]
-                isRandAssigned = random.randint(0, len(nodes));
-                if isRandAssigned == 0:
-                    flag = False
-                    ten.RemoveAssignment()
-                    ten.assigned = False
-                    break 
                 randNode = random.choice(nodes)
                 flag = ten.Assign(ver, randNode)
                 i = 0
-                while (flag == False) and (i < 1000):
+                while (flag == False) and (i < 100):
                     randNode = random.choice(nodes)
                     flag = ten.Assign(ver, randNode)
                     i += 1
@@ -120,15 +114,10 @@ class SimulatedAnnealing(QObject):
         while i < 1:
             print "=====", i, "========="
             #mutation
-            '''
-            select_one_tenant_element()
-            move_it_somewhere()
-            '''
             self.ReassignRandomTenant()
             print "REASSIGNED"
             target = self.curProject.TargetFunction()
             print "TARGET", target
-            #self.GenerateCurProject()
             #compare
             '''
             target function here = 
@@ -140,13 +129,19 @@ class SimulatedAnnealing(QObject):
             p = math.exp(-target / self.temperature)
             h = random.random()
             #save best assignments
-            if (target <= 0):
+            if (target <= 1):
                 self.CopyCurToPrev()
             elif h > p:
                 self.CopyCurToPrev()            
             if self.prevProject.CheckAssignments() == True and self.bestProject.AssignedTenantsNumber() < self.prevProject.AssignedTenantsNumber():
                 self.CopyPrevToBest()
             i += 1
+            
+    def CopyBestToPrev(self):
+        self.bestProject.Save("1.xml")
+        self.prevProject.Load("1.xml")
+        for t in self.prevProject.tenants:
+            t.UpdateAssignFlag()
     
     def CopyPrevToBest(self):
         self.prevProject.Save("1.xml")
@@ -188,6 +183,7 @@ class SimulatedAnnealing(QObject):
         t.assigned = False
 
     def ReassignRandomTenant(self):
+        print "reassign....."
         self.CopyPrevToCur()
         assignedTenants = [t for t in self.curProject.tenants if t.assigned]
         if not assignedTenants:
@@ -251,13 +247,12 @@ class SimulatedAnnealing(QObject):
             v.updateParams()
         # Code the data and create an initial approximation here
         self.Init()
-
-        #print self.AddUnassigned()
+        #self.ReassignRandomTenant()
         #print "     self.prevProject.AssignedTenantsNumber()", self.prevProject.AssignedTenantsNumber()
         #self.prevProject.PrintTenantsAssignmentFlags()
         #print "     self.curProject.AssignedTenantsNumber()", self.curProject.AssignedTenantsNumber()
         #self.curProject.PrintTenantsAssignmentFlags()
-        #self.CopyCurToBest()
+        #self.CopyPrevToBest()
         
         '''
         while time.time() < TIME_LIMIT:
@@ -270,19 +265,32 @@ class SimulatedAnnealing(QObject):
                 add_one_more_tenant()
         '''
         ## Replace with time limit
-        for i in range(50):
+        
+        for i in range(2):
+            print "======================ONE========================="
             #backup = copy.deepcopy(self.project)
-            self.AddUnassigned()
+            print "unassigned was added: ", self.AddUnassigned()
             number = self.curProject.AssignedTenantsNumber()
+            print"copy cur to best"
             self.CopyCurToBest()
+            self.iteration = 2
+            self.temperature = 100
+            self.start_temperature = 100
             while not self.StopCondition():
                 self.Step()
             number2 = self.bestProject.AssignedTenantsNumber()
-            if number2 > number:
-                pass
+            self.CopyBestToPrev()
+            if self.bestProject.IsAssignmentFull():
+                break
+            #if number2 > number:
+                #pass
+           
   
        
         #while not self.StopCondition():
             #self.Step()
         # Decode the results here
+        #for ten in self.prevProject.tenants:
+            #print "\n\n"
+            #ten.PrintValues()
         self.Finish()

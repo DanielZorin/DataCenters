@@ -135,34 +135,21 @@ class Project:
             if ten.assigned == False:
                 continue
             for v in ten.vertices:
-                    #print v, "============"
-                    #print v.assigned
-                    #print "================" 
-                    #lists = v.assigned.assignments
-                    #print lists
-                    #nodes = lists[0]
-                    #node = nodes[0]
-                    #print "node", node
                     node = v.assigned
                     for p in v.params.values():
-                        percent = (node.params[p.name].value - p.value - node.paramvalues[p.name]) / node.params[p.name].value
-                        if percent >= 0:
+                        percent = (node.paramvalues[p.name]) / node.params[p.name].value
+                        if (percent <= 1 and percent >= 0):
                             summ += percent
                         else:
                             summ += (percent * 10)
-        return summ
+        return summ / len(self.tenants)
     
     def CheckAssignments(self):
-        dif = 0
         for ten in self.tenants:
             if ten.assigned == False:
                 continue
-            for v in ten.vertices:
-                    node = v.assigned
-                    for p in v.params.values():
-                        dif = (node.params[p.name].value - p.value - node.paramvalues[p.name])
-                        if dif < 0:
-                            return False
+            if ten.CheckAssignments() == False:
+                return False
         return True
         
     def PrintTenantsAssignmentFlags(self):

@@ -109,19 +109,29 @@ class Tenant(AbstractGraph):
         self.nocheckassigned = False
         
     def NoCheckAssign(self, vertex, node):
-		#vertex - tenant, node - resource
-		vertex.assigned = node
-		node.assignments.append([vertex, self])
-		node.updateParams()
-		s = 0
-		percent = 0
-		for t in vertex.params.values():
-			percent = (node.params[t.name].value - t.value - node.paramvalues[t.name]) / node.params[t.name].value
-			if percent >= 0:
-				s += percent
-			else:
-				s += (percent * 10)
-		return s
+        #vertex - tenant, node - resource
+        vertex.assigned = node
+        node.assignments.append([vertex, self])
+        node.updateParams()
+        s = 0
+        percent = 0
+        for p in vertex.params.values():
+            percent = (node.paramvalues[p.name]) / node.params[p.name].value
+            print "percent", percent
+            if (percent <= 1 and percent >= 0):
+                s += percent
+            else:
+                s += (percent * 10)
+        return s
+        
+    def CheckAssignments(self):
+        for v in self.vertices:
+            node = v.assigned  
+            if node: 
+                for p in v.params.values():
+                    if node.paramvalues[p.name] > node.params[p.name].value:
+                        return False
+        return True
 
     def Assign(self, vertex, node):
         '''
@@ -135,6 +145,18 @@ class Tenant(AbstractGraph):
         node.assignments.append([vertex, self])
         node.updateParams()
         return True
+        
+    def PrintValues(self):
+        for v in self.vertices:
+            print "\n========NEW VERTICE OF TENANT", v
+            node = v.assigned  
+            print "appropriate node", node
+            for p in v.params.values():
+                print "--------------------"
+                print "tenant.v.params.values.value, p.name", p.value, p.name
+                if node:
+                    print "node.paramvalues[p.name]", node.paramvalues[p.name]
+                    print "node.params[p.name].value", node.params[p.name].value
 
     def LoadAssign(self, vt, id, resources):
         if not resources:
