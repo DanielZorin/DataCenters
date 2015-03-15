@@ -135,11 +135,15 @@ class Project:
             if ten.assigned == False:
                 continue
             for v in ten.vertices:
-                    lists = v.assigned.assignments
-                    print lists
-                    nodes = lists[0]
-                    node = nodes[0]
-                    print "node", node
+                    #print v, "============"
+                    #print v.assigned
+                    #print "================" 
+                    #lists = v.assigned.assignments
+                    #print lists
+                    #nodes = lists[0]
+                    #node = nodes[0]
+                    #print "node", node
+                    node = v.assigned
                     for p in v.params.values():
                         percent = (node.params[p.name].value - p.value - node.paramvalues[p.name]) / node.params[p.name].value
                         if percent >= 0:
@@ -154,8 +158,8 @@ class Project:
             if ten.assigned == False:
                 continue
             for v in ten.vertices:
-                    node = v.assigned.assignments
-                    for p in vertex.param.values():
+                    node = v.assigned
+                    for p in v.params.values():
                         dif = (node.params[p.name].value - p.value - node.paramvalues[p.name])
                         if dif < 0:
                             return False

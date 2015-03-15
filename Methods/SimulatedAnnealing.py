@@ -107,7 +107,7 @@ class SimulatedAnnealing(QObject):
         print self.project.AssignedTenantsNumber(), self.bestProject.AssignedTenantsNumber()
 
     def StopCondition(self):
-        if self.temperature < 20 or self.bestProject.IsAssignmentFull():
+        if self.temperature < 30 or self.bestProject.IsAssignmentFull():
             return True
         else:
             return False
@@ -117,14 +117,17 @@ class SimulatedAnnealing(QObject):
         self.iteration += 1
         i = 0
         print self.iteration, self.temperature
-        while i < 10:
+        while i < 1:
+            print "=====", i, "========="
             #mutation
             '''
             select_one_tenant_element()
             move_it_somewhere()
             '''
             self.ReassignRandomTenant()
+            print "REASSIGNED"
             target = self.curProject.TargetFunction()
+            print "TARGET", target
             #self.GenerateCurProject()
             #compare
             '''
@@ -266,11 +269,9 @@ class SimulatedAnnealing(QObject):
                 remove_last_tenant()
                 add_one_more_tenant()
         '''
- 
-        notassigned = [t for t in self.project.tenants if not t.assigned]
         ## Replace with time limit
         for i in range(50):
-            backup = copy.deepcopy(self.project)
+            #backup = copy.deepcopy(self.project)
             self.AddUnassigned()
             number = self.curProject.AssignedTenantsNumber()
             self.CopyCurToBest()
