@@ -107,6 +107,17 @@ class Tenant(AbstractGraph):
         self.critical = False
         
         self.nocheckassigned = False
+
+    def WithoutCheckAssign(self, vertex, node):
+        '''
+        vertex - tenant vertex
+        node - resource vertex where it is assigned
+        '''
+        vertex.assigned = node
+        node.assignments.append([vertex, self])
+        node.updateParams()
+        return True
+        
         
     def NoCheckAssign(self, vertex, node):
         #vertex - tenant, node - resource
@@ -117,6 +128,7 @@ class Tenant(AbstractGraph):
         percent = 0
         for p in vertex.params.values():
             percent = (node.paramvalues[p.name]) / node.params[p.name].value
+            print node.paramvalues[p.name], node.params[p.name].value
             print "percent", percent
             if (percent <= 1 and percent >= 0):
                 s += percent
@@ -129,6 +141,17 @@ class Tenant(AbstractGraph):
             node = v.assigned  
             if node: 
                 for p in v.params.values():
+                    if node.paramvalues[p.name] > node.params[p.name].value:
+                        return False
+        return True
+        
+    def PrintAssignments(self):
+        print "PRINTING ASSIGNMENTS..."
+        for v in self.vertices:
+            node = v.assigned  
+            if node: 
+                for p in v.params.values():
+                    print node.paramvalues[p.name], node.params[p.name].value
                     if node.paramvalues[p.name] > node.params[p.name].value:
                         return False
         return True

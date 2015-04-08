@@ -137,12 +137,13 @@ class Project:
             for v in ten.vertices:
                     node = v.assigned
                     for p in v.params.values():
-                        percent = (node.paramvalues[p.name]) / node.params[p.name].value
-                        if (percent <= 1 and percent >= 0):
-                            summ += percent
+                        percent = 1 - node.paramvalues[p.name] / node.params[p.name].value
+                        free_space = node.params[p.name].value - node.paramvalues[p.name]
+                        if (free_space >= 0):
+                            summ += percent * free_space
                         else:
-                            summ += (percent * 10)
-        return summ / len(self.tenants)
+                            summ += (percent * free_space * 10)
+        return summ
     
     def CheckAssignments(self):
         for ten in self.tenants:
@@ -152,10 +153,34 @@ class Project:
                 return False
         return True
         
+    def PrintAssignments(self):
+        for ten in self.tenants:
+			ten.PrintAssignments()
+        
     def PrintTenantsAssignmentFlags(self):
         for ten in self.tenants:
             if ten.assigned == True:
                 print "assigned"
             else:
                 print "unassigned"
-               
+                
+    def BusyNodesNumber(self):
+        num = 0
+        for v in self.resources.vertices:
+            if v.assignments:
+                num = num + 1
+        return num
+       
+    def FreeSpace(self):
+        freespace = 0
+        for t in self.tenants:
+            for v in t.vertices:
+                node = v.assigned  
+                if node: 
+                    for p in v.params.values():
+                        if node.params[p.name].value > node.paramvalues[p.name]:
+                            freespace = freespace + node.params[p.name].value - node.paramvalues[p.name]
+                        else:
+                            freespace = freespace + 10*(node.params[p.name].value - node.paramvalues[p.name])
+        return freespace
+

@@ -47,6 +47,17 @@ class AbstractGraph:
     def __init__(self):
         self.vertices = []
         self.edges = []
+        
+    def PrintValues(self):
+        s = 0
+        for v in self.vertices:
+            s = s + 1
+            vers = v.assignments
+            print "assignment", vers
+            for p in v.params.values():
+                print "--------------------"
+                print "tenant.v.params.values.value, p.name", p.value, p.name
+        print s, "vertices in resources"
 
     def AddLink(self, e):
         ''' Add edge'''
