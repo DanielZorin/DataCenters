@@ -490,6 +490,71 @@ class Tenant(AbstractGraph):
 
         self._buildPaths()
 
+    def LoadFromXmlNodeOld(self, node, resources=None):                
+        self.name = node.getAttribute("id")
+
+        #Parse vertices
+        for vertex in node.childNodes:
+            if isinstance(vertex, xml.dom.minidom.Text):
+                continue
+            if vertex.nodeName == "link" or vertex.nodeName == "replica":
+                continue
+            name = vertex.getAttribute("name")
+            if vertex.nodeName == "vm":
+                speed = int(vertex.getAttribute("speed"))
+                ram = int(vertex.getAttribute("ramcapacity")) if vertex.hasAttribute("ramcapacity") else 0
+                v = VM(name)
+                v.params["RAM"].value = ram
+                v.params["RootDisk"].value = speed
+            elif vertex.nodeName == "storage":
+                volume = int(vertex.getAttribute("volume"))
+                v = Storage(name)
+                v.params["size"].value = volume
+            x = vertex.getAttribute("x")
+            y = vertex.getAttribute("y")
+            if (x != '') and (y != ''):
+                v.x = float(x)
+                v.y = float(y)
+            else:
+                self.GenCoords(v)
+            self.vertices.append(v)
+
+                   
+        #Parse edges
+        '''for edge in node.childNodes:
+            if edge.nodeName == "link":
+                source = int(edge.getAttribute("from"))
+                destination = int(edge.getAttribute("to"))
+                cap = int(edge.getAttribute("capacity"))
+                e = DemandLink(self.vertices[source-1], self.vertices[destination-1], cap)
+                if edge.getAttribute("fromtype") == "replica":
+                    e.fromreplica = True
+                    self.replicalinks.append(e)
+                    if self.vertices[source-1] != self.vertices[destination-1]:
+                        self.edges.append(DemandLink(self.vertices[source-1], self.vertices[destination-1], cap))
+                elif edge.getAttribute("totype") == "replica":
+                    e.toreplica = True
+                    self.replicalinks.append(e)
+                    if self.vertices[source-1] != self.vertices[destination-1]:
+                        self.edges.append(DemandLink(self.vertices[source-1], self.vertices[destination-1], cap))
+                else:
+                    self.edges.append(e)
+                if self.assigned:
+                    verts = edge.getAttribute("assignedto")
+                    if verts == "none":
+                        e.path = []
+                    else:
+                        nums = [int(s) for s in verts.split(";") if s != ""]
+                        path = [(v for v in resources.vertices if v.number == nums[0]).next()]
+                        
+                        for n in nums[1:]:
+                            vert = (v for v in resources.vertices if v.number == n).next()
+                            edge = resources.FindEdge(path[-1], vert)
+                            path += [edge, vert]
+                        e.path = path
+
+        self._buildPaths()'''
+        
     def FindPath(self, v1, v2):
         if not self.PathExists(v1, v2):
             return

@@ -77,7 +77,28 @@ class Project:
             #get time intervals and assigne tenants
             self.resources.LoadAllTenants(self.tenants)
         f.close()
-        #self.method = RandomMethod(self.resources, self.tenants)    
+        #self.method = RandomMethod(self.resources, self.tenants) 
+
+    def LoadOld(self, filename, light = False):
+        f = open(filename, "r")
+        dom = xml.dom.minidom.parse(f)
+        self.tenants = []
+        for root in dom.childNodes:
+            if root.tagName == "dcxml":
+                self.name = root.getAttribute("name")
+            for node in root.childNodes:
+                if isinstance(node, xml.dom.minidom.Text):
+                    continue
+                if node.tagName == "resources":
+                    self.resources.LoadFromXmlNodeOld(node)
+            for node in root.childNodes:
+                if isinstance(node, xml.dom.minidom.Text):
+                    continue
+                elif node.tagName == "demand":
+                    d = self.CreateTenant()
+                    d.LoadFromXmlNodeOld(node, self.resources)
+        f.close()
+        #self.method = RandomMethod(self.resources, self.tenants)            
         
     def Reset(self):
         for d in self.tenants:

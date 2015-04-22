@@ -188,6 +188,35 @@ class ResourceGraph(AbstractGraph):
         self.ParseLinks(node)
 
         self._buildPaths()
+        
+    def LoadFromXmlNodeOld(self, node, resources=None):
+        self.name = node.getAttribute("id")
+
+        #Parse vertices
+        for vertex in node.childNodes:
+            if isinstance(vertex, xml.dom.minidom.Text):
+                continue
+            if vertex.nodeName == "link" or vertex.nodeName == "replica":
+                continue
+            name = vertex.getAttribute("name")
+            if vertex.nodeName == "computer":
+                speed = int(vertex.getAttribute("speed"))
+                ram = int(vertex.getAttribute("ramcapacity")) if vertex.hasAttribute("ramcapacity") else 0
+                v = VM(name)
+                v.params["RAM"].value = ram
+                v.params["RootDisk"].value = speed
+            elif vertex.nodeName == "storage":
+                volume = int(vertex.getAttribute("volume"))
+                v = Storage(name)
+                v.params["size"].value = volume
+            x = vertex.getAttribute("x")
+            y = vertex.getAttribute("y")
+            if (x != '') and (y != ''):
+                v.x = float(x)
+                v.y = float(y)
+            else:
+                self.GenCoords(v)
+            self.vertices.append(v)
 
     def FindPath(self, v1, v2):
         if not self.PathExists(v1, v2):
