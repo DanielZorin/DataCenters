@@ -5,6 +5,13 @@
 #include <QList>
 #include <QMap>
 
+//
+#include "network.h"
+#include "tenantxmlfactory.h"
+#include "resourcesxmlfactory.h"
+#include <string>
+//
+
 class ResourcesXMLFactory;
 class TenantXMLFactory;
 class QDomDocument;
@@ -27,6 +34,38 @@ public:
 
     Element * getNetworkElement(const QString & name) const;
     Element * getTenantElement(const QString & tenant, const QString & name) const;
+    
+    //
+    Resources getResources() {
+	    Resources result;
+	    Network * resources = getNetwork();
+	    Elements physElements = resources->getElements();
+	    for ( Elements::iterator i=physElements.begin(); i!=physElements.end(); i++) {
+		    std::string resourceName = network->getName(*i).toUtf8().constData();
+		    result[*i] = resourceName; 
+	    }
+	    return result;
+    }
+    
+    TenantsElements getTenants() { 
+	TenantsElements result;
+	QMap<QString, TenantXMLFactory *>::iterator tenant = tenants.begin();
+	for ( ;tenant != tenants.end(); tenant++) {
+		std::string tenantName = tenant.value()->name().toUtf8().constData();;
+		QMap<QString, Element *> tenantElements = tenant.value()->ids;
+		QMap<QString, Element *>::iterator tenantElement = tenantElements.begin();
+		for ( ;tenantElement != tenantElements.end(); tenantElement++) {
+			std::vector < std::string > names;
+			std::string tenantElementName = tenantElement.key().toUtf8().constData();
+			names.push_back(tenantName);
+			names.push_back(tenantElementName);
+			result[tenantElement.value()] =  names;
+		}
+	}
+	return result;
+    }
+    //
+    
 private:
     void commit();
 private:

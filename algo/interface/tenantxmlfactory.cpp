@@ -10,6 +10,10 @@
 #include <list>
 #include <QDebug>
 
+//
+#include "leafnode.h"
+//
+
 TenantXMLFactory::TenantXMLFactory(const QDomElement & element) 
 :
     tenant(element)
@@ -96,13 +100,56 @@ void TenantXMLFactory::commitPartialAssignmentData(const ResourcesXMLFactory& re
     }
 }
 
+
+//if ( migration == 1 ) => migration is  allowed
+/*There are three variants with correctly attribute values
+ * 1 -> activity set, migration set and label == 0 or 1
+ * 2 -> activity set, migration is not set ( default_migration == 1 )
+ * 3 -> activity is not set ( default_activity == 0 ), migration is not set ( default_migration == 1 )
+ * 4 -> activity is not set ( default_activity == 0 ), migration set and label = 0 or 1
+ * All other variants are incorrect
+ */
+void TenantXMLFactory::readAssignmentDataAttributes( Element * element) {
+	
+	if ( !element -> isComputer() && !element -> isStore() ) return;
+	
+	QDomElement elemXML = elementsXML[element];
+	LeafNode * node = (LeafNode *)element;
+	
+	//qDebug() << "Tenant name -> " << name() << "Element -> " << elemXML.attribute("name");
+	
+	if ( elemXML.hasAttribute("activity") ) {
+		//qDebug() << "Hello from " << elemXML.attribute("name") ;
+		uint activity = elemXML.attribute("activity").toUInt();
+		if ( activity != 0 )
+			node -> setActivity(activity);
+		//qDebug() << "activity = " << node->getActivity();
+	}
+	
+	if ( elemXML.hasAttribute("migration") ) {
+		uint label = elemXML.attribute("migration").toUInt();
+		//qDebug() << "Migration label -> " << label;
+		if ( label > 1 ) return;
+		node -> setMigration(label);
+	}
+}
+//
+
+
+
 void TenantXMLFactory::readAssignmentData(const ResourcesXMLFactory& resourceFactory) {
     QMap<QString, QString> data = assignments();
     foreach(QString a, data.keys())  {
         Element * assignment = getElement(a);
         Element * assignee = resourceFactory.getElement(data[a]);
-        if ( assignee->assign(assignment) )
-            continue;
+        if ( assignee->assign(assignment) ) {
+		//assignment is a virtual element
+		//qDebug() << "Before readAssignmentDataAttributes( assignment )";
+		readAssignmentDataAttributes( assignment );
+		//qDebug() << "After readAssignmentDataAttributes( assignment )";
+		//
+		continue;
+	}
 
         qDebug() << "Was unable to assign" << a << "to" << data[a];
     }

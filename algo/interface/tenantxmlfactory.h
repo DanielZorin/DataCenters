@@ -6,12 +6,22 @@
 class QDomElement;
 class NetworkXMLFactory;
 
+//
+class Snapshot;
+//
+
 class TenantXMLFactory {
+	//
+	friend class Snapshot;
+	//
 public:
     TenantXMLFactory(const QDomElement & element);
     virtual ~TenantXMLFactory();
     Request * getRequest() const;
     void readAssignmentData(const class ResourcesXMLFactory& resourceFactory);
+    //
+    void readAssignmentDataAttributes( Element * element);
+    //
     void commitAssignmentData(const class ResourcesXMLFactory& resourceFactory);
     void commitPartialAssignmentData(const class ResourcesXMLFactory & resourceFactory);
 

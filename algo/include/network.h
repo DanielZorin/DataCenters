@@ -9,6 +9,9 @@ class Network : public Graph {
 public:
     Network(const Elements & e) {
         elements = Operation::filter(e, Criteria::isPhysical);
+	//
+	migrationTime = 100;
+	//
     }
 
     inline Elements availableElements() const {
@@ -30,4 +33,20 @@ public:
     inline Elements getLinks() const {
         return Operation::filter(getElements(), Criteria::isLink);
     }
+    
+    //
+    void setMigrationTime(const unsigned & m) {
+	    migrationTime = m;
+    }
+   
+    unsigned getMigrationTime() {
+	    return migrationTime;
+    }
+    //
+private:
+	unsigned migrationTime;
 };
+
+
+
+

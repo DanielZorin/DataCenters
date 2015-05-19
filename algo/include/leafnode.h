@@ -7,6 +7,8 @@ protected:
     LeafNode() : Node() {
         dcLayer = 0;
         serverLayer = 0;
+	activity = 0;
+	migration = 1;
     }
 public:
     static int maxLayer() { return sizeof(int) * 8; }
@@ -32,7 +34,27 @@ public:
             return 0;
         return serverLayer; 
     }
+    
+    //
+    void setActivity ( const unsigned & a ) {
+	activity = a;
+    }
+    
+    void setMigration ( const unsigned & m ) {
+	    if ( m == 0 || m == 1 )
+		    migration = m;
+    }
+    
+    unsigned getActivity() { return activity; }
+    unsigned getMigration() { return migration; }
+    //
+    
 private:
     int dcLayer;
     int serverLayer;
+    
+    //
+    unsigned activity;
+    unsigned migration;
+    //
 };

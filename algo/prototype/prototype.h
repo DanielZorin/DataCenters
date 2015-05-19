@@ -2,8 +2,14 @@
 
 #include "algorithm.h"
 
+//
+#include <string>
+//
+
+
 #include <vector>
 #include <deque>
+
 
 class PrototypeAlgorithm : public Algorithm {
 public:
@@ -11,6 +17,12 @@ public:
     : Algorithm(n, r) {}
 
     virtual void schedule();
+    
+    //
+    void setResources(const Resources & r) { resources = r; }
+    void setTenants(const TenantsElements & t) { tenantsElements = t; }
+    //
+    
 private:
     std::vector<Request *> prioritizeRequests(Requests & r);
     bool scheduleRequest(Request * r);
@@ -30,4 +42,10 @@ private:
     static bool simpleIncreasing(Request * first, Request * second);
 
     Element * getSeedElement(Elements & e, bool isVirtual = true);
+
+//
+private:
+	Resources resources;
+	TenantsElements tenantsElements;
+//
 };

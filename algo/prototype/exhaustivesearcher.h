@@ -4,12 +4,18 @@
 #include <vector>
 #include <map>
 
+//
+#include <string>
+//
+
 class ExhaustiveSearcher {
 public:
     typedef std::map<Element *, Element *> Assignments; 
-    ExhaustiveSearcher(Elements & pool, Element * target, int depth = 3, int maxAttempts = 1000);
+    //
+    ExhaustiveSearcher(Network * n, const Resources & res, const TenantsElements & tens, Elements & pool, Element * target, int depth = 3, int maxAttempts = 1000);
+    //
     ~ExhaustiveSearcher();
-
+    
 
     bool isValid() const;
     bool isExhausted() const;
@@ -23,6 +29,11 @@ private:
 
     bool performGreedyAssignment(Elements & targets, Elements & physical);
     bool updatePathes(Elements & assignments);
+    
+    //
+    Assignments getNewAssignment(Elements & assignments);
+    Transmissions getTransmissions(Assignments & oldAssignment, Assignments & newAssignment);
+    //
 private:
     Element * target;
     int maxAttempts;
@@ -31,4 +42,10 @@ private:
 
     std::vector<Element *> candidates;
     int* indices;
+    
+    //
+    Network * network;
+    Resources resources;
+    TenantsElements tenantsElements;
+    //
 };

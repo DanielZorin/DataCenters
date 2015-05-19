@@ -4,6 +4,10 @@
 #include "criteria.h"
 #include "path.h"
 
+//
+#include "element.h"
+//
+
 class Link : public Edge {
     friend class ElementFactory;
     friend class Switch;
@@ -22,7 +26,7 @@ public:
         type = LINK;
     }
 
-    void setThroughput(unsigned throughput) {
+    void setThroughput(const unsigned & throughput) {
         this->throughput = throughput;
     }
 
@@ -30,7 +34,46 @@ public:
         this->route = route;
         return true;
     }
+    
+    //
+    uint getThroughput() {
+	return throughput;
+    }
+    
+    uint getFullThroughput() {
+	    uint result=0;
+	    for(Elements::iterator i=assignments.begin(); i!=assignments.end(); i++) {
+		    result+=(*i)->toLink()->getThroughput();
+	    }
+	    return ( result + throughput );
+    }
+    
+    uint linkCost() {//calculate busy throughput
+	    return (getFullThroughput() - throughput);
+    }
+    
+    bool assignLink(Element * other) {
+	if ( !canHostAssignment(other) )
+		return false;
 
+
+        decreaseResources(other);
+        
+        assignments.insert(other);
+        return true;
+    }
+    
+    void unassignLink(Element * other) {
+	Elements::iterator a = assignments.find(other);
+	if ( a == assignments.end() )
+		return;
+
+	restoreResources(other);
+	
+	assignments.erase(a);
+    }
+    //
+	
     virtual Path getRoute() const {
         return route;
     }
@@ -40,10 +83,13 @@ public:
     }
 
     virtual void unassign() {
-        if ( !isAssigned() )
+        
+	 if ( !isAssigned() )
            return;
-
+	
         route = Path();
+        
+	
     }
 
     virtual Latencies getLatency() const {

@@ -21,8 +21,13 @@ ResourcesXMLFactory::ResourcesXMLFactory(const QDomElement & element)
         Element * e = *it;
     	e->physical = true;
     }
-
+    
     network = new Network(elements);
+    
+    //
+    if ( element.hasAttribute("migration_time") )
+	    network->setMigrationTime( element.attribute("migration_time").toUInt());
+    //
 }
 
 ResourcesXMLFactory::~ResourcesXMLFactory() {

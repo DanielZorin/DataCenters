@@ -36,6 +36,12 @@ int main(int argc, char ** argv)
 
     Requests requests = snapshot.getRequests();
     PrototypeAlgorithm algorithm(snapshot.getNetwork(), requests);
+    
+    //
+    algorithm.setResources(snapshot.getResources());
+    algorithm.setTenants(snapshot.getTenants());
+    //
+    
     algorithm.schedule(); 
 
     int assignedRequests = 0;

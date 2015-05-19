@@ -20,6 +20,10 @@
 #include <deque>
 #include <map>
 
+//
+#include <string>
+//
+
 void PrototypeAlgorithm::schedule() {
     std::vector<Request *> pRequests = prioritizeRequests(requests);
     for (std::vector<Request *>::iterator i = pRequests.begin();
@@ -57,14 +61,13 @@ bool PrototypeAlgorithm::simpleIncreasing(Request * first, Request * second) {
 
 
 bool PrototypeAlgorithm::scheduleRequest(Request * r) {
-#ifdef DL_AFFINE
     if ( r->isDCAffined() ) {
         if ( !dlRequestAssignment(r) ) {
             fprintf(stderr, "[ERROR] tenant affinity requirement failed\n");
             return false;
         }
     }
-#endif
+
     Elements pool = network->getNodes();
 
     Elements dcLayered = Operation::filter(r->elementsToAssign(), Criteria::isDCLayered);
@@ -265,7 +268,6 @@ bool PrototypeAlgorithm::dlAssignmentStrict(Elements & nodes, Elements & pool, R
 
     for ( int i = 0; i < vo.dcCount(); i++ ) {
         Elements elements = vo.dcPositionPool(i);
-        printf("Laying out virtual dc %d into physical dc %d.\n", vo.dcPoolId(i), po.dcPoolId(i));
         Elements pool = po.dcPool(vo.dcPoolId(i));
         if ( !slrAssignment(elements, pool, r) ) {
             fprintf(stderr, "[ERROR] was unable to lay out dc with dl=%d\n", vo.dcPoolId(i));
@@ -295,7 +297,7 @@ bool PrototypeAlgorithm::slrAssignment(Elements & nodes, Elements & pool, Reques
 }
 
 bool PrototypeAlgorithm::exhaustiveSearch(Element * e, Elements & pool) {
-    ExhaustiveSearcher searcher(pool, e, 3);
+    ExhaustiveSearcher searcher(network, resources, tenantsElements, pool, e, 3);
     return searcher.search();
 }
 

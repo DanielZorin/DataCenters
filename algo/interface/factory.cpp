@@ -119,6 +119,21 @@ Link * Factory::createLink(const QDomElement & e, const ElementsMap& elementsMap
     link->connect(port1, port2);
     port1->connect(link, port2);
     port2->connect(link, port1);
+    
+    //channel_capacity
+    if ( e.hasAttribute("channel_capacity") ) {
+	    uint capacity = e.attribute("channel_capacity").toUInt();
+	    if ( capacity == 0 )
+		    link -> setThroughput ( 10 );
+	    else
+		    link -> setThroughput ( capacity );
+	    
+    }
+    else link -> setThroughput ( 10 );
+    
+    //qDebug() << "Channel capacity in link named:" << e.attribute("node1") 
+    //<< "<---->" << e.attribute("node2") << " = " << link->getThroughput();
+    //
 
     if ( elem1->isComputer() && elem2->isStore() 
           || elem1->isStore() && elem2->isComputer() ) 
@@ -152,6 +167,7 @@ void Factory::setSwitchAttributes(Switch* sw, const QDomElement & e) {
         }
     }
 }
+
 
 Element * Factory::createNode(const QDomElement & e) {
     Element * node = 0;

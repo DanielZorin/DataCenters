@@ -14,8 +14,19 @@ using std::vector;
 
 #include <stdio.h>
 
-ExhaustiveSearcher::ExhaustiveSearcher(Elements & pool, Element * t, int d, int ma) 
+//
+#include "leafnode.h"
+#include "migration.h"
+#include "transmission.h"
+//
+
+ExhaustiveSearcher::ExhaustiveSearcher(Network * n, const Resources & res, const TenantsElements & tens, Elements & pool, Element * t, int d, int ma) 
 :
+    //
+    network(n),
+    resources(res),
+    tenantsElements(tens),
+    //
     target(t),
     maxAttempts(ma),
     attempt(0),
@@ -77,13 +88,44 @@ bool ExhaustiveSearcher::makeAttempt() {
     Assignments cache = getAssignmentsCache(cortege);
     Elements assignmentPack = getAssignmentPack(cache);
     Operation::forEach(assignmentPack, Operation::unassign);
-
+    
     assignmentPack.insert(target);
     if ( performGreedyAssignment(assignmentPack, cortege) ) {
-        if ( updatePathes(assignmentPack) )
-            return true;
+        if ( updatePathes(assignmentPack) ) {
+	    /*TODO:
+	     * Migration plan
+	     * Task for Transmission -> {Ti} = < e, s, d >
+	     * Transmission -> {TRi} = < T, ts, tp, {Li}, tunnel >
+	     * {Li} is a set of physical links for migration
+	     * tunnel is a virtual channel for migration
+		*/
+	    //
+	    assignmentPack.erase(target);
+	    Assignments newAssignment = getNewAssignment(assignmentPack);
+	    Transmissions transmissions = getTransmissions(cache, newAssignment);
+	    Migration migration(network, transmissions, resources, tenantsElements);
+	    if ( !migration.isValid()) {
+		printf("There are not any transmissions with source != destination\n");
+		return true;
+	    }
+	    
+	    migration.print();
+	    
+	    if ( migration.createMigrationPlan() ) {
+		migration.print();
+		return true;
+	    }
+	    
+	    //Если миграция невозможна, следователльно,  откатываемся к предыдущему назначению
+	    printf("Migration is impossible\n");
+            //
+	}
+	//если обновить пути не удалось, следовательно, отказываемся от назначения, которое было
+	//предоставлено методом performGreedyAssignment
+	assignmentPack.insert(target);//возвращаем рассматриваемый элемент, так как его назначение тоже нужно удалить
+	Operation::forEach(assignmentPack, Operation::unassign);
     }
-
+    
     for(Assignments::iterator i = cache.begin(); i != cache.end(); i++ ) 
         i->second->assign(i->first);
 
@@ -121,6 +163,13 @@ ExhaustiveSearcher::Assignments ExhaustiveSearcher::getAssignmentsCache(Elements
         Elements assignments = resource->getAssignments();
         for(Elements::iterator a = assignments.begin(); a != assignments.end(); a++ ) {
             Element * assignment = *a;
+	    //check the elements for which migration is not allowed
+	    if ( assignment->isComputer() || assignment->isStore() ) {
+		    LeafNode * node = (LeafNode *)assignment;
+		    if ( node->getMigration() == 0 )
+			    continue;
+	    }
+	    //
             result[assignment] = resource;
         }
     }
@@ -189,3 +238,32 @@ bool ExhaustiveSearcher::updatePathes(Elements & assignments) {
 
     return true;
 }
+
+//
+ExhaustiveSearcher::Assignments ExhaustiveSearcher::getNewAssignment(Elements & assignments) {
+	Assignments result;
+	for (Elements::iterator i = assignments.begin(); i != assignments.end(); i++) {
+		Element * resource = (*i)->getAssignee();
+		result[(*i)] = resource;
+	}
+	return result;
+}
+
+Transmissions ExhaustiveSearcher::getTransmissions(ExhaustiveSearcher::Assignments & oldAssignment, ExhaustiveSearcher::Assignments & newAssignment) {
+	Transmissions result;
+	for (Assignments::iterator i = oldAssignment.begin(); i != oldAssignment.end(); i++) {
+		if ( i->second != newAssignment[i->first] ) {//if source != destination
+			Transmission * transmission = new Transmission (i->first, i->second, newAssignment[i->first]);
+			result.push_back( transmission );
+		}
+	}
+	return result;
+}
+
+
+
+
+
+
+
+

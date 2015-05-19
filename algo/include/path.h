@@ -61,7 +61,7 @@ public:
 
         Element * tmp = from;
         from = to;
-        to = from;
+        to = tmp;//previously was -> to = from;
         std::reverse(path.begin(), path.end()); 
     }
 

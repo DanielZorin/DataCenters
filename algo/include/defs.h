@@ -2,6 +2,8 @@
 
 #include <set>
 #include <map>
+#include <vector>
+#include <string>
 
 // Elements
 class Element;
@@ -30,3 +32,11 @@ typedef std::set<Request *> Requests;
 typedef Computer Vnf;
 
 class Path;
+
+//
+class Transmission;
+typedef std::vector < Transmission * > Transmissions;
+typedef std::map <Element *, std::string > Resources;
+typedef std::map <Element *, std::vector< std::string > > TenantsElements;
+typedef std::vector<Element *> OrderedElements;
+//

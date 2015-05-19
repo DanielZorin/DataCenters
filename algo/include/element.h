@@ -10,6 +10,9 @@ class Element {
     friend class TenantXMLFactory;
     friend class ResourcesXMLFactory;
     friend class Criteria;
+    //
+    friend class Transmission;
+    //
 public:
     enum Type {
         NONE            = 0x0,
